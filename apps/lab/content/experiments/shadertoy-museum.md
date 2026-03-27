@@ -11,4 +11,3 @@ lastUpdated: 2025-12-26
 ## Shadertoy Museum
 
 This experiment is a gallery of [ShaderToy](https://www.shadertoy.com/) examples, inspired by [cineshader.com](https://cineshader.com/).
-

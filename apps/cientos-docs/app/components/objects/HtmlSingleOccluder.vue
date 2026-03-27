@@ -17,13 +17,7 @@ const sphereRef = ref(null)
     <TresMesh :position="[0, 1, 0]">
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
-      <Html
-        center
-        transform
-        :occlude="[sphereRef]"
-        :distance-factor="4"
-        :z-index-range="[28, 0]"
-      >
+      <Html center transform :occlude="[sphereRef]" :distance-factor="4" :z-index-range="[28, 0]">
         <h1 class="box">Move camera</h1>
       </Html>
     </TresMesh>

@@ -5,10 +5,7 @@ import { Environment, OrbitControls, useGLTF, useTextures } from '@tresjs/ciento
 import type { MeshStandardMaterial } from 'three'
 
 // Load the 3D model
-const {
-  nodes,
-  materials,
-} = useGLTF(
+const { nodes, materials } = useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
   { draco: true },
 )

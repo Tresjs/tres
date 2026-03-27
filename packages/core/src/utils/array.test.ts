@@ -4,17 +4,17 @@ import { filterInPlace } from './array'
 describe('filterInPlace', () => {
   it('returns the passed array', () => {
     const arr = [1, 2, 3]
-    const result = filterInPlace(arr, v => v !== 0)
+    const result = filterInPlace(arr, (v) => v !== 0)
     expect(result).toBe(arr)
   })
   it('removes a single occurence', () => {
     const arr = [1, 2, 3]
-    filterInPlace(arr, v => v !== 1)
+    filterInPlace(arr, (v) => v !== 1)
     expect(arr).toStrictEqual([2, 3])
   })
   it('removes every occurence 0', () => {
     const arr = [1, 1, 2, 1, 3, 1]
-    filterInPlace(arr, v => v !== 1)
+    filterInPlace(arr, (v) => v !== 1)
     expect(arr).toStrictEqual([2, 3])
   })
 
@@ -30,15 +30,15 @@ describe('filterInPlace', () => {
     shuffle(arr)
 
     let filtered = [...arr]
-    filterInPlace(arr, v => v !== b)
-    filtered = filtered.filter(v => v !== b)
+    filterInPlace(arr, (v) => v !== b)
+    filtered = filtered.filter((v) => v !== b)
     expect(arr).toStrictEqual(filtered)
 
-    filterInPlace(arr, v => v !== c)
-    filtered = filtered.filter(v => v !== c)
+    filterInPlace(arr, (v) => v !== c)
+    filtered = filtered.filter((v) => v !== c)
     expect(arr).toStrictEqual(filtered)
 
-    filterInPlace(arr, v => v !== a)
+    filterInPlace(arr, (v) => v !== a)
     expect(arr).toStrictEqual([])
   })
 

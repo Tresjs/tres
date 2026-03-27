@@ -5,15 +5,19 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth, distance } = useControls({
-  turbidity: { value: 3.4, min: 0, max: 20, step: 0.1 },
-  rayleigh: { value: 3, min: 0, max: 4, step: 0.1 },
-  mieCoefficient: { value: 0.005, min: 0, max: 0.1, step: 0.001 },
-  mieDirectionalG: { value: 0.7, min: 0, max: 1, step: 0.01 },
-  elevation: { value: 0.6, min: -Math.PI, max: Math.PI, step: 0.01 },
-  azimuth: { value: 180, min: 0, max: 360, step: 1 },
-  distance: { value: 450000, min: 100000, max: 1000000, step: 10000 },
-}, { uuid })
+const { turbidity, rayleigh, mieCoefficient, mieDirectionalG, elevation, azimuth, distance } =
+  useControls(
+    {
+      turbidity: { value: 3.4, min: 0, max: 20, step: 0.1 },
+      rayleigh: { value: 3, min: 0, max: 4, step: 0.1 },
+      mieCoefficient: { value: 0.005, min: 0, max: 0.1, step: 0.001 },
+      mieDirectionalG: { value: 0.7, min: 0, max: 1, step: 0.01 },
+      elevation: { value: 0.6, min: -Math.PI, max: Math.PI, step: 0.01 },
+      azimuth: { value: 180, min: 0, max: 360, step: 1 },
+      distance: { value: 450000, min: 100000, max: 1000000, step: 10000 },
+    },
+    { uuid },
+  )
 </script>
 
 <template>

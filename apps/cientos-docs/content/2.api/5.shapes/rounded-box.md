@@ -4,8 +4,8 @@ description: Short-cut for a RoundedBoxGeometry and a MeshBasicMaterial with a M
 ---
 
 ::SceneControlsWrapper
-  ::ShapesRoundedBox
-  ::
+::ShapesRoundedBox
+::
 ::
 
 The `cientos` package provides a `<RoundedBox />` component that serves as a short-cut for a `RoundedBoxGeometry` .

@@ -55,4 +55,3 @@ Fully controllable glass properties:
 - **Neutral Color Scheme**: Light gray background preventing color contamination
 
 This experiment serves as an excellent reference for implementing realistic glass, plastic, and transparent materials in 3D applications, demonstrating the full capabilities of modern physically-based rendering techniques.
-

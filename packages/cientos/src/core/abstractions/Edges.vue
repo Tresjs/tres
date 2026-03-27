@@ -35,9 +35,7 @@ watch(
         const geometry = parent.geometry
 
         // Update geometry and threshold if necessary.
-        if (
-          geometry !== saveGeometry.value || threshold.value !== saveThreshold.value
-        ) {
+        if (geometry !== saveGeometry.value || threshold.value !== saveThreshold.value) {
           saveGeometry.value = geometry
           saveThreshold.value = threshold.value
 
@@ -50,9 +48,7 @@ watch(
 </script>
 
 <template>
-  <TresLineSegments
-    ref="lineSegmentsRef"
-  >
+  <TresLineSegments ref="lineSegmentsRef">
     <slot>
       <TresLineBasicMaterial :color="color" />
     </slot>

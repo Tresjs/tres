@@ -13,8 +13,7 @@ const emit = defineEmits(['open'])
 function onChange(value: string, control: LechesControlUnion) {
   if (isRef(control.value)) {
     control.value.value = value
-  }
-  else {
+  } else {
     control.value = value as any
   }
 }
@@ -28,25 +27,18 @@ const toggle = () => {
 </script>
 
 <template>
-  <div class="tl-transition-all tl-duration-200 tl-ease-in-out" style="margin-bottom: var(--tl-unit-spacing);">
+  <div
+    class="tl-transition-all tl-duration-200 tl-ease-in-out"
+    style="margin-bottom: var(--tl-unit-spacing)"
+  >
     <button
-      class="
-        tl-flex
-        tl-items-center
-        tl-justify-between
-        tl-w-full
-        tl-bg-gray-100
-        dark:tl-bg-dark-300
-        tl-border-none
-        tl-text-gray-400
-        dark:tl-text-gray-400
-        tl-font-bold
-        tl-font-sans
-        tl-cursor-pointer
-        tl-relative
-        tl-z-10
+      class="tl-flex tl-items-center tl-justify-between tl-w-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-border-none tl-text-gray-400 dark:tl-text-gray-400 tl-font-bold tl-font-sans tl-cursor-pointer tl-relative tl-z-10"
+      style="
+        padding: 0 var(--tl-h-padding * 2);
+        height: var(--tl-unit-size);
+        line-height: var(--tl-unit-size);
+        font-size: var(--tl-font-size);
       "
-      style="padding: 0 var(--tl-h-padding * 2); height: var(--tl-unit-size); line-height: var(--tl-unit-size); font-size: var(--tl-font-size);"
       :aria-expanded="isOpen"
       aria-haspopup="true"
       role="button"
@@ -55,7 +47,9 @@ const toggle = () => {
       @click="toggle"
     >
       <span>{{ label }}</span>
-      <i :class="isOpen ? 'i-ic:baseline-keyboard-arrow-up' : 'i-ic:baseline-keyboard-arrow-down'"></i>
+      <i
+        :class="isOpen ? 'i-ic:baseline-keyboard-arrow-up' : 'i-ic:baseline-keyboard-arrow-down'"
+      ></i>
     </button>
 
     <div class="tl-relative tl-overflow-hidden">
@@ -71,11 +65,15 @@ const toggle = () => {
         <div
           v-show="isOpen"
           class="tl-bg-white dark:tl-bg-dark-300 tl-rounded-b"
-          style="padding-top: var(--tl-v-padding); padding-bottom: var(--tl-v-padding);"
+          style="padding-top: var(--tl-v-padding); padding-bottom: var(--tl-v-padding)"
           role="menu"
         >
           <template v-for="subcontrol in controls" :key="subcontrol.label">
-            <ControlInput :control="subcontrol" role="menuitem" @change="newValue => onChange(newValue, subcontrol)" />
+            <ControlInput
+              :control="subcontrol"
+              role="menuitem"
+              @change="(newValue) => onChange(newValue, subcontrol)"
+            />
           </template>
         </div>
       </Transition>

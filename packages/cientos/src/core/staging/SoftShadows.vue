@@ -160,7 +160,13 @@ function reset(renderer: TresRenderer, scene: Scene, camera: Camera) {
     scene.traverse((object) => {
       if ('material' in object && object.material) {
         renderer.properties.remove(object.material)
-        if (typeof object.material === 'object' && 'dispose' in object.material && typeof object.material.dispose === 'function') { object.material.dispose?.() }
+        if (
+          typeof object.material === 'object' &&
+          'dispose' in object.material &&
+          typeof object.material.dispose === 'function'
+        ) {
+          object.material.dispose?.()
+        }
       }
     })
     if (renderer.info.programs) {
@@ -177,12 +183,16 @@ onUnmounted(() => {
   }
 })
 
-watch(props, () => {
-  if (camera.value) {
-    injectSoftShadowsFragment(renderer, props)
-    reset(renderer, scene.value, camera.value)
-  }
-}, { immediate: true })
+watch(
+  props,
+  () => {
+    if (camera.value) {
+      injectSoftShadowsFragment(renderer, props)
+      reset(renderer, scene.value, camera.value)
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

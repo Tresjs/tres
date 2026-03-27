@@ -308,8 +308,7 @@ watch(controlsRef, (value) => {
   addEventListeners()
   if (value && makeDefault.value) {
     controls.value = value
-  }
-  else {
+  } else {
     controls.value = null
   }
 })

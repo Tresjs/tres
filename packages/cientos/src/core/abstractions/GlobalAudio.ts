@@ -51,7 +51,6 @@ export interface AudioProps {
    *
    */
   playbackRate?: number
-
 }
 
 export const GlobalAudio = defineComponent<AudioProps>({
@@ -82,21 +81,38 @@ export const GlobalAudio = defineComponent<AudioProps>({
       }
     })
 
-    watch(() => [props.playbackRate], () => sound.setPlaybackRate(props.playbackRate ?? 1), { immediate: true })
-    watch(() => [props.volume], () => sound.setVolume(props.volume ?? 0.5), { immediate: true })
-    watch(() => [props.loop], () => sound.setLoop(props.loop ?? false), { immediate: true })
-    watch(() => [props.src], async () => {
-      const buffer = await audioLoader.loadAsync(props.src)
-      sound.setBuffer(buffer)
-    }, { immediate: true })
+    watch(
+      () => [props.playbackRate],
+      () => sound.setPlaybackRate(props.playbackRate ?? 1),
+      { immediate: true },
+    )
+    watch(
+      () => [props.volume],
+      () => sound.setVolume(props.volume ?? 0.5),
+      { immediate: true },
+    )
+    watch(
+      () => [props.loop],
+      () => sound.setLoop(props.loop ?? false),
+      { immediate: true },
+    )
+    watch(
+      () => [props.src],
+      async () => {
+        const buffer = await audioLoader.loadAsync(props.src)
+        sound.setBuffer(buffer)
+      },
+      { immediate: true },
+    )
 
     const selector = document.getElementById(props.playTrigger ?? '')
     const btnPlay = selector || renderer.instance.domElement
     useEventListener(btnPlay, 'click', () => {
       if (sound.isPlaying) {
         sound.pause()
+      } else {
+        sound.play()
       }
-      else { sound.play() }
       emit('isPlaying', sound.isPlaying)
     })
 

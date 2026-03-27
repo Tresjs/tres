@@ -3,8 +3,8 @@ import { GlobalAudio } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { shallowRef, watch } from 'vue'
 
-const exampleAudio
-  = 'https://raw.githubusercontent.com/Tresjs/assets/main/music/sunny-afternoon.mp3'
+const exampleAudio =
+  'https://raw.githubusercontent.com/Tresjs/assets/main/music/sunny-afternoon.mp3'
 
 const isPlaying = shallowRef(false)
 const soundRef = shallowRef()
@@ -20,17 +20,10 @@ watch(soundRef, (value) => {
     <button id="playBtn">
       {{ !isPlaying ? 'Play' : 'Pause' }}
     </button>
-    <button id="stopBtn">
-      Stop
-    </button>
+    <button id="stopBtn">Stop</button>
   </div>
   <TresCanvas clear-color="#82DBC5">
-    <TresPerspectiveCamera
-      :position="[0, 0, 7.5]"
-      :fov="75"
-      :near="0.1"
-      :far="1000"
-    />
+    <TresPerspectiveCamera :position="[0, 0, 7.5]" :fov="75" :near="0.1" :far="1000" />
     <Suspense>
       <GlobalAudio
         ref="soundRef"
@@ -40,7 +33,7 @@ watch(soundRef, (value) => {
         :playback-rate="1"
         play-trigger="playBtn"
         stop-trigger="stopBtn"
-        @is-playing="(e) => isPlaying = e"
+        @is-playing="(e) => (isPlaying = e)"
       />
     </Suspense>
   </TresCanvas>

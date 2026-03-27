@@ -23,5 +23,10 @@ const handlePointerLeave = (e: PointerEvent) => {
 </script>
 
 <template>
-  <primitive :object="model" @click="handleClick" @pointer-enter="handlePointerEnter" @pointer-leave="handlePointerLeave" />
+  <primitive
+    :object="model"
+    @click="handleClick"
+    @pointer-enter="handlePointerEnter"
+    @pointer-leave="handlePointerLeave"
+  />
 </template>

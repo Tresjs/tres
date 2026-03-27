@@ -4,8 +4,8 @@ description: Extends THREE.PointsMaterial to render points as dots rather than s
 ---
 
 ::SceneWrapper
-  ::MaterialsPointMaterial
-  ::
+::MaterialsPointMaterial
+::
 ::
 
 `<PointMaterial />` extends `THREE.PointsMaterial`. It renders the points as dots, rather than the default squares.

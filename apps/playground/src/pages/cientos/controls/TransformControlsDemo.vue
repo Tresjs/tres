@@ -38,49 +38,46 @@ const controlsState = reactive({
 
 useControls('fpsgraph', { uuid })
 
-const { mode, enabled, space, axis, size, showX, showY, showZ } = useControls({
-  mode: {
-    label: 'Mode',
-    value: controlsState.mode,
-    options: ['translate', 'rotate', 'scale'],
+const { mode, enabled, space, axis, size, showX, showY, showZ } = useControls(
+  {
+    mode: {
+      label: 'Mode',
+      value: controlsState.mode,
+      options: ['translate', 'rotate', 'scale'],
+    },
+    enabled: controlsState.enabled,
+    space: {
+      label: 'Space',
+      value: controlsState.space,
+      options: ['world', 'local'],
+    },
+    axis: {
+      label: 'Axis',
+      value: controlsState.axis,
+      options: ['X', 'Y', 'Z', 'XY', 'YZ', 'XZ', 'XYZ'],
+    },
+    size: {
+      label: 'Size',
+      value: controlsState.size,
+      min: 0,
+      max: 10,
+      step: 0.01,
+    },
+    showX: true,
+    showY: true,
+    showZ: true,
   },
-  enabled: controlsState.enabled,
-  space: {
-    label: 'Space',
-    value: controlsState.space,
-    options: ['world', 'local'],
-  },
-  axis: {
-    label: 'Axis',
-    value: controlsState.axis,
-    options: ['X', 'Y', 'Z', 'XY', 'YZ', 'XZ', 'XYZ'],
-  },
-  size: {
-    label: 'Size',
-    value: controlsState.size,
-    min: 0,
-    max: 10,
-    step: 0.01,
-  },
-  showX: true,
-  showY: true,
-  showZ: true,
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
     <OrbitControls make-default />
 
-    <TresMesh
-      ref="boxRef"
-      :position="[-2, 1, 0]"
-      @click="changeObject(boxRef)"
-    >
+    <TresMesh ref="boxRef" :position="[-2, 1, 0]" @click="changeObject(boxRef)">
       <TresBoxGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>
@@ -96,11 +93,7 @@ const { mode, enabled, space, axis, size, showX, showY, showZ } = useControls({
       :show-y="showY"
       :show-z="showZ"
     />
-    <TresMesh
-      ref="sphereRef"
-      :position="[2, 1, 0]"
-      @click="changeObject(sphereRef)"
-    >
+    <TresMesh ref="sphereRef" :position="[2, 1, 0]" @click="changeObject(sphereRef)">
       <TresSphereGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>

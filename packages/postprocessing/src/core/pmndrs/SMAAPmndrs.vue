@@ -42,7 +42,7 @@ export interface SMAAPmndrsProps {
    * - 1: EDGES
    * - 2: WEIGHTS
    */
-  debug?: typeof DEBUG_MODE[keyof typeof DEBUG_MODE]
+  debug?: (typeof DEBUG_MODE)[keyof typeof DEBUG_MODE]
 }
 </script>
 
@@ -70,38 +70,40 @@ makePropWatchers(
 watch(
   [effect, () => props.opacity],
   () => {
-    if (!effect.value) { return }
+    if (!effect.value) {
+      return
+    }
 
     if (props.opacity !== undefined) {
       effect.value.blendMode.setOpacity(props.opacity)
-    }
-    else {
+    } else {
       effect.value.blendMode.setOpacity(defaultSMAAEffect.blendMode.getOpacity())
     }
   },
   { immediate: true },
 )
 
-watch(
-  [effect, () => props.preset],
-  () => {
-    if (!effect.value) { return }
-    effect.value.applyPreset(Number(props.preset))
-  },
-)
+watch([effect, () => props.preset], () => {
+  if (!effect.value) {
+    return
+  }
+  effect.value.applyPreset(Number(props.preset))
+})
 
 let smaaEdgesDebugPass: EffectPass | null = null
 let smaaWeightsDebugPass: EffectPass | null = null
 
 const createDebugPass = (type: 'edges' | 'weights') => {
-  if (!effect.value) { return null }
+  if (!effect.value) {
+    return null
+  }
 
   const texture = type === 'edges' ? effect.value.edgesTexture : effect.value.weightsTexture
   const pass = new EffectPass(camera.value, effect.value, new TextureEffect({ texture }))
   pass.renderToScreen = false
-  pass.enabled = false;
+  pass.enabled = false
 
-  (pass.fullscreenMaterial as any /* fix for broken type in postprocessing */).encodeOutput = false
+  ;(pass.fullscreenMaterial as any) /* fix for broken type in postprocessing */.encodeOutput = false
 
   return pass
 }
@@ -109,31 +111,35 @@ const createDebugPass = (type: 'edges' | 'weights') => {
 const ensureDebugPass = (type: 'edges' | 'weights') => {
   if (type === 'edges' && !smaaEdgesDebugPass) {
     smaaEdgesDebugPass = createDebugPass('edges')
-  }
-  else if (type === 'weights' && !smaaWeightsDebugPass) {
+  } else if (type === 'weights' && !smaaWeightsDebugPass) {
     smaaWeightsDebugPass = createDebugPass('weights')
   }
 }
 
 const manageDebugPass = (pass: EffectPass | null, active: boolean) => {
-  if (!pass || !composer?.value) { return }
+  if (!pass || !composer?.value) {
+    return
+  }
 
-  if (pass.enabled === active) { return }
+  if (pass.enabled === active) {
+    return
+  }
 
   pass.enabled = active
   pass.renderToScreen = active
 
   if (active && !composer?.value.passes.includes(pass)) {
     composer?.value.addPass(pass)
-  }
-  else if (!active && composer?.value.passes.includes(pass)) {
+  } else if (!active && composer?.value.passes.includes(pass)) {
     composer?.value.removePass(pass)
     pass.dispose()
   }
 }
 
 const updateDebugMode = (mode: number) => {
-  if (!pass.value) { return }
+  if (!pass.value) {
+    return
+  }
 
   const mainActive = mode === DEBUG_MODE.OFF
   const edgesActive = mode === DEBUG_MODE.EDGES
@@ -142,20 +148,30 @@ const updateDebugMode = (mode: number) => {
   pass.value.enabled = mainActive
   pass.value.renderToScreen = mainActive
 
-  if (edgesActive) { ensureDebugPass('edges') }
-  if (weightsActive) { ensureDebugPass('weights') }
+  if (edgesActive) {
+    ensureDebugPass('edges')
+  }
+  if (weightsActive) {
+    ensureDebugPass('weights')
+  }
 
   manageDebugPass(smaaEdgesDebugPass, edgesActive)
   manageDebugPass(smaaWeightsDebugPass, weightsActive)
 
-  if (!edgesActive) { smaaEdgesDebugPass = null }
-  if (!weightsActive) { smaaWeightsDebugPass = null }
+  if (!edgesActive) {
+    smaaEdgesDebugPass = null
+  }
+  if (!weightsActive) {
+    smaaWeightsDebugPass = null
+  }
 }
 
 watch(
   () => props.debug,
   () => {
-    if (!pass.value || props.debug === undefined) { return }
+    if (!pass.value || props.debug === undefined) {
+      return
+    }
 
     updateDebugMode(props.debug)
   },

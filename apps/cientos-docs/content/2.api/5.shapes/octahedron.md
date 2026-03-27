@@ -4,8 +4,8 @@ description: Short-cut for a OctahedronGeometry and a MeshBasicMaterial with a M
 ---
 
 ::SceneControlsWrapper
-  ::ShapesOctahedron
-  ::
+::ShapesOctahedron
+::
 ::
 
 The `cientos` package provides a `<Octahedron />` component that serves as a short-cut for a `OctahedronGeometry`.

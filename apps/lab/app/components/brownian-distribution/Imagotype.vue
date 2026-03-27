@@ -35,29 +35,17 @@ watch(isDark, (newVal) => {
 
 <template>
   <TresGroup name="imago">
-    <TresMesh 
-      ref="pyramidRef"
-      name="pyramid"
-      :position="[-1.5, 0, 0]"
-    >
-      <TresCylinderGeometry :args="[0, 0.60, 1]" />
+    <TresMesh ref="pyramidRef" name="pyramid" :position="[-1.5, 0, 0]">
+      <TresCylinderGeometry :args="[0, 0.6, 1]" />
       <TresMeshToonMaterial :color="colors.TEAL" />
     </TresMesh>
-    <TresMesh 
-      ref="boxRef"
-      name="box"
-    >
+    <TresMesh ref="boxRef" name="box">
       <TresBoxGeometry :args="[1, 1, 1]" />
       <TresMeshToonMaterial :color="isDark ? colors.LIGHT : colors.DARK" />
     </TresMesh>
-    <TresMesh 
-      ref="sphereRef"
-      name="sphere"
-      :position="[1.5, 0, 0]"
-    >
+    <TresMesh ref="sphereRef" name="sphere" :position="[1.5, 0, 0]">
       <TresSphereGeometry :args="[0.5, 32, 32]" />
       <TresMeshToonMaterial :color="colors.ORANGE" />
     </TresMesh>
   </TresGroup>
 </template>
-

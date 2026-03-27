@@ -5,14 +5,17 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'staging-circle-shadow'
 
-const { colorRed, opacity, offset, fog, depthWrite, enabled } = useControls({
-  colorRed: true,
-  opacity: { value: 0.5, min: 0.0, max: 1.0 },
-  offset: { value: 0.5, min: 0.0, max: 1.0 },
-  fog: false,
-  depthWrite: false,
-  enabled: true,
-}, { uuid })
+const { colorRed, opacity, offset, fog, depthWrite, enabled } = useControls(
+  {
+    colorRed: true,
+    opacity: { value: 0.5, min: 0.0, max: 1.0 },
+    offset: { value: 0.5, min: 0.0, max: 1.0 },
+    fog: false,
+    depthWrite: false,
+    enabled: true,
+  },
+  { uuid },
+)
 </script>
 
 <template>

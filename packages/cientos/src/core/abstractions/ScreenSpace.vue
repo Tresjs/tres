@@ -39,15 +39,16 @@ const viewPlaneDimensions = computed(() => {
 
   const activeCamera = camera.activeCamera.value
   if (activeCamera instanceof PerspectiveCamera) {
-    height = (2 * Math.tan(activeCamera.fov * Math.PI / 180 / 2) * props.depth) / zoom.value
+    height = (2 * Math.tan((activeCamera.fov * Math.PI) / 180 / 2) * props.depth) / zoom.value
     width = height * sizes.aspectRatio.value
-  }
-  else if (activeCamera instanceof OrthographicCamera) {
+  } else if (activeCamera instanceof OrthographicCamera) {
     height = (activeCamera.top - activeCamera.bottom) / zoom.value
     width = (activeCamera.right - activeCamera.left) / zoom.value
-  }
-  else if (activeCamera) {
-    logWarning(`ScreenSpace: Unhandled active camera type, only PerspectiveCamera and OrthographicCamera are supported when using \`top\`, \`bottom\`, \`left\`, and \`right\` props`, activeCamera)
+  } else if (activeCamera) {
+    logWarning(
+      `ScreenSpace: Unhandled active camera type, only PerspectiveCamera and OrthographicCamera are supported when using \`top\`, \`bottom\`, \`left\`, and \`right\` props`,
+      activeCamera,
+    )
   }
 
   return { height, width }

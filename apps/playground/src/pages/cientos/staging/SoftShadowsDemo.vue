@@ -6,12 +6,17 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'staging-soft-shadows'
 
-const { samples } = useControls({
-  samples: { value: 5, min: 1, max: 10, step: 1 },
-}, { uuid })
+const { samples } = useControls(
+  {
+    samples: { value: 5, min: 1, max: 10, step: 1 },
+  },
+  { uuid },
+)
 const sphereGeo = new SphereGeometry(0.3, 20, 20)
 const sphereMat = new MeshPhongMaterial({ color: '#82dbc5' })
-const spherePositions = Array.from({ length: 10 }).fill(null).map(() => new Vector3())
+const spherePositions = Array.from({ length: 10 })
+  .fill(null)
+  .map(() => new Vector3())
 let ii = 0
 for (const p of spherePositions) {
   p.x = ii * 0.5 - 2.5
@@ -55,7 +60,13 @@ onUnmounted(() => {
 
     <SoftShadows :samples="samples" />
 
-    <TresMesh :position="[0, 1.5, 1]" :scale-y="3" :cast-shadow="true" :receive-shadow="true" name="column">
+    <TresMesh
+      :position="[0, 1.5, 1]"
+      :scale-y="3"
+      :cast-shadow="true"
+      :receive-shadow="true"
+      name="column"
+    >
       <TresBoxGeometry />
       <TresMeshPhongMaterial color="#82dbc5" />
     </TresMesh>
@@ -67,7 +78,7 @@ onUnmounted(() => {
 
     <TresGroup ref="spheres" name="spheres">
       <TresMesh
-        v-for="p, i of spherePositions"
+        v-for="(p, i) of spherePositions"
         :key="i"
         :material="sphereMat"
         :geometry="sphereGeo"

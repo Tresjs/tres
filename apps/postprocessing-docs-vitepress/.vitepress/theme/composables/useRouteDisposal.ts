@@ -7,9 +7,12 @@ export function useRouteDisposal() {
 
   const effectComposer = ref<InstanceType<typeof EffectComposerPmdrs> | null>(null)
 
-  watch(() => router.route.data.relativePath, () => {
-    effectComposer.value?.composer.dispose()
-  })
+  watch(
+    () => router.route.data.relativePath,
+    () => {
+      effectComposer.value?.composer.dispose()
+    },
+  )
 
   return {
     effectComposer,

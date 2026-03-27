@@ -5,7 +5,10 @@ import { Environment, OrbitControls, useGLTF, useTextures } from '@tresjs/ciento
 import type { MeshStandardMaterial } from 'three'
 
 // Load the 3D model
-const { nodes, materials } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
+const { nodes, materials } = useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
+  { draco: true },
+)
 const cube = computed(() => nodes.value?.BlenderCube)
 const material = computed(() => materials.value?.Material)
 
@@ -42,10 +45,14 @@ watch([material, textures], ([modelMaterial, textures]) => {
 })
 
 // Log loading state and errors
-watch(isLoading, (_loading) => {
-  // Only log errors, not loading state
-  console.log('isLoading', _loading)
-}, { immediate: true })
+watch(
+  isLoading,
+  (_loading) => {
+    // Only log errors, not loading state
+    console.log('isLoading', _loading)
+  },
+  { immediate: true },
+)
 
 watch(error, (errs) => {
   if (errs) {
@@ -64,9 +71,7 @@ watch(error, (errs) => {
       v-show="isLoading"
       class="absolute bg-white t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
     >
-      <div class="w-200px">
-        Loading...
-      </div>
+      <div class="w-200px">Loading...</div>
     </div>
   </Transition>
   <TresCanvas clear-color="#4f4f4f">

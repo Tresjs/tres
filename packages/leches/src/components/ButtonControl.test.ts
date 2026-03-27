@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { TresLeches, useControls } from '/@/'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vite-plus/test'
 import { defineComponent, ref } from 'vue'
 import ButtonControl from './ButtonControl.vue'
 
@@ -39,7 +39,15 @@ describe('button Controls', () => {
   it('should render a clickable button', async () => {
     mountComponent(() => {
       const isClicked = ref(false)
-      useControls({ acceptBtn: { type: 'button', label: 'Accept', onClick: () => { isClicked.value = true } } })
+      useControls({
+        acceptBtn: {
+          type: 'button',
+          label: 'Accept',
+          onClick: () => {
+            isClicked.value = true
+          },
+        },
+      })
       return { isClicked }
     })
 

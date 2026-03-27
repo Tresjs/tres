@@ -4,8 +4,8 @@ description: A simple to use holographic material for TresJS with vibrant colors
 ---
 
 ::SceneControlsWrapper
-  ::MaterialsHolographicMaterial
-  ::
+::MaterialsHolographicMaterial
+::
 ::
 
 ## A simple to use holographic material for TresJS
@@ -39,10 +39,10 @@ import { HolographicMaterial, Sphere } from '@tresjs/cientos'
 
 ## Props
 
-| Prop                   | Description                                                   | Type                                                | default   |
-| :--------------------- | :------------------------------------------------------------ | --------------------------------------------------- | --------- |
-| **fresnelAmount**      | Value of the Fresnel effect. Ranges from 0.0 to 1.0.          | `Number`                                            | `0.45`    |
-| **fresnelOpacity**     | Opacity of the Fresnel effect. Ranges from 0.0 to 1.0.        | `Number`                                            | `1.0`    |
+| Prop                   | Description                                                   | Type                                                | default     |
+| :--------------------- | :------------------------------------------------------------ | --------------------------------------------------- | ----------- |
+| **fresnelAmount**      | Value of the Fresnel effect. Ranges from 0.0 to 1.0.          | `Number`                                            | `0.45`      |
+| **fresnelOpacity**     | Opacity of the Fresnel effect. Ranges from 0.0 to 1.0.        | `Number`                                            | `1.0`       |
 | **scanlineSize**       | Size of the scanlines. Ranges from 1 to 15.                   | `Number`                                            | `8.0`       |
 | **hologramBrightness** | Brightness of the hologram. Ranges from 0.0 to 2.0.           | `Number`                                            | `1.2`       |
 | **signalSpeed**        | Speed of the signal effect. Ranges from 0.0 to 2.0.           | `Number`                                            | `0.45`      |

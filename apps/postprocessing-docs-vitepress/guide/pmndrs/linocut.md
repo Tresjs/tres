@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/LinocutDemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/LinocutDemo.vue{0}
+
 </details>
 
 The `Linocut` effect is a custom shader effect inspired by traditional linocut and woodcut printmaking. It transforms the scene into a high-contrast black-and-white composition, featuring bold lines and intricate patterns that replicate the handcrafted aesthetic of relief printing techniques.
@@ -52,13 +53,13 @@ const effectProps = {
 
 ## Props
 
-| Prop           | Description                                                                                                                                                                  | Default                  |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| **scale**      | Line width control. A value between 0 and 1.                                                                                                                                 | `0.85`                   |
-| **noiseScale** | Noise intensity. A value between 0 and 1.                                                                                                                                    | `0.0`                    |
-| **center**     | Center of rotation (normalized coordinates). A `Vector2` value or an array of two numbers where both values are between 0 and 1.                                              | `[0.5, 0.5]`             |
-| **rotation**   | Rotation angle (in radians). A value between -π and π.                                                                                                                       | `0.0`                    |
-| **blendFunction** | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL`   |
+| Prop              | Description                                                                                                                                                                                      | Default                |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
+| **scale**         | Line width control. A value between 0 and 1.                                                                                                                                                     | `0.85`                 |
+| **noiseScale**    | Noise intensity. A value between 0 and 1.                                                                                                                                                        | `0.0`                  |
+| **center**        | Center of rotation (normalized coordinates). A `Vector2` value or an array of two numbers where both values are between 0 and 1.                                                                 | `[0.5, 0.5]`           |
+| **rotation**      | Rotation angle (in radians). A value between -π and π.                                                                                                                                           | `0.0`                  |
+| **blendFunction** | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL` |
 
 ## Further Reading
 

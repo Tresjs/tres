@@ -7,7 +7,6 @@ import { ToneMappingMode } from 'postprocessing'
 import { NoToneMapping } from 'three'
 import { onUnmounted, shallowRef } from 'vue'
 
-
 const gl = {
   toneMappingExposure: 1,
   toneMapping: NoToneMapping,
@@ -19,7 +18,10 @@ const glComposer = {
 
 const modelRef = shallowRef(null)
 
-const { scene: model } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/realistic-pokeball/scene.gltf', { draco: true })
+const { scene: model } = await useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/realistic-pokeball/scene.gltf',
+  { draco: true },
+)
 
 const { toneMappingExposure, mode } = useControls({
   toneMappingExposure: {
@@ -29,7 +31,7 @@ const { toneMappingExposure, mode } = useControls({
     step: 1,
   },
   mode: {
-    options: Object.keys(ToneMappingMode).map(key => ({
+    options: Object.keys(ToneMappingMode).map((key) => ({
       text: key,
       value: ToneMappingMode[key as keyof typeof ToneMappingMode],
     })),
@@ -44,26 +46,17 @@ onUnmounted(() => {
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-      :toneMappingExposure="toneMappingExposure"
-    >
-      <TresPerspectiveCamera
-        :position="[6.5, 6.5, 6.5]"
-        :look-at="[0, 1, 0]"
-      />
+    <TresCanvas v-bind="gl" :toneMappingExposure="toneMappingExposure">
+      <TresPerspectiveCamera :position="[6.5, 6.5, 6.5]" :look-at="[0, 1, 0]" />
       <OrbitControls />
 
-      <primitive ref="modelRef" :object="model" :position-y="-.5" :scale=".25" />
+      <primitive ref="modelRef" :object="model" :position-y="-0.5" :scale="0.25" />
 
       <Suspense>
-        <Environment background :blur=".35" preset="dawn" />
+        <Environment background :blur="0.35" preset="dawn" />
       </Suspense>
 
-      <ContactShadows
-        :opacity=".5"
-        :position-y="-3.25"
-      />
+      <ContactShadows :opacity="0.5" :position-y="-3.25" />
 
       <Suspense>
         <EffectComposerPmndrs v-bind="glComposer">

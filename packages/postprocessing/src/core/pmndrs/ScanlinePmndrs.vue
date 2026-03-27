@@ -48,8 +48,7 @@ watch(
   () => {
     if (props.opacity !== undefined) {
       effect.value?.blendMode.setOpacity(props.opacity)
-    }
-    else {
+    } else {
       const plainEffect = new ScanlineEffect()
       effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
       plainEffect.dispose()

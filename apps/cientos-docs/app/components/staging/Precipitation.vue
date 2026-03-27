@@ -5,15 +5,18 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { size, color, alphaTest, opacity, count, speed, randomness } = useControls({
-  size: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
-  color: '#ffffff',
-  alphaTest: { value: 0.01, min: 0, max: 1, step: 0.01 },
-  opacity: { value: 0.8, min: 0, max: 1, step: 0.1 },
-  count: { value: 5000, min: 500, max: 20000, step: 500 },
-  speed: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
-  randomness: { value: 0.5, min: 0, max: 1, step: 0.1 },
-}, { uuid })
+const { size, color, alphaTest, opacity, count, speed, randomness } = useControls(
+  {
+    size: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
+    color: '#ffffff',
+    alphaTest: { value: 0.01, min: 0, max: 1, step: 0.01 },
+    opacity: { value: 0.8, min: 0, max: 1, step: 0.1 },
+    count: { value: 5000, min: 500, max: 20000, step: 500 },
+    speed: { value: 0.1, min: 0.01, max: 1, step: 0.01 },
+    randomness: { value: 0.5, min: 0, max: 1, step: 0.1 },
+  },
+  { uuid },
+)
 </script>
 
 <template>

@@ -9,7 +9,6 @@ import { ColorDepthPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { onUnmounted, toRaw, useTemplateRef, watch } from 'vue'
 import { gsap } from 'gsap'
 
-
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
@@ -21,7 +20,7 @@ const meshsArray = useTemplateRef('meshRefs')
 
 const { blendFunction, bits, opacity } = useControls({
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -31,7 +30,7 @@ const { blendFunction, bits, opacity } = useControls({
   opacity: { value: 1, step: 0.1, min: 0, max: 1 },
 })
 
-const meshes: { position: [number, number, number], color: string }[] = [
+const meshes: { position: [number, number, number]; color: string }[] = [
   { position: [0, 0.5, 0], color: 'white' },
   { position: [0, 0.5, -2], color: 'red' },
   { position: [0, 0.5, 2], color: 'yellow' },
@@ -63,9 +62,7 @@ onUnmounted(() => {
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
+    <TresCanvas v-bind="gl">
       <TresPerspectiveCamera :position="[8, 5, 5]" />
       <OrbitControls auto-rotate />
 
@@ -85,7 +82,11 @@ onUnmounted(() => {
 
       <Suspense>
         <EffectComposerPmndrs>
-          <ColorDepthPmndrs :blendFunction="Number(blendFunction)" :bits="bits" :opacity="opacity" />
+          <ColorDepthPmndrs
+            :blendFunction="Number(blendFunction)"
+            :bits="bits"
+            :opacity="opacity"
+          />
         </EffectComposerPmndrs>
       </Suspense>
     </TresCanvas>

@@ -20,25 +20,30 @@ interface Item {
   rotation: Vec3Tuple
 }
 
-const items: Item[] = Array.from({ length: n }, (): Item => ({
-  position: [
-    MathUtils.randFloat(-10, 10),
-    MathUtils.randFloat(-2, 6.5),
-    MathUtils.randFloat(3.5, 8),
-  ] as Vec3Tuple,
-  scale: MathUtils.randFloat(0.25, 0.5),
-  rotation: [
-    MathUtils.randFloat(0, Math.PI),
-    MathUtils.randFloat(0, Math.PI),
-    0,
-  ] as Vec3Tuple,
-}))
+const items: Item[] = Array.from(
+  { length: n },
+  (): Item => ({
+    position: [
+      MathUtils.randFloat(-10, 10),
+      MathUtils.randFloat(-2, 6.5),
+      MathUtils.randFloat(3.5, 8),
+    ] as Vec3Tuple,
+    scale: MathUtils.randFloat(0.25, 0.5),
+    rotation: [MathUtils.randFloat(0, Math.PI), MathUtils.randFloat(0, Math.PI), 0] as Vec3Tuple,
+  }),
+)
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 8.5, 22]" />
-    <OrbitControls make-default :enable-pan="false" :domElement="portalRef" :maxPolarAngle="Math.PI / 2.2" :target="[0, 2, 0]" />
+    <OrbitControls
+      make-default
+      :enable-pan="false"
+      :domElement="portalRef"
+      :maxPolarAngle="Math.PI / 2.2"
+      :target="[0, 2, 0]"
+    />
 
     <Levioso v-for="(item, index) in items" :key="index" :speed="2">
       <TresMesh
@@ -82,13 +87,7 @@ const items: Item[] = Array.from({ length: n }, (): Item => ({
       </Html>
     </Levioso>
 
-    <ContactShadows
-      :blur="1"
-      :opacity="0.85"
-      :position-y="-5.5"
-      :scale="30"
-      :far="25"
-    />
+    <ContactShadows :blur="1" :opacity="0.85" :position-y="-5.5" :scale="30" :far="25" />
 
     <Suspense>
       <Environment preset="city" />

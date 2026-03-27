@@ -1,8 +1,5 @@
 /* eslint-disable style/no-tabs */
-import type {
-  Texture,
-  TextureDataType,
-} from 'three'
+import type { Texture, TextureDataType } from 'three'
 import {
   AdditiveBlending,
   Box2,
@@ -55,7 +52,7 @@ class Lensflare extends Mesh {
         scale: { value: null },
         screenPosition: { value: null },
       },
-      vertexShader: /* glsl */`
+      vertexShader: /* glsl */ `
 
 				precision highp float;
 
@@ -70,7 +67,7 @@ class Lensflare extends Mesh {
 
 				}`,
 
-      fragmentShader: /* glsl */`
+      fragmentShader: /* glsl */ `
 
 				precision highp float;
 
@@ -90,7 +87,7 @@ class Lensflare extends Mesh {
         scale: { value: null },
         screenPosition: { value: null },
       },
-      vertexShader: /* glsl */`
+      vertexShader: /* glsl */ `
 
 				precision highp float;
 
@@ -110,7 +107,7 @@ class Lensflare extends Mesh {
 
 				}`,
 
-      fragmentShader: /* glsl */`
+      fragmentShader: /* glsl */ `
 
 				precision highp float;
 
@@ -143,7 +140,7 @@ class Lensflare extends Mesh {
       uniforms: {
         map: { value: null },
         occlusionMap: { value: occlusionMap },
-        color: { value: new Color(0xFFFFFF) },
+        color: { value: new Color(0xffffff) },
         scale: { value: new Vector2() },
         screenPosition: { value: new Vector3() },
       },
@@ -171,7 +168,8 @@ class Lensflare extends Mesh {
       renderer.getCurrentViewport(viewport)
 
       const renderTarget = renderer.getRenderTarget()
-      const type: TextureDataType = ((renderTarget !== null) ? renderTarget.texture.type : UnsignedByteType)
+      const type: TextureDataType =
+        renderTarget !== null ? renderTarget.texture.type : UnsignedByteType
 
       if (currentType !== type) {
         tempMap.dispose()
@@ -197,14 +195,18 @@ class Lensflare extends Mesh {
       positionView.setFromMatrixPosition(this.matrixWorld)
       positionView.applyMatrix4(camera.matrixWorldInverse)
 
-      if (positionView.z > 0) { return } // lensflare is behind the camera
+      if (positionView.z > 0) {
+        return
+      } // lensflare is behind the camera
 
       positionScreen.copy(positionView).applyMatrix4(camera.projectionMatrix)
 
       // horizontal and vertical coordinate of the lower left corner of the pixels to copy
 
-      screenPositionPixels.x = viewport.x + (positionScreen.x * halfViewportWidth) + halfViewportWidth - 8
-      screenPositionPixels.y = viewport.y + (positionScreen.y * halfViewportHeight) + halfViewportHeight - 8
+      screenPositionPixels.x =
+        viewport.x + positionScreen.x * halfViewportWidth + halfViewportWidth - 8
+      screenPositionPixels.y =
+        viewport.y + positionScreen.y * halfViewportHeight + halfViewportHeight - 8
 
       // screen cull
 
@@ -285,9 +287,14 @@ class LensflareElement {
   size: number
   distance: number
   color: Color
-  static Shader: { name: string, vertexShader: string, fragmentShader: string, uniforms: Record<string, any> }
+  static Shader: {
+    name: string
+    vertexShader: string
+    fragmentShader: string
+    uniforms: Record<string, any>
+  }
 
-  constructor(texture: Texture, size = 1, distance = 0, color = new Color(0xFFFFFF)) {
+  constructor(texture: Texture, size = 1, distance = 0, color = new Color(0xffffff)) {
     this.texture = texture
     this.size = size
     this.distance = distance
@@ -296,20 +303,17 @@ class LensflareElement {
 }
 
 LensflareElement.Shader = {
-
   name: 'LensflareElementShader',
 
   uniforms: {
-
     map: { value: null },
     occlusionMap: { value: null },
     color: { value: null },
     scale: { value: null },
     screenPosition: { value: null },
-
   },
 
-  vertexShader: /* glsl */`
+  vertexShader: /* glsl */ `
 
 		precision highp float;
 
@@ -348,7 +352,7 @@ LensflareElement.Shader = {
 
 		}`,
 
-  fragmentShader: /* glsl */`
+  fragmentShader: /* glsl */ `
 
 		precision highp float;
 
@@ -366,38 +370,18 @@ LensflareElement.Shader = {
 			gl_FragColor.rgb *= color;
 
 		}`,
-
 }
 
 Lensflare.Geometry = (function () {
   const geometry = new BufferGeometry()
 
   const float32Array = new Float32Array([
-    -1,
-    -1,
-    0,
-    0,
-    0,
-    1,
-    -1,
-    0,
-    1,
-    0,
-    1,
-    1,
-    0,
-    1,
-    1,
-    -1,
-    1,
-    0,
-    0,
-    1,
+    -1, -1, 0, 0, 0, 1, -1, 0, 1, 0, 1, 1, 0, 1, 1, -1, 1, 0, 0, 1,
   ])
 
   const interleavedBuffer = new InterleavedBuffer(float32Array, 5)
 
-  geometry.setIndex([0, 1, 2,	0, 2, 3])
+  geometry.setIndex([0, 1, 2, 0, 2, 3])
   geometry.setAttribute('position', new InterleavedBufferAttribute(interleavedBuffer, 3, 0, false))
   geometry.setAttribute('uv', new InterleavedBufferAttribute(interleavedBuffer, 2, 3, false))
 

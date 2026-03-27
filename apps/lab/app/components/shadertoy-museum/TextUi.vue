@@ -12,9 +12,12 @@ const expanded = shallowRef(true)
 
 let remainingMutations = 100
 
-watch(() => [state.title, state.author, state.description, state.href], () => {
-  remainingMutations = 100
-})
+watch(
+  () => [state.title, state.author, state.description, state.href],
+  () => {
+    remainingMutations = 100
+  },
+)
 
 const C = '▇'
 
@@ -30,7 +33,12 @@ function mutate() {
     description.value = state.description
     href.value = state.href
   } else {
-    for (const [r, v] of ([[title, state.title], [author, state.author], [description, state.description], [href, state.href]] as [ShallowRef<string>, string][])) {
+    for (const [r, v] of [
+      [title, state.title],
+      [author, state.author],
+      [description, state.description],
+      [href, state.href],
+    ] as [ShallowRef<string>, string][]) {
       if (!r.value || !v) {
         continue
       }
@@ -40,14 +48,15 @@ function mutate() {
       } else if (dLength > 0) {
         r.value = r.value.substring(0, r.value.length - 1)
       } else {
-        const incorrectCharacterIndices = [] as number[];
+        const incorrectCharacterIndices = [] as number[]
         for (let i = 0; i < r.value.length; i++) {
-          if (r.value[i] !== v[i]) incorrectCharacterIndices.push(i);
+          if (r.value[i] !== v[i]) incorrectCharacterIndices.push(i)
         }
         const dIncorrect = incorrectCharacterIndices.length
         if (dIncorrect > 0) {
           shuffle(incorrectCharacterIndices)
-          const numToCorrect = dIncorrect > 10 ? Math.min(dIncorrect, Math.floor(Math.random() * 10 + 1)) : 1
+          const numToCorrect =
+            dIncorrect > 10 ? Math.min(dIncorrect, Math.floor(Math.random() * 10 + 1)) : 1
           for (let i = 0; i < numToCorrect; i++) {
             const i = incorrectCharacterIndices.pop() as number
             const c = r.value[i]
@@ -64,44 +73,50 @@ function mutate() {
 }
 
 function shuffle<T>(array: T[]) {
-  let currentIndex = array.length;
+  let currentIndex = array.length
 
   // While there remain elements to shuffle...
   while (currentIndex != 0) {
-
     // Pick a remaining element...
-    const randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+    const randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
 
     // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
+    ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
   }
 }
 
 function replaceAt(s: string, index: number, replacement: string) {
-  return s.substring(0, index) + replacement + s.substring(index + replacement.length);
+  return s.substring(0, index) + replacement + s.substring(index + replacement.length)
 }
 
 setInterval(mutate, 128 / 1000)
-
 </script>
 
 <template>
   <div class="container font-mono">
     <div class="inner">
       <div :aria-expanded="expanded" aria-controls="sect1">
-        <button :title="expanded ? 'Close' : 'Open'" @click="expanded = !expanded"><span>{{ expanded ? '[x]' :
-          '[-]' }}</span></button>
+        <button :title="expanded ? 'Close' : 'Open'" @click="expanded = !expanded">
+          <span>{{ expanded ? '[x]' : '[-]' }}</span>
+        </button>
       </div>
       <div v-if="expanded" id="sect1">
-        <div class="title"><span>{{ title }}</span></div>
-        <div class="author"><span>{{ author }}</span></div>
-        <div class="description"><span>{{ description }}</span></div>
-        <div class="link"><span><a :href="state.href">{{ href }}</a></span></div>
-        <button class="href cursor-pointer" @click="state.next()"><span>[Next]
-          </span>
-        </button>
+        <div class="title">
+          <span>{{ title }}</span>
+        </div>
+        <div class="author">
+          <span>{{ author }}</span>
+        </div>
+        <div class="description">
+          <span>{{ description }}</span>
+        </div>
+        <div class="link">
+          <span
+            ><a :href="state.href">{{ href }}</a></span
+          >
+        </div>
+        <button class="href cursor-pointer" @click="state.next()"><span>[Next] </span></button>
       </div>
     </div>
   </div>
@@ -119,7 +134,7 @@ div.container {
   z-index: 100;
   pointer-events: none;
 
-  color: #AAC;
+  color: #aac;
   font-size: 14px;
 }
 
@@ -127,7 +142,7 @@ div.inner {
   padding: 27px 18px;
 }
 
-div.inner>div {
+div.inner > div {
   max-width: 300px;
   pointer-events: auto;
 }
@@ -135,6 +150,6 @@ div.inner>div {
 div.inner div span {
   display: inline-block;
   padding: 9px 6px;
-  background-color: rgba(0, 0, 0, 0.5)
+  background-color: rgba(0, 0, 0, 0.5);
 }
 </style>

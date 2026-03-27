@@ -4,10 +4,13 @@ import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, Shape, Vector3 } from 'three'
 import { computed, onUnmounted, reactive, ref, shallowRef } from 'vue'
-import { DepthPickingPassPmndrs, EffectComposerPmndrs, ShockWavePmndrs } from '@tresjs/post-processing'
+import {
+  DepthPickingPassPmndrs,
+  EffectComposerPmndrs,
+  ShockWavePmndrs,
+} from '@tresjs/post-processing'
 import { useElementBounding, useMouse } from '@vueuse/core'
 import { gsap } from 'gsap'
-
 
 const gl = {
   clearColor: '#8D404A',
@@ -32,10 +35,38 @@ function createHeartShape(scale: number) {
 
   shape.moveTo(x, y)
   shape.bezierCurveTo(x, y, x - 0.5 * scale, y + 2.5 * scale, x - 2.5 * scale, y + 2.5 * scale)
-  shape.bezierCurveTo(x - 6.5 * scale, y + 2.5 * scale, x - 6.5 * scale, y - 1.5 * scale, x - 6.5 * scale, y - 1.5 * scale)
-  shape.bezierCurveTo(x - 6.5 * scale, y - 4.5 * scale, x - 3.5 * scale, y - 7 * scale, x, y - 9.5 * scale)
-  shape.bezierCurveTo(x + 3.5 * scale, y - 7 * scale, x + 6.5 * scale, y - 4.5 * scale, x + 6.5 * scale, y - 1.5 * scale)
-  shape.bezierCurveTo(x + 6.5 * scale, y - 1.5 * scale, x + 6.5 * scale, y + 2.5 * scale, x + 2.5 * scale, y + 2.5 * scale)
+  shape.bezierCurveTo(
+    x - 6.5 * scale,
+    y + 2.5 * scale,
+    x - 6.5 * scale,
+    y - 1.5 * scale,
+    x - 6.5 * scale,
+    y - 1.5 * scale,
+  )
+  shape.bezierCurveTo(
+    x - 6.5 * scale,
+    y - 4.5 * scale,
+    x - 3.5 * scale,
+    y - 7 * scale,
+    x,
+    y - 9.5 * scale,
+  )
+  shape.bezierCurveTo(
+    x + 3.5 * scale,
+    y - 7 * scale,
+    x + 6.5 * scale,
+    y - 4.5 * scale,
+    x + 6.5 * scale,
+    y - 1.5 * scale,
+  )
+  shape.bezierCurveTo(
+    x + 6.5 * scale,
+    y - 1.5 * scale,
+    x + 6.5 * scale,
+    y + 2.5 * scale,
+    x + 2.5 * scale,
+    y + 2.5 * scale,
+  )
   shape.bezierCurveTo(x + 0.5 * scale, y + 2.5 * scale, x, y, x, y)
 
   return shape
@@ -67,7 +98,7 @@ const materialProps = reactive({
 
 let tl: gsap.core.Timeline
 
-const ctx = gsap.context(() => { })
+const ctx = gsap.context(() => {})
 
 const { amplitude, waveSize, speed, maxRadius } = useControls({
   amplitude: { value: 0.4, step: 0.01, max: 1.0 },
@@ -80,7 +111,9 @@ const cursorX = computed(() => ((x.value - left.value - width.value) / width.val
 const cursorY = computed(() => -((y.value - top.value - height.value) / height.value) * 2.0 - 1.0)
 
 async function updateMousePosition() {
-  if (!elCanvasRef.value || !shockWaveEffectRef.value || !depthPickingPassRef.value) { return }
+  if (!elCanvasRef.value || !shockWaveEffectRef.value || !depthPickingPassRef.value) {
+    return
+  }
 
   const ndcPosition = new Vector3(cursorX.value, cursorY.value, 0)
 
@@ -93,7 +126,9 @@ async function updateMousePosition() {
 }
 
 function triggerShockWave() {
-  if (!meshHeartRef.value || !shockWaveEffectRef.value) { return }
+  if (!meshHeartRef.value || !shockWaveEffectRef.value) {
+    return
+  }
 
   updateMousePosition()
 
@@ -114,19 +149,21 @@ function triggerShockWave() {
       y: 0.8,
       z: 0.8,
       ease: 'power2.inOut',
-    }).to(meshHeartRef.value.scale, {
-      duration: durationSeconds / 9,
-      x: 1.2,
-      y: 1.2,
-      z: 1.2,
-      ease: 'power2.inOut',
-    }).to(meshHeartRef.value.scale, {
-      duration: durationSeconds / 9,
-      x: 1,
-      y: 1,
-      z: 1,
-      ease: 'power2.inOut',
     })
+      .to(meshHeartRef.value.scale, {
+        duration: durationSeconds / 9,
+        x: 1.2,
+        y: 1.2,
+        z: 1.2,
+        ease: 'power2.inOut',
+      })
+      .to(meshHeartRef.value.scale, {
+        duration: durationSeconds / 9,
+        x: 1,
+        y: 1,
+        z: 1,
+        ease: 'power2.inOut',
+      })
   })
 
   // Fallback for onFinish explode Shock Wave
@@ -160,33 +197,19 @@ onUnmounted(() => {
 
 <template>
   <div ref="mainRef" class="aspect-16/9 relative">
-    <TresCanvas
-      ref="elCanvasRef"
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[0, 0, 10]"
-      />
+    <TresCanvas ref="elCanvasRef" v-bind="gl">
+      <TresPerspectiveCamera :position="[0, 0, 10]" />
 
       <OrbitControls make-default auto-rotate />
 
       <TresMesh ref="meshHeartRef" :position-y="2" @click="triggerShockWave">
         <TresExtrudeGeometry :args="[heartShapeFront, extrudeSettings]" />
-        <TresMeshPhysicalMaterial
-          v-bind="materialProps"
-        />
+        <TresMeshPhysicalMaterial v-bind="materialProps" />
       </TresMesh>
 
-      <TresDirectionalLight
-        :position="[5, 5, 7.5]"
-        :intensity="2"
-      />
+      <TresDirectionalLight :position="[5, 5, 7.5]" :intensity="2" />
 
-      <ContactShadows
-        :opacity="1"
-        :position-y="-2.75"
-        :blur=".5"
-      />
+      <ContactShadows :opacity="1" :position-y="-2.75" :blur="0.5" />
 
       <Suspense>
         <Environment preset="night" />
@@ -195,11 +218,20 @@ onUnmounted(() => {
       <Suspense>
         <EffectComposerPmndrs v-bind="glComposer">
           <DepthPickingPassPmndrs ref="depthPickingPassRef" />
-          <ShockWavePmndrs ref="shockWaveEffectRef" :position="mousePosition" :amplitude="amplitude" :waveSize="waveSize" :speed="speed" :maxRadius="maxRadius" />
+          <ShockWavePmndrs
+            ref="shockWaveEffectRef"
+            :position="mousePosition"
+            :amplitude="amplitude"
+            :waveSize="waveSize"
+            :speed="speed"
+            :maxRadius="maxRadius"
+          />
         </EffectComposerPmndrs>
       </Suspense>
     </TresCanvas>
-    <p class="doc-shock-wave-instructions text-xs font-semibold text-zinc-600">Click on the heart to distribute love</p>
+    <p class="doc-shock-wave-instructions text-xs font-semibold text-zinc-600">
+      Click on the heart to distribute love
+    </p>
   </div>
 
   <TresLeches :float="false" />

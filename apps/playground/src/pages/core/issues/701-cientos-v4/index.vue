@@ -14,7 +14,10 @@ import TheExperience from './TheExperience.vue'
     <h2>Setup</h2>
     <p>This scene contains a TorusKnot and Cientos' Sparkles component.</p>
     <h2>Context</h2>
-    <p>Sparkles uses a primitive under the hood. Changes to Tres v4's primitives caused the component to stop working.</p>
+    <p>
+      Sparkles uses a primitive under the hood. Changes to Tres v4's primitives caused the component
+      to stop working.
+    </p>
   </OverlayInfo>
 </template>
 

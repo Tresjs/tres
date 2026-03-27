@@ -1,7 +1,7 @@
 name: Setup Node
 description: Setup node
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - uses: ./.github/actions/cache-monorepo
 
@@ -9,7 +9,7 @@ runs:
       uses: pnpm/action-setup@v2
       with:
         version: 10
-    
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:

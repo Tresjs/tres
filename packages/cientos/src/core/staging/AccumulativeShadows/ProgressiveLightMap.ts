@@ -1,4 +1,14 @@
-import type { Camera, Group, Light, Material, Mesh, Scene, ShaderMaterial, Texture, WebGLRenderer } from 'three'
+import type {
+  Camera,
+  Group,
+  Light,
+  Material,
+  Mesh,
+  Scene,
+  ShaderMaterial,
+  Texture,
+  WebGLRenderer,
+} from 'three'
 import { Color, HalfFloatType, MeshLambertMaterial, NearestFilter, WebGLRenderTarget } from 'three'
 import { MeshDiscardMaterial as DiscardMaterial } from '../../materials/meshDiscardMaterial/material'
 
@@ -26,8 +36,8 @@ export class ProgressiveLightMap {
   averagingWindow: { value: number }
   clearColor: Color
   clearAlpha: number
-  lights: { object: Light, intensity: number }[]
-  meshes: { object: Mesh, material: Material | Material[] }[]
+  lights: { object: Light; intensity: number }[]
+  meshes: { object: Mesh; material: Material | Material[] }[]
 
   constructor(renderer: WebGLRenderer, scene: Scene, res = 1024) {
     this.renderer = renderer
@@ -56,16 +66,14 @@ export class ProgressiveLightMap {
     this.averagingWindow = { value: 100 }
     this.targetMat.onBeforeCompile = (shader) => {
       // NOTE: Vertex Shader: Set Vertex Positions to the Unwrapped UV Positions
-      shader.vertexShader
-        = `varying vec2 vUv;
+      shader.vertexShader = `varying vec2 vUv;
         ${shader.vertexShader.slice(0, -1)}
         vUv = uv; 
         gl_Position = vec4((uv - 0.5) * 2.0, 1.0, 1.0); }`
 
       // NOTE: Fragment Shader: Set Pixels to average in the Previous frame's Shadows
       const bodyStart = shader.fragmentShader.indexOf('void main() {')
-      shader.fragmentShader
-        = `
+      shader.fragmentShader = `
         varying vec2 vUv;
         ${shader.fragmentShader.slice(0, bodyStart)}
         uniform sampler2D previousShadowMap;
@@ -95,24 +103,25 @@ export class ProgressiveLightMap {
     this.lights = []
     this.meshes = []
     this.scene.traverse((object) => {
-      if (object === this.lightsGroup) { return false }
+      if (object === this.lightsGroup) {
+        return false
+      }
       if (isGeometry(object)) {
         this.meshes.push({ object, material: object.material })
-      }
-      else if (isLight(object)) {
+      } else if (isLight(object)) {
         this.lights.push({ object, intensity: object.intensity })
       }
     })
   }
 
   prepare() {
-    this.lights.forEach(light => (light.object.intensity = 0))
-    this.meshes.forEach(mesh => (mesh.object.material = this.discardMat))
+    this.lights.forEach((light) => (light.object.intensity = 0))
+    this.meshes.forEach((mesh) => (mesh.object.material = this.discardMat))
   }
 
   finish() {
-    this.lights.forEach(light => (light.object.intensity = light.intensity))
-    this.meshes.forEach(mesh => (mesh.object.material = mesh.material))
+    this.lights.forEach((light) => (light.object.intensity = light.intensity))
+    this.meshes.forEach((mesh) => (mesh.object.material = mesh.material))
   }
 
   configure(object: Mesh, lightsGroup: Group) {
@@ -121,7 +130,9 @@ export class ProgressiveLightMap {
   }
 
   update(camera: Camera, blendWindow = 100) {
-    if (!this.object) { return }
+    if (!this.object) {
+      return
+    }
     // NOTE: Set each object's material to the UV Unwrapped Surface Mapping Version
     this.averagingWindow.value = blendWindow
     this.object.material = this.targetMat

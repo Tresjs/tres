@@ -11,9 +11,11 @@ TresLeches is a GUI control library for Vue applications with smart field recogn
 Components are in [src/components/](src/components/):
 
 ### Main Component
+
 - **TresLeches.vue**: Root GUI component that manages control folders and layout
 
 ### Control Components
+
 - **BooleanControl.vue**: Toggle/checkbox controls for boolean values
 - **NumberControl.vue**: Numeric input controls
 - **SliderControl.vue**: Range slider controls
@@ -26,6 +28,7 @@ Components are in [src/components/](src/components/):
 - **FPSGraph.vue**: FPS performance monitor
 
 ### Layout Components
+
 - **Folder.vue**: Collapsible folder container for grouping controls
 - **ControlInput.vue**: Base input component
 - **ControlLabel.vue**: Label component for controls

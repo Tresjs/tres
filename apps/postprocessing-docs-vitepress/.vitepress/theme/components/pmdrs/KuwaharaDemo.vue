@@ -7,7 +7,6 @@ import { BlendFunction } from 'postprocessing'
 import { NoToneMapping } from 'three'
 import { reactive, watch } from 'vue'
 
-
 const gl = {
   clearColor: '#3386E0',
   toneMapping: NoToneMapping,
@@ -17,8 +16,14 @@ const glComposer = {
   multisampling: 4,
 }
 
-const { state: scenePlantJar } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/kuwahara-effect/plant-jar/plant-jar.glb', { draco: true })
-const { state: sceneWatermelon } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/kuwahara-effect/watermelon/watermelon_fruit.glb', { draco: true })
+const { state: scenePlantJar } = await useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/kuwahara-effect/plant-jar/plant-jar.glb',
+  { draco: true },
+)
+const { state: sceneWatermelon } = await useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/kuwahara-effect/watermelon/watermelon_fruit.glb',
+  { draco: true },
+)
 
 const effectProps = reactive({
   blendFunction: BlendFunction.NORMAL,
@@ -37,12 +42,8 @@ watch(enabled, () => {
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[0, 6.5, 15]"
-      />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[0, 6.5, 15]" />
 
       <OrbitControls />
 
@@ -64,19 +65,9 @@ watch(enabled, () => {
         :object="sceneWatermelon.scene"
       />
 
-      <ContactShadows
-        :opacity=".25"
-        :position-y="-3.85"
-        :scale="20"
-        :blur=".65"
-      />
+      <ContactShadows :opacity="0.25" :position-y="-3.85" :scale="20" :blur="0.65" />
 
-      <ContactShadows
-        :opacity=".5"
-        :position-y="-3.85"
-        :scale="20"
-        :blur=".65"
-      />
+      <ContactShadows :opacity="0.5" :position-y="-3.85" :scale="20" :blur="0.65" />
 
       <Suspense>
         <Environment :blur="0.2" preset="snow" />
@@ -84,7 +75,11 @@ watch(enabled, () => {
 
       <Suspense>
         <EffectComposerPmndrs v-bind="glComposer">
-          <KuwaharaPmndrs :blendFunction="Number(effectProps.blendFunction)" :radius="radius" :sectorCount="sectorCount" />
+          <KuwaharaPmndrs
+            :blendFunction="Number(effectProps.blendFunction)"
+            :radius="radius"
+            :sectorCount="sectorCount"
+          />
         </EffectComposerPmndrs>
       </Suspense>
     </TresCanvas>

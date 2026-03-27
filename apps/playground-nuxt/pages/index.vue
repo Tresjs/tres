@@ -26,8 +26,8 @@ const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 const groupedRoutes = computed<GroupedRoutes[]>(() => {
   // Filter out the root route and map to label/to
   const routes: RouteItem[] = router.options.routes
-    .filter(route => route.path !== '/')
-    .map(route => ({
+    .filter((route) => route.path !== '/')
+    .map((route) => ({
       label: route.path.split('/').pop()?.replace(/-/g, ' ') || 'root',
       to: route.path,
     }))
@@ -63,11 +63,7 @@ const iconMap = {
       :icon="iconMap[group.group]"
     >
       <ul>
-        <li
-          v-for="route in group.routes"
-          :key="route.label"
-          class="text-sm font-mono"
-        >
+        <li v-for="route in group.routes" :key="route.label" class="text-sm font-mono">
           <NuxtLink :to="route.to">
             {{ route.label }}
           </NuxtLink>

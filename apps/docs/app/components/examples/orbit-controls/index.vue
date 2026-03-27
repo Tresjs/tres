@@ -6,9 +6,7 @@ import LocalOrbitControls from './LocalOrbitControls.vue'
 
 <template>
   <SceneWrapper>
-    <TresCanvas
-      clear-color="#82DBC5"
-    >
+    <TresCanvas clear-color="#82DBC5">
       <TresPerspectiveCamera :position="[0, 1, 7]" />
       <LocalOrbitControls />
       <TresGridHelper :args="[10, 10]" />

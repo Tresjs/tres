@@ -5,14 +5,17 @@ import { TresCanvas } from '@tresjs/core'
 
 const uuid = inject(`uuid`)
 
-const { top, bottom, left, right, front, back } = useControls({
-  top: false,
-  bottom: false,
-  left: false,
-  right: false,
-  front: false,
-  back: false,
-}, { uuid })
+const { top, bottom, left, right, front, back } = useControls(
+  {
+    top: false,
+    bottom: false,
+    left: false,
+    right: false,
+    front: false,
+    back: false,
+  },
+  { uuid },
+)
 </script>
 
 <template>

@@ -10,34 +10,37 @@ const uuid = 'core-cameras-orthographic'
 const { width, height } = useWindowSize()
 const aspect = computed(() => width.value / height.value)
 
-const { zoom, position, lookAt, near, far, frustum } = useControls({
-  position: new Vector3(1, 1, 1),
-  lookAt: new Vector3(0, 0, 0),
-  frustum: {
-    value: 10,
-    min: 0,
-    max: 100,
-    step: 10,
+const { zoom, position, lookAt, near, far, frustum } = useControls(
+  {
+    position: new Vector3(1, 1, 1),
+    lookAt: new Vector3(0, 0, 0),
+    frustum: {
+      value: 10,
+      min: 0,
+      max: 100,
+      step: 10,
+    },
+    zoom: {
+      value: 1,
+      min: -100,
+      max: 100,
+      step: 1,
+    },
+    near: {
+      value: -100,
+      min: -100,
+      max: 100,
+      step: 10,
+    },
+    far: {
+      value: 1000,
+      min: 0.01,
+      max: 1000,
+      step: 10,
+    },
   },
-  zoom: {
-    value: 1,
-    min: -100,
-    max: 100,
-    step: 1,
-  },
-  near: {
-    value: -100,
-    min: -100,
-    max: 100,
-    step: 10,
-  },
-  far: {
-    value: 1000,
-    min: 0.01,
-    max: 1000,
-    step: 10,
-  },
-}, { uuid })
+  { uuid },
+)
 const cameraRef = ref<OrthographicCamera>()
 
 watch([zoom, near, far, frustum], () => {

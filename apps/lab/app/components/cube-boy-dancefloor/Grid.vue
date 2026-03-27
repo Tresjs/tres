@@ -148,7 +148,9 @@ const zeroVector = new Vector3(0, 0, 0)
 const { onBeforeRender } = useLoop()
 
 onBeforeRender((state) => {
-  if (!state.camera) { return }
+  if (!state.camera) {
+    return
+  }
   plane.setFromNormalAndCoplanarPoint(upVector, zeroVector).applyMatrix4(ref.value.matrixWorld)
 
   const gridMaterial = ref.value.material as ShaderMaterial
@@ -162,11 +164,22 @@ onBeforeRender((state) => {
 
 <template>
   <TresMesh ref="ref" :frustum-culled="false">
-    <TresGridMaterial :transparent="true" :extensions-derivatives="true" :side="props.side" :cell-size="props.cellSize"
-      :section-size="props.sectionSize" :cell-color="props.cellColor" :section-color="props.sectionColor"
-      :cell-thickness="props.cellThickness" :section-thickness="props.sectionThickness"
-      :fade-distance="props.fadeDistance" :fade-strength="props.fadeStrength" :fade-from="props.fadeFrom"
-      :infinite-grid="props.infiniteGrid" :follow-camera="props.followCamera" />
+    <TresGridMaterial
+      :transparent="true"
+      :extensions-derivatives="true"
+      :side="props.side"
+      :cell-size="props.cellSize"
+      :section-size="props.sectionSize"
+      :cell-color="props.cellColor"
+      :section-color="props.sectionColor"
+      :cell-thickness="props.cellThickness"
+      :section-thickness="props.sectionThickness"
+      :fade-distance="props.fadeDistance"
+      :fade-strength="props.fadeStrength"
+      :fade-from="props.fadeFrom"
+      :infinite-grid="props.infiniteGrid"
+      :follow-camera="props.followCamera"
+    />
     <TresPlaneGeometry :args="props.args" />
   </TresMesh>
 </template>

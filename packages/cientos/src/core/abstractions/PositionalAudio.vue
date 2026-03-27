@@ -34,7 +34,8 @@ const props = withDefaults(defineProps<PositionalAudioProps>(), {
 
 const emit = defineEmits(['isPlaying'])
 
-const { ready, url, distance, helper, loop, autoplay, innerAngle, outerAngle, outerGain } = toRefs(props)
+const { ready, url, distance, helper, loop, autoplay, innerAngle, outerAngle, outerGain } =
+  toRefs(props)
 
 const { state: buffer } = useLoader<AudioBuffer | AudioBuffer[]>(AudioLoader, url.value)
 
@@ -46,28 +47,36 @@ const positionalAudioHelperRef = shallowRef<PositionalAudioHelper | null>(null)
 const listener = shallowReactive<AudioListener>(new AudioListener())
 
 const playAudio = () => {
-  if (positionalAudioRef?.value?.isPlaying) { return }
+  if (positionalAudioRef?.value?.isPlaying) {
+    return
+  }
 
   positionalAudioRef?.value?.play()
   emit('isPlaying', positionalAudioRef?.value?.isPlaying)
 }
 
 const pauseAudio = () => {
-  if (!positionalAudioRef?.value?.isPlaying) { return }
+  if (!positionalAudioRef?.value?.isPlaying) {
+    return
+  }
 
   positionalAudioRef.value.pause()
   emit('isPlaying', positionalAudioRef?.value?.isPlaying)
 }
 
 const stopAudio = () => {
-  if (!positionalAudioRef.value) { return }
+  if (!positionalAudioRef.value) {
+    return
+  }
 
   positionalAudioRef.value.stop()
   emit('isPlaying', positionalAudioRef?.value?.isPlaying)
 }
 
 const disposeAudio = () => {
-  if (!positionalAudioRef?.value) { return }
+  if (!positionalAudioRef?.value) {
+    return
+  }
 
   stopAudio()
 
@@ -79,14 +88,18 @@ const disposeAudio = () => {
 }
 
 const disposeHelper = () => {
-  if (!positionalAudioRef?.value || !positionalAudioHelperRef?.value) { return }
+  if (!positionalAudioRef?.value || !positionalAudioHelperRef?.value) {
+    return
+  }
 
   positionalAudioHelperRef?.value?.dispose()
   positionalAudioRef?.value?.remove(positionalAudioHelperRef?.value)
 }
 
 const updatePositionalAudio = () => {
-  if (!positionalAudioRef.value || !buffer.value) { return }
+  if (!positionalAudioRef.value || !buffer.value) {
+    return
+  }
 
   const audioBuffer = Array.isArray(buffer.value) ? buffer.value[0] : buffer.value
   positionalAudioRef.value.setBuffer(audioBuffer)
@@ -115,7 +128,12 @@ const createHelper = () => {
   const boxParent = new Box3().setFromObject(parent as Object3D)
   const depthParent = (boxParent.max.z - boxParent.min.z) * 2
 
-  positionalAudioHelperRef.value = new PositionalAudioHelper(positionalAudioRef.value as PositionalAudio, depthParent, 32, 16)
+  positionalAudioHelperRef.value = new PositionalAudioHelper(
+    positionalAudioRef.value as PositionalAudio,
+    depthParent,
+    32,
+    16,
+  )
   positionalAudioRef?.value?.add(positionalAudioHelperRef.value)
   positionalAudioHelperRef.value.update()
 }
@@ -136,26 +154,37 @@ defineExpose({
 })
 
 watch(positionalAudioRef, () => {
-  if (!positionalAudioRef?.value) { return }
+  if (!positionalAudioRef?.value) {
+    return
+  }
 
-  if (helper.value) { createHelper() }
-  if (ready.value && autoplay) { playAudio() }
+  if (helper.value) {
+    createHelper()
+  }
+  if (ready.value && autoplay) {
+    playAudio()
+  }
 })
 
 watch(helper, () => {
   if (helper.value) {
     createHelper()
-  }
-  else {
+  } else {
     disposeHelper()
   }
 })
 
 watch(ready, () => {
-  if (ready.value) { updatePositionalAudio() }
+  if (ready.value) {
+    updatePositionalAudio()
+  }
 
-  if (autoplay.value && ready.value) { playAudio() }
-  if (!autoplay.value && ready.value) { stopAudio() }
+  if (autoplay.value && ready.value) {
+    playAudio()
+  }
+  if (!autoplay.value && ready.value) {
+    stopAudio()
+  }
 })
 
 watch([distance, loop, buffer, innerAngle, outerAngle, outerGain, autoplay], () => {
@@ -172,8 +201,5 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <TresPositionalAudio
-    ref="positionalAudioRef"
-    :args="[listener]"
-  />
+  <TresPositionalAudio ref="positionalAudioRef" :args="[listener]" />
 </template>

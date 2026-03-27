@@ -6,7 +6,9 @@ const props = defineProps<{
 </script>
 
 <template>
-  <span :class="props.isPass ? 'pass' : 'fail'">{{ props.isPass ? '✅' : '❌' }} {{ props.msg }}</span>
+  <span :class="props.isPass ? 'pass' : 'fail'"
+    >{{ props.isPass ? '✅' : '❌' }} {{ props.msg }}</span
+  >
 </template>
 
 <style scoped>

@@ -22,8 +22,8 @@ const hasChange = (state: any) => console.log('change', state)
     <Sky />
     <PointerLockControls
       make-default
-      @is-lock="state => isActive(state)"
-      @change="state => hasChange(state)"
+      @is-lock="(state) => isActive(state)"
+      @change="(state) => hasChange(state)"
     />
 
     <TresGridHelper :args="[100, 100]" />

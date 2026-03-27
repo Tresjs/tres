@@ -15,9 +15,12 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { isVisible } = useControls({
-  isVisible: true,
-}, { uuid })
+const { isVisible } = useControls(
+  {
+    isVisible: true,
+  },
+  { uuid },
+)
 
 /* const mesh = new Mesh(
   new BoxGeometry(),
@@ -31,19 +34,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <RouterLink to="/basic">
-    Go to another page
-  </RouterLink>
+  <RouterLink to="/basic"> Go to another page </RouterLink>
   <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      :position="[3, 3, 3]"
-      :look-at="[0, 0, 0]"
-    />
+    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
     <TresGroup v-if="isVisible">
       <TresMesh :position="[0, 0, 0]">
         <TresBoxGeometry />
-        <TresMeshToonMaterial :color="0x00FF00" />
+        <TresMeshToonMaterial :color="0x00ff00" />
       </TresMesh>
     </TresGroup>
     <!--  <Suspense> -->

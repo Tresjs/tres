@@ -1,4 +1,3 @@
-
 export const colors = {
   TEAL: '#7fdac6',
   ORANGE: '#eeac35',

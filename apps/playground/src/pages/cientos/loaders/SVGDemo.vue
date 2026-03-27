@@ -43,42 +43,21 @@ const gl = {
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-    render-mode="on-demand"
-    @loop="onLoop"
-  >
+  <TresCanvas v-bind="gl" render-mode="on-demand" @loop="onLoop">
     <TresPerspectiveCamera :position="[0, 2, 10]" />
     <TresGridHelper :args="[10, 10]" />
-    <TresGroup
-      :scale="0.01"
-      :position="[-2.1, 1, 0]"
-    >
+    <TresGroup :scale="0.01" :position="[-2.1, 1, 0]">
       <Suspense>
-        <SVG
-          :src="svgTriangleString"
-          :skip-fills="skipFillsA"
-        />
+        <SVG :src="svgTriangleString" :skip-fills="skipFillsA" />
       </Suspense>
       <Suspense>
-        <SVG
-          :src="svgSquareString"
-          :skip-fills="skipFillsB"
-        />
+        <SVG :src="svgSquareString" :skip-fills="skipFillsB" />
       </Suspense>
       <Suspense>
-        <SVG
-          :src="svgHeartURL"
-          :skip-fills="skipFillsC"
-          :position="[321.5, -4, 0]"
-        />
+        <SVG :src="svgHeartURL" :skip-fills="skipFillsC" :position="[321.5, -4, 0]" />
       </Suspense>
       <Suspense>
-        <SVG
-          :src="svgHeartURL"
-          :skip-fills="skipFillsC"
-          :position="[321.5, -4, 0]"
-        />
+        <SVG :src="svgHeartURL" :skip-fills="skipFillsC" :position="[321.5, -4, 0]" />
       </Suspense>
     </TresGroup>
     <TresAmbientLight />

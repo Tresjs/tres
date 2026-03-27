@@ -1,5 +1,16 @@
 <script setup lang="ts">
-import { AdditiveBlending, BufferGeometry, Color, Float32BufferAttribute, Points, ShaderMaterial, Spherical, Uniform, Vector3, type ColorRepresentation } from 'three'
+import {
+  AdditiveBlending,
+  BufferGeometry,
+  Color,
+  Float32BufferAttribute,
+  Points,
+  ShaderMaterial,
+  Spherical,
+  Uniform,
+  Vector3,
+  type ColorRepresentation,
+} from 'three'
 import { useDevicePixelRatio, useEventListener, useWindowSize } from '@vueuse/core'
 import gsap from 'gsap'
 // Shaders
@@ -64,23 +75,21 @@ function createFireworks(options: FireworksOptions) {
   geometry.setAttribute('position', new Float32BufferAttribute(positionArray, 3))
   geometry.setAttribute('aSize', new Float32BufferAttribute(sizeArray, 1))
   geometry.setAttribute('aDecay', new Float32BufferAttribute(decayArray, 1))
-  material.value = new ShaderMaterial(
-    {
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        uTime: new Uniform(0),
-        uSize: new Uniform(size),
-        uResolution: new Uniform(new Vector3(width.value, height.value, pixelRatio.value)),
-        uTexture: new Uniform(textures.value?.[Math.floor(Math.random() * textures.value.length)]),
-        uColor: new Uniform(color),
-        uProgress: new Uniform(0),
-      },
-      transparent: true,
-      blending: AdditiveBlending,
-      depthWrite: false,
+  material.value = new ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms: {
+      uTime: new Uniform(0),
+      uSize: new Uniform(size),
+      uResolution: new Uniform(new Vector3(width.value, height.value, pixelRatio.value)),
+      uTexture: new Uniform(textures.value?.[Math.floor(Math.random() * textures.value.length)]),
+      uColor: new Uniform(color),
+      uProgress: new Uniform(0),
     },
-  )
+    transparent: true,
+    blending: AdditiveBlending,
+    depthWrite: false,
+  })
 
   // Points
   const fireworks = new Points(geometry, material.value)
@@ -93,19 +102,20 @@ function createFireworks(options: FireworksOptions) {
     material.value?.dispose()
   }
 
-  gsap.to(
-    material.value?.uniforms.uProgress,
-    {
-      value: 1,
-      duration: 3,
-      onComplete: destroyFirework
-    },
-  )
+  gsap.to(material.value?.uniforms.uProgress, {
+    value: 1,
+    duration: 3,
+    onComplete: destroyFirework,
+  })
 }
 
 watch([width, height, pixelRatio], () => {
   if (material.value) {
-    material.value.uniforms!.uResolution!.value = new Vector3(width.value, height.value, pixelRatio.value)
+    material.value.uniforms!.uResolution!.value = new Vector3(
+      width.value,
+      height.value,
+      pixelRatio.value,
+    )
   }
 })
 
@@ -121,7 +131,7 @@ const createRandomFirework = () => {
     position,
     size: rand(0.05, 0.2),
     radius: rand(0.5, 3),
-    color
+    color,
   })
 }
 
@@ -129,9 +139,9 @@ useEventListener(renderer.domElement, 'click', createRandomFirework)
 
 watch(textures, (newTextures) => {
   if (material.value) {
-    material.value.uniforms!.uTexture!.value = newTextures?.[Math.floor(Math.random() * newTextures.length)]
+    material.value.uniforms!.uTexture!.value =
+      newTextures?.[Math.floor(Math.random() * newTextures.length)]
   }
-
 })
 
 onMounted(() => {

@@ -11,7 +11,8 @@ useControls('fpsgraph', {
     <TresLeches :uuid="uuid" collapsed />
   </ClientOnly>
   <h1
-    class="title font-title text-6xl text-white fixed top-8 transform w-full text-center display-none opacity-0 z-10 pointer-events-none">
+    class="title font-title text-6xl text-white fixed top-8 transform w-full text-center display-none opacity-0 z-10 pointer-events-none"
+  >
     TresJS Galaxy generator 🪐
   </h1>
   <TresCanvas :clear-color="'black'">

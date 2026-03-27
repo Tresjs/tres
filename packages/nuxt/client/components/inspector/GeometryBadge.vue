@@ -31,9 +31,9 @@ const geometryIcons: Record<string, string> = {
  * Check if value is a Geometry object
  */
 function isGeometry(value: unknown): boolean {
-  return value !== null
-    && typeof value === 'object'
-    && value.constructor?.name?.includes('Geometry')
+  return (
+    value !== null && typeof value === 'object' && value.constructor?.name?.includes('Geometry')
+  )
 }
 
 /**
@@ -70,10 +70,7 @@ function getValueClass(value: unknown): string {
     size="sm"
     class="flex items-center gap-1 ml-1"
   >
-    <UIcon
-      :name="getGeometryIcon(geometry)"
-      class="w-3 h-3 text-neutral-600"
-    />
+    <UIcon :name="getGeometryIcon(geometry)" class="w-3 h-3 text-neutral-600" />
     <span :class="getValueClass(geometry)">{{ displayValue }}</span>
   </UBadge>
 </template>

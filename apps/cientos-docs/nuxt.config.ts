@@ -6,8 +6,7 @@ import { templateCompilerOptions } from '@tresjs/core'
 let cientosPackageJsonPath = resolve(__dirname, 'node_modules/@tresjs/cientos/package.json')
 try {
   readFileSync(cientosPackageJsonPath, 'utf-8')
-}
-catch {
+} catch {
   // In development, use the monorepo path
   cientosPackageJsonPath = resolve(__dirname, '../../packages/cientos/package.json')
 }
@@ -63,9 +62,7 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      routes: [
-        '/',
-      ],
+      routes: ['/'],
       crawlLinks: true,
     },
   },
@@ -77,25 +74,23 @@ export default defineNuxtConfig({
   llms: {
     domain: 'https://cientos.tresjs.org/',
     title: 'TresJS Cientos',
-    description: 'Collection of useful helpers and fully functional, ready-made abstractions for TresJS.',
+    description:
+      'Collection of useful helpers and fully functional, ready-made abstractions for TresJS.',
     full: {
       title: 'Full Documentation',
-      description: 'Complete Cientos documentation including getting started guides and API reference for all components.',
+      description:
+        'Complete Cientos documentation including getting started guides and API reference for all components.',
     },
     sections: [
       {
         title: 'Getting Started',
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/getting-started%' },
-        ],
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/getting-started%' }],
       },
       {
         title: 'API Reference',
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/api%' },
-        ],
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/api%' }],
       },
     ],
   },

@@ -45,13 +45,14 @@ onUnmounted(() => intervalId && clearInterval(intervalId))
     <h1>Issue #717: v-if</h1>
     <h2>Setup</h2>
     <p>
-      In this scene, there is a Box with a <code>v-if</code>. Its <code>v-if</code> value is toggled on and off.
-      When visible, the box's 8 corners should appear at the centers of the red boxes.
+      In this scene, there is a Box with a <code>v-if</code>. Its <code>v-if</code> value is toggled
+      on and off. When visible, the box's 8 corners should appear at the centers of the red boxes.
     </p>
     <h2>Tests</h2>
     <Tests ref="testsRef" :tests="tests" />
     <h2>Issue</h2>
     <a href="https://github.com/Tresjs/tres/issues/706#issuecomment-2146244326">
-      Toggle v-if on a Tres component declared in a separate SFC makes it detach from its parent</a>
+      Toggle v-if on a Tres component declared in a separate SFC makes it detach from its parent</a
+    >
   </OverlayInfo>
 </template>

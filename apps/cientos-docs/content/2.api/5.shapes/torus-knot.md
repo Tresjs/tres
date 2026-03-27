@@ -4,8 +4,8 @@ description: Short-cut for a TorusKnotGeometry and a MeshBasicMaterial with a Me
 ---
 
 ::SceneControlsWrapper
-  ::ShapesTorusKnot
-  ::
+::ShapesTorusKnot
+::
 ::
 
 The `cientos` package provides a `<TorusKnot />` component that serves as a short-cut for a `TorusKnotGeometry`.

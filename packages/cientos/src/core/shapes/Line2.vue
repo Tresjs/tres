@@ -37,7 +37,10 @@ const props = withDefaults(defineProps<LineProps>(), {
 
 type PropsType = typeof props
 
-function getInterpolatedVertexColors(vertexColors: VertexColors | null, numPoints: number): Color[] {
+function getInterpolatedVertexColors(
+  vertexColors: VertexColors | null,
+  numPoints: number,
+): Color[] {
   if (!vertexColors || vertexColors.length === 0) {
     return Array.from({ length: numPoints }).fill(normalizeColor(props.color)) as Color[]
   }
@@ -50,7 +53,9 @@ function getInterpolatedVertexColors(vertexColors: VertexColors | null, numPoint
 
   const numSegments = numPoints - 1
   const mappedColors = vertexColors.map(normalizeColor)
-  if (closed) { mappedColors.push(mappedColors[0].clone()) }
+  if (closed) {
+    mappedColors.push(mappedColors[0].clone())
+  }
 
   const iColors: Color[] = [mappedColors[0]]
   const divisions = numSegments / (mappedColors.length - 1)
@@ -84,24 +89,29 @@ function updateLineMaterial(material: LineMaterial, props: PropsType) {
   material.needsUpdate = true
 }
 
-function updateLineGeometry(geometry: LineGeometry, points: Points, vertexColors: VertexColors | null) {
-  const pValues = points.map((p) => {
-    if (p instanceof Vector3) {
-      return [p.x, p.y, p.z]
-    }
-    else if (p instanceof Vector2) {
-      return [p.x, p.y, 0]
-    }
-    else if (Array.isArray(p) && p.length === 2) {
-      return [p[0], p[1], 0]
-    }
-    else {
-      return p
-    }
-  }).flat()
+function updateLineGeometry(
+  geometry: LineGeometry,
+  points: Points,
+  vertexColors: VertexColors | null,
+) {
+  const pValues = points
+    .map((p) => {
+      if (p instanceof Vector3) {
+        return [p.x, p.y, p.z]
+      } else if (p instanceof Vector2) {
+        return [p.x, p.y, 0]
+      } else if (Array.isArray(p) && p.length === 2) {
+        return [p[0], p[1], 0]
+      } else {
+        return p
+      }
+    })
+    .flat()
   geometry.setPositions(pValues.flat())
 
-  const colors = getInterpolatedVertexColors(vertexColors, points.length).map(c => c.toArray()).flat()
+  const colors = getInterpolatedVertexColors(vertexColors, points.length)
+    .map((c) => c.toArray())
+    .flat()
   geometry.setColors(colors)
 
   line.computeLineDistances()
@@ -111,28 +121,37 @@ updateLineMaterial(lineMaterial, props)
 updateLineGeometry(lineGeometry, props.points, props.vertexColors)
 line.computeLineDistances()
 
-watch(() => [
-  props.color,
-  props.lineWidth,
-  props.alphaToCoverage,
-  props.worldUnits,
-  hasVertexColors,
-  props.dashed,
-  props.dashScale,
-  props.dashSize,
-  props.dashOffset,
-], () => {
-  updateLineMaterial(lineMaterial, props)
-  invalidate()
-})
-watch(() => [props.points, props.vertexColors], () => {
-  updateLineGeometry(lineGeometry, props.points, props.vertexColors)
-  invalidate()
-})
-watch(() => [sizes.height, sizes.width], () => {
-  lineMaterial.resolution = new Vector2(sizes.width.value, sizes.height.value)
-  invalidate()
-})
+watch(
+  () => [
+    props.color,
+    props.lineWidth,
+    props.alphaToCoverage,
+    props.worldUnits,
+    hasVertexColors,
+    props.dashed,
+    props.dashScale,
+    props.dashSize,
+    props.dashOffset,
+  ],
+  () => {
+    updateLineMaterial(lineMaterial, props)
+    invalidate()
+  },
+)
+watch(
+  () => [props.points, props.vertexColors],
+  () => {
+    updateLineGeometry(lineGeometry, props.points, props.vertexColors)
+    invalidate()
+  },
+)
+watch(
+  () => [sizes.height, sizes.width],
+  () => {
+    lineMaterial.resolution = new Vector2(sizes.width.value, sizes.height.value)
+    invalidate()
+  },
+)
 
 onUnmounted(() => {
   lineGeometry.dispose()
@@ -144,8 +163,5 @@ defineExpose({ instance: lineRef })
 </script>
 
 <template>
-  <primitive
-    :ref="lineRef"
-    :object="line"
-  />
+  <primitive :ref="lineRef" :object="line" />
 </template>

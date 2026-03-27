@@ -12,11 +12,21 @@ const primitiveNumOnBeforeRenders = shallowRef(0)
 const primitiveNumOnAfterRenders = shallowRef(0)
 const materialNumOnBeforeCompiles = shallowRef(0)
 
-const meshOnBeforeRender = () => { meshNumOnBeforeRenders.value++ }
-const meshOnAfterRender = () => { meshNumOnAfterRenders.value++ }
-const primitiveOnBeforeRender = () => { primitiveNumOnBeforeRenders.value++ }
-const primitiveOnAfterRender = () => { primitiveNumOnAfterRenders.value++ }
-const materialOnBeforeCompile = () => { materialNumOnBeforeCompiles.value++ }
+const meshOnBeforeRender = () => {
+  meshNumOnBeforeRenders.value++
+}
+const meshOnAfterRender = () => {
+  meshNumOnAfterRenders.value++
+}
+const primitiveOnBeforeRender = () => {
+  primitiveNumOnBeforeRenders.value++
+}
+const primitiveOnAfterRender = () => {
+  primitiveNumOnAfterRenders.value++
+}
+const materialOnBeforeCompile = () => {
+  materialNumOnBeforeCompiles.value++
+}
 </script>
 
 <template>
@@ -44,9 +54,7 @@ const materialOnBeforeCompile = () => { materialNumOnBeforeCompiles.value++ }
       :on-after-render="meshOnAfterRender"
     >
       <TresBoxGeometry />
-      <TresMeshStandardMaterial
-        :on-before-compile="materialOnBeforeCompile"
-      />
+      <TresMeshStandardMaterial :on-before-compile="materialOnBeforeCompile" />
     </TresMesh>
     <primitive
       :object="obj"

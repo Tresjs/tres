@@ -4,8 +4,8 @@ description: Short-cut for a RingGeometry and a MeshBasicMaterial with a Mesh ob
 ---
 
 ::SceneControlsWrapper
-  ::ShapesRing
-  ::
+::ShapesRing
+::
 ::
 
 The `cientos` package provides a `<Ring />` component that serves as a short-cut for a `RingGeometry`.

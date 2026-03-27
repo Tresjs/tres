@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { MeshBasicMaterial } from 'three'
 
-
 const { nodes } = useGLTF('/models/nuxt-stones/nuxt-stones.glb')
 const stone = computed(() => nodes.value.Stone)
 const stoneCarved = computed(() => nodes.value.StoneCarved)
 const logo = computed(() => nodes.value.Logo)
 const orbs = computed(() => nodes.value.Orbs)
-const littleStones = computed(() => Object.values(nodes.value).filter(node => node.name.includes('Stone00')))
+const littleStones = computed(() =>
+  Object.values(nodes.value).filter((node) => node.name.includes('Stone00')),
+)
 
 const { state: stonesTexture } = useTexture('/models/nuxt-stones/RockBaked.png')
 const { state: littleStonesTexture } = useTexture('/models/nuxt-stones/LittleRocksBaked.png')
@@ -20,15 +21,19 @@ watch(littleStonesTexture, (texture) => {
   texture.flipY = false
 })
 
-const stoneBakedMaterial = computed(() => new MeshBasicMaterial({
-  map: stonesTexture.value
-}))
+const stoneBakedMaterial = computed(
+  () =>
+    new MeshBasicMaterial({
+      map: stonesTexture.value,
+    }),
+)
 
-const littleStonesBakedMaterial = computed(() => new MeshBasicMaterial({
-  map: littleStonesTexture.value
-}))
-
-
+const littleStonesBakedMaterial = computed(
+  () =>
+    new MeshBasicMaterial({
+      map: littleStonesTexture.value,
+    }),
+)
 
 watch([stone, stoneCarved, stoneBakedMaterial], ([stone, stoneCarved, texture]) => {
   if (stone) {
@@ -40,7 +45,7 @@ watch([stone, stoneCarved, stoneBakedMaterial], ([stone, stoneCarved, texture]) 
 })
 
 watch([littleStones, littleStonesBakedMaterial], ([littleStones, texture]) => {
-  littleStones.forEach(stone => {
+  littleStones.forEach((stone) => {
     stone.material = texture
   })
 })
@@ -48,7 +53,6 @@ watch([littleStones, littleStonesBakedMaterial], ([littleStones, texture]) => {
 watch(logo, (logo) => {
   logo.material.emissiveIntensity = 10
 })
-
 
 const { onBeforeRender } = useLoop()
 

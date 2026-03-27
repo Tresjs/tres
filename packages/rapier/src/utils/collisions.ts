@@ -1,15 +1,18 @@
 import type { ColliderHandle, World } from '@dimforge/rapier3d-compat'
 import type { Scene } from 'three'
 import type { Ref } from 'vue'
-import type { CollisionSource, CollisionType, RigidBodyUserData, SourceTarget, TresVNodeObject } from '../types'
+import type {
+  CollisionSource,
+  CollisionType,
+  RigidBodyUserData,
+  SourceTarget,
+  TresVNodeObject,
+} from '../types'
 
 export const getCollisionSourceFromColliderHandle = (world: World, handle: ColliderHandle) => {
   const collider = world.getCollider(handle)
   const rigidBodyHandle = collider?.parent()?.handle
-  const rigidBody
-  = rigidBodyHandle !== undefined
-    ? world.getRigidBody(rigidBodyHandle)
-    : undefined
+  const rigidBody = rigidBodyHandle !== undefined ? world.getRigidBody(rigidBodyHandle) : undefined
   const source: CollisionSource = {
     collider,
     rigidBody,
@@ -18,7 +21,10 @@ export const getCollisionSourceFromColliderHandle = (world: World, handle: Colli
   return source
 }
 
-export const getCollisionObjectFromSource = (source: CollisionSource, scene: Ref<Scene>): SourceTarget['objects'] => {
+export const getCollisionObjectFromSource = (
+  source: CollisionSource,
+  scene: Ref<Scene>,
+): SourceTarget['objects'] => {
   const rigidBody = source.rigidBody
   const collider = source.collider
 
@@ -33,11 +39,7 @@ export const getCollisionObjectFromSource = (source: CollisionSource, scene: Ref
   return [groupObject, currentObject]
 }
 
-export const collisionTrigger = (
-  source: SourceTarget,
-  target: SourceTarget,
-  started: boolean,
-) => {
+export const collisionTrigger = (source: SourceTarget, target: SourceTarget, started: boolean) => {
   const CollisionType: CollisionType = started ? 'enter' : 'exit'
   const [rigidBodyObject, colliderObject] = source.objects
 

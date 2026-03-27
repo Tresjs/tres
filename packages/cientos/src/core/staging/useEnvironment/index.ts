@@ -9,12 +9,7 @@ import {
 } from 'three'
 import { RGBELoader } from 'three-stdlib'
 import { computed, ref, toRefs, unref, watch } from 'vue'
-import type {
-  CubeTexture,
-  Scene,
-  Texture,
-  WebGLCubeRenderTarget,
-} from 'three'
+import type { CubeTexture, Scene, Texture, WebGLCubeRenderTarget } from 'three'
 import type { Ref } from 'vue'
 import { environmentPresets } from './const'
 import type { EnvironmentOptions } from './const'
@@ -111,7 +106,9 @@ export async function useEnvironment(
     return new Promise((resolve, reject) => {
       if (isCubeMap.value) {
         // Handle cube map
-        if (path) { cubeTextureLoader.setPath(path) }
+        if (path) {
+          cubeTextureLoader.setPath(path)
+        }
         cubeTextureLoader.load(
           files,
           (texture) => {
@@ -119,12 +116,13 @@ export async function useEnvironment(
             resolve(texture)
           },
           undefined,
-          error => reject(error),
+          (error) => reject(error),
         )
-      }
-      else {
+      } else {
         // Handle HDR/equirectangular
-        if (path) { rgbeLoader.setPath(path) }
+        if (path) {
+          rgbeLoader.setPath(path)
+        }
         rgbeLoader.load(
           files[0],
           (texture) => {
@@ -132,155 +130,192 @@ export async function useEnvironment(
             resolve(texture)
           },
           undefined,
-          error => reject(error),
+          (error) => reject(error),
         )
       }
     })
   }
 
   // Watch for texture loading
-  watch([files, path], async ([files, path]) => {
-    if (!files || files.length === 0 || preset?.value) { return }
-
-    try {
-      const loadedTexture = await loadTexture(
-        isCubeMap.value
-          ? [...(unref(files) as string[])]
-          : [unref(files) as string],
-        unref(path),
-      )
-      texture.value = loadedTexture
-    }
-    catch (error) {
-      throw new Error(`Failed to load environment map: ${error}`)
-    }
-  }, {
-    immediate: true,
-  })
-
-  // Watch for texture changes
-  watch(texture, (value) => {
-    if (scene.value && value) {
-      scene.value.environment = value
-    }
-  }, {
-    immediate: true,
-  })
-
-  // Watch for background changes
-  watch([background, texture], ([background, texture]) => {
-    if (scene.value) {
-      const bTexture = fbo?.value ? fbo.value.texture : texture
-      if (bTexture) {
-        scene.value.background = background ? bTexture as Texture : null
+  watch(
+    [files, path],
+    async ([files, path]) => {
+      if (!files || files.length === 0 || preset?.value) {
+        return
       }
-    }
-  }, {
-    immediate: true,
-  })
-
-  // Watch for blur changes
-  watch(() => blur?.value, (value) => {
-    if (scene.value && value) {
-      scene.value.backgroundBlurriness = value
-    }
-  }, {
-    immediate: true,
-  })
-
-  // Watch for intensity changes
-  watch(() => backgroundIntensity?.value, (value) => {
-    if (scene.value) {
-      scene.value.backgroundIntensity = value ?? 1
-    }
-  }, {
-    immediate: true,
-  })
-
-  watch(() => environmentIntensity?.value, (value) => {
-    if (scene.value) {
-      scene.value.environmentIntensity = value ?? 1
-    }
-  }, {
-    immediate: true,
-  })
-
-  // Watch for background rotation changes
-  watch(() => backgroundRotation?.value, (value) => {
-    if (scene.value) {
-      const euler = toEuler(value)
-      if (euler) {
-        scene.value.backgroundRotation = euler
-      }
-    }
-  }, {
-    immediate: true,
-  })
-
-  // Watch for environment rotation changes
-  watch(() => environmentRotation?.value, (value) => {
-    if (scene.value && !syncMaterials?.value) {
-      const euler = toEuler(value)
-      if (euler) {
-        scene.value.environmentRotation = euler
-        updateMaterials(scene.value)
-      }
-    }
-  }, {
-    immediate: true,
-  })
-
-  // Watch for preset changes
-  watch(() => preset?.value, async (value) => {
-    if (value && value in environmentPresets) {
-      const _path = PRESET_ROOT
-      const _files = environmentPresets[value as unknown as keyof typeof environmentPresets]
 
       try {
-        // Load preset using RGBELoader directly
-        rgbeLoader.setPath(_path)
-        const loadedTexture = await new Promise<Texture>((resolve, reject) => {
-          rgbeLoader.load(
-            _files,
-            (texture) => {
-              texture.mapping = EquirectangularReflectionMapping
-              resolve(texture)
-            },
-            undefined,
-            error => reject(error),
-          )
-        })
-
+        const loadedTexture = await loadTexture(
+          isCubeMap.value ? [...(unref(files) as string[])] : [unref(files) as string],
+          unref(path),
+        )
         texture.value = loadedTexture
-        invalidate()
-      }
-      catch (error) {
+      } catch (error) {
         throw new Error(`Failed to load environment map: ${error}`)
       }
-      if (texture.value) {
-        texture.value.mapping = EquirectangularReflectionMapping
+    },
+    {
+      immediate: true,
+    },
+  )
+
+  // Watch for texture changes
+  watch(
+    texture,
+    (value) => {
+      if (scene.value && value) {
+        scene.value.environment = value
       }
-      invalidate()
-    }
-    else if (value && !(value in environmentPresets)) {
-      throw new Error(`Preset must be one of: ${Object.keys(environmentPresets).join(', ')}`)
-    }
-  }, {
-    immediate: true,
-  })
+    },
+    {
+      immediate: true,
+    },
+  )
+
+  // Watch for background changes
+  watch(
+    [background, texture],
+    ([background, texture]) => {
+      if (scene.value) {
+        const bTexture = fbo?.value ? fbo.value.texture : texture
+        if (bTexture) {
+          scene.value.background = background ? (bTexture as Texture) : null
+        }
+      }
+    },
+    {
+      immediate: true,
+    },
+  )
+
+  // Watch for blur changes
+  watch(
+    () => blur?.value,
+    (value) => {
+      if (scene.value && value) {
+        scene.value.backgroundBlurriness = value
+      }
+    },
+    {
+      immediate: true,
+    },
+  )
+
+  // Watch for intensity changes
+  watch(
+    () => backgroundIntensity?.value,
+    (value) => {
+      if (scene.value) {
+        scene.value.backgroundIntensity = value ?? 1
+      }
+    },
+    {
+      immediate: true,
+    },
+  )
+
+  watch(
+    () => environmentIntensity?.value,
+    (value) => {
+      if (scene.value) {
+        scene.value.environmentIntensity = value ?? 1
+      }
+    },
+    {
+      immediate: true,
+    },
+  )
+
+  // Watch for background rotation changes
+  watch(
+    () => backgroundRotation?.value,
+    (value) => {
+      if (scene.value) {
+        const euler = toEuler(value)
+        if (euler) {
+          scene.value.backgroundRotation = euler
+        }
+      }
+    },
+    {
+      immediate: true,
+    },
+  )
+
+  // Watch for environment rotation changes
+  watch(
+    () => environmentRotation?.value,
+    (value) => {
+      if (scene.value && !syncMaterials?.value) {
+        const euler = toEuler(value)
+        if (euler) {
+          scene.value.environmentRotation = euler
+          updateMaterials(scene.value)
+        }
+      }
+    },
+    {
+      immediate: true,
+    },
+  )
+
+  // Watch for preset changes
+  watch(
+    () => preset?.value,
+    async (value) => {
+      if (value && value in environmentPresets) {
+        const _path = PRESET_ROOT
+        const _files = environmentPresets[value as unknown as keyof typeof environmentPresets]
+
+        try {
+          // Load preset using RGBELoader directly
+          rgbeLoader.setPath(_path)
+          const loadedTexture = await new Promise<Texture>((resolve, reject) => {
+            rgbeLoader.load(
+              _files,
+              (texture) => {
+                texture.mapping = EquirectangularReflectionMapping
+                resolve(texture)
+              },
+              undefined,
+              (error) => reject(error),
+            )
+          })
+
+          texture.value = loadedTexture
+          invalidate()
+        } catch (error) {
+          throw new Error(`Failed to load environment map: ${error}`)
+        }
+        if (texture.value) {
+          texture.value.mapping = EquirectangularReflectionMapping
+        }
+        invalidate()
+      } else if (value && !(value in environmentPresets)) {
+        throw new Error(`Preset must be one of: ${Object.keys(environmentPresets).join(', ')}`)
+      }
+    },
+    {
+      immediate: true,
+    },
+  )
 
   // Watch for sync materials changes
-  watch([syncMaterials, backgroundRotation], ([sync, bgRotation]) => {
-    if (sync && scene.value) {
-      const euler = toEuler(bgRotation)
-      if (euler) {
-        scene.value.environmentRotation = euler
-        updateMaterials(scene.value)
+  watch(
+    [syncMaterials, backgroundRotation],
+    ([sync, bgRotation]) => {
+      if (sync && scene.value) {
+        const euler = toEuler(bgRotation)
+        if (euler) {
+          scene.value.environmentRotation = euler
+          updateMaterials(scene.value)
+        }
       }
-    }
-  }, {
-    immediate: true,
-  })
+    },
+    {
+      immediate: true,
+    },
+  )
 
   return texture
 }

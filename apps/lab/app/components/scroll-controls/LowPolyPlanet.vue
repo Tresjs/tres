@@ -8,13 +8,11 @@ const props = defineProps<{
 
 const { progress } = toRefs(props)
 
-const { nodes } = await useGLTF(
-  '/models/low-poly-planet/low-poly-planet-v3.glb',
-)
+const { nodes } = await useGLTF('/models/low-poly-planet/low-poly-planet-v3.glb')
 
 const planet = nodes['Planet'] as TresObject3D
 const planetRef = shallowRef()
-const clouds = Object.values(nodes).filter(node => node.name.includes('Cloud'))
+const clouds = Object.values(nodes).filter((node) => node.name.includes('Cloud'))
 const cloudsRef = shallowRef()
 
 const { onLoop } = useRenderLoop()
@@ -36,17 +34,9 @@ onLoop(({ delta }) => {
 
 <template>
   <TresGroup :position="[-2, 2, 0]">
-    <primitive
-      ref="planetRef"
-      :object="planet"
-    />
+    <primitive ref="planetRef" :object="planet" />
     <TresGroup :rotation="[0, -progress, 0]">
-      <primitive
-        v-for="cloud in clouds"
-        :key="cloud.id"
-        ref="cloudsRef"
-        :object="cloud"
-      />
+      <primitive v-for="cloud in clouds" :key="cloud.id" ref="cloudsRef" :object="cloud" />
     </TresGroup>
   </TresGroup>
 </template>

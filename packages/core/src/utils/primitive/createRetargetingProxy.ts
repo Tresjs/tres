@@ -1,7 +1,13 @@
-export function createRetargetingProxy<T extends Record<string | number | symbol, any>, K extends keyof T & string & symbol>(
+export function createRetargetingProxy<
+  T extends Record<string | number | symbol, any>,
+  K extends keyof T & string & symbol,
+>(
   target: T,
   getters = {} as Record<string | number | symbol, (t: T) => unknown>,
-  setters = {} as Record<K, (val: T[K], t: T, proxy: T, setTarget: (newTarget: T) => void) => boolean>,
+  setters = {} as Record<
+    K,
+    (val: T[K], t: T, proxy: T, setTarget: (newTarget: T) => void) => boolean
+  >,
 ) {
   let _target = target
 
@@ -13,7 +19,7 @@ export function createRetargetingProxy<T extends Record<string | number | symbol
 
   const handler: ProxyHandler<any> = {
     has(_: any, key: string | number | symbol) {
-      return (key in getters) || (key in _target)
+      return key in getters || key in _target
     },
     get(_: any, prop: keyof T, __: any) {
       if (prop in getters) {
@@ -24,8 +30,7 @@ export function createRetargetingProxy<T extends Record<string | number | symbol
     set(_: any, prop: K, val: T[K]) {
       if (setters[prop]) {
         setters[prop](val, _target, proxy, setTarget)
-      }
-      else {
+      } else {
         _target[prop] = val
       }
       return true

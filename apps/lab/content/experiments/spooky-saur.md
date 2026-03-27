@@ -48,4 +48,3 @@ This experiment demonstrates atmospheric 3D rendering:
 - **Environmental Effects**: Fog and atmosphere creating depth and mystery
 
 This experiment showcases how 3D web technology can create themed content perfect for seasonal campaigns, character showcases, or interactive holiday experiences.
-

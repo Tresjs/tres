@@ -1,10 +1,4 @@
-import {
-  AdditiveBlending,
-  Color,
-  FrontSide,
-  ShaderMaterial,
-  Uniform,
-} from 'three'
+import { AdditiveBlending, Color, FrontSide, ShaderMaterial, Uniform } from 'three'
 import type { Blending, Side } from 'three'
 import { createTimer } from '@tresjs/core'
 import type { TresTimer } from '@tresjs/core'
@@ -48,8 +42,9 @@ class HolographicMaterial extends ShaderMaterial {
   constructor(parameters: HolographicMaterialParameters = {}) {
     super()
 
-    this.vertexShader /* GLSL */
-      = `
+    this.vertexShader =
+      /* GLSL */
+      `
       #define STANDARD
       varying vec3 vViewPosition;
       #ifdef USE_TRANSMISSION
@@ -109,8 +104,9 @@ class HolographicMaterial extends ShaderMaterial {
 
       }`
 
-    this.fragmentShader /* GLSL */
-      = ` 
+    this.fragmentShader =
+      /* GLSL */
+      ` 
       varying vec2 vUv;
       varying vec3 vPositionW;
       varying vec4 vPos;
@@ -191,30 +187,36 @@ class HolographicMaterial extends ShaderMaterial {
        * @type {Uniform<number>}
        * @default 1.0
        */
-      fresnelOpacity: new Uniform(parameters.fresnelOpacity !== undefined ? parameters.fresnelOpacity : 1),
+      fresnelOpacity: new Uniform(
+        parameters.fresnelOpacity !== undefined ? parameters.fresnelOpacity : 1,
+      ),
 
       /**
        * The strength of the fresnel effect.
        * @type {Uniform<number>}
        * @default 1.0
        */
-      fresnelAmount: new Uniform(parameters.fresnelAmount !== undefined ? parameters.fresnelAmount : 0.45),
+      fresnelAmount: new Uniform(
+        parameters.fresnelAmount !== undefined ? parameters.fresnelAmount : 0.45,
+      ),
 
       /**
        * The size of the scanline effect.
        * @type {Uniform<number>}
        * @default 1.0
        */
-      scanlineSize: new Uniform(parameters.scanlineSize !== undefined ? parameters.scanlineSize : 8),
+      scanlineSize: new Uniform(
+        parameters.scanlineSize !== undefined ? parameters.scanlineSize : 8,
+      ),
 
       /**
        * The brightness of the hologram.
        * @type {Uniform<number>}
        * @default 1.0
        */
-      hologramBrightness: new Uniform(parameters.hologramBrightness !== undefined
-        ? parameters.hologramBrightness
-        : 1),
+      hologramBrightness: new Uniform(
+        parameters.hologramBrightness !== undefined ? parameters.hologramBrightness : 1,
+      ),
 
       /**
        * The speed of the signal effect.
@@ -228,30 +230,38 @@ class HolographicMaterial extends ShaderMaterial {
        * @type {Uniform<Color>}
        * @default new Color(0xFFFFFF)
        */
-      hologramColor: new Uniform(parameters.hologramColor !== undefined
-        ? new Color(parameters.hologramColor)
-        : new Color('#00d5ff')),
+      hologramColor: new Uniform(
+        parameters.hologramColor !== undefined
+          ? new Color(parameters.hologramColor)
+          : new Color('#00d5ff'),
+      ),
 
       /**
        * Enable/disable blinking effect.
        * @type {Uniform<boolean>}
        * @default true
        */
-      enableBlinking: new Uniform(parameters.enableBlinking !== undefined ? parameters.enableBlinking : true),
+      enableBlinking: new Uniform(
+        parameters.enableBlinking !== undefined ? parameters.enableBlinking : true,
+      ),
 
       /**
        * Enable blinking only on the fresnel effect.
        * @type {Uniform<boolean>}
        * @default false
        */
-      blinkFresnelOnly: new Uniform(parameters.blinkFresnelOnly !== undefined ? parameters.blinkFresnelOnly : true),
+      blinkFresnelOnly: new Uniform(
+        parameters.blinkFresnelOnly !== undefined ? parameters.blinkFresnelOnly : true,
+      ),
 
       /**
        * The opacity of the hologram.
        * @type {Uniform<number>}
        * @default 1.0
        */
-      hologramOpacity: new Uniform(parameters.hologramOpacity !== undefined ? parameters.hologramOpacity : 1),
+      hologramOpacity: new Uniform(
+        parameters.hologramOpacity !== undefined ? parameters.hologramOpacity : 1,
+      ),
     }
 
     this.clock = createTimer()

@@ -60,7 +60,9 @@ let oldGeometry: BufferGeometry | null = null
 
 function updateMesh(group: Group) {
   const parent = group.parent as Mesh & SkinnedMesh & InstancedMesh
-  if (!parent || !parent.geometry) { return }
+  if (!parent || !parent.geometry) {
+    return
+  }
 
   if (oldAngle !== props.angle || oldGeometry !== parent.geometry) {
     oldAngle = props.angle
@@ -69,7 +71,9 @@ function updateMesh(group: Group) {
     // NOTE: Remove old mesh
     let mesh = group.children?.[0] as any
     if (mesh) {
-      if (props.angle) { mesh.geometry.dispose() }
+      if (props.angle) {
+        mesh.geometry.dispose()
+      }
       group.remove(mesh)
     }
 
@@ -78,13 +82,11 @@ function updateMesh(group: Group) {
       mesh.material = material
       mesh.bind(parent.skeleton, parent.bindMatrix)
       group.add(mesh)
-    }
-    else if (parent.isInstancedMesh) {
+    } else if (parent.isInstancedMesh) {
       mesh = new InstancedMesh(parent.geometry, material as Material, parent.count)
       mesh.instanceMatrix = parent.instanceMatrix
       group.add(mesh)
-    }
-    else {
+    } else {
       mesh = new Mesh()
       mesh.material = material
       group.add(mesh)
@@ -107,13 +109,34 @@ function updateMaterial() {
 }
 
 const sizes = useTres().sizes
-watch(() => [sizes.width.value, sizes.height.value], ([w, h]) => {
-  contextSize.set(w, h)
-})
-watch(() => [props.angle], () => {
-  if (groupRef.value) { updateMesh(groupRef.value) }
-})
-watch(() => [props.transparent, props.thickness, props.color, props.opacity, contextSize, props.screenspace, props.toneMapped, props.polygonOffset, props.polygonOffsetFactor], () => updateMaterial(), { immediate: true },
+watch(
+  () => [sizes.width.value, sizes.height.value],
+  ([w, h]) => {
+    contextSize.set(w, h)
+  },
+)
+watch(
+  () => [props.angle],
+  () => {
+    if (groupRef.value) {
+      updateMesh(groupRef.value)
+    }
+  },
+)
+watch(
+  () => [
+    props.transparent,
+    props.thickness,
+    props.color,
+    props.opacity,
+    contextSize,
+    props.screenspace,
+    props.toneMapped,
+    props.polygonOffset,
+    props.polygonOffsetFactor,
+  ],
+  () => updateMaterial(),
+  { immediate: true },
 )
 
 onMounted(() => updateMesh(groupRef.value))

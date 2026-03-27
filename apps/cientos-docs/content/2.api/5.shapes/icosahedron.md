@@ -4,8 +4,8 @@ description: Short-cut for a IcosahedronGeometry and a MeshBasicMaterial with a 
 ---
 
 ::SceneControlsWrapper
-  ::ShapesIcosahedron
-  ::
+::ShapesIcosahedron
+::
 ::
 
 The `cientos` package provides a `<Icosahedron />` component that serves as a short-cut for a `IcosahedronGeometry`.

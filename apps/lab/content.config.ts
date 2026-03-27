@@ -19,7 +19,7 @@ export default defineContentConfig({
       type: 'page',
       source: {
         include: 'experiments/**/*.md',
-        exclude: ['experiments/CLAUDE.md']
+        exclude: ['experiments/CLAUDE.md'],
       },
       schema: z.object({
         title: z.string(),

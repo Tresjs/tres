@@ -11,17 +11,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <TresPerspectiveCamera
-    :position="[5, 5, 5]"
-    :look-at="[0, 0, 0]"
-  />
+  <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
   <BlenderCube @ready="advance" />
 
   <TresGridHelper />
   <OrbitControls @change="advance" />
   <TresAmbientLight :intensity="1" />
-  <TresDirectionalLight
-    :position="[0, 8, 4]"
-    :intensity="0.7"
-  />
+  <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" />
 </template>

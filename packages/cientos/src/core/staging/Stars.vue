@@ -84,7 +84,8 @@ const props = withDefaults(defineProps<StarsProps>(), {
 const position = ref()
 const scale = ref()
 
-const { radius, depth, count, size, sizeAttenuation, transparent, alphaMap, alphaTest } = toRefs(props)
+const { radius, depth, count, size, sizeAttenuation, transparent, alphaMap, alphaTest } =
+  toRefs(props)
 
 const { invalidate } = useTres()
 
@@ -104,7 +105,9 @@ const setStars = () => {
 
   const generateStars = (circle: number): Array<number> => {
     const starArray = new Vector3()
-      .setFromSpherical(new Spherical(circle, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
+      .setFromSpherical(
+        new Spherical(circle, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI),
+      )
       .toArray()
     return starArray
   }
@@ -130,10 +133,7 @@ defineExpose({
 
 <template>
   <TresPoints ref="starsRef">
-    <TresBufferGeometry
-      :position="[position, 3]"
-      :a-scale="[scale, 1]"
-    />
+    <TresBufferGeometry :position="[position, 3]" :a-scale="[scale, 1]" />
     <TresPointsMaterial
       :size="size"
       :size-attenuation="sizeAttenuation"

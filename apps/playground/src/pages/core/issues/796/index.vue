@@ -12,10 +12,7 @@ const showCanvas = ref(true)
 </script>
 
 <template>
-  <input
-    v-model="showCanvas"
-    type="checkbox"
-  />
+  <input v-model="showCanvas" type="checkbox" />
   <TresCanvas v-if="showCanvas" v-bind="gl">
     <TheExperience />
   </TresCanvas>

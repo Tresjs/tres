@@ -24,13 +24,10 @@ watch(torusInstancedMesh, (mesh) => {
   if (mesh) {
     for (let i = 0; i < mesh.count; i++) {
       const x = (Math.random() - 0.5) * 5
-      const y = ((Math.random()) * 2) + 5
+      const y = Math.random() * 2 + 5
       const z = (Math.random() - 0.5) * 5
 
-      mesh.setMatrixAt(
-        i,
-        new Matrix4().makeTranslation(x, y, z),
-      )
+      mesh.setMatrixAt(i, new Matrix4().makeTranslation(x, y, z))
     }
     mesh.instanceMatrix.needsUpdate = true
   }

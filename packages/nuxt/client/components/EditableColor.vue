@@ -21,12 +21,7 @@ const finishEditing = () => {
 
 <template>
   <UPopover @blur="finishEditing">
-    <UButton
-      :label="editValue"
-      color="neutral"
-      size="xs"
-      variant="soft"
-    >
+    <UButton :label="editValue" color="neutral" size="xs" variant="soft">
       <template #leading>
         <span
           :style="{
@@ -38,11 +33,7 @@ const finishEditing = () => {
     </UButton>
 
     <template #content>
-      <UColorPicker
-        v-model="editValue"
-        class="p-2"
-        @update:model-value="finishEditing"
-      />
+      <UColorPicker v-model="editValue" class="p-2" @update:model-value="finishEditing" />
     </template>
   </UPopover>
 </template>

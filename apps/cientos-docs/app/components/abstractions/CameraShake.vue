@@ -15,17 +15,20 @@ const {
   yawFrequency,
   pitchFrequency,
   rollFrequency,
-} = useControls({
-  intensity: { value: 1, min: 0, max: 3, step: 0.01 },
-  decay: false,
-  decayRate: { value: 0.65, min: 0, max: 5, step: 0.01 },
-  maxYaw: { value: 0.01, min: 0, max: 0.5, step: 0.001 },
-  maxPitch: { value: 0.01, min: 0, max: 0.5, step: 0.001 },
-  maxRoll: { value: 0.01, min: 0, max: 0.5, step: 0.001 },
-  yawFrequency: { value: 0.1, min: 0, max: 5, step: 0.01 },
-  pitchFrequency: { value: 0.1, min: 0, max: 5, step: 0.01 },
-  rollFrequency: { value: 0.1, min: 0, max: 5, step: 0.01 },
-}, { uuid })
+} = useControls(
+  {
+    intensity: { value: 1, min: 0, max: 3, step: 0.01 },
+    decay: false,
+    decayRate: { value: 0.65, min: 0, max: 5, step: 0.01 },
+    maxYaw: { value: 0.01, min: 0, max: 0.5, step: 0.001 },
+    maxPitch: { value: 0.01, min: 0, max: 0.5, step: 0.001 },
+    maxRoll: { value: 0.01, min: 0, max: 0.5, step: 0.001 },
+    yawFrequency: { value: 0.1, min: 0, max: 5, step: 0.01 },
+    pitchFrequency: { value: 0.1, min: 0, max: 5, step: 0.01 },
+    rollFrequency: { value: 0.1, min: 0, max: 5, step: 0.01 },
+  },
+  { uuid },
+)
 </script>
 
 <template>

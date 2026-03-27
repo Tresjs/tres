@@ -16,8 +16,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const fontPath
-  = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
+const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
 
 const reactiveText = ref('You can edit me...')
 
@@ -32,18 +31,21 @@ const {
   bevelSegments,
   center,
   needUpdates,
-} = useControls({
-  size: { value: 0.3, min: 0.05, max: 2, step: 0.05 },
-  height: { value: 0.01, min: 0, max: 1, step: 0.01 },
-  curveSegments: { value: 12, min: 1, max: 64, step: 1 },
-  bevelEnabled: false,
-  bevelThickness: { value: 0.01, min: 0, max: 0.5, step: 0.01 },
-  bevelSize: { value: 0.01, min: 0, max: 0.5, step: 0.01 },
-  bevelOffset: { value: 0, min: 0, max: 0.5, step: 0.01 },
-  bevelSegments: { value: 3, min: 0, max: 16, step: 1 },
-  center: true,
-  needUpdates: true,
-}, { uuid })
+} = useControls(
+  {
+    size: { value: 0.3, min: 0.05, max: 2, step: 0.05 },
+    height: { value: 0.01, min: 0, max: 1, step: 0.01 },
+    curveSegments: { value: 12, min: 1, max: 64, step: 1 },
+    bevelEnabled: false,
+    bevelThickness: { value: 0.01, min: 0, max: 0.5, step: 0.01 },
+    bevelSize: { value: 0.01, min: 0, max: 0.5, step: 0.01 },
+    bevelOffset: { value: 0, min: 0, max: 0.5, step: 0.01 },
+    bevelSegments: { value: 3, min: 0, max: 16, step: 1 },
+    center: true,
+    needUpdates: true,
+  },
+  { uuid },
+)
 </script>
 
 <template>

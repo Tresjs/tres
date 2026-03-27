@@ -26,8 +26,5 @@ defineExpose({ instance: customShaderMaterialClass })
 </script>
 
 <template>
-  <TresCustomShaderMaterial
-    ref="customShaderMaterialClass"
-    :args="[props]"
-  />
+  <TresCustomShaderMaterial ref="customShaderMaterialClass" :args="[props]" />
 </template>

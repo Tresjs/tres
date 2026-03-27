@@ -1,10 +1,8 @@
 <script setup lang="ts">
-const props = defineProps<
-  {
-    href: string
-    target: '_blank' | '_parent' | '_self' | '_top' | (string & object) | null | undefined
-  }
->()
+const props = defineProps<{
+  href: string
+  target: '_blank' | '_parent' | '_self' | '_top' | (string & object) | null | undefined
+}>()
 
 const type = computed(() => {
   if (props.href.startsWith('https://github.com/')) {
@@ -15,11 +13,7 @@ const type = computed(() => {
 </script>
 
 <template>
-  <GithubMagicLink
-    v-if="type === 'github-at'"
-    :href="href"
-    target="_blank"
-  >
+  <GithubMagicLink v-if="type === 'github-at'" :href="href" target="_blank">
     <slot></slot>
   </GithubMagicLink>
   <NuxtLink

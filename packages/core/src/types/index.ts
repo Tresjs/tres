@@ -14,7 +14,9 @@ export type DisposeType = ((self: TresInstance) => void) | boolean | 'default' |
 
 export type ConstructorRepresentation = new (...args: any[]) => any
 
-export type NonFunctionKeys<P> = { [K in keyof P]-?: P[K] extends (...args: any[]) => any ? never : K }[keyof P]
+export type NonFunctionKeys<P> = {
+  [K in keyof P]-?: P[K] extends (...args: any[]) => any ? never : K
+}[keyof P]
 export type Overwrite<P, O> = Omit<P, NonFunctionKeys<O>> & O
 export type Properties<T> = Pick<T, NonFunctionKeys<T>>
 export type Mutable<P> = { [K in keyof P]: P[K] | Readonly<P[K]> }
@@ -75,8 +77,8 @@ export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
   material?: THREE.Material & TresBaseObject
 }
 
-export type TresObject =
-  TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
+export type TresObject = TresBaseObject &
+  (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
 
 /**
  * Union type covering all common Three.js material types
@@ -104,7 +106,7 @@ export type TresMaterial =
   | THREE.Material // Fallback for any other materials
 export type TresInstance = TresObject & { __tres: LocalState }
 
-export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: true }
+export type TresPrimitive = TresInstance & { object: TresInstance; isPrimitive: true }
 
 export interface TresScene extends THREE.Scene {
   __tres: {
@@ -129,8 +131,9 @@ export interface VectorCoordinates {
 
 export type MathType<T extends MathRepresentation | THREE.Euler> = T extends THREE.Color
   ? ConstructorParameters<typeof THREE.Color> | THREE.ColorRepresentation
-
-  : T extends VectorRepresentation | THREE.Layers | THREE.Euler ? T | Parameters<T['set']> | number | VectorCoordinates : T | Parameters<T['set']>
+  : T extends VectorRepresentation | THREE.Layers | THREE.Euler
+    ? T | Parameters<T['set']> | number | VectorCoordinates
+    : T | Parameters<T['set']>
 
 type VectorLike<VectorClass extends THREE.Vector2 | THREE.Vector3 | THREE.Vector4> =
   | VectorClass
@@ -147,9 +150,11 @@ export type TresLayers = THREE.Layers | Parameters<THREE.Layers['set']>[0]
 export type TresQuaternion = THREE.Quaternion | Parameters<THREE.Quaternion['set']>
 export type TresEuler = THREE.Euler
 export type TresControl = THREE.EventDispatcher & { enabled: boolean }
-export type TresContextWithClock = TresContext & { delta: number, elapsed: number }
+export type TresContextWithClock = TresContext & { delta: number; elapsed: number }
 
-export type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
+export type WithMathProps<P> = {
+  [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K]
+}
 
 interface RaycastableRepresentation {
   raycast: (raycaster: THREE.Raycaster, intersects: THREE.Intersection[]) => void

@@ -23,7 +23,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
     </TresMesh>
     <TresMesh receive-shadow :position="[0, -2, 0]" :rotation-x="-Math.PI / 2">
       <TresPlaneGeometry :args="[5, 5]" />
-      <TresMeshStandardMaterial :color="0xF7F7F7" />
+      <TresMeshStandardMaterial :color="0xf7f7f7" />
     </TresMesh>
     <TresDirectionalLight cast-shadow :position="[0, 10, 0]" />
   </TresCanvas>

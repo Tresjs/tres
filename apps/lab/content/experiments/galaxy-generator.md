@@ -37,7 +37,7 @@ Fully customizable galaxy characteristics:
 
 - **Particle Count**: 0 to 100,000 stars for performance vs. detail balance
 - **Galaxy Radius**: Size control from compact to sprawling formations
-- **Spiral Arms**: 2 to 10 arms for varied galactic structures  
+- **Spiral Arms**: 2 to 10 arms for varied galactic structures
 - **Spin Factor**: Rotation intensity affecting arm curvature
 - **Randomness**: Controlled chaos for natural, organic distributions
 - **Color Scheme**: Interior and exterior color customization
@@ -57,4 +57,3 @@ Fully customizable galaxy characteristics:
 - **Interactive Controls**: Live parameter adjustment with immediate visual feedback
 
 This experiment perfectly demonstrates how mathematical algorithms combined with modern GPU shaders can create breathtaking cosmic visualizations, making it an excellent learning tool for both particle systems and procedural generation techniques.
-

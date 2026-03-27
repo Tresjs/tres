@@ -3,7 +3,12 @@ import { normalizeVectorFlexibleParam, useLoop, useTres } from '@tresjs/core'
 import { DoubleSide } from 'three'
 import { onUnmounted, ref, shallowRef, watch } from 'vue'
 import type { TresVector2 } from '@tresjs/core'
-import { getAtlasFrames, getNullAtlasFrame, getTextureAndAtlasAsync, setAtlasDefinitions } from './Atlas'
+import {
+  getAtlasFrames,
+  getNullAtlasFrame,
+  getTextureAndAtlasAsync,
+  setAtlasDefinitions,
+} from './Atlas'
 import type { Atlasish } from './Atlas'
 
 export interface AnimatedSpriteProps {
@@ -18,14 +23,14 @@ export interface AnimatedSpriteProps {
    */
   atlas: string | Atlasish
   /**
-  * Specify playback frame order and repeated frames (delays). `definitions` is a record where keys are atlas animation names and values are strings containing an animation definition.
-  * A "animation definition" comma-separated string of frame numbers with optional parentheses-surrounded durations.
-  * Here is how various definition strings convert to arrays of frames for playback:
-  * "0,2,1" - [0,2,1], i.e., play frame 0, 2, then 1.
-  * "2(10)" - [2,2,2,2,2,2,2,2,2,2], i.e., play from 2 10 times.
-  * "1-4" - [1,2,3,4]
-  * "10-5(2)" - [10,10,9,9,8,8,7,7,6,6,5,5]
-  * "1-4(3),10(2)" - [1,1,1,2,2,2,3,3,3,4,4,4,10,10]
+   * Specify playback frame order and repeated frames (delays). `definitions` is a record where keys are atlas animation names and values are strings containing an animation definition.
+   * A "animation definition" comma-separated string of frame numbers with optional parentheses-surrounded durations.
+   * Here is how various definition strings convert to arrays of frames for playback:
+   * "0,2,1" - [0,2,1], i.e., play frame 0, 2, then 1.
+   * "2(10)" - [2,2,2,2,2,2,2,2,2,2], i.e., play from 2 10 times.
+   * "1-4" - [1,2,3,4]
+   * "10-5(2)" - [10,10,9,9,8,8,7,7,6,6,5,5]
+   * "1-4(3),10(2)" - [1,1,1,2,2,2,3,3,3,4,4,4,10,10]
    */
   definitions?: Record<string, string>
   /** Desired frames per second of the animation. */
@@ -114,10 +119,11 @@ useLoop().onBeforeRender(({ delta }) => {
     frameNum++
 
     if (props.loop) {
-      if (frameNum >= animation.length) { emit('loop', animation[animation.length - 1].name) }
+      if (frameNum >= animation.length) {
+        emit('loop', animation[animation.length - 1].name)
+      }
       frameNum %= animation.length
-    }
-    else {
+    } else {
       if (frameNum >= animation.length) {
         frameHeldOnLoopEnd = true
         frameNum = props.resetOnEnd ? 0 : animation.length - 1
@@ -158,56 +164,82 @@ function render() {
   dirtyFlag = true
 }
 
-watch(() => props.animation, (newValue, oldValue) => {
-  if (JSON.stringify(newValue) === JSON.stringify(oldValue)) {
-    return
-  }
-  animation = getAtlasFrames(atlas, props.animation, props.reversed)
-  frameNum = 0
-  cooldown = 1
-  frameHeldOnLoopEnd = false
-  render()
-}, { immediate: true })
-
-watch(() => props.reversed, () => {
-  frameNum = (animation.length - frameNum - 1) % animation.length
-  animation = getAtlasFrames(atlas, props.animation, props.reversed)
-  if (frameHeldOnLoopEnd) {
-    frameNum = props.resetOnEnd ? 0 : animation.length - 1
-  }
-  render()
-})
-
-watch(() => props.paused, () => {
-  frameHeldOnLoopEnd = false
-})
-
-watch(() => props.loop, () => {
-  if (frameHeldOnLoopEnd && props.loop) { frameHeldOnLoopEnd = false }
-})
-
-watch(() => props.resetOnEnd, () => {
-  if (frameHeldOnLoopEnd) {
-    frameNum = props.resetOnEnd ? 0 : animation.length - 1
+watch(
+  () => props.animation,
+  (newValue, oldValue) => {
+    if (JSON.stringify(newValue) === JSON.stringify(oldValue)) {
+      return
+    }
+    animation = getAtlasFrames(atlas, props.animation, props.reversed)
+    frameNum = 0
+    cooldown = 1
+    frameHeldOnLoopEnd = false
     render()
-  }
-})
+  },
+  { immediate: true },
+)
+
+watch(
+  () => props.reversed,
+  () => {
+    frameNum = (animation.length - frameNum - 1) % animation.length
+    animation = getAtlasFrames(atlas, props.animation, props.reversed)
+    if (frameHeldOnLoopEnd) {
+      frameNum = props.resetOnEnd ? 0 : animation.length - 1
+    }
+    render()
+  },
+)
+
+watch(
+  () => props.paused,
+  () => {
+    frameHeldOnLoopEnd = false
+  },
+)
+
+watch(
+  () => props.loop,
+  () => {
+    if (frameHeldOnLoopEnd && props.loop) {
+      frameHeldOnLoopEnd = false
+    }
+  },
+)
+
+watch(
+  () => props.resetOnEnd,
+  () => {
+    if (frameHeldOnLoopEnd) {
+      frameNum = props.resetOnEnd ? 0 : animation.length - 1
+      render()
+    }
+  },
+)
 
 watch(() => props.flipX, render)
 
-watch(() => [props.center], () => {
-  [centerX, centerY] = normalizeVectorFlexibleParam(props.center as number[])
-  render()
-}, { immediate: true })
+watch(
+  () => [props.center],
+  () => {
+    ;[centerX, centerY] = normalizeVectorFlexibleParam(props.center as number[])
+    render()
+  },
+  { immediate: true },
+)
 
-watch(() => [props.definitions], () => {
-  setAtlasDefinitions(atlas, props.definitions)
-  // NOTE: Must reset animation, as running animation might have changed.
-  animation = getAtlasFrames(atlas, props.animation, props.reversed)
-  cooldown = 1
-  frameNum = 0
-  render()
-}, { immediate: true })
+watch(
+  () => [props.definitions],
+  () => {
+    setAtlasDefinitions(atlas, props.definitions)
+    // NOTE: Must reset animation, as running animation might have changed.
+    animation = getAtlasFrames(atlas, props.animation, props.reversed)
+    cooldown = 1
+    frameNum = 0
+    render()
+  },
+  { immediate: true },
+)
 
 onUnmounted(() => {
   texture.dispose()
@@ -215,14 +247,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <TresGroup
-    ref="groupRef"
-  >
+  <TresGroup ref="groupRef">
     <template v-if="props.asSprite">
-      <TresSprite
-        :scale="[scaleX, scaleY, 1]"
-        :position="[positionX, positionY, 0]"
-      >
+      <TresSprite :scale="[scaleX, scaleY, 1]" :position="[positionX, positionY, 0]">
         <TresSpriteMaterial
           :toneMapped="false"
           :map="texture"
@@ -232,10 +259,7 @@ onUnmounted(() => {
       </TresSprite>
     </template>
     <template v-else>
-      <TresMesh
-        :scale="[scaleX, scaleY, 1]"
-        :position="[positionX, positionY, 0]"
-      >
+      <TresMesh :scale="[scaleX, scaleY, 1]" :position="[positionX, positionY, 0]">
         <TresPlaneGeometry :args="[1, 1]" />
         <TresMeshBasicMaterial
           :toneMapped="false"

@@ -4,8 +4,8 @@ description: A composable to load video textures in TresJS scenes.
 ---
 
 ::SceneWrapper
-  ::LoadersUseVideoTexture
-  ::
+::LoadersUseVideoTexture
+::
 ::
 
 A composable to easily use videos as textures in your meshes.
@@ -15,6 +15,7 @@ This composable is based on the Drei [useVideoTexture](https://github.com/pmndrs
 ## Usage
 
 ::code-group
+
 ```vue [app.vue]
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
@@ -24,10 +25,7 @@ import TheModel from './TheModel.vue'
 
 <template>
   <TresCanvas clear-color="#333">
-    <TresPerspectiveCamera
-      :position="[0, 5, 9]"
-      :look-at="[0, 1, 0]"
-    />
+    <TresPerspectiveCamera :position="[0, 5, 9]" :look-at="[0, 1, 0]" />
     <OrbitControls />
     <Suspense>
       <TheModel />
@@ -55,6 +53,7 @@ texture.value = await useVideoTexture(videoPath, { loop: false })
     </Sphere>
 </template>
 ```
+
 ::
 
 ## Props

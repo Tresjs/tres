@@ -2,8 +2,10 @@
 import { ContactShadows, Html, Levioso, OrbitControls, useGLTF } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 
-const { nodes }
-  = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf', { draco: true })
+const { nodes } = useGLTF(
+  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf',
+  { draco: true },
+)
 
 const laptop = computed(() => nodes.value.Macbook)
 </script>
@@ -30,11 +32,7 @@ const laptop = computed(() => nodes.value.Macbook)
         </Html>
       </primitive>
     </Levioso>
-    <ContactShadows
-      :blur="3.5"
-      :resolution="512"
-      :opacity="1"
-    />
+    <ContactShadows :blur="3.5" :resolution="512" :opacity="1" />
     <TresAmbientLight :intensity="1" />
     <TresDirectionalLight
       :intensity="2"

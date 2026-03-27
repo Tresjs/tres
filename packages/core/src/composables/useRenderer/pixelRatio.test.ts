@@ -4,7 +4,9 @@ describe('setPixelRatio', () => {
   const INITIAL_DPR = 1
   let dpr = INITIAL_DPR
   const mockRenderer = {
-    setPixelRatio: (n: number) => { dpr = n },
+    setPixelRatio: (n: number) => {
+      dpr = n
+    },
     getPixelRatio: () => dpr,
   }
   const setPixelRatioSpy = vi.spyOn(mockRenderer, 'setPixelRatio')
@@ -15,7 +17,7 @@ describe('setPixelRatio', () => {
   })
 
   describe('setPixelRatio(renderer: WebGLRenderer, systemDpr: number)', () => {
-    it('calls the renderer\'s setPixelRatio method with systemDpr', () => {
+    it("calls the renderer's setPixelRatio method with systemDpr", () => {
       expect(setPixelRatioSpy).not.toBeCalled()
       setPixelRatio(mockRenderer, 2)
       expect(setPixelRatioSpy).toBeCalledWith(2)
@@ -26,7 +28,7 @@ describe('setPixelRatio', () => {
       setPixelRatio(mockRenderer, 1.44444)
       expect(setPixelRatioSpy).toBeCalledWith(1.44444)
     })
-    it('does not set the renderer\'s pixelRatio if systemDpr === pixelRatio', () => {
+    it("does not set the renderer's pixelRatio if systemDpr === pixelRatio", () => {
       setPixelRatio(mockRenderer, 1)
       expect(setPixelRatioSpy).not.toBeCalled()
 
@@ -64,12 +66,12 @@ describe('setPixelRatio', () => {
   })
 
   describe('setPixelRatio(renderer: WebGLRenderer, systemDpr: number, userDpr: number)', () => {
-    it('calls the renderer\'s setPixelRatio method with userDpr', () => {
+    it("calls the renderer's setPixelRatio method with userDpr", () => {
       expect(setPixelRatioSpy).not.toBeCalled()
       setPixelRatio(mockRenderer, 2, 100)
       expect(setPixelRatioSpy).toBeCalledWith(100)
     })
-    it('does not call the renderer\'s setPixelRatio method if current dpr === new dpr', () => {
+    it("does not call the renderer's setPixelRatio method if current dpr === new dpr", () => {
       expect(setPixelRatioSpy).not.toBeCalled()
       setPixelRatio(mockRenderer, 2, 1)
       expect(setPixelRatioSpy).not.toBeCalledWith()

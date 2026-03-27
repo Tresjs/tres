@@ -10,13 +10,16 @@ const { state } = useGLTF('/feather.glb')
 
 const featherRef = shallowRef()
 
-const { speed, rotationFactor, floatFactor } = useControls({
-  speed: { value: 4, min: 0, max: 10, step: 0.1 },
-  rotationFactor: { value: 1, min: 0, max: 5, step: 0.1 },
-  floatFactor: { value: 1, min: 0, max: 5, step: 0.1 },
-}, { uuid })
+const { speed, rotationFactor, floatFactor } = useControls(
+  {
+    speed: { value: 4, min: 0, max: 10, step: 0.1 },
+    rotationFactor: { value: 1, min: 0, max: 5, step: 0.1 },
+    floatFactor: { value: 1, min: 0, max: 5, step: 0.1 },
+  },
+  { uuid },
+)
 
-watch((featherRef), (_feather) => {
+watch(featherRef, (_feather) => {
   if (_feather) {
     _feather.rotation.y = -Math.PI / 4
     _feather.updateMatrixWorld()
@@ -25,7 +28,7 @@ watch((featherRef), (_feather) => {
 </script>
 
 <template>
-  <TresCanvas :clear-color="0x82DBC5">
+  <TresCanvas :clear-color="0x82dbc5">
     <TresPerspectiveCamera :position="[0, 0, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <Levioso :speed="speed" :rotation-factor="rotationFactor" :float-factor="floatFactor">

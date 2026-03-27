@@ -4,8 +4,8 @@ description: Speed up raycasting with Bounding Volume Hierarchy (BVH) optimizati
 ---
 
 ::SceneControlsWrapper
-  ::DebugPerformanceUseBoundingVolumeHierarchy
-  ::
+::DebugPerformanceUseBoundingVolumeHierarchy
+::
 ::
 
 A composable that dramatically improves raycasting performance by building a Bounding Volume Hierarchy (BVH) for your meshes. This can speed up raycasting by **orders of magnitude**, especially for complex models with many triangles.
@@ -17,6 +17,7 @@ Built on top of [three-mesh-bvh](https://github.com/gkjohnson/three-mesh-bvh) by
 BVH (Bounding Volume Hierarchy) is a spatial data structure that organizes geometry into a tree of bounding boxes. Instead of testing every triangle during raycasting, the algorithm tests bounding boxes first and only checks triangles in boxes that intersect the ray. This reduces raycasting complexity from O(n) to O(log n).
 
 **Use cases:**
+
 - Interactive 3D applications with raycasting (mouse picking, selection)
 - Complex models with thousands of triangles
 - Scenes with multiple raycasting operations per frame
@@ -95,24 +96,24 @@ Options are divided into **reactive** (can change at runtime) and **static** (se
 
 ### Reactive Options
 
-| Option | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| **enabled** | `MaybeRefOrGetter<boolean>` | `true` | Enable/disable BVH optimization. Toggling rebuilds BVH structures. |
-| **debug** | `MaybeRefOrGetter<boolean>` | `false` | Show debug visualization of BVH bounding boxes. |
+| Option      | Type                        | Default | Description                                                        |
+| :---------- | :-------------------------- | :------ | :----------------------------------------------------------------- |
+| **enabled** | `MaybeRefOrGetter<boolean>` | `true`  | Enable/disable BVH optimization. Toggling rebuilds BVH structures. |
+| **debug**   | `MaybeRefOrGetter<boolean>` | `false` | Show debug visualization of BVH bounding boxes.                    |
 
 ### Static Options (BVH Construction)
 
 These options configure how the BVH is built. Changing them after creation has no effect - toggle `enabled` off/on to rebuild with new values.
 
-| Option | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| **firstHitOnly** | `boolean` | `false` | Use `raycastFirst` for better performance when only the first hit is needed. |
-| **splitStrategy** | `'CENTER' \| 'AVERAGE' \| 'SAH'` | `'SAH'` | BVH build strategy. See section below.   |
-| **maxDepth** | `number` | `40` | Maximum tree depth for the BVH structure. |
-| **maxLeafSize** | `number` | `10` | Target number of triangles per leaf node. |
-| **verbose** | `boolean` | `false` | Print construction warnings and progress to console. |
-| **setBoundingBox** | `boolean` | `true` | Automatically set geometry bounding box after BVH construction. |
-| **indirect** | `boolean` | `false` | If false, creates and rearranges index buffer for better performance. |
+| Option             | Type                             | Default | Description                                                                  |
+| :----------------- | :------------------------------- | :------ | :--------------------------------------------------------------------------- |
+| **firstHitOnly**   | `boolean`                        | `false` | Use `raycastFirst` for better performance when only the first hit is needed. |
+| **splitStrategy**  | `'CENTER' \| 'AVERAGE' \| 'SAH'` | `'SAH'` | BVH build strategy. See section below.                                       |
+| **maxDepth**       | `number`                         | `40`    | Maximum tree depth for the BVH structure.                                    |
+| **maxLeafSize**    | `number`                         | `10`    | Target number of triangles per leaf node.                                    |
+| **verbose**        | `boolean`                        | `false` | Print construction warnings and progress to console.                         |
+| **setBoundingBox** | `boolean`                        | `true`  | Automatically set geometry bounding box after BVH construction.              |
+| **indirect**       | `boolean`                        | `false` | If false, creates and rearranges index buffer for better performance.        |
 
 ### Split Strategies
 
@@ -127,15 +128,12 @@ These options configure how the BVH is built. Changing them after creation has n
 Adjust BVH construction parameters for your use case:
 
 ```ts
-useBVH(
-  target,
-  {
-    splitStrategy: 'SAH', // Best runtime performance
-    maxDepth: 30, // Shallower tree (faster build)
-    maxLeafSize: 5, // Smaller leaves (better culling)
-    verbose: true, // Debug construction
-  }
-)
+useBVH(target, {
+  splitStrategy: 'SAH', // Best runtime performance
+  maxDepth: 30, // Shallower tree (faster build)
+  maxLeafSize: 5, // Smaller leaves (better culling)
+  verbose: true, // Debug construction
+})
 ```
 
 ### First Hit Only Mode
@@ -143,12 +141,9 @@ useBVH(
 When you only need the closest intersection (e.g., mouse picking):
 
 ```ts
-useBVH(
-  target,
-  {
-    firstHitOnly: true, // Uses raycastFirst internally
-  }
-)
+useBVH(target, {
+  firstHitOnly: true, // Uses raycastFirst internally
+})
 ```
 
 This is significantly faster than computing all intersections when you only need one.
@@ -177,13 +172,10 @@ Perfect pairing with `useGLTF` for optimized model loading:
 import { useBVH, useGLTF } from '@tresjs/cientos'
 
 const { state: model } = useGLTF('/models/high-poly-model.glb', {
-  draco: true
+  draco: true,
 })
 
-useBVH(
-  () => model.value?.scene,
-  { splitStrategy: 'SAH' }
-)
+useBVH(() => model.value?.scene, { splitStrategy: 'SAH' })
 </script>
 ```
 

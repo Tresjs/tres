@@ -8,11 +8,7 @@ const COUNT = 100
 const positions = Array.from({ length: COUNT })
   .fill(0)
   .map((_, i) => {
-    return new Vector3(
-      Math.cos(i) * 1000,
-      Math.sin(i) * 1000,
-      8000 * ((2 * i) / COUNT - 1),
-    )
+    return new Vector3(Math.cos(i) * 1000, Math.sin(i) * 1000, 8000 * ((2 * i) / COUNT - 1))
   })
 
 const geometries = [

@@ -43,8 +43,7 @@ const materialProps = {
 }
 
 function onLoop() {
-  materialProps.uniforms.u_Time.value
-    += 0.01 * materialProps.uniforms.u_WobbleSpeed.value
+  materialProps.uniforms.u_Time.value += 0.01 * materialProps.uniforms.u_WobbleSpeed.value
 }
 </script>
 

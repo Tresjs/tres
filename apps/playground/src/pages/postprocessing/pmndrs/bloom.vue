@@ -20,66 +20,65 @@ const uuid = 'bloom-pmndrs'
 useControls('fpsgraph', { uuid })
 
 const materialRef = ref()
-const {
-  intensity,
-  blendFunction,
-  resolution,
-  kernelSize,
-  mipmapBlur,
-  threshold,
-  smoothing,
-} = useControls({
-  intensity: {
-    value: 4.0,
-    min: 0,
-    max: 10,
-    step: 0.1,
-  },
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key],
-    })),
-    value: BlendFunction.ADD,
-  },
-  resolution: {
-    value: 256,
-    min: 64,
-    max: 512,
-    step: 64,
-  },
-  kernelSize: {
-    options: Object.keys(KernelSize).map(key => ({
-      text: key,
-      value: KernelSize[key],
-    })),
-    value: KernelSize.VERY_SMALL,
-  },
-  mipmapBlur: true,
-  threshold: {
-    value: 0.2,
-    min: 0,
-    max: 1,
-    step: 0.01,
-  },
-  smoothing: {
-    value: 0.3,
-    min: 0,
-    max: 1,
-    step: 0.01,
-  },
-}, { uuid })
-
-onMounted(() => {
-  if (materialRef.value) {
-    const { value: emissiveIntensity } = useControls({
-      emissiveIntensity: {
-        value: 1,
+const { intensity, blendFunction, resolution, kernelSize, mipmapBlur, threshold, smoothing } =
+  useControls(
+    {
+      intensity: {
+        value: 4.0,
         min: 0,
         max: 10,
         step: 0.1,
       },
-    }, { uuid })
+      blendFunction: {
+        options: Object.keys(BlendFunction).map((key) => ({
+          text: key,
+          value: BlendFunction[key],
+        })),
+        value: BlendFunction.ADD,
+      },
+      resolution: {
+        value: 256,
+        min: 64,
+        max: 512,
+        step: 64,
+      },
+      kernelSize: {
+        options: Object.keys(KernelSize).map((key) => ({
+          text: key,
+          value: KernelSize[key],
+        })),
+        value: KernelSize.VERY_SMALL,
+      },
+      mipmapBlur: true,
+      threshold: {
+        value: 0.2,
+        min: 0,
+        max: 1,
+        step: 0.01,
+      },
+      smoothing: {
+        value: 0.3,
+        min: 0,
+        max: 1,
+        step: 0.01,
+      },
+    },
+    { uuid },
+  )
+
+onMounted(() => {
+  if (materialRef.value) {
+    const { value: emissiveIntensity } = useControls(
+      {
+        emissiveIntensity: {
+          value: 1,
+          min: 0,
+          max: 10,
+          step: 0.1,
+        },
+      },
+      { uuid },
+    )
 
     watch(emissiveIntensity, (newValue) => {
       materialRef.value.emissiveIntensity = newValue
@@ -90,13 +89,8 @@ onMounted(() => {
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <TresMesh>
       <TresSphereGeometry :args="[2, 32, 32]" />
@@ -121,10 +115,7 @@ onMounted(() => {
     </TresMesh>
     <TresGridHelper />
     <TresAmbientLight :intensity="0.5" />
-    <TresDirectionalLight
-      :position="[3, 3, 3]"
-      :intensity="2"
-    />
+    <TresDirectionalLight :position="[3, 3, 3]" :intensity="2" />
     <Suspense>
       <EffectComposerPmndrs :depth-buffer="true">
         <BloomPmndrs

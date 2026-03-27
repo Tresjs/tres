@@ -16,8 +16,15 @@ export class FishEyeEffect extends Effect {
    * @param {number} [options.scale] - Scale.
    *
    */
-  constructor({ blendFunction = BlendFunction.NORMAL, lensS = new Vector2(1.0, 1.0), lensF = new Vector2(0.0, 1.0), scale = 1.0 } = {}) {
-    super('FishEyeEffect', `
+  constructor({
+    blendFunction = BlendFunction.NORMAL,
+    lensS = new Vector2(1.0, 1.0),
+    lensF = new Vector2(0.0, 1.0),
+    scale = 1.0,
+  } = {}) {
+    super(
+      'FishEyeEffect',
+      `
       uniform vec2 lensS;
       uniform vec2 lensF;
       uniform float scale;
@@ -35,14 +42,16 @@ export class FishEyeEffect extends Effect {
       void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
           outputColor = vec4(inputColor.rgb, inputColor.a); // Preserves original alpha
       }
-      `, {
-      blendFunction,
-      uniforms: new Map<string, Uniform<number | Vector2>>([
-        ['lensS', new Uniform(lensS)],
-        ['lensF', new Uniform(lensF)],
-        ['scale', new Uniform(scale)],
-      ]),
-    })
+      `,
+      {
+        blendFunction,
+        uniforms: new Map<string, Uniform<number | Vector2>>([
+          ['lensS', new Uniform(lensS)],
+          ['lensF', new Uniform(lensF)],
+          ['scale', new Uniform(scale)],
+        ]),
+      },
+    )
   }
 
   /**

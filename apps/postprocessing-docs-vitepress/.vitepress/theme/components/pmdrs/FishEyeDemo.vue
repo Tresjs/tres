@@ -10,7 +10,6 @@ import { BackSide, NoToneMapping } from 'three'
 import { ref, watch } from 'vue'
 import { BlendFunction } from 'postprocessing'
 
-
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
@@ -69,35 +68,24 @@ watch(enabled, () => {
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[5, 5, 5]"
-      />
-      <OrbitControls :target="[0, .5, 0]" auto-rotate :maxPolarAngle="Math.PI / 2" />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[5, 5, 5]" />
+      <OrbitControls :target="[0, 0.5, 0]" auto-rotate :maxPolarAngle="Math.PI / 2" />
 
       <Suspense>
         <Environment preset="snow" />
       </Suspense>
 
-      <TresAmbientLight :intensity=".5" />
+      <TresAmbientLight :intensity="0.5" />
 
       <TresMesh :rotation-x="-Math.PI / 2">
         <TresPlaneGeometry :args="[15, 15]" />
-        <TresMeshPhysicalMaterial
-          :metalness=".5"
-          :roughness=".85"
-        />
+        <TresMeshPhysicalMaterial :metalness="0.5" :roughness="0.85" />
       </TresMesh>
 
       <TresMesh>
         <TresSphereGeometry :args="[7.5, 32, 32]" />
-        <TresMeshPhysicalMaterial
-          :metalness=".5"
-          :roughness=".25"
-          :side="BackSide"
-        />
+        <TresMeshPhysicalMaterial :metalness="0.5" :roughness="0.25" :side="BackSide" />
       </TresMesh>
 
       <RoundedBox
@@ -107,17 +95,10 @@ watch(enabled, () => {
         :position-y="1.05"
         :args="[2, 2, 2, 2, 0.25]"
       >
-        <TresMeshPhysicalMaterial
-          :metalness="0.5"
-          :roughness=".3"
-        />
+        <TresMeshPhysicalMaterial :metalness="0.5" :roughness="0.3" />
       </RoundedBox>
 
-      <Precipitation
-        :randomness="3"
-        :speed="1"
-        :count="2500"
-      />
+      <Precipitation :randomness="3" :speed="1" :count="2500" />
 
       <Suspense>
         <EffectComposerPmndrs>

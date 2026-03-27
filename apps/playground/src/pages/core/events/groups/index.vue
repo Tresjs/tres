@@ -24,10 +24,7 @@ const handlePointerMissed = (event: PointerEvent) => {
 <template>
   <TresCanvas clear-color="#202020" shadows @pointermissed="handlePointerMissed">
     <!-- Camera setup -->
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 
     <!-- Lights -->
@@ -35,7 +32,11 @@ const handlePointerMissed = (event: PointerEvent) => {
     <TresAmbientLight :intensity="0.5" />
 
     <!-- Group of geometric shapes -->
-    <TresGroup @click="handleClick" @pointerenter="handlePointerEnter" @pointerleave="handlePointerLeave">
+    <TresGroup
+      @click="handleClick"
+      @pointerenter="handlePointerEnter"
+      @pointerleave="handlePointerLeave"
+    >
       <!-- Box -->
       <TresMesh :position="[-2, 0, 0]">
         <TresBoxGeometry :args="[1, 1, 1]" />

@@ -4,7 +4,6 @@ import { EffectComposerPmndrs, ToneMappingPmndrs } from '@tresjs/post-processing
 import { ToneMappingMode } from 'postprocessing'
 import { ContactShadows } from '@tresjs/cientos'
 
-
 const gl = {
   alpha: true,
   shadows: false,
@@ -75,7 +74,7 @@ const { roughness, iterations, depth, smoothing, displacement, metalness, speed 
 
 const { toneMappingMode, toneMappingExposure } = useControls('toneMapping', {
   mode: {
-    options: Object.keys(ToneMappingMode).map(key => ({
+    options: Object.keys(ToneMappingMode).map((key) => ({
       text: key,
       value: ToneMappingMode[key as keyof typeof ToneMappingMode],
     })),
@@ -109,10 +108,13 @@ const colors: [number, number, number][] = [
 
 const currentColor = computed(() => colors[indexColor.value])
 
-const backgroundGradient = computed(() => `radial-gradient(hsl(${currentColor.value[0]}, ${currentColor.value[1] * 0.7}%, ${currentColor.value[2]}%), hsl(${currentColor.value[0]},${currentColor.value[1] * 0.4}%, ${currentColor.value[2] * 0.2}%))`)
+const backgroundGradient = computed(
+  () =>
+    `radial-gradient(hsl(${currentColor.value[0]}, ${currentColor.value[1] * 0.7}%, ${currentColor.value[2]}%), hsl(${currentColor.value[0]},${currentColor.value[1] * 0.4}%, ${currentColor.value[2] * 0.2}%))`,
+)
 
 onMounted(() => {
-  ctx = gsap.context(() => { }, mainRef.value)
+  ctx = gsap.context(() => {}, mainRef.value)
 
   animateColorTransition(true)
 })
@@ -134,8 +136,7 @@ const animateColorTransition = (immediate = false) => {
         background: `${backgroundGradient.value}`,
       })
     })
-  }
-  else {
+  } else {
     ctx.add(() => {
       marbleRef.value?.animateSphereColor()
 
@@ -143,7 +144,7 @@ const animateColorTransition = (immediate = false) => {
         background: `${backgroundGradient.value}`,
         duration: 1.2,
         ease: 'power2.out',
-        overwrite: 'auto'
+        overwrite: 'auto',
       })
     })
   }
@@ -160,12 +161,13 @@ const contactShadowColor = computed(() => {
 
   <div ref="mainRef" class="magical-marbles">
     <div class="magical-marbles__infos">
-      <NuxtLink to="/">
-        See more experiments and examples
-      </NuxtLink>
+      <NuxtLink to="/"> See more experiments and examples </NuxtLink>
       <p>
         Magical Marbles inspired by the
-        <a target="_blank" href="https://tympanus.net/codrops/2021/08/02/magical-marbles-in-three-js/">
+        <a
+          target="_blank"
+          href="https://tympanus.net/codrops/2021/08/02/magical-marbles-in-three-js/"
+        >
           Codrops tutorial
         </a>
       </p>
@@ -175,14 +177,25 @@ const contactShadowColor = computed(() => {
   </div>
 
   <TresCanvas window-size v-bind="gl" :toneMappingExposure="toneMappingExposure">
-    <TresPerspectiveCamera :position="[0, 0, 3.5]" :fov="45" :near=".1" :far="1000" />
+    <TresPerspectiveCamera :position="[0, 0, 3.5]" :fov="45" :near="0.1" :far="1000" />
 
     <OrbitControls auto-rotate :enable-rotate="false" :enable-pan="false" make-default />
 
-    <MagicalMarblesMarble ref="marbleRef" :colors="colors" :params="marbleParams" :indexColor="indexColor"
-      @sphere-click="handleSphereClick" />
+    <MagicalMarblesMarble
+      ref="marbleRef"
+      :colors="colors"
+      :params="marbleParams"
+      :indexColor="indexColor"
+      @sphere-click="handleSphereClick"
+    />
 
-    <ContactShadows :position-y="-1.1" :color="contactShadowColor" :blur="0.85" :scale="5" :opacity="0.35" />
+    <ContactShadows
+      :position-y="-1.1"
+      :color="contactShadowColor"
+      :blur="0.85"
+      :scale="5"
+      :opacity="0.35"
+    />
     <Suspense>
       <Environment preset="urban" :environmentIntensity="0.85" />
     </Suspense>
@@ -224,7 +237,7 @@ const contactShadowColor = computed(() => {
 }
 
 .magical-marbles__infos p {
-  color: #FFF;
+  color: #fff;
 }
 
 .magical-marbles__infos a {

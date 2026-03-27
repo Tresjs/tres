@@ -13,6 +13,7 @@ The core package implements a Vue custom renderer that translates Vue components
 ## Component Pattern
 
 Three.js objects are used as Vue components via a naming convention:
+
 - Three.js class names prefixed with `Tres` (e.g., `<TresMesh>`, `<TresBoxGeometry>`)
 - Props map to Three.js constructor args and object properties
 - Special `<primitive>` component for existing Three.js object instances
@@ -20,9 +21,10 @@ Three.js objects are used as Vue components via a naming convention:
 ## Template Compilation
 
 When using @tresjs/core, Vue template compiler needs custom element configuration:
+
 ```js
 compilerOptions: {
-  isCustomElement: tag => tag.startsWith('Tres') && tag !== 'TresCanvas'
+  isCustomElement: (tag) => tag.startsWith('Tres') && tag !== 'TresCanvas'
 }
 ```
 

@@ -16,20 +16,14 @@ export function expand(definitionStr: string): number[] {
   for (const { startFrame, endFrame, duration } of parsed) {
     if (duration <= 0) {
       continue
-    }
-    else if (endFrame < 0 || startFrame === endFrame) {
+    } else if (endFrame < 0 || startFrame === endFrame) {
       for (let _ = 0; _ < duration; _++) {
         result.push(startFrame)
       }
       continue
-    }
-    else {
+    } else {
       const sign = Math.sign(endFrame - startFrame)
-      for (
-        let frame = startFrame;
-        frame !== endFrame + sign;
-        frame += sign
-      ) {
+      for (let frame = startFrame; frame !== endFrame + sign; frame += sign) {
         for (let _ = 0; _ < duration; _++) {
           result.push(frame)
         }
@@ -67,92 +61,51 @@ function parse(definitionStr: string): AnimationDefinition[] {
           duration: 1,
         })
         transition = 'START_FRAME_OUT'
+      } else {
+        logDefinitionSyntaxError('number', name, definitionStr, startI)
       }
-      else {
-        logDefinitionSyntaxError(
-          'number',
-          name,
-          definitionStr,
-          startI,
-        )
-      }
-    }
-    else if (transition === 'START_FRAME_OUT') {
+    } else if (transition === 'START_FRAME_OUT') {
       if (name === 'COMMA') {
         transition = 'START_FRAME_IN'
-      }
-      else if (name === 'HYPHEN') {
+      } else if (name === 'HYPHEN') {
         transition = 'END_FRAME_IN'
-      }
-      else if (name === 'OPEN_PAREN') {
+      } else if (name === 'OPEN_PAREN') {
         transition = 'DURATION_IN'
+      } else {
+        logDefinitionSyntaxError('",", "-", "("', name, definitionStr, startI)
       }
-      else {
-        logDefinitionSyntaxError(
-          '",", "-", "("',
-          name,
-          definitionStr,
-          startI,
-        )
-      }
-    }
-    else if (transition === 'END_FRAME_IN') {
+    } else if (transition === 'END_FRAME_IN') {
       if (name === 'NUMBER') {
         result[result.length - 1].endFrame = value
         transition = 'END_FRAME_OUT'
+      } else {
+        logDefinitionSyntaxError('number', name, definitionStr, startI)
       }
-      else {
-        logDefinitionSyntaxError(
-          'number',
-          name,
-          definitionStr,
-          startI,
-        )
-      }
-    }
-    else if (transition === 'END_FRAME_OUT') {
+    } else if (transition === 'END_FRAME_OUT') {
       if (name === 'COMMA') {
         transition = 'START_FRAME_IN'
-      }
-      else if (name === 'OPEN_PAREN') {
+      } else if (name === 'OPEN_PAREN') {
         transition = 'DURATION_IN'
+      } else {
+        logDefinitionSyntaxError("',' or '('", name, definitionStr, startI)
       }
-      else {
-        logDefinitionSyntaxError(
-          '\',\' or \'(\'',
-          name,
-          definitionStr,
-          startI,
-        )
-      }
-    }
-    else if (transition === 'DURATION_IN') {
+    } else if (transition === 'DURATION_IN') {
       if (name === 'NUMBER') {
         result[result.length - 1].duration = value
         transition = 'DURATION_OUT'
+      } else {
+        logDefinitionSyntaxError('number', name, definitionStr, startI)
       }
-      else {
-        logDefinitionSyntaxError(
-          'number',
-          name,
-          definitionStr,
-          startI,
-        )
-      }
-    }
-    else if (transition === 'DURATION_OUT') {
+    } else if (transition === 'DURATION_OUT') {
       if (name === 'CLOSE_PAREN') {
         transition = 'NEXT_OR_DONE'
-      }
-      else {
+      } else {
         logDefinitionSyntaxError('"("', name, definitionStr, startI)
       }
-    }
-    else if (transition === 'NEXT_OR_DONE') {
+    } else if (transition === 'NEXT_OR_DONE') {
       if (name === 'COMMA') {
         transition = 'START_FRAME_IN'
-      }
-      else {
+      } else {
         logDefinitionSyntaxError('","', name, definitionStr, startI)
       }
     }
@@ -182,33 +135,23 @@ function tokenize(definition: string): Token[] {
   for (let ii = 0; ii < definition.length; ii++) {
     const c = definition[ii]
     if ('0123456789'.includes(c)) {
-      if (
-        result.length
-        && result[result.length - 1].name === 'NUMBER'
-      ) {
+      if (result.length && result[result.length - 1].name === 'NUMBER') {
         result[result.length - 1].value *= 10
         result[result.length - 1].value += Number.parseInt(c)
-      }
-      else {
+      } else {
         result.push({ name: 'NUMBER', value: Number.parseInt(c), startI: ii })
       }
-    }
-    else if (c === ' ') {
+    } else if (c === ' ') {
       continue
-    }
-    else if (c === ',') {
+    } else if (c === ',') {
       result.push({ name: 'COMMA', value: -1, startI: ii })
-    }
-    else if (c === '(') {
+    } else if (c === '(') {
       result.push({ name: 'OPEN_PAREN', value: -1, startI: ii })
-    }
-    else if (c === ')') {
+    } else if (c === ')') {
       result.push({ name: 'CLOSE_PAREN', value: -1, startI: ii })
-    }
-    else if (c === '-') {
+    } else if (c === '-') {
       result.push({ name: 'HYPHEN', value: -1, startI: ii })
-    }
-    else {
+    } else {
       logDefinitionBadCharacter('0123456789,-()', c, definition, ii)
     }
   }
@@ -223,8 +166,8 @@ function logDefinitionBadCharacter(
   index: number,
 ) {
   logError(
-    'Cientos AnimationDefinitionParser: '
-    + `Unexpected character while processing animation definition: expected ${expected}, got ${found}.
+    'Cientos AnimationDefinitionParser: ' +
+      `Unexpected character while processing animation definition: expected ${expected}, got ${found}.
 ${definition}
 ${Array.from({ length: index + 1 }).join(' ')}^`,
   )
@@ -237,8 +180,8 @@ function logDefinitionSyntaxError(
   index: number,
 ) {
   logError(
-    'Cientos AnimationDefinitionParser: '
-    + `Syntax error while processing animation definition: expected ${expected}, got ${found}.
+    'Cientos AnimationDefinitionParser: ' +
+      `Syntax error while processing animation definition: expected ${expected}, got ${found}.
 ${definition}
 ${Array.from({ length: index + 1 }).join(' ')}^`,
   )

@@ -5,12 +5,15 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'leches-controls-text'
 
-const { text } = useControls({
-  text: {
-    value: 'TresJS',
-    label: 'Text',
+const { text } = useControls(
+  {
+    text: {
+      value: 'TresJS',
+      label: 'Text',
+    },
   },
-}, { uuid })
+  { uuid },
+)
 
 const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/FiraCodeRegular.json'
 </script>
@@ -20,14 +23,7 @@ const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/Fir
   <TresCanvas clear-color="#82DBC5">
     <TresPerspectiveCamera :position="[4, 4, 4]" />
     <Suspense>
-      <Text3D
-        :text="text"
-        :size="0.5"
-        :font="fontPath"
-        :height="0.2"
-        bevel-enabled
-        center
-      >
+      <Text3D :text="text" :size="0.5" :font="fontPath" :height="0.2" bevel-enabled center>
         <TresMeshStandardMaterial :metalness="0.8" :roughness="0.2" />
       </Text3D>
     </Suspense>

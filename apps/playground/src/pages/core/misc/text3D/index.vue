@@ -16,10 +16,13 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { isVisible, text } = useControls({
-  isVisible: true,
-  text: 'TresJS',
-}, { uuid })
+const { isVisible, text } = useControls(
+  {
+    isVisible: true,
+    text: 'TresJS',
+  },
+  { uuid },
+)
 </script>
 
 <template>

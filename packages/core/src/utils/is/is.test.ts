@@ -1,6 +1,28 @@
 import type { Camera, Light, Material, Object3D } from 'three'
-import { AmbientLight, BufferGeometry, DirectionalLight, Fog, Group, Mesh, MeshBasicMaterial, MeshNormalMaterial, OrthographicCamera, PerspectiveCamera, PointLight, Scene } from 'three'
-import { isBufferGeometry, isCamera, isFog, isLight, isMaterial, isObject3D, isScene, isTresObject } from '../is/index'
+import {
+  AmbientLight,
+  BufferGeometry,
+  DirectionalLight,
+  Fog,
+  Group,
+  Mesh,
+  MeshBasicMaterial,
+  MeshNormalMaterial,
+  OrthographicCamera,
+  PerspectiveCamera,
+  PointLight,
+  Scene,
+} from 'three'
+import {
+  isBufferGeometry,
+  isCamera,
+  isFog,
+  isLight,
+  isMaterial,
+  isObject3D,
+  isScene,
+  isTresObject,
+} from '../is/index'
 
 // TODO move file
 const NUMBERS: Record<string, number> = {
@@ -13,7 +35,7 @@ const NUMBERS: Record<string, number> = {
   '+inf': Number.POSITIVE_INFINITY,
   '0b1111': 0b1111,
   '0o17': 0o17,
-  '0xF': 0xF,
+  '0xF': 0xf,
 }
 
 const BOOLEANS: Record<string, boolean> = {
@@ -88,21 +110,54 @@ const BUFFER_GEOMETRIES: Record<string, BufferGeometry> = {
   bufferGeometry: new BufferGeometry(),
 }
 
-const OBJECTS = Object.assign({}, { '{}': {}, '{ a: "a" }': { a: 'a' } }, FOGS, MATERIALS, OBJECT3DS, BUFFER_GEOMETRIES)
+const OBJECTS = Object.assign(
+  {},
+  { '{}': {}, '{ a: "a" }': { a: 'a' } },
+  FOGS,
+  MATERIALS,
+  OBJECT3DS,
+  BUFFER_GEOMETRIES,
+)
 
 const TRES_OBJECTS = Object.assign({}, MATERIALS, OBJECT3DS, BUFFER_GEOMETRIES, FOGS)
 
-const ALL = Object.assign({}, NUMBERS, BOOLEANS, STRINGS, NULL, UNDEFINED, ARRAYS, FUNCTIONS, OBJECTS)
+const ALL = Object.assign(
+  {},
+  NUMBERS,
+  BOOLEANS,
+  STRINGS,
+  NULL,
+  UNDEFINED,
+  ARRAYS,
+  FUNCTIONS,
+  OBJECTS,
+)
 
 describe('is', () => {
-  describe('isObject3D(a: any)', () => { test(isObject3D, OBJECT3DS) })
-  describe('isCamera(a: any)', () => { test(isCamera, CAMERAS) })
-  describe('isBufferGeometry(a: any)', () => { test(isBufferGeometry, BUFFER_GEOMETRIES) })
-  describe('isMaterial(a: any)', () => { test(isMaterial, MATERIALS) })
-  describe('isLight(a: any)', () => { test(isLight, LIGHTS) })
-  describe('isFog(a: any)', () => { test(isFog, FOGS) })
-  describe('isScene(a: any)', () => { test(isScene, SCENES) })
-  describe('isTresObject(a: any)', () => { test(isTresObject, TRES_OBJECTS) })
+  describe('isObject3D(a: any)', () => {
+    test(isObject3D, OBJECT3DS)
+  })
+  describe('isCamera(a: any)', () => {
+    test(isCamera, CAMERAS)
+  })
+  describe('isBufferGeometry(a: any)', () => {
+    test(isBufferGeometry, BUFFER_GEOMETRIES)
+  })
+  describe('isMaterial(a: any)', () => {
+    test(isMaterial, MATERIALS)
+  })
+  describe('isLight(a: any)', () => {
+    test(isLight, LIGHTS)
+  })
+  describe('isFog(a: any)', () => {
+    test(isFog, FOGS)
+  })
+  describe('isScene(a: any)', () => {
+    test(isScene, SCENES)
+  })
+  describe('isTresObject(a: any)', () => {
+    test(isTresObject, TRES_OBJECTS)
+  })
 })
 
 /**

@@ -4,8 +4,8 @@ description: Short-cut for a BoxGeometry and a MeshBasicMaterial with a Mesh obj
 ---
 
 ::SceneControlsWrapper
-  ::ShapesBox
-  ::
+::ShapesBox
+::
 ::
 
 The `cientos` package provides a `<Box />` component that serves as a short-cut for a `BoxGeometry`.

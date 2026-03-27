@@ -10,25 +10,23 @@ const isDark = computed({
     colorMode.preference = _isDark ? 'dark' : 'light'
   },
 })
-const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('docs'))
+const { data: navigation } = await useAsyncData('navigation', () =>
+  queryCollectionNavigation('docs'),
+)
 const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSections('docs'), {
   server: false,
 })
 
 useHead({
-  meta: [
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-  ],
-  link: [
-    { rel: 'icon', href: isDark.value ? '/favicon-dark.svg' : '/favicon.svg' },
-  ],
+  meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
+  link: [{ rel: 'icon', href: isDark.value ? '/favicon-dark.svg' : '/favicon.svg' }],
   htmlAttrs: {
     lang: 'en',
   },
 })
 
 useSeoMeta({
-  titleTemplate: title => title ? `${title} · Docs Boilerplate` : 'Docs Boilerplate',
+  titleTemplate: (title) => (title ? `${title} · Docs Boilerplate` : 'Docs Boilerplate'),
   ogSiteName: seo?.siteName,
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
@@ -56,10 +54,7 @@ provide(navigationInjectionKey, navigation)
     <AppFooter />
 
     <ClientOnly>
-      <LazyUContentSearch
-        :files="files"
-        :navigation="navigation"
-      />
+      <LazyUContentSearch :files="files" :navigation="navigation" />
     </ClientOnly>
   </UApp>
 </template>

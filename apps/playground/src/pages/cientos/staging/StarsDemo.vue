@@ -26,33 +26,36 @@ const {
   count,
   size,
   'size attenuation': sizeAttenuation,
-} = useControls({
-  'radius': {
-    value: options.radius,
-    step: 5,
-    min: 0,
-    max: 300,
+} = useControls(
+  {
+    radius: {
+      value: options.radius,
+      step: 5,
+      min: 0,
+      max: 300,
+    },
+    depth: {
+      value: options.depth,
+      step: 1,
+      min: 0,
+      max: 50,
+    },
+    count: {
+      value: options.count,
+      step: 100,
+      min: 1000,
+      max: 15000,
+    },
+    size: {
+      value: options.size,
+      step: 0.1,
+      min: 0,
+      max: 50,
+    },
+    'size attenuation': options.sizeAttenuation,
   },
-  'depth': {
-    value: options.depth,
-    step: 1,
-    min: 0,
-    max: 50,
-  },
-  'count': {
-    value: options.count,
-    step: 100,
-    min: 1000,
-    max: 15000,
-  },
-  'size': {
-    value: options.size,
-    step: 0.1,
-    min: 0,
-    max: 50,
-  },
-  'size attenuation': options.sizeAttenuation,
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>

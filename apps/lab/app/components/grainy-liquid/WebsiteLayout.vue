@@ -17,10 +17,12 @@
           <div class="w-12 h-12 flex items-center justify-center">
             <div class="w-8 h-8 rounded-full border-2 border-gray-800 relative">
               <div class="absolute inset-1 rounded-full border border-gray-800" />
-              <div class="absolute top-1/2 left-1/2 w-1 h-1 bg-gray-800 rounded-full transform -translate-x-1/2 -translate-y-1/2" />
+              <div
+                class="absolute top-1/2 left-1/2 w-1 h-1 bg-gray-800 rounded-full transform -translate-x-1/2 -translate-y-1/2"
+              />
             </div>
           </div>
-          
+
           <!-- Nav Text -->
           <div class="text-right text-sm text-gray-700 max-w-xs">
             Perfect for your next web, social or branding project
@@ -40,9 +42,12 @@
                 <p class="text-sm text-gray-600 mb-2">abstract</p>
                 <p class="text-sm text-gray-600">shapes.</p>
               </div>
-              
-              <h1 class="text-6xl md:text-8xl lg:text-9xl font-bold text-gray-900 leading-none tracking-tight" style="font-family: 'Playfair Display', serif;">
-                Grainy<br>
+
+              <h1
+                class="text-6xl md:text-8xl lg:text-9xl font-bold text-gray-900 leading-none tracking-tight"
+                style="font-family: 'Playfair Display', serif"
+              >
+                Grainy<br />
                 Shapes
               </h1>
             </div>
@@ -73,17 +78,17 @@ useHead({
   link: [
     {
       rel: 'preconnect',
-      href: 'https://fonts.googleapis.com'
+      href: 'https://fonts.googleapis.com',
     },
     {
-      rel: 'preconnect', 
+      rel: 'preconnect',
       href: 'https://fonts.gstatic.com',
-      crossorigin: ''
+      crossorigin: '',
     },
     {
       rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap'
-    }
-  ]
+      href: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&display=swap',
+    },
+  ],
 })
 </script>

@@ -5,9 +5,7 @@ import TheExperience from './Experience.vue'
 
 <template>
   <SceneWrapper>
-    <TresCanvas
-      clear-color="#82DBC5"
-    >
+    <TresCanvas clear-color="#82DBC5">
       <TheExperience />
     </TresCanvas>
   </SceneWrapper>

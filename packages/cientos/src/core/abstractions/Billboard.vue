@@ -36,12 +36,16 @@ const q = new Quaternion()
 const r = new Euler()
 
 function update(camera?: Camera) {
-  if (!outerRef.value) { return }
+  if (!outerRef.value) {
+    return
+  }
 
   if (!camera) {
     const { camera: ctxCamera } = useTresContext()
     camera = ctxCamera.activeCamera.value
-    if (!camera) { return }
+    if (!camera) {
+      return
+    }
   }
 
   // NOTE: Save current rotation in case we're locking an axis
@@ -54,13 +58,21 @@ function update(camera?: Camera) {
   camera.getWorldQuaternion(innerRef.value.quaternion).premultiply(q.invert())
 
   // NOTE: Overwrite locked axes
-  if (props.lockX) { innerRef.value.rotation.x = r.x }
-  if (props.lockY) { innerRef.value.rotation.y = r.y }
-  if (props.lockZ) { innerRef.value.rotation.z = r.z }
+  if (props.lockX) {
+    innerRef.value.rotation.x = r.x
+  }
+  if (props.lockY) {
+    innerRef.value.rotation.y = r.y
+  }
+  if (props.lockZ) {
+    innerRef.value.rotation.z = r.z
+  }
 }
 
 useLoop().onBeforeRender(({ camera }) => {
-  if (props.autoUpdate) { update(camera.value) }
+  if (props.autoUpdate) {
+    update(camera.value)
+  }
 })
 
 defineExpose({ instance: outerRef, update })

@@ -48,5 +48,3 @@ This experiment showcases comprehensive 3D scene creation:
 - **Material Variety**: Different textures and materials for authentic classroom feel
 
 This experiment demonstrates how TresJS can create compelling educational content and immersive environments, perfect for presentations, games, or interactive learning experiences.
-
-

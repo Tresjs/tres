@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Fit, OrbitControls } from '@tresjs/cientos'
-import { useLoop,
-} from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import { Vector3 } from 'three'
 import type { TresObject3D } from '@tresjs/core'
 import RandUtils from '@/utils/RandUtils'
@@ -24,11 +23,7 @@ function getPositions(seed: number, count = 40, radius = 10) {
   const radZ = rand() * radius + 1
   for (let i = 0; i < count; i++) {
     positions.push(
-      new Vector3(
-        rand() * radX + offsetX,
-        rand() * radY + offsetY,
-        rand() * radZ + offsetZ,
-      ),
+      new Vector3(rand() * radX + offsetX, rand() * radY + offsetY, rand() * radZ + offsetZ),
     )
   }
   return positions
@@ -37,9 +32,39 @@ function getPositions(seed: number, count = 40, radius = 10) {
 // NOTE: Create some refs so we can scale, rotate, and twist
 // the container and `<Fit />` elements. We want to make sure
 // that it works in chains with the usual transforms.
-const [sx0, sy0, sz0, rx0, ry0, rz0, x0, y0, z0, sx1, sy1, sz1, rx1, ry1, rz1, x1, y1, z1, sx2, sy2, sz2, rx2, ry2, rz2, x2, y2, z2, x3, y3] = Array.from({ length: 30 })
+const [
+  sx0,
+  sy0,
+  sz0,
+  rx0,
+  ry0,
+  rz0,
+  x0,
+  y0,
+  z0,
+  sx1,
+  sy1,
+  sz1,
+  rx1,
+  ry1,
+  rz1,
+  x1,
+  y1,
+  z1,
+  sx2,
+  sy2,
+  sz2,
+  rx2,
+  ry2,
+  rz2,
+  x2,
+  y2,
+  z2,
+  x3,
+  y3,
+] = Array.from({ length: 30 })
   .fill(0)
-  .map(_ => shallowRef(0))
+  .map((_) => shallowRef(0))
 const fit0 = shallowRef({ fit: () => {} })
 const fit1 = shallowRef({ fit: () => {} })
 const fit2 = shallowRef({ fit: () => {} })
@@ -89,36 +114,14 @@ onBeforeRender(({ elapsed }) => {
 
 <template>
   <TresPerspectiveCamera :position="[5, 5, 5]" />
-  <TresGroup
-    :rotation="[rx0, ry0, rz0]"
-    :position="[x0, y0, z0]"
-    :scale="[sx0, sy0, sz0]"
-  >
-    <TresGroup
-      :rotation="[rx1, ry1, rz1]"
-      :position="[x1, y1, z1]"
-      :scale="[sx1, sy1, sz1]"
-    >
-      <TresGroup
-        :rotation="[-1, 0, 0]"
-        :visible="choice.value === object"
-      >
+  <TresGroup :rotation="[rx0, ry0, rz0]" :position="[x0, y0, z0]" :scale="[sx0, sy0, sz0]">
+    <TresGroup :rotation="[rx1, ry1, rz1]" :position="[x1, y1, z1]" :scale="[sx1, sy1, sz1]">
+      <TresGroup :rotation="[-1, 0, 0]" :visible="choice.value === object">
         <primitive :object="object" />
       </TresGroup>
-      <TresGroup
-        :rotation="[rx2, ry2, rz2]"
-        :position="[x2, y2, z2]"
-        :scale="[sx2, sy2, sz2]"
-      >
-        <Fit
-          ref="fit0"
-          :into="choice.value"
-        >
-          <TresMesh
-            v-for="(p, ii) of getPositions(0)"
-            :key="ii"
-            :position="p"
-          >
+      <TresGroup :rotation="[rx2, ry2, rz2]" :position="[x2, y2, z2]" :scale="[sx2, sy2, sz2]">
+        <Fit ref="fit0" :into="choice.value">
+          <TresMesh v-for="(p, ii) of getPositions(0)" :key="ii" :position="p">
             <TresBoxGeometry />
             <TresMeshBasicMaterial color="red" />
           </TresMesh>
@@ -126,10 +129,7 @@ onBeforeRender(({ elapsed }) => {
       </TresGroup>
     </TresGroup>
   </TresGroup>
-  <Fit
-    ref="fit1"
-    :into="choice.value"
-  >
+  <Fit ref="fit1" :into="choice.value">
     <TresMesh :position="[x3, y3, 3]">
       <TresTorusGeometry />
       <TresMeshBasicMaterial color="blue" />
@@ -143,10 +143,7 @@ onBeforeRender(({ elapsed }) => {
       <TresMeshBasicMaterial color="blue" />
     </TresMesh>
   </Fit>
-  <Fit
-    ref="fit2"
-    :into="choice.value"
-  >
+  <Fit ref="fit2" :into="choice.value">
     <TresMesh :position="[0, 0, -5]">
       <TresSphereGeometry />
       <TresMeshBasicMaterial color="green" />

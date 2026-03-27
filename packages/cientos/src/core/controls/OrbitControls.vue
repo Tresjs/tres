@@ -42,11 +42,7 @@ const controlsRef = shallowRef<OrbitControls | null>(null)
 
 extend({ OrbitControls })
 
-useOrbitLikeControls(
-  controlsRef,
-  props,
-  emit,
-)
+useOrbitLikeControls(controlsRef, props, emit)
 
 defineExpose({ instance: controlsRef })
 </script>

@@ -23,10 +23,11 @@ function handleModelValueUpdate() {
 
 <template>
   <div class="grid grid-cols-[auto_auto] gap-1">
-    Fov: <input
+    Fov:
+    <input
       v-model="internalModelValue.properties.fov"
       class="dark:text-black"
       @update:model-value="handleModelValueUpdate"
-    >
+    />
   </div>
 </template>

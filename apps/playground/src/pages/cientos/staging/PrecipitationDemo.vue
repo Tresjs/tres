@@ -23,50 +23,53 @@ const options = reactive({
   areaZ: 25,
 })
 
-const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls({
-  speed: {
-    value: options.speed,
-    step: 0.1,
-    min: 0,
-    max: 10,
+const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls(
+  {
+    speed: {
+      value: options.speed,
+      step: 0.1,
+      min: 0,
+      max: 10,
+    },
+    randomness: {
+      value: options.randomness,
+      step: 0.1,
+      min: 0,
+      max: 10,
+    },
+    count: {
+      value: options.count,
+      step: 10,
+      min: 500,
+      max: 30000,
+    },
+    size: {
+      value: options.size,
+      step: 0.001,
+      min: 0.001,
+      max: 1,
+    },
+    areaX: {
+      value: options.areaX,
+      step: 1,
+      min: 1,
+      max: 30,
+    },
+    areaY: {
+      value: options.areaY,
+      step: 1,
+      min: 1,
+      max: 30,
+    },
+    areaZ: {
+      value: options.areaZ,
+      step: 1,
+      min: 1,
+      max: 30,
+    },
   },
-  randomness: {
-    value: options.randomness,
-    step: 0.1,
-    min: 0,
-    max: 10,
-  },
-  count: {
-    value: options.count,
-    step: 10,
-    min: 500,
-    max: 30000,
-  },
-  size: {
-    value: options.size,
-    step: 0.001,
-    min: 0.001,
-    max: 1,
-  },
-  areaX: {
-    value: options.areaX,
-    step: 1,
-    min: 1,
-    max: 30,
-  },
-  areaY: {
-    value: options.areaY,
-    step: 1,
-    min: 1,
-    max: 30,
-  },
-  areaZ: {
-    value: options.areaZ,
-    step: 1,
-    min: 1,
-    max: 30,
-  },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>

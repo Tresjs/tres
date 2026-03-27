@@ -6,9 +6,12 @@ import { Lightformer } from '@tresjs/cientos'
 
 const uuid = 'staging-environment-lightformers'
 
-const { lightformers } = useControls({
-  lightformers: false,
-}, { uuid })
+const { lightformers } = useControls(
+  {
+    lightformers: false,
+  },
+  { uuid },
+)
 
 const lightformerRef = ref(null)
 
@@ -38,15 +41,7 @@ onBeforeRender(({ elapsed }) => {
       :position="[-5, 1, -1]"
       :scale="[20, 0.1, 1]"
     />
-    <Lightformer
-      :rotation-y="Math.PI / 2"
-      :position="[-5, -1, -1]"
-      :scale="[20, 0.5, 1]"
-    />
-    <Lightformer
-      :rotation-y="-Math.PI / 2"
-      :position="[10, 1, 0]"
-      :scale="[20, 11, 1]"
-    />
+    <Lightformer :rotation-y="Math.PI / 2" :position="[-5, -1, -1]" :scale="[20, 0.5, 1]" />
+    <Lightformer :rotation-y="-Math.PI / 2" :position="[10, 1, 0]" :scale="[20, 11, 1]" />
   </TresGroup>
 </template>

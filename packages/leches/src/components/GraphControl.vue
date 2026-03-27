@@ -24,8 +24,10 @@ let lastUpdateTime = performance.now()
 let resizeObserver: ResizeObserver | null = null
 
 // Function to create a smooth curve path using catmull-rom spline
-function createSmoothPath(points: { x: number, y: number }[]): string {
-  if (points.length < 2) { return '' }
+function createSmoothPath(points: { x: number; y: number }[]): string {
+  if (points.length < 2) {
+    return ''
+  }
 
   // If we only have two points, draw a simple line
   if (points.length === 2) {
@@ -80,7 +82,7 @@ useRafFn(() => {
       const valueRange = Math.max(1, maxValue - minValue) // Ensure we don't divide by zero
 
       // Calculate the usable height (total height minus padding)
-      const usableHeight = height.value - (paddingVertical * 2)
+      const usableHeight = height.value - paddingVertical * 2
 
       // Create point objects for the curve
       const points = frameTimes.value.map((val: number, index: number) => {
@@ -124,29 +126,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
-    <ControlLabel
-      :label="label"
-      :control="control"
-    />
+  <div
+    class="tl-flex tl-gap-1 tl-items-center"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing)"
+  >
+    <ControlLabel :label="label" :control="control" />
     <div
       ref="containerRef"
-      class="
-        tl-relative
-        tl-w-2/3
-        tl-py-1
-        tl-text-right
-        tl-text-gray-400
-        tl-bg-gray-100
-        dark:tl-bg-dark-300
-        dark:tl-text-gray-400
-        tl-outline-none
-        tl-border-none
-        tl-font-sans
-      "
-      style="border-radius: var(--tl-blade-radius);"
+      class="tl-relative tl-w-2/3 tl-py-1 tl-text-right tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-font-sans"
+      style="border-radius: var(--tl-blade-radius)"
     >
-      <div class="tl-absolute tl-bg-gray-100 tl-p-0.5 rounded dark:tl-bg-dark-300 tl-bottom-0.5 tl-right-1 tl-font-sans">
+      <div
+        class="tl-absolute tl-bg-gray-100 tl-p-0.5 rounded dark:tl-bg-dark-300 tl-bottom-0.5 tl-right-1 tl-font-sans"
+      >
         {{ Math.round(control.value) }}
       </div>
       <svg

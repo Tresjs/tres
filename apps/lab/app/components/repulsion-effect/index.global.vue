@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="repulsion-effect__content">
@@ -9,16 +7,17 @@
   </div>
 
   <NuxtLink class="repulsion-effect__logo" to="/">
-    <img src="/logos/tres_logo_white.svg" alt="TresJS Logo">
+    <img src="/logos/tres_logo_white.svg" alt="TresJS Logo" />
   </NuxtLink>
 
   <div class="repulsion-effect__infos">
-    <NuxtLink to="/">
-      See more experiments and examples
-    </NuxtLink>
+    <NuxtLink to="/"> See more experiments and examples </NuxtLink>
     <p>
       Repulsion Effect inspired by the
-      <a target="_blank" href="https://tympanus.net/codrops/2018/12/06/interactive-repulsion-effect-with-three-js/">
+      <a
+        target="_blank"
+        href="https://tympanus.net/codrops/2018/12/06/interactive-repulsion-effect-with-three-js/"
+      >
         Codrops tutorial Interactive Repulsion Effect
       </a>
     </p>
@@ -37,11 +36,23 @@
     <TresPointLight color="#c27439" :intensity="5" :decay="0" :position="[-35, 5, 0]" />
     <TresPointLight color="#fff000" :intensity="5" :decay="0" :position="[0, 5, 20]" />
 
-    <TresSpotLight color="#7bccd7" :decay="0" cast-shadow :shadow-mapSize-width="2048" :shadow-mapSize-height="2048"
-      :position="[0, 25, 0]" />
+    <TresSpotLight
+      color="#7bccd7"
+      :decay="0"
+      cast-shadow
+      :shadow-mapSize-width="2048"
+      :shadow-mapSize-height="2048"
+      :position="[0, 25, 0]"
+    />
 
-    <TresRectAreaLight color="#341212" :decay="0" :width="1000" :height="1000" :position="[5, 20, 50]"
-      :look-at="[0, 0, 0]" />
+    <TresRectAreaLight
+      color="#341212"
+      :decay="0"
+      :width="1000"
+      :height="1000"
+      :position="[5, 20, 50]"
+      :look-at="[0, 0, 0]"
+    />
     <RepulsionEffectScene />
     <TheScreenshot />
   </TresCanvas>
@@ -83,7 +94,7 @@
 
 .repulsion-effect__infos p {
   font-family: 'Montserrat', sans-serif;
-  color: #FFF;
+  color: #fff;
 }
 
 .repulsion-effect__infos a {

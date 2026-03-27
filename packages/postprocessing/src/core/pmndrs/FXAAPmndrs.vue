@@ -53,12 +53,13 @@ makePropWatchers(
 watch(
   [effect, () => props.opacity],
   () => {
-    if (!effect.value) { return }
+    if (!effect.value) {
+      return
+    }
 
     if (props.opacity !== undefined) {
       effect.value?.blendMode.setOpacity(props.opacity)
-    }
-    else {
+    } else {
       const plainEffect = new FXAAEffect()
       effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
       plainEffect.dispose()

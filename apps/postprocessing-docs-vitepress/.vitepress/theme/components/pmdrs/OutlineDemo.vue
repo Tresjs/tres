@@ -22,44 +22,29 @@ const { effectComposer } = useRouteDisposal()
 const outlinedObjects = ref<Object3D[]>([])
 
 const toggleMeshSelectionState = ({ object }: Intersection) => {
-  if (outlinedObjects.value.some(({ uuid }) => uuid === object.uuid)) { outlinedObjects.value = outlinedObjects.value.filter(({ uuid }) => uuid !== object.uuid) }
-  else { outlinedObjects.value = [...outlinedObjects.value, object] }
+  if (outlinedObjects.value.some(({ uuid }) => uuid === object.uuid)) {
+    outlinedObjects.value = outlinedObjects.value.filter(({ uuid }) => uuid !== object.uuid)
+  } else {
+    outlinedObjects.value = [...outlinedObjects.value, object]
+  }
 }
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[3, 2, 4]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[3, 2, 4]" :look-at="[0, 0, 0]" />
     <OrbitControls />
-    <TresMesh
-      :position="[1, 0.5, 1]"
-      @click="toggleMeshSelectionState"
-    >
+    <TresMesh :position="[1, 0.5, 1]" @click="toggleMeshSelectionState">
       <TresBoxGeometry />
-      <TresMeshStandardMaterial
-        color="hotpink"
-      />
+      <TresMeshStandardMaterial color="hotpink" />
     </TresMesh>
-    <TresMesh
-      :position="[-1.5, 0.75, 0]"
-      @click="toggleMeshSelectionState"
-    >
+    <TresMesh :position="[-1.5, 0.75, 0]" @click="toggleMeshSelectionState">
       <TresConeGeometry :args="[1, 1.5, 4, 1, false, Math.PI * 0.25]" />
-      <TresMeshStandardMaterial
-        color="aqua"
-      />
+      <TresMeshStandardMaterial color="aqua" />
     </TresMesh>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :position="[0, 1, 0]"
-      :intensity="1"
-    />
+    <TresDirectionalLight :position="[0, 1, 0]" :intensity="1" />
     <Suspense>
       <EffectComposerPmndrs ref="effectComposer" v-bind="glComposer">
         <OutlinePmndrs

@@ -16,13 +16,10 @@ import {
 import Debug from './Debug.vue'
 import type { PhysicsProps } from '../types'
 
-const props = withDefaults(
-  defineProps<Partial<PhysicsProps>>(),
-  {
-    gravity: () => new Vector3(GRAVITY.x, GRAVITY.y, GRAVITY.z),
-    debug: false,
-  },
-)
+const props = withDefaults(defineProps<Partial<PhysicsProps>>(), {
+  gravity: () => new Vector3(GRAVITY.x, GRAVITY.y, GRAVITY.z),
+  debug: false,
+})
 
 const context = useRapierContextProvider()!
 defineExpose(context)
@@ -35,8 +32,7 @@ const setGravity = (gravity: PhysicsProps['gravity']) => {
     world.value.gravity.x = gravity[0]
     world.value.gravity.y = gravity[1]
     world.value.gravity.z = gravity[2]
-  }
-  else {
+  } else {
     const coordinates = gravity as VectorCoordinates
     world.value.gravity.x = coordinates.x
     world.value.gravity.y = coordinates.y
@@ -47,14 +43,20 @@ const setGravity = (gravity: PhysicsProps['gravity']) => {
 const eventQueue = new EventQueue(true)
 const { scene } = useTresContext()
 
-watch(() => props.gravity, (gravity) => {
-  setGravity(gravity)
-}, { immediate: true })
+watch(
+  () => props.gravity,
+  (gravity) => {
+    setGravity(gravity)
+  },
+  { immediate: true },
+)
 
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
-  if (!world.value || isPaused.value) { return }
+  if (!world.value || isPaused.value) {
+    return
+  }
   if (typeof props.timestep === 'number') {
     world.value.timestep = props.timestep
   }
@@ -66,7 +68,9 @@ onBeforeRender(() => {
     const object1 = getCollisionObjectFromSource(source1, scene)
     const object2 = getCollisionObjectFromSource(source2, scene)
 
-    if (!object1 || !object2) { return }
+    if (!object1 || !object2) {
+      return
+    }
 
     collisionTrigger(
       { objects: object1, context: source1 },

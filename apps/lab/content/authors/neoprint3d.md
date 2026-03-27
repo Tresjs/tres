@@ -1,6 +1,6 @@
 ---
-name: Drew Ronsman 
-slug: neoprint3d 
+name: Drew Ronsman
+slug: neoprint3d
 email: drew@neoprint3d.dev
 twitter: drew_ronsman
 github: neoprint3d

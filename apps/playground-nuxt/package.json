@@ -1,18 +1,18 @@
 {
   "name": "playground-nuxt",
-  "type": "module",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",
     "preview": "nuxi preview"
   },
   "dependencies": {
-    "@tresjs/nuxt": "workspace:*",
     "@nuxt/ui": "catalog:nuxt",
     "@tresjs/cientos": "workspace:^",
-    "@tresjs/leches": "workspace:^"
+    "@tresjs/leches": "workspace:^",
+    "@tresjs/nuxt": "workspace:*"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",

@@ -11,9 +11,11 @@ import type { TresObject3D } from '@tresjs/core'
  * @param object {@link Object3D}
  */
 export function hasValidColliderGeometry(object: Object3D): boolean {
-  if ((object as unknown as Mesh).geometry?.attributes?.position) { return true }
+  if ((object as unknown as Mesh).geometry?.attributes?.position) {
+    return true
+  }
   // check children only if needed
-  return object.children.some(child => hasValidColliderGeometry(child as Object3D))
+  return object.children.some((child) => hasValidColliderGeometry(child as Object3D))
 }
 
 /**
@@ -43,11 +45,7 @@ export const getColliderSizingsFromObject = (object?: TresObject3D) => {
     let maxZ = 0
 
     for (let i = 0; i < positions.length; i += 3) {
-      const _vector = new Vector3(
-        positions[i] ?? 0,
-        positions[i + 1] ?? 0,
-        positions[i + 2] ?? 0,
-      )
+      const _vector = new Vector3(positions[i] ?? 0, positions[i + 1] ?? 0, positions[i + 2] ?? 0)
 
       minX = Math.min(minX, _vector.x)
       minY = Math.min(minY, _vector.y)
@@ -64,8 +62,7 @@ export const getColliderSizingsFromObject = (object?: TresObject3D) => {
     halfWidth = width / 2
     halfHeight = height / 2
     halfDepth = depth / 2
-  }
-  else if (object instanceof Object3D) {
+  } else if (object instanceof Object3D) {
     const boundingBox = new Box3().setFromObject(object)
 
     if (!boundingBox.isEmpty()) {

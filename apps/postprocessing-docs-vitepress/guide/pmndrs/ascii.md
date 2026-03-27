@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/ASCIIDemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/ASCIIDemo.vue{0}
+
 </details>
 
 The `ASCIIEffect` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ASCIIEffect.js~ASCIIEffect.html) package.
@@ -57,15 +58,16 @@ const effectProps = {
 
 ## Props
 
-| Prop           | Description                                                                                     | Default                     |
-| -------------- | ----------------------------------------------------------------------------------------------- | --------------------------- |
-| blendFunction  | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL`      |
-| opacity        | The opacity of the effect.                                                                      | `1.0`                       |
-| cellSize       | The size of the ASCII grid cells.                                                               | `16`                 |
-| inverted       | Controls whether the effect should be inverted.                                                 | `false`                     |
-| color          | The color of the effect. Can be a [`Color`](https://threejs.org/docs/#api/en/math/Color), `string`, `number`, or `null`. If set to `null`, the colors of the scene will be used.                           | `null`                      |
-| useSceneColor  | Controls whether the effect should use the scene color. If `true`, overrides the `color` prop.                                 | `false`                     |
-| asciiTexture   | Options for creating an ASCIITexture instance. |  See the [`ASCIITexture`](https://pmndrs.github.io/postprocessing/public/docs/class/src/textures/ASCIITexture.js~ASCIITexture.html) documentation.                 |
+| Prop          | Description                                                                                                                                                                                      | Default                                                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| blendFunction | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL`                                                                                                                            |
+| opacity       | The opacity of the effect.                                                                                                                                                                       | `1.0`                                                                                                                                             |
+| cellSize      | The size of the ASCII grid cells.                                                                                                                                                                | `16`                                                                                                                                              |
+| inverted      | Controls whether the effect should be inverted.                                                                                                                                                  | `false`                                                                                                                                           |
+| color         | The color of the effect. Can be a [`Color`](https://threejs.org/docs/#api/en/math/Color), `string`, `number`, or `null`. If set to `null`, the colors of the scene will be used.                 | `null`                                                                                                                                            |
+| useSceneColor | Controls whether the effect should use the scene color. If `true`, overrides the `color` prop.                                                                                                   | `false`                                                                                                                                           |
+| asciiTexture  | Options for creating an ASCIITexture instance.                                                                                                                                                   | See the [`ASCIITexture`](https://pmndrs.github.io/postprocessing/public/docs/class/src/textures/ASCIITexture.js~ASCIITexture.html) documentation. |
 
 ## Further Reading
+
 For more details, see the [ASCIIEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ASCIIEffect.js~ASCIIEffect.html)

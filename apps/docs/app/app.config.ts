@@ -50,64 +50,76 @@ const newLocal = {
   footer: {
     credits: `Copyright © ${new Date().getFullYear()} TresJS`,
     colorMode: false,
-    links: [{
-      'icon': 'i-lucide-globe',
-      'to': 'https://tresjs.org',
-      'target': '_blank',
-      'aria-label': 'TresJS Website',
-    }, {
-      'icon': 'i-simple-icons-discord',
-      'to': 'https://tresjs.org/discord',
-      'target': '_blank',
-      'aria-label': 'TresJS on Discord',
-    }, {
-      'icon': 'i-simple-icons-x',
-      'to': 'https://x.com/tresjs_dev',
-      'target': '_blank',
-      'aria-label': 'TresJS on X',
-    }, {
-      'icon': 'i-simple-icons-github',
-      'to': 'https://github.com/tresjs/tres',
-      'target': '_blank',
-      'aria-label': 'TresJS on GitHub',
-    }],
+    links: [
+      {
+        icon: 'i-lucide-globe',
+        to: 'https://tresjs.org',
+        target: '_blank',
+        'aria-label': 'TresJS Website',
+      },
+      {
+        icon: 'i-simple-icons-discord',
+        to: 'https://tresjs.org/discord',
+        target: '_blank',
+        'aria-label': 'TresJS on Discord',
+      },
+      {
+        icon: 'i-simple-icons-x',
+        to: 'https://x.com/tresjs_dev',
+        target: '_blank',
+        'aria-label': 'TresJS on X',
+      },
+      {
+        icon: 'i-simple-icons-github',
+        to: 'https://github.com/tresjs/tres',
+        target: '_blank',
+        'aria-label': 'TresJS on GitHub',
+      },
+    ],
   },
   toc: {
     title: 'Table of Contents',
     bottom: {
       title: 'Community',
       edit: 'https://github.com/tresjs/tres/edit/main/docs/content',
-      links: [{
-        icon: 'i-lucide-heart',
-        label: 'Become a sponsor',
-        to: 'https://github.com/sponsors/tresjs',
-        target: '_blank',
-      }, {
-        icon: 'i-lucide-star',
-        label: 'Star on GitHub',
-        to: 'https://github.com/tresjs/tres',
-        target: '_blank',
-      }],
+      links: [
+        {
+          icon: 'i-lucide-heart',
+          label: 'Become a sponsor',
+          to: 'https://github.com/sponsors/tresjs',
+          target: '_blank',
+        },
+        {
+          icon: 'i-lucide-star',
+          label: 'Star on GitHub',
+          to: 'https://github.com/tresjs/tres',
+          target: '_blank',
+        },
+      ],
     },
   },
   ecosystem: {
     title: 'Ecosystem',
-    links: [{
-      icon: 'i-tres-cientos-heart',
-      label: 'cientos',
-      to: 'https://cientos.tresjs.org/',
-      target: '_blank',
-    }, {
-      icon: 'i-tres-postprocessing-skull',
-      label: 'post-processing',
-      to: 'https://post-processing.tresjs.org/',
-      target: '_blank',
-    }, {
-      icon: 'i-lucide-cake',
-      label: 'tresleches',
-      to: 'https://tresleches.tresjs.org/',
-      target: '_blank',
-    }],
+    links: [
+      {
+        icon: 'i-tres-cientos-heart',
+        label: 'cientos',
+        to: 'https://cientos.tresjs.org/',
+        target: '_blank',
+      },
+      {
+        icon: 'i-tres-postprocessing-skull',
+        label: 'post-processing',
+        to: 'https://post-processing.tresjs.org/',
+        target: '_blank',
+      },
+      {
+        icon: 'i-lucide-cake',
+        label: 'tresleches',
+        to: 'https://tresleches.tresjs.org/',
+        target: '_blank',
+      },
+    ],
   },
 } satisfies AppConfigInput
 

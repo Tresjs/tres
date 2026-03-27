@@ -34,8 +34,13 @@ const props = withDefaults(defineProps<CatmullRomCurve3Props>(), {
   tension: 0.5,
 })
 
-function getCatmullRomCurve(points: Points, closed: boolean, curveType: CurveType, tension: number) {
-  const mappedPoints = points.map(pt =>
+function getCatmullRomCurve(
+  points: Points,
+  closed: boolean,
+  curveType: CurveType,
+  tension: number,
+) {
+  const mappedPoints = points.map((pt) =>
     pt instanceof Vector3 ? pt : new Vector3(...(pt as [number, number, number])),
   )
 
@@ -46,7 +51,9 @@ function getSegmentedPoints(curve: CatmullRomCurve3, segments: number): Vector3[
   return curve.getPoints(segments)
 }
 
-const curve = computed(() => getCatmullRomCurve(props.points, props.closed, props.curveType, props.tension))
+const curve = computed(() =>
+  getCatmullRomCurve(props.points, props.closed, props.curveType, props.tension),
+)
 const segmentedPoints = computed(() => getSegmentedPoints(curve.value, props.segments))
 
 const lineRef = shallowRef()

@@ -7,27 +7,25 @@ import { EffectComposerPmndrs, PixelationPmndrs } from '@tresjs/post-processing'
 const uuid = 'pixelation-pmndrs'
 
 useControls('fpsgraph', { uuid })
-const { granularity } = useControls({
-  granularity: {
-    value: 10,
-    min: 1,
-    max: 30,
-    step: 1,
+const { granularity } = useControls(
+  {
+    granularity: {
+      value: 10,
+      min: 1,
+      max: 30,
+      step: 1,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
   <TresCanvas render-mode="on-demand">
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
-    <TresMesh
-      :position="[-3.5, 1, 0]"
-    >
+    <TresMesh :position="[-3.5, 1, 0]">
       <TresConeGeometry :args="[1.25, 2, 4, 1, false, Math.PI * 0.25]" />
       <TresMeshNormalMaterial />
     </TresMesh>

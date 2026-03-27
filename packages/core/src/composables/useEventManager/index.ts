@@ -12,9 +12,13 @@ export function useEventManager({
   contextParts: { scene, camera, renderer },
 }: {
   canvas: MaybeRef<HTMLCanvasElement>
-  contextParts: Pick<TresContext, 'scene' | 'camera' | 'renderer' >
+  contextParts: Pick<TresContext, 'scene' | 'camera' | 'renderer'>
 }) {
-  const { update, destroy } = forwardHtmlEvents(toValue(canvas), () => toValue(camera.activeCamera), scene.value)
+  const { update, destroy } = forwardHtmlEvents(
+    toValue(canvas),
+    () => toValue(camera.activeCamera),
+    scene.value,
+  )
   const { off } = renderer.loop.onLoop(update)
   onUnmounted(destroy)
   onUnmounted(off)

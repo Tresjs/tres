@@ -27,14 +27,19 @@ interface VideoTextureProps extends HTMLVideoElement {
  * @param {HTMLVideoElement} src
  * @return {VideoTexture}  {VideoTexture}
  */
-export async function useVideoTexture(src: string | MediaStream, options?: Partial<VideoTextureProps>) {
+export async function useVideoTexture(
+  src: string | MediaStream,
+  options?: Partial<VideoTextureProps>,
+) {
   /**
    * Load a video as a texture.
    *
    * @param {src} string
    * @return {VideoTexture}  {VideoTexture}
    */
-  if (!src) { return logError('Error no path provided') }
+  if (!src) {
+    return logError('Error no path provided')
+  }
 
   const { unsuspend, start, crossOrigin, muted, loop, ...rest } = {
     unsuspend: 'loadedmetadata',
@@ -64,10 +69,11 @@ export async function useVideoTexture(src: string | MediaStream, options?: Parti
   }
   try {
     const texture = await loadTexture()
-    if (start && texture.image) { texture.image.play() }
+    if (start && texture.image) {
+      texture.image.play()
+    }
     return texture
-  }
-  catch {
+  } catch {
     logError('Error loading resource')
   }
 }

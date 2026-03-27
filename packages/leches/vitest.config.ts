@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig } from 'vite-plus'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'node:path'
 import UnoCSS from 'unocss/vite'
@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     vue(),
     UnoCSS({
-    /* options */
+      /* options */
       presets: [
         presetUno({
           prefix: 'tl-',
@@ -18,9 +18,9 @@ export default defineConfig({
           scale: 1.2,
           warn: true,
           extraProperties: {
-            'display': 'inline-block',
+            display: 'inline-block',
             'vertical-align': 'middle',
-          // ...
+            // ...
           },
         }),
 

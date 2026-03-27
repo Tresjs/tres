@@ -22,11 +22,11 @@ import { EffectComposer, Pixelation } from '@tresjs/post-processing'
 
 ## Props
 
-| Prop                | Description                                                                 | Default |
-|---------------------|-----------------------------------------------------------------------------|---------|
-| `pixelSize`         | The size of the pixels. Larger values result in a more pixelated appearance. | `30`    |
-| `depthEdgeStrength` | The strength of the depth edges.                                             | `1.0`   |
-| `normalEdgeStrength`| The strength of the normal edges.                                            | `0.5`   |
+| Prop                 | Description                                                                  | Default |
+| -------------------- | ---------------------------------------------------------------------------- | ------- |
+| `pixelSize`          | The size of the pixels. Larger values result in a more pixelated appearance. | `30`    |
+| `depthEdgeStrength`  | The strength of the depth edges.                                             | `1.0`   |
+| `normalEdgeStrength` | The strength of the normal edges.                                            | `0.5`   |
 
 ## Further Reading
 

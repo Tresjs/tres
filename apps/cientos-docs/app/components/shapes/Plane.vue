@@ -5,13 +5,16 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { width, height, widthSegments, heightSegments, showWireframe } = useControls({
-  width: { value: 5, min: 0.1, max: 20, step: 0.1 },
-  height: { value: 5, min: 0.1, max: 20, step: 0.1 },
-  widthSegments: { value: 1, min: 1, max: 64, step: 1 },
-  heightSegments: { value: 1, min: 1, max: 64, step: 1 },
-  showWireframe: false,
-}, { uuid })
+const { width, height, widthSegments, heightSegments, showWireframe } = useControls(
+  {
+    width: { value: 5, min: 0.1, max: 20, step: 0.1 },
+    height: { value: 5, min: 0.1, max: 20, step: 0.1 },
+    widthSegments: { value: 1, min: 1, max: 64, step: 1 },
+    heightSegments: { value: 1, min: 1, max: 64, step: 1 },
+    showWireframe: false,
+  },
+  { uuid },
+)
 </script>
 
 <template>

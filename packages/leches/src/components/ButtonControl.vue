@@ -16,14 +16,8 @@ const classes = computed(() => {
 </script>
 
 <template>
-  <button
-    :id="`${control.uniqueKey}`"
-    :class="classes"
-    @click="control.value.onClick"
-  >
-    <i
-      :class="[control.value.icon, control.value.label ? 'mr-1' : '']"
-    ></i>
+  <button :id="`${control.uniqueKey}`" :class="classes" @click="control.value.onClick">
+    <i :class="[control.value.icon, control.value.label ? 'mr-1' : '']"></i>
     {{ control.value.label }}
   </button>
 </template>

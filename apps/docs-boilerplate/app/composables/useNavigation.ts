@@ -14,22 +14,27 @@ function _useHeaderLinks() {
   const headerLinks = computed<HeaderLink[]>(() => {
     const to = ''
 
-    return [{
-      label: 'Get Started',
-      description: 'Learn how to get started.',
-      icon: 'i-lucide-rocket',
-      to: `${to}/getting-started`,
-      active: route.path.startsWith(`${to}/getting-started`),
-    }, {
-      label: 'API',
-      description: 'Explore the API reference.',
-      icon: 'i-lucide-code-xml',
-      to: `${to}/api`,
-      active: route.path.startsWith(`${to}/api`),
-    }]
+    return [
+      {
+        label: 'Get Started',
+        description: 'Learn how to get started.',
+        icon: 'i-lucide-rocket',
+        to: `${to}/getting-started`,
+        active: route.path.startsWith(`${to}/getting-started`),
+      },
+      {
+        label: 'API',
+        description: 'Explore the API reference.',
+        icon: 'i-lucide-code-xml',
+        to: `${to}/api`,
+        active: route.path.startsWith(`${to}/api`),
+      },
+    ]
   })
 
   return { headerLinks }
 }
 
-export const useHeaderLinks = import.meta.client ? createSharedComposable(_useHeaderLinks) : _useHeaderLinks
+export const useHeaderLinks = import.meta.client
+  ? createSharedComposable(_useHeaderLinks)
+  : _useHeaderLinks

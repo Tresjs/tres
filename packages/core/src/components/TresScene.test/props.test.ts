@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { mount } from '@vue/test-utils'
 import { defineComponent, h, ref } from 'vue'
-import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vite-plus/test'
 import { setupMocks } from '../../utils/test/mocking'
 import { extend } from '../../core/catalogue'
 
@@ -16,25 +16,23 @@ describe('props', () => {
     return (await import('../TresCanvas.vue')).default
   }
 
-  const mountPair = async ({
-    fpsA,
-    fpsB,
-  }: {
-    fpsA?: number
-    fpsB?: number
-  }) => {
+  const mountPair = async ({ fpsA, fpsB }: { fpsA?: number; fpsB?: number }) => {
     const TresCanvas = await getTresCanvas()
     const loopA = vi.fn()
     const loopB = vi.fn()
 
-    const wrapper = mount(defineComponent({
-      setup: () => () => h('div', [
-        h(TresCanvas, { windowSize: true, fpsLimit: fpsA, onLoop: loopA }),
-        h(TresCanvas, { windowSize: true, fpsLimit: fpsB, onLoop: loopB }),
-      ]),
-    }), {
-      attachTo: document.body,
-    })
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h('div', [
+            h(TresCanvas, { windowSize: true, fpsLimit: fpsA, onLoop: loopA }),
+            h(TresCanvas, { windowSize: true, fpsLimit: fpsB, onLoop: loopB }),
+          ]),
+      }),
+      {
+        attachTo: document.body,
+      },
+    )
 
     await vi.waitFor(() => {
       expect(loopA).toHaveBeenCalled()
@@ -56,14 +54,22 @@ describe('props', () => {
     const dynamicLoop = vi.fn()
     const staticLoop = vi.fn()
 
-    const wrapper = mount(defineComponent({
-      setup: () => () => h('div', [
-        h(TresCanvas, { windowSize: true, fpsLimit: dynamicFpsLimit.value, onLoop: dynamicLoop }),
-        h(TresCanvas, { windowSize: true, fpsLimit: 20, onLoop: staticLoop }),
-      ]),
-    }), {
-      attachTo: document.body,
-    })
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h('div', [
+            h(TresCanvas, {
+              windowSize: true,
+              fpsLimit: dynamicFpsLimit.value,
+              onLoop: dynamicLoop,
+            }),
+            h(TresCanvas, { windowSize: true, fpsLimit: 20, onLoop: staticLoop }),
+          ]),
+      }),
+      {
+        attachTo: document.body,
+      },
+    )
 
     await vi.waitFor(() => {
       expect(dynamicLoop).toHaveBeenCalled()
@@ -89,14 +95,22 @@ describe('props', () => {
     const dynamicLoop = vi.fn()
     const staticLoop = vi.fn()
 
-    const wrapper = mount(defineComponent({
-      setup: () => () => h('div', [
-        h(TresCanvas, { windowSize: true, fpsLimit: dynamicFpsLimit.value, onLoop: dynamicLoop }),
-        h(TresCanvas, { windowSize: true, onLoop: staticLoop }),
-      ]),
-    }), {
-      attachTo: document.body,
-    })
+    const wrapper = mount(
+      defineComponent({
+        setup: () => () =>
+          h('div', [
+            h(TresCanvas, {
+              windowSize: true,
+              fpsLimit: dynamicFpsLimit.value,
+              onLoop: dynamicLoop,
+            }),
+            h(TresCanvas, { windowSize: true, onLoop: staticLoop }),
+          ]),
+      }),
+      {
+        attachTo: document.body,
+      },
+    )
 
     await vi.waitFor(() => {
       expect(dynamicLoop).toHaveBeenCalled()

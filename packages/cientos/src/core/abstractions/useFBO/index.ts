@@ -53,31 +53,45 @@ export interface FboOptions {
 export function useFBO(options: FboOptions) {
   const target: Ref<WebGLRenderTarget | null> = ref(null)
 
-  const { height, width, settings, depth, autoRender = ref(true) } = isReactive(options) ? toRefs(options) : toRefs(reactive(options))
+  const {
+    height,
+    width,
+    settings,
+    depth,
+    autoRender = ref(true),
+  } = isReactive(options) ? toRefs(options) : toRefs(reactive(options))
 
   const { onBeforeRender } = useLoop()
   const { camera, renderer, scene, sizes, invalidate } = useTres()
 
-  watch(() => [width?.value, sizes.width.value, height?.value, sizes.height.value], () => {
-    target.value?.dispose()
+  watch(
+    () => [width?.value, sizes.width.value, height?.value, sizes.height.value],
+    () => {
+      target.value?.dispose()
 
-    target.value = new WebGLRenderTarget(width?.value || sizes.width.value, height?.value || sizes.height.value, {
-      minFilter: LinearFilter,
-      magFilter: LinearFilter,
-      type: HalfFloatType,
-      ...settings?.value,
-    })
-
-    if (depth?.value) {
-      target.value.depthTexture = new DepthTexture(
+      target.value = new WebGLRenderTarget(
         width?.value || sizes.width.value,
         height?.value || sizes.height.value,
-        FloatType,
+        {
+          minFilter: LinearFilter,
+          magFilter: LinearFilter,
+          type: HalfFloatType,
+          ...settings?.value,
+        },
       )
-    }
 
-    invalidate()
-  }, { immediate: true })
+      if (depth?.value) {
+        target.value.depthTexture = new DepthTexture(
+          width?.value || sizes.width.value,
+          height?.value || sizes.height.value,
+          FloatType,
+        )
+      }
+
+      invalidate()
+    },
+    { immediate: true },
+  )
 
   onBeforeRender(() => {
     if (autoRender.value) {

@@ -1,46 +1,43 @@
 {
   "name": "@tresjs/eslint-config",
-  "type": "module",
   "version": "1.5.1",
   "description": "Opinionated ESLint configuration for Tres.js ecosystem",
-  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Tresjs/tres.git",
-    "directory": "packages/eslint-config"
-  },
   "keywords": [
     "eslint",
     "eslint-config",
     "eslintconfig"
   ],
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
+  "license": "MIT",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/eslint-config"
   },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     }
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "dev": "npx @eslint/config-inspector --config eslint.config.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "preview": "eslint-flat-config-viewer",
-    "build": "tsdown",
-    "stub": "tsdown --format esm",
-    "watch": "tsdown --watch"
-  },
-  "peerDependencies": {
-    "eslint": ">=8.40.0"
+    "build": "vp pack",
+    "stub": "vp pack --format esm",
+    "watch": "vp pack --watch"
   },
   "dependencies": {
     "@antfu/eslint-config": "~3.6.0",
@@ -49,6 +46,9 @@
   "devDependencies": {
     "eslint": "catalog:eslint",
     "eslint-flat-config-viewer": "^0.1.20",
-    "tsdown": "^0.15.4"
+    "vite-plus": "catalog:"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.40.0"
   }
 }

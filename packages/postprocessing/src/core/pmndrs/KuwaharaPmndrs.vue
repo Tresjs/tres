@@ -29,10 +29,7 @@ export interface KuwaharaPmndrsProps {
 
 const props = defineProps<KuwaharaPmndrsProps>()
 
-const { pass, effect } = useEffectPmndrs(
-  () => new KuwaharaEffect(props),
-  props,
-)
+const { pass, effect } = useEffectPmndrs(() => new KuwaharaEffect(props), props)
 
 defineExpose({ pass, effect })
 

@@ -6,10 +6,7 @@ import { TresCanvas } from '@tresjs/core'
   <div class="w-full aspect-video">
     <ClientOnly>
       <TresCanvas alpha>
-        <TresPerspectiveCamera
-          :position="[5, 5, 5]"
-          :look-at="[0, 0, 0]"
-        />
+        <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
         <TresMesh>
           <TresBoxGeometry />
           <TresMeshNormalMaterial />

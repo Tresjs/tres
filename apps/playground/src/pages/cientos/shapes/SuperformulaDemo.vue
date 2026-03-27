@@ -29,15 +29,8 @@ function onLoop({ elapsed }: { elapsed: number }) {
 
 <template>
   <TresCanvas clear-color="#777" @loop="onLoop">
-    <TresDirectionalLight
-      :position="[3, 2, 1]"
-      :intensity="8"
-    />
-    <TresAmbientLight
-      :position="[3, 2, 1]"
-      :intensity="1"
-      :color="new Color('pink')"
-    />
+    <TresDirectionalLight :position="[3, 2, 1]" :intensity="8" />
+    <TresAmbientLight :position="[3, 2, 1]" :intensity="1" :color="new Color('pink')" />
     <Superformula
       :width-segments="256"
       :height-segments="256"

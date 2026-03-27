@@ -25,10 +25,7 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
   <TresCanvas clear-color="#333" @loop="onLoop">
     <TresPerspectiveCamera />
     <TresDirectionalLight ref="lightRef">
-      <Sphere
-        color="white"
-        :scale="0.1"
-      />
+      <Sphere color="white" :scale="0.1" />
     </TresDirectionalLight>
     <Sphere :args="[0.5, 64, 64]">
       <TresMeshStandardMaterial :color="new Color('#222')" />
@@ -42,8 +39,15 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
         :normal-threshold="threshold"
         :noise-scale="100"
         :sequence-surface-distance="[0.1, 1.0]"
-        :sequence-alpha="[[0.0, 0.1], [0.2, 1.0], [0.9, 1.0]]"
-        :sequence-offset="[[0.5, [0, 0, 0]], [0.6, [0, -1, 0]]]"
+        :sequence-alpha="[
+          [0.0, 0.1],
+          [0.2, 1.0],
+          [0.9, 1.0],
+        ]"
+        :sequence-offset="[
+          [0.5, [0, 0, 0]],
+          [0.6, [0, -1, 0]],
+        ]"
         :alpha="1.0"
       />
     </Sphere>

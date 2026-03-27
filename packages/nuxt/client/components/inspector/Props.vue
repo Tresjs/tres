@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import type { TresObject } from '@tresjs/core'
 import { computed } from 'vue'
-import { copyProp, copyValue, copyValueAsVector3, copyValueAsEuler, copyValueAsQuaternion } from '~/utils/clipboard'
+import {
+  copyProp,
+  copyValue,
+  copyValueAsVector3,
+  copyValueAsEuler,
+  copyValueAsQuaternion,
+} from '~/utils/clipboard'
 
 import { iconsMap } from '../../utils/graph'
 import MaterialBadge from './MaterialBadge.vue'
@@ -50,7 +56,14 @@ const importantProperties: Record<string, string[]> = {
 
 function formatValue(key: string, value: unknown): unknown {
   // Handle Color objects
-  if (value && typeof value === 'object' && 'r' in value && 'g' in value && 'b' in value && 'getHexString' in value) {
+  if (
+    value &&
+    typeof value === 'object' &&
+    'r' in value &&
+    'g' in value &&
+    'b' in value &&
+    'getHexString' in value
+  ) {
     return `#${(value as { getHexString: () => string }).getHexString()}`
   }
   return value
@@ -63,14 +76,16 @@ const keyProperties = computed(() => {
   const objectType = props.object.type
   const properties = importantProperties[objectType] || ['position', 'rotation', 'scale']
 
-  return properties.map((prop) => {
-    const value = getNestedValue(props.object, prop)
-    return {
-      key: prop,
-      value: formatValue(prop, value),
-      displayValue: formatPropertyDisplayValue(prop, value),
-    }
-  }).filter(prop => prop.value !== undefined)
+  return properties
+    .map((prop) => {
+      const value = getNestedValue(props.object, prop)
+      return {
+        key: prop,
+        value: formatValue(prop, value),
+        displayValue: formatPropertyDisplayValue(prop, value),
+      }
+    })
+    .filter((prop) => prop.value !== undefined)
 })
 
 /**
@@ -110,7 +125,14 @@ function formatPropertyDisplayValue(key: string, value: unknown): string {
   }
 
   // Handle Color objects
-  if (value && typeof value === 'object' && 'r' in value && 'g' in value && 'b' in value && 'getHexString' in value) {
+  if (
+    value &&
+    typeof value === 'object' &&
+    'r' in value &&
+    'g' in value &&
+    'b' in value &&
+    'getHexString' in value
+  ) {
     return `#${(value as { getHexString: () => string }).getHexString()}`
   }
 
@@ -135,31 +157,35 @@ function formatPropertyDisplayValue(key: string, value: unknown): string {
 /**
  * Check if value is a Vector3-like object
  */
-function isVector3(value: unknown): value is { x: number, y: number, z: number } {
-  return value !== null
-    && typeof value === 'object'
-    && 'x' in value && 'y' in value && 'z' in value
-    && typeof value.x === 'number'
-    && typeof value.y === 'number'
-    && typeof value.z === 'number'
+function isVector3(value: unknown): value is { x: number; y: number; z: number } {
+  return (
+    value !== null &&
+    typeof value === 'object' &&
+    'x' in value &&
+    'y' in value &&
+    'z' in value &&
+    typeof value.x === 'number' &&
+    typeof value.y === 'number' &&
+    typeof value.z === 'number'
+  )
 }
 
 /**
  * Check if value is a Material object
  */
 function isMaterial(value: unknown): boolean {
-  return value !== null
-    && typeof value === 'object'
-    && value.constructor?.name?.includes('Material')
+  return (
+    value !== null && typeof value === 'object' && value.constructor?.name?.includes('Material')
+  )
 }
 
 /**
  * Check if value is a Geometry object
  */
 function isGeometry(value: unknown): boolean {
-  return value !== null
-    && typeof value === 'object'
-    && value.constructor?.name?.includes('Geometry')
+  return (
+    value !== null && typeof value === 'object' && value.constructor?.name?.includes('Geometry')
+  )
 }
 
 /**
@@ -177,18 +203,15 @@ function getValueClass(value: unknown): string {
 <template>
   <div class="text-sm text-neutral-500 dark:text-neutral-400 pt-2 pb-8">
     <!-- Object Type Header - compact -->
-    <div class="flex items-center gap-1 py-0.5 mb-4 hover:bg-neutral-50 dark:hover:bg-neutral-800 group">
+    <div
+      class="flex items-center gap-1 py-0.5 mb-4 hover:bg-neutral-50 dark:hover:bg-neutral-800 group"
+    >
       <UIcon
         :name="titleIcon"
         class="w-4 h-4 text-neutral-600 dark:text-neutral-400 flex-shrink-0"
       />
       <span class="text-neutral-600 dark:text-neutral-300 font-semibold">{{ object.type }}</span>
-      <UBadge
-        v-if="object.name"
-        variant="soft"
-        size="xs"
-        class="ml-2"
-      >
+      <UBadge v-if="object.name" variant="soft" size="xs" class="ml-2">
         {{ object.name }}
       </UBadge>
     </div>
@@ -261,9 +284,7 @@ function getValueClass(value: unknown): string {
 
           <!-- Regular values -->
           <template v-else>
-            <span
-              :class="[getValueClass(prop.value), 'ml-1']"
-            >
+            <span :class="[getValueClass(prop.value), 'ml-1']">
               {{ prop.displayValue }}
             </span>
           </template>
@@ -276,50 +297,63 @@ function getValueClass(value: unknown): string {
         >
           <UDropdownMenu
             size="xs"
-            :items="[
-              { label: 'Copy Value', icon: 'i-lucide:copy', onSelect: () => copyValue(prop.value) },
-              prop.displayValue === 'vector'
-                && { label: 'Copy as prop',
-                     icon: 'i-material-symbols:data-array',
-                     onSelect: () => copyProp({
-                       path: prop.key,
-                       value: Object.values(prop.value),
-                     }) },
-              prop.displayValue === 'vector' && prop.key === 'rotation'
-                && { label: 'Copy as Euler',
-                     icon: 'i-lucide:rotate-3d',
-                     onSelect: () => copyValueAsEuler({
-                       children: [
-                         { label: 'x', value: prop.value.x },
-                         { label: 'y', value: prop.value.y },
-                         { label: 'z', value: prop.value.z },
-                         { label: 'order', value: prop.value.order || 'XYZ' },
-                       ],
-                     }),
+            :items="
+              [
+                {
+                  label: 'Copy Value',
+                  icon: 'i-lucide:copy',
+                  onSelect: () => copyValue(prop.value),
                 },
-              prop.displayValue === 'vector' && prop.key !== 'rotation'
-                && { label: 'Copy as Vector3',
-                     icon: 'i-lucide:pen-line',
-                     onSelect: () => copyValueAsVector3({
-                       children: Object.values(prop.value).map(v => ({
-                         value: v,
-                       })),
-                     }),
+                prop.displayValue === 'vector' && {
+                  label: 'Copy as prop',
+                  icon: 'i-material-symbols:data-array',
+                  onSelect: () =>
+                    copyProp({
+                      path: prop.key,
+                      value: Object.values(prop.value),
+                    }),
                 },
-              prop.displayValue === 'vector' && prop.key === 'quaternion'
-                && { label: 'Copy as Quaternion',
-                     icon: 'i-lucide:rotate-3d',
-                     onSelect: () => copyValueAsQuaternion({
-                       children: [
-                         { label: 'x', value: prop.value.x },
-                         { label: 'y', value: prop.value.y },
-                         { label: 'z', value: prop.value.z },
-                         { label: 'w', value: prop.value.w || 1 },
-                       ],
-                     }),
-                },
-
-            ].filter(Boolean)"
+                prop.displayValue === 'vector' &&
+                  prop.key === 'rotation' && {
+                    label: 'Copy as Euler',
+                    icon: 'i-lucide:rotate-3d',
+                    onSelect: () =>
+                      copyValueAsEuler({
+                        children: [
+                          { label: 'x', value: prop.value.x },
+                          { label: 'y', value: prop.value.y },
+                          { label: 'z', value: prop.value.z },
+                          { label: 'order', value: prop.value.order || 'XYZ' },
+                        ],
+                      }),
+                  },
+                prop.displayValue === 'vector' &&
+                  prop.key !== 'rotation' && {
+                    label: 'Copy as Vector3',
+                    icon: 'i-lucide:pen-line',
+                    onSelect: () =>
+                      copyValueAsVector3({
+                        children: Object.values(prop.value).map((v) => ({
+                          value: v,
+                        })),
+                      }),
+                  },
+                prop.displayValue === 'vector' &&
+                  prop.key === 'quaternion' && {
+                    label: 'Copy as Quaternion',
+                    icon: 'i-lucide:rotate-3d',
+                    onSelect: () =>
+                      copyValueAsQuaternion({
+                        children: [
+                          { label: 'x', value: prop.value.x },
+                          { label: 'y', value: prop.value.y },
+                          { label: 'z', value: prop.value.z },
+                          { label: 'w', value: prop.value.w || 1 },
+                        ],
+                      }),
+                  },
+              ].filter(Boolean)
+            "
             :ui="{
               content: 'w-48',
             }"

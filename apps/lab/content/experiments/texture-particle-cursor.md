@@ -27,4 +27,3 @@ This experiment is based on the excellent [Three.js Journey](https://threejs-jou
 
 - Concept and techniques from [Three.js Journey](https://threejs-journey.com/) by Bruno Simon
 - Implementation adapted for TresJS and Vue 3
-

@@ -1,14 +1,13 @@
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <UHeader>
     <template #title>
       <div class="flex items-center">
-        <img src="/logo.svg" alt="Tres.js" class="h-3 mr-4">
-        <a class="font-bold text-dark font-sans text-sm" href="/" title="Home">Tres<span
-            class="text-primary-300">JS</span></a>
+        <img src="/logo.svg" alt="Tres.js" class="h-3 mr-4" />
+        <a class="font-bold text-dark font-sans text-sm" href="/" title="Home"
+          >Tres<span class="text-primary-300">JS</span></a
+        >
       </div>
     </template>
     <UContentSearchButton variant="subtle" :collapsed="false" />
@@ -17,8 +16,14 @@
       <UColorModeButton />
 
       <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
-        <UButton color="neutral" variant="ghost" to="https://github.com/Tresjs/tres/tree/main/apps/lab" target="_blank"
-          icon="i-simple-icons-github" aria-label="GitHub" />
+        <UButton
+          color="neutral"
+          variant="ghost"
+          to="https://github.com/Tresjs/tres/tree/main/apps/lab"
+          target="_blank"
+          icon="i-simple-icons-github"
+          aria-label="GitHub"
+        />
       </UTooltip>
     </template>
   </UHeader>

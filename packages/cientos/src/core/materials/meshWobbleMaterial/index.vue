@@ -38,8 +38,5 @@ defineExpose({ instance: materialRef })
 </script>
 
 <template>
-  <TresMeshWobbleMaterial
-    ref="materialRef"
-    :factor="factor"
-  />
+  <TresMeshWobbleMaterial ref="materialRef" :factor="factor" />
 </template>

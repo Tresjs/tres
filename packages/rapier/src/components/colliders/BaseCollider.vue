@@ -6,7 +6,12 @@ import { inject, nextTick, onUnmounted, type ShallowRef, shallowRef, watch } fro
 import { useRapierContext } from '../../composables'
 import { createCollider } from '../../core/collider'
 import { makePropsWatcherCL } from '../../utils'
-import type { ColliderProps, CreateColliderReturnType, ExposedCollider, RigidBodyContext } from '../../types'
+import type {
+  ColliderProps,
+  CreateColliderReturnType,
+  ExposedCollider,
+  RigidBodyContext,
+} from '../../types'
 
 const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   shape: 'cuboid',
@@ -24,7 +29,8 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
 const { world } = useRapierContext()
 
 const colliderGroup = shallowRef<TresObject3D>()
-const bodyContext = inject<ShallowRef<RigidBodyContext>>('bodyContext') ?? shallowRef<RigidBodyContext>()
+const bodyContext =
+  inject<ShallowRef<RigidBodyContext>>('bodyContext') ?? shallowRef<RigidBodyContext>()
 const colliderInfos = shallowRef<CreateColliderReturnType>()
 const instance = shallowRef<CreateColliderReturnType['collider']>()
 const colliderDesc = shallowRef<CreateColliderReturnType['colliderDesc']>()
@@ -35,36 +41,42 @@ defineExpose({
   object: colliderGroup,
 } satisfies { [K in keyof ExposedCollider]: ShallowRef<ExposedCollider[K] | undefined> })
 
-watch(bodyContext, async (state) => {
-  await nextTick()
+watch(
+  bodyContext,
+  async (state) => {
+    await nextTick()
 
-  const isValidCollider = !!state?.colliders.find((item) => {
-    return item.object.uuid === props.object?.uuid
-  })
+    const isValidCollider = !!state?.colliders.find((item) => {
+      return item.object.uuid === props.object?.uuid
+    })
 
-  if (!state || isValidCollider) { return }
+    if (!state || isValidCollider) {
+      return
+    }
 
-  const object = props.object ?? state.group
-  const infos = {
-    ...createCollider({
-      ...props,
+    const object = props.object ?? state.group
+    const infos = {
+      ...createCollider({
+        ...props,
+        object,
+        rigidBody: state.rigidBody,
+        world,
+      }),
       object,
-      rigidBody: state.rigidBody,
-      world,
-    }),
-    object,
-    group: colliderGroup,
-  }
+      group: colliderGroup,
+    }
 
-  infos.collider.userData = {
-    uuid: colliderGroup.value?.uuid,
-  }
-  instance.value = infos.collider
-  colliderDesc.value = infos.colliderDesc
-  colliderInfos.value = infos
+    infos.collider.userData = {
+      uuid: colliderGroup.value?.uuid,
+    }
+    instance.value = infos.collider
+    colliderDesc.value = infos.colliderDesc
+    colliderInfos.value = infos
 
-  state.colliders.push(infos)
-}, { immediate: true })
+    state.colliders.push(infos)
+  },
+  { immediate: true },
+)
 
 // TODO: collisionGroups
 makePropsWatcherCL(
@@ -82,22 +94,27 @@ makePropsWatcherCL(
 )
 
 watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
-  if (!colliderInfos.value?.collider || !_collisionGroups) { return }
+  if (!colliderInfos.value?.collider || !_collisionGroups) {
+    return
+  }
   colliderInfos.value.collider.setCollisionGroups(_collisionGroups)
 })
 
 watch([() => props.activeCollision, colliderInfos], ([_activeCollision]) => {
-  if (!colliderInfos.value?.collider) { return }
+  if (!colliderInfos.value?.collider) {
+    return
+  }
   if (_activeCollision) {
     colliderInfos.value.collider.setActiveEvents(ActiveEvents.COLLISION_EVENTS)
-  }
-  else {
+  } else {
     colliderInfos.value.collider.setActiveEvents(ActiveEvents.NONE)
   }
 })
 
 onUnmounted(() => {
-  if (!bodyContext.value || !colliderInfos.value?.collider) { return }
+  if (!bodyContext.value || !colliderInfos.value?.collider) {
+    return
+  }
 
   world.value.removeCollider(colliderInfos.value.collider, false)
 

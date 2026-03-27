@@ -10,31 +10,20 @@ export async function getTextureAndAtlasAsync(
   // Use plain Three.js TextureLoader for loading the texture
   const loader = new TextureLoader()
   const texturePromise = new Promise<Texture>((resolve, reject) => {
-    loader.load(
-      imagePathOrImageData,
-      resolve,
-      undefined,
-      reject,
-    )
+    loader.load(imagePathOrImageData, resolve, undefined, reject)
   })
 
-  const atlasishPromise: Promise<Atlasish>
-    = typeof atlasPathOrAtlasish !== 'string'
-      ? new Promise(resolve => resolve(atlasPathOrAtlasish as Atlasish))
+  const atlasishPromise: Promise<Atlasish> =
+    typeof atlasPathOrAtlasish !== 'string'
+      ? new Promise((resolve) => resolve(atlasPathOrAtlasish as Atlasish))
       : fetch(atlasPathOrAtlasish)
-          .then(response => response.json())
-          .catch(e => logError(`Cientos Atlas - ${e}`))
+          .then((response) => response.json())
+          .catch((e) => logError(`Cientos Atlas - ${e}`))
 
-  return Promise.all([texturePromise, atlasishPromise]).then(
-    ([texture, atlasish]) => {
-      const atlas = getAtlas(
-        atlasish,
-        texture.image.width,
-        texture.image.height,
-      )
-      return [texture, atlas]
-    },
-  )
+  return Promise.all([texturePromise, atlasishPromise]).then(([texture, atlasish]) => {
+    const atlas = getAtlas(atlasish, texture.image.width, texture.image.height)
+    return [texture, atlas]
+  })
 }
 
 export interface AtlasFrame {
@@ -52,19 +41,11 @@ export interface Atlas {
   animations: Record<string, AtlasFrame[]>
 }
 
-export function getAtlas(
-  atlasish: Atlasish,
-  textureWidth: number,
-  textureHeight: number,
-): Atlas {
-  const frames
-    = typeof atlasish === 'number' || Array.isArray(atlasish)
+export function getAtlas(atlasish: Atlasish, textureWidth: number, textureHeight: number): Atlas {
+  const frames =
+    typeof atlasish === 'number' || Array.isArray(atlasish)
       ? getAtlasFramesFromNumColsNumRows(atlasish, textureWidth, textureHeight)
-      : getAtlasFramesFromTexturePackerData(
-          atlasish,
-          textureWidth,
-          textureHeight,
-        )
+      : getAtlasFramesFromTexturePackerData(atlasish, textureWidth, textureHeight)
 
   return { frames, animations: groupAtlasFramesByKey(frames) }
 }
@@ -75,15 +56,11 @@ export function getAtlasFrames(
   reversed: boolean,
 ): AtlasFrame[] {
   let frames: AtlasFrame[]
-  if (typeof animationNameOrFrameNumber === 'string') { frames = getAtlasFramesByAnimationName(atlas, animationNameOrFrameNumber) }
-  else if (typeof animationNameOrFrameNumber === 'number') {
-    frames = getAtlasFramesByIndices(
-      atlas,
-      animationNameOrFrameNumber,
-      animationNameOrFrameNumber,
-    )
-  }
-  else {
+  if (typeof animationNameOrFrameNumber === 'string') {
+    frames = getAtlasFramesByAnimationName(atlas, animationNameOrFrameNumber)
+  } else if (typeof animationNameOrFrameNumber === 'number') {
+    frames = getAtlasFramesByIndices(atlas, animationNameOrFrameNumber, animationNameOrFrameNumber)
+  } else {
     frames = getAtlasFramesByIndices(
       atlas,
       animationNameOrFrameNumber[0],
@@ -105,14 +82,12 @@ export function getNullAtlasFrame(): AtlasFrame {
   }
 }
 
-export type AtlasData =
-  | TexturePackerFrameDataArray
-  | TexturePackerFrameDataObject
+export type AtlasData = TexturePackerFrameDataArray | TexturePackerFrameDataObject
 export type Atlasish = AtlasData | [number, number] | number
 
 interface TexturePackerFrameData {
   filename: string
-  frame: { x: number, y: number, w: number, h: number }
+  frame: { x: number; y: number; w: number; h: number }
 }
 
 interface TexturePackerFrameDataArray {
@@ -129,16 +104,8 @@ function getAtlasFramesFromTexturePackerData(
   height: number,
 ) {
   return Array.isArray(data.frames)
-    ? getAtlasFramesFromTexturePackerDataArray(
-        data as TexturePackerFrameDataArray,
-        width,
-        height,
-      )
-    : getAtlasFramesFromTexturePackerDataObject(
-        data as TexturePackerFrameDataObject,
-        width,
-        height,
-      )
+    ? getAtlasFramesFromTexturePackerDataArray(data as TexturePackerFrameDataArray, width, height)
+    : getAtlasFramesFromTexturePackerDataObject(data as TexturePackerFrameDataObject, width, height)
 }
 
 function getAtlasFramesFromTexturePackerDataArray(
@@ -148,7 +115,7 @@ function getAtlasFramesFromTexturePackerDataArray(
 ): AtlasFrame[] {
   const invWidth = 1 / width
   const invHeight = 1 / height
-  return data.frames.map(d => ({
+  return data.frames.map((d) => ({
     name: d.filename,
     offsetX: d.frame.x * invWidth,
     offsetY: 1 - (d.frame.y + d.frame.h) * invHeight,
@@ -219,23 +186,20 @@ export function setAtlasDefinitions(atlas: Atlas, definitions: Record<string, st
     for (const frameIndex of expandedFrameIndices) {
       if (frameIndex < 0 || frames.length <= frameIndex) {
         logError(
-          'Cientos Atlas: Attempting to access frame index '
-          + `${frameIndex} in animation ${animationName}, but it does not exist.`,
+          'Cientos Atlas: Attempting to access frame index ' +
+            `${frameIndex} in animation ${animationName}, but it does not exist.`,
         )
       }
     }
-    animations[animationName] = expandedFrameIndices.map(frameIndex => frames[frameIndex])
+    animations[animationName] = expandedFrameIndices.map((frameIndex) => frames[frameIndex])
   }
   atlas.animations = animations
 }
 
-function getAtlasFramesByAnimationName(
-  atlas: Atlas,
-  name: string,
-): AtlasFrame[] {
+function getAtlasFramesByAnimationName(atlas: Atlas, name: string): AtlasFrame[] {
   if (!(name in atlas.animations)) {
     const animationsMsg = Object.keys(atlas.animations)
-      .map(n => `* ${n}\n`)
+      .map((n) => `* ${n}\n`)
       .join('')
     logError(
       `Cientos Atlas: getAtlasFramesByAnimationName
@@ -248,25 +212,16 @@ ${animationsMsg}`,
   return atlas.animations[name]
 }
 
-function getAtlasFramesByIndices(
-  atlas: Atlas,
-  startI: number,
-  endI: number,
-): AtlasFrame[] {
-  if (
-    startI < 0
-    || atlas.frames.length <= startI
-    || endI < 0
-    || atlas.frames.length <= endI
-  ) {
-    logError(
-      `Cientos Atlas: getFramesByIndex – [${startI}, ${endI}] is out of bounds.`,
-    )
+function getAtlasFramesByIndices(atlas: Atlas, startI: number, endI: number): AtlasFrame[] {
+  if (startI < 0 || atlas.frames.length <= startI || endI < 0 || atlas.frames.length <= endI) {
+    logError(`Cientos Atlas: getFramesByIndex – [${startI}, ${endI}] is out of bounds.`)
     return [getNullAtlasFrame()]
   }
   const result = []
   const sign = Math.sign(endI - startI)
-  if (sign === 0) { return [atlas.frames[startI]] }
+  if (sign === 0) {
+    return [atlas.frames[startI]]
+  }
   for (let i = startI; i !== endI + sign; i += sign) {
     result.push(atlas.frames[i])
   }
@@ -287,9 +242,7 @@ function getAtlasFramesByIndices(
  * }
  * ```
  */
-function groupAtlasFramesByKey(
-  frames: AtlasFrame[],
-): Record<string, AtlasFrame[]> {
+function groupAtlasFramesByKey(frames: AtlasFrame[]): Record<string, AtlasFrame[]> {
   const result: Record<string, AtlasFrame[]> = {}
 
   for (const frame of frames) {
@@ -297,8 +250,7 @@ function groupAtlasFramesByKey(
       const key = stripUnderscoresNumbersFromEnd(frame.name)
       if (Object.prototype.hasOwnProperty.call(result, key)) {
         result[key].push(frame)
-      }
-      else {
+      } else {
         result[key] = [frame]
       }
     }

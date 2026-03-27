@@ -22,7 +22,10 @@ export interface RingProps {
   color?: TresColor
 }
 
-const props = withDefaults(defineProps<RingProps>(), { args: () => [0.5, 1, 32], color: '#ffffff' })
+const props = withDefaults(defineProps<RingProps>(), {
+  args: () => [0.5, 1, 32],
+  color: '#ffffff',
+})
 
 const { args, color } = toRefs(props)
 
@@ -40,9 +43,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="ringRef"
-  >
+  <TresMesh ref="ringRef">
     <TresRingGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

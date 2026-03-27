@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { useLoop, useTresContext } from '@tresjs/core'
-import { BackSide, BoxGeometry, CubeCamera, HalfFloatType, Mesh, MeshBasicMaterial, WebGLCubeRenderTarget } from 'three'
+import {
+  BackSide,
+  BoxGeometry,
+  CubeCamera,
+  HalfFloatType,
+  Mesh,
+  MeshBasicMaterial,
+  WebGLCubeRenderTarget,
+} from 'three'
 import { onUnmounted, ref, toRaw, useSlots, watch } from 'vue'
 import type { CubeTexture, Texture } from 'three'
 import type { Ref } from 'vue'
@@ -54,30 +62,31 @@ onBeforeRender(() => {
 }, -1)
 
 // Add environment map to virtual scene when available
-watch([useEnvironmentTexture, environmentScene], ([texture, scene]) => {
-  if (texture && scene?.virtualScene) {
-    const rawScene = toRaw(scene).virtualScene
+watch(
+  [useEnvironmentTexture, environmentScene],
+  ([texture, scene]) => {
+    if (texture && scene?.virtualScene) {
+      const rawScene = toRaw(scene).virtualScene
 
-    // Find existing environment mesh or create a new one
-    let envMesh = rawScene.children.find(
-      child => child instanceof Mesh && child.userData.isEnvironment,
-    ) as Mesh | undefined
+      // Find existing environment mesh or create a new one
+      let envMesh = rawScene.children.find(
+        (child) => child instanceof Mesh && child.userData.isEnvironment,
+      ) as Mesh | undefined
 
-    if (!envMesh) {
-      // Create new environment mesh if none exists
-      envMesh = new Mesh(
-        new BoxGeometry(1, 1, 1),
-        new MeshBasicMaterial({ side: BackSide }),
-      )
-      envMesh.userData.isEnvironment = true
-      rawScene.add(envMesh)
+      if (!envMesh) {
+        // Create new environment mesh if none exists
+        envMesh = new Mesh(new BoxGeometry(1, 1, 1), new MeshBasicMaterial({ side: BackSide }))
+        envMesh.userData.isEnvironment = true
+        rawScene.add(envMesh)
+      }
+
+      // Update the environment map
+      rawScene.background = texture
+      rawScene.backgroundBlurriness = props.blur
     }
-
-    // Update the environment map
-    rawScene.background = texture
-    rawScene.backgroundBlurriness = props.blur
-  }
-}, { immediate: true })
+  },
+  { immediate: true },
+)
 
 const setTextureEnvAndBG = (fbo?: WebGLCubeRenderTarget) => {
   if (fbo && slots?.length) {
@@ -86,8 +95,7 @@ const setTextureEnvAndBG = (fbo?: WebGLCubeRenderTarget) => {
     if (props.background) {
       scene.value.background = fbo.texture
     }
-  }
-  else if (useEnvironmentTexture.value) {
+  } else if (useEnvironmentTexture.value) {
     // Otherwise use the original environment texture
     scene.value.environment = useEnvironmentTexture.value
     if (props.background) {
@@ -96,28 +104,36 @@ const setTextureEnvAndBG = (fbo?: WebGLCubeRenderTarget) => {
   }
 }
 
-watch(useEnvironmentTexture, () => {
-  if (fbo.value) {
-    setTextureEnvAndBG(fbo.value)
-  }
-}, { immediate: true, deep: true })
-
-watch(() => useSlots().default, (value) => {
-  if (value) {
-    slots = value()
-    if (Array.isArray(slots) && slots.length > 0) {
-      extend({ EnvironmentScene })
-      fbo.value = new WebGLCubeRenderTarget(props.resolution)
-      fbo.value.texture.type = HalfFloatType
-      cubeCamera = new CubeCamera(props.near, props.far, fbo.value)
+watch(
+  useEnvironmentTexture,
+  () => {
+    if (fbo.value) {
       setTextureEnvAndBG(fbo.value)
-      return
     }
-  }
-  fbo.value?.dispose()
-  fbo.value = null
-  setTextureEnvAndBG()
-}, { immediate: true, deep: true })
+  },
+  { immediate: true, deep: true },
+)
+
+watch(
+  () => useSlots().default,
+  (value) => {
+    if (value) {
+      slots = value()
+      if (Array.isArray(slots) && slots.length > 0) {
+        extend({ EnvironmentScene })
+        fbo.value = new WebGLCubeRenderTarget(props.resolution)
+        fbo.value.texture.type = HalfFloatType
+        cubeCamera = new CubeCamera(props.near, props.far, fbo.value)
+        setTextureEnvAndBG(fbo.value)
+        return
+      }
+    }
+    fbo.value?.dispose()
+    fbo.value = null
+    setTextureEnvAndBG()
+  },
+  { immediate: true, deep: true },
+)
 
 texture.value = useEnvironmentTexture.value
 
@@ -128,10 +144,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <TresEnvironmentScene
-    v-if="fbo"
-    ref="environmentScene"
-  >
+  <TresEnvironmentScene v-if="fbo" ref="environmentScene">
     <slot></slot>
   </TresEnvironmentScene>
 </template>

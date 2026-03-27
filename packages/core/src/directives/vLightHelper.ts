@@ -1,6 +1,4 @@
-import type {
-  Light,
-} from 'three'
+import type { Light } from 'three'
 import type { TresObject } from '../types'
 import {
   DirectionalLightHelper,
@@ -12,7 +10,8 @@ import { RectAreaLightHelper } from 'three-stdlib'
 import { logWarning } from '../utils/logger'
 import { isLight } from '../utils/is'
 
-type LightHelper = typeof DirectionalLightHelper
+type LightHelper =
+  | typeof DirectionalLightHelper
   | typeof PointLightHelper
   | typeof SpotLightHelper
   | typeof HemisphereLightHelper
@@ -39,7 +38,9 @@ export const vLightHelper = {
     el.parent?.add(new CurrentHelper(el as never, 1, el.color.getHex()))
   },
   updated: (el: TresObject) => {
-    currentInstance = el.parent?.children.find((child: TresObject) => child instanceof CurrentHelper)
+    currentInstance = el.parent?.children.find(
+      (child: TresObject) => child instanceof CurrentHelper,
+    )
     if (currentInstance instanceof RectAreaLightHelper) {
       return
     }
@@ -50,7 +51,9 @@ export const vLightHelper = {
       logWarning(`${el.type} is not a light`)
       return
     }
-    currentInstance = el.parent?.children.find((child: TresObject) => child instanceof CurrentHelper)
+    currentInstance = el.parent?.children.find(
+      (child: TresObject) => child instanceof CurrentHelper,
+    )
 
     if (currentInstance && currentInstance.dispose) {
       currentInstance.dispose()

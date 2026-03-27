@@ -22,10 +22,7 @@ onLoop(({ _delta, elapsed }) => {
 </script>
 
 <template>
-  <TresMesh
-    ref="blobRef"
-    :position="[0, 4, 0]"
-  >
+  <TresMesh ref="blobRef" :position="[0, 4, 0]">
     <TresSphereGeometry :args="[2, 32, 32]" />
     <TresShaderMaterial
       ref="materialRef"

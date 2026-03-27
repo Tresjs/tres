@@ -1,7 +1,16 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import type { Group, Material } from 'three'
-import { BoxGeometry, Color, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, Vector3, WebGLRenderer } from 'three'
+import {
+  BoxGeometry,
+  Color,
+  Mesh,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  Scene,
+  Vector3,
+  WebGLRenderer,
+} from 'three'
 import { onUnmounted, ref } from 'vue'
 
 const toggleMax = 400
@@ -28,10 +37,12 @@ const testVueThree = (() => {
           if (frameCount < 2) {
             frameCount++
             renderer.render(scene!, camera!)
-          }
-          else {
+          } else {
             camera?.removeFromParent()
-            scene!.children.forEach((m) => { ((m as Mesh).material as Material).dispose(); (m as Mesh).geometry.dispose() })
+            scene!.children.forEach((m) => {
+              ;((m as Mesh).material as Material).dispose()
+              ;(m as Mesh).geometry.dispose()
+            })
             renderer.dispose()
             frameCount = 0
             camera = null
@@ -40,8 +51,7 @@ const testVueThree = (() => {
             showVueThree.value = false
             toggleCount.value++
           }
-        }
-        else {
+        } else {
           renderer = new WebGLRenderer({ canvas: r.value })
           renderer.setSize(width, height)
           renderer.setClearColor(new Color('#EEE'))
@@ -56,12 +66,10 @@ const testVueThree = (() => {
           scene.add(camera)
           renderer.render(scene, camera)
         }
-      }
-      else if (!showVueThree.value) {
+      } else if (!showVueThree.value) {
         showVueThree.value = true
       }
-    }
-    else {
+    } else {
       const elapsedSec = (Date.now() - startTimeMS.value) / 1000
       msg.value = `Plain Vue/THREE test completed in ${elapsedSec} seconds.`
       clearInterval(intervalId)
@@ -76,20 +84,19 @@ const testTres = (() => {
       if (r.value && frameCount < 2) {
         // NOTE: Wait until Tres has actually rendered before
         // removing the canvas.
-        ((r.value as Group).children[0] as Mesh).onAfterRender = () => { frameCount++ }
-      }
-      else {
+        ;((r.value as Group).children[0] as Mesh).onAfterRender = () => {
+          frameCount++
+        }
+      } else {
         if (frameCount < 1) {
           showTres.value = true
-        }
-        else {
+        } else {
           toggleCount.value++
           showTres.value = false
           frameCount = 0
         }
       }
-    }
-    else {
+    } else {
       const elapsedSec = (Date.now() - startTimeMS.value) / 1000
       msg.value = `Tres test completed in ${elapsedSec} seconds.`
       clearInterval(intervalId)
@@ -121,9 +128,15 @@ onUnmounted(() => {
 <template>
   <OverlayInfo>
     <h1>Memory test: Canvases with objects – Tres vs Plain Vue/THREE</h1>
-    <p><span style="color: red">IMPORTANT</span> Epileptic warning: the tests run on this page cause the screen to flash rapidly.</p>
+    <p>
+      <span style="color: red">IMPORTANT</span> Epileptic warning: the tests run on this page cause
+      the screen to flash rapidly.
+    </p>
     <h2>Setup</h2>
-    <p>This test will create and remove {{ toggleMax }} canvas instances with {{ numObjectsMax }} objects/materials/geometries each.</p>
+    <p>
+      This test will create and remove {{ toggleMax }} canvas instances with
+      {{ numObjectsMax }} objects/materials/geometries each.
+    </p>
     <h2>Note</h2>
     <ul>
       <li>These tests are intended to help spot memory leaks.</li>
@@ -132,30 +145,22 @@ onUnmounted(() => {
     <h2>Status</h2>
     <p>{{ msg }}</p>
     <p>Number of canvases created: {{ toggleCount }} / {{ toggleMax }}</p>
-    <button
-      v-if="!isStarted"
-      style="padding: 8px 16px; margin-top: 10px;"
-      @click="startTestTres"
-    >
+    <button v-if="!isStarted" style="padding: 8px 16px; margin-top: 10px" @click="startTestTres">
       Start Tres test
     </button>
 
     <button
       v-if="!isStarted"
-      style="padding: 8px 16px; margin-top: 10px;"
+      style="padding: 8px 16px; margin-top: 10px"
       @click="startTestVueThree"
     >
       Start plain Vue/THREE test
     </button>
   </OverlayInfo>
-  <div
-    v-if="showTres"
-    :style="{ width: `${width}px`,
-              height: `${height}px` }"
-  >
+  <div v-if="showTres" :style="{ width: `${width}px`, height: `${height}px` }">
     <TresCanvas clear-color="#EEE">
       <TresGroup ref="r">
-        <TresMesh v-for="_, i of Array.from({ length: numObjectsMax })" :key="i">
+        <TresMesh v-for="(_, i) of Array.from({ length: numObjectsMax })" :key="i">
           <TresMeshBasicMaterial />
           <TresBoxGeometry />
         </TresMesh>

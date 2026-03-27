@@ -22,7 +22,10 @@ export interface CircleProps {
   color?: TresColor
 }
 
-const props = withDefaults(defineProps<CircleProps>(), { args: () => [1, 32, 0, Math.PI * 2], color: '#ffffff' })
+const props = withDefaults(defineProps<CircleProps>(), {
+  args: () => [1, 32, 0, Math.PI * 2],
+  color: '#ffffff',
+})
 const { invalidate } = useTres()
 
 const { args, color } = toRefs(props)
@@ -38,9 +41,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="circleRef"
-  >
+  <TresMesh ref="circleRef">
     <TresCircleGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

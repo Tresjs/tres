@@ -67,7 +67,9 @@ onBeforeRender(() => invalidate())
 
 watchEffect(() => {
   const getMode = () => {
-    if (props.mode !== undefined) { return props.active === false ? GlitchMode.DISABLED : props.mode }
+    if (props.mode !== undefined) {
+      return props.active === false ? GlitchMode.DISABLED : props.mode
+    }
     const plainEffectPass = new GlitchEffect()
 
     const defaultMode = plainEffectPass.mode
@@ -76,7 +78,9 @@ watchEffect(() => {
     return defaultMode
   }
 
-  if (effect.value) { effect.value.mode = getMode() }
+  if (effect.value) {
+    effect.value.mode = getMode()
+  }
 })
 
 makePropWatcher(

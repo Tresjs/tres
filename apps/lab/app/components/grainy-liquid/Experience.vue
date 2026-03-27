@@ -7,17 +7,14 @@ import { BlendFunction } from 'postprocessing'
 <template>
   <TresPerspectiveCamera :position="[0, 0, 8]" />
   <OrbitControls :enable-pan="false" :enable-zoom="false" />
-  
+
   <MultiBlob />
-  
+
   <TresAmbientLight :intensity="0.4" />
-  
+
   <Suspense>
     <EffectComposerPmndrs>
-      <NoisePmndrs
-        premultiply
-        :blend-function="BlendFunction.OVERLAY"
-      />
+      <NoisePmndrs premultiply :blend-function="BlendFunction.OVERLAY" />
     </EffectComposerPmndrs>
   </Suspense>
 </template>

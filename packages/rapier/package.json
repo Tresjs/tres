@@ -1,58 +1,53 @@
 {
   "name": "@tresjs/rapier",
-  "type": "module",
   "version": "0.0.0",
   "private": true,
   "description": "TresJs physics support, powered by rapier",
-  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Tresjs/tres.git",
-    "directory": "packages/rapier"
-  },
   "keywords": [
-    "vue",
     "3d",
-    "threejs",
-    "three",
-    "threejs-vue",
+    "physics",
     "rapier",
     "rapier3d",
-    "physics"
+    "three",
+    "threejs",
+    "threejs-vue",
+    "vue"
   ],
+  "license": "MIT",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "maintainers": [
     "Alvaro Saburido (https://github.com/alvarosabu/)",
     "Nathan Mande (https://github.com/Neosoulink/)",
     "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
-  "exports": {
-    ".": "./dist/tresrapier.js",
-    "./package.json": "./package.json"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/rapier"
   },
-  "main": "./dist/tresrapier.js",
-  "module": "./dist/tresrapier.js",
-  "types": "./dist/tresrapier.d.ts",
   "files": [
     "*.d.ts",
     "dist"
   ],
+  "type": "module",
+  "main": "./dist/tresrapier.js",
+  "module": "./dist/tresrapier.js",
+  "types": "./dist/tresrapier.d.ts",
+  "exports": {
+    ".": "./dist/tresrapier.js",
+    "./package.json": "./package.json"
+  },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "tsdown",
-    "build:analyze": "ANALYZE=true tsdown",
+    "build": "vp pack",
+    "build:analyze": "ANALYZE=true vp pack",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
-  },
-  "peerDependencies": {
-    "@tresjs/core": "5.3.2",
-    "three": ">=0.169",
-    "vue": ">=3.4.0"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.19.3",
@@ -70,11 +65,16 @@
     "rollup-plugin-analyzer": "catalog:build",
     "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
-    "tsdown": "catalog:build",
     "typescript": "catalog:typescript",
-    "vite": "catalog:vite",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
     "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
+  },
+  "peerDependencies": {
+    "@tresjs/core": "5.3.2",
+    "three": ">=0.169",
+    "vue": ">=3.4.0"
   },
   "nx": {
     "implicitDependencies": [

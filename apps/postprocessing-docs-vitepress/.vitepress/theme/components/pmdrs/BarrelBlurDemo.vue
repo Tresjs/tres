@@ -6,7 +6,6 @@ import { BarrelBlurPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 import { NoToneMapping } from 'three'
 
-
 const gl = {
   clearColor: '#4f4f4f',
   toneMapping: NoToneMapping,
@@ -21,7 +20,7 @@ const { amount, offsetX, offsetY, blendFunction } = useControls({
   offsetX: { value: 0.5, step: 0.01, min: 0, max: 1 },
   offsetY: { value: 0.5, step: 0.01, min: 0, max: 1 },
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -32,13 +31,8 @@ const { amount, offsetX, offsetY, blendFunction } = useControls({
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[5, 5, 5]"
-        :look-at="[0, 0, 0]"
-      />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
       <OrbitControls auto-rotate />
 
       <Suspense>
@@ -48,8 +42,8 @@ const { amount, offsetX, offsetY, blendFunction } = useControls({
       <RoundedBox :args="[2, 2, 2, 2, 0.25]">
         <TresMeshPhysicalMaterial
           color="white"
-          :metalness=".9"
-          :roughness=".5"
+          :metalness="0.9"
+          :roughness="0.5"
           :clearcoat="1.0"
           :clearcoatRoughness="0.1"
         />
@@ -57,7 +51,11 @@ const { amount, offsetX, offsetY, blendFunction } = useControls({
 
       <Suspense>
         <EffectComposerPmndrs v-bind="glComposer">
-          <BarrelBlurPmndrs :amount="amount" :offset="[offsetX, offsetY]" :blendFunction="Number(blendFunction)" />
+          <BarrelBlurPmndrs
+            :amount="amount"
+            :offset="[offsetX, offsetY]"
+            :blendFunction="Number(blendFunction)"
+          />
         </EffectComposerPmndrs>
       </Suspense>
     </TresCanvas>

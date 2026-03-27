@@ -4,8 +4,8 @@ description: Handles instantiation, updates, and removal/disposal of THREE Helpe
 ---
 
 ::SceneWrapper
-  ::DebugPerformanceHelper
-  ::
+::DebugPerformanceHelper
+::
 ::
 
 `<Helper />` handles instantiation, updates, and removal/disposal of THREE Helpers.
@@ -34,7 +34,7 @@ import { BoxHelper } from 'three'
 
 ## Props
 
-| Prop                | Description                                                                                   | Default     |
-| :------------------ | :-------------------------------------------------------------------------------------------- | ----------- |
-| **type**         | Helper constructor - required |       |
-| **args**         | Helper constructor args | `[]` |
+| Prop     | Description                   | Default |
+| :------- | :---------------------------- | ------- |
+| **type** | Helper constructor - required |         |
+| **args** | Helper constructor args       | `[]`    |

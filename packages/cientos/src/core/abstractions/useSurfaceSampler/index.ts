@@ -1,9 +1,4 @@
-import {
-  Color,
-  InterleavedBuffer,
-  Object3D,
-  Vector3,
-} from 'three'
+import { Color, InterleavedBuffer, Object3D, Vector3 } from 'three'
 import { MeshSurfaceSampler } from 'three-stdlib'
 import { ref } from 'vue'
 import type { InstancedMesh, Mesh, Object3DEventMap } from 'three'
@@ -90,7 +85,9 @@ export const useSurfaceSampler = (
   const buffer = ref(new InterleavedBuffer(arr, 16))
 
   const updateBuffer = () => {
-    if (!mesh) { return }
+    if (!mesh) {
+      return
+    }
 
     const sampler = new MeshSurfaceSampler(mesh)
 
@@ -120,8 +117,7 @@ export const useSurfaceSampler = (
           },
           i,
         )
-      }
-      else {
+      } else {
         dummy.position.copy(position)
       }
       dummy.updateMatrix()

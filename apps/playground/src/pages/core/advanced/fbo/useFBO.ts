@@ -45,19 +45,25 @@ export interface FboOptions {
 export function useFBO(options: FboOptions) {
   const target: Ref<WebGLRenderTarget | null> = ref(null)
 
-  const { height, width, settings, depth } = isReactive(options) ? toRefs(options) : toRefs(reactive(options))
+  const { height, width, settings, depth } = isReactive(options)
+    ? toRefs(options)
+    : toRefs(reactive(options))
 
   const { sizes } = useTres()
 
   watchEffect(() => {
     target.value?.dispose()
 
-    target.value = new WebGLRenderTarget(width?.value || sizes.width.value, height?.value || sizes.height.value, {
-      minFilter: LinearFilter,
-      magFilter: LinearFilter,
-      type: HalfFloatType,
-      ...settings?.value,
-    })
+    target.value = new WebGLRenderTarget(
+      width?.value || sizes.width.value,
+      height?.value || sizes.height.value,
+      {
+        minFilter: LinearFilter,
+        magFilter: LinearFilter,
+        type: HalfFloatType,
+        ...settings?.value,
+      },
+    )
 
     if (depth?.value) {
       target.value.depthTexture = new DepthTexture(

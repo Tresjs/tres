@@ -22,32 +22,18 @@ function onLoop({ elapsed }: { elapsed: number }) {
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-    @loop="onLoop"
-  >
+  <TresCanvas v-bind="gl" @loop="onLoop">
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <CameraControls />
     <BakeShadows />
-    <TresMesh
-      ref="cubeRef"
-      cast-shadow
-    >
+    <TresMesh ref="cubeRef" cast-shadow>
       <TresBoxGeometry />
-      <TresMeshStandardMaterial :color="new Color(0x00FF00)" />
+      <TresMeshStandardMaterial :color="new Color(0x00ff00)" />
     </TresMesh>
-    <TresMesh
-      receive-shadow
-      :position="[0, -2, 0]"
-      :rotation-x="-Math.PI / 2"
-    >
+    <TresMesh receive-shadow :position="[0, -2, 0]" :rotation-x="-Math.PI / 2">
       <TresPlaneGeometry :args="[5, 5]" />
-      <TresMeshStandardMaterial :color="new Color(0xF7F7F7)" />
+      <TresMeshStandardMaterial :color="new Color(0xf7f7f7)" />
     </TresMesh>
-    <TresDirectionalLight
-      v-light-helper
-      cast-shadow
-      :position="[0, 10, 0]"
-    />
+    <TresDirectionalLight v-light-helper cast-shadow :position="[0, 10, 0]" />
   </TresCanvas>
 </template>

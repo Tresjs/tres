@@ -7,7 +7,7 @@ import { useLoop, useTres } from '@tresjs/core'
 // NOTE: Source
 // https://github.com/pmndrs/drei/blob/master/src/core/Helper.tsx
 
-type HelperType = Object3D & { update: () => void, dispose: () => void }
+type HelperType = Object3D & { update: () => void; dispose: () => void }
 type HelperConstructor = new (...args: any[]) => any
 
 export function useHelper<T extends HelperConstructor>(
@@ -28,7 +28,7 @@ export function useHelper<T extends HelperConstructor>(
 
     if (currentHelper) {
       // NOTE: Prevent the helpers from blocking rays
-      currentHelper.traverse(child => (child.raycast = () => null))
+      currentHelper.traverse((child) => (child.raycast = () => null))
       scene.value.add(currentHelper)
     }
   })

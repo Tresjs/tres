@@ -21,49 +21,37 @@ const { floor, segments, receiveShadow } = toRefs(props)
 
 const planeRef: Ref<PlaneGeometry | null> = ref(null)
 
-watch(
-  [segments, floor, planeRef],
-  ([segments, floor, planeRef]) => {
-    if (!planeRef || segments === null) { return }
-    let i = 0
-    const offset = segments / segments / 2
-    const position = planeRef.attributes.position as BufferAttribute
-    for (let x = 0; x < segments + 1; x++) {
-      for (let y = 0; y < segments + 1; y++) {
-        position.setXYZ(
-          i++,
-          x / segments - offset + (x === 0 ? -floor : 0),
-          y / segments - offset,
-          easeInExpo(x / segments),
-        )
-      }
+watch([segments, floor, planeRef], ([segments, floor, planeRef]) => {
+  if (!planeRef || segments === null) {
+    return
+  }
+  let i = 0
+  const offset = segments / segments / 2
+  const position = planeRef.attributes.position as BufferAttribute
+  for (let x = 0; x < segments + 1; x++) {
+    for (let y = 0; y < segments + 1; y++) {
+      position.setXYZ(
+        i++,
+        x / segments - offset + (x === 0 ? -floor : 0),
+        y / segments - offset,
+        easeInExpo(x / segments),
+      )
     }
-    position.needsUpdate = true
-    planeRef.computeVertexNormals()
-  },
-)
+  }
+  position.needsUpdate = true
+  planeRef.computeVertexNormals()
+})
 
 const backdropRef = shallowRef()
 defineExpose({ instance: backdropRef })
 </script>
 
 <template>
-  <TresGroup
-    ref="backdropRef"
-  >
-    <TresMesh
-      :receive-shadow="receiveShadow"
-      :rotation="[-Math.PI / 2, 0, Math.PI / 2]"
-    >
-      <TresPlaneGeometry
-        ref="planeRef"
-        :args="[1, 1, segments, segments]"
-      />
+  <TresGroup ref="backdropRef">
+    <TresMesh :receive-shadow="receiveShadow" :rotation="[-Math.PI / 2, 0, Math.PI / 2]">
+      <TresPlaneGeometry ref="planeRef" :args="[1, 1, segments, segments]" />
       <slot>
-        <TresMeshStandardMaterial
-          :color="0x808080"
-          :side="2"
-        />
+        <TresMeshStandardMaterial :color="0x808080" :side="2" />
       </slot>
     </TresMesh>
   </TresGroup>

@@ -8,8 +8,8 @@ This component allows you to project HTML content to any object in your scene. T
 🚀 Works seamlessly with both **PerspectiveCamera** and **OrthographicCamera** — the active camera is automatically detected by the `<Html>` component.
 
 ::SceneWrapper
-  ::ObjectsHtml
-  ::
+::ObjectsHtml
+::
 ::
 
 ## Usage
@@ -59,14 +59,14 @@ By default, the HTML content will be visible through other objects in the scene.
 Html can be hidden behind one or more objects in your scene using the `occlude` prop.
 
 ```vue
-<Html occlude>
+<html occlude></html>
 ```
 
 If `occlude`, then `<Html>` will be hidden by any objects that pass in front of its position.
 
 ::SceneWrapper
-  ::ObjectsHtmlOcclusion
-  ::
+::ObjectsHtmlOcclusion
+::
 ::
 
 <details>
@@ -76,7 +76,14 @@ If `occlude`, then `<Html>` will be hidden by any objects that pass in front of 
 <TresMesh :position="[0, 1, -2]">
   <TresBoxGeometry />
   <TresMeshNormalMaterial />
-  <html center transform occlude :distance-factor="4" :position="[0, 0, 2]" :z-index-range="[28, 0]">
+  <html
+    center
+    transform
+    occlude
+    :distance-factor="4"
+    :position="[0, 0, 2]"
+    :z-index-range="[28, 0]"
+  >
     <h1 class="bg-white dark:bg-dark text-xs p-1 rounded">Move camera</h1>
   </html>
 </TresMesh>
@@ -87,13 +94,14 @@ If `occlude`, then `<Html>` will be hidden by any objects that pass in front of 
 You can also choose which object or objects should occlude the HTML content by passing either a single object ref or an array of object refs to the `occlude` prop:
 
 ### Single occluder
+
 ```vue
-<Html occlude="[mesh]">
+<html occlude="[mesh]"></html>
 ```
 
 ::SceneWrapper
-  ::ObjectsHtmlSingleOccluder
-  ::
+::ObjectsHtmlSingleOccluder
+::
 ::
 
 <details>
@@ -108,27 +116,30 @@ You can also choose which object or objects should occlude the HTML content by p
   </html>
 </TresMesh>
 ```
+
 </details>
 
 ### Multiple occluders
+
 ```vue
-<Html occlude="[mesh1, mesh2, mesh3, ...]" />
+<html occlude="[mesh1, mesh2, mesh3, ...]" />
 ```
 
 OR
 
 ```vue
-<Html occlude="meshesArray" />
+<html occlude="meshesArray" />
 ```
+
 In the demo below, a `v-for` loop generates multiple spheres around the cube.
 All resulting **`Mesh`** instances are collected into an array and passed to the **`occlude`** prop, allowing each sphere to occlude the HTML content.
 
 This demo also uses the **`on-occlude`** event, which is triggered whenever the occlusion state changes.
-Here, the event updates a **reactive value** to control element styles — for example, toggling between *light* and *dark* themes.
+Here, the event updates a **reactive value** to control element styles — for example, toggling between _light_ and _dark_ themes.
 
 ::SceneWrapper
-  ::ObjectsHtmlOccludeComplexDemo
-  ::
+::ObjectsHtmlOccludeComplexDemo
+::
 ::
 
 <details>
@@ -149,6 +160,7 @@ Here, the event updates a **reactive value** to control element styles — for e
   </html>
 </TresMesh>
 ```
+
 </details>
 
 ### Blending Occlusion
@@ -156,14 +168,14 @@ Here, the event updates a **reactive value** to control element styles — for e
 `<Html>` can hide behind geometry as if it was part of the 3D scene using this mode. It can be enabled by using "blending" as the occlude prop.
 
 ```vue
-<Html occlude="blending">
+<html occlude="blending"></html>
 ```
 
-The **demo below ⬇️** *(left black example)* shows a **basic usage example**.
+The **demo below ⬇️** _(left black example)_ shows a **basic usage example**.
 
 ::SceneWrapper
-  ::ObjectsHtmlOccludeBlendingDemo
-  ::
+::ObjectsHtmlOccludeBlendingDemo
+::
 ::
 
 <details>
@@ -309,44 +321,47 @@ const customMaterial = shallowRef(new MeshStandardMaterial({
 </style>
 
 ```
+
 </details>
 
 ## Custom Geometry
 
 By default, when using `occlude="blending"`, occlusion works correctly only with **rectangular HTML elements** (using a `PlaneGeometry`).
-For *non-rectangular content*, you can use the **`geometry`** prop to provide a matching custom geometry.
+For _non-rectangular content_, you can use the **`geometry`** prop to provide a matching custom geometry.
 
-In the **demo above ⬆️** *(middle yellow example)*, a [`CircleGeometry`](https://threejs.org/docs/#api/en/geometries/CircleGeometry) is used as a **custom geometry**.
+In the **demo above ⬆️** _(middle yellow example)_, a [`CircleGeometry`](https://threejs.org/docs/#api/en/geometries/CircleGeometry) is used as a **custom geometry**.
 
 ::prose-list
+
 - The `geometry` prop only defines the **occlusion shape** in 3D and does not modify your HTML content.
 - You can provide any [`BufferGeometry`](https://threejs.org/docs/#api/en/core/BufferGeometry), for example to simulate **CSS-like styles** such as `border-radius` using a rounded rectangle or squircle geometry (see [`RoundedRectangle / Squircle geometry`](https://discourse.threejs.org/t/roundedrectangle-squircle/28645) for example).
-::
+  ::
 
 #### Custom Material
 
 You can also assign material properties to the HTML content using the `material` prop.
-In the **demo above ⬆️** *(right red example)*, a **custom material** is used with shadow.
+In the **demo above ⬆️** _(right red example)_, a **custom material** is used with shadow.
 
 ::prose-note
 The `material` prop is only available when `occlude="blending"` is **enabled**.
 ::
 ::prose-note
 Enable shadows using the **`castShadow`** and **`receiveShadow`** props.
-Shadows are supported **only** when using a **custom material**. By default, shadows do **not** work with *`MeshBasicMaterial`* or *`ShaderMaterial`*. <br />
+Shadows are supported **only** when using a **custom material**. By default, shadows do **not** work with _`MeshBasicMaterial`_ or _`ShaderMaterial`_. <br />
 ::
 
 ## Using `<Transition>`
+
 The native Vue [`<Transition>`](https://vuejs.org/guide/built-ins/transition) component works seamlessly with `<Html>`.
-This means you can **animate** how your projected HTML content *enters* and *leaves* the scene, exactly as you would in a regular Vue application.
+This means you can **animate** how your projected HTML content _enters_ and _leaves_ the scene, exactly as you would in a regular Vue application.
 
 ::prose-note
-All **standard interactions** are supported just like on a regular HTML element — **hover effects**, **events**, and *any kind of DOM interaction* are fully possible.
+All **standard interactions** are supported just like on a regular HTML element — **hover effects**, **events**, and _any kind of DOM interaction_ are fully possible.
 ::
 
 ::SceneControlsWrapper
-  ::ObjectsHtmlTransitionDemo
-  ::
+::ObjectsHtmlTransitionDemo
+::
 ::
 
 <details>
@@ -478,6 +493,7 @@ const updateBackgroundColor = () => {
 }
 </style>
 ```
+
 </details>
 
 ### Using `iframes`
@@ -485,8 +501,8 @@ const updateBackgroundColor = () => {
 You can achieve pretty cool results with the `Html` component by using iframes. For example, you can use an iframe to display a YouTube video in your scene or a webpage with a 3D model.
 
 ::SceneWrapper
-  ::ObjectsHtmlIframeDemo
-  ::
+::ObjectsHtmlIframeDemo
+::
 ::
 
 <details>
@@ -504,9 +520,16 @@ You can achieve pretty cool results with the `Html` component by using iframes. 
   :portal="portalRef"
   :style="{ userSelect: 'none' }"
 >
-  <iframe class="w-[700px] h-[500px]" src="https://tresjs.org" frameborder="0" :width="700" :height="500"></iframe>
+  <iframe
+    class="w-[700px] h-[500px]"
+    src="https://tresjs.org"
+    frameborder="0"
+    :width="700"
+    :height="500"
+  ></iframe>
 </html>
 ```
+
 </details>
 
 :::info
@@ -516,35 +539,36 @@ The demos use `:z-index-range="[28, 0]"` simply to ensure the HTML elements stay
 
 ## Props
 
-| Prop                | Description                                                                                                               | Default                                  |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------|------------------------------------------|
-| **as**              | Wrapping *HTML element*.                                                                                                    | `'div'`                                  |
-| **wrapperClass**    | The `className` of the wrapping element. element.                                                                                    |                                          |
-| **prepend**         | Projects content *behind* the canvas.                                                                                        | `false`                                  |
-| **center**          | Adds a `transform: translate(-50%, -50%)`. <br>➡️ *Ignored in **transform** mode.*                                                               | `false`                                  |
-| **fullscreen**      | Aligns to the upper-left corner and fills the screen. <br>➡️ *Ignored in **transform** mode.*                                            | `false`                                  |
-| **distanceFactor**  | Children are scaled by this factor and also by distance to a `PerspectiveCamera`, or zoom when using an `OrthographicCamera`.      |                                          |
-| **zIndexRange**     | Defines the *Z-order range*.                                                                                                            | `[16777271, 0]`                          |
-| **portal**          | Reference to a target container (for rendering into a different DOM node). container.                                                                                            |                                          |
-| **transform**       | If `true`, applies `matrix3d` transformations — the element appears as if it is inside the 3D scene.                                                                                | `false`                                  |
-| **sprite**          | Renders as a *sprite*. <br>➡️ *Only in **transform** mode.*                                                                            | `false`                                  |
-| **calculatePosition** | Callback function to override the default positioning logic. <br>**Type:** `(object: Object3D, camera: Camera, size: { width: number; height: number }) => [number, number, number]` <br>Receives the related 3D object, the active camera, and the current viewport size, and must return `[x, y, z]` pixel coordinates for placing the HTML element. <br>➡️ *Ignored in **transform** mode.*                                                     |    [Default `calculatePosition`](https://github.com/Tresjs/cientos/blob/main/src/core/misc/html/utils.ts#L9-L19)                                      |
-| **occlude**         | Enables occlusion. Possible values: <br>- `true` → Occlusion against *all* scene objects <br> - `Ref<TresObject3D>[]` → Occlusion is enabled only against the specified objects. <br>- `'blending'` → Uses a *blending-based* occlusion method (CSS-like depth blending).                      |                                          |
-| **geometry**         | Custom `geometry` to be used.                                                                                              |                    [`PlaneGeometry`](https://threejs.org/docs/?q=geometry#api/en/geometries/PlaneGeometry)       |
-| **material** | **Custom shader _material_ used for the occlusion mesh.** <br> **Only applies when `occlude="blending"` is enabled** (an occlusion mesh is created). <br> _Ignored in raycast occlusion modes (`true`, object refs)._ | |
-| **transparentMaterial** | **Enables _transparent_ rendering for the occlusion material.** <br> **Only applies when `occlude="blending"` creates an occlusion mesh.** <br> _Ignored in raycast occlusion modes (`true`, object refs)._ | `false` |
+| Prop                    | Description                                                                                                                                                                                                                                                                                                                                                                                    | Default                                                                                                       |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **as**                  | Wrapping _HTML element_.                                                                                                                                                                                                                                                                                                                                                                       | `'div'`                                                                                                       |
+| **wrapperClass**        | The `className` of the wrapping element. element.                                                                                                                                                                                                                                                                                                                                              |                                                                                                               |
+| **prepend**             | Projects content _behind_ the canvas.                                                                                                                                                                                                                                                                                                                                                          | `false`                                                                                                       |
+| **center**              | Adds a `transform: translate(-50%, -50%)`. <br>➡️ _Ignored in **transform** mode._                                                                                                                                                                                                                                                                                                             | `false`                                                                                                       |
+| **fullscreen**          | Aligns to the upper-left corner and fills the screen. <br>➡️ _Ignored in **transform** mode._                                                                                                                                                                                                                                                                                                  | `false`                                                                                                       |
+| **distanceFactor**      | Children are scaled by this factor and also by distance to a `PerspectiveCamera`, or zoom when using an `OrthographicCamera`.                                                                                                                                                                                                                                                                  |                                                                                                               |
+| **zIndexRange**         | Defines the _Z-order range_.                                                                                                                                                                                                                                                                                                                                                                   | `[16777271, 0]`                                                                                               |
+| **portal**              | Reference to a target container (for rendering into a different DOM node). container.                                                                                                                                                                                                                                                                                                          |                                                                                                               |
+| **transform**           | If `true`, applies `matrix3d` transformations — the element appears as if it is inside the 3D scene.                                                                                                                                                                                                                                                                                           | `false`                                                                                                       |
+| **sprite**              | Renders as a _sprite_. <br>➡️ _Only in **transform** mode._                                                                                                                                                                                                                                                                                                                                    | `false`                                                                                                       |
+| **calculatePosition**   | Callback function to override the default positioning logic. <br>**Type:** `(object: Object3D, camera: Camera, size: { width: number; height: number }) => [number, number, number]` <br>Receives the related 3D object, the active camera, and the current viewport size, and must return `[x, y, z]` pixel coordinates for placing the HTML element. <br>➡️ _Ignored in **transform** mode._ | [Default `calculatePosition`](https://github.com/Tresjs/cientos/blob/main/src/core/misc/html/utils.ts#L9-L19) |
+| **occlude**             | Enables occlusion. Possible values: <br>- `true` → Occlusion against _all_ scene objects <br> - `Ref<TresObject3D>[]` → Occlusion is enabled only against the specified objects. <br>- `'blending'` → Uses a _blending-based_ occlusion method (CSS-like depth blending).                                                                                                                      |                                                                                                               |
+| **geometry**            | Custom `geometry` to be used.                                                                                                                                                                                                                                                                                                                                                                  | [`PlaneGeometry`](https://threejs.org/docs/?q=geometry#api/en/geometries/PlaneGeometry)                       |
+| **material**            | **Custom shader _material_ used for the occlusion mesh.** <br> **Only applies when `occlude="blending"` is enabled** (an occlusion mesh is created). <br> _Ignored in raycast occlusion modes (`true`, object refs)._                                                                                                                                                                          |                                                                                                               |
+| **transparentMaterial** | **Enables _transparent_ rendering for the occlusion material.** <br> **Only applies when `occlude="blending"` creates an occlusion mesh.** <br> _Ignored in raycast occlusion modes (`true`, object refs)._                                                                                                                                                                                    | `false`                                                                                                       |
 
 ## Events
 
-| Event               | Description                                                                                                               |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------|
-| onOcclude           | Called when the occlusion state changes.                                                                                  |
+| Event     | Description                              |
+| --------- | ---------------------------------------- |
+| onOcclude | Called when the occlusion state changes. |
 
 ## Exposed properties
-| Property          | Type                        | Description                                                                 |
-|-------------------|-----------------------------|-----------------------------------------------------------------------------|
-| **instance**      | `Ref<TresObject3D \| null>` | Reference to the root **`<TresGroup>`** used by `<Html>`. |
-| **isVisible**     | `Ref<boolean>`              | Reactive value that indicates whether the HTML content is **currently visible** or **occluded**. |
+
+| Property          | Type                        | Description                                                                                                                         |
+| ----------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **instance**      | `Ref<TresObject3D \| null>` | Reference to the root **`<TresGroup>`** used by `<Html>`.                                                                           |
+| **isVisible**     | `Ref<boolean>`              | Reactive value that indicates whether the HTML content is **currently visible** or **occluded**.                                    |
 | **occlusionMesh** | `Ref<TresObject3D \| null>` | Reference to the **occlusion mesh** created when `occlude="blending"` is **enabled**. Used internally for geometry-based occlusion. |
 
 ## Caveats
@@ -557,7 +581,6 @@ The demos use `:z-index-range="[28, 0]"` simply to ensure the HTML elements stay
 
   <details>
     <summary>See more information</summary>
-
   1. If you provide your own material, it must be **transparent** (`transparent: true`) with an **opacity < 1**.
   2. If you are not providing a custom material, enable **`transparentMaterial`** so the internal shader becomes transparent.
   3. The occlusion mesh requires a **fully transparent canvas background**; otherwise, thin borders or halo artifacts may appear.
@@ -572,25 +595,25 @@ The demos use `:z-index-range="[28, 0]"` simply to ensure the HTML elements stay
   <TresCanvas :alpha="true" :clearAlpha="0" />
   ```
 
-| Prop                | Description                                                                                                               | Default                                  |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------|------------------------------------------|
-| **as**              | Wrapping html element.                                                                                                    | `'div'`                                  |
-| **wrapperClass**    | The className of the wrapping element.                                                                                    |                                          |
-| **prepend**         | Project content behind the canvas.                                                                                        | `false`                                  |
-| **center**          | Adds a -50%/-50% CSS transform. [Ignored in transform mode]                                                               | `false`                                  |
-| **fullscreen**      | Aligns to the upper-left corner, fills the screen. [Ignored in transform mode]                                            | `false`                                  |
-| **distanceFactor**  | Children will be scaled by this factor, and also by distance to a PerspectiveCamera / zoom by an OrthographicCamera.      |                                          |
-| **zIndexRange**     | Z-order range.                                                                                                            | `[16777271, 0]`                          |
-| **portal**          | Reference to target container.                                                                                            |                                          |
-| **transform**       | If true, applies matrix3d transformations.                                                                                | `false`                                  |
-| **sprite**          | Renders as sprite, but only in transform mode.                                                                            | `false`                                  |
-| **calculatePosition** | Override default positioning function. [Ignored in transform mode]                                                      |                                          |
-| **occlude**         | Can be `true`, `Ref<TresObject3D>[]`, `'raycast'`, or `'blending'`. True occludes the entire scene.                       |                                          |
-| **geometry**         | Custom `geometry` to be use                                                                                              |                    `PlaneGeometry`       |
-| **material**         | Custom shader `material` to be use                                                                                              |                                          |
+| Prop                  | Description                                                                                                          | Default         |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- |
+| **as**                | Wrapping html element.                                                                                               | `'div'`         |
+| **wrapperClass**      | The className of the wrapping element.                                                                               |                 |
+| **prepend**           | Project content behind the canvas.                                                                                   | `false`         |
+| **center**            | Adds a -50%/-50% CSS transform. [Ignored in transform mode]                                                          | `false`         |
+| **fullscreen**        | Aligns to the upper-left corner, fills the screen. [Ignored in transform mode]                                       | `false`         |
+| **distanceFactor**    | Children will be scaled by this factor, and also by distance to a PerspectiveCamera / zoom by an OrthographicCamera. |                 |
+| **zIndexRange**       | Z-order range.                                                                                                       | `[16777271, 0]` |
+| **portal**            | Reference to target container.                                                                                       |                 |
+| **transform**         | If true, applies matrix3d transformations.                                                                           | `false`         |
+| **sprite**            | Renders as sprite, but only in transform mode.                                                                       | `false`         |
+| **calculatePosition** | Override default positioning function. [Ignored in transform mode]                                                   |                 |
+| **occlude**           | Can be `true`, `Ref<TresObject3D>[]`, `'raycast'`, or `'blending'`. True occludes the entire scene.                  |                 |
+| **geometry**          | Custom `geometry` to be use                                                                                          | `PlaneGeometry` |
+| **material**          | Custom shader `material` to be use                                                                                   |                 |
 
 ## Events
 
-| Event               | Description                                                                                                               |
-|---------------------|---------------------------------------------------------------------------------------------------------------------------|
-| onOcclude           | Called when the occlusion state changes.                                                                                  |
+| Event     | Description                              |
+| --------- | ---------------------------------------- |
+| onOcclude | Called when the occlusion state changes. |

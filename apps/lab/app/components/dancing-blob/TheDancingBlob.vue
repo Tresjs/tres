@@ -1,6 +1,6 @@
 <!-- Github Luckystriike: https://github.com/luckystriike22/TresJsPlayground/ -->
 <script lang="ts" setup>
-import type { Mesh } from 'three';
+import type { Mesh } from 'three'
 import { Vector2, Color } from 'three'
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
@@ -15,10 +15,10 @@ const { wireframe, colorStart, colorEnd, amplitude } = useControls({
   colorStart: '#ff9900', // bright orange
   colorEnd: '#d7f250',
   amplitude: {
-    value: 3,         // default value
-    min: 0.1,           // minimum value
-    max: 5,             // maximum value
-    step: 0.01,         // step size for the slider
+    value: 3, // default value
+    min: 0.1, // minimum value
+    max: 5, // maximum value
+    step: 0.01, // step size for the slider
     label: 'Amplitude', // optional label
   },
 })
@@ -79,8 +79,12 @@ watch(amplitude, (val) => {
   <OrbitControls />
   <TresMesh ref="blobRef">
     <TresIcosahedronGeometry :args="[4, 80]" />
-    <TresShaderMaterial :wireframe="wireframe" :uniforms="uniforms" :fragment-shader="fragmentShader"
-      :vertex-shader="vertexShader" />
+    <TresShaderMaterial
+      :wireframe="wireframe"
+      :uniforms="uniforms"
+      :fragment-shader="fragmentShader"
+      :vertex-shader="vertexShader"
+    />
   </TresMesh>
   <TresDirectionalLight :position="[1, 1, 1]" />
   <TresAmbientLight :intensity="1" />

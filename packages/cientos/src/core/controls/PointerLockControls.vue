@@ -12,7 +12,8 @@ interface PointerLockControlsEvents {
 }
 
 // Extend the PointerLockControls type to include enabled property
-type ExtendedPointerLockControls = PointerLockControls & EventDispatcher<PointerLockControlsEvents> & { enabled: boolean }
+type ExtendedPointerLockControls = PointerLockControls &
+  EventDispatcher<PointerLockControlsEvents> & { enabled: boolean }
 
 export interface PointerLockControlsProps {
   /**
@@ -75,8 +76,7 @@ const isLockEmitter = (event: boolean) => {
 watch(controlsRef, (value) => {
   if (value && props.makeDefault) {
     controls.value = value
-  }
-  else {
+  } else {
     controls.value = null
   }
   const selector = document.getElementById(props.selector || '')

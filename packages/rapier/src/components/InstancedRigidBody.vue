@@ -23,61 +23,71 @@ defineExpose({
   contexts: bodiesContexts,
 })
 
-watch(bodyGroup, (group) => {
-  const object = bodyGroup.value?.children[0] as TresInstancedMesh | undefined
+watch(
+  bodyGroup,
+  (group) => {
+    const object = bodyGroup.value?.children[0] as TresInstancedMesh | undefined
 
-  if (!(group instanceof Object3D)) { return }
-  if (
-    !(object instanceof InstancedMesh)
-    || typeof bodyGroup.value?.children?.length !== 'number'
-    || bodyGroup.value.children.length > 1
-  ) {
-    throw new Error('Incorrect data assignment detected! #RigidBody support only one #InstancedMesh')
-  }
-
-  const instanceArray = object.instanceMatrix.array
-
-  for (let i = 0; i < object.count; i++) {
-    const matrix = MATRIX_ZERO.fromArray(instanceArray, i * 16)
-    const position = VECTOR_ZERO.clone()
-    const quaternion = QUATERNION_ZERO.clone()
-    const scale = VECTOR_ZERO.clone()
-    matrix.decompose(position, quaternion, scale)
-
-    const rigidBodyInfo: RigidBodyContext = {
-      ...props,
-      ...createRigidBody({
-        object,
-        rigidBodyType: props.type,
-        world,
-      }),
-      collider: props.collider,
-      group,
-      colliders: [],
+    if (!(group instanceof Object3D)) {
+      return
+    }
+    if (
+      !(object instanceof InstancedMesh) ||
+      typeof bodyGroup.value?.children?.length !== 'number' ||
+      bodyGroup.value.children.length > 1
+    ) {
+      throw new Error(
+        'Incorrect data assignment detected! #RigidBody support only one #InstancedMesh',
+      )
     }
 
-    rigidBodyInfo.rigidBody.setTranslation(position, true)
-    rigidBodyInfo.rigidBody.setRotation(quaternion, true)
+    const instanceArray = object.instanceMatrix.array
 
-    const colliderInfo = {
-      ...createCollider({
+    for (let i = 0; i < object.count; i++) {
+      const matrix = MATRIX_ZERO.fromArray(instanceArray, i * 16)
+      const position = VECTOR_ZERO.clone()
+      const quaternion = QUATERNION_ZERO.clone()
+      const scale = VECTOR_ZERO.clone()
+      matrix.decompose(position, quaternion, scale)
+
+      const rigidBodyInfo: RigidBodyContext = {
+        ...props,
+        ...createRigidBody({
+          object,
+          rigidBodyType: props.type,
+          world,
+        }),
+        collider: props.collider,
+        group,
+        colliders: [],
+      }
+
+      rigidBodyInfo.rigidBody.setTranslation(position, true)
+      rigidBodyInfo.rigidBody.setRotation(quaternion, true)
+
+      const colliderInfo = {
+        ...createCollider({
+          object,
+          shape: props.collider,
+          rigidBody: rigidBodyInfo.rigidBody,
+          world,
+        }),
         object,
-        shape: props.collider,
-        rigidBody: rigidBodyInfo.rigidBody,
-        world,
-      }),
-      object,
-    }
+      }
 
-    rigidBodyInfo.colliders.push(colliderInfo)
-    bodiesContexts.value.push(rigidBodyInfo)
-  }
-}, { once: true })
+      rigidBodyInfo.colliders.push(colliderInfo)
+      bodiesContexts.value.push(rigidBodyInfo)
+    }
+  },
+  { once: true },
+)
 
 onBeforeRender(() => {
   const child = bodyGroup.value?.children[0]
 
-  if (!bodiesContexts.value?.length || !(child instanceof InstancedMesh)) { return }
+  if (!bodiesContexts.value?.length || !(child instanceof InstancedMesh)) {
+    return
+  }
 
   const array = child.instanceMatrix.array
 
@@ -89,17 +99,11 @@ onBeforeRender(() => {
     child.getMatrixAt(i, MATRIX_ZERO)
     MATRIX_ZERO.decompose(position, quaternion, scale)
 
-    position = position.copy(
-      bodiesContexts.value[i].rigidBody.translation(),
-    )
-    quaternion = quaternion.copy(
-      bodiesContexts.value[i].rigidBody.rotation(),
-    )
+    position = position.copy(bodiesContexts.value[i].rigidBody.translation())
+    quaternion = quaternion.copy(bodiesContexts.value[i].rigidBody.rotation())
     scale = scale.copy(scale)
 
-    MATRIX_ZERO
-      .compose(position, quaternion, scale)
-      .toArray(array, i * 16)
+    MATRIX_ZERO.compose(position, quaternion, scale).toArray(array, i * 16)
   }
 
   child.instanceMatrix.needsUpdate = true
@@ -113,7 +117,9 @@ onUpdated(() => {
 })
 
 onUnmounted(() => {
-  if (!bodiesContexts.value) { return }
+  if (!bodiesContexts.value) {
+    return
+  }
 
   bodiesContexts.value.forEach((context) => {
     world.value.removeRigidBody(context.rigidBody)

@@ -22,14 +22,19 @@ const { fbo, camera, update } = useCubeCamera(props)
 let count = 0
 
 useLoop().onBeforeRender(() => {
-  if (groupRef.value && (props.frames === Infinity || (count < toValue(props.frames)))) {
+  if (groupRef.value && (props.frames === Infinity || count < toValue(props.frames))) {
     groupRef.value.visible = false
     update()
     groupRef.value.visible = true
 
     if (groupRef.value) {
       groupRef.value.traverse((obj) => {
-        if ('material' in obj && typeof obj.material === 'object' && obj.material && 'envMap' in obj.material) {
+        if (
+          'material' in obj &&
+          typeof obj.material === 'object' &&
+          obj.material &&
+          'envMap' in obj.material
+        ) {
           obj.material.envMap = fbo.value.texture
         }
       })

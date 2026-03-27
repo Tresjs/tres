@@ -23,8 +23,8 @@ Official Nuxt module for TresJS.
 export default defineNuxtConfig({
   modules: ['@tresjs/nuxt'],
   tres: {
-    devtools: true,  // Enable devtools extension
-    glsl: true,      // Enable GLSL shader imports
+    devtools: true, // Enable devtools extension
+    glsl: true, // Enable GLSL shader imports
   },
 })
 ```
@@ -32,6 +32,7 @@ export default defineNuxtConfig({
 ## Auto-imports
 
 The module auto-imports components from installed TresJS packages:
+
 - `@tresjs/core`
 - `@tresjs/cientos`
 - `@tresjs/post-processing`

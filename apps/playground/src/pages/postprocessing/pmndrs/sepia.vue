@@ -17,42 +17,37 @@ const glComposer = {
   multisampling: 4,
 }
 
-const { intensity, blendFunction } = useControls({
-  intensity: { value: 2.0, step: 0.1, max: 5.0 },
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.NORMAL,
+const { intensity, blendFunction } = useControls(
+  {
+    intensity: { value: 2.0, step: 0.1, max: 5.0 },
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.NORMAL,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls auto-rotate />
 
-    <TresMesh :position="[0, .5, 0]">
+    <TresMesh :position="[0, 0.5, 0]">
       <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="black" :roughness=".25" />
+      <TresMeshPhysicalMaterial color="black" :roughness="0.25" />
     </TresMesh>
 
-    <ContactShadows
-      :opacity="1"
-      :position-y="-.5"
-    />
+    <ContactShadows :opacity="1" :position-y="-0.5" />
 
     <Suspense>
-      <Environment background :blur=".5" preset="snow" />
+      <Environment background :blur="0.5" preset="snow" />
     </Suspense>
 
     <Suspense>

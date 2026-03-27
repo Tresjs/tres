@@ -13,9 +13,9 @@ const createBreadcrumb = (link: string = 'Missing link') => {
   return link
     .split('/')
     .filter(Boolean)
-    .map(part =>
+    .map((part) =>
       splitByCase(part)
-        .map(p => upperFirst(p))
+        .map((p) => upperFirst(p))
         .join(' '),
     )
     .join(' > ')
@@ -26,16 +26,9 @@ const computedTitle = computed<string>(() => props.title || createBreadcrumb(pro
 </script>
 
 <template>
-  <ProseCallout
-    icon="i-lucide-bookmark"
-    :to="to"
-    :aria-label="computedTitle"
-  >
+  <ProseCallout icon="i-lucide-bookmark" :to="to" :aria-label="computedTitle">
     <slot mdc-unwrap="p">
-      Read more in <span
-        class="font-bold"
-        v-text="computedTitle"
-      ></span>.
+      Read more in <span class="font-bold" v-text="computedTitle"></span>.
     </slot>
   </ProseCallout>
 </template>

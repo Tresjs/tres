@@ -11,19 +11,13 @@ const { state: texture } = useLoader(
 </script>
 
 <template>
-  <TresPerspectiveCamera
-    :position="[3, 3, 3]"
-    :look-at="[0, 0, 0]"
-  />
+  <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
   <OrbitControls />
 
   <TresAmbientLight :intensity="1" />
   <TresMesh>
     <TresSphereGeometry />
     <!-- Use the loaded texture as the material map -->
-    <TresMeshStandardMaterial
-      v-if="texture"
-      :map="texture"
-    />
+    <TresMeshStandardMaterial v-if="texture" :map="texture" />
   </TresMesh>
 </template>

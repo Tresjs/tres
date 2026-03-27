@@ -22,36 +22,26 @@ function onLoop({ elapsed }: { elapsed: number }) {
 <template>
   <div>
     <div class="downloads-buttons">
-      <button @click="downloadScene">
-        Download Scene
-      </button>
-      <button @click="downloadCube">
-        Download Cube
-      </button>
+      <button @click="downloadScene">Download Scene</button>
+      <button @click="downloadCube">Download Cube</button>
     </div>
-    <TresCanvas
-      clear-color="#82DBC5"
-      window-size
-      @loop="onLoop"
-    >
+    <TresCanvas clear-color="#82DBC5" window-size @loop="onLoop">
       <TresPerspectiveCamera :position="[0, 2, 5]" />
       <TresMesh
         v-for="i in 20"
         :key="i"
         :geometry="donutGeometry"
         :material="donutMaterial"
-        :position="[0.5 + (i * (Math.random() - 0.5) * 5),
-                    0.5 + (i * (Math.random() - 0.5) * 5),
-                    0.5 + (i * (Math.random() - 0.5) * 5)]"
-        :scale="(i * 0.5) + 1"
+        :position="[
+          0.5 + i * (Math.random() - 0.5) * 5,
+          0.5 + i * (Math.random() - 0.5) * 5,
+          0.5 + i * (Math.random() - 0.5) * 5,
+        ]"
+        :scale="i * 0.5 + 1"
       />
-      <TresMesh
-        ref="boxRef"
-        :position-z="30"
-        :scale="10"
-      >
+      <TresMesh ref="boxRef" :position-z="30" :scale="10">
         <TresBoxGeometry :args="[1, 1, 1]" />
-        <TresMeshStandardMaterial :color="0x00FF00" />
+        <TresMeshStandardMaterial :color="0x00ff00" />
       </TresMesh>
       <CameraControls :distance="75" />
       <TresDirectionalLight :position="[0, 10, 10]" />

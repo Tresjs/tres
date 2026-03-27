@@ -27,14 +27,14 @@ pane
     label: 'waterColor',
     view: 'color',
   })
-  .on('change', ev => (waterColor.value = ev.value))
+  .on('change', (ev) => (waterColor.value = ev.value))
 
 pane
   .addBinding({ value: sunColor.value }, 'value', {
     label: 'sunColor',
     view: 'color',
   })
-  .on('change', ev => (sunColor.value = ev.value))
+  .on('change', (ev) => (sunColor.value = ev.value))
 
 pane
   .addBinding({ value: speed.value }, 'value', {
@@ -43,7 +43,7 @@ pane
     max: 1,
     step: 0.01,
   })
-  .on('change', ev => (speed.value = ev.value))
+  .on('change', (ev) => (speed.value = ev.value))
 
 pane
   .addBinding({ value: size.value }, 'value', {
@@ -52,7 +52,7 @@ pane
     max: 50,
     step: 1,
   })
-  .on('change', ev => (size.value = ev.value))
+  .on('change', (ev) => (size.value = ev.value))
 
 pane
   .addBinding({ value: distortionScale.value }, 'value', {
@@ -61,7 +61,7 @@ pane
     max: 100,
     step: 1,
   })
-  .on('change', ev => (distortionScale.value = ev.value))
+  .on('change', (ev) => (distortionScale.value = ev.value))
 
 pane
   .addBinding({ value: alpha.value }, 'value', {
@@ -70,7 +70,7 @@ pane
     max: 1,
     step: 0.01,
   })
-  .on('change', ev => (alpha.value = ev.value))
+  .on('change', (ev) => (alpha.value = ev.value))
 </script>
 
 <template>
@@ -79,7 +79,14 @@ pane
     <TresDirectionalLight :position="[0, 0, 1]" />
     <Sky :azimuth="0" />
     <Suspense>
-      <Ocean :speed :size :alpha :water-color="waterColor" :sun-color="sunColor" :distortion-scale="distortionScale">
+      <Ocean
+        :speed
+        :size
+        :alpha
+        :water-color="waterColor"
+        :sun-color="sunColor"
+        :distortion-scale="distortionScale"
+      >
         <TresCircleGeometry :args="[50, 16]" />
       </Ocean>
     </Suspense>

@@ -7,7 +7,8 @@ const route = useRoute()
 const base = props.path || (route.path || '/').replace(/\/$/, '')
 
 const { data } = await useAsyncData(props.listName, () =>
-  queryCollection('docs').where('path', 'LIKE', `${base}/%`).all())
+  queryCollection('docs').where('path', 'LIKE', `${base}/%`).all(),
+)
 </script>
 
 <template>

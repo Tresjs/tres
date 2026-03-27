@@ -9,7 +9,9 @@ provide(`uuid`, uuid)
 </script>
 
 <template>
-  <div class="w-full relative rounded-lg overflow-hidden border-1 border-muted dark:border-transparent">
+  <div
+    class="w-full relative rounded-lg overflow-hidden border-1 border-muted dark:border-transparent"
+  >
     <ClientOnly>
       <div class="aspect-video">
         <slot></slot>

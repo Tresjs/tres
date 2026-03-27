@@ -1,46 +1,48 @@
 {
   "name": "tresjs",
-  "type": "module",
-  "private": true,
   "version": "0.1.0",
-  "packageManager": "pnpm@10.20.0",
+  "private": true,
   "description": "Official monorepo for TresJS",
-  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "keywords": [
+    "3d",
+    "three",
+    "threejs",
+    "threejs-vue",
+    "vue"
+  ],
   "license": "MIT",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tresjs/tres.git"
-  },
-  "keywords": [
-    "vue",
-    "3d",
-    "threejs",
-    "three",
-    "threejs-vue"
-  ],
-  "scripts": {
-    "build": "nx run-many --target=build",
-    "build:ci": "nx run-many --target=build -p=\"tag:npm:public\"",
-    "dev": "nx run-many --target=dev",
-    "lint": "nx run-many --target=lint",
-    "lint:fix": "nx run-many --target=lint --fix",
-    "typecheck": "nx run-many --target=typecheck",
-    "test": "nx run-many --target=test",
-    "monocubo": "node tools/monocubo/dist/index.js",
-    "sponsorkit": "npx sponsorkit",
-    "release": "nx release --skip-publish --group=core",
-    "release:version": "nx release version",
-    "release:dry-run": "nx release --dry-run --skip-publish --group=core"
   },
   "workspaces": [
     "packages/*",
     "tools/*",
     "apps/*"
   ],
+  "type": "module",
+  "scripts": {
+    "build": "vp run -r build",
+    "build:ci": "vp run -F '@tresjs/*' build",
+    "dev": "vp run -r dev",
+    "lint": "vp check && eslint .",
+    "lint:fix": "vp check --fix && eslint . --fix",
+    "test": "vp test",
+    "monocubo": "node tools/monocubo/dist/index.js",
+    "sponsorkit": "npx sponsorkit",
+    "release": "nx release --skip-publish --group=core",
+    "release:version": "nx release version",
+    "release:dry-run": "nx release --dry-run --skip-publish --group=core",
+    "prepare": "vp config"
+  },
   "devDependencies": {
     "@nx/js": "^22.4.4",
-    "nx": "22.4.4"
+    "nx": "22.4.4",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
+  "packageManager": "pnpm@10.20.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "better-sqlite3"

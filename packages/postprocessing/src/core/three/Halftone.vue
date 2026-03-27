@@ -31,9 +31,7 @@ const props = defineProps<HalftoneProps>()
 const { sizes } = useTresContext()
 
 const shakedProps = computed(() =>
-  Object.fromEntries(
-    Object.entries(props).filter(([_, value]) => value !== undefined),
-  ),
+  Object.fromEntries(Object.entries(props).filter(([_, value]) => value !== undefined)),
 )
 
 const { pass } = useEffect(() => new HalftonePass(shakedProps.value), props)
@@ -49,7 +47,8 @@ watchEffect(() => {
 
   Object.entries(props).forEach(([key, value]) => {
     if (key in pass.value.uniforms) {
-      pass.value.uniforms[key as UniformsKey].value = value ?? HalftoneShader.uniforms[key as UniformsKey].value
+      pass.value.uniforms[key as UniformsKey].value =
+        value ?? HalftoneShader.uniforms[key as UniformsKey].value
     }
   })
 })

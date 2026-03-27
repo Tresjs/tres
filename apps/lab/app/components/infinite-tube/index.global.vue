@@ -4,8 +4,10 @@ import { useWindowSize } from '@vueuse/core'
 
 const { map, aoMap, normalMap } = await useTexture({
   map: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/alien_flesh/Alien_Flesh_001_color.jpg',
-  normalMap: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/alien_flesh/Alien_Flesh_001_norm.jpg',
-  aoMap: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/alien_flesh/Alien_Flesh_001_occ.jpg',
+  normalMap:
+    'https://raw.githubusercontent.com/Tresjs/assets/main/textures/alien_flesh/Alien_Flesh_001_norm.jpg',
+  aoMap:
+    'https://raw.githubusercontent.com/Tresjs/assets/main/textures/alien_flesh/Alien_Flesh_001_occ.jpg',
 })
 
 const tubeMaterialRef = shallowRef(null)
@@ -32,7 +34,7 @@ watch(tubeMaterialRef, (value) => {
 watch(progress, (value) => {
   tubeRef.value.geometry.dispose()
   curve.points[2].x = value * 0.05
-  curve.points[2].y = - value * 0.05
+  curve.points[2].y = -value * 0.05
   curve.points[4].x = value * 0.005
   tubeRef.value.geometry = new TubeGeometry(curve, 70, 0.02, 50, false)
 })
@@ -47,24 +49,11 @@ onLoop(({ delta }) => {
 </script>
 
 <template>
-  <TresCanvas
-    window-size
-    clear-color="#000000"
-    antialias
-  >
+  <TresCanvas window-size clear-color="#000000" antialias>
     <TresFog :args="[0x222222, 0.6, 2.8]" />
-    <TresPerspectiveCamera
-      :args="[8, width / height, 0.1, 1000]"
-      :position="[0, 0, 0.35]"
-    />
-    <ScrollControls
-      v-model="progress"
-      :distance="0"
-    />
-    <TresMesh
-      ref="tubeRef"
-      :position="[0, 0, -2]"
-    >
+    <TresPerspectiveCamera :args="[8, width / height, 0.1, 1000]" :position="[0, 0, 0.35]" />
+    <ScrollControls v-model="progress" :distance="0" />
+    <TresMesh ref="tubeRef" :position="[0, 0, -2]">
       <TresTubeGeometry :args="[curve, 70, 0.02, 50, false]" />
       <TresMeshStandardMaterial
         ref="tubeMaterialRef"

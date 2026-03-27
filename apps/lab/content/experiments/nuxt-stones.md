@@ -46,5 +46,3 @@ This experiment showcases professional 3D rendering techniques:
 - **Optimized Assets**: Efficient 3D models and textures for web deployment
 
 This experiment serves as an excellent example of how proper lighting techniques and post-processing can transform simple 3D models into visually stunning presentations, making it perfect for product visualization and brand presentations.
-
-

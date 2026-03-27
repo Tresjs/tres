@@ -29,23 +29,14 @@ const bodyRefB: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
     <OrbitControls />
     <Suspense>
       <Physics debug>
-        <RigidBody
-          ref="bodyRefA"
-          type="kinematic"
-          :position="[0, 0, 0]"
-          collider="ball"
-        >
+        <RigidBody ref="bodyRefA" type="kinematic" :position="[0, 0, 0]" collider="ball">
           <TresMesh>
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
 
-        <RigidBody
-          ref="bodyRefB"
-          :position="[-2.2, 0, 0]"
-          collider="ball"
-        >
+        <RigidBody ref="bodyRefB" :position="[-2.2, 0, 0]" collider="ball">
           <TresMesh>
             <TresSphereGeometry />
             <TresMeshNormalMaterial />

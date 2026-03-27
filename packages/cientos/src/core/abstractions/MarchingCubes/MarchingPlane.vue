@@ -18,12 +18,14 @@ const props = withDefaults(defineProps<MarchingPlaneProps>(), {
 
 const { parent } = inject(MARCHING_CUBES_PROVIDE_KEY) as MarchingCubesApi
 const wallRef = ref()
-const planeType = computed(
-  () => (props.planeType === 'x' ? 'addPlaneX' : props.planeType === 'y' ? 'addPlaneY' : 'addPlaneZ'),
+const planeType = computed(() =>
+  props.planeType === 'x' ? 'addPlaneX' : props.planeType === 'y' ? 'addPlaneY' : 'addPlaneZ',
 )
 
 useLoop().onBeforeRender(() => {
-  if (!parent.value || !wallRef.value) { return }
+  if (!parent.value || !wallRef.value) {
+    return
+  }
   parent.value[planeType.value](props.strength, props.subtract)
 })
 </script>

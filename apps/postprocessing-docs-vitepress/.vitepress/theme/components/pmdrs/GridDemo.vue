@@ -6,7 +6,6 @@ import { NoToneMapping } from 'three'
 import { BlendFunction } from 'postprocessing'
 import { EffectComposerPmndrs, GridPmndrs } from '@tresjs/post-processing'
 
-
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
@@ -14,7 +13,7 @@ const gl = {
 
 const { blendFunction, scale, lineWidth } = useControls({
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -27,24 +26,19 @@ const { blendFunction, scale, lineWidth } = useControls({
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
+    <TresCanvas v-bind="gl">
       <TresPerspectiveCamera :position="[5, 5, 5]" />
       <OrbitControls auto-rotate />
 
-      <TresMesh :position="[0, .5, 0]">
+      <TresMesh :position="[0, 0.5, 0]">
         <TresBoxGeometry :args="[2, 2, 2]" />
-        <TresMeshPhysicalMaterial color="black" :roughness=".25" />
+        <TresMeshPhysicalMaterial color="black" :roughness="0.25" />
       </TresMesh>
 
-      <ContactShadows
-        :opacity="1"
-        :position-y="-.5"
-      />
+      <ContactShadows :opacity="1" :position-y="-0.5" />
 
       <Suspense>
-        <Environment background :blur=".5" preset="snow" />
+        <Environment background :blur="0.5" preset="snow" />
       </Suspense>
 
       <Suspense>

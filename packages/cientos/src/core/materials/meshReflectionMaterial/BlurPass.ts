@@ -125,7 +125,7 @@ export class BlurPass {
   }
 
   dispose() {
-    (this.screen.material as Material).dispose()
+    ;(this.screen.material as Material).dispose()
     this.screen.geometry.dispose()
     this.renderTargetA.dispose()
     this.renderTargetB.dispose()

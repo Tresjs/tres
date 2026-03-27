@@ -16,10 +16,11 @@ export interface LinocutPmndrsProps {
 const props = defineProps<LinocutPmndrsProps>()
 
 const { pass, effect } = useEffectPmndrs(
-  () => new LinocutEffect({
-    ...props,
-    center: props.center instanceof Vector2 ? [props.center.x, props.center.y] : props.center,
-  }),
+  () =>
+    new LinocutEffect({
+      ...props,
+      center: props.center instanceof Vector2 ? [props.center.x, props.center.y] : props.center,
+    }),
   props,
 )
 

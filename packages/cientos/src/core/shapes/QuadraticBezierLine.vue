@@ -17,7 +17,12 @@ const props = withDefaults(defineProps<QuadraticBezierLineProps>(), {
 const points = computed(() => {
   const startV = props.start instanceof Vector3 ? props.start : new Vector3(...props.start)
   const endV = props.end instanceof Vector3 ? props.end : new Vector3(...props.end)
-  const mid = props.mid instanceof Vector3 ? props.mid : (Array.isArray(props.mid) ? new Vector3(...props.mid) : new Vector3(endV.x, startV.y, endV.z))
+  const mid =
+    props.mid instanceof Vector3
+      ? props.mid
+      : Array.isArray(props.mid)
+        ? new Vector3(...props.mid)
+        : new Vector3(endV.x, startV.y, endV.z)
   return new QuadraticBezierCurve3(startV, mid, endV).getPoints(props.segments)
 })
 

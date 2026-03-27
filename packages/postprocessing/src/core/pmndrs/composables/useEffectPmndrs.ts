@@ -28,13 +28,17 @@ export const useEffectPmndrs = <T extends Effect, D extends Record<PropertyKey, 
   watch(passDependencies, () => invalidate())
 
   const removePass = () => {
-    if (pass.value) { composer?.value?.removePass(pass.value) }
+    if (pass.value) {
+      composer?.value?.removePass(pass.value)
+    }
     effect.value?.dispose()
     pass.value?.dispose()
   }
 
   const createEffect = (index?: number) => {
-    if (!camera.value || !composer?.value || !scene.value) { return }
+    if (!camera.value || !composer?.value || !scene.value) {
+      return
+    }
 
     effect.value = newEffectFunction()
     pass.value = new EffectPass(camera.value, effect.value)
@@ -45,12 +49,16 @@ export const useEffectPmndrs = <T extends Effect, D extends Record<PropertyKey, 
   // Watch for changes in props that require effect recreation
   if (dependencyFieldsTriggeringRecreation) {
     watch(
-      () => dependencyFieldsTriggeringRecreation.map(field => passDependencies[field]),
+      () => dependencyFieldsTriggeringRecreation.map((field) => passDependencies[field]),
       () => {
-        if (!composer?.value) { return }
-        const index = composer.value?.passes.findIndex(p => p === pass.value)
+        if (!composer?.value) {
+          return
+        }
+        const index = composer.value?.passes.findIndex((p) => p === pass.value)
 
-        if (!~index) { return }
+        if (!~index) {
+          return
+        }
 
         removePass()
         createEffect(index)
@@ -59,17 +67,23 @@ export const useEffectPmndrs = <T extends Effect, D extends Record<PropertyKey, 
   }
 
   watchEffect(() => {
-    if (!camera.value || !effect?.value) { return }
+    if (!camera.value || !effect?.value) {
+      return
+    }
 
     effect.value.mainCamera = camera.value
   })
 
   // Initial effect creation
   const unwatch = watchEffect(() => {
-    if (!camera.value || !composer?.value || !scene.value) { return }
+    if (!camera.value || !composer?.value || !scene.value) {
+      return
+    }
 
     nextTick(() => unwatch())
-    if (effect.value) { return }
+    if (effect.value) {
+      return
+    }
 
     createEffect()
   })

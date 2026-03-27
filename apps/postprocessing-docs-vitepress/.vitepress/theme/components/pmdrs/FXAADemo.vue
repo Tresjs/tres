@@ -8,16 +8,25 @@ import { EffectComposerPmndrs, FXAAPmndrs } from '@tresjs/post-processing'
 import type { PerspectiveCamera } from 'three'
 import { ref } from 'vue'
 
-
 const gl = {
   antialias: false,
   clearColor: '#2e3440',
   toneMapping: NoToneMapping,
 }
 
-const { autoRotateSpeed, blendFunction, wireframe, boxColor, opacity, samples, minEdgeThreshold, maxEdgeThreshold, subpixelQuality } = useControls({
+const {
+  autoRotateSpeed,
+  blendFunction,
+  wireframe,
+  boxColor,
+  opacity,
+  samples,
+  minEdgeThreshold,
+  maxEdgeThreshold,
+  subpixelQuality,
+} = useControls({
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -67,7 +76,9 @@ const wrapperRef = ref<HTMLElement | undefined>(undefined)
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
 const onChange = (e: { object: PerspectiveCamera }) => {
-  if (!cameraRef.value) { return }
+  if (!cameraRef.value) {
+    return
+  }
 
   cameraRef.value.position.copy(e.object.position)
   cameraRef.value.rotation.copy(e.object.rotation)
@@ -78,14 +89,17 @@ const onChange = (e: { object: PerspectiveCamera }) => {
 
 <template>
   <div ref="wrapperRef" class="aspect-16/9 relative h-full">
-    <TresCanvas
-      v-bind="gl"
-      class="doc-fxaa-canvas-left"
-    >
+    <TresCanvas v-bind="gl" class="doc-fxaa-canvas-left">
       <TresPerspectiveCamera :position="[0, 2, 3.5]" />
-      <OrbitControls :domElement="wrapperRef" auto-rotate :auto-rotate-speed="autoRotateSpeed" :target="[0, 0.25, 0]" @change="onChange" />
+      <OrbitControls
+        :domElement="wrapperRef"
+        auto-rotate
+        :auto-rotate-speed="autoRotateSpeed"
+        :target="[0, 0.25, 0]"
+        @change="onChange"
+      />
 
-      <TresMesh :position="[0, .5, 0]">
+      <TresMesh :position="[0, 0.5, 0]">
         <TresBoxGeometry :args="[2, 2, 2]" />
         <TresMeshBasicMaterial :color="boxColor" :wireframe="wireframe" />
       </TresMesh>
@@ -93,13 +107,10 @@ const onChange = (e: { object: PerspectiveCamera }) => {
 
     <div class="doc-fxaa-divider"></div>
 
-    <TresCanvas
-      v-bind="gl"
-      class="doc-fxaa-canvas-right"
-    >
+    <TresCanvas v-bind="gl" class="doc-fxaa-canvas-right">
       <TresPerspectiveCamera ref="cameraRef" :position="[0, 2, 3.5]" />
 
-      <TresMesh :position="[0, .5, 0]">
+      <TresMesh :position="[0, 0.5, 0]">
         <TresBoxGeometry :args="[2, 2, 2]" />
         <TresMeshBasicMaterial :color="boxColor" :wireframe="wireframe" />
       </TresMesh>

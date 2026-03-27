@@ -24,8 +24,7 @@ export async function useGLTFExporter(
     (gltf) => {
       if (gltf instanceof ArrayBuffer) {
         saveArrayBuffer(gltf, `${name}.glb`)
-      }
-      else {
+      } else {
         const output = JSON.stringify(gltf, null, 2)
         saveString(output, `${name}.gltf`)
       }

@@ -47,7 +47,8 @@ function onReady({ renderer }) {
   mat.uniforms.uResolution.value = resolution
 }
 
-const imgData = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABUCAYAAAAcaxDBAAABN0lEQVR4Xu3buw2EMAAFQbsNQvpvijYu4JcTzkkOlgJW9vBSz+0c11j4O+bCh/s42gzU/rBArecINFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtVIM+vaXfKf12fOM/595nVYFC5EAh5psKNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtFIPeNY3T4VOOUisAAAAASUVORK5CYII='
+const imgData =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAABUCAYAAAAcaxDBAAABN0lEQVR4Xu3buw2EMAAFQbsNQvpvijYu4JcTzkkOlgJW9vBSz+0c11j4O+bCh/s42gzU/rBArecINFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtVIM+vaXfKf12fOM/595nVYFC5EAh5psKNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtNFAsgHMtFIPeNY3T4VOOUisAAAAASUVORK5CYII='
 
 let intervalId: ReturnType<typeof setInterval>
 onMounted(() => {
@@ -70,17 +71,18 @@ onUnmounted(() => {
 <template>
   <OverlayInfo>
     <h1>ScreenQuad</h1>
-    <p>This component is intended for creating (slightly faster) custom, full-screen post-processing.</p>
+    <p>
+      This component is intended for creating (slightly faster) custom, full-screen post-processing.
+    </p>
     <h2>Setup</h2>
-    <p>In this scene, there is a <code>ScreenQuad</code>. The <code>ScreenQuad</code> has a custom material. The material's vertex shader places it "in front of the camera".</p>
+    <p>
+      In this scene, there is a <code>ScreenQuad</code>. The <code>ScreenQuad</code> has a custom
+      material. The material's vertex shader places it "in front of the camera".
+    </p>
     <h2>Preview</h2>
     <img :src="imgData" />
   </OverlayInfo>
-  <TresCanvas
-    window-size
-    clear-color="#111"
-    @ready="onReady"
-  >
+  <TresCanvas window-size clear-color="#111" @ready="onReady">
     <ScreenQuad>
       <primitive :object="mat" />
     </ScreenQuad>

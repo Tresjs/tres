@@ -26,8 +26,14 @@ const choices = [
   { label: 'Vector3', value: new Vector3(3, 2, 1) },
   { label: 'Scale and position' },
   { label: 'Box3(0,0,0, 1,1,1)', value: new Box3(new Vector3(0, 0, 0), new Vector3(1, 1, 1)) },
-  { label: 'Box3(-1,-1,-1, 1,1,1)', value: new Box3(new Vector3(-1, -1, -1), new Vector3(1, 1, 1)) },
-  { label: 'Box3(-5,0,-5, 5,10,5)', value: new Box3(new Vector3(-5, 0, -5), new Vector3(5, 10, 5)) },
+  {
+    label: 'Box3(-1,-1,-1, 1,1,1)',
+    value: new Box3(new Vector3(-1, -1, -1), new Vector3(1, 1, 1)),
+  },
+  {
+    label: 'Box3(-5,0,-5, 5,10,5)',
+    value: new Box3(new Vector3(-5, 0, -5), new Vector3(5, 10, 5)),
+  },
   { label: 'Object', value: object },
 ]
 const choice = shallowRef(choices[1])
@@ -36,10 +42,7 @@ const choice = shallowRef(choices[1])
 <template>
   <div class="overlay">
     <h2><code>:into</code> value</h2>
-    <template
-      v-for="c, i of choices"
-      :key="i"
-    >
+    <template v-for="(c, i) of choices" :key="i">
       <div>
         <div v-if="'value' in c">
           <input
@@ -48,9 +51,15 @@ const choice = shallowRef(choices[1])
             type="radio"
             value="c.label"
             name="choice"
-            @change="() => { choice = c; }"
+            @change="
+              () => {
+                choice = c
+              }
+            "
           />
-          <label :for="`id-${i}`">{{ `${c.label} - ${JSON.stringify(c.value)?.substring(0, 25)}` }}</label>
+          <label :for="`id-${i}`">{{
+            `${c.label} - ${JSON.stringify(c.value)?.substring(0, 25)}`
+          }}</label>
         </div>
         <h2 v-else>
           {{ c.label }}

@@ -47,12 +47,12 @@ const downloadBox = () => {
 
 ### Options
 
-| Name | Type | Default | Description |
-| :--- | :--- | :------ | :---------- |
-| **trs** | `bool` | `false` | Export position, rotation and scale instead of matrix per node |
-| **onlyVisible** | `bool` | `true` | Export only visible objects |
-| **binary** | `bool` | `false` | Export in binary (.glb) format, returning an ArrayBuffer |
-| **maxTextureSize** | `number` | `Infinity` | Restricts the image maximum size (both width and height) to the given value |
-| **animations** | `Array<AnimationClip>` | `undefined` | List of animations to be included in the export |
-| **includeCustomExtensions** | `bool` | `false` | Export custom glTF extensions defined on an object's userData.gltfExtensions |
-| **fileName** | `string` | `Object name` | Name of the generated file |
+| Name                        | Type                   | Default       | Description                                                                  |
+| :-------------------------- | :--------------------- | :------------ | :--------------------------------------------------------------------------- |
+| **trs**                     | `bool`                 | `false`       | Export position, rotation and scale instead of matrix per node               |
+| **onlyVisible**             | `bool`                 | `true`        | Export only visible objects                                                  |
+| **binary**                  | `bool`                 | `false`       | Export in binary (.glb) format, returning an ArrayBuffer                     |
+| **maxTextureSize**          | `number`               | `Infinity`    | Restricts the image maximum size (both width and height) to the given value  |
+| **animations**              | `Array<AnimationClip>` | `undefined`   | List of animations to be included in the export                              |
+| **includeCustomExtensions** | `bool`                 | `false`       | Export custom glTF extensions defined on an object's userData.gltfExtensions |
+| **fileName**                | `string`               | `Object name` | Name of the generated file                                                   |

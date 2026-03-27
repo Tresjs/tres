@@ -6,7 +6,9 @@ definePageMeta({
 const route = useRoute()
 const { toc, ecosystem } = useAppConfig()
 
-const { data: page } = await useAsyncData(route.path, () => queryCollection('docs').path(route.path).first())
+const { data: page } = await useAsyncData(route.path, () =>
+  queryCollection('docs').path(route.path).first(),
+)
 
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found' })
@@ -57,51 +59,27 @@ const links = computed(() => {
     />
 
     <UPageBody>
-      <ContentRenderer
-        v-if="page"
-        :value="page"
-      />
+      <ContentRenderer v-if="page" :value="page" />
 
       <USeparator v-if="surround?.length" />
 
       <UContentSurround :surround="surround" />
     </UPageBody>
 
-    <template
-      v-if="page?.body?.toc?.links?.length"
-      #right
-    >
-      <UContentToc
-        :title="toc?.title"
-        :links="page.body?.toc?.links"
-      >
-        <template
-          v-if="toc?.bottom"
-          #bottom
-        >
+    <template v-if="page?.body?.toc?.links?.length" #right>
+      <UContentToc :title="toc?.title" :links="page.body?.toc?.links">
+        <template v-if="toc?.bottom" #bottom>
           <div
             class="hidden lg:block space-y-6"
             :class="{ '!mt-6': page.body?.toc?.links?.length }"
           >
-            <USeparator
-              v-if="page.body?.toc?.links?.length"
-              type="dashed"
-            />
+            <USeparator v-if="page.body?.toc?.links?.length" type="dashed" />
 
-            <UPageLinks
-              :title="toc.bottom.title"
-              :links="links"
-            />
+            <UPageLinks :title="toc.bottom.title" :links="links" />
 
-            <USeparator
-              v-if="ecosystem?.links?.length"
-              type="dashed"
-            />
+            <USeparator v-if="ecosystem?.links?.length" type="dashed" />
 
-            <UPageLinks
-              :title="ecosystem.title"
-              :links="ecosystem.links"
-            />
+            <UPageLinks :title="ecosystem.title" :links="ecosystem.links" />
           </div>
         </template>
       </UContentToc>

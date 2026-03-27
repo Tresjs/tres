@@ -32,12 +32,12 @@ const tabs = [
 </script>
 
 <template>
-  <div
-    class="pattern-bg "
-  >
+  <div class="pattern-bg">
     <TheHeader />
 
-    <main class="bg-(--ui-bg) p-8 min-h-[calc(100vh-var(--ui-header-height))] max-w-screen-xl mx-auto pt-2 bg-default">
+    <main
+      class="bg-(--ui-bg) p-8 min-h-[calc(100vh-var(--ui-header-height))] max-w-screen-xl mx-auto pt-2 bg-default"
+    >
       <UTabs
         :items="tabs"
         color="primary"

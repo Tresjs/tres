@@ -4,8 +4,8 @@ description: Spatially positioned audio in 3D space.
 ---
 
 ::SceneControlsWrapper
-  ::MiscellaneousPositionalAudio
-  ::
+::MiscellaneousPositionalAudio
+::
 ::
 
 The `cientos` package provides an abstraction of the [PositionalAudio](https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio).
@@ -15,7 +15,7 @@ The `cientos` package provides an abstraction of the [PositionalAudio](https://t
 
 ## Usage
 
-The `<PositionalAudio>` component is very simple to set up and use, allowing you to bring your 3D scenes to life.  All you need to do is call the `<PositionalAudio>` component and set the `url`. It must be wrapped around the `<Suspense>` component to enable it to load your audio asynchronously. 💥
+The `<PositionalAudio>` component is very simple to set up and use, allowing you to bring your 3D scenes to life. All you need to do is call the `<PositionalAudio>` component and set the `url`. It must be wrapped around the `<Suspense>` component to enable it to load your audio asynchronously. 💥
 
 ```vue{2,17-19}
 <script setup lang="ts">
@@ -50,30 +50,31 @@ If you are sure that there will be a user gesture before your `<PositionAudio>` 
 ::
 
 ## How does it work?
+
 <img class="mx-auto" src="/cientos/sketch.jpg" />
 
 ## Props
 
-| Prop              | Description                                          | Default                   |
-| :---------------- | :--------------------------------------------------- | ------------------------- |
-| **url**        | `string` - **required** — The path or URL to the file. |                    |
-| **helper**        | `boolean` — Selects whether helper mode is enabled. <br> *(Useful for visualising the angle of sound propagation)*  | `false`                   |
-| **distance**        | `number` — The distance at which the volume reduction starts taking effect. ***A non-negative number.***  | `1`                   |
-| **ready**        | `boolean` — Tells `<PositionalAudio>` that `AudioContext` is authorised because an user gesture has been made on the page. This is imperative, as `autoplay` cannot be activated if no user gesture has been made previously (https://goo.gl/7K7WLu). <br> | `false`                   |
-| **autoplay**        | `boolean` — Selects whether the audio is launched automatically. Please refer to the `ready` prop for a better understanding of how to use autoplay.  | `false`                   |
-| **loop**        | `boolean` — Specifies whether the audio should loop. |      `false`              |
-| **innerAngle**        | `number` —  A parameter for directional audio sources, this is an angle, inside of which there will be no volume reduction. |      `360`              |
-| **outerAngle**        | `number` —  A parameter for directional audio sources, this is an angle, outside of which the volume will be reduced to a constant value of `outerGain` prop. |      `0`              |
-| **outerGain**        | `number` —  A parameter for directional audio sources, this is the amount of volume reduction outside of the `outerAngle` prop. When the value is `0` no sound can be heard. |      `0`              |
+| Prop           | Description                                                                                                                                                                                                                                                | Default |
+| :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| **url**        | `string` - **required** — The path or URL to the file.                                                                                                                                                                                                     |         |
+| **helper**     | `boolean` — Selects whether helper mode is enabled. <br> _(Useful for visualising the angle of sound propagation)_                                                                                                                                         | `false` |
+| **distance**   | `number` — The distance at which the volume reduction starts taking effect. **_A non-negative number._**                                                                                                                                                   | `1`     |
+| **ready**      | `boolean` — Tells `<PositionalAudio>` that `AudioContext` is authorised because an user gesture has been made on the page. This is imperative, as `autoplay` cannot be activated if no user gesture has been made previously (https://goo.gl/7K7WLu). <br> | `false` |
+| **autoplay**   | `boolean` — Selects whether the audio is launched automatically. Please refer to the `ready` prop for a better understanding of how to use autoplay.                                                                                                       | `false` |
+| **loop**       | `boolean` — Specifies whether the audio should loop.                                                                                                                                                                                                       | `false` |
+| **innerAngle** | `number` — A parameter for directional audio sources, this is an angle, inside of which there will be no volume reduction.                                                                                                                                 | `360`   |
+| **outerAngle** | `number` — A parameter for directional audio sources, this is an angle, outside of which the volume will be reduced to a constant value of `outerGain` prop.                                                                                               | `0`     |
+| **outerGain**  | `number` — A parameter for directional audio sources, this is the amount of volume reduction outside of the `outerAngle` prop. When the value is `0` no sound can be heard.                                                                                | `0`     |
 
 ## Exposed properties
 
-| Event       | Description                                                      |
-| :---------- | :--------------------------------------------------------------- |
-| `instance` | Instance reference — Inheritance of [PositionalAudio](https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio).|
-| `play()` | Play audio — *Cannot be fired if audio is already running.* |
-| `pause()` | Pause audio — *Cannot be fired if audio is already paused.* |
-| `stop()` | Stop audio — *Cannot be fired if audio is already stopped.* |
+| Event       | Description                                                                                                                                                  |
+| :---------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `instance`  | Instance reference — Inheritance of [PositionalAudio](https://threejs.org/docs/index.html?q=posi#api/en/audio/PositionalAudio).                              |
+| `play()`    | Play audio — _Cannot be fired if audio is already running._                                                                                                  |
+| `pause()`   | Pause audio — _Cannot be fired if audio is already paused._                                                                                                  |
+| `stop()`    | Stop audio — _Cannot be fired if audio is already stopped._                                                                                                  |
 | `dispose()` | Dispose component — Deletion of the AudioListener in the camera, disconnection of the audio source and deletion of the PositionalAudioHelper (if it exists). |
 
 ```typescript
@@ -82,13 +83,19 @@ const positionalAudioRef = shallowRef(null)
 console.log(positionalAudioRef.value.instance) // instance properties
 
 const handlerAudio = (action: string) => {
-  if (!positionalAudioRef.value) { return }
+  if (!positionalAudioRef.value) {
+    return
+  }
 
   const { play, pause, stop } = positionalAudioRef.value
 
-  if (action === 'play') { play() }
-  else if (action === 'pause') { pause() }
-  else if (action === 'stop') { stop() }
+  if (action === 'play') {
+    play()
+  } else if (action === 'pause') {
+    pause()
+  } else if (action === 'stop') {
+    stop()
+  }
 }
 ```
 
@@ -110,6 +117,6 @@ const handlerAudio = (action: string) => {
 
 ## Events
 
-| Event       | Description                                                      |
-| :---------- | :--------------------------------------------------------------- |
+| Event        | Description                                                                                                        |
+| :----------- | :----------------------------------------------------------------------------------------------------------------- |
 | `is-playing` | Triggered when the audio changes its state (play, pause, or stop) <br> `@is-playing="(e) => yourIsPlayingRef = e"` |

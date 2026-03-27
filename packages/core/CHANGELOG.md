@@ -55,7 +55,7 @@
 
 ### 🚀 Features
 
-- **core:** initialize __tres.objects in context and update nodeOps for text node handling ([d9d5893a](https://github.com/Tresjs/tres/commit/d9d5893a))
+- **core:** initialize \_\_tres.objects in context and update nodeOps for text node handling ([d9d5893a](https://github.com/Tresjs/tres/commit/d9d5893a))
 
 ### 🩹 Fixes
 

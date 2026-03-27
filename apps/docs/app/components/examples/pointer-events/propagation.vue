@@ -2,11 +2,14 @@
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 
-const { stopPropagation } = useControls({
-  stopPropagation: false,
-}, {
-  uuid: 'pointer-events-propagation',
-})
+const { stopPropagation } = useControls(
+  {
+    stopPropagation: false,
+  },
+  {
+    uuid: 'pointer-events-propagation',
+  },
+)
 
 const toast = useToast()
 
@@ -32,10 +35,7 @@ function onParentClick(event: PointerEvent) {
   <SceneWrapper>
     <TresLeches uuid="pointer-events-propagation" />
     <TresCanvas clear-color="#82DBC5">
-      <TresPerspectiveCamera
-        :position="[2, 2, 2]"
-        :look-at="[0, 0, 0]"
-      />
+      <TresPerspectiveCamera :position="[2, 2, 2]" :look-at="[0, 0, 0]" />
       <TresGroup @click="onParentClick">
         <TresMesh @click="onChildClick">
           <TresBoxGeometry />

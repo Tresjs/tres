@@ -14,14 +14,20 @@ type UseIntersectCallback = (isIntersected: boolean) => void
 //
 // This means they have to be accessed like
 // `obj.instance`, and not merely `obj`
-interface CientosExposed { instance: Object3D }
+interface CientosExposed {
+  instance: Object3D
+}
 type ObjOrCientosExposed = Object3D | CientosExposed
 function normalizeCientosInstance(obj: ObjOrCientosExposed) {
-  if ('onBeforeRender' in obj && 'onAfterRender' in obj) { return obj }
+  if ('onBeforeRender' in obj && 'onAfterRender' in obj) {
+    return obj
+  }
   return obj.instance
 }
 
-export function useIntersect<T extends Object3D>(onChange: Ref<UseIntersectCallback> | UseIntersectCallback = () => {}) {
+export function useIntersect<T extends Object3D>(
+  onChange: Ref<UseIntersectCallback> | UseIntersectCallback = () => {},
+) {
   const ref = shallowRef<T>()
   const intersect = shallowRef(false)
   let _isIntersected = false
@@ -57,7 +63,7 @@ export function useIntersect<T extends Object3D>(onChange: Ref<UseIntersectCallb
     }
   }
 
-  let teardown = () => { }
+  let teardown = () => {}
 
   watch(ref, () => {
     teardown()

@@ -10,9 +10,12 @@ const uuid = 'core-advanced-takeover-render'
 const { onRender } = useLoop()
 const { renderer, scene, camera } = useTresContext()
 
-const { shouldRender } = useControls({
-  shouldRender: true,
-}, { uuid })
+const { shouldRender } = useControls(
+  {
+    shouldRender: true,
+  },
+  { uuid },
+)
 
 renderer.replaceRenderFunction((notifySuccess) => {
   if (shouldRender.value && camera.activeCamera.value) {
@@ -33,11 +36,7 @@ onRender(() => {
 <template>
   <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
   <OrbitControls make-default />
-  <TresMesh
-    ref="boxRef"
-    :position="[0, 0, 0]"
-    cast-shadow
-  >
+  <TresMesh ref="boxRef" :position="[0, 0, 0]" cast-shadow>
     <TresBoxGeometry />
     <TresMeshNormalMaterial />
   </TresMesh>

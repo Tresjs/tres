@@ -15,7 +15,7 @@ This experiment demonstrates the advanced **ArrayCamera** technique in Three.js,
 The scene features a **rigged 3D knight model** viewed from four different camera angles simultaneously:
 
 - **Left Bottom Viewport**: Side perspective showing the model's profile
-- **Center Bottom Viewport**: Front-facing view with detailed character features  
+- **Center Bottom Viewport**: Front-facing view with detailed character features
 - **Right Bottom Viewport**: Opposite side angle for complete spatial understanding
 - **Center Top Viewport**: Strategic overview perspective
 
@@ -38,4 +38,3 @@ This experiment showcases several advanced TresJS and Three.js concepts:
 - **Grid Reference**: Helper grid for spatial orientation
 
 This technique is particularly valuable for applications requiring multiple simultaneous perspectives, such as security monitoring interfaces, architectural walkthroughs, or multiplayer game implementations.
-

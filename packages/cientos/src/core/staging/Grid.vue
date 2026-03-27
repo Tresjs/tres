@@ -148,7 +148,9 @@ const zeroVector = new Vector3(0, 0, 0)
 const { onBeforeRender } = useLoop()
 
 onBeforeRender((state) => {
-  if (!state.camera) { return }
+  if (!state.camera) {
+    return
+  }
   plane.setFromNormalAndCoplanarPoint(upVector, zeroVector).applyMatrix4(ref.value.matrixWorld)
 
   const gridMaterial = ref.value.material as ShaderMaterial

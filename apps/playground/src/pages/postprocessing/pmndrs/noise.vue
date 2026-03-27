@@ -17,19 +17,25 @@ const gl = {
 
 const uuid = 'noise-pmndrs'
 
-const { premultiply } = useControls({
-  premultiply: true,
-}, { uuid })
-
-const { blendFunction } = useControls({
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key],
-    })),
-    value: BlendFunction.SCREEN,
+const { premultiply } = useControls(
+  {
+    premultiply: true,
   },
-}, { uuid })
+  { uuid },
+)
+
+const { blendFunction } = useControls(
+  {
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key],
+      })),
+      value: BlendFunction.SCREEN,
+    },
+  },
+  { uuid },
+)
 </script>
 
 <template>
@@ -41,10 +47,7 @@ const { blendFunction } = useControls({
     <TresAmbientLight :intensity="1" />
     <Suspense>
       <EffectComposerPmndrs :depth-buffer="true">
-        <NoisePmndrs
-          :premultiply="premultiply"
-          :blend-function="Number(blendFunction)"
-        />
+        <NoisePmndrs :premultiply="premultiply" :blend-function="Number(blendFunction)" />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

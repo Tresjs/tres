@@ -25,13 +25,17 @@ const composer = inject(effectComposerInjectionKey)
 const pass = new DepthPickingPass(props)
 
 const unwatch = watchEffect(() => {
-  if (!composer?.value) { return }
+  if (!composer?.value) {
+    return
+  }
   nextTick(() => unwatch())
   composer.value.addPass(pass)
 })
 
 onUnmounted(() => {
-  if (!composer?.value || !pass) { return }
+  if (!composer?.value || !pass) {
+    return
+  }
 
   composer?.value?.removePass(pass)
   pass.dispose()

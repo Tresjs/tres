@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/ShockWaveDemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/ShockWaveDemo.vue{0}
+
 </details>
 
 The `ShockWave` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ShockWaveEffect.js~ShockWaveEffect.html) package. It simulates a shockwave effect originating from a center point, creating a ripple-like distortion in the scene. This effect can add dramatic impact to your scene by simulating explosions or other shockwave phenomena.
@@ -173,13 +174,14 @@ For more details about DepthPickingPass, see the [documentation](https://pmndrs.
 
 ## Props
 
-| Prop              | Description                                                                                                   | Default                   |
-| ----------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| position          | The position of the shockwave.                                                                                | `Vector3(0, 0, 0)`  |
-| amplitude         | The amplitude of the shockwave.                                                                               | `0.05`                     |
-| waveSize          | The wave size of the shockwave.                                                                               | `0.2`                     |
-| speed             | The speed of the shockwave.                                                                                   | `2.0`                     |
-| maxRadius         | The max radius of the shockwave.                                                                              | `1.0`                     |
+| Prop      | Description                      | Default            |
+| --------- | -------------------------------- | ------------------ |
+| position  | The position of the shockwave.   | `Vector3(0, 0, 0)` |
+| amplitude | The amplitude of the shockwave.  | `0.05`             |
+| waveSize  | The wave size of the shockwave.  | `0.2`              |
+| speed     | The speed of the shockwave.      | `2.0`              |
+| maxRadius | The max radius of the shockwave. | `1.0`              |
 
 ## Further Reading
+
 For more details, see the [ShockWaveEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ShockWaveEffect.js~ShockWaveEffect.html)

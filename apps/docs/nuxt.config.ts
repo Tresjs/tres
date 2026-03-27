@@ -6,8 +6,7 @@ import { templateCompilerOptions } from '@tresjs/core'
 let corePackageJsonPath = resolve(__dirname, 'node_modules/@tresjs/core/package.json')
 try {
   readFileSync(corePackageJsonPath, 'utf-8')
-}
-catch {
+} catch {
   // In development, use the monorepo path
   corePackageJsonPath = resolve(__dirname, '../../packages/core/package.json')
 }
@@ -69,9 +68,7 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      routes: [
-        '/',
-      ],
+      routes: ['/'],
       crawlLinks: true,
       concurrency: 1, // Reduce concurrent rendering to save memory
       interval: 100, // Add small delay between renders
@@ -79,10 +76,12 @@ export default defineNuxtConfig({
   },
 
   icon: {
-    customCollections: [{
-      prefix: 'tres',
-      dir: './app/assets/icons',
-    }],
+    customCollections: [
+      {
+        prefix: 'tres',
+        dir: './app/assets/icons',
+      },
+    ],
     provider: 'iconify',
   },
 
@@ -98,30 +97,22 @@ export default defineNuxtConfig({
       {
         title: 'Getting Started', // docs/content/1.getting-started
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/getting-started%' },
-        ],
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/getting-started%' }],
       },
       {
         title: 'Essentials', // docs/content/2.essentials
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/essentials%' },
-        ],
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/essentials%' }],
       },
       {
         title: 'API Reference', // docs/content/3.api
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/api%' },
-        ],
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/api%' }],
       },
       {
         title: 'Cookbook', // docs/content/4.cookbook
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/cookbook%' },
-        ],
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/cookbook%' }],
       },
     ],
   },

@@ -9,16 +9,42 @@ const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg',
 
 const { progress, hasFinishLoading } = await useProgress()
 
-const { background, blur, preset, backgroundIntensity, environmentIntensity, backgroundRotationY, syncMaterials, environmentRotationY } = useControls({
-  background: true,
-  blur: { value: 0, min: 0, max: 1, step: 0.01 },
-  preset: { value: 'sunset', options: ['sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'] },
-  backgroundIntensity: { value: 1, min: 0, max: 2, step: 0.01 },
-  environmentIntensity: { value: 1, min: 0, max: 2, step: 0.01 },
-  backgroundRotationY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
-  environmentRotationY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
-  syncMaterials: false,
-}, { uuid })
+const {
+  background,
+  blur,
+  preset,
+  backgroundIntensity,
+  environmentIntensity,
+  backgroundRotationY,
+  syncMaterials,
+  environmentRotationY,
+} = useControls(
+  {
+    background: true,
+    blur: { value: 0, min: 0, max: 1, step: 0.01 },
+    preset: {
+      value: 'sunset',
+      options: [
+        'sunset',
+        'dawn',
+        'night',
+        'warehouse',
+        'forest',
+        'apartment',
+        'studio',
+        'city',
+        'park',
+        'lobby',
+      ],
+    },
+    backgroundIntensity: { value: 1, min: 0, max: 2, step: 0.01 },
+    environmentIntensity: { value: 1, min: 0, max: 2, step: 0.01 },
+    backgroundRotationY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
+    environmentRotationY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
+    syncMaterials: false,
+  },
+  { uuid },
+)
 </script>
 
 <template>
@@ -55,11 +81,7 @@ const { background, blur, preset, backgroundIntensity, environmentIntensity, bac
       />
     </Suspense>
     <Sphere>
-      <TresMeshStandardMaterial
-        color="yellow"
-        :roughness="0"
-        :metalness="0.5"
-      />
+      <TresMeshStandardMaterial color="yellow" :roughness="0" :metalness="0.5" />
     </Sphere>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

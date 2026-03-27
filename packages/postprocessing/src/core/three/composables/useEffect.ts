@@ -15,7 +15,9 @@ export const useEffect = <T extends Pass, D extends Record<PropertyKey, any>>(
   dependencyFieldsTriggeringRecreation?: (keyof D)[],
 ): { pass: ShallowRef<T> } => {
   if (!passDependencies && dependencyFieldsTriggeringRecreation) {
-    throw new Error('passDependencies is required when dependencyFieldsTriggeringRecreation is provided')
+    throw new Error(
+      'passDependencies is required when dependencyFieldsTriggeringRecreation is provided',
+    )
   }
 
   const composer = inject(effectComposerInjectionKey)
@@ -33,7 +35,9 @@ export const useEffect = <T extends Pass, D extends Record<PropertyKey, any>>(
   }
 
   const unwatch = watchEffect(() => {
-    if (!composer?.value || !sizes.height.value || !sizes.width.value) { return }
+    if (!composer?.value || !sizes.height.value || !sizes.width.value) {
+      return
+    }
 
     composer.value.addPass(pass.value)
     nextTick(() => unwatch())
@@ -41,13 +45,17 @@ export const useEffect = <T extends Pass, D extends Record<PropertyKey, any>>(
 
   if (dependencyFieldsTriggeringRecreation) {
     watch(
-      () => dependencyFieldsTriggeringRecreation.map(field => passDependencies?.[field]),
+      () => dependencyFieldsTriggeringRecreation.map((field) => passDependencies?.[field]),
       () => {
-        if (!composer?.value) { return }
+        if (!composer?.value) {
+          return
+        }
 
-        const index = composer.value.passes.findIndex(p => p === pass.value)
+        const index = composer.value.passes.findIndex((p) => p === pass.value)
 
-        if (!~index) { return }
+        if (!~index) {
+          return
+        }
 
         removePass()
         pass.value = newPassFunction()

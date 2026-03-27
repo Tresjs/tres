@@ -48,16 +48,8 @@ function onChange(value: string) {
       :control="control"
       @change="onChange"
     />
-    <FPSGraph
-      v-else-if="control.type === 'fpsgraph'"
-      :label="control.label"
-      :control="control"
-    />
-    <GraphControl
-      v-else-if="control.type === 'graph'"
-      :label="control.label"
-      :control="control"
-    />
+    <FPSGraph v-else-if="control.type === 'fpsgraph'" :label="control.label" :control="control" />
+    <GraphControl v-else-if="control.type === 'graph'" :label="control.label" :control="control" />
     <NumberControl
       v-else-if="control.type === 'number'"
       :label="control.label"
@@ -73,18 +65,10 @@ function onChange(value: string) {
     <div
       v-else-if="control.type === 'button'"
       class="tl-flex tl-justify-end"
-      style="padding: var(--tl-v-padding) var(--tl-h-padding);"
+      style="padding: var(--tl-v-padding) var(--tl-h-padding)"
     >
-      <ButtonControl
-        :label="control.label"
-        :control="control"
-      />
+      <ButtonControl :label="control.label" :control="control" />
     </div>
-    <TextControl
-      v-else
-      :label="control.label"
-      :control="control"
-      @change="onChange"
-    />
+    <TextControl v-else :label="control.label" :control="control" @change="onChange" />
   </div>
 </template>

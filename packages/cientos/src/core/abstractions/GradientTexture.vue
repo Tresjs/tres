@@ -62,14 +62,13 @@ function update(canvas: HTMLCanvasElement) {
   let gradient
   if (props.type === 'linear') {
     gradient = context.createLinearGradient(0, 0, 0, props.height)
-  }
-  else {
+  } else {
     const canvasCenterX = canvas.width / 2
     const canvasCenterY = canvas.height / 2
-    const radius
-        = props.outerCircleRadius !== 'auto'
-          ? Math.abs(Number(props.outerCircleRadius))
-          : Math.sqrt(canvasCenterX ** 2 + canvasCenterY ** 2)
+    const radius =
+      props.outerCircleRadius !== 'auto'
+        ? Math.abs(Number(props.outerCircleRadius))
+        : Math.sqrt(canvasCenterX ** 2 + canvasCenterY ** 2)
     gradient = context.createRadialGradient(
       canvasCenterX,
       canvasCenterY,
@@ -97,7 +96,21 @@ function update(canvas: HTMLCanvasElement) {
 
 const renderer = useTres().renderer
 
-watch(() => [props.colors, props.stops, props.height, props.width, props.type, props.innerCircleRadius, props.outerCircleRadius], () => { update(canvas) }, { immediate: true })
+watch(
+  () => [
+    props.colors,
+    props.stops,
+    props.height,
+    props.width,
+    props.type,
+    props.innerCircleRadius,
+    props.outerCircleRadius,
+  ],
+  () => {
+    update(canvas)
+  },
+  { immediate: true },
+)
 
 if (isReactive(props.colors)) {
   watch(props.colors, () => update(canvas))
@@ -111,5 +124,10 @@ defineExpose({ instance: textureRef })
 </script>
 
 <template>
-  <TresCanvasTexture ref="textureRef" :color-space="renderer.outputColorSpace" :args="[canvas]" :attach="props.attach" />
+  <TresCanvasTexture
+    ref="textureRef"
+    :color-space="renderer.outputColorSpace"
+    :args="[canvas]"
+    :attach="props.attach"
+  />
 </template>

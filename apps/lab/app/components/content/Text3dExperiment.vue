@@ -12,8 +12,12 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const matcapTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png'])
-const donutTexture = await useTexture(['https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/8.png'])
+const matcapTexture = await useTexture([
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png',
+])
+const donutTexture = await useTexture([
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/8.png',
+])
 
 const donuts = Array.from({ length: 200 }, () => ({
   position: [(Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30],
@@ -39,7 +43,7 @@ const camera = ref(null)
 
 watchEffect(() => {
   if (camera.value) {
-    (camera.value as TresCamera).lookAt(0, 0, 0)
+    ;(camera.value as TresCamera).lookAt(0, 0, 0)
   }
 })
 
@@ -48,14 +52,8 @@ useControls('fpsgraph')
 
 <template>
   <TresLeches />
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      ref="camera"
-      :position="[6, 5, 5]"
-      :focus="100"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera ref="camera" :position="[6, 5, 5]" :focus="100" />
     <OrbitControls make-default />
     <Suspense>
       <Text3D

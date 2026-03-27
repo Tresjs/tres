@@ -1,9 +1,12 @@
 <script setup lang="ts">
-const { clearColor } = useControls({
-  clearColor: '#000',
-}, {
-  uuid: 'lights',
-})
+const { clearColor } = useControls(
+  {
+    clearColor: '#000',
+  },
+  {
+    uuid: 'lights',
+  },
+)
 </script>
 
 <template>
@@ -11,34 +14,17 @@ const { clearColor } = useControls({
     <ClientOnly>
       <TresLeches uuid="lights" />
     </ClientOnly>
-    <TresCanvas
-      :clear-color="clearColor"
-      shadows
-    >
+    <TresCanvas :clear-color="clearColor" shadows>
       <TresPerspectiveCamera />
-      <TresMesh
-        name="Im a pretty Box"
-        :position="[0, 1, 0]"
-        cast-shadow
-      >
+      <TresMesh name="Im a pretty Box" :position="[0, 1, 0]" cast-shadow>
         <TresBoxGeometry />
         <TresMeshToonMaterial color="teal" />
       </TresMesh>
-      <TresMesh
-        ref="planeRef"
-        v-log:material
-        :rotation="[-Math.PI / 2, 0, 0]"
-        receive-shadow
-      >
+      <TresMesh ref="planeRef" v-log:material :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
         <TresPlaneGeometry :args="[10, 10, 10, 10]" />
         <TresMeshToonMaterial />
       </TresMesh>
-      <TresDirectionalLight
-        color="white"
-        :intensity="1"
-        :position="[5, 5, -5]"
-        cast-shadow
-      />
+      <TresDirectionalLight color="white" :intensity="1" :position="[5, 5, -5]" cast-shadow />
       <OrbitControls />
     </TresCanvas>
   </div>

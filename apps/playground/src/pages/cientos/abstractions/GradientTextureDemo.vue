@@ -37,7 +37,9 @@ onMounted(() => {
   }, 1000 / 30)
 })
 
-onUnmounted(() => { clearInterval(intervalId) })
+onUnmounted(() => {
+  clearInterval(intervalId)
+})
 </script>
 
 <template>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { data } = await useAsyncData(() => queryCollection('docs').where('path', 'LIKE', '/cookbook/%').where('extension', '=', 'md').all())
+const { data } = await useAsyncData(() =>
+  queryCollection('docs').where('path', 'LIKE', '/cookbook/%').where('extension', '=', 'md').all(),
+)
 
 const recipes = computed(() => Array.from(data.value || []))
 </script>

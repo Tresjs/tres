@@ -38,10 +38,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="planeRef"
-    :rotation="[-Math.PI / 2, 0, 0]"
-  >
+  <TresMesh ref="planeRef" :rotation="[-Math.PI / 2, 0, 0]">
     <TresPlaneGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

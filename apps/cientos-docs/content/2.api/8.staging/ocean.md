@@ -4,8 +4,8 @@ description: Wrapper for the Three.js Water add-on with sky reflection support.
 ---
 
 ::SceneWrapper
-  ::StagingOcean
-  ::
+::StagingOcean
+::
 ::
 
 `<Ocean />` is a wrapper for the [Three.js `Water` add-on](https://threejs.org/examples/?q=ocean#webgl_shaders_ocean).

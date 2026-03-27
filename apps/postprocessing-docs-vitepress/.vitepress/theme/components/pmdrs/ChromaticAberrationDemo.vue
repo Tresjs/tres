@@ -6,7 +6,6 @@ import { NoToneMapping, Vector2 } from 'three'
 import { shallowRef, watchEffect } from 'vue'
 import { ChromaticAberrationPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 
-
 // TODO: Adapt watchEffect to useControls for visibility of modulationOffset
 
 const gl = {
@@ -21,8 +20,8 @@ const glComposer = {
 const chromaticAberrationRef = shallowRef(null)
 
 const { offsetX, offsetY, radialModulation, modulationOffset } = useControls({
-  offsetX: { value: 0.070, step: 0.001, max: 0.5 },
-  offsetY: { value: 0.070, step: 0.001, max: 0.5 },
+  offsetX: { value: 0.07, step: 0.001, max: 0.5 },
+  offsetY: { value: 0.07, step: 0.001, max: 0.5 },
   radialModulation: true,
   modulationOffset: { value: 0, step: 0.01 },
 })
@@ -34,27 +33,13 @@ watchEffect(() => {
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[5, 5, 5]"
-        :look-at="[0, 0, 0]"
-      />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
       <OrbitControls auto-rotate />
 
-      <template
-        v-for="i in 4"
-        :key="i"
-      >
-        <TresMesh
-          :position="[((i - 1) - (4 - 1) / 2) * 1.5, 0, 0]"
-        >
-          <TresBoxGeometry
-            :width="4"
-            :height="4"
-            :depth="4"
-          />
+      <template v-for="i in 4" :key="i">
+        <TresMesh :position="[(i - 1 - (4 - 1) / 2) * 1.5, 0, 0]">
+          <TresBoxGeometry :width="4" :height="4" :depth="4" />
           <TresMeshStandardMaterial color="#1C1C1E" />
         </TresMesh>
       </template>
@@ -63,12 +48,7 @@ watchEffect(() => {
 
       <TresDirectionalLight />
 
-      <ContactShadows
-        :opacity="1"
-        :position-y="-.5"
-        :scale="20"
-        :blur=".85"
-      />
+      <ContactShadows :opacity="1" :position-y="-0.5" :scale="20" :blur="0.85" />
 
       <Suspense>
         <Environment :intensity="2" :blur="0" preset="snow" />
@@ -76,7 +56,12 @@ watchEffect(() => {
 
       <Suspense>
         <EffectComposerPmndrs v-bind="glComposer">
-          <ChromaticAberrationPmndrs ref="chromaticAberrationRef" :offset="new Vector2(offsetX, offsetY)" :radial-modulation="radialModulation" :modulation-offset="modulationOffset" />
+          <ChromaticAberrationPmndrs
+            ref="chromaticAberrationRef"
+            :offset="new Vector2(offsetX, offsetY)"
+            :radial-modulation="radialModulation"
+            :modulation-offset="modulationOffset"
+          />
         </EffectComposerPmndrs>
       </Suspense>
     </TresCanvas>

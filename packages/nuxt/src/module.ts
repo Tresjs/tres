@@ -1,5 +1,12 @@
 import { readFile } from 'node:fs/promises'
-import { addComponent, addImports, addVitePlugin, createResolver, defineNuxtModule, resolvePath } from '@nuxt/kit'
+import {
+  addComponent,
+  addImports,
+  addVitePlugin,
+  createResolver,
+  defineNuxtModule,
+  resolvePath,
+} from '@nuxt/kit'
 import * as core from '@tresjs/core'
 import { templateCompilerOptions } from '@tresjs/core'
 import { defu } from 'defu'
@@ -82,10 +89,11 @@ export default defineNuxtModule<ModuleOptions>({
       references.push({ types: '@tresjs/core' })
     })
 
-    nuxt.options.vue.compilerOptions.isCustomElement = templateCompilerOptions.template.compilerOptions.isCustomElement
+    nuxt.options.vue.compilerOptions.isCustomElement =
+      templateCompilerOptions.template.compilerOptions.isCustomElement
 
     const allDeps = await getAllPackageDeps(nuxt.options.rootDir)
-    const coreDeps = Object.keys(allDeps).filter(d => d.startsWith('@tresjs/'))
+    const coreDeps = Object.keys(allDeps).filter((d) => d.startsWith('@tresjs/'))
 
     for (const mod of new Set([...options.modules, ...coreDeps])) {
       if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') {
@@ -105,8 +113,7 @@ export default defineNuxtModule<ModuleOptions>({
             from: mod,
             name,
           })
-        }
-        else {
+        } else {
           addComponent({
             name,
             filePath: mod,

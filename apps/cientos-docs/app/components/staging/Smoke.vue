@@ -5,17 +5,7 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const {
-  segments,
-  opacity,
-  speed,
-  depth,
-  color,
-  depthTest,
-  spreadY,
-  spreadX,
-  scale,
-} = useControls(
+const { segments, opacity, speed, depth, color, depthTest, spreadY, spreadX, scale } = useControls(
   {
     segments: {
       label: 'Segments',

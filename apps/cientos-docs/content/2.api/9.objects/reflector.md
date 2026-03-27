@@ -4,11 +4,11 @@ description: Create real-time reflections of your scene.
 ---
 
 ::SceneControlsWrapper
-  ::ObjectsReflector
-  ::
+::ObjectsReflector
+::
 ::
 
-The `cientos` package provides an abstraction of the [Reflector class](https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Reflector.js), which creates a Mesh showing a real-time reflection of your scene.  This Mesh extends from `Mesh` so all the default props can be passed as well:
+The `cientos` package provides an abstraction of the [Reflector class](https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Reflector.js), which creates a Mesh showing a real-time reflection of your scene. This Mesh extends from `Mesh` so all the default props can be passed as well:
 
 ## Usage
 
@@ -23,11 +23,7 @@ import { Reflector } from '@tresjs/cientos'
     <OrbitControls />
 
     <Suspense>
-      <Reflector
-        :rotation="[-Math.PI * 0.5, 0, 0]"
-        :position-y="-2"
-        color="#fff"
-      >
+      <Reflector :rotation="[-Math.PI * 0.5, 0, 0]" :position-y="-2" color="#fff">
         <TresCircleGeometry :args="[10, 10]" />
       </Reflector>
     </Suspense>
@@ -39,7 +35,7 @@ import { Reflector } from '@tresjs/cientos'
 
 | Prop              | Description                                          | Default                   |
 | :---------------- | :--------------------------------------------------- | ------------------------- |
-| **color**         | The base color that's combine with the mirror effect | '#333'                 |
+| **color**         | The base color that's combine with the mirror effect | '#333'                    |
 | **textureWidth**  | the width of the texture to render on the mirror     | 512                       |
 | **textureHeight** | the height of the texture to render on the mirror    | 512                       |
 | **clipBias**      | to use the clipBias property                         | 0                         |
@@ -59,7 +55,7 @@ For more complex effect you can provide your own shaders, you could do this crea
 import vertexShader from 'MyCustomVertexShader.glsl'
 
 const customShader = {
-  vertexShader
+  vertexShader,
 }
 </script>
 
@@ -91,16 +87,16 @@ const shader = {
   name: 'ReflectorShader',
   uniforms: {
     color: {
-      value: null
+      value: null,
     },
     tDiffuse: {
-      value: null
+      value: null,
     },
     textureMatrix: {
-      value: null
-    }
+      value: null,
+    },
   },
-  vertexShader: /* glsl */`
+  vertexShader: /* glsl */ `
   uniform mat4 textureMatrix;
   varying vec4 vUv;
 
@@ -114,7 +110,7 @@ const shader = {
     #include <logdepthbuf_vertex>
 
   }`,
-  fragmentShader: /* glsl */`
+  fragmentShader: /* glsl */ `
   uniform vec3 color;
   uniform sampler2D tDiffuse;
   varying vec4 vUv;
@@ -137,7 +133,6 @@ const shader = {
 
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
-  }`
-
+  }`,
 }
 ```

@@ -85,7 +85,12 @@ export function getSceneGraph(scene: TresObject) {
  * @param seen Set of already visited objects to avoid circular refs
  * @returns InspectorNode
  */
-export function getInspectorGraph(obj: unknown, label = 'root', path = 'root', seen = new WeakSet()): InspectorNode {
+export function getInspectorGraph(
+  obj: unknown,
+  label = 'root',
+  path = 'root',
+  seen = new WeakSet(),
+): InspectorNode {
   // Handle primitives and null
   const valueType = typeof obj
   if (obj === null || valueType !== 'object') {
@@ -118,7 +123,9 @@ export function getInspectorGraph(obj: unknown, label = 'root', path = 'root', s
       path,
       value: `Array[${obj.length}]`,
       defaultExpanded: path === 'root',
-      children: obj.map((item, idx) => getInspectorGraph(item, String(idx), `${path}[${idx}]`, seen)),
+      children: obj.map((item, idx) =>
+        getInspectorGraph(item, String(idx), `${path}[${idx}]`, seen),
+      ),
     }
   }
 
@@ -128,7 +135,7 @@ export function getInspectorGraph(obj: unknown, label = 'root', path = 'root', s
 
   // Special handling for Three.js Euler objects
   if (objectName === '_Euler') {
-    const eulerObj = obj as { x: number, y: number, z: number, order: string }
+    const eulerObj = obj as { x: number; y: number; z: number; order: string }
     const eulerProps = ['x', 'y', 'z', 'order']
     for (const key of eulerProps) {
       const val = eulerObj[key as keyof typeof eulerObj]
@@ -138,7 +145,7 @@ export function getInspectorGraph(obj: unknown, label = 'root', path = 'root', s
   }
   // Special handling for Three.js Quaternion objects
   else if (objectName === 'Quaternion') {
-    const quaternionObj = obj as { x: number, y: number, z: number, w: number }
+    const quaternionObj = obj as { x: number; y: number; z: number; w: number }
     const quaternionProps = ['x', 'y', 'z', 'w']
     for (const key of quaternionProps) {
       const val = quaternionObj[key as keyof typeof quaternionObj]
@@ -148,7 +155,7 @@ export function getInspectorGraph(obj: unknown, label = 'root', path = 'root', s
   }
   // Special handling for Three.js Vector3 objects
   else if (objectName === '_Vector3') {
-    const vectorObj = obj as { x: number, y: number, z: number }
+    const vectorObj = obj as { x: number; y: number; z: number }
     const vectorProps = ['x', 'y', 'z']
     for (const key of vectorProps) {
       const val = vectorObj[key as keyof typeof vectorObj]
@@ -160,7 +167,15 @@ export function getInspectorGraph(obj: unknown, label = 'root', path = 'root', s
   else {
     for (const key of Object.keys(obj as object)) {
       // Skip Vue-specific properties and internal properties
-      if (key.startsWith('_') || key.startsWith('$') || key === '__v_isRef' || key === '__v_isReactive' || key === '__v_isShallow' || key === '__v_raw' || key === '__v_isReadonly') {
+      if (
+        key.startsWith('_') ||
+        key.startsWith('$') ||
+        key === '__v_isRef' ||
+        key === '__v_isReactive' ||
+        key === '__v_isShallow' ||
+        key === '__v_raw' ||
+        key === '__v_isReadonly'
+      ) {
         continue
       }
 
@@ -175,7 +190,14 @@ export function getInspectorGraph(obj: unknown, label = 'root', path = 'root', s
     label,
     type: 'object',
     path,
-    value: objectName === 'Euler' ? 'Euler' : objectName === 'Quaternion' ? 'Quaternion' : objectName === 'Vector3' ? 'Vector3' : objectName,
+    value:
+      objectName === 'Euler'
+        ? 'Euler'
+        : objectName === 'Quaternion'
+          ? 'Quaternion'
+          : objectName === 'Vector3'
+            ? 'Vector3'
+            : objectName,
     defaultExpanded: path === 'root',
     children,
   }
@@ -183,7 +205,7 @@ export function getInspectorGraph(obj: unknown, label = 'root', path = 'root', s
 
 export function createHighlightMesh(object: TresObject): Mesh {
   const highlightMaterial = new MeshBasicMaterial({
-    color: 0xA7E6D7, // Highlight color, e.g., yellow
+    color: 0xa7e6d7, // Highlight color, e.g., yellow
     transparent: true,
     opacity: 0.2,
     depthTest: false, // So the highlight is always visible

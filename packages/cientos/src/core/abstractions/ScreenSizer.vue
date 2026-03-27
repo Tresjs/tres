@@ -13,7 +13,9 @@ const size = computed(() => ({ width: sizes.width.value, height: sizes.height.va
 
 useLoop().onBeforeRender(({ camera }) => {
   const obj = innerRef.value
-  if (!obj || !camera.value) { return }
+  if (!obj || !camera.value) {
+    return
+  }
   const sf = calculateScaleFactor(obj.getWorldPosition(worldPos), 1, camera.value, size.value)
   obj.scale.setScalar(sf)
 })

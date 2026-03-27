@@ -22,7 +22,10 @@ export interface OctahedronProps {
   color?: TresColor
 }
 
-const props = withDefaults(defineProps<OctahedronProps>(), { args: () => [1, 0], color: '#ffffff' })
+const props = withDefaults(defineProps<OctahedronProps>(), {
+  args: () => [1, 0],
+  color: '#ffffff',
+})
 const { invalidate } = useTres()
 
 const { args, color } = toRefs(props)
@@ -38,9 +41,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="octahedronRef"
-  >
+  <TresMesh ref="octahedronRef">
     <TresOctahedronGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

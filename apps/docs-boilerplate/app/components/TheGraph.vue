@@ -34,12 +34,15 @@ interface UIConfig {
   labelIntervals?: [number, number] // [x-interval, y-interval] - step size for labels
 }
 
-const props = withDefaults(defineProps<{
-  data: Dataset[]
-  ui?: UIConfig
-}>(), {
-  ui: () => ({}),
-})
+const props = withDefaults(
+  defineProps<{
+    data: Dataset[]
+    ui?: UIConfig
+  }>(),
+  {
+    ui: () => ({}),
+  },
+)
 
 const defaultUI: Required<UIConfig> = {
   strokeWidth: 1.5,
@@ -69,9 +72,9 @@ const bounds = computed(() => {
     return { minX: 0, maxX: 1, minY: 0, maxY: 1 }
   }
 
-  const allPoints = props.data.flatMap(dataset => dataset.points)
-  const xs = allPoints.map(d => d.x)
-  const ys = allPoints.map(d => d.y)
+  const allPoints = props.data.flatMap((dataset) => dataset.points)
+  const xs = allPoints.map((d) => d.x)
+  const ys = allPoints.map((d) => d.y)
 
   const rawMinX = Math.min(...xs)
   const rawMaxX = Math.max(...xs)
@@ -125,10 +128,12 @@ const createPathData = (points: DataPoint[]) => {
 
   const transformedPoints = points.map(transformPoint)
 
-  return transformedPoints.reduce((path, point, index) => {
-    const command = index === 0 ? 'M' : 'L'
-    return `${path} ${command} ${point.x} ${point.y}`
-  }, '').trim()
+  return transformedPoints
+    .reduce((path, point, index) => {
+      const command = index === 0 ? 'M' : 'L'
+      return `${path} ${command} ${point.x} ${point.y}`
+    }, '')
+    .trim()
 }
 
 const gridLines = computed(() => {
@@ -208,11 +213,7 @@ const axisLabels = computed(() => {
       :style="{ backgroundColor: config.backgroundColor }"
     >
       <!-- Background -->
-      <rect
-        :width="width"
-        :height="height"
-        :fill="config.backgroundColor"
-      />
+      <rect :width="width" :height="height" :fill="config.backgroundColor" />
 
       <!-- Grid -->
       <g v-if="config.showGrid" class="grid">
@@ -235,11 +236,9 @@ const axisLabels = computed(() => {
         <line
           v-if="config.showAxes[0]"
           :x1="config.padding"
-          :y1="transformPoint({ x: 0,
-                                y: 0 }).y"
+          :y1="transformPoint({ x: 0, y: 0 }).y"
           :x2="width - config.padding"
-          :y2="transformPoint({ x: 0,
-                                y: 0 }).y"
+          :y2="transformPoint({ x: 0, y: 0 }).y"
           :stroke="config.axisColor"
           stroke-width="2"
         />
@@ -247,11 +246,9 @@ const axisLabels = computed(() => {
         <!-- Y axis (x=0 line) -->
         <line
           v-if="config.showAxes[1]"
-          :x1="transformPoint({ x: 0,
-                                y: 0 }).x"
+          :x1="transformPoint({ x: 0, y: 0 }).x"
           :y1="config.padding"
-          :x2="transformPoint({ x: 0,
-                                y: 0 }).x"
+          :x2="transformPoint({ x: 0, y: 0 }).x"
           :y2="height - config.padding"
           :stroke="config.axisColor"
           stroke-width="2"
@@ -262,7 +259,10 @@ const axisLabels = computed(() => {
       <g class="labels">
         <text
           v-for="(label, index) in axisLabels"
-          v-show="(label.type === 'x' && config.showLabels[0]) || (label.type === 'y' && config.showLabels[1])"
+          v-show="
+            (label.type === 'x' && config.showLabels[0]) ||
+            (label.type === 'y' && config.showLabels[1])
+          "
           :key="`label-${index}`"
           :x="label.x"
           :y="label.y"

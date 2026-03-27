@@ -4,8 +4,8 @@ description: Flexible infinite particle flow for rain, snow, waterfall, and beam
 ---
 
 ::SceneControlsWrapper
-  ::StagingPrecipitation
-  ::
+::StagingPrecipitation
+::
 ::
 
 `<Precipitation />` is a fully flexible component that renders an infinite particle flow, It comes with several props that allow you customize it to create different effects like precipitation, snow, waterfall, beams, etc.
@@ -31,7 +31,7 @@ import { Precipitation } from '@tresjs/cientos'
 
 ### Rain
 
-By setting the randomness to 0, increase the speed  and reduce the count. You can easily achieve a more rainy effect.
+By setting the randomness to 0, increase the speed and reduce the count. You can easily achieve a more rainy effect.
 
 ```vue{3,9-13}
 <script setup lang="ts">
@@ -111,8 +111,8 @@ Be careful with the performance this components render infinite particles in mov
 | Prop                | Description                                             | Default      |
 | :------------------ | :------------------------------------------------------ | ------------ |
 | **size**            | The size of the drops.                                  | 0.1          |
-| **area**            | The size of the precipitation area.                              | [10, 10, 20] |
-| **color**           | The color of the drops.                                  | 0xffffff     |
+| **area**            | The size of the precipitation area.                     | [10, 10, 20] |
+| **color**           | The color of the drops.                                 | 0xffffff     |
 | **map**             | Color texture of the drops.                             | null         |
 | **alphaMap**        | Alpha texture of the Drops.                             | null         |
 | **alphaTest**       | Enables the WebGL to know when not to render the pixel. | 0.01         |

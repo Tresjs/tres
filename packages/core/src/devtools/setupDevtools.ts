@@ -19,7 +19,9 @@ export interface PerformanceState {
 }
 
 export function setupTresDevtools(ctx: TresContext) {
-  if (!ctx) { return }
+  if (!ctx) {
+    return
+  }
 
   // Initialize devtools messenger
   if (typeof window !== 'undefined' && !window.__TRES__DEVTOOLS__) {
@@ -54,7 +56,9 @@ export function setupTresDevtools(ctx: TresContext) {
     // Update WebGL Memory Usage (Placeholder for actual logic)
     // perf.memory.value = calculateMemoryUsage(gl)
     if (ctx.scene.value) {
-      performanceState.memory.allocatedMem = calculateMemoryUsage(ctx.scene.value as unknown as TresObject)
+      performanceState.memory.allocatedMem = calculateMemoryUsage(
+        ctx.scene.value as unknown as TresObject,
+      )
     }
 
     // Update memory usage
@@ -68,33 +72,43 @@ export function setupTresDevtools(ctx: TresContext) {
 
       // Update memory
       if (isSupported.value && memory.value?.usedJSHeapSize) {
-        boundedPush(performanceState.memory.accumulator, memory.value.usedJSHeapSize / 1024 / 1024 as never, maxFrames)
+        boundedPush(
+          performanceState.memory.accumulator,
+          (memory.value.usedJSHeapSize / 1024 / 1024) as never,
+          maxFrames,
+        )
 
         if (performanceState.memory.accumulator.length > 0) {
-          performanceState.memory.currentMem
-        = performanceState.memory.accumulator.reduce((a, b) => a + b, 0) / performanceState.memory.accumulator.length
+          performanceState.memory.currentMem =
+            performanceState.memory.accumulator.reduce((a, b) => a + b, 0) /
+            performanceState.memory.accumulator.length
         }
       }
     }
   }
 
-  const { pause } = useRafFn(({ delta }) => {
-    if (!window.__TRES__DEVTOOLS__) { return }
+  const { pause } = useRafFn(
+    ({ delta }) => {
+      if (!window.__TRES__DEVTOOLS__) {
+        return
+      }
 
-    updatePerformanceData({ timestamp: performance.now() })
+      updatePerformanceData({ timestamp: performance.now() })
 
-    // Accumulate the delta time
-    accumulatedTime += delta
+      // Accumulate the delta time
+      accumulatedTime += delta
 
-    // Check if the accumulated time is greater than or equal to the interval
-    if (accumulatedTime >= interval) {
-      window.__TRES__DEVTOOLS__.send<TresContext>('context', ctx)
-      window.__TRES__DEVTOOLS__.send<PerformanceState>('performance', performanceState)
+      // Check if the accumulated time is greater than or equal to the interval
+      if (accumulatedTime >= interval) {
+        window.__TRES__DEVTOOLS__.send<TresContext>('context', ctx)
+        window.__TRES__DEVTOOLS__.send<PerformanceState>('performance', performanceState)
 
-      // Reset the accumulated time
-      accumulatedTime = 0
-    }
-  }, { immediate: true })
+        // Reset the accumulated time
+        accumulatedTime = 0
+      }
+    },
+    { immediate: true },
+  )
 
   onUnmounted(() => {
     pause()

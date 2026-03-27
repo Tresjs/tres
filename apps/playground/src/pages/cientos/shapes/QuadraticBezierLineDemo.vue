@@ -6,27 +6,20 @@ import { Vector3 } from 'three'
 
 const uuid = 'shapes-quadratic-bezier-line'
 
-const {
-  startX,
-  startY,
-  startZ,
-  endX,
-  endY,
-  endZ,
-  moveMid,
-  lineWidth,
-  enabled,
-} = useControls({
-  startX: { value: 0, min: -10, max: 10 },
-  startY: { value: 0, min: -10, max: 10 },
-  startZ: { value: 0, min: -10, max: 10 },
-  endX: { value: 3, min: -10, max: 10 },
-  endY: { value: 3, min: -10, max: 10 },
-  endZ: { value: -3, min: -10, max: 10 },
-  moveMid: true,
-  lineWidth: { value: 1, min: 0.01, max: 10 },
-  enabled: true,
-}, { uuid })
+const { startX, startY, startZ, endX, endY, endZ, moveMid, lineWidth, enabled } = useControls(
+  {
+    startX: { value: 0, min: -10, max: 10 },
+    startY: { value: 0, min: -10, max: 10 },
+    startZ: { value: 0, min: -10, max: 10 },
+    endX: { value: 3, min: -10, max: 10 },
+    endY: { value: 3, min: -10, max: 10 },
+    endZ: { value: -3, min: -10, max: 10 },
+    moveMid: true,
+    lineWidth: { value: 1, min: 0.01, max: 10 },
+    enabled: true,
+  },
+  { uuid },
+)
 
 const mid = new Vector3(1, 1, 1)
 const colors = ref([

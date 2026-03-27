@@ -18,19 +18,18 @@ export interface PriorityEventHook<T = any> {
 }
 
 export function createPriorityEventHook<T>(): PriorityEventHook<T> {
-  const eventToPriority = new Map<Callback<T>, { priority: number, addI: number }>()
+  const eventToPriority = new Map<Callback<T>, { priority: number; addI: number }>()
   const ascending = new Set<Callback<T>>()
   let ADD_COUNT = 0
   let dirty = false
 
   const sort = () => {
-    const sorted = Array.from(eventToPriority.entries())
-      .sort((a, b) => {
-        const priorityDiff = a[1].priority - b[1].priority
-        return priorityDiff === 0 ? a[1].addI - b[1].addI : priorityDiff
-      })
+    const sorted = Array.from(eventToPriority.entries()).sort((a, b) => {
+      const priorityDiff = a[1].priority - b[1].priority
+      return priorityDiff === 0 ? a[1].addI - b[1].addI : priorityDiff
+    })
     ascending.clear()
-    sorted.forEach(entry => ascending.add(entry[0]))
+    sorted.forEach((entry) => ascending.add(entry[0]))
   }
 
   const off = (fn: Callback<T>) => {
@@ -54,9 +53,7 @@ export function createPriorityEventHook<T>(): PriorityEventHook<T> {
       dirty = false
     }
 
-    return Promise.all(
-      Array.from(ascending).map(fn => fn(...args)),
-    )
+    return Promise.all(Array.from(ascending).map((fn) => fn(...args)))
   }
 
   const dispose = () => {
@@ -64,5 +61,13 @@ export function createPriorityEventHook<T>(): PriorityEventHook<T> {
     ascending.clear()
   }
 
-  return { on, off, trigger, dispose, get count() { return eventToPriority.size } }
+  return {
+    on,
+    off,
+    trigger,
+    dispose,
+    get count() {
+      return eventToPriority.size
+    },
+  }
 }

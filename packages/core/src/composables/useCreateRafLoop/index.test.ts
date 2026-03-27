@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import { useCreateRafLoop } from './index'
 
 describe('useCreateRafLoop', () => {
@@ -39,6 +39,6 @@ describe('useCreateRafLoop', () => {
     await vi.advanceTimersByTimeAsync(50)
     loop.stop()
 
-    expect(deltas.every(d => d >= 0)).toBe(true)
+    expect(deltas.every((d) => d >= 0)).toBe(true)
   })
 })

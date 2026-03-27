@@ -23,11 +23,14 @@ const leviosoState = shallowReactive({
   range: [-0.1, 0.1],
 })
 
-const { speed, rotationFactor, floatFactor } = useControls({
-  speed: { value: leviosoState.speed, min: 0, max: 100, step: 1 },
-  rotationFactor: { value: leviosoState.rotationFactor, min: 0, max: 10, step: 1 },
-  floatFactor: { value: leviosoState.floatFactor, min: 0, max: 10, step: 1 },
-}, { uuid })
+const { speed, rotationFactor, floatFactor } = useControls(
+  {
+    speed: { value: leviosoState.speed, min: 0, max: 100, step: 1 },
+    rotationFactor: { value: leviosoState.rotationFactor, min: 0, max: 10, step: 1 },
+    floatFactor: { value: leviosoState.floatFactor, min: 0, max: 10, step: 1 },
+  },
+  { uuid },
+)
 
 watch([speed, rotationFactor, floatFactor], ([speed, rotationFactor, floatFactor]) => {
   leviosoState.speed = speed
@@ -41,9 +44,7 @@ watch([speed, rotationFactor, floatFactor], ([speed, rotationFactor, floatFactor
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
-    <Levioso
-      v-bind="leviosoState"
-    >
+    <Levioso v-bind="leviosoState">
       <TorusKnot :position="[0, 4, 0]">
         <TresMeshNormalMaterial />
       </TorusKnot>

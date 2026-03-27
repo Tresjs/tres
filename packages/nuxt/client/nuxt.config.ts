@@ -1,11 +1,7 @@
 import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
-
-  modules: [
-    '@nuxt/ui',
-    '@vueuse/nuxt',
-  ],
+  modules: ['@nuxt/ui', '@vueuse/nuxt'],
   ssr: false,
 
   app: {
@@ -20,9 +16,7 @@ export default defineNuxtConfig({
   },
   vite: {
     optimizeDeps: {
-      include: [
-        '@nuxt/devtools-kit/iframe-client',
-      ],
+      include: ['@nuxt/devtools-kit/iframe-client'],
     },
     server: {
       hmr: {

@@ -58,6 +58,13 @@ onUnmounted(() => texture.dispose())
 <template>
   <TresMesh ref="shadowRef" :rotation-x="-Math.PI * 0.5">
     <TresPlaneGeometry />
-    <TresMeshBasicMaterial transparent :opacity="props.opacity" :fog="props.fog" :depth-write="depthWrite" :side="DoubleSide" :map="texture" />
+    <TresMeshBasicMaterial
+      transparent
+      :opacity="props.opacity"
+      :fog="props.fog"
+      :depth-write="depthWrite"
+      :side="DoubleSide"
+      :map="texture"
+    />
   </TresMesh>
 </template>

@@ -19,10 +19,7 @@ const { effectComposer } = useRouteDisposal()
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      :position="[0, 1, 5]"
-      :look-at="[0, 1, 0]"
-    />
+    <TresPerspectiveCamera :position="[0, 1, 5]" :look-at="[0, 1, 0]" />
     <Suspense>
       <Text3D
         :position="[0, 1, 0]"
@@ -39,10 +36,7 @@ const { effectComposer } = useRouteDisposal()
     <TresGridHelper />
 
     <TresAmbientLight :intensity="2" />
-    <TresDirectionalLight
-      :position="[3, 3, 3]"
-      :intensity="1"
-    />
+    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
     <Suspense>
       <EffectComposerPmndrs ref="effectComposer">
         <GlitchPmndrs />

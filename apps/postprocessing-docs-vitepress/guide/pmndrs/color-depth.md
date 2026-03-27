@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/ColorDepthDemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/ColorDepthDemo.vue{0}
+
 </details>
 
 The `ColorDepthEffect` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ColorDepthEffect.js~ColorDepthEffect.html) package.
@@ -49,11 +50,12 @@ const effectProps = {
 
 ## Props
 
-| Prop          | Description                                                         | Default                     |
-| ------------- | ------------------------------------------------------------------- | --------------------------- |
-| blendFunction | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options.             | `BlendFunction.NORMAL`        |
-| bits          | The color bit depth. The color bit depth represents the virtual color bits. Each channel uses a quarter of the total, except alpha.                                                | `16`                 |
-| opacity       | The opacity of the effect.                                         | `1`                 |
+| Prop          | Description                                                                                                                                                                                      | Default                |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
+| blendFunction | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL` |
+| bits          | The color bit depth. The color bit depth represents the virtual color bits. Each channel uses a quarter of the total, except alpha.                                                              | `16`                   |
+| opacity       | The opacity of the effect.                                                                                                                                                                       | `1`                    |
 
 ## Further Reading
+
 For more details, see the [ColorDepthEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/ColorDepthEffect.js~ColorDepthEffect.html)

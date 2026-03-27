@@ -50,5 +50,3 @@ This experiment showcases retro-modern rendering techniques:
 - **Interactive Controls**: Camera movement and scene exploration
 
 This experiment perfectly captures the essence of synthwave culture, combining nostalgia with modern technology to create an immersive retro-futuristic experience that transports viewers to the neon-soaked landscapes of 1980s sci-fi imagination.
-
-

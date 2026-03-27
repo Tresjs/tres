@@ -21,11 +21,16 @@ onMounted(() => {
   }, 1000 / 30)
 })
 
-onUnmounted(() => { clearInterval(intervalId) })
+onUnmounted(() => {
+  clearInterval(intervalId)
+})
 
-const { frames } = useControls({
-  frames: { value: Infinity, options: [1, 2, 5, 10, 30, 60, Infinity] },
-}, { uuid })
+const { frames } = useControls(
+  {
+    frames: { value: Infinity, options: [1, 2, 5, 10, 30, 60, Infinity] },
+  },
+  { uuid },
+)
 </script>
 
 <template>

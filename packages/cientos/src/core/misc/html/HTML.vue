@@ -189,15 +189,13 @@ const transformInnerStyles = computed(() => ({
 
 const isRayCastOcclusion = computed(() => {
   const o = occlude.value
-  return (
-    o
-    && o !== 'blending'
-    && (Array.isArray(o) ? o.length && typeof o[0] !== 'boolean' : true)
-  )
+  return o && o !== 'blending' && (Array.isArray(o) ? o.length && typeof o[0] !== 'boolean' : true)
 })
 
 const effectiveMaterial = computed(() => {
-  if (material.value) { return material.value }
+  if (material.value) {
+    return material.value
+  }
 
   return new ShaderMaterial({
     vertexShader: sprite.value
@@ -222,7 +220,9 @@ watchEffect(() => {
 watch(
   [occlude, () => renderer.instance],
   ([occludeVal, r]) => {
-    if (!r || occludeVal !== 'blending') { return }
+    if (!r || occludeVal !== 'blending') {
+      return
+    }
     const target = r.domElement
     target.style.zIndex = `${Math.floor(zIndexRange.value[0] / 2)}`
     target.style.position = 'absolute'
@@ -240,7 +240,9 @@ watch(
     camera.activeCamera.value,
   ],
   ([group, r]) => {
-    if (!group || !r || !camera.activeCamera.value) { return }
+    if (!group || !r || !camera.activeCamera.value) {
+      return
+    }
 
     isMeshSizeSet.value = false
     scene.value?.updateMatrixWorld()
@@ -254,8 +256,7 @@ watch(
       elStyle.pointerEvents = 'none'
       elStyle.overflow = 'hidden'
       elStyle.transformStyle = 'preserve-3d'
-    }
-    else {
+    } else {
       elStyle.transformOrigin = '0 0'
       elStyle.willChange = 'transform'
       if (!occlude.value) {
@@ -297,7 +298,9 @@ watch(
 )
 
 watchEffect(() => {
-  if (wrapperClass.value) { el.value.className = wrapperClass.value }
+  if (wrapperClass.value) {
+    el.value.className = wrapperClass.value
+  }
 })
 
 const { onBeforeRender } = useLoop()
@@ -307,7 +310,9 @@ onBeforeRender(({ invalidate }) => {
   const cam = camera.activeCamera.value
   const rend = renderer.instance
 
-  if (!group || !cam || !rend) { return }
+  if (!group || !cam || !rend) {
+    return
+  }
 
   cam.updateMatrixWorld()
   group.updateWorldMatrix(true, false)
@@ -324,11 +329,11 @@ onBeforeRender(({ invalidate }) => {
         height,
       })
 
-  const posChanged
-    = Math.abs(previousZoom.value - cam.zoom) > eps.value
-      || Math.abs(previousPosition.value[0] - newPos[0]) > eps.value
-      || Math.abs(previousPosition.value[1] - newPos[1]) > eps.value
-      || Math.abs(previousPosition.value[2] - newPos[2]) > eps.value
+  const posChanged =
+    Math.abs(previousZoom.value - cam.zoom) > eps.value ||
+    Math.abs(previousPosition.value[0] - newPos[0]) > eps.value ||
+    Math.abs(previousPosition.value[1] - newPos[1]) > eps.value ||
+    Math.abs(previousPosition.value[2] - newPos[2]) > eps.value
 
   let changed = transform.value || posChanged
 
@@ -340,16 +345,14 @@ onBeforeRender(({ invalidate }) => {
 
     if (Array.isArray(occlude.value)) {
       targets = occlude.value as TresObject3D[]
-    }
-    else if (occlude.value !== 'blending') {
+    } else if (occlude.value !== 'blending') {
       targets = [scene.value as unknown as TresObject3D]
     }
 
     if (targets) {
       visible = isObjectVisible(group, cam, raycaster, targets) && !behind
     }
-  }
-  else {
+  } else {
     visible = !behind
   }
 
@@ -376,8 +379,8 @@ onBeforeRender(({ invalidate }) => {
 
     const cameraTransform = isOrtho
       ? `scale(${persp})translate(${epsilon(-(cam.right + cam.left) / 2)}px,${epsilon(
-        (cam.top + cam.bottom) / 2,
-      )}px)`
+          (cam.top + cam.bottom) / 2,
+        )}px)`
       : `translateZ(${persp}px)`
 
     let finalMatrix = group.matrixWorld
@@ -419,13 +422,9 @@ onBeforeRender(({ invalidate }) => {
         )
       }
     }
-  }
-
-  else {
-    const scale
-      = distanceFactor.value === undefined
-        ? 1
-        : objectScale(group, cam) * distanceFactor.value
+  } else {
+    const scale =
+      distanceFactor.value === undefined ? 1 : objectScale(group, cam) * distanceFactor.value
 
     el.value.style.transform = `translate3d(${newPos[0]}px,${newPos[1]}px,0) scale(${scale})`
   }
@@ -450,30 +449,21 @@ onBeforeRender(({ invalidate }) => {
           if (isOrtho && geometry.value && attrs.scale) {
             if (!Array.isArray(attrs.scale)) {
               mesh.scale.setScalar(1 / (attrs.scale as number))
-            }
-            else if (attrs.scale instanceof Vector3) {
+            } else if (attrs.scale instanceof Vector3) {
               mesh.scale.copy(attrs.scale)
+            } else {
+              mesh.scale.set(1 / attrs.scale[0], 1 / attrs.scale[1], 1 / attrs.scale[2])
             }
-            else {
-              mesh.scale.set(
-                1 / attrs.scale[0],
-                1 / attrs.scale[1],
-                1 / attrs.scale[2],
-              )
-            }
-          }
-          else if (!isOrtho && !geometry.value) {
+          } else if (!isOrtho && !geometry.value) {
             const ratio = (distanceFactor.value || 10) / 400
 
             if (sprite.value) {
               effectiveMaterial.value.uniforms.uWidth.value = element.clientWidth * ratio
-              effectiveMaterial.value.uniforms.uHeight.value
-                = element.clientHeight * ratio
+              effectiveMaterial.value.uniforms.uHeight.value = element.clientHeight * ratio
 
               mesh.lookAt(cam.position)
               mesh.scale.set(1, 1, 1)
-            }
-            else {
+            } else {
               const w = element.clientWidth * ratio
               const h = element.clientHeight * ratio
               mesh.scale.set(w, h, 1)
@@ -483,9 +473,7 @@ onBeforeRender(({ invalidate }) => {
           isMeshSizeSet.value = true
         }
       }
-    }
-
-    else {
+    } else {
       const element = el.value.children[0] as HTMLElement
 
       if (element?.clientWidth && element?.clientHeight) {
@@ -494,10 +482,8 @@ onBeforeRender(({ invalidate }) => {
         const factor = getViewportFactor(cam, tmpVec, { width, height })
         const ratio = 1 / factor
 
-        effectiveMaterial.value.uniforms.uWidth.value
-          = element.clientWidth * ratio
-        effectiveMaterial.value.uniforms.uHeight.value
-          = element.clientHeight * ratio
+        effectiveMaterial.value.uniforms.uWidth.value = element.clientWidth * ratio
+        effectiveMaterial.value.uniforms.uHeight.value = element.clientHeight * ratio
 
         mesh.scale.set(1, 1, 1)
         mesh.lookAt(cam.position)
@@ -507,7 +493,9 @@ onBeforeRender(({ invalidate }) => {
     }
   }
 
-  if (changed) { invalidate() }
+  if (changed) {
+    invalidate()
+  }
 })
 
 onUnmounted(() => {

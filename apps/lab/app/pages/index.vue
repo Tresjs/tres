@@ -3,17 +3,22 @@ import type { ExperimentItem } from '~/app/types'
 
 useHead({
   meta: [
-    { name: 'description', content: 'Explore creative WebGL experiments built with TresJS, the declarative ThreeJS framework for Vue' },
+    {
+      name: 'description',
+      content:
+        'Explore creative WebGL experiments built with TresJS, the declarative ThreeJS framework for Vue',
+    },
   ],
 })
 
 // Fetch all experiments ordered by featured first, then by date
 const { data: experiments } = await useAsyncData('experiments', () =>
-  queryCollection('experiments').all()
+  queryCollection('experiments').all(),
 )
 
 // Format experiments with additional data using a second useAsyncData to handle the dependencies
-const { data: formattedExperiments } = await useAsyncData('formatted-experiments',
+const { data: formattedExperiments } = await useAsyncData(
+  'formatted-experiments',
   async () => {
     if (!experiments.value) return []
 
@@ -26,16 +31,14 @@ const { data: formattedExperiments } = await useAsyncData('formatted-experiments
           : [experiment.author]
 
         // Fetch the author using useAsyncData to leverage caching
-        const authorPromises = authorSlugs.map(authorSlug =>
+        const authorPromises = authorSlugs.map((authorSlug) =>
           useAsyncData(`author-${authorSlug}`, () =>
-            queryCollection('authors')
-              .where('slug', '=', authorSlug)
-              .first()
-          )
+            queryCollection('authors').where('slug', '=', authorSlug).first(),
+          ),
         )
 
         const authorResults = await Promise.all(authorPromises)
-        const authors = authorResults.map(result => result.data?.value).filter(Boolean)
+        const authors = authorResults.map((result) => result.data?.value).filter(Boolean)
 
         return {
           ...experiment,
@@ -46,7 +49,7 @@ const { data: formattedExperiments } = await useAsyncData('formatted-experiments
           repoPath: getRepoPathFromExperiment(experiment),
           repoTitle: getRepoTitleFromExperiment(experiment),
         }
-      })
+      }),
     )
 
     // Sort by featured first, then by date (newest first)
@@ -63,8 +66,8 @@ const { data: formattedExperiments } = await useAsyncData('formatted-experiments
   },
   {
     // Watch the experiments data to re-evaluate when it changes
-    watch: [experiments]
-  }
+    watch: [experiments],
+  },
 )
 
 function getSlugFromExperiment(experiment: ExperimentItem): string {
@@ -72,20 +75,15 @@ function getSlugFromExperiment(experiment: ExperimentItem): string {
 }
 
 function getTitleFromExperiment(experiment: ExperimentItem): string {
-  return experiment.title
-    ?? getSlugFromExperiment(experiment).split('-')
-      .map(capitalize)
-      .join(' ')
+  return experiment.title ?? getSlugFromExperiment(experiment).split('-').map(capitalize).join(' ')
 }
 
 function capitalize(word: string): string {
   if (word.length === 0) {
     return word
-  }
-  else if (word.length === 1) {
+  } else if (word.length === 1) {
     return word.toUpperCase()
-  }
-  else {
+  } else {
     return word[0].toUpperCase() + word.slice(1)
   }
 }
@@ -107,12 +105,20 @@ function getRepoTitleFromExperiment(experiment: ExperimentItem): string {
   <UContainer class="py-12">
     <div class="flex flex-col items-center mb-12">
       <p class="text-lg text-gray-600 dark:text-gray-400 text-center max-w-2xl">
-        Explore creative WebGL experiments built with TresJS, the declarative ThreeJS framework for Vue
+        Explore creative WebGL experiments built with TresJS, the declarative ThreeJS framework for
+        Vue
       </p>
     </div>
 
-    <div v-if="formattedExperiments?.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <TheCard v-for="experiment in formattedExperiments" :key="experiment.slug" :experiment="experiment" />
+    <div
+      v-if="formattedExperiments?.length"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+    >
+      <TheCard
+        v-for="experiment in formattedExperiments"
+        :key="experiment.slug"
+        :experiment="experiment"
+      />
     </div>
 
     <div v-else class="flex flex-col items-center py-16">

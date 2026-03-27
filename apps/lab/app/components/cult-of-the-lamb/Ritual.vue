@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import type { TresObject } from '@tresjs/core'
-import type { MeshStandardMaterial } from 'three';
+import type { MeshStandardMaterial } from 'three'
 import { Color } from 'three'
 
 const { nodes, materials } = useGLTF('/models/cult-of-the-lamb/Ritual.glb', { draco: true })
 
 const pentagram = computed(() => nodes.value?.['Pentagram'])
 
-
-// Symbols 
+// Symbols
 const symbols = computed(() => {
   if (!nodes.value) return []
   return Object.entries(nodes.value)
@@ -37,7 +36,6 @@ const candles = computed(() => {
     .filter(([key]) => key.includes('Candle'))
     .map(([_, node]) => node)
 })
-
 </script>
 
 <template>

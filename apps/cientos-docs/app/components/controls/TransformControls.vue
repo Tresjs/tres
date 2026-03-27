@@ -18,42 +18,45 @@ const gl = {
 
 const boxRef = ref()
 
-const { mode, space, size, showX, showY, showZ } = useControls({
-  mode: {
-    value: 'translate',
-    options: [
-      {
-        text: 'Translate',
-        value: 'translate',
-      },
-      {
-        text: 'Rotate',
-        value: 'rotate',
-      },
-      {
-        text: 'Scale',
-        value: 'scale',
-      },
-    ],
+const { mode, space, size, showX, showY, showZ } = useControls(
+  {
+    mode: {
+      value: 'translate',
+      options: [
+        {
+          text: 'Translate',
+          value: 'translate',
+        },
+        {
+          text: 'Rotate',
+          value: 'rotate',
+        },
+        {
+          text: 'Scale',
+          value: 'scale',
+        },
+      ],
+    },
+    space: {
+      value: 'local',
+      options: [
+        {
+          text: 'Local',
+          value: 'local',
+        },
+        {
+          text: 'World',
+          value: 'world',
+        },
+      ],
+    },
+    size: { value: 1, min: 0.1, max: 5, step: 0.1 },
+    showX: true,
+    showY: true,
+    showZ: true,
   },
-  space: {
-    value: 'local',
-    options: [
-      {
-        text: 'Local',
-        value: 'local',
-      },
-      {
-        text: 'World',
-        value: 'world',
-      },
-    ],
-  },
-  size: { value: 1, min: 0.1, max: 5, step: 0.1 },
-  showX: true,
-  showY: true,
-  showZ: true,
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>

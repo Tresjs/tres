@@ -84,11 +84,10 @@ const props = defineProps<GodRaysPmndrsProps>()
 
 const { camera } = useTres()
 
-const resolvedLightSource = computed(() =>
-  props.lightSource ?? new Mesh(
-    new SphereGeometry(0.00001),
-    new MeshBasicMaterial({ visible: false }),
-  ),
+const resolvedLightSource = computed(
+  () =>
+    props.lightSource ??
+    new Mesh(new SphereGeometry(0.00001), new MeshBasicMaterial({ visible: false })),
 )
 
 const { pass, effect } = useEffectPmndrs(
@@ -132,12 +131,8 @@ watch(
   () => {
     if (props.opacity !== undefined) {
       effect.value?.blendMode.setOpacity(props.opacity)
-    }
-    else {
-      const plainEffect = new GodRaysEffect(
-        camera.value,
-        toRaw(resolvedLightSource.value),
-      )
+    } else {
+      const plainEffect = new GodRaysEffect(camera.value, toRaw(resolvedLightSource.value))
       effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
       plainEffect.dispose()
     }

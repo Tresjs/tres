@@ -19,8 +19,7 @@ const onViewClicked = () => {
     z: 3,
     ease: 'power2.inOut',
     onUpdate: () => {
-      if (cameraRef.value)
-        cameraRef.value.lookAt(0, 3, 0)
+      if (cameraRef.value) cameraRef.value.lookAt(0, 3, 0)
     },
   })
 }
@@ -30,24 +29,33 @@ const { hasFinishLoading, progress } = await useProgress()
 
 <template>
   <div class="hero absolute z-30 prose p-24">
-    <h2 class="text-6xl opacity-0 animate-fade-in animate-delay-1s animate-forwards transition-all ease-in-out">
+    <h2
+      class="text-6xl opacity-0 animate-fade-in animate-delay-1s animate-forwards transition-all ease-in-out"
+    >
       iTres
     </h2>
-    <p class="text-2xl opacity-0 animate-fade-in animate-delay-2s animate-forwards transition-all ease-in-out">
+    <p
+      class="text-2xl opacity-0 animate-fade-in animate-delay-2s animate-forwards transition-all ease-in-out"
+    >
       New fancy phone, mind-blowing. Head turning.
     </p>
-    <p class="opacity-0 animate-fade-in animate-delay-4s animate-forwards transition-all ease-in-out">
+    <p
+      class="opacity-0 animate-fade-in animate-delay-4s animate-forwards transition-all ease-in-out"
+    >
       Only $2999.99
     </p>
   </div>
-  <Transition name="fade-overlay" enter-active-class="opacity-1 transition-opacity duration-200"
-    leave-active-class="opacity-0 transition-opacity duration-200">
-    <div v-show="!hasFinishLoading"
-      class="absolute t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono">
+  <Transition
+    name="fade-overlay"
+    enter-active-class="opacity-1 transition-opacity duration-200"
+    leave-active-class="opacity-0 transition-opacity duration-200"
+  >
+    <div
+      v-show="!hasFinishLoading"
+      class="absolute t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
+    >
       <div class="w-200px text-black text-center">
-        <p class="animate-tada">
-          🤳
-        </p>
+        <p class="animate-tada">🤳</p>
         Loading... {{ progress }} %
       </div>
     </div>
@@ -60,8 +68,16 @@ const { hasFinishLoading, progress } = await useProgress()
       <Environment background :blur="0.9" preset="city" />
     </Suspense>
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :intensity="2" :position="[2, 3, 0]" :cast-shadow="true" :shadow-camera-far="50"
-      :shadow-camera-left="-10" :shadow-camera-right="10" :shadow-camera-top="10" :shadow-camera-bottom="-10" />
+    <TresDirectionalLight
+      :intensity="2"
+      :position="[2, 3, 0]"
+      :cast-shadow="true"
+      :shadow-camera-far="50"
+      :shadow-camera-left="-10"
+      :shadow-camera-right="10"
+      :shadow-camera-top="10"
+      :shadow-camera-bottom="-10"
+    />
     <TheScreenshot />
   </TresCanvas>
 </template>

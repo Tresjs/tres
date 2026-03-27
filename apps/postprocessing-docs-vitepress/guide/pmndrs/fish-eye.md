@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/FishEyeDemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/FishEyeDemo.vue{0}
+
 </details>
 
 The `FishEye` is a custom effect simulates the wide-angle distortion of a fish-eye lens. Common in photography and videography, it creates a hemispherical view with a unique, immersive visual experience. The distortion bends the image outward from the center, creating a bubble-like appearance.
@@ -52,12 +53,12 @@ const effectProps = {
 
 ## Props
 
-| Prop           | Description                                                                                                                                                                  | Default                  |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| **blendFunction** | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL`   |
-| **lensS**      | The lens scale. <br> A `Vector2` value or an array of two numbers. (ex: `[0.5, .75]`)                                                                                                              | `Vector2(1.0, 1.0)`             |
-| **lensF**      | The lens factor. <br> A `Vector2` value or an array of two numbers. (ex: `[0.0, 0.5]`)                                                                                     | `Vector2(0.0, 1.0)`             |
-| **scale**      | The scale of the effect. A `number`.                                                                                                                                           | `1.0`                    |
+| Prop              | Description                                                                                                                                                                                      | Default                |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
+| **blendFunction** | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL` |
+| **lensS**         | The lens scale. <br> A `Vector2` value or an array of two numbers. (ex: `[0.5, .75]`)                                                                                                            | `Vector2(1.0, 1.0)`    |
+| **lensF**         | The lens factor. <br> A `Vector2` value or an array of two numbers. (ex: `[0.0, 0.5]`)                                                                                                           | `Vector2(0.0, 1.0)`    |
+| **scale**         | The scale of the effect. A `number`.                                                                                                                                                             | `1.0`                  |
 
 ## Further Reading
 

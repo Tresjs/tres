@@ -11,7 +11,10 @@ import { onMounted, onUnmounted, shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Texture } from 'three'
 import type { LensflareElement } from 'three-stdlib'
-import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps, filterLensflareElementProps } from '.'
+import {
+  partialLensflarePropsArrayToLensflarePropsArray as fillInProps,
+  filterLensflareElementProps,
+} from '.'
 import type { LensflareElementProps, SeedProps } from '.'
 
 export interface LensflareProps {
@@ -62,8 +65,9 @@ const props = withDefaults(defineProps<LensflareProps>(), {
 
 const lensflareRef = shallowRef<Lensflare>()
 const lensflareElementPropsArrayRef = shallowRef<LensflareElementProps[]>([])
-const userDefaultLensflareElementPropsRef
-  = shallowRef<Partial<LensflareElementProps>>(filterLensflareElementProps(props))
+const userDefaultLensflareElementPropsRef = shallowRef<Partial<LensflareElementProps>>(
+  filterLensflareElementProps(props),
+)
 
 defineExpose({
   instance: lensflareRef,
@@ -77,7 +81,9 @@ const threeLensflare = new Lensflare()
 const threeElements: LensflareElement[] = []
 
 const dispose = () => {
-  while (threeElements.length) { threeElements.pop() }
+  while (threeElements.length) {
+    threeElements.pop()
+  }
   lensflareRef.value?.children.forEach((c: any) => {
     if ('dispose' in c) {
       c.dispose()
@@ -112,7 +118,9 @@ const scaleThreeElements = () => {
 
 const updateThreeElements = () => {
   while (lensflareElementPropsArrayRef.value.length > threeElements.length) {
-    const element = lensflareElementPropsToLensflareElement(lensflareElementPropsArrayRef.value[threeElements.length])
+    const element = lensflareElementPropsToLensflareElement(
+      lensflareElementPropsArrayRef.value[threeElements.length],
+    )
     const copy = { ...element }
     threeElements.push(copy)
     threeLensflare.addElement(copy)
@@ -128,8 +136,7 @@ const updateThreeElements = () => {
         threeElement.texture = textureLoader.load(name)
         threeElement.texture.name = name
       }
-    }
-    else {
+    } else {
       if (threeElement.texture !== texture) {
         threeElement.texture.dispose()
         threeElement.texture = texture
@@ -150,31 +157,51 @@ onUnmounted(() => {
 
 onMounted(() => {
   lensflareRef.value?.add(threeLensflare)
-  lensflareElementPropsArrayRef.value
-    = fillInProps(props.elements, userDefaultLensflareElementPropsRef.value, props.seed, props.seedProps)
+  lensflareElementPropsArrayRef.value = fillInProps(
+    props.elements,
+    userDefaultLensflareElementPropsRef.value,
+    props.seed,
+    props.seedProps,
+  )
 })
 
-watch(() => [props.color, props.distance, props.size, props.texture], () => {
-  userDefaultLensflareElementPropsRef.value = {
-    color: props.color,
-    distance: props.distance,
-    size: props.size,
-    texture: props.texture as Texture | string,
-  }
-})
+watch(
+  () => [props.color, props.distance, props.size, props.texture],
+  () => {
+    userDefaultLensflareElementPropsRef.value = {
+      color: props.color,
+      distance: props.distance,
+      size: props.size,
+      texture: props.texture as Texture | string,
+    }
+  },
+)
 
-watch(() => [userDefaultLensflareElementPropsRef.value, props.elements, props.seed, props.seedProps], () => {
-  lensflareElementPropsArrayRef.value
-    = fillInProps(props.elements, userDefaultLensflareElementPropsRef.value, props.seed, props.seedProps)
-})
+watch(
+  () => [userDefaultLensflareElementPropsRef.value, props.elements, props.seed, props.seedProps],
+  () => {
+    lensflareElementPropsArrayRef.value = fillInProps(
+      props.elements,
+      userDefaultLensflareElementPropsRef.value,
+      props.seed,
+      props.seedProps,
+    )
+  },
+)
 
-watch(() => props.scale, () => {
-  scaleThreeElements()
-})
+watch(
+  () => props.scale,
+  () => {
+    scaleThreeElements()
+  },
+)
 
-watch(() => lensflareElementPropsArrayRef.value, () => {
-  updateThreeElements()
-})
+watch(
+  () => lensflareElementPropsArrayRef.value,
+  () => {
+    updateThreeElements()
+  },
+)
 </script>
 
 <template>

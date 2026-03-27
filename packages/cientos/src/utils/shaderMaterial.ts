@@ -22,7 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import type { Color, CubeTexture, Matrix3, Matrix4, Quaternion, Texture, Vector2, Vector3, Vector4 } from 'three'
+import type {
+  Color,
+  CubeTexture,
+  Matrix3,
+  Matrix4,
+  Quaternion,
+  Texture,
+  Vector2,
+  Vector3,
+  Vector4,
+} from 'three'
 import { MathUtils, ShaderMaterial, UniformsUtils } from 'three'
 
 export function shaderMaterial(
@@ -68,14 +78,16 @@ export function shaderMaterial(
       entries.forEach(([name]) =>
         Object.defineProperty(this, name, {
           get: () => this.uniforms[name].value,
-          set: v => (this.uniforms[name].value = v),
+          set: (v) => (this.uniforms[name].value = v),
         }),
       )
 
       // Assign parameters, this might include uniforms
       Object.assign(this, parameters)
       // Call onInit
-      if (onInit) { onInit(this) }
+      if (onInit) {
+        onInit(this)
+      }
     }
   } as unknown as typeof ShaderMaterial & { key: string }
   material.key = MathUtils.generateUUID()

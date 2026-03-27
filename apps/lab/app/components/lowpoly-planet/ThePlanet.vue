@@ -31,11 +31,14 @@ const icosphere = computed(() => nodes.value.Icosphere)
 watch(icosphere, (icosphere: TresObject) => {
   icosphere.geometry.computeBoundingSphere()
 })
-
 </script>
 
 <template>
   <primitive v-if="planet" ref="planetRef" :object="planet" />
   <LowpolyPlanetAirplane v-if="icosphere" :planet="icosphere" />
-  <LowpolyPlanetCloud v-for="cloud of [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="cloud" :planet="icosphere" />
+  <LowpolyPlanetCloud
+    v-for="cloud of [1, 2, 3, 4, 5, 6, 7, 8, 9]"
+    :key="cloud"
+    :planet="icosphere"
+  />
 </template>

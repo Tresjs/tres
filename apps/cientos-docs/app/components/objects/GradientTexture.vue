@@ -9,10 +9,7 @@ import { GradientTexture } from '@tresjs/cientos'
     <TresMesh>
       <TresPlaneGeometry />
       <TresMeshBasicMaterial>
-        <GradientTexture
-          :stops="[0.1, 0.5, 0.9]"
-          :colors="['#4f4f4f', '#82dbc5', '#fbb03b']"
-        />
+        <GradientTexture :stops="[0.1, 0.5, 0.9]" :colors="['#4f4f4f', '#82dbc5', '#fbb03b']" />
       </TresMeshBasicMaterial>
     </TresMesh>
   </TresCanvas>

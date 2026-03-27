@@ -68,9 +68,9 @@ However to enable the live preview on the platform, you just need to activate st
 export default defineNuxtConfig({
   content: {
     preview: {
-      api: 'https://api.nuxt.studio'
-    }
-  }
+      api: 'https://api.nuxt.studio',
+    },
+  },
 })
 ```
 

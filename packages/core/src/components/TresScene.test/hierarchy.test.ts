@@ -68,7 +68,9 @@ describe('hierarchy', () => {
 
   const checkMesh = (mesh: Mesh, uuid: string) => {
     expect(isMesh(mesh)).toBe(true)
-    if (!isMesh(mesh)) { throw new Error('never') } // to satisfy typescript
+    if (!isMesh(mesh)) {
+      throw new Error('never')
+    } // to satisfy typescript
 
     expect(mesh.children.length).toBe(0)
     expect(isMaterial(mesh.material!)).toBe(true)
@@ -76,13 +78,14 @@ describe('hierarchy', () => {
     expect(mesh.uuid).toBe(uuid)
   }
 
-  [
+  ;[
     'adds a mesh and its children',
     'adds a primitive and its children',
     'adds a mesh and its primitive geometry',
     'adds a mesh and its primitive material',
   ].forEach((test, index) =>
-    it(test, () => checkMesh(group.children[index] as Mesh, `mesh${index}`)))
+    it(test, () => checkMesh(group.children[index] as Mesh, `mesh${index}`)),
+  )
 
   afterAll(() => sceneWrapper.unmount())
 })

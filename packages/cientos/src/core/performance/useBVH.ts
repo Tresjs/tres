@@ -87,8 +87,11 @@ export const useBVH = (
         console.log(`BVH: Found object - Type: ${child.type}, Name: ${child.name || 'unnamed'}`)
       }
 
-      if ((child instanceof Mesh || child instanceof SkinnedMesh)
-        && 'geometry' in child && 'material' in child) {
+      if (
+        (child instanceof Mesh || child instanceof SkinnedMesh) &&
+        'geometry' in child &&
+        'material' in child
+      ) {
         meshes.push(child as Mesh | SkinnedMesh)
       }
     })
@@ -134,24 +137,17 @@ export const useBVH = (
 
             const material = Array.isArray(this.material) ? this.material[0] : this.material
             const side = material?.side ?? raycaster.params.Mesh?.side
-            const hit = boundsTree.raycastFirst(
-              raycaster.ray,
-              side,
-              raycaster.near,
-              raycaster.far,
-            )
+            const hit = boundsTree.raycastFirst(raycaster.ray, side, raycaster.near, raycaster.far)
 
             if (hit) {
               hit.object = this
               intersects.push(hit)
             }
-          }
-          else {
+          } else {
             originalRaycast.call(this, raycaster, intersects)
           }
         }
-      }
-      else {
+      } else {
         // Use standard accelerated raycast
         mesh.raycast = acceleratedRaycast
       }
@@ -162,8 +158,7 @@ export const useBVH = (
         geometry: mesh.geometry,
         boundsTree,
       }
-    }
-    catch (error) {
+    } catch (error) {
       if (verbose) {
         console.error('BVH: Failed to create bounds tree for mesh', mesh, error)
       }
@@ -214,8 +209,7 @@ export const useBVH = (
     // Dispose the BVH to free memory using geometry's disposeBoundsTree method
     if (geometry.disposeBoundsTree) {
       geometry.disposeBoundsTree()
-    }
-    else if (geometry.boundsTree) {
+    } else if (geometry.boundsTree) {
       // Fallback: clear the reference if disposeBoundsTree is not available
       geometry.boundsTree = undefined
     }
@@ -233,7 +227,9 @@ export const useBVH = (
     }
 
     const meshes = getAllMeshes(object)
-    const unprocessedMeshes = meshes.filter(mesh => !processedMeshes.some(pm => pm.mesh === mesh))
+    const unprocessedMeshes = meshes.filter(
+      (mesh) => !processedMeshes.some((pm) => pm.mesh === mesh),
+    )
 
     unprocessedMeshes.forEach((mesh) => {
       const processedMesh = applyBVHToMesh(mesh)
@@ -260,28 +256,38 @@ export const useBVH = (
     processedMeshes = []
   }
 
-  whenever(() => toValue(target), () => {
-    const objectValue = toValue(target)
-    if (objectValue && toValue(enabled)) {
-      applyBVH(objectValue)
-    }
-  }, { immediate: true })
-
-  watch(() => toValue(enabled), (enabled) => {
-    if (enabled) {
+  whenever(
+    () => toValue(target),
+    () => {
       const objectValue = toValue(target)
-      if (objectValue) {
+      if (objectValue && toValue(enabled)) {
         applyBVH(objectValue)
       }
-    }
-    else {
-      removeBVH()
-    }
-  })
+    },
+    { immediate: true },
+  )
 
-  watch(() => toValue(debug), () => {
-    processedMeshes.forEach(toValue(debug) ? createDebugHelper : removeDebugHelper)
-  }, { immediate: true })
+  watch(
+    () => toValue(enabled),
+    (enabled) => {
+      if (enabled) {
+        const objectValue = toValue(target)
+        if (objectValue) {
+          applyBVH(objectValue)
+        }
+      } else {
+        removeBVH()
+      }
+    },
+  )
+
+  watch(
+    () => toValue(debug),
+    () => {
+      processedMeshes.forEach(toValue(debug) ? createDebugHelper : removeDebugHelper)
+    },
+    { immediate: true },
+  )
 
   onUnmounted(() => {
     removeBVH()

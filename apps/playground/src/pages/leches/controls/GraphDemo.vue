@@ -21,13 +21,16 @@ const renderTimes = ref(0)
 
 const wave = ref(0)
 
-useControls({
-  sine: {
-    type: 'graph',
-    label: 'Sine Wave',
-    value: wave,
+useControls(
+  {
+    sine: {
+      type: 'graph',
+      label: 'Sine Wave',
+      value: wave,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 
 // Parameters for the sine wave
 const amplitude = 50 // Height of the wave
@@ -66,19 +69,14 @@ function onRender() {
 <template>
   <TresLeches :uuid="uuid" />
   <TresCanvas render-mode="on-demand" @render="onRender">
-    <TresPerspectiveCamera
-      :position="[4, 4, 4]"
-    />
+    <TresPerspectiveCamera :position="[4, 4, 4]" />
     <TresMesh>
       <TresTorusKnotGeometry :args="[1, 0.3, 128, 32]" />
       <TresMeshNormalMaterial />
     </TresMesh>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :position="[3, 3, 3]"
-      :intensity="1"
-    />
+    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
     <OrbitControls />
   </TresCanvas>
 </template>

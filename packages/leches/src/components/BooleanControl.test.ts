@@ -1,7 +1,7 @@
 import { dispose } from '/@/composables/useControls'
 import { mount } from '@vue/test-utils'
 import { TresLeches, useControls } from '/@/'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vite-plus/test'
 import { defineComponent, nextTick } from 'vue'
 
 describe('boolean Control', async () => {

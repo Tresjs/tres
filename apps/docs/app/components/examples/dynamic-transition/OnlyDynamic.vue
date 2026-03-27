@@ -20,19 +20,18 @@ const meshes = {
   <!---->
   <SceneWrapper>
     <div class="floating-container">
-      <button :class="{ isActive: meshes[current] === Box }" @click="handleComponents('Box')">Cube</button>
-      <button :class="{ isActive: meshes[current] === Sphere }" @click="handleComponents('Sphere')">Sphere</button>
+      <button :class="{ isActive: meshes[current] === Box }" @click="handleComponents('Box')">
+        Cube
+      </button>
+      <button :class="{ isActive: meshes[current] === Sphere }" @click="handleComponents('Sphere')">
+        Sphere
+      </button>
     </div>
     <TresCanvas clear-color="#82DBC5">
-      <TresPerspectiveCamera
-        :position="[0, 0, 5]"
-      />
+      <TresPerspectiveCamera :position="[0, 0, 5]" />
       <component :is="meshes[current]" />
       <TresAmbientLight :intensity="0.5" />
-      <TresDirectionalLight
-        :position="[5, 5, 5]"
-        :intensity="1"
-      />
+      <TresDirectionalLight :position="[5, 5, 5]" :intensity="1" />
     </TresCanvas>
   </SceneWrapper>
 </template>

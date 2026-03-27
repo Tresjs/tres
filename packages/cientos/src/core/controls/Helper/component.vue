@@ -21,7 +21,7 @@ watchEffect(() => {
   }
 })
 
-useHelper(parentRef, props.type, ...(props.args) ?? [])
+useHelper(parentRef, props.type, ...(props.args ?? []))
 </script>
 
 <template>

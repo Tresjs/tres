@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/SMAADemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/SMAADemo.vue{0}
+
 </details>
 
 The `SMAAEffect` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/SMAAEffect.js~SMAAEffect.html) package. **SMAA** (Subpixel Morphological Antialiasing) is a post-processing antialiasing technique that uses look-up tables to detect edges accurately, preserving texture details while minimizing false positives.
@@ -59,14 +60,15 @@ const effectProps = {
 
 ## Props
 
-| Prop          | Description                                                         | Default                     |
-| ------------- | ------------------------------------------------------------------- | --------------------------- |
-| blendFunction | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options.             | `BlendFunction.SRC`        |
-| opacity | The opacity of the effect.             | `1`        |
-| preset | Define the quality and performance trade-offs. See the [`SMAAPreset`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-SMAAPreset) options. | `SMAAPreset.MEDIUM` |
-| edgeDetectionMode | Define the edge detection modes. See the [`EdgeDetectionMode`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-EdgeDetectionMode) options. | `EdgeDetectionMode.COLOR` |
-| predicationMode | Define the edge detection modes. See the [`PredicationMode`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-PredicationMode) options. | `PredicationMode.DISABLED` |
-| debug | Define the debug mode. <br> Options: <br> - `0` : OFF <br> - `1` : EDGES <br> - `2` : WEIGHTS | `0` (OFF) |
+| Prop              | Description                                                                                                                                                                                      | Default                    |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- |
+| blendFunction     | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.SRC`        |
+| opacity           | The opacity of the effect.                                                                                                                                                                       | `1`                        |
+| preset            | Define the quality and performance trade-offs. See the [`SMAAPreset`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-SMAAPreset) options.               | `SMAAPreset.MEDIUM`        |
+| edgeDetectionMode | Define the edge detection modes. See the [`EdgeDetectionMode`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-EdgeDetectionMode) options.               | `EdgeDetectionMode.COLOR`  |
+| predicationMode   | Define the edge detection modes. See the [`PredicationMode`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-PredicationMode) options.                   | `PredicationMode.DISABLED` |
+| debug             | Define the debug mode. <br> Options: <br> - `0` : OFF <br> - `1` : EDGES <br> - `2` : WEIGHTS                                                                                                    | `0` (OFF)                  |
 
 ## Further Reading
+
 For more details, see the [SMAAEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/SMAAEffect.js~SMAAEffect.html)

@@ -41,7 +41,7 @@ My own customizations and preferences:
 - (Vue) Set maximum allowed attributes per line on HTML elements (`10` for singleline, `1` for multiline)
 - (General) Force use of curly braces on control statements
 - (General) Disable `antfu/top-level-function` to allow arrow syntax on top level functions
-- (Nuxt - *Optional*) Set some specific Nuxt rules if not already covered by Antfu's config (sourced from `@nuxt/eslint-config`)
+- (Nuxt - _Optional_) Set some specific Nuxt rules if not already covered by Antfu's config (sourced from `@nuxt/eslint-config`)
 - ... and some other minor tweaks
 
 ## 🛠️ Setup
@@ -124,7 +124,7 @@ Add the following settings to your `.vscode/settings.json`:
 ```jsonc
 {
   // Enable the ESLint flat config support
-  "eslint.experimental.useFlatConfig": true
+  "eslint.experimental.useFlatConfig": true,
 }
 ```
 
@@ -135,20 +135,16 @@ For more settings, check the "VS Code support" section in [antfu/eslint-config](
 [MIT](https://github.com/tresjs/eslint-config/blob/main/LICENSE)
 
 <!-- Badges -->
+
 [npm-version-src]: https://img.shields.io/npm/v/@tresjs/eslint-config/latest.svg?style=flat&colorA=18181B&colorB=88E5C3
 [npm-version-href]: https://npmjs.com/package/@tresjs/eslint-config
-
 [npm-downloads-src]: https://img.shields.io/npm/dm/@tresjs/eslint-config.svg?style=flat&colorA=18181B&colorB=88E5C3
 [npm-downloads-href]: https://npmjs.com/package/@tresjs/eslint-config
-
 [code-quality-src]: https://img.shields.io/codacy/grade/2089b728f6904916aff7a595c4197b09.svg?style=flat&colorA=18181B&colorB=88E5C3
 [code-quality-href]: https://app.codacy.com/gh/tresjs/eslint-config
-
 [bundle-size-src]: https://img.shields.io/bundlephobia/minzip/@tresjs/eslint-config.svg?style=flat&colorA=18181B&colorB=88E5C3
 [bundle-size-href]: https://bundlephobia.com/result?p=@tresjs/eslint-config
-
 [license-src]: https://img.shields.io/npm/l/@tresjs/eslint-config.svg?style=flat&colorA=18181B&colorB=88E5C3
 [license-href]: https://npmjs.com/package/@tresjs/eslint-config
-
 [antfu-src]: https://antfu.me/badge-code-style.svg
 [antfu-href]: https://github.com/antfu/eslint-config

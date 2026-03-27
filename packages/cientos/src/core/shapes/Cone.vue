@@ -41,9 +41,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="coneRef"
-  >
+  <TresMesh ref="coneRef">
     <TresConeGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

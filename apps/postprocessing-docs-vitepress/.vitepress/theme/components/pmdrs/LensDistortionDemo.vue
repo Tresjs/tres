@@ -7,7 +7,6 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { EffectComposerPmndrs, LensDistortionPmndrs } from '@tresjs/post-processing'
 import { BackSide, NoToneMapping, SRGBColorSpace, Vector2 } from 'three'
 
-
 const gl = {
   toneMapping: NoToneMapping,
 }
@@ -23,23 +22,22 @@ const { distortion, principalPoint, focalLength, skew } = useControls({
   skew: { value: 0, min: -1, max: 1, step: 0.001 },
 })
 
-const { state: map } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/lens-distortion/room-map.png')
-const { state: normalMap } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/lens-distortion/room-normal.png')
+const { state: map } = useTexture(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/lens-distortion/room-map.png',
+)
+const { state: normalMap } = useTexture(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/lens-distortion/room-normal.png',
+)
 
 watch(map, (newMap) => {
   newMap.colorSpace = SRGBColorSpace
 })
-
 </script>
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[-2, 1, 5]"
-      />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[-2, 1, 5]" />
       <OrbitControls auto-rotate />
 
       <TresMesh :position="[0, 2, 0]">
@@ -55,7 +53,7 @@ watch(map, (newMap) => {
       <TresAmbientLight :intensity="2" />
 
       <Suspense>
-        <Environment background :blur=".25" preset="snow" />
+        <Environment background :blur="0.25" preset="snow" />
       </Suspense>
 
       <Suspense>

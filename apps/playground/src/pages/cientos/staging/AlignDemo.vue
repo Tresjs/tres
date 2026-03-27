@@ -30,21 +30,24 @@ const {
   disableZ,
   useCacheKey,
   vIf,
-} = useControls({
-  top: false,
-  left: false,
-  front: false,
-  bottom: false,
-  right: false,
-  back: false,
-  disable: false,
-  disableX: false,
-  disableY: false,
-  disableZ: false,
-  useCacheKey: false,
-  vIf: true,
-  enabled: true,
-}, { uuid })
+} = useControls(
+  {
+    top: false,
+    left: false,
+    front: false,
+    bottom: false,
+    right: false,
+    back: false,
+    disable: false,
+    disableX: false,
+    disableY: false,
+    disableZ: false,
+    useCacheKey: false,
+    vIf: true,
+    enabled: true,
+  },
+  { uuid },
+)
 </script>
 
 <template>
@@ -65,9 +68,13 @@ const {
       :disable-x="disableX"
       :disable-y="disableY"
       :disable-z="disableZ"
-      :cache-key="useCacheKey ? (() => Math.floor(elapsed * 0.001)) : undefined"
+      :cache-key="useCacheKey ? () => Math.floor(elapsed * 0.001) : undefined"
     >
-      <TresMesh :position-x="Math.cos(elapsed * 0.001) * 2" :position-y="Math.sin(elapsed * 0.001) * 2" :scale-z="Math.cos(elapsed * 0.001) * 2">
+      <TresMesh
+        :position-x="Math.cos(elapsed * 0.001) * 2"
+        :position-y="Math.sin(elapsed * 0.001) * 2"
+        :scale-z="Math.cos(elapsed * 0.001) * 2"
+      >
         <TresBoxGeometry />
         <TresMeshNormalMaterial />
       </TresMesh>

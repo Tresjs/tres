@@ -2,7 +2,14 @@
 import type { ComputedRef } from 'vue'
 import { computed, ref, shallowRef, watch } from 'vue'
 import type { Group } from 'three'
-import { AccumulativeShadows, Align, Bounds, ContactShadows, Environment, RandomizedLights } from '.'
+import {
+  AccumulativeShadows,
+  Align,
+  Bounds,
+  ContactShadows,
+  Environment,
+  RandomizedLights,
+} from '.'
 import type { AccumulativeShadowsProps } from './AccumulativeShadows/component.vue'
 import type { ContactShadowsProps } from './ContactShadows.vue'
 import type { RandomizedLightsProps } from './RandomizedLights/component.vue'
@@ -13,12 +20,14 @@ import { useDebounceFn } from '@vueuse/core'
 interface StageProps {
   /** Lighting setup, default: "rembrandt" */
   lighting?:
-    | null | undefined | false
+    | null
+    | undefined
+    | false
     | 'rembrandt'
     | 'portrait'
     | 'upfront'
     | 'soft'
-    | { main: [x: number, y: number, z: number], fill: [x: number, y: number, z: number] }
+    | { main: [x: number, y: number, z: number]; fill: [x: number, y: number, z: number] }
   /** Controls the ground shadows, default: "contact" */
   shadows?: boolean | 'contact' | 'accumulative' | StageShadows
   /** Optionally wraps and thereby centers the models using <Bounds>, can also be a camera offset, default: true */
@@ -91,56 +100,64 @@ const boundsRef = shallowRef<typeof Bounds>()
 const alignRef = shallowRef<typeof Align>()
 const accumulativeShadowsRef = shallowRef<typeof AccumulativeShadows>()
 
-const debouncedLookAt = useDebounceFn(() => {
-  if (boundsRef.value?.instance) {
-    boundsRef.value.instance.lookAt(boundsRef.value.instance)
-  }
-}, 500, { maxWait: 2000 })
+const debouncedLookAt = useDebounceFn(
+  () => {
+    if (boundsRef.value?.instance) {
+      boundsRef.value.instance.lookAt(boundsRef.value.instance)
+    }
+  },
+  500,
+  { maxWait: 2000 },
+)
 
-watch(() => [props.adjustCamera, radius.value], () => {
-  alignRef.value?.update()
-  if (props.adjustCamera !== false && boundsRef.value) {
-    boundsRef.value.instance.offset = typeof props.adjustCamera === 'boolean' ? 0.3 : props.adjustCamera
-    debouncedLookAt()
-  }
-})
+watch(
+  () => [props.adjustCamera, radius.value],
+  () => {
+    alignRef.value?.update()
+    if (props.adjustCamera !== false && boundsRef.value) {
+      boundsRef.value.instance.offset =
+        typeof props.adjustCamera === 'boolean' ? 0.3 : props.adjustCamera
+      debouncedLookAt()
+    }
+  },
+)
 
-watch(() => [props.shadows], () => {
-  // NOTE: `AccumulativeShadows` can be in a mode where
-  // it renders only once, then never again without
-  // explicitly calling `update`.
-  // To help users tweaking settings, we'll call `update`
-  // when the `props.shadows` object changes.
-  accumulativeShadowsRef.value?.update()
-})
+watch(
+  () => [props.shadows],
+  () => {
+    // NOTE: `AccumulativeShadows` can be in a mode where
+    // it renders only once, then never again without
+    // explicitly calling `update`.
+    // To help users tweaking settings, we'll call `update`
+    // when the `props.shadows` object changes.
+    accumulativeShadowsRef.value?.update()
+  },
+)
 
 const lightingPresetComputed: ComputedRef<LightingPreset> = computed(() => {
   let preset = lightingPresets.rembrandt
   if (typeof props.lighting === 'string') {
     preset = lightingPresets[props.lighting]
-  }
-  else if (props.lighting) {
+  } else if (props.lighting) {
     preset = props.lighting
   }
   return preset
 })
 
 const lightingMainComputed: ComputedRef<[number, number, number]> = computed(() => {
-  return lightingPresetComputed.value.main.map(v => v * radius.value) as [number, number, number]
+  return lightingPresetComputed.value.main.map((v) => v * radius.value) as [number, number, number]
 })
 
 const lightingFillComputed: ComputedRef<[number, number, number]> = computed(() => {
-  return lightingPresetComputed.value.fill.map(v => v * radius.value) as [number, number, number]
+  return lightingPresetComputed.value.fill.map((v) => v * radius.value) as [number, number, number]
 })
 
 const contactShadowsComputed: ComputedRef<StageShadows | null> = computed(() => {
   if (props.shadows === true || props.shadows === 'contact') {
     return { type: 'contact' }
-  }
-  else if (typeof props.shadows === 'object' && props.shadows.type === 'contact') {
+  } else if (typeof props.shadows === 'object' && props.shadows.type === 'contact') {
     return props.shadows
-  }
-  else {
+  } else {
     return null
   }
 })
@@ -148,11 +165,12 @@ const contactShadowsComputed: ComputedRef<StageShadows | null> = computed(() => 
 const accumulativeShadowsComputed: ComputedRef<StageShadows | null> = computed(() => {
   if (props.shadows === 'accumulative') {
     return { type: 'accumulative' }
-  }
-  else if (typeof props.shadows === 'object' && (props.shadows as StageShadows).type === 'accumulative') {
+  } else if (
+    typeof props.shadows === 'object' &&
+    (props.shadows as StageShadows).type === 'accumulative'
+  ) {
     return props.shadows
-  }
-  else {
+  } else {
     return null
   }
 })
@@ -160,14 +178,11 @@ const accumulativeShadowsComputed: ComputedRef<StageShadows | null> = computed((
 const environmentComputed: ComputedRef<EnvironmentOptions | null> = computed(() => {
   if (props.environment === null) {
     return null
-  }
-  else if (!props.environment) {
+  } else if (!props.environment) {
     return { preset: 'city' }
-  }
-  else if (typeof props.environment === 'string') {
+  } else if (typeof props.environment === 'string') {
     return { preset: props.environment }
-  }
-  else {
+  } else {
     return props.environment
   }
 })
@@ -196,10 +211,7 @@ defineExpose({ instance: stageRef, update: () => {} })
         :shadow-mapSize-x="(shadows as StageShadows)?.size ?? 1024"
         :shadow-mapSize-y="(shadows as StageShadows)?.size ?? 1024"
       />
-      <TresPointLight
-        :position="lightingFillComputed"
-        :intensity="intensity"
-      />
+      <TresPointLight :position="lightingFillComputed" :intensity="intensity" />
     </TresGroup>
     <Bounds
       ref="boundsRef"

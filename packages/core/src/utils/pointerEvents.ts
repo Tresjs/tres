@@ -5,18 +5,23 @@ import type { PointerEvent } from '@pmndrs/pointer-events'
 type CustomTresEvents = 'onLostpointercapture'
 
 // All supported pointer events (Vue Events + custom Tres events)
-type SupportedPointerEvents = Extract<keyof Events, 'onClick'
-  | 'onContextmenu'
-  | 'onPointermove'
-  | 'onPointerenter'
-  | 'onPointerleave'
-  | 'onPointerover'
-  | 'onPointerout'
-  | 'onDblclick'
-  | 'onPointerdown'
-  | 'onPointerup'
-  | 'onPointercancel'
-  | 'onWheel'> | CustomTresEvents
+type SupportedPointerEvents =
+  | Extract<
+      keyof Events,
+      | 'onClick'
+      | 'onContextmenu'
+      | 'onPointermove'
+      | 'onPointerenter'
+      | 'onPointerleave'
+      | 'onPointerover'
+      | 'onPointerout'
+      | 'onDblclick'
+      | 'onPointerdown'
+      | 'onPointerup'
+      | 'onPointercancel'
+      | 'onWheel'
+    >
+  | CustomTresEvents
 
 export const supportedPointerEvents = [
   'onClick',
@@ -34,9 +39,22 @@ export const supportedPointerEvents = [
   'onWheel',
 ] as const satisfies readonly SupportedPointerEvents[]
 
-export type SupportedVuePointerEvent = typeof supportedPointerEvents[number]
+export type SupportedVuePointerEvent = (typeof supportedPointerEvents)[number]
 
-export type TresPointerEventName = 'click' | 'contextmenu' | 'pointermove' | 'pointerenter' | 'pointerleave' | 'pointerover' | 'pointerout' | 'dblclick' | 'pointerdown' | 'pointerup' | 'pointercancel' | 'lostpointercapture' | 'wheel'
+export type TresPointerEventName =
+  | 'click'
+  | 'contextmenu'
+  | 'pointermove'
+  | 'pointerenter'
+  | 'pointerleave'
+  | 'pointerover'
+  | 'pointerout'
+  | 'dblclick'
+  | 'pointerdown'
+  | 'pointerup'
+  | 'pointercancel'
+  | 'lostpointercapture'
+  | 'wheel'
 
 export const pointerEventsMapVueToThree: Record<SupportedVuePointerEvent, TresPointerEventName> = {
   onClick: 'click',

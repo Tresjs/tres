@@ -8,8 +8,9 @@ import { ref, watch } from 'vue'
 
 const uuid = 'abstractions-animated-sprite'
 
-const ASSETS_URL = 'https://raw.githubusercontent.com/andretchen0/tresjs_assets/'
-  + '462ad0f669f78d2c5ed7007b5134b419f646efad/textures/animated-sprite/'
+const ASSETS_URL =
+  'https://raw.githubusercontent.com/andretchen0/tresjs_assets/' +
+  '462ad0f669f78d2c5ed7007b5134b419f646efad/textures/animated-sprite/'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -20,38 +21,61 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { fps, animation, definitions, flipX, loop, paused, reversed, resetOnEnd, asSprite, centerX, centerY, scale, rotationX, rotationY, rotationZ, position } = useControls({
-  fps: { value: 10, min: 0, max: 120, step: 1 },
-  animation: { label: 'Animation', value: 'idle', options: ['idle', 'walk', 'blink'] },
-  definitions: { label: 'Definitions', value: '{}', options: ['{}', '{"idle":"0(10),1-5"}'] },
-  flipX: false,
-  loop: true,
-  paused: false,
-  reversed: false,
-  resetOnEnd: false,
-  asSprite: false,
-  centerX: { value: 0.5, min: 0, max: 1, step: 0.01 },
-  centerY: { value: 0.5, min: 0, max: 1, step: 0.01 },
-  scale: { value: 1, min: 0.1, max: 4, step: 0.01 },
-  rotationX: { value: 0, step: 1, min: -360, max: 360 },
-  rotationY: { value: 0, step: 1, min: -360, max: 360 },
-  rotationZ: { value: 0, step: 1, min: -360, max: 360 },
-  position: { value: [0, 0, 0] },
-}, { uuid })
+const {
+  fps,
+  animation,
+  definitions,
+  flipX,
+  loop,
+  paused,
+  reversed,
+  resetOnEnd,
+  asSprite,
+  centerX,
+  centerY,
+  scale,
+  rotationX,
+  rotationY,
+  rotationZ,
+  position,
+} = useControls(
+  {
+    fps: { value: 10, min: 0, max: 120, step: 1 },
+    animation: { label: 'Animation', value: 'idle', options: ['idle', 'walk', 'blink'] },
+    definitions: { label: 'Definitions', value: '{}', options: ['{}', '{"idle":"0(10),1-5"}'] },
+    flipX: false,
+    loop: true,
+    paused: false,
+    reversed: false,
+    resetOnEnd: false,
+    asSprite: false,
+    centerX: { value: 0.5, min: 0, max: 1, step: 0.01 },
+    centerY: { value: 0.5, min: 0, max: 1, step: 0.01 },
+    scale: { value: 1, min: 0.1, max: 4, step: 0.01 },
+    rotationX: { value: 0, step: 1, min: -360, max: 360 },
+    rotationY: { value: 0, step: 1, min: -360, max: 360 },
+    rotationZ: { value: 0, step: 1, min: -360, max: 360 },
+    position: { value: [0, 0, 0] },
+  },
+  { uuid },
+)
 
 const lastFrame = ref('-')
 const lastEnd = ref('-')
 const lastLoop = ref('-')
 const defsParsed = ref(JSON.parse(definitions.value))
 
-watch(() => definitions.value, () => {
-  defsParsed.value = JSON.parse(definitions.value)
-})
+watch(
+  () => definitions.value,
+  () => {
+    defsParsed.value = JSON.parse(definitions.value)
+  },
+)
 
 const centerDemoAtlas = { frames: [] }
 const centerDemoImgData = (() => {
   const NUM_ROWS_COLS = 32
-  const rects: { x: number, y: number, w: number, h: number }[] = []
+  const rects: { x: number; y: number; w: number; h: number }[] = []
   let h = 1
   for (let r = 0; r < NUM_ROWS_COLS; r += h) {
     let w = 1
@@ -83,10 +107,15 @@ const centerDemoImgData = (() => {
   const EDGE_center_SIZE = 6
   const CENTER_center_SIZE = COL_SIZE
   rects.forEach((rect, i) => {
-    const frame = { x: rect.x * COL_SIZE, y: rect.y * ROW_SIZE, w: rect.w * COL_SIZE, h: rect.h * ROW_SIZE }
+    const frame = {
+      x: rect.x * COL_SIZE,
+      y: rect.y * ROW_SIZE,
+      w: rect.w * COL_SIZE,
+      h: rect.h * ROW_SIZE,
+    }
     const { x, y, w, h } = frame
     centerDemoAtlas.frames.push({ filename: `rect_${i.toString().padStart(4, '0')}`, frame })
-    ctx.fillStyle = `hsl(${360 * i / rects.length}, 100%, 50%)`
+    ctx.fillStyle = `hsl(${(360 * i) / rects.length}, 100%, 50%)`
     ctx.fillRect(x, y, w, h)
 
     ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'
@@ -109,11 +138,26 @@ const centerDemoImgData = (() => {
     ctx.fillRect(x + w - EDGE_center_SIZE, y, EDGE_center_SIZE, EDGE_center_SIZE)
 
     ctx.fillRect(x, y + h * 0.5 - EDGE_center_SIZE * 0.5, EDGE_center_SIZE, EDGE_center_SIZE)
-    ctx.fillRect(x + w - EDGE_center_SIZE, y + h * 0.5 - EDGE_center_SIZE * 0.5, EDGE_center_SIZE, EDGE_center_SIZE)
+    ctx.fillRect(
+      x + w - EDGE_center_SIZE,
+      y + h * 0.5 - EDGE_center_SIZE * 0.5,
+      EDGE_center_SIZE,
+      EDGE_center_SIZE,
+    )
 
     ctx.fillRect(x, y + h - EDGE_center_SIZE, EDGE_center_SIZE, EDGE_center_SIZE)
-    ctx.fillRect(x + w * 0.5 - EDGE_center_SIZE * 0.5, y + h - EDGE_center_SIZE, EDGE_center_SIZE, EDGE_center_SIZE)
-    ctx.fillRect(x + w - EDGE_center_SIZE, y + h - EDGE_center_SIZE, EDGE_center_SIZE, EDGE_center_SIZE)
+    ctx.fillRect(
+      x + w * 0.5 - EDGE_center_SIZE * 0.5,
+      y + h - EDGE_center_SIZE,
+      EDGE_center_SIZE,
+      EDGE_center_SIZE,
+    )
+    ctx.fillRect(
+      x + w - EDGE_center_SIZE,
+      y + h - EDGE_center_SIZE,
+      EDGE_center_SIZE,
+      EDGE_center_SIZE,
+    )
   })
   const imgData = canvas.toDataURL()
   canvas.parentElement?.removeChild(canvas)
@@ -123,7 +167,7 @@ const centerDemoImgData = (() => {
 
 <template>
   <TresLeches :uuid="uuid" />
-  <div style="position:absolute; top:0; z-index:1; font: 10px sans-serif; padding:10px;">
+  <div style="position: absolute; top: 0; z-index: 1; font: 10px sans-serif; padding: 10px">
     <p>@frame: {{ lastFrame }}</p>
     <p>@end: {{ lastEnd }}</p>
     <p>@loop: {{ lastLoop }}</p>
@@ -150,18 +194,9 @@ const centerDemoImgData = (() => {
           :rotation="[degToRad(rotationX), degToRad(rotationY), degToRad(rotationZ)]"
         >
           <TresGroup :scale="0.5">
-            <Box
-              :scale="[1, 0.06, 0.06]"
-              color="red"
-            />
-            <Box
-              :scale="[0.06, 1, 0.06]"
-              color="blue"
-            />
-            <Box
-              :scale="[0.06, 0.06, 1]"
-              color="green"
-            />
+            <Box :scale="[1, 0.06, 0.06]" color="red" />
+            <Box :scale="[0.06, 1, 0.06]" color="blue" />
+            <Box :scale="[0.06, 0.06, 1]" color="green" />
           </TresGroup>
         </AnimatedSprite>
       </Suspense>
@@ -226,9 +261,9 @@ const centerDemoImgData = (() => {
           :rotation="[degToRad(rotationX), degToRad(rotationY), degToRad(rotationZ)]"
           :depth-write="false"
           :depth-test="false"
-          @end="(frameName) => lastEnd = frameName"
-          @frame="(frameName) => lastFrame = frameName"
-          @loop="(frameName) => lastLoop = frameName"
+          @end="(frameName) => (lastEnd = frameName)"
+          @frame="(frameName) => (lastFrame = frameName)"
+          @loop="(frameName) => (lastLoop = frameName)"
         />
       </Suspense>
     </TresGroup>

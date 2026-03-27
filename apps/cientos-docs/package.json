@@ -1,8 +1,7 @@
 {
   "name": "cientos-docs",
-  "type": "module",
   "private": true,
-  "packageManager": "pnpm@10.14.0",
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -37,5 +36,6 @@
     "eslint": "catalog:eslint",
     "typescript": "catalog:typescript",
     "vue-tsc": "catalog:typescript"
-  }
+  },
+  "packageManager": "pnpm@10.14.0"
 }

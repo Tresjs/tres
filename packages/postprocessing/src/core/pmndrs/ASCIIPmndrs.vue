@@ -68,12 +68,13 @@ makePropWatchers(
 watch(
   [effect, () => props.useSceneColor],
   () => {
-    if (!effect.value) { return }
+    if (!effect.value) {
+      return
+    }
 
     if (props.useSceneColor) {
       effect.value.color = null
-    }
-    else {
+    } else {
       effect.value.color = props.color ?? plainEffect.color
     }
   },
@@ -83,7 +84,9 @@ watch(
 watch(
   [effect, () => props.opacity],
   () => {
-    if (!effect.value) { return }
+    if (!effect.value) {
+      return
+    }
 
     effect.value.blendMode.setOpacity(props.opacity ?? plainEffect.blendMode.getOpacity())
   },
@@ -93,7 +96,9 @@ watch(
 watch(
   [effect, () => props.color],
   () => {
-    if (!effect.value) { return }
+    if (!effect.value) {
+      return
+    }
 
     if (!props.useSceneColor) {
       effect.value.color = props.color ?? null
@@ -105,7 +110,9 @@ watch(
 watch(
   [effect, () => props.asciiTexture],
   () => {
-    if (!effect.value) { return }
+    if (!effect.value) {
+      return
+    }
 
     const texture = props.asciiTexture
       ? new ASCIITexture(props.asciiTexture)
@@ -119,9 +126,13 @@ watch(
 watch(
   [effect, () => props.blendFunction],
   () => {
-    if (!effect.value) { return }
+    if (!effect.value) {
+      return
+    }
 
-    effect.value.blendMode.blendFunction = props.blendFunction ? Number(props.blendFunction) : Number(plainEffect.blendMode.blendFunction)
+    effect.value.blendMode.blendFunction = props.blendFunction
+      ? Number(props.blendFunction)
+      : Number(plainEffect.blendMode.blendFunction)
   },
   { immediate: true },
 )

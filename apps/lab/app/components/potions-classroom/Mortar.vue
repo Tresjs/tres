@@ -6,17 +6,17 @@ const props = defineProps<{
   texture: Texture
 }>()
 
-const { nodes } = useGLTF(
-  '/models/potions-classroom/wizard-potions-classroom.glb',
-  {
-    draco: true,
-  },
-)
+const { nodes } = useGLTF('/models/potions-classroom/wizard-potions-classroom.glb', {
+  draco: true,
+})
 
-const bakedMaterial = computed(() => new MeshBasicMaterial({
-  map: props.texture,
-  side: DoubleSide,
-}))
+const bakedMaterial = computed(
+  () =>
+    new MeshBasicMaterial({
+      map: props.texture,
+      side: DoubleSide,
+    }),
+)
 
 watch([nodes, bakedMaterial], ([nodes, texture]) => {
   nodes.Mortar.material = texture

@@ -17,20 +17,23 @@ const gl = {
 
 const uuid = 'vignette-pmndrs'
 
-const { darkness, offset } = useControls({
-  offset: {
-    value: 0.3,
-    min: 0,
-    max: 1,
-    step: 0.01,
+const { darkness, offset } = useControls(
+  {
+    offset: {
+      value: 0.3,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+    darkness: {
+      value: 0.9,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
   },
-  darkness: {
-    value: 0.9,
-    min: 0,
-    max: 1,
-    step: 0.01,
-  },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
@@ -42,15 +45,8 @@ const { darkness, offset } = useControls({
       <BlenderCube />
     </Suspense>
     <EffectComposerPmndrs>
-      <DepthOfFieldPmndrs
-        :focus-distance="0"
-        :focal-length="0.02"
-        :bokeh-scale="2"
-      />
-      <VignettePmndrs
-        :darkness="darkness"
-        :offset="offset"
-      />
+      <DepthOfFieldPmndrs :focus-distance="0" :focal-length="0.02" :bokeh-scale="2" />
+      <VignettePmndrs :darkness="darkness" :offset="offset" />
     </EffectComposerPmndrs>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

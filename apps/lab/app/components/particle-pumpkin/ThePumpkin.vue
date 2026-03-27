@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  AmbientLight,
-  Points,
-  PointsMaterial,
-  Vector3,
-} from 'three'
+import { AmbientLight, Points, PointsMaterial, Vector3 } from 'three'
 
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla'
 import { patchShaders } from './glNosie'
@@ -27,7 +22,6 @@ const pumpkin = computed(() => nodes.value.Pumpkin)
 watch(pumpkin, (newPumpkin) => {
   newPumpkin.geometry?.scale(0.025, 0.025, 0.025)
 })
-
 
 const pointsParentGeometry = computed(() => pumpkin.value?.geometry?.clone())
 
@@ -57,7 +51,6 @@ const points = computed(() => new Points(pointsParentGeometry.value, shaderMater
 watch(points, (newPoints) => {
   context.scene.value.add(newPoints)
 })
-
 
 const { onBeforeRender } = useLoop()
 

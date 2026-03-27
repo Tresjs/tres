@@ -22,11 +22,11 @@ import { EffectComposer, UnrealBloom } from '@tresjs/post-processing'
 
 ## Props
 
-| Prop       | Description                                                                                       | Default |
-|------------|---------------------------------------------------------------------------------------------------|---------|
-| `radius`   | The radius of the bloom effect.                                                                   | `0`     |
-| `strength` | The strength of the bloom effect.                                                                 | `1`     |
-| `threshold`| The threshold luminance for the bloom effect.                                                     | `0`     |
+| Prop        | Description                                   | Default |
+| ----------- | --------------------------------------------- | ------- |
+| `radius`    | The radius of the bloom effect.               | `0`     |
+| `strength`  | The strength of the bloom effect.             | `1`     |
+| `threshold` | The threshold luminance for the bloom effect. | `0`     |
 
 ## Further Reading
 

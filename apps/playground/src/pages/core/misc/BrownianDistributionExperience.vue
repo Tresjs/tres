@@ -3,15 +3,33 @@ import type { TresPointerEvent } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import { useLoop } from '@tresjs/core'
 import type { Mesh } from 'three'
-import { BoxGeometry, CylinderGeometry, Euler, MathUtils, MeshToonMaterial, SphereGeometry, Vector3 } from 'three'
+import {
+  BoxGeometry,
+  CylinderGeometry,
+  Euler,
+  MathUtils,
+  MeshToonMaterial,
+  SphereGeometry,
+  Vector3,
+} from 'three'
 
 const lerp = MathUtils.lerp
 const clamp = MathUtils.clamp
 
 const COUNT = 2000
 
-const brownian = (stepSize: number, xMin: number, xMax: number, yMin: number, yMax: number, zMin: number, zMax: number) => {
-  let x = 0; let y = 0; let z = 0
+const brownian = (
+  stepSize: number,
+  xMin: number,
+  xMax: number,
+  yMin: number,
+  yMax: number,
+  zMin: number,
+  zMax: number,
+) => {
+  let x = 0
+  let y = 0
+  let z = 0
   const r = () => (Math.random() - 0.5) * 2 * stepSize
   const isInBounds = () => xMin < x && x < xMax && yMin < y && y < yMax && zMin < z && z < zMax
   const reset = () => {
@@ -24,7 +42,9 @@ const brownian = (stepSize: number, xMin: number, xMax: number, yMin: number, yM
     x += r()
     y += r()
     z += r()
-    if (!isInBounds()) { reset() }
+    if (!isInBounds()) {
+      reset()
+    }
     return [x, y, z]
   }
 }
@@ -50,13 +70,13 @@ const pyramidGeometry = new CylinderGeometry(0, 0.6, 1)
 
 function onPointerEnter(ev: TresPointerEvent) {
   if ((ev.eventObject as Mesh).material !== hoverMaterial) {
-    (ev.eventObject as Mesh).userData.material = (ev.eventObject as Mesh).material
+    ;(ev.eventObject as Mesh).userData.material = (ev.eventObject as Mesh).material
   }
-  (ev.eventObject as Mesh).material = hoverMaterial
+  ;(ev.eventObject as Mesh).material = hoverMaterial
 }
 
 function onPointerLeave(ev: TresPointerEvent) {
-  (ev.eventObject as Mesh).material = (ev.eventObject as Mesh).userData.material ?? grayMaterial
+  ;(ev.eventObject as Mesh).material = (ev.eventObject as Mesh).userData.material ?? grayMaterial
 }
 
 const PI = Math.PI
@@ -97,7 +117,7 @@ onBeforeRender(({ elapsed }) => {
       @pointerenter="onPointerEnter"
       @pointerleave="onPointerLeave"
     >
-      <TresCylinderGeometry :args="[0, 0.60, 1]" />
+      <TresCylinderGeometry :args="[0, 0.6, 1]" />
     </TresMesh>
     <TresMesh
       ref="boxRef"
@@ -123,7 +143,7 @@ onBeforeRender(({ elapsed }) => {
 
   <TresGroup :position="[0, 0, -30]">
     <TresMesh
-      v-for="position, i of cubePositions"
+      v-for="(position, i) of cubePositions"
       :key="i"
       :geometry="[sphereGeometry, cubeGeometry, pyramidGeometry][i % 3]"
       :material="grayMaterial"
@@ -134,14 +154,6 @@ onBeforeRender(({ elapsed }) => {
     />
   </TresGroup>
 
-  <TresDirectionalLight
-    :position="[0, 8, 4]"
-    :intensity="0.7"
-    cast-shadow
-  />
-  <TresDirectionalLight
-    :position="[0, 2, 4]"
-    :intensity="1"
-    cast-shadow
-  />
+  <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" cast-shadow />
+  <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
 </template>

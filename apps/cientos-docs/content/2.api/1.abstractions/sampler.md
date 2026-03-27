@@ -4,8 +4,8 @@ description: Distribute instances on mesh surfaces using MeshSurfaceSampler.
 ---
 
 ::SceneControlsWrapper
-  ::AbstractionsSampler
-  ::
+::AbstractionsSampler
+::
 ::
 
 Declarative abstraction around MeshSurfaceSampler & InstancedMesh. It samples points from the passed mesh and transforms an InstancedMesh's matrix to distribute instances on the points.
@@ -42,7 +42,7 @@ import { TresCanvas } from '@tresjs/core'
 ## Props
 
 | Props        | Description                                                        |
-|--------------|--------------------------------------------------------------------|
+| ------------ | ------------------------------------------------------------------ |
 | mesh         | **Mesh** Surface mesh from which to sample                         |
 | count        | **Number** Number of samples                                       |
 | instanceMesh | **InstanceMesh** InstanceMesh to scatter                           |

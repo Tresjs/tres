@@ -13,7 +13,9 @@ export const vDistanceTo = {
       if (binding.value && isMesh(binding.value)) {
         observer = binding.value.position
       }
-      if (Array.isArray(binding.value)) { observer = new Vector3(...observer) }
+      if (Array.isArray(binding.value)) {
+        observer = new Vector3(...observer)
+      }
       return observer
     }
 
@@ -28,15 +30,17 @@ export const vDistanceTo = {
     }
     const dir = observer.clone().sub(el.position)
     dir.normalize()
-    arrowHelper = new ArrowHelper(dir, el.position, el.position.distanceTo(observer), 0xFFFF00)
+    arrowHelper = new ArrowHelper(dir, el.position, el.position.distanceTo(observer), 0xffff00)
     el.parent.add(arrowHelper)
     // eslint-disable-next-line no-console
     console.table([
       ['Distance:', el.position.distanceTo(observer)],
-      [`origin: ${el.name || el.type}`, `x:${el.position.x}, y:${el.position.y}, z:${el.position?.z}`],
+      [
+        `origin: ${el.name || el.type}`,
+        `x:${el.position.x}, y:${el.position.y}, z:${el.position?.z}`,
+      ],
       [`Destiny: ${el.name || el.type}`, `x:${observer.x}, y:${observer.y}, z:${observer?.z}`],
-    ],
-    )
+    ])
   },
   unmounted: (el: TresObject) => {
     arrowHelper?.dispose()

@@ -15,7 +15,9 @@ const { fov, scale, binormal, normal, track, mouse } = mutation
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ camera }) => {
-  if (!camera.value) { return }
+  if (!camera.value) {
+    return
+  }
   const t = mutation.t
   const pos = mutation.position.clone()
   const segments = track.tangents.length
@@ -29,12 +31,17 @@ onBeforeRender(({ camera }) => {
   normal.copy(binormal).cross(dir)
   pos.add(normal.clone().multiplyScalar(offset))
   camera.value.position.copy(pos)
-  const lookAt = track.parameters.path.getPointAt((t + 30 / track.parameters.path.getLength()) % 1).multiplyScalar(scale)
+  const lookAt = track.parameters.path
+    .getPointAt((t + 30 / track.parameters.path.getLength()) % 1)
+    .multiplyScalar(scale)
   camera.value.matrix.lookAt(camera.value.position, lookAt, normal)
-  camera.value.quaternion.setFromRotationMatrix(camera.value.matrix);
-  (camera.value as PerspectiveCamera).fov += ((t > 0.4 && t < 0.45 ? 120 : fov) - (camera.value as PerspectiveCamera).fov) * 0.05;
-  (camera.value as PerspectiveCamera).updateProjectionMatrix()
-  const lightPos = track.parameters.path.getPointAt((t + 1 / track.parameters.path.getLength()) % 1).multiplyScalar(scale)
+  camera.value.quaternion.setFromRotationMatrix(camera.value.matrix)
+  ;(camera.value as PerspectiveCamera).fov +=
+    ((t > 0.4 && t < 0.45 ? 120 : fov) - (camera.value as PerspectiveCamera).fov) * 0.05
+  ;(camera.value as PerspectiveCamera).updateProjectionMatrix()
+  const lightPos = track.parameters.path
+    .getPointAt((t + 1 / track.parameters.path.getLength()) % 1)
+    .multiplyScalar(scale)
   groupRef.value.position.copy(lightPos)
   groupRef.value.quaternion.setFromRotationMatrix(camera.value.matrix)
 })

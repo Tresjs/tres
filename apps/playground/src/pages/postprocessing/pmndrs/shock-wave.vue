@@ -3,7 +3,11 @@ import { ContactShadows, Environment, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { NoToneMapping, Vector3 } from 'three'
-import { DepthPickingPassPmndrs, EffectComposerPmndrs, ShockWavePmndrs } from '@tresjs/post-processing'
+import {
+  DepthPickingPassPmndrs,
+  EffectComposerPmndrs,
+  ShockWavePmndrs,
+} from '@tresjs/post-processing'
 import { useMouse, useWindowSize } from '@vueuse/core'
 import { computed, ref } from 'vue'
 
@@ -27,18 +31,23 @@ const effectComposerRef = ref(null)
 const depthPickingPassRef = ref(null)
 const mousePosition = ref(new Vector3())
 
-const { amplitude, waveSize, speed, maxRadius } = useControls({
-  amplitude: { value: 0.15, step: 0.001, max: 0.25 },
-  waveSize: { value: 0.3, step: 0.01, max: 2 },
-  speed: { value: 1.5, step: 0.01, max: 5 },
-  maxRadius: { value: 1, step: 0.01, max: 3.0 },
-}, { uuid })
+const { amplitude, waveSize, speed, maxRadius } = useControls(
+  {
+    amplitude: { value: 0.15, step: 0.001, max: 0.25 },
+    waveSize: { value: 0.3, step: 0.01, max: 2 },
+    speed: { value: 1.5, step: 0.01, max: 5 },
+    maxRadius: { value: 1, step: 0.01, max: 3.0 },
+  },
+  { uuid },
+)
 
 const cursorX = computed(() => (x.value / width.value) * 2.0 - 1.0)
 const cursorY = computed(() => -(y.value / height.value) * 2.0 + 1.0)
 
 async function updateMousePosition() {
-  if (!elCanvas.value || !shockWaveEffect.value || !depthPickingPassRef.value) { return }
+  if (!elCanvas.value || !shockWaveEffect.value || !depthPickingPassRef.value) {
+    return
+  }
 
   const ndcPosition = new Vector3(cursorX.value, cursorY.value, 0)
 
@@ -49,7 +58,9 @@ async function updateMousePosition() {
 }
 
 function triggerShockWave() {
-  if (!elCanvas.value || !shockWaveEffect.value) { return }
+  if (!elCanvas.value || !shockWaveEffect.value) {
+    return
+  }
 
   updateMousePosition()
 
@@ -60,48 +71,46 @@ function triggerShockWave() {
 <template>
   <TresLeches :uuid="uuid" />
 
-  <p class="playground-shock-wave-instructions text-xl font-semibold text-zinc-600">Click on a cube to emit a shock wave.</p>
+  <p class="playground-shock-wave-instructions text-xl font-semibold text-zinc-600">
+    Click on a cube to emit a shock wave.
+  </p>
 
-  <TresCanvas
-    ref="elCanvas"
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas ref="elCanvas" v-bind="gl">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 
-    <TresMesh :position="[0, .5, 5]" @click="triggerShockWave">
+    <TresMesh :position="[0, 0.5, 5]" @click="triggerShockWave">
       <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="#82DBC5" :roughness=".25" />
+      <TresMeshPhysicalMaterial color="#82DBC5" :roughness="0.25" />
     </TresMesh>
 
     <TresMesh :position="[0, 0, 0]" @click="triggerShockWave">
       <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="#82DBC5" :roughness=".25" />
+      <TresMeshPhysicalMaterial color="#82DBC5" :roughness="0.25" />
     </TresMesh>
 
-    <TresMesh :position="[0, .5, -5]" @click="triggerShockWave">
+    <TresMesh :position="[0, 0.5, -5]" @click="triggerShockWave">
       <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="#82DBC5" :roughness=".25" />
+      <TresMeshPhysicalMaterial color="#82DBC5" :roughness="0.25" />
     </TresMesh>
 
-    <ContactShadows
-      :scale="25"
-      :opacity="1"
-      :position-y="-1"
-      :far="20"
-    />
+    <ContactShadows :scale="25" :opacity="1" :position-y="-1" :far="20" />
 
     <Suspense>
-      <Environment background :blur=".2" preset="dawn" />
+      <Environment background :blur="0.2" preset="dawn" />
     </Suspense>
 
     <Suspense>
       <EffectComposerPmndrs ref="effectComposerRef" v-bind="glComposer">
         <DepthPickingPassPmndrs ref="depthPickingPassRef" />
-        <ShockWavePmndrs ref="shockWaveEffect" :position="mousePosition" :amplitude="amplitude" :waveSize="waveSize" :speed="speed" :maxRadius="maxRadius" />
+        <ShockWavePmndrs
+          ref="shockWaveEffect"
+          :position="mousePosition"
+          :amplitude="amplitude"
+          :waveSize="waveSize"
+          :speed="speed"
+          :maxRadius="maxRadius"
+        />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

@@ -35,11 +35,6 @@ const plugin: TresPlugin = {
 
 export default plugin
 
-export {
-  dispose,
-  normalizeColor,
-  normalizeVectorFlexibleParam,
-  templateCompilerOptions,
-}
+export { dispose, normalizeColor, normalizeVectorFlexibleParam, templateCompilerOptions }
 
 export type { VectorFlexibleParams } from './utils/normalize'

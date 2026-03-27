@@ -1,6 +1,10 @@
 <script setup lang="ts">
-const { state: tableTexture, isReady: isTableTextureReady } = useTexture('/models/potions-classroom/table.png')
-const { state: roomTexture, isReady: isRoomTextureReady } = useTexture('/models/potions-classroom/room.png')
+const { state: tableTexture, isReady: isTableTextureReady } = useTexture(
+  '/models/potions-classroom/table.png',
+)
+const { state: roomTexture, isReady: isRoomTextureReady } = useTexture(
+  '/models/potions-classroom/room.png',
+)
 
 watch(tableTexture, (texture) => {
   texture.flipY = false

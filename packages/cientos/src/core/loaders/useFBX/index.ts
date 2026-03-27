@@ -29,7 +29,10 @@ export interface UseFBXOptions {
  * @param {MaybeRef<string>} path - Path to the FBX model file
  * @returns {{ state: Group, isLoading: boolean, execute: () => Promise<void>, nodes: object, materials: object }} Object containing the model state, loading state, reload function, and parsed nodes/materials
  */
-export function useFBX(path: MaybeRef<string>, options?: UseFBXOptions): {
+export function useFBX(
+  path: MaybeRef<string>,
+  options?: UseFBXOptions,
+): {
   state: Ref<Group | null>
   isLoading: Ref<boolean>
   execute: (delay?: number, ...args: any[]) => Promise<Group>
@@ -39,7 +42,7 @@ export function useFBX(path: MaybeRef<string>, options?: UseFBXOptions): {
   const result = useLoader(FBXLoader, path)
   if (options?.traverse) {
     watch(result.state, (state) => {
-      state.traverse(child => options.traverse?.(child as TresObject))
+      state.traverse((child) => options.traverse?.(child as TresObject))
     })
   }
 
@@ -50,7 +53,9 @@ export function useFBX(path: MaybeRef<string>, options?: UseFBXOptions): {
 
   // Extract materials from the loaded FBX model for easy access
   const materials = computed(() => {
-    return result.state.value ? buildGraph(result.state.value as unknown as TresObject).materials : {}
+    return result.state.value
+      ? buildGraph(result.state.value as unknown as TresObject).materials
+      : {}
   })
 
   return {

@@ -12,10 +12,18 @@ export class LinocutEffect extends Effect {
    * @param {LinocutPmndrsProps} [options] - Configuration options for the effect.
    *
    */
-  constructor({ blendFunction = BlendFunction.NORMAL, scale = 0.85, noiseScale = 0.0, center = [0.5, 0.5], rotation = 0.0 } = {}) {
+  constructor({
+    blendFunction = BlendFunction.NORMAL,
+    scale = 0.85,
+    noiseScale = 0.0,
+    center = [0.5, 0.5],
+    rotation = 0.0,
+  } = {}) {
     const centerVec = Array.isArray(center) ? new Vector2().fromArray(center) : center
 
-    super('LinocutEffect', `
+    super(
+      'LinocutEffect',
+      `
     uniform float scale;
     uniform float noiseScale;
     uniform vec2 center;
@@ -75,15 +83,17 @@ export class LinocutEffect extends Effect {
       // Output the final color in black and white
       outputColor = vec4(vec3(f), 1.0);
     }
-    `, {
-      blendFunction,
-      uniforms: new Map<string, Uniform<any>>([
-        ['scale', new Uniform(scale)],
-        ['noiseScale', new Uniform(noiseScale)],
-        ['center', new Uniform(centerVec)],
-        ['rotation', new Uniform(rotation)],
-      ]),
-    })
+    `,
+      {
+        blendFunction,
+        uniforms: new Map<string, Uniform<any>>([
+          ['scale', new Uniform(scale)],
+          ['noiseScale', new Uniform(noiseScale)],
+          ['center', new Uniform(centerVec)],
+          ['rotation', new Uniform(rotation)],
+        ]),
+      },
+    )
   }
 
   get scale() {
@@ -107,7 +117,9 @@ export class LinocutEffect extends Effect {
   }
 
   set center(value) {
-    this.uniforms.get('center')!.value = Array.isArray(value) ? new Vector2().fromArray(value) : value
+    this.uniforms.get('center')!.value = Array.isArray(value)
+      ? new Vector2().fromArray(value)
+      : value
   }
 
   get rotation() {

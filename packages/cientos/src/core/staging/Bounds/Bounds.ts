@@ -45,13 +45,13 @@ export interface OnLookAtCallbackArg {
 }
 
 type CachedFitArgs =
-  [ Vector3 | null, Vector3, Vector3 ]
-  | [ Vector3 | null, Vector3]
-  | [ Vector3 | null]
-  | [ Object3D ]
-  | [ Object3D, Vector3 ]
-  | [ Box3 ]
-  | [ Box3, Vector3 ]
+  | [Vector3 | null, Vector3, Vector3]
+  | [Vector3 | null, Vector3]
+  | [Vector3 | null]
+  | [Object3D]
+  | [Object3D, Vector3]
+  | [Box3]
+  | [Box3, Vector3]
 
 enum AnimationState {
   NONE = 0,
@@ -64,7 +64,9 @@ const isPerspectiveCamera = (def: Camera): def is PerspectiveCamera =>
   def && (def as PerspectiveCamera).isPerspectiveCamera
 const isBox3 = (def: any): def is Box3 => def && (def as Box3).isBox3
 
-const easingFnDefault = (t: number) => { return 1 - Math.exp(-5 * t) + 0.007 * t }
+const easingFnDefault = (t: number) => {
+  return 1 - Math.exp(-5 * t) + 0.007 * t
+}
 
 export class Bounds extends Object3D {
   camera: Camera
@@ -181,7 +183,11 @@ export class Bounds extends Object3D {
   /**
    * Look at a `Vector3`, if provided. Move the camera to `position` and animate the camera's `up` vector.
    */
-  lookAt(target: VectorFlexibleParams | undefined | null, position: VectorFlexibleParams, up: VectorFlexibleParams): void
+  lookAt(
+    target: VectorFlexibleParams | undefined | null,
+    position: VectorFlexibleParams,
+    up: VectorFlexibleParams,
+  ): void
   /**
    * Rerun `lookAt` using the prior arguments. If `lookAt` has never been called, uses the `Bounds` object.
    */
@@ -201,35 +207,51 @@ export class Bounds extends Object3D {
     if (size === 0) {
       // NOTE: We didn't get any args, use prior args.
       args = this._cachedFitArgs
-    }
-    else if (!arg0 && arg0 !== 0) {
+    } else if (!arg0 && arg0 !== 0) {
       // NOTE: `fit(lookAt=undefined | null)`
-      if (size === 1) { args = [null] }
+      if (size === 1) {
+        args = [null]
+      }
       // NOTE: `fit(lookAt=undefined | null, lookAt: VectorFlexibleParams)`
-      else if (size === 2) { args = [null, v1] }
+      else if (size === 2) {
+        args = [null, v1]
+      }
       // NOTE: `fit(lookAt=undefined | null, lookAt: VectorFlexibleParams, up: VectorFlexibleParams)`
-      else if (size === 3) { args = [null, v1, v2] }
-    }
-    else if (typeof arg0 === 'number' || (arg0 as Vector3).isVector3 || Array.isArray(arg0)) {
+      else if (size === 3) {
+        args = [null, v1, v2]
+      }
+    } else if (typeof arg0 === 'number' || (arg0 as Vector3).isVector3 || Array.isArray(arg0)) {
       const v0 = new Vector3().fromArray(normalizeVectorFlexibleParam(arg0 as VectorFlexibleParams))
       // NOTE: `fit(position: VectorFlexibleParams)`
-      if (size === 1) { args = [v0] }
+      if (size === 1) {
+        args = [v0]
+      }
       // NOTE: `fit(position: VectorFlexibleParams, lookAt: VectorFlexibleParams)`
-      else if (size === 2) { args = [v0, v1] }
+      else if (size === 2) {
+        args = [v0, v1]
+      }
       // NOTE: `fit(position: VectorFlexibleParams, lookAt: VectorFlexibleParams, up: VectorFlexibleParams)`
-      else if (size === 3) { args = [v0, v1, v2] }
-    }
-    else if ((arg0 as Box3).isBox3) {
+      else if (size === 3) {
+        args = [v0, v1, v2]
+      }
+    } else if ((arg0 as Box3).isBox3) {
       // NOTE: `fit(box3: Box3)`
-      if (size === 1) { args = [arg0 as Box3] }
+      if (size === 1) {
+        args = [arg0 as Box3]
+      }
       // NOTE: `fit(box3: Box3, up)`
-      else { args = [arg0 as Box3, arg1 as Vector3] }
-    }
-    else if ((arg0 as Object3D).isObject3D) {
+      else {
+        args = [arg0 as Box3, arg1 as Vector3]
+      }
+    } else if ((arg0 as Object3D).isObject3D) {
       // NOTE: `fit(object: Object3D)`
-      if (size === 1) { args = [arg0 as Object3D] }
+      if (size === 1) {
+        args = [arg0 as Object3D]
+      }
       // NOTE: `fit(object: Object3D, up)`
-      else { args = [arg0 as Object3D, arg1 as Vector3] }
+      else {
+        args = [arg0 as Object3D, arg1 as Vector3]
+      }
     }
 
     // NOTE: End normalization.
@@ -239,24 +261,30 @@ export class Bounds extends Object3D {
     this._stop()
     _resetGoal(this._goal)
 
-    if (args.length > 0 && (args[0] === null || args[0] === undefined || (args[0] as Vector3).isVector3)) {
+    if (
+      args.length > 0 &&
+      (args[0] === null || args[0] === undefined || (args[0] as Vector3).isVector3)
+    ) {
       // NOTE: The user sent specific numeric values, not an object.
       const [lookAt, position, up] = args
       this._start.position.copy(this.camera.position)
       this._start.quaternion.copy(this.camera.quaternion)
-      isOrthographicCamera(this.camera) && (this._start.zoom = (this.camera as OrthographicCamera).zoom)
+      isOrthographicCamera(this.camera) &&
+        (this._start.zoom = (this.camera as OrthographicCamera).zoom)
 
       if (position) {
-        this._goal.position = Array.isArray(position) ? new Vector3(...position) : (position as Vector3).clone()
-      }
-      else {
+        this._goal.position = Array.isArray(position)
+          ? new Vector3(...position)
+          : (position as Vector3).clone()
+      } else {
         this._goal.position = this.camera.position
       }
 
       if (lookAt) {
-        this._goal.lookAt = Array.isArray(lookAt) ? new Vector3(...lookAt) : (lookAt as Vector3).clone()
-      }
-      else {
+        this._goal.lookAt = Array.isArray(lookAt)
+          ? new Vector3(...lookAt)
+          : (lookAt as Vector3).clone()
+      } else {
         this._goal.lookAt = new Vector3(0, 0, 1).applyQuaternion(this.camera.quaternion)
       }
 
@@ -270,14 +298,14 @@ export class Bounds extends Object3D {
         this._goal.up ?? this.camera.up,
       )
       this._goal.quaternion = new Quaternion().setFromRotationMatrix(mCamRot)
-    }
-    else {
+    } else {
       const box3OrObject = args[0] as Box3 | Object3D
       const { center, distance, box } = _getSize(box3OrObject, this.camera, this.offset)
 
       this._start.position.copy(this.camera.position)
       this._start.quaternion.copy(this.camera.quaternion)
-      isOrthographicCamera(this.camera) && (this._start.zoom = (this.camera as OrthographicCamera).zoom)
+      isOrthographicCamera(this.camera) &&
+        (this._start.zoom = (this.camera as OrthographicCamera).zoom)
 
       const direction = this.camera.position.clone().sub(center).normalize()
       this._goal.object = box3OrObject
@@ -321,7 +349,9 @@ export class Bounds extends Object3D {
 
         goal.zoom = Math.min(zoomForHeight, zoomForWidth) / (1 + this.offset)
         // NOTE: Fix possible division by 0.
-        if (Number.isNaN(goal.zoom)) { goal.zoom = 0 }
+        if (Number.isNaN(goal.zoom)) {
+          goal.zoom = 0
+        }
       }
 
       if (this.clip) {
@@ -372,16 +402,17 @@ export class Bounds extends Object3D {
         this._animationState = AnimationState.NONE
         this.onEnd && this.onEnd(this._goal as OnLookAtCallbackArg)
         _resetGoal(this._goal)
-      }
-      else {
+      } else {
         const k = this.easing && this.easing(this._t)
 
-        this._goal.position && this.camera.position.lerpVectors(this._start.position, this._goal.position, k)
-        this._goal.quaternion && this.camera.quaternion.slerpQuaternions(this._start.quaternion, this._goal.quaternion, k)
+        this._goal.position &&
+          this.camera.position.lerpVectors(this._start.position, this._goal.position, k)
+        this._goal.quaternion &&
+          this.camera.quaternion.slerpQuaternions(this._start.quaternion, this._goal.quaternion, k)
         this._goal.up && this.camera.up.set(0, 1, 0).applyQuaternion(this.camera.quaternion)
-        this._goal.zoom
-        && isOrthographicCamera(this.camera)
-        && (this.camera.zoom = (1 - k) * this._start.zoom + k * this._goal.zoom)
+        this._goal.zoom &&
+          isOrthographicCamera(this.camera) &&
+          (this.camera.zoom = (1 - k) * this._start.zoom + k * this._goal.zoom)
 
         this.camera.updateMatrixWorld()
         if (isPerspectiveCamera(this.camera)) {
@@ -398,8 +429,7 @@ function _getSize(box3OrObject: Box3 | Object3D, camera: Camera, offset = 0): Si
   const box = new Box3()
   if (isBox3(box3OrObject)) {
     box.copy(box3OrObject)
-  }
-  else {
+  } else {
     box3OrObject.updateWorldMatrix(true, true)
     box.setFromObject(box3OrObject)
   }
@@ -415,7 +445,9 @@ function _getSize(box3OrObject: Box3 | Object3D, camera: Camera, offset = 0): Si
   const fitHeightDistance = isOrthographicCamera(camera)
     ? maxSize * 4
     : maxSize / (2 * Math.atan((Math.PI * (camera as PerspectiveCamera).fov) / 360))
-  const fitWidthDistance = isOrthographicCamera(camera) ? maxSize * 4 : fitHeightDistance / (camera as PerspectiveCamera).aspect
+  const fitWidthDistance = isOrthographicCamera(camera)
+    ? maxSize * 4
+    : fitHeightDistance / (camera as PerspectiveCamera).aspect
   const distance = (1 + offset) * Math.max(fitHeightDistance, fitWidthDistance)
 
   return { box, size: boxSize, center, distance }

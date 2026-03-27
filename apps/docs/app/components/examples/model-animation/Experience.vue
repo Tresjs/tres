@@ -4,10 +4,7 @@ import KnightCharacter from './Knight.vue'
 </script>
 
 <template>
-  <TresPerspectiveCamera
-    :position="[3, 2, 3]"
-    :look-at="[0, 1, 0]"
-  />
+  <TresPerspectiveCamera :position="[3, 2, 3]" :look-at="[0, 1, 0]" />
   <OrbitControls :target="[0, 1, 0]" />
   <TresAmbientLight :intensity="1" />
   <Suspense>

@@ -50,19 +50,19 @@ export type ImageProps = {
   side?: Side
 } & (
   | {
-    /**
+      /**
        * Image texture to display on the geometry.
        */
-    texture: Texture
-    url?: never
-  }
+      texture: Texture
+      url?: never
+    }
   | {
-    texture?: never
-    /**
+      texture?: never
+      /**
        * Image URL to load and display on the geometry.
        */
-    url: string
-  }
+      url: string
+    }
 )
 
 const props = withDefaults(defineProps<ImageProps>(), {
@@ -82,9 +82,7 @@ const imageRef = shallowRef()
 const texture = shallowRef<Texture | null>(props.texture ?? null)
 const { sizes: size, renderer } = useTres()
 const planeBounds = computed(() =>
-  Array.isArray(props.scale)
-    ? [props.scale[0], props.scale[1]]
-    : [props.scale, props.scale],
+  Array.isArray(props.scale) ? [props.scale[0], props.scale[1]] : [props.scale, props.scale],
 )
 const imageBounds = computed(() => [
   texture.value?.image?.width ?? 0,
@@ -105,9 +103,7 @@ watchEffect(() => {
 })
 
 const scale = computed(() =>
-  Array.isArray(props.scale)
-    ? ([...props.scale, 1] as [number, number, number])
-    : props.scale,
+  Array.isArray(props.scale) ? ([...props.scale, 1] as [number, number, number]) : props.scale,
 )
 
 defineExpose({ instance: imageRef })

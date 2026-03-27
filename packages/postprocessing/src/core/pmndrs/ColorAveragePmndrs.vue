@@ -30,19 +30,17 @@ makePropWatcher(
   () => new ColorAverageEffect(),
 )
 
-watch(
-  [effect, () => props.opacity],
-  () => {
-    if (!effect.value) { return }
+watch([effect, () => props.opacity], () => {
+  if (!effect.value) {
+    return
+  }
 
-    if (props.opacity !== undefined) {
-      effect.value?.blendMode.setOpacity(props.opacity)
-    }
-    else {
-      const plainEffect = new ColorAverageEffect()
-      effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
-      plainEffect.dispose()
-    }
-  },
-)
+  if (props.opacity !== undefined) {
+    effect.value?.blendMode.setOpacity(props.opacity)
+  } else {
+    const plainEffect = new ColorAverageEffect()
+    effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
+    plainEffect.dispose()
+  }
+})
 </script>

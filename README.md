@@ -7,7 +7,6 @@
   <a href="https://app.netlify.com/sites/tresjs-docs/deploys"><img src="https://api.netlify.com/api/v1/badges/80159e4a-35fd-41ab-a192-f108265eb983/deploy-status" alt="netlify status"></a>
 </p>
 
-
 # TresJS Ecosystem
 
 > Declarative ThreeJS using Vue Components
@@ -30,9 +29,9 @@ The goal is to provide the Vue's community an easy way of building 3D scenes wit
 
 ## Ecosystem
 
-| Package                                                      | Version                                                                                                            | Downloads                                                                                        |
-| ------------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| [Tres](https://github.com/Tresjs/tres/tree/main/packages/core)                     | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)                    | ![tres downloads](https://img.shields.io/npm/dm/@tresjs/core?color=%2382DBCA)                    |
+| Package                                                                             | Version                                                                                                            | Downloads                                                                                        |
+| ----------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| [Tres](https://github.com/Tresjs/tres/tree/main/packages/core)                      | ![tres version](https://img.shields.io/npm/v/@tresjs/core/latest.svg?label=%20&color=%2382DBCA)                    | ![tres downloads](https://img.shields.io/npm/dm/@tresjs/core?color=%2382DBCA)                    |
 | [Cientos](https://github.com/Tresjs/tres/tree/main/packages/cientos)                | ![cientos version](https://img.shields.io/npm/v/@tresjs/cientos/latest.svg?label=%20&color=%23f19b00)              | ![cientos downloads](https://img.shields.io/npm/dm/@tresjs/cientos?color=%23f19b00)              |
 | [Post-processing](https://github.com/Tresjs/tres/tree/main/packages/postprocessing) | ![post-processing version](https://img.shields.io/npm/v/@tresjs/post-processing/latest.svg?label=%20&color=ff7bac) | ![post-processing downloads](https://img.shields.io/npm/dm/@tresjs/post-processing?color=ff7bac) |
 | [Nuxt](https://github.com/Tresjs/tres/tree/main/packages/nuxt)                      | ![nuxt version](https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?label=%20&color=4f4f4f&logo=nuxt.js)          | ![nuxt downloads](https://img.shields.io/npm/dm/@tresjs/nuxt?color=4f4f4f&logo=nuxt.js)          |

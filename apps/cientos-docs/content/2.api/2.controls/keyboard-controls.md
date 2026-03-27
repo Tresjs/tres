@@ -4,14 +4,14 @@ description: WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
 ---
 
 ::SceneControlsWrapper
-  ::ControlsKeyboardControls
-  ::
+::ControlsKeyboardControls
+::
 ::
 
 `<KeyboardControls />` is a simple keyboard controller for the camera. The camera's movements are bound to:
 
-* WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
-* Arrow keys
+- WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
+- Arrow keys
 
 ::prose-note
 `KeyboardControls` uses `PointerLockControls` under the hood. You can use [PointerLockControls props and events](pointer-lock-controls#props).
@@ -41,10 +41,10 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 
 ## Props
 
-| Prop            | Description                          | Default |
-| :-------------- | :----------------------------------- | ------- |
-| **moveSpeed**   | Speed movement.                      | 0.2     |
-| **makeDefault** | If `true`, the controls will be set as the default controls for the scene.          | `true`     |
+| Prop            | Description                                                                         | Default     |
+| :-------------- | :---------------------------------------------------------------------------------- | ----------- |
+| **moveSpeed**   | Speed movement.                                                                     | 0.2         |
+| **makeDefault** | If `true`, the controls will be set as the default controls for the scene.          | `true`      |
 | **camera**      | The camera to control.                                                              | `undefined` |
 | **domElement**  | The DOM element to listen to.                                                       | `undefined` |
 | **selector**    | Accept an id element as string. If set, the new element will be used as the trigger | `undefined` |
@@ -55,7 +55,7 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 <KeyboardControls @change="onChange" @is-lock="(state) => isActive(state)" />
 ```
 
-| Event      | Description                                                      |
-| :--------- | :--------------------------------------------------------------- |
+| Event      | Description                                                        |
+| :--------- | :----------------------------------------------------------------- |
 | **isLock** | Return `true` if "lock", `false` if "unlock" events are triggered. |
-| **change** | Dispatched when the control changes.                             |
+| **change** | Dispatched when the control changes.                               |

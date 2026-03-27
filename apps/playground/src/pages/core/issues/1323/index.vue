@@ -8,14 +8,16 @@ const rendererRef = ref<any>(null)
 
 watch(ctxRef, (ctx) => {
   const r = ctx?.context?.renderer?.value
-  if (r) { rendererRef.value = r }
+  if (r) {
+    rendererRef.value = r
+  }
 })
 
 // ---------- deterministic "random" ----------
 function mulberry32(seed: number) {
   let t = seed >>> 0
   return function rand() {
-    t += 0x6D2B79F5
+    t += 0x6d2b79f5
     let x = Math.imul(t ^ (t >>> 15), 1 | t)
     x ^= x + Math.imul(x ^ (x >>> 7), 61 | x)
     return ((x ^ (x >>> 14)) >>> 0) / 4294967296
@@ -73,11 +75,7 @@ function makeObjects({ seed = 424242, count = 4500 } = {}): SceneObj[] {
       id: `obj-${i}`,
       geometry: g,
       position: [rRange(r, -60, 60), rRange(r, 0.25, 5.0), rRange(r, -60, 60)],
-      rotation: [
-        rRange(r, 0, Math.PI),
-        rRange(r, 0, Math.PI),
-        rRange(r, 0, Math.PI),
-      ],
+      rotation: [rRange(r, 0, Math.PI), rRange(r, 0, Math.PI), rRange(r, 0, Math.PI)],
       scale: [rRange(r, 0.55, 2.1), rRange(r, 0.55, 2.4), rRange(r, 0.55, 2.1)],
       material: {
         color,
@@ -99,13 +97,7 @@ const objects = shallowRef<SceneObj[]>(makeObjects())
 </script>
 
 <template>
-  <TresCanvas
-    ref="ctxRef"
-    clear-color="#eeeeee"
-    window-size
-    preserve-drawing-buffer
-    shadows
-  >
+  <TresCanvas ref="ctxRef" clear-color="#eeeeee" window-size preserve-drawing-buffer shadows>
     <TresPerspectiveCamera
       :position="[-5, 6, 5 * 2.25]"
       :look-at="[0, 1, 0]"
@@ -137,17 +129,9 @@ const objects = shallowRef<SceneObj[]>(makeObjects())
       :shadow-bias="-0.0005"
     />
 
-    <TresMesh
-      :position="[0, -0.01, 0]"
-      :rotation="[-Math.PI / 2, 0, 0]"
-      receive-shadow
-    >
+    <TresMesh :position="[0, -0.01, 0]" :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
       <TresPlaneGeometry :args="[200, 200, 1, 1]" />
-      <TresMeshStandardMaterial
-        :color="0xD9DADF"
-        :roughness="1"
-        :metalness="0.05"
-      />
+      <TresMeshStandardMaterial :color="0xd9dadf" :roughness="1" :metalness="0.05" />
     </TresMesh>
 
     <TresMesh

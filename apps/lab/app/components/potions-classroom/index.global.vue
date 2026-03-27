@@ -3,10 +3,15 @@ const { hasFinishLoading, progress } = await useProgress()
 </script>
 
 <template>
-  <Transition name="fade-overlay" enter-active-class="opacity-1 transition-opacity duration-200"
-    leave-active-class="opacity-0 transition-opacity duration-200">
-    <div v-show="!hasFinishLoading"
-      class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono">
+  <Transition
+    name="fade-overlay"
+    enter-active-class="opacity-1 transition-opacity duration-200"
+    leave-active-class="opacity-0 transition-opacity duration-200"
+  >
+    <div
+      v-show="!hasFinishLoading"
+      class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
+    >
       <div class="w-200px text-white">
         Loading... {{ progress }} %
         <i class="i-game-icons-snitch-quidditch-ball animate-tada text-yellow" />

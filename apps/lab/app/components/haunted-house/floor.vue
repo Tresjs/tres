@@ -1,6 +1,12 @@
 <script setup>
 import { shallowRef, watch, computed } from 'vue'
-import { Float32BufferAttribute, RepeatWrapping, BoxGeometry, MeshStandardMaterial, Mesh } from 'three'
+import {
+  Float32BufferAttribute,
+  RepeatWrapping,
+  BoxGeometry,
+  MeshStandardMaterial,
+  Mesh,
+} from 'three'
 import { useTextures } from '@tresjs/cientos'
 
 const floorRef = shallowRef()
@@ -15,23 +21,24 @@ const floorTexturePaths = [
 ]
 
 // Load floor textures
-const {
-  textures: floorTextures,
-  error: floorError
-} = useTextures(floorTexturePaths)
+const { textures: floorTextures, error: floorError } = useTextures(floorTexturePaths)
 
 // Configure texture wrapping and repeat when textures are loaded
-watch(floorTextures, (textures) => {
-  if (textures && textures.length === floorTexturePaths.length) {
-    textures.forEach(texture => {
-      if (texture) {
-        texture.repeat.set(8, 8)
-        texture.wrapS = RepeatWrapping
-        texture.wrapT = RepeatWrapping
-      }
-    })
-  }
-}, { immediate: true })
+watch(
+  floorTextures,
+  (textures) => {
+    if (textures && textures.length === floorTexturePaths.length) {
+      textures.forEach((texture) => {
+        if (texture) {
+          texture.repeat.set(8, 8)
+          texture.wrapS = RepeatWrapping
+          texture.wrapT = RepeatWrapping
+        }
+      })
+    }
+  },
+  { immediate: true },
+)
 
 // Create floor material options from loaded textures
 const floorOptions = computed(() => ({
@@ -51,7 +58,10 @@ watch(floorError, (error) => {
   }
 })
 watch(floorRef, (value) => {
-  value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
+  value.geometry.setAttribute(
+    'uv2',
+    new Float32BufferAttribute(value.geometry.attributes.uv.array, 2),
+  )
 })
 
 const bushes = [
@@ -101,12 +111,24 @@ for (let i = 0; i < 50; i++) {
     <TresPlaneGeometry :args="[20, 20]" />
     <TresMeshStandardMaterial v-bind="floorOptions" />
   </TresMesh>
-  <TresMesh v-for="({ position, scale }, index) in bushes" :key="index" :position="position" :scale="scale">
+  <TresMesh
+    v-for="({ position, scale }, index) in bushes"
+    :key="index"
+    :position="position"
+    :scale="scale"
+  >
     <TresSphereGeometry :args="[1, 16, 16]" />
     <TresMeshStandardMaterial color="#89c854" />
   </TresMesh>
   <TresGroup ref="gravesRef">
-    <TresMesh v-for="({ position, scale, rotation }, index) in graves" :key="index" :position="position" :scale="scale"
-      :rotation="rotation" :material="graveMaterial" :geometry="graveGeometry" />
+    <TresMesh
+      v-for="({ position, scale, rotation }, index) in graves"
+      :key="index"
+      :position="position"
+      :scale="scale"
+      :rotation="rotation"
+      :material="graveMaterial"
+      :geometry="graveGeometry"
+    />
   </TresGroup>
 </template>

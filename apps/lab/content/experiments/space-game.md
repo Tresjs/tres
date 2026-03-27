@@ -59,5 +59,3 @@ This experiment showcases complex game development concepts:
 - **Color Grading**: Custom tone mapping for cinematic space visuals
 
 This experiment demonstrates the full potential of TresJS for game development, showing how Vue's reactivity and Three.js's 3D capabilities can combine to create engaging interactive experiences comparable to traditional game engines.
-
-

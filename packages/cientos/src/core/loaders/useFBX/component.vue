@@ -63,8 +63,5 @@ export interface FBXModelProps {
 </script>
 
 <template>
-  <primitive
-    v-if="!isLoading && model"
-    :object="model"
-  />
+  <primitive v-if="!isLoading && model" :object="model" />
 </template>

@@ -4,8 +4,8 @@ description: Extends Three.js' material library with your own Vertex and Fragmen
 ---
 
 ::SceneWrapper
-  ::MaterialsCustomShaderMaterial
-  ::
+::MaterialsCustomShaderMaterial
+::
 ::
 
 The `cientos` package provides `<TresCustomShaderMaterial />` component which is a wrapper around the [`three-custom-shader-material`](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial) class. As states in the repo, it _"lets you extend Three.js' material library with your own Vertex and Fragment shaders"_.

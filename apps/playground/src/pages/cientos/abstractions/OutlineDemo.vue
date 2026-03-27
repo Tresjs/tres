@@ -8,7 +8,7 @@ let elapsed = 0
 let intervalId: ReturnType<typeof setInterval>
 onMounted(() => {
   intervalId = setInterval(() => {
-    elapsed += 0.01 * 1000 / 30
+    elapsed += (0.01 * 1000) / 30
     thickness.value = (1 + Math.sin(elapsed)) * 5
 
     color.value = Math.cos(elapsed) > 0 ? 'blue' : 'orange'

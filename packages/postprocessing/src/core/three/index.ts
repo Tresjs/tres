@@ -10,16 +10,13 @@ import UnrealBloom, { type UnrealBloomProps } from './UnrealBloom.vue'
 
 export {
   EffectComposer,
-
   Glitch,
   Halftone,
   Output,
   Pixelation,
   SMAA,
   UnrealBloom,
-
   useEffect,
-
   EffectComposerProps,
   GlitchProps,
   HalftoneProps,

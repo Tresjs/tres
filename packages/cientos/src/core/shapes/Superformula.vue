@@ -86,12 +86,27 @@ function makeGeometry(widthSegments: number, heightSegments: number) {
 // https://en.wikipedia.org/wiki/Superformula
 // NOTE: Superformula 2D
 function r(theta: number, numArms: number, exp1: number, exp2: number, exp3: number): number {
-  return (abs(cos(numArms * theta * 0.25)) ** exp2 + abs(sin(numArms * theta * 0.25)) ** exp3) ** (-1 / exp1)
+  return (
+    (abs(cos(numArms * theta * 0.25)) ** exp2 + abs(sin(numArms * theta * 0.25)) ** exp3) **
+    (-1 / exp1)
+  )
 }
 
 // NOTE: Superformula 3D
-function updateGeometry(geometry: BufferGeometry, numArmsA: number, expA1: number, expA2: number, expA3: number, numArmsB: number, expB1: number, expB2: number, expB3: number, widthSegments: number, heightSegments: number) {
-  const thetaStep = 2 * Math.PI / widthSegments
+function updateGeometry(
+  geometry: BufferGeometry,
+  numArmsA: number,
+  expA1: number,
+  expA2: number,
+  expA3: number,
+  numArmsB: number,
+  expB1: number,
+  expB2: number,
+  expB3: number,
+  widthSegments: number,
+  heightSegments: number,
+) {
+  const thetaStep = (2 * Math.PI) / widthSegments
   const thetaStart = -Math.PI
   const phiStep = Math.PI / (heightSegments - 1)
   const phiStart = -0.5 * Math.PI
@@ -120,29 +135,52 @@ function updateGeometry(geometry: BufferGeometry, numArmsA: number, expA1: numbe
   geometry.computeVertexNormals()
 }
 
-watch(() => props.color, () => color.value = props.color)
+watch(
+  () => props.color,
+  () => (color.value = props.color),
+)
 
-watch(() => [props.widthSegments, props.heightSegments], () => {
-  if (geometry.value) {
-    geometry.value.dispose()
-  }
-  geometry.value = makeGeometry(props.widthSegments, props.heightSegments)
-  invalidate()
-}, { immediate: true })
+watch(
+  () => [props.widthSegments, props.heightSegments],
+  () => {
+    if (geometry.value) {
+      geometry.value.dispose()
+    }
+    geometry.value = makeGeometry(props.widthSegments, props.heightSegments)
+    invalidate()
+  },
+  { immediate: true },
+)
 
-watch(() => [
-  props.numArmsA,
-  props.expA[0],
-  props.expA[1],
-  props.expA[2],
-  props.numArmsB,
-  props.expB[0],
-  props.expB[1],
-  props.expB[2],
-], () => {
-  updateGeometry(geometry.value, props.numArmsA, props.expA[0], props.expA[1], props.expA[2], props.numArmsB, props.expB[0], props.expB[1], props.expB[2], props.widthSegments, props.heightSegments)
-  invalidate()
-}, { immediate: true })
+watch(
+  () => [
+    props.numArmsA,
+    props.expA[0],
+    props.expA[1],
+    props.expA[2],
+    props.numArmsB,
+    props.expB[0],
+    props.expB[1],
+    props.expB[2],
+  ],
+  () => {
+    updateGeometry(
+      geometry.value,
+      props.numArmsA,
+      props.expA[0],
+      props.expA[1],
+      props.expA[2],
+      props.numArmsB,
+      props.expB[0],
+      props.expB[1],
+      props.expB[2],
+      props.widthSegments,
+      props.heightSegments,
+    )
+    invalidate()
+  },
+  { immediate: true },
+)
 
 onUnmounted(() => {
   if (geometry.value) {
@@ -158,11 +196,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="superformulaRef"
-
-    :geometry="geometry"
-  >
+  <TresMesh ref="superformulaRef" :geometry="geometry">
     <slot>
       <TresMeshBasicMaterial :color="color" />
     </slot>

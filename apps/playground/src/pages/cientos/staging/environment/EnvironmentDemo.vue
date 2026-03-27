@@ -19,51 +19,63 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { background, blur, preset, backgroundIntensity, environmentIntensity, backgroundRotation, environmentRotation, syncMaterials } = useControls({
-  background: true,
-  blur: {
-    value: 0,
-    min: 0,
-    max: 1,
-    step: 0.01,
+const {
+  background,
+  blur,
+  preset,
+  backgroundIntensity,
+  environmentIntensity,
+  backgroundRotation,
+  environmentRotation,
+  syncMaterials,
+} = useControls(
+  {
+    background: true,
+    blur: {
+      value: 0,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+    preset: {
+      options: [
+        'sunset',
+        'studio',
+        'city',
+        'umbrellas',
+        'night',
+        'forest',
+        'snow',
+        'dawn',
+        'hangar',
+        'urban',
+        'modern',
+        'shangai',
+      ],
+      value: 'sunset',
+    },
+    backgroundIntensity: {
+      value: 1,
+      min: 0,
+      max: 1,
+      step: 0.1,
+    },
+    environmentIntensity: {
+      value: 1,
+      min: 0,
+      max: 1,
+      step: 0.1,
+    },
+    backgroundRotation: {
+      value: new Vector3(0, 0, 0),
+    },
+    environmentRotation: {
+      value: new Vector3(0, 0, 0),
+    },
+    syncMaterials: false,
   },
-  preset: {
-    options: [
-      'sunset',
-      'studio',
-      'city',
-      'umbrellas',
-      'night',
-      'forest',
-      'snow',
-      'dawn',
-      'hangar',
-      'urban',
-      'modern',
-      'shangai',
-    ],
-    value: 'sunset',
-  },
-  backgroundIntensity: {
-    value: 1,
-    min: 0,
-    max: 1,
-    step: 0.1,
-  },
-  environmentIntensity: {
-    value: 1,
-    min: 0,
-    max: 1,
-    step: 0.1,
-  },
-  backgroundRotation: {
-    value: new Vector3(0, 0, 0),
-  },
-  environmentRotation: {
-    value: new Vector3(0, 0, 0),
-  },
-  syncMaterials: false,
-}, { uuid })
+  { uuid },
+)
 
 const environmentRef = ref(null)
 
@@ -114,7 +126,11 @@ const { progress, hasFinishLoading } = await useProgress()
         :background-intensity="backgroundIntensity"
         :environment-intensity="environmentIntensity"
         :background-rotation="[backgroundRotation.x, backgroundRotation.y, backgroundRotation.z]"
-        :environment-rotation="[environmentRotation.x, environmentRotation.y, environmentRotation.z]"
+        :environment-rotation="[
+          environmentRotation.x,
+          environmentRotation.y,
+          environmentRotation.z,
+        ]"
         :sync-materials="syncMaterials"
       >
         <Lightformer
@@ -127,11 +143,7 @@ const { progress, hasFinishLoading } = await useProgress()
       </Environment>
     </Suspense>
     <Sphere>
-      <TresMeshStandardMaterial
-        color="yellow"
-        :roughness="0"
-        :metalness="0.5"
-      />
+      <TresMeshStandardMaterial color="yellow" :roughness="0" :metalness="0.5" />
     </Sphere>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />

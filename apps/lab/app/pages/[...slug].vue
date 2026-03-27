@@ -7,14 +7,12 @@ const { data: page } = await useAsyncData(route.path, () => {
   return queryCollection('experiments').path(route.path).first()
 })
 
-const { data: authors } = await useAsyncData('authors', () =>
-  queryCollection('authors').all()
-)
+const { data: authors } = await useAsyncData('authors', () => queryCollection('authors').all())
 
 const formattedPage = computed(() => {
   return {
     ...page.value,
-    authors: authors.value?.filter(author => page.value?.author.includes(author.slug)),
+    authors: authors.value?.filter((author) => page.value?.author.includes(author.slug)),
   }
 })
 
@@ -84,7 +82,9 @@ useHead({
 })
 
 function toPascalCase(str: string) {
-  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()).replace(/^[a-z]/, (letter) => letter.toUpperCase())
+  return str
+    .replace(/-([a-z])/g, (_, letter) => letter.toUpperCase())
+    .replace(/^[a-z]/, (letter) => letter.toUpperCase())
 }
 
 const component = computed(() => toPascalCase(page.value?.stem.split('/').pop() ?? ''))

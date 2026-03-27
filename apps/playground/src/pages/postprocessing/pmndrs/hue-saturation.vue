@@ -16,29 +16,27 @@ const glComposer = {
   multisampling: 4,
 }
 
-const { saturation, hue, blendFunction } = useControls({
-  hue: { value: 0, min: -Math.PI, max: Math.PI, step: 0.001 },
-  saturation: { value: 0, min: -1, max: 1, step: 0.001 },
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.SRC,
+const { saturation, hue, blendFunction } = useControls(
+  {
+    hue: { value: 0, min: -Math.PI, max: Math.PI, step: 0.001 },
+    saturation: { value: 0, min: -1, max: 1, step: 0.001 },
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.SRC,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls auto-rotate />
 
     <TresMesh :position="[0, 1, 0]">
@@ -47,12 +45,16 @@ const { saturation, hue, blendFunction } = useControls({
     </TresMesh>
 
     <Suspense>
-      <Environment background :blur=".25" preset="modern" />
+      <Environment background :blur="0.25" preset="modern" />
     </Suspense>
 
     <Suspense>
       <EffectComposerPmndrs v-bind="glComposer">
-        <HueSaturationPmndrs :blendFunction="Number(blendFunction)" :hue="hue" :saturation="saturation" />
+        <HueSaturationPmndrs
+          :blendFunction="Number(blendFunction)"
+          :hue="hue"
+          :saturation="saturation"
+        />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

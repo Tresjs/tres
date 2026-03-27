@@ -60,20 +60,14 @@ const { debug } = useControls({
 
     <Suspense>
       <Physics :debug>
-        <RigidBody
-          ref="automaticColliderRef"
-          collider="ball"
-        >
+        <RigidBody ref="automaticColliderRef" collider="ball">
           <TresMesh :position="[-8, 8, 0]" name="ball">
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>
         </RigidBody>
         <RigidBody ref="customColliderRef" collider="ball">
-          <BallCollider
-            :args="[1, 1, 1]"
-            :position="[8, 8, 0]"
-          />
+          <BallCollider :args="[1, 1, 1]" :position="[8, 8, 0]" />
         </RigidBody>
         <RigidBody
           type="fixed"

@@ -23,7 +23,9 @@ const currentInterval = shallowRef<number | undefined>(undefined)
 onMounted(() => {
   currentInterval.value = setInterval(() => {
     const body = bodyRefs.value[0].value?.[0]?.instance
-    if (!body) { return }
+    if (!body) {
+      return
+    }
 
     yRotation.value = yRotation.value + 1
 
@@ -31,9 +33,7 @@ onMounted(() => {
   }, 1000)
 })
 
-onUnmounted(() =>
-  clearInterval(currentInterval.value),
-)
+onUnmounted(() => clearInterval(currentInterval.value))
 </script>
 
 <template>

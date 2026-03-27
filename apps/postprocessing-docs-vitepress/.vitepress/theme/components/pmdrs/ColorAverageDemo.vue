@@ -9,7 +9,6 @@ import { ColorAveragePmndrs, EffectComposerPmndrs } from '@tresjs/post-processin
 import { gsap } from 'gsap'
 import { onUnmounted, ref, watch } from 'vue'
 
-
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
@@ -25,7 +24,7 @@ const meshRef = ref<Mesh | null>(null)
 
 const { blendFunction, opacity } = useControls({
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -44,16 +43,19 @@ function onUpdateTimeline(e) {
 }
 
 watch(meshRef, () => {
-  if (!meshRef.value) { return }
+  if (!meshRef.value) {
+    return
+  }
 
   ctx.add(() => {
-    gsap.timeline({
-      repeat: -1,
-      yoyo: true,
-      onUpdate() {
-        onUpdateTimeline(this)
-      },
-    })
+    gsap
+      .timeline({
+        repeat: -1,
+        yoyo: true,
+        onUpdate() {
+          onUpdateTimeline(this)
+        },
+      })
       .to(meshRef.value.position, { y: -3.5, duration: 2 })
   })
 })
@@ -65,18 +67,13 @@ onUnmounted(() => {
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[5, 2, 15]"
-        :look-at="[0, 0, 0]"
-      />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[5, 2, 15]" :look-at="[0, 0, 0]" />
       <OrbitControls auto-rotate />
 
       <TresMesh ref="meshRef" :position="[0, 3.5, 0]">
         <TresBoxGeometry :args="[2, 2, 2]" />
-        <TresMeshPhysicalMaterial color="#8B0000" :roughness=".25" />
+        <TresMeshPhysicalMaterial color="#8B0000" :roughness="0.25" />
       </TresMesh>
 
       <Suspense>

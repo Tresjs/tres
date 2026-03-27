@@ -1,29 +1,22 @@
 {
   "name": "@tresjs/nuxt",
-  "type": "module",
   "version": "5.5.0",
   "description": "TresJS integration for Nuxt.",
-  "author": "Daniel Roe (https://github.com/danielroe/)",
-  "license": "MIT",
   "homepage": "https://tresjs.org",
+  "bugs": {
+    "url": "https://github.com/Tresjs/nuxt/issues"
+  },
+  "license": "MIT",
+  "author": "Daniel Roe (https://github.com/danielroe/)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tresjs/tres.git",
     "directory": "packages/nuxt"
   },
-  "bugs": {
-    "url": "https://github.com/Tresjs/nuxt/issues"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/types.d.mts",
-      "default": "./dist/module.mjs"
-    },
-    "./package.json": "./package.json"
-  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
   "main": "dist/module.mjs",
   "typesVersions": {
     "*": {
@@ -32,9 +25,16 @@
       ]
     }
   },
-  "files": [
-    "dist"
-  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "default": "./dist/module.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "pnpm run module:build && pnpm run client:build",
     "module:build": "nuxt-module-build prepare && nuxt-module-build build",
@@ -45,11 +45,8 @@
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "vitest run",
-    "test:watch": "vitest watch"
-  },
-  "peerDependencies": {
-    "three": ">=0.133"
+    "test": "vp test run",
+    "test:watch": "vp test watch"
   },
   "dependencies": {
     "@nuxt/kit": "4.1.2",
@@ -77,9 +74,13 @@
     "playwright": "^1.55.0",
     "three": "catalog:three",
     "typescript": "catalog:typescript",
-    "vitest": "catalog:testing",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:",
     "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
+  },
+  "peerDependencies": {
+    "three": ">=0.133"
   },
   "build": {
     "externals": [

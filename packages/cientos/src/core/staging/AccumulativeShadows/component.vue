@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { computed, shallowRef, watch, watchEffect } from 'vue'
-import type { ColorRepresentation, Mesh, PlaneGeometry, ShaderMaterial, Texture, WebGLRenderer } from 'three'
+import type {
+  ColorRepresentation,
+  Mesh,
+  PlaneGeometry,
+  ShaderMaterial,
+  Texture,
+  WebGLRenderer,
+} from 'three'
 import { Group } from 'three'
 import { extend, useLoop, useTres } from '@tresjs/core'
 import RandomizedLights from '../RandomizedLights/component.vue'
@@ -67,7 +74,9 @@ const { renderer, scene, camera, invalidate } = useTres()
 const gOuter = shallowRef<Group>()
 const gPlane = shallowRef<Mesh<PlaneGeometry, SoftShadowMaterialProps & ShaderMaterial>>(null!)
 const gLights = shallowRef<Group>(new Group())
-const progressiveLightMap = computed(() => new ProgressiveLightMap(renderer as WebGLRenderer, scene.value, props.resolution))
+const progressiveLightMap = computed(
+  () => new ProgressiveLightMap(renderer as WebGLRenderer, scene.value, props.resolution),
+)
 const shadowMapTexture = shallowRef<Texture>()
 
 let frameCount = 0
@@ -90,10 +99,15 @@ function update(frames = 1) {
     const material = gPlane.value.material
     if (props.accumulate) {
       // NOTE: Adapt the opacity-blend ratio to the number of frames
-      material.opacity = Math.min(props.opacity, material.opacity + props.opacity / Math.max(2, props.blend))
-      material.alphaTest = Math.min(props.alphaTest, material.alphaTest + props.alphaTest / Math.max(2, props.blend))
-    }
-    else {
+      material.opacity = Math.min(
+        props.opacity,
+        material.opacity + props.opacity / Math.max(2, props.blend),
+      )
+      material.alphaTest = Math.min(
+        props.alphaTest,
+        material.alphaTest + props.alphaTest / Math.max(2, props.blend),
+      )
+    } else {
       material.opacity = props.opacity
       material.alphaTest = props.alphaTest
     }
@@ -127,17 +141,23 @@ function update(frames = 1) {
 }
 
 watchEffect(() => {
-  if (gPlane.value) { progressiveLightMap.value.configure(gPlane.value, gLights.value) }
+  if (gPlane.value) {
+    progressiveLightMap.value.configure(gPlane.value, gLights.value)
+  }
 })
 
 watch(() => [props.frames, props.once, props.accumulate, props.scale, props.limit], reset)
 watchEffect(reset)
 
 useLoop().onBeforeRender(() => {
-  if (!props.once) { frameCount = 0 }
+  if (!props.once) {
+    frameCount = 0
+  }
 
   frameLimitRemaining--
-  if (frameLimitRemaining < 0) { return }
+  if (frameLimitRemaining < 0) {
+    return
+  }
 
   if (props.accumulate && props.once) {
     if (frameCount < props.frames || frameCount < props.blend) {
@@ -145,8 +165,7 @@ useLoop().onBeforeRender(() => {
       update()
       frameCount++
     }
-  }
-  else {
+  } else {
     invalidate()
     if (frameCount < props.frames) {
       update(props.frames - frameCount)
@@ -155,9 +174,15 @@ useLoop().onBeforeRender(() => {
   }
 })
 
-watchEffect(() => gLights.value.traverse = () => null)
+watchEffect(() => (gLights.value.traverse = () => null))
 
-defineExpose({ instance: gOuter, update: () => { reset(); update() } })
+defineExpose({
+  instance: gOuter,
+  update: () => {
+    reset()
+    update()
+  },
+})
 </script>
 
 <template>

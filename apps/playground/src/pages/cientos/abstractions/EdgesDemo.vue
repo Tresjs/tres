@@ -11,60 +11,44 @@ const gl = {
   clearColor: '#F6B03B',
 }
 
-const { enabled, edgeColor, edgeThreshold } = useControls({
-  enabled: { value: true, type: 'boolean', label: 'Enabled' },
-  edgeColor: { value: '#292929', type: 'color', label: 'Color' },
-  edgeThreshold: {
-    label: 'Threshold Angle',
-    value: 15,
-    min: 1,
-    max: 100,
-    step: 1,
+const { enabled, edgeColor, edgeThreshold } = useControls(
+  {
+    enabled: { value: true, type: 'boolean', label: 'Enabled' },
+    edgeColor: { value: '#292929', type: 'color', label: 'Color' },
+    edgeThreshold: {
+      label: 'Threshold Angle',
+      value: 15,
+      min: 1,
+      max: 100,
+      step: 1,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[0, 2, 5]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 2, 5]" />
 
-    <OrbitControls
-      make-default
-    />
+    <OrbitControls make-default />
 
-    <TresGridHelper
-      :args="[10, 10]"
-      :position-y="-.5"
-    />
+    <TresGridHelper :args="[10, 10]" :position-y="-0.5" />
 
     <Box :position="[-1, 0, 0]">
       <TresMeshBasicMaterial color="#f6f6f6" />
 
-      <Edges
-        v-if="enabled"
-        :scale="1.1"
-        :threshold="edgeThreshold"
-      >
-        <TresMeshBasicMaterial
-          :color="edgeColor"
-        />
+      <Edges v-if="enabled" :scale="1.1" :threshold="edgeThreshold">
+        <TresMeshBasicMaterial :color="edgeColor" />
       </Edges>
     </Box>
 
     <Box :position="[1, 0, 0]">
       <TresMeshBasicMaterial color="#292929" />
 
-      <Edges
-        :scale="1.1"
-        :threshold="edgeThreshold.value"
-        color="#f6f6f6"
-      />
+      <Edges :scale="1.1" :threshold="edgeThreshold.value" color="#f6f6f6" />
     </Box>
   </TresCanvas>
 </template>

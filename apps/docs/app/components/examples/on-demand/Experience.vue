@@ -34,7 +34,10 @@ watch(graph, (graph) => {
   const materials = graph?.materials
 
   const isMeshPhysicalMaterial = (maybeMaterial: unknown): maybeMaterial is MeshPhysicalMaterial =>
-    typeof maybeMaterial === 'object' && !!maybeMaterial && 'isMeshPhysicalMaterial' in maybeMaterial && !!(maybeMaterial.isMeshPhysicalMaterial)
+    typeof maybeMaterial === 'object' &&
+    !!maybeMaterial &&
+    'isMeshPhysicalMaterial' in maybeMaterial &&
+    !!maybeMaterial.isMeshPhysicalMaterial
 
   if (materials?.Material && isMeshPhysicalMaterial(materials.Material)) {
     materials.Material.color = new Color('gold')
@@ -45,21 +48,12 @@ watch(graph, (graph) => {
 </script>
 
 <template>
-  <TresPerspectiveCamera
-    :position="[5, 5, 5]"
-  />
+  <TresPerspectiveCamera :position="[5, 5, 5]" />
   <OrbitControls />
   <Suspense>
-    <Environment
-      preset="studio"
-      background
-      :blur="0.6"
-    />
+    <Environment preset="studio" background :blur="0.6" />
   </Suspense>
   <TresAmbientLight :intensity="2" />
   <!-- Render the Cube node if it exists -->
-  <primitive
-    v-if="nodes?.BlenderCube"
-    :object="nodes?.BlenderCube"
-  />
+  <primitive v-if="nodes?.BlenderCube" :object="nodes?.BlenderCube" />
 </template>

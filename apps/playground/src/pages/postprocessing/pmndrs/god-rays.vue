@@ -16,51 +16,63 @@ const uuid = 'god-rays-pmndrs'
 
 const sphereMeshRef = shallowRef(null)
 
-const { blur, kernelSize, resolutionX, resolutionY, resolutionScale, opacity, blendFunction, density, decay, weight, exposure, samples, clampMax } = useControls({
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.SCREEN,
+const {
+  blur,
+  kernelSize,
+  resolutionX,
+  resolutionY,
+  resolutionScale,
+  opacity,
+  blendFunction,
+  density,
+  decay,
+  weight,
+  exposure,
+  samples,
+  clampMax,
+} = useControls(
+  {
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.SCREEN,
+    },
+    kernelSize: {
+      options: Object.keys(KernelSize).map((key) => ({
+        text: key,
+        value: KernelSize[key as keyof typeof KernelSize],
+      })),
+      value: KernelSize.SMALL,
+    },
+    resolutionX: {
+      options: [Resolution.AUTO_SIZE, 240, 360, 480, 720, 1080],
+      value: Resolution.AUTO_SIZE,
+    },
+    resolutionY: {
+      options: [Resolution.AUTO_SIZE, 240, 360, 480, 720, 1080],
+      value: Resolution.AUTO_SIZE,
+    },
+    opacity: { value: 1, step: 0.01, min: 0, max: 1.0 },
+    density: { value: 0.96, step: 0.01, min: 0, max: 1.0 },
+    decay: { value: 0.93, step: 0.01, min: 0, max: 1.0 },
+    weight: { value: 0.4, step: 0.1, min: 0, max: 1.0 },
+    exposure: { value: 0.6, step: 0.1, min: 0, max: 1.0 },
+    samples: { value: 60, step: 1, min: 15, max: 200 },
+    clampMax: { value: 1.0, step: 0.1, max: 1.0 },
+    resolutionScale: { value: 0.5, step: 0.1, min: 0.1, max: 1.0 },
+    blur: true,
   },
-  kernelSize: {
-    options: Object.keys(KernelSize).map(key => ({
-      text: key,
-      value: KernelSize[key as keyof typeof KernelSize],
-    })),
-    value: KernelSize.SMALL,
-  },
-  resolutionX: {
-    options: [Resolution.AUTO_SIZE, 240, 360, 480, 720, 1080],
-    value: Resolution.AUTO_SIZE,
-  },
-  resolutionY: {
-    options: [Resolution.AUTO_SIZE, 240, 360, 480, 720, 1080],
-    value: Resolution.AUTO_SIZE,
-  },
-  opacity: { value: 1, step: 0.01, min: 0, max: 1.0 },
-  density: { value: 0.96, step: 0.01, min: 0, max: 1.0 },
-  decay: { value: 0.93, step: 0.01, min: 0, max: 1.0 },
-  weight: { value: 0.4, step: 0.1, min: 0, max: 1.0 },
-  exposure: { value: 0.6, step: 0.1, min: 0, max: 1.0 },
-  samples: { value: 60, step: 1, min: 15, max: 200 },
-  clampMax: { value: 1.0, step: 0.1, max: 1.0 },
-  resolutionScale: { value: 0.5, step: 0.1, min: 0.1, max: 1.0 },
-  blur: true,
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[0, 5, 20]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 5, 20]" :look-at="[0, 0, 0]" />
     <OrbitControls auto-rotate />
 
     <TresMesh ref="sphereMeshRef" :position="[-10, 8, 0]">
@@ -68,7 +80,7 @@ const { blur, kernelSize, resolutionX, resolutionY, resolutionScale, opacity, bl
       <TresMeshBasicMaterial color="#FFDDAA" />
     </TresMesh>
 
-    <TresMesh :position="[0, .5, 0]">
+    <TresMesh :position="[0, 0.5, 0]">
       <TresBoxGeometry :args="[2, 2, 2]" />
       <TresMeshBasicMaterial color="white" />
     </TresMesh>

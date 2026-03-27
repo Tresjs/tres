@@ -19,9 +19,7 @@ watch(statsGLRef, (value) => {
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stats ref="statsGLRef" />
     <Stars />

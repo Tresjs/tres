@@ -20,10 +20,7 @@ import type {
   GradientVectorFlexibleParams,
 } from './../../../utils/Gradient'
 
-export type CanvasGradientRenderer<T> = (
-  g: CanvasGradient,
-  entry: ShaderDataEntry<T>
-) => void
+export type CanvasGradientRenderer<T> = (g: CanvasGradient, entry: ShaderDataEntry<T>) => void
 
 export class ShaderData {
   private entries: ShaderDataEntry<any>[]
@@ -54,10 +51,7 @@ export class ShaderDataEntry<T> {
     valueMin: number,
     valueMax: number,
     suffix: string,
-    renderToCanvasGradient: (
-      gradient: CanvasGradient,
-      data: ShaderDataEntry<T>
-    ) => void,
+    renderToCanvasGradient: (gradient: CanvasGradient, data: ShaderDataEntry<T>) => void,
   ) {
     this.data = isRef(data) ? data.value : data
     this.ref = isRef(data) ? data : null
@@ -149,10 +143,13 @@ class ShaderDataTexture {
     return {
       texture: textureRef,
       dispose: () => texture.dispose(),
-      yFor: this.entries.reduce((obj, entry, i) => {
-        obj[entry.name] = (i + 0.5) / this.size
-        return obj
-      }, {} as Record<string, number>),
+      yFor: this.entries.reduce(
+        (obj, entry, i) => {
+          obj[entry.name] = (i + 0.5) / this.size
+          return obj
+        },
+        {} as Record<string, number>,
+      ),
     }
   }
 
@@ -165,26 +162,21 @@ class ShaderDataTexture {
     })
 
     if (recycledTexture) {
-      recycledTexture.source.data = this.context.getImageData(
-        0,
-        0,
-        this.size,
-        this.size,
-      )
+      recycledTexture.source.data = this.context.getImageData(0, 0, this.size, this.size)
     }
 
-    const texture
-      = recycledTexture
-        ?? new DataTexture(
-          this.context.getImageData(0, 0, this.size, this.size).data,
-          this.size,
-          this.size,
-          RGBAFormat,
-          UnsignedByteType,
-          UVMapping,
-          ClampToEdgeWrapping,
-          ClampToEdgeWrapping,
-        )
+    const texture =
+      recycledTexture ??
+      new DataTexture(
+        this.context.getImageData(0, 0, this.size, this.size).data,
+        this.size,
+        this.size,
+        RGBAFormat,
+        UnsignedByteType,
+        UVMapping,
+        ClampToEdgeWrapping,
+        ClampToEdgeWrapping,
+      )
 
     texture.needsUpdate = true
 
@@ -192,13 +184,7 @@ class ShaderDataTexture {
   }
 }
 
-function clampedMapLinear(
-  v: number,
-  minIn: number,
-  maxIn: number,
-  minOut: number,
-  maxOut: number,
-) {
+function clampedMapLinear(v: number, minIn: number, maxIn: number, minOut: number, maxOut: number) {
   return MathUtils.mapLinear(MathUtils.clamp(v, minIn, maxIn), minIn, maxIn, minOut, maxOut)
 }
 
@@ -207,10 +193,7 @@ function GradientTresColorRenderToCanvasGradient(
   entry: ShaderDataEntryTresColorGradient,
 ) {
   return normalizeColorGradient(entry.data).forEach(([offset, color]) =>
-    g.addColorStop(
-      offset,
-      `rgb(${color.r * 255}, ${color.g * 255}, ${color.b * 255})`,
-    ),
+    g.addColorStop(offset, `rgb(${color.r * 255}, ${color.g * 255}, ${color.b * 255})`),
   )
 }
 
@@ -221,27 +204,16 @@ function GradientScalarRenderToCanvasGradient(
   return normalizeScalarGradient(entry.data).forEach(([offset, scalar]) => {
     g.addColorStop(
       offset,
-      `rgb(${clampedMapLinear(
-        scalar,
-        entry.valueMin,
-        entry.valueMax,
-        0,
-        255,
-      )}, 0, 0)`,
+      `rgb(${clampedMapLinear(scalar, entry.valueMin, entry.valueMax, 0, 255)}, 0, 0)`,
     )
   })
 }
 
-function GradientXyzRenderToCanvasGradient(
-  g: CanvasGradient,
-  entry: ShaderDataEntryXyzGradient,
-) {
+function GradientXyzRenderToCanvasGradient(g: CanvasGradient, entry: ShaderDataEntryXyzGradient) {
   return normalizeFlexibleVector3Gradient(entry.data).forEach(([offset, xyz]) =>
     g.addColorStop(
       offset,
-      `rgb(${xyz.map(v =>
-        clampedMapLinear(v, entry.valueMin, entry.valueMax, 0, 255),
-      )})`,
+      `rgb(${xyz.map((v) => clampedMapLinear(v, entry.valueMin, entry.valueMax, 0, 255))})`,
     ),
   )
 }

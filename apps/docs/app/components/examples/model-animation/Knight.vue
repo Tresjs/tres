@@ -12,22 +12,28 @@ const animations = computed(() => model.value?.animations || [])
 const { actions } = useAnimations(animations, rig)
 const currentAction = ref<AnimationAction>()
 
-watch(actions, (actions) => {
-  if (!actions) { return }
+watch(
+  actions,
+  (actions) => {
+    if (!actions) {
+      return
+    }
 
-  // Play the idle animation by default
-  currentAction.value = actions.Cheer
-  currentAction.value?.setLoop(LoopOnce, 1)
-  currentAction.value?.play()
+    // Play the idle animation by default
+    currentAction.value = actions.Cheer
+    currentAction.value?.setLoop(LoopOnce, 1)
+    currentAction.value?.play()
 
-  const nextAnimation = actions.Idle as AnimationAction
+    const nextAnimation = actions.Idle as AnimationAction
 
-  if (nextAnimation) {
-    nextAnimation.setEffectiveWeight(1)
-    nextAnimation.enabled = true
-    nextAnimation.play()
-  }
-}, { immediate: true })
+    if (nextAnimation) {
+      nextAnimation.setEffectiveWeight(1)
+      nextAnimation.enabled = true
+      nextAnimation.play()
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

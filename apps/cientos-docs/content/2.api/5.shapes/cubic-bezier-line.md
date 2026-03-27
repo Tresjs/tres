@@ -4,8 +4,8 @@ description: Renders a Line2 between start and end points with two control point
 ---
 
 ::SceneWrapper
-  ::ShapesCubicBezierLine
-  ::
+::ShapesCubicBezierLine
+::
 ::
 
 `<CubicBezierLine />` renders a `<Line2 />` between start and end points, with additional 2 control points.
@@ -40,10 +40,10 @@ import { Vector3 } from 'three'
 
 `<CubicBezierLine />` inherits all props but `points` from `<Line2 />`.
 
-| Prop         | Type      | Description                                                                   | Default        |
-| ------------ | --------- | ----------------------------------------------------------------------------- | -------------- |
-| `start` | `Vector3 \| [number, number, number]` | Starting point |            |
-| `end` | `Vector3 \| [number, number, number]` | Ending point |            |
-| `midA` | `Vector3 \| [number, number, number]` | First control point |            |
-| `midB` | `Vector3 \| [number, number, number]` | Second control point |            |
-| `segments`     | `number`  | Number of segments in the resulting curve (higher = smoother) | 20             |
+| Prop       | Type                                  | Description                                                   | Default |
+| ---------- | ------------------------------------- | ------------------------------------------------------------- | ------- |
+| `start`    | `Vector3 \| [number, number, number]` | Starting point                                                |         |
+| `end`      | `Vector3 \| [number, number, number]` | Ending point                                                  |         |
+| `midA`     | `Vector3 \| [number, number, number]` | First control point                                           |         |
+| `midB`     | `Vector3 \| [number, number, number]` | Second control point                                          |         |
+| `segments` | `number`                              | Number of segments in the resulting curve (higher = smoother) | 20      |

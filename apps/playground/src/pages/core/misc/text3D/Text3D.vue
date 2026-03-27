@@ -19,55 +19,71 @@ const fontPath = 'https://raw.githubusercontent.com/Tresjs/assets/main/fonts/Fir
 
 const { state: font } = useLoader(FontLoader, fontPath)
 
-const { state: matcapTexture } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png')
+const { state: matcapTexture } = useTexture(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/matcaps/7.png',
+)
 
-const { size, height, curveSegments, bevelEnabled, bevelThickness, bevelSize, bevelOffset, bevelSegments, needUpdates, center } = useControls({
-  needUpdates: true,
-  center: true,
-  size: {
-    value: 0.5,
-    min: 0.1,
-    max: 1,
-    step: 0.1,
+const {
+  size,
+  height,
+  curveSegments,
+  bevelEnabled,
+  bevelThickness,
+  bevelSize,
+  bevelOffset,
+  bevelSegments,
+  needUpdates,
+  center,
+} = useControls(
+  {
+    needUpdates: true,
+    center: true,
+    size: {
+      value: 0.5,
+      min: 0.1,
+      max: 1,
+      step: 0.1,
+    },
+    height: {
+      value: 0.2,
+      min: 0.1,
+      max: 1,
+      step: 0.1,
+    },
+    curveSegments: {
+      value: 5,
+      min: 1,
+      max: 10,
+      step: 1,
+    },
+    bevelEnabled: true,
+    bevelThickness: {
+      value: 0.02,
+      min: 0,
+      max: 0.1,
+      step: 0.01,
+    },
+    bevelSize: {
+      value: 0.02,
+      min: 0,
+      max: 0.1,
+      step: 0.01,
+    },
+    bevelOffset: {
+      value: 0,
+      min: -0.1,
+      max: 0.1,
+      step: 0.01,
+    },
+    bevelSegments: {
+      value: 4,
+      min: 1,
+      max: 10,
+      step: 1,
+    },
   },
-  height: {
-    value: 0.2,
-    min: 0.1,
-    max: 1,
-    step: 0.1,
-  },
-  curveSegments: {
-    value: 5,
-    min: 1,
-    max: 10,
-    step: 1,
-  },
-  bevelEnabled: true,
-  bevelThickness: {
-    value: 0.02,
-    min: 0,
-    max: 0.1,
-    step: 0.01,
-  },
-  bevelSize: {
-    value: 0.02,
-    min: 0,
-    max: 0.1,
-    step: 0.01,
-  },
-  bevelOffset: {
-    value: 0,
-    min: -0.1,
-    max: 0.1,
-    step: 0.01,
-  },
-  bevelSegments: {
-    value: 4,
-    min: 1,
-    max: 10,
-    step: 1,
-  },
-}, { uuid })
+  { uuid },
+)
 
 const textOptions = computed(() => ({
   font: toValue(font),
@@ -94,10 +110,7 @@ watchEffect(() => {
 
 <template>
   <TresMesh v-if="font" ref="text3DRef">
-    <TresTextGeometry
-      :args="[props.text, textOptions]"
-      center
-    />
+    <TresTextGeometry :args="[props.text, textOptions]" center />
     <TresMeshNormalMaterial :matcap="matcapTexture" />
   </TresMesh>
 </template>

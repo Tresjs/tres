@@ -28,7 +28,9 @@ export function useNumberDrag(options: UseNumberDragOptions): {
   let tooltipElem: HTMLDivElement | null = null
 
   function createGuide() {
-    if (!knobElement) { return }
+    if (!knobElement) {
+      return
+    }
 
     // Container portaled to body — avoids overflow clipping
     containerElem = document.createElement('div')
@@ -67,17 +69,20 @@ export function useNumberDrag(options: UseNumberDragOptions): {
   }
 
   function updateGuide() {
-    if (!guideBodyElem || !guideHeadElem || !tooltipElem) { return }
+    if (!guideBodyElem || !guideHeadElem || !tooltipElem) {
+      return
+    }
 
     const x = accumulatedPixels
     const aox = x + (x > 0 ? -1 : x < 0 ? 1 : 0)
     const adx = Math.max(-4, Math.min(4, -aox))
 
     guideBodyElem.setAttributeNS(null, 'd', `M 0,4 L${x},4`)
-    guideHeadElem.setAttributeNS(null, 'd', [
-      `M ${aox + adx},0 L${aox},4 L${aox + adx},8`,
-      `M ${x},-1 L${x},9`,
-    ].join(' '))
+    guideHeadElem.setAttributeNS(
+      null,
+      'd',
+      [`M ${aox + adx},0 L${aox},4 L${aox + adx},8`, `M ${x},-1 L${x},9`].join(' '),
+    )
 
     const formatted = options.formatDelta
       ? options.formatDelta(Math.abs(accumulatedDelta))
@@ -102,11 +107,7 @@ export function useNumberDrag(options: UseNumberDragOptions): {
     const delta = diff * toValue(options.step) * modifier
 
     const currentValue = options.getValue()
-    const newValue = clampValue(
-      currentValue + delta,
-      toValue(options.min),
-      toValue(options.max),
-    )
+    const newValue = clampValue(currentValue + delta, toValue(options.min), toValue(options.max))
     // Only accumulate the actual applied delta so guide respects bounds
     const appliedDelta = newValue - currentValue
     accumulatedDelta += appliedDelta

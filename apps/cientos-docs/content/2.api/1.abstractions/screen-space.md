@@ -4,8 +4,8 @@ description: Position objects in front of the camera with CSS-like positioning.
 ---
 
 ::SceneControlsWrapper
-  ::AbstractionsScreenSpace
-  ::
+::AbstractionsScreenSpace
+::
 ::
 
 `<ScreenSpace />` wraps its children in a `<TresGroup />` and positions them in front of the active camera at `:depth`.

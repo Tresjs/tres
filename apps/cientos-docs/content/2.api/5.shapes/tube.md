@@ -4,8 +4,8 @@ description: Short-cut for a TubeGeometry and a MeshBasicMaterial with a Mesh ob
 ---
 
 ::SceneControlsWrapper
-  ::ShapesTube
-  ::
+::ShapesTube
+::
 ::
 
 The `cientos` package provides a `<Tube />` component that serves as a short-cut for a `TubeGeometry`.
@@ -20,12 +20,14 @@ import { Tube } from '@tresjs/cientos'
 import { CubicBezierCurve3, Vector3 } from 'three'
 import { ref } from 'vue'
 
-const tubePath = ref(new CubicBezierCurve3(
-  new Vector3(-1, 0, 0),
-  new Vector3(-0.5, -1, 0),
-  new Vector3(0.5, 1, 0),
-  new Vector3(1, 0, 0),
-))
+const tubePath = ref(
+  new CubicBezierCurve3(
+    new Vector3(-1, 0, 0),
+    new Vector3(-0.5, -1, 0),
+    new Vector3(0.5, 1, 0),
+    new Vector3(1, 0, 0),
+  ),
+)
 </script>
 
 <template>

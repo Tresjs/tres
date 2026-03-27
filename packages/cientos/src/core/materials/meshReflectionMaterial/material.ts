@@ -28,7 +28,9 @@ SOFTWARE.
 import { MeshStandardMaterial } from 'three'
 import type { Matrix4, Texture } from 'three'
 
-interface UninitializedUniform<Value> { value: Value | null }
+interface UninitializedUniform<Value> {
+  value: Value | null
+}
 
 export class MeshReflectionMaterial extends MeshStandardMaterial {
   private _tDepth: UninitializedUniform<Texture> = { value: null }

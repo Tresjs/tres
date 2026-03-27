@@ -1,7 +1,7 @@
 name: Cache Monorepo
 description: Cache pnpm store and Nx cache for monorepo workflows
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Cache pnpm store
       uses: actions/cache@v4
@@ -17,4 +17,4 @@ runs:
         path: .nx/cache
         key: ${{ runner.os }}-nx-cache-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-nx-cache- 
+          ${{ runner.os }}-nx-cache-

@@ -26,82 +26,93 @@ const textBlank = ref('hello')
 
 // const { width, height } = useWindowSize()
 
-const { showHtml } = useControls({
-  showHtml: true,
-}, { uuid })
-
-const { showTransition } = useControls({
-  showTransition: true,
-}, { uuid })
-
-useControls({
-  updateText: {
-    label: 'Update Text',
-    type: 'button',
-    onClick: () => {
-      textBlank.value = 'hello world!'
-    },
-    size: 'sm',
+const { showHtml } = useControls(
+  {
+    showHtml: true,
   },
-}, { uuid })
+  { uuid },
+)
 
-useControls({
-  activate: {
-    label: 'Switch Theme Class',
-    type: 'button',
-    onClick: () => {
-      isActive.value = !isActive.value
-    },
-    size: 'sm',
+const { showTransition } = useControls(
+  {
+    showTransition: true,
   },
-}, { uuid })
+  { uuid },
+)
 
-const customMaterial = shallowRef(new MeshStandardMaterial({
-  color: 'white',
-  side: DoubleSide,
-  transparent: true,
-}))
+useControls(
+  {
+    updateText: {
+      label: 'Update Text',
+      type: 'button',
+      onClick: () => {
+        textBlank.value = 'hello world!'
+      },
+      size: 'sm',
+    },
+  },
+  { uuid },
+)
 
-const videoPath = 'https://raw.githubusercontent.com/'
-  + 'Tresjs/assets/main/textures/video-textures/useVideoTexture.mp4'
+useControls(
+  {
+    activate: {
+      label: 'Switch Theme Class',
+      type: 'button',
+      onClick: () => {
+        isActive.value = !isActive.value
+      },
+      size: 'sm',
+    },
+  },
+  { uuid },
+)
+
+const customMaterial = shallowRef(
+  new MeshStandardMaterial({
+    color: 'white',
+    side: DoubleSide,
+    transparent: true,
+  }),
+)
+
+const videoPath =
+  'https://raw.githubusercontent.com/' +
+  'Tresjs/assets/main/textures/video-textures/useVideoTexture.mp4'
 
 const videoTexture = shallowRef<VideoTexture | null>(null)
-videoTexture.value = await useVideoTexture(videoPath, { loop: true }) as VideoTexture
+videoTexture.value = (await useVideoTexture(videoPath, { loop: true })) as VideoTexture
 
-watch(videoTexture, () => {
-  if (!videoTexture.value) { return }
+watch(
+  videoTexture,
+  () => {
+    if (!videoTexture.value) {
+      return
+    }
 
-  customMaterial.value.map = videoTexture.value
-  customMaterial.value.needsUpdate = true
-}, { immediate: true })
+    customMaterial.value.map = videoTexture.value
+    customMaterial.value.needsUpdate = true
+  },
+  { immediate: true },
+)
 
 const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
 </script>
 
 <template>
   <div class="html-demo-wrapper">
-    <TresLeches
-      :uuid="uuid"
-      :style="{ position: 'relative',
-                zIndex: 9999999999 }"
-    />
+    <TresLeches :uuid="uuid" :style="{ position: 'relative', zIndex: 9999999999 }" />
     <TresCanvas clear-color="#82DBC5" shadows alpha :clearAlpha="0" :antialias="true">
       <TresPerspectiveCamera :position="[0, 0, 15]" />
       <!-- <TresOrthographicCamera :args="[width / -2, width / 2, height / 2, height / -2]" :zoom="65" :position="[0, 0, 15]" /> -->
       <OrbitControls make-default />
 
       <TresMesh ref="lightTargetRef" :position="[-6, 1, 1]" cast-shadow receive-shadow>
-        <TresBoxGeometry :args="[.25, 8, .25]" />
+        <TresBoxGeometry :args="[0.25, 8, 0.25]" />
         <TresMeshStandardMaterial color="red" />
 
         <!-- BASIC OCCLUDE BLENDING ⬇️ -->
-        <Html
-          v-bind="state"
-          transform
-          occlude="blending"
-          :position="[-.5, 2, -2]"
-          :scale="1"
-        >
+        <Html v-bind="state" transform occlude="blending" :position="[-0.5, 2, -2]" :scale="1">
           <Card :active="isActive" :border-rounded="false">
             <template #default>
               I'm a card w/ occlude blending {{ isActive ? '📦' : '📭' }}
@@ -118,9 +129,9 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
           receive-shadow
           cast-shadow
           :material="customMaterial"
-          :position="[-.5, 0, -2]"
+          :position="[-0.5, 0, -2]"
         >
-          <div style="width: 300px; height: auto; aspect-ratio: 250/60;"></div>
+          <div style="width: 300px; height: auto; aspect-ratio: 250/60"></div>
         </Html>
         <!-- CUSTOM MATERIAL ⬆️ -->
 
@@ -129,7 +140,7 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
           v-bind="state"
           transform
           occlude="blending"
-          :position="[-.5, -3, -2]"
+          :position="[-0.5, -3, -2]"
           :scale="1"
           :geometry="customGeometry"
         >
@@ -141,39 +152,21 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
         <!--  OCCLUDE BLENDING — CUSTOM GEOMETRY ⬆️ -->
       </TresMesh>
 
-      <TresMesh
-        :position="[2, 2, 2]"
-      >
+      <TresMesh :position="[2, 2, 2]">
         <TresBoxGeometry />
         <TresMeshNormalMaterial />
         <!-- GLOBAL OCCLUDE ⬇️ -->
-        <Html
-          v-bind="state"
-          transform
-          occlude
-          :distance-factor="8"
-          :position="[-1, 0, -2]"
-        >
-          <Card :active="isActive">
-            I'm a card w/ occlude {{ isActive ? '📦' : '📭' }}
-          </Card>
+        <Html v-bind="state" transform occlude :distance-factor="8" :position="[-1, 0, -2]">
+          <Card :active="isActive"> I'm a card w/ occlude {{ isActive ? '📦' : '📭' }} </Card>
         </Html>
-      <!-- GLOBAL OCCLUDE  ⬆️ -->
+        <!-- GLOBAL OCCLUDE  ⬆️ -->
       </TresMesh>
 
-      <TresMesh
-        :position="[-2, 1, 1]"
-      >
+      <TresMesh :position="[-2, 1, 1]">
         <TresBoxGeometry />
         <TresMeshNormalMaterial />
         <!-- OCCLUDE OBJECT + TRANSFORM SPRITE + TRANSITION ⬇️ -->
-        <Html
-          v-if="showHtml"
-          v-bind="state"
-          transform
-          sprite
-          :occlude="[sphereRef]"
-        >
+        <Html v-if="showHtml" v-bind="state" transform sprite :occlude="[sphereRef]">
           <Transition name="transition-basic">
             <Card v-if="showTransition" :active="isActive">
               <template #default>
@@ -182,28 +175,20 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
             </Card>
           </Transition>
         </Html>
-      <!-- OCCLUDE OBJECT + TRANSFORM SPRITE + TRANSITION ⬆️ -->
+        <!-- OCCLUDE OBJECT + TRANSFORM SPRITE + TRANSITION ⬆️ -->
       </TresMesh>
 
-      <TresMesh
-        ref="sphereRef"
-        :position="[.5, 0, 6.5]"
-      >
+      <TresMesh ref="sphereRef" :position="[0.5, 0, 6.5]">
         <TresSphereGeometry />
         <TresMeshNormalMaterial />
       </TresMesh>
 
-      <TresMesh
-        :position="[6, 1, 1]"
-      >
+      <TresMesh :position="[6, 1, 1]">
         <TresTorusGeometry />
         <TresMeshNormalMaterial />
 
         <!-- BASIC ⬇️ -->
-        <Html
-          v-bind="state"
-          :position="[0, 1, 0]"
-        >
+        <Html v-bind="state" :position="[0, 1, 0]">
           <Card :active="isActive" />
         </Html>
         <!-- BASIC ⬆️ -->
@@ -213,31 +198,23 @@ const customGeometry = shallowRef(new CircleGeometry(1.25, 32))
           v-bind="state"
           transform
           :portal="portalRef"
-          :position="[0, -1, .5]"
+          :position="[0, -1, 0.5]"
           :distance-factor="8"
         >
           <Card :active="isActive">
-            <template #default>
-              PORTAL 🌀
-            </template>
+            <template #default> PORTAL 🌀 </template>
           </Card>
         </Html>
-      <!-- PORTAL ⬆️ -->
+        <!-- PORTAL ⬆️ -->
       </TresMesh>
 
-      <TresMesh
-        :position="[-8.5, 0.5, 0]"
-        cast-shadow
-      >
+      <TresMesh :position="[-8.5, 0.5, 0]" cast-shadow>
         <TresBoxGeometry :args="[1, 1, 1]" />
         <TresMeshNormalMaterial />
       </TresMesh>
 
-      <TresMesh
-        :position="[-4, .5, 0]"
-        cast-shadow
-      >
-        <TresSphereGeometry :args="[.5, 32, 32]" />
+      <TresMesh :position="[-4, 0.5, 0]" cast-shadow>
+        <TresSphereGeometry :args="[0.5, 32, 32]" />
         <TresMeshNormalMaterial />
       </TresMesh>
 

@@ -1,11 +1,44 @@
 import type { TresContext } from '../composables'
-import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, TresPrimitive, WithMathProps } from '../types'
+import type {
+  DisposeType,
+  LocalState,
+  TresInstance,
+  TresObject,
+  TresObject3D,
+  TresPrimitive,
+  WithMathProps,
+} from '../types'
 import { BufferAttribute } from 'three'
 import { type ElementNamespace, isRef, type RendererOptions } from 'vue'
-import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import {
+  attach,
+  doRemoveDeregister,
+  doRemoveDetach,
+  invalidateInstance,
+  prepareTresInstance,
+  resolve,
+  setPrimitiveObject,
+  unboxTresPrimitive,
+} from '../utils'
 import { filterInPlace } from '../utils/array'
 import { logError } from '../utils/logger'
-import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
+import {
+  isClassInstance,
+  isColor,
+  isColorRepresentation,
+  isCopyable,
+  isEqual,
+  isFunction,
+  isHTMLTag,
+  isLayers,
+  isObject,
+  isObject3D,
+  isScene,
+  isTresCamera,
+  isTresInstance,
+  isUndefined,
+  isVectorLike,
+} from '../utils/is'
 import { camel } from '../utils/string'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
@@ -54,19 +87,25 @@ export const nodeOps = ({
   const createTextNode = (): TextNode | undefined => {
     // Don't create additional text nodes when the scene is already unmounting
     // Doing so can cause endless loops in Vue's fragment removal function
-    if (scene?.__tres?.isUnmounting) { return }
+    if (scene?.__tres?.isUnmounting) {
+      return
+    }
 
     return {
-
       [textNodeSymbol]: true,
       __tres: { parent: null },
     }
   }
 
-  const createCommentNode = (): CommentNode => ({ [commentNodeSymbol]: true, __tres: { parent: null } })
+  const createCommentNode = (): CommentNode => ({
+    [commentNodeSymbol]: true,
+    __tres: { parent: null },
+  })
 
-  const isTextNode = (node: unknown): node is TextNode => !!node && typeof node === 'object' && textNodeSymbol in node
-  const isCommentNode = (node: unknown): node is CommentNode => !!node && typeof node === 'object' && commentNodeSymbol in node
+  const isTextNode = (node: unknown): node is TextNode =>
+    !!node && typeof node === 'object' && textNodeSymbol in node
+  const isCommentNode = (node: unknown): node is CommentNode =>
+    !!node && typeof node === 'object' && commentNodeSymbol in node
 
   function createElement(
     tag: string,
@@ -74,16 +113,21 @@ export const nodeOps = ({
     _isCustomizedBuiltIn: string,
     props: Partial<WithMathProps<TresObject>> | null,
   ): TresObject | null {
-    if (!props) { props = {} }
+    if (!props) {
+      props = {}
+    }
 
     if (!props.args) {
       props.args = []
     }
-    if (isHTMLTag(tag)) { return null }
+    if (isHTMLTag(tag)) {
+      return null
+    }
     // support kebab-case tags
     if (tag.includes('-')) {
-      tag = tag.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
-        .replace(/^[a-z]/, c => c.toUpperCase())
+      tag = tag
+        .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
+        .replace(/^[a-z]/, (c) => c.toUpperCase())
     }
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
@@ -91,7 +135,7 @@ export const nodeOps = ({
     if (tag === `${options?.primitivePrefix ?? ''}primitive`) {
       if (!isObject(props.object) || isRef(props.object)) {
         logError(
-          'Tres primitives need an \'object\' prop, whose value is an object or shallowRef<object>',
+          "Tres primitives need an 'object' prop, whose value is an object or shallowRef<object>",
         )
       }
       name = props.object.type
@@ -99,20 +143,26 @@ export const nodeOps = ({
       const primitive = createRetargetingProxy(
         props.object,
         {
-          object: t => t,
+          object: (t) => t,
           isPrimitive: () => true,
           __tres: () => __tres,
         },
         {
-          object: (object: TresObject, _: unknown, primitive: TresPrimitive, setTarget: (nextObject: TresObject) => void) => {
+          object: (
+            object: TresObject,
+            _: unknown,
+            primitive: TresPrimitive,
+            setTarget: (nextObject: TresObject) => void,
+          ) => {
             setPrimitiveObject(object, primitive, setTarget, { patchProp, remove, insert }, context)
           },
-          __tres: (t: LocalState) => { Object.assign(__tres, t) },
+          __tres: (t: LocalState) => {
+            Object.assign(__tres, t)
+          },
         },
       )
       obj = primitive
-    }
-    else {
+    } else {
       const target = catalogue.value[name]
       if (!target) {
         logError(
@@ -123,7 +173,9 @@ export const nodeOps = ({
       obj = new target(...props.args)
     }
 
-    if (!obj) { return null }
+    if (!obj) {
+      return null
+    }
 
     // Opinionated default to avoid user issue not seeing anything if camera is on origin
     if (isTresCamera(obj)) {
@@ -135,19 +187,25 @@ export const nodeOps = ({
       }
     }
 
-    obj = prepareTresInstance(obj, {
-      ...(isTresInstance(obj) ? obj.__tres : {}),
-      type: name,
-      memoizedProps: props,
-      primitive: tag === 'primitive',
-      attach: props.attach,
-    }, context)
+    obj = prepareTresInstance(
+      obj,
+      {
+        ...(isTresInstance(obj) ? obj.__tres : {}),
+        type: name,
+        memoizedProps: props,
+        primitive: tag === 'primitive',
+        attach: props.attach,
+      },
+      context,
+    )
 
     return obj
   }
 
   function insert(child: NodeType, parent: TresObject, anchor?: NodeType | null) {
-    if (!child) { return }
+    if (!child) {
+      return
+    }
 
     // TODO: Investigate and eventually remove `scene` fallback.
     // According to the signature, `parent` should always be
@@ -158,24 +216,31 @@ export const nodeOps = ({
     // Handle TresTextNode/TresCommentNode (fragment anchor) insertion
     // These nodes are tracking-only - they go in __tres.objects but not the Three.js scene
     if (isTextNode(child) || isCommentNode(child)) {
-      const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
+      const parentInstance: TresInstance = parent.__tres
+        ? (parent as TresInstance)
+        : prepareTresInstance(parent, {}, context)
       child.__tres.parent = parentInstance
 
       if (parentInstance.__tres.objects) {
         // Use findIndex with identity check to handle mixed TresTextNode/TresInstance arrays
-        const insertIndex = anchor ? parentInstance.__tres.objects.findIndex(obj => obj === anchor) : -1
+        const insertIndex = anchor
+          ? parentInstance.__tres.objects.findIndex((obj) => obj === anchor)
+          : -1
         if (insertIndex >= 0) {
           parentInstance.__tres.objects.splice(insertIndex, 0, child as unknown as TresInstance)
-        }
-        else {
+        } else {
           parentInstance.__tres.objects.push(child as unknown as TresInstance)
         }
       }
       return
     }
 
-    const childInstance: TresInstance = (child.__tres ? child as TresInstance : prepareTresInstance(child as TresObject, {}, context))
-    const parentInstance: TresInstance = (parent.__tres ? parent as TresInstance : prepareTresInstance(parent, {}, context))
+    const childInstance: TresInstance = child.__tres
+      ? (child as TresInstance)
+      : prepareTresInstance(child as TresObject, {}, context)
+    const parentInstance: TresInstance = parent.__tres
+      ? (parent as TresInstance)
+      : prepareTresInstance(parent, {}, context)
     child = unboxTresPrimitive(childInstance)
     parent = unboxTresPrimitive(parentInstance)
 
@@ -187,8 +252,7 @@ export const nodeOps = ({
 
     if (childInstance.__tres.attach) {
       attach(parentInstance, childInstance, childInstance.__tres.attach)
-    }
-    else if (isObject3D(child) && isObject3D(parentInstance)) {
+    } else if (isObject3D(child) && isObject3D(parentInstance)) {
       parentInstance.add(child)
       child.dispatchEvent({ type: 'added' })
     }
@@ -198,11 +262,12 @@ export const nodeOps = ({
     if (parentInstance.__tres.objects && !parentInstance.__tres.objects.includes(childInstance)) {
       // If anchor is provided, insert before it; otherwise append
       // Use findIndex with identity check to handle mixed TresTextNode/TresInstance arrays
-      const insertIndex = anchor ? parentInstance.__tres.objects.findIndex(obj => obj === anchor) : -1
+      const insertIndex = anchor
+        ? parentInstance.__tres.objects.findIndex((obj) => obj === anchor)
+        : -1
       if (~insertIndex) {
         parentInstance.__tres.objects.splice(insertIndex, 0, childInstance)
-      }
-      else {
+      } else {
         parentInstance.__tres.objects.push(childInstance)
       }
     }
@@ -219,14 +284,16 @@ export const nodeOps = ({
     // NOTE: Vue does not pass a `dispose` argument; it is
     // used by the recursive calls.
 
-    if (!node) { return }
+    if (!node) {
+      return
+    }
 
     // Text nodes only exist in __tres.objects, not the Three.js scene
     if (isTextNode(node) || isCommentNode(node)) {
       const parent = node.__tres.parent
 
       if (parent?.__tres?.objects) {
-        filterInPlace(parent.__tres.objects, obj => obj !== (node as unknown))
+        filterInPlace(parent.__tres.objects, (obj) => obj !== (node as unknown))
       }
       node.__tres.parent = null
       return
@@ -240,8 +307,7 @@ export const nodeOps = ({
       if (userDispose === null) {
         // NOTE: Treat as `false` to act like R3F
         dispose = false
-      }
-      else {
+      } else {
         // NOTE: Otherwise, if the user has defined a `dispose`, use it
         dispose = userDispose
       }
@@ -253,7 +319,7 @@ export const nodeOps = ({
     //   - do *not* dispose primitives or their non-declarative children
     // 2) Otherwise, follow `dispose`
     const isPrimitive = node.__tres?.primitive
-    const shouldDispose = dispose === 'default' ? !isPrimitive : !!(dispose)
+    const shouldDispose = dispose === 'default' ? !isPrimitive : !!dispose
 
     // NOTE: This function has 5 stages:
     // 1) Recursively remove `node`'s children
@@ -268,7 +334,7 @@ export const nodeOps = ({
       // NOTE: In the recursive `remove` calls, the array elements
       // will remove themselves from the array, resulting in skipped
       // elements. Make a shallow copy of the array.
-      [...node.__tres.objects].forEach(obj => remove(obj, dispose))
+      ;[...node.__tres.objects].forEach((obj) => remove(obj, dispose))
     }
 
     // NOTE: Remove remaining THREE children.
@@ -279,7 +345,7 @@ export const nodeOps = ({
       // will remove themselves from the array, resulting in skipped
       // elements. Make a shallow copy of the array.
       if (node.children) {
-        [...node.children].forEach(child => remove(child, dispose))
+        ;[...node.children].forEach((child) => remove(child, dispose))
       }
     }
 
@@ -293,14 +359,11 @@ export const nodeOps = ({
     if (shouldDispose && !isScene(node)) {
       if (isFunction(dispose)) {
         dispose(node as TresInstance)
-      }
-      else if (isFunction(node.dispose)) {
+      } else if (isFunction(node.dispose)) {
         try {
           node.dispose()
-        }
-
-        // eslint-disable-next-line unused-imports/no-unused-vars
-        catch (e) {
+        } catch (e) {
+          // eslint-disable-next-line unused-imports/no-unused-vars
           // NOTE: We must try/catch here. We want to remove/dispose
           // Vue/THREE children in bottom-up order. But THREE objects
           // will e.g., call `this.material.dispose` without checking
@@ -319,13 +382,17 @@ export const nodeOps = ({
   }
 
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {
-    if (!node) { return }
+    if (!node) {
+      return
+    }
 
     let root: Record<string, unknown> = node
     const key = prop
 
     // NOTE: Update memoizedProps with the new value
-    if (node.__tres) { node.__tres.memoizedProps[prop] = nextValue }
+    if (node.__tres) {
+      node.__tres.memoizedProps[prop] = nextValue
+    }
 
     if (prop === 'attach') {
       // NOTE: `attach` is not a field on a TresObject.
@@ -335,13 +402,17 @@ export const nodeOps = ({
       const maybeParent = node.__tres?.parent || node.parent
       remove(node)
       prepareTresInstance(node, { attach: nextValue }, context)
-      if (maybeParent) { insert(node, maybeParent) }
+      if (maybeParent) {
+        insert(node, maybeParent)
+      }
       return
     }
 
     if (prop === 'dispose') {
       // NOTE: Add node.__tres, if necessary.
-      if (!node.__tres) { node = prepareTresInstance(node, {}, context) }
+      if (!node.__tres) {
+        node = prepareTresInstance(node, {}, context)
+      }
       node.__tres!.dispose = nextValue
       return
     }
@@ -359,11 +430,7 @@ export const nodeOps = ({
       const args = nextValue ?? []
       const instanceName = node.__tres?.type || node.type
 
-      if (
-        instanceName
-        && prevArgs.length
-        && !isEqual(prevArgs, args)
-      ) {
+      if (instanceName && prevArgs.length && !isEqual(prevArgs, args)) {
         // Create a new instance
         const newInstance = new catalogue.value[instanceName](...nextValue)
 
@@ -379,9 +446,8 @@ export const nodeOps = ({
           // Copy the value from new instance to previous node
           if (key in prevNode) {
             try {
-              (prevNode as unknown as Record<string, unknown>)[key] = newInstance[key]
-            }
-            catch (e) {
+              ;(prevNode as unknown as Record<string, unknown>)[key] = newInstance[key]
+            } catch (e) {
               // Skip if property can't be set
               console.warn(`Could not set property ${key} on ${instanceName}:`, e)
             }
@@ -394,8 +460,10 @@ export const nodeOps = ({
     }
 
     if (root.type === 'BufferGeometry') {
-      if (key === 'args') { return }
-      (root as TresObject).setAttribute(
+      if (key === 'args') {
+        return
+      }
+      ;(root as TresObject).setAttribute(
         camel(key),
         new BufferAttribute(...(nextValue as ConstructorParameters<typeof BufferAttribute>)),
       )
@@ -419,14 +487,19 @@ export const nodeOps = ({
       }
     }
     let value = nextValue
-    if (value === '') { value = true }
+    if (value === '') {
+      value = true
+    }
     // Set prop, prefer atomic methods if applicable
     if (isFunction(target)) {
       // don't call pointer event callback functions
 
       if (!isSupportedPointerEvent(prop)) {
-        if (Array.isArray(value)) { node[finalKey](...value) }
-        else { node[finalKey](value) }
+        if (Array.isArray(value)) {
+          node[finalKey](...value)
+        } else {
+          node[finalKey](value)
+        }
       }
       // NOTE: Set on* callbacks
       // Issue: https://github.com/Tresjs/tres/issues/360
@@ -446,7 +519,9 @@ export const nodeOps = ({
     }
     // Copy if properties match signatures and implement math interface (likely read-only)
     else if (
-      isCopyable(target) && isClassInstance(value) && target.constructor === value.constructor
+      isCopyable(target) &&
+      isClassInstance(value) &&
+      target.constructor === value.constructor
     ) {
       target.copy(value)
     }
@@ -454,8 +529,7 @@ export const nodeOps = ({
     else if (isVectorLike(target) && Array.isArray(value)) {
       if ('fromArray' in target && typeof target.fromArray === 'function') {
         target.fromArray(value)
-      }
-      else {
+      } else {
         target.set(...value)
       }
     }
@@ -495,7 +569,7 @@ export const nodeOps = ({
     const parent = parentNode(node)
     const siblings = parent?.__tres?.objects || []
     // Use findIndex with identity check to handle mixed TresTextNode/TresInstance arrays
-    const index = siblings.findIndex(sibling => sibling === node)
+    const index = siblings.findIndex((sibling) => sibling === node)
 
     // NOTE: If not found OR this is the last of the siblings ...
     if (index < 0 || index >= siblings.length - 1) {
@@ -505,7 +579,7 @@ export const nodeOps = ({
     return siblings[index + 1]
   }
 
-  const noop = (): any => { }
+  const noop = (): any => {}
 
   return {
     insert,

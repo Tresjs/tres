@@ -15,9 +15,15 @@ function updateParticles() {
     const { offset, scale } = particle
     dummy.position.copy(offset)
     dummy.scale.set(scale, scale, scale)
-    dummy.rotation.set(Math.sin(Math.random()) * Math.PI, Math.sin(Math.random()) * Math.PI, Math.cos(Math.random()) * Math.PI)
+    dummy.rotation.set(
+      Math.sin(Math.random()) * Math.PI,
+      Math.sin(Math.random()) * Math.PI,
+      Math.cos(Math.random()) * Math.PI,
+    )
     dummy.updateMatrix()
-    if (instancedMeshRef.value) { instancedMeshRef.value.setMatrixAt(i, dummy.matrix) }
+    if (instancedMeshRef.value) {
+      instancedMeshRef.value.setMatrixAt(i, dummy.matrix)
+    }
   })
   if (instancedMeshRef.value) {
     instancedMeshRef.value.instanceMatrix.needsUpdate = true
@@ -26,7 +32,11 @@ function updateParticles() {
 </script>
 
 <template>
-  <TresInstancedMesh ref="instancedMeshRef" :args="[undefined, undefined, particles.length]" :frustum-culled="false">
+  <TresInstancedMesh
+    ref="instancedMeshRef"
+    :args="[undefined, undefined, particles.length]"
+    :frustum-culled="false"
+  >
     <TresConeGeometry :args="[2, 2, 3]" />
     <TresMeshStandardMaterial color="#606060" />
   </TresInstancedMesh>

@@ -39,8 +39,7 @@ export function createTimer(): TresTimer {
       },
       stop: () => timer.disconnect(),
     }
-  }
-  else {
+  } else {
     const clock = new THREE.Clock()
 
     return {

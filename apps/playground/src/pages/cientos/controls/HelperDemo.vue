@@ -28,7 +28,7 @@ setInterval(() => {
       <TresSphereGeometry />
       <TresMeshBasicMaterial />
       <Helper v-if="hasHelpers" :type="BoxHelper" :args="['royalblue']" />
-      <Helper v-if="hasHelpers" :type="VertexNormalsHelper" :args="[1, 0xFF0000]" />
+      <Helper v-if="hasHelpers" :type="VertexNormalsHelper" :args="[1, 0xff0000]" />
     </TresMesh>
 
     <TresDirectionalLight :position="[0, py, 2]">

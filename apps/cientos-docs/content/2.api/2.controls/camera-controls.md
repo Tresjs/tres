@@ -4,8 +4,8 @@ description: Is similar to OrbitControls yet supports smooth transitions and mor
 ---
 
 ::SceneControlsWrapper
-  ::ControlsCameraControls
-  ::
+::ControlsCameraControls
+::
 ::
 
 [CameraControls](https://github.com/yomotsu/camera-controls) is a camera controller similar to [OrbitControls](/api/controls/orbit-controls) yet supports smooth transitions and more features.
@@ -41,7 +41,7 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 Certainly! Here's the properties of the object in raw markdown table format:
 
 | Prop                      | Description                                                                                                                                                                               | Default                                                   |
-| :------------------------ |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| --------------------------------------------------------- |
+| :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | **makeDefault**           | Whether to make this the default controls.                                                                                                                                                | `false`                                                   |
 | **camera**                | The camera to control.                                                                                                                                                                    | `undefined`                                               |
 | **domElement**            | The DOM element to listen to.                                                                                                                                                             | `undefined`                                               |

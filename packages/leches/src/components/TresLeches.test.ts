@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { TresLeches } from '../index'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import { dispose } from '../composables/useControls'
 
 beforeEach(() => {

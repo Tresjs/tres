@@ -6,8 +6,7 @@ import { templateCompilerOptions } from '@tresjs/core'
 let corePackageJsonPath = resolve(__dirname, 'node_modules/@tresjs/core/package.json')
 try {
   readFileSync(corePackageJsonPath, 'utf-8')
-}
-catch {
+} catch {
   // In development, use the monorepo path
   corePackageJsonPath = resolve(__dirname, '../../packages/core/package.json')
 }
@@ -63,9 +62,7 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      routes: [
-        '/',
-      ],
+      routes: ['/'],
       crawlLinks: true,
     },
   },
@@ -86,23 +83,17 @@ export default defineNuxtConfig({
       {
         title: 'Getting Started',
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/getting-started%' },
-        ],
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/getting-started%' }],
       },
       {
         title: 'Guide',
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/guide%' },
-        ],
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/guide%' }],
       },
       {
         title: 'API Reference',
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/api%' },
-        ],
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/api%' }],
       },
     ],
   },

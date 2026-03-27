@@ -16,13 +16,16 @@ const tubePath = ref(
   ),
 )
 
-const { tubularSegments, radius, radialSegments, closed, showWireframe } = useControls({
-  tubularSegments: { value: 20, min: 3, max: 256, step: 1 },
-  radius: { value: 0.2, min: 0.05, max: 2, step: 0.05 },
-  radialSegments: { value: 8, min: 3, max: 64, step: 1 },
-  closed: false,
-  showWireframe: false,
-}, { uuid })
+const { tubularSegments, radius, radialSegments, closed, showWireframe } = useControls(
+  {
+    tubularSegments: { value: 20, min: 3, max: 256, step: 1 },
+    radius: { value: 0.2, min: 0.05, max: 2, step: 0.05 },
+    radialSegments: { value: 8, min: 3, max: 64, step: 1 },
+    closed: false,
+    showWireframe: false,
+  },
+  { uuid },
+)
 </script>
 
 <template>

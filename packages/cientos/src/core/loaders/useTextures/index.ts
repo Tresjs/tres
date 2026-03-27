@@ -23,8 +23,7 @@ export function useTextures(paths: MaybeRef<string[]>) {
         initialValue: new Texture(),
       })
       return result
-    }
-    catch (err) {
+    } catch (err) {
       error.value = err as Error
       return ref(null)
     }
@@ -63,8 +62,7 @@ export function useTextures(paths: MaybeRef<string[]>) {
         const err = result.error
         if (err instanceof Error) {
           errors.push(err)
-        }
-        else if (typeof err === 'object' && err !== null && 'message' in err) {
+        } else if (typeof err === 'object' && err !== null && 'message' in err) {
           // Create a new Error from the error object
           errors.push(new Error(String(err.message)))
         }

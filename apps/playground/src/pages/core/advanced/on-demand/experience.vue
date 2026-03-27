@@ -9,7 +9,9 @@ const { invalidate } = useTres()
 const blenderCubeRef = ref()
 
 watch(blenderCubeRef, (prev, next) => {
-  if (!next) { return }
+  if (!next) {
+    return
+  }
   invalidate()
 })
 
@@ -19,18 +21,12 @@ function onControlChange() {
 </script>
 
 <template>
-  <TresPerspectiveCamera
-    :position="[5, 5, 5]"
-    :look-at="[0, 0, 0]"
-  />
+  <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
   <Suspense>
     <BlenderCube ref="blenderCubeRef" />
   </Suspense>
   <TresGridHelper />
   <OrbitControls @change="onControlChange" />
   <TresAmbientLight :intensity="1" />
-  <TresDirectionalLight
-    :position="[0, 8, 4]"
-    :intensity="0.7"
-  />
+  <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.7" />
 </template>

@@ -37,9 +37,12 @@ const geometries = [
   },
 ]
 
-const { showTransition } = useControls({
-  showTransition: true,
-}, { uuid })
+const { showTransition } = useControls(
+  {
+    showTransition: true,
+  },
+  { uuid },
+)
 
 const getRandomBackgroundColor = (): string => {
   const colors = ['#F6B03B', '#82DBC5', '#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF5']
@@ -76,7 +79,7 @@ const updateBackgroundColor = () => {
         center
         transform
         occlude="blending"
-        :position="[0, .75, -2]"
+        :position="[0, 0.75, -2]"
         :scale="1.15"
         :z-index-range="[28, 0]"
       >

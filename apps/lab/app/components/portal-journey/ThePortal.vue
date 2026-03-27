@@ -9,7 +9,6 @@ const experiment = {
   portalColorEnd: '#EBFFEE',
 }
 
-
 const { state: portal } = useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/portal/portal.glb',
   {
@@ -17,7 +16,9 @@ const { state: portal } = useGLTF(
   },
 )
 
-const { state: bakedTexture } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/portal/baked.jpg')
+const { state: bakedTexture } = useTexture(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/portal/baked.jpg',
+)
 
 watch(bakedTexture, (value) => {
   if (value) {
@@ -26,10 +27,13 @@ watch(bakedTexture, (value) => {
 })
 
 // Baked material
-const bakedMaterial = computed(() => new MeshBasicMaterial({
-  map: bakedTexture.value,
-  side: DoubleSide,
-}))
+const bakedMaterial = computed(
+  () =>
+    new MeshBasicMaterial({
+      map: bakedTexture.value,
+      side: DoubleSide,
+    }),
+)
 
 const portalLightMaterial = new ShaderMaterial({
   uniforms: {
@@ -44,10 +48,10 @@ const portalLightMaterial = new ShaderMaterial({
 
 watch(portal, (value) => {
   if (value) {
-    const bakedMesh = value?.scene?.children?.find(child => child.name === 'baked')
-      ; (bakedMesh as Mesh).material = bakedMaterial.value
-    const portalCircle = value?.scene?.children?.find(child => child.name === 'portalCircle')
-      ; (portalCircle as Mesh).material = portalLightMaterial
+    const bakedMesh = value?.scene?.children?.find((child) => child.name === 'baked')
+    ;(bakedMesh as Mesh).material = bakedMaterial.value
+    const portalCircle = value?.scene?.children?.find((child) => child.name === 'portalCircle')
+    ;(portalCircle as Mesh).material = portalLightMaterial
   }
 })
 

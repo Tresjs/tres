@@ -85,17 +85,15 @@ const props = withDefaults(defineProps<SmokeProps>(), {
   speed: 0.4,
   depth: 0.3,
   segments: 10,
-  texture:
-    'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png',
+  texture: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/clouds/defaultCloud.png',
   depthTest: false,
   spreadY: 0.1,
   spreadX: 0.5,
   scale: 1,
 })
 
-const { depth, segments, texture, color, depthTest, opacity, speed, spreadY, spreadX, scale } = toRefs(
-  props,
-)
+const { depth, segments, texture, color, depthTest, opacity, speed, spreadY, spreadX, scale } =
+  toRefs(props)
 
 const smokeRef = shallowRef()
 const groupRef = shallowRef()

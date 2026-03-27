@@ -2,22 +2,31 @@
 import { TresCanvas } from '@tresjs/core'
 import { Environment, OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { ACESFilmicToneMapping, CineonToneMapping, LinearToneMapping, NoToneMapping, ReinhardToneMapping } from 'three'
+import {
+  ACESFilmicToneMapping,
+  CineonToneMapping,
+  LinearToneMapping,
+  NoToneMapping,
+  ReinhardToneMapping,
+} from 'three'
 
 const uuid = 'leches-controls-select'
 
-const { toneMapping } = useControls({
-  toneMapping: {
-    value: ACESFilmicToneMapping,
-    options: [
-      { text: 'No Tone Mapping', value: NoToneMapping },
-      { text: 'Linear', value: LinearToneMapping },
-      { text: 'Reinhard', value: ReinhardToneMapping },
-      { text: 'Cineon', value: CineonToneMapping },
-      { text: 'ACES Filmic', value: ACESFilmicToneMapping },
-    ],
+const { toneMapping } = useControls(
+  {
+    toneMapping: {
+      value: ACESFilmicToneMapping,
+      options: [
+        { text: 'No Tone Mapping', value: NoToneMapping },
+        { text: 'Linear', value: LinearToneMapping },
+        { text: 'Reinhard', value: ReinhardToneMapping },
+        { text: 'Cineon', value: CineonToneMapping },
+        { text: 'ACES Filmic', value: ACESFilmicToneMapping },
+      ],
+    },
   },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>

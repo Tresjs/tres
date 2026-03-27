@@ -46,13 +46,10 @@ export interface OutlinePmndrsProps {
   visibleEdgeColor?: TresColor
 }
 
-const props = withDefaults(
-  defineProps<OutlinePmndrsProps>(),
-  {
-    blur: undefined,
-    xRay: undefined,
-  },
-)
+const props = withDefaults(defineProps<OutlinePmndrsProps>(), {
+  blur: undefined,
+  xRay: undefined,
+})
 
 const colorToNumber = (color: TresColor | undefined) =>
   color !== undefined ? normalizeColor(color).getHex() : undefined
@@ -60,10 +57,8 @@ const colorToNumber = (color: TresColor | undefined) =>
 const { camera, scene } = useTres()
 
 const { pass, effect } = useEffectPmndrs(
-  () => new OutlineEffect(
-    scene.value,
-    camera.value,
-    {
+  () =>
+    new OutlineEffect(scene.value, camera.value, {
       blur: props.blur,
       xRay: props.xRay,
       kernelSize: props.kernelSize,
@@ -79,8 +74,7 @@ const { pass, effect } = useEffectPmndrs(
       hiddenEdgeColor: colorToNumber(props.hiddenEdgeColor),
       visibleEdgeColor: colorToNumber(props.visibleEdgeColor),
       // width and height are explicitly omitted, because they are deprecated in postprocessing's OutlineEffect
-    },
-  ),
+    }),
   props,
 )
 

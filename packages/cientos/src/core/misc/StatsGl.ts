@@ -110,5 +110,4 @@ export const StatsGl = defineComponent<StatsGlProps>({
       node?.removeChild(statContainer)
     })
   },
-
 })

@@ -7,7 +7,6 @@ import { DotScreenPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 import { NoToneMapping } from 'three'
 
-
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
@@ -21,7 +20,7 @@ const { angle, scale, blendFunction } = useControls({
   angle: { value: 1.57, min: -Math.PI, max: Math.PI, step: 0.001 },
   scale: { value: 1.25, min: 0.1, max: 2.5, step: 0.01 },
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -29,18 +28,16 @@ const { angle, scale, blendFunction } = useControls({
   },
 })
 
-const { state } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/suzanne/suzanne.glb', { draco: true })
+const { state } = useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/suzanne/suzanne.glb',
+  { draco: true },
+)
 </script>
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[0, 1, 7.5]"
-        :look-at="[0, 0, 0]"
-      />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[0, 1, 7.5]" :look-at="[0, 0, 0]" />
       <OrbitControls />
 
       <primitive
@@ -48,15 +45,12 @@ const { state } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/
         :scale="2"
         :rotation-x="Math.PI / -5"
         :rotation-y="Math.PI"
-        :position-y=".25"
+        :position-y="0.25"
         :position-z="0.5"
         :object="state.scene"
       />
 
-      <ContactShadows
-        :opacity="1"
-        :position-y="-1.5"
-      />
+      <ContactShadows :opacity="1" :position-y="-1.5" />
 
       <Suspense>
         <Environment preset="modern" />

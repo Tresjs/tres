@@ -6,10 +6,7 @@ import TheModel from './TheModel.vue'
 
 <template>
   <div class="w-full h-full relative">
-    <TresCanvas
-      clear-color="#333"
-      render-mode="on-demand"
-    >
+    <TresCanvas clear-color="#333" render-mode="on-demand">
       <TresPerspectiveCamera :position="[0, 2, 10]" />
       <TresGridHelper :args="[10, 10]" />
 

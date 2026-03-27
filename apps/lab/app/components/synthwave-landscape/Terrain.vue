@@ -89,8 +89,7 @@ function getLines(mesh: Mesh) {
           vis.push(rowOffset + col + point + (point < 2 ? 0 : COLS_PER_CHUNK - 1))
         }
       }
-    }
-    else {
+    } else {
       for (let col = COLS_PER_CHUNK - 1; col >= 0; col--) {
         for (let point = 3; point >= 0; point--) {
           vis.push(rowOffset + col + point + (point < 2 ? 0 : COLS_PER_CHUNK - 1))
@@ -101,7 +100,7 @@ function getLines(mesh: Mesh) {
 
   const srcVerts = mesh.geometry.attributes.position.array
   const vertices: number[] = []
-  vis.forEach(vi => vertices.push(srcVerts[vi * 3], srcVerts[vi * 3 + 1], srcVerts[vi * 3 + 2]))
+  vis.forEach((vi) => vertices.push(srcVerts[vi * 3], srcVerts[vi * 3 + 1], srcVerts[vi * 3 + 2]))
   const lineGeometry = new LineGeometry()
   lineGeometry.setPositions(vertices)
   return new Line2(lineGeometry, lineMaterial)

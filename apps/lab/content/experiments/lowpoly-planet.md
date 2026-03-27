@@ -3,7 +3,7 @@ title: Low Poly Planet
 author: alvarosabu
 description: Low Poly Planet exported from Blender
 thumbnail: /experiments/lowpoly-planet.png
-tags: ['models', 'cientos', 'useGLTF',]
+tags: ['models', 'cientos', 'useGLTF']
 date: 2023-03-27
 lastUpdated: 2023-03-27
 ---
@@ -15,7 +15,7 @@ This experiment features a **charming low-poly planet** complete with orbiting a
 A whimsical space scene featuring:
 
 - **Rotating Low-Poly Planet**: Multi-axis rotation creating dynamic planetary movement
-- **Orbiting Airplane**: Small aircraft circling the planet in realistic orbital patterns  
+- **Orbiting Airplane**: Small aircraft circling the planet in realistic orbital patterns
 - **Floating Clouds**: Multiple cloud instances creating atmospheric depth
 - **5000 Starfield**: Procedural star field creating infinite cosmic depth
 - **Dramatic Lighting**: Point and directional lights with cyan color accent
@@ -55,5 +55,3 @@ This experiment showcases several key 3D concepts:
 - **Material Updates**: Runtime material modification for shadow receiving
 
 This experiment creates a delightful miniature world that combines technical excellence with artistic charm, making it perfect for educational purposes or as inspiration for game development and interactive storytelling.
-
-

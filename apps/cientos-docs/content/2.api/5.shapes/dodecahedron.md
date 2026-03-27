@@ -4,8 +4,8 @@ description: Short-cut for a DodecahedronGeometry and a MeshBasicMaterial with a
 ---
 
 ::SceneControlsWrapper
-  ::ShapesDodecahedron
-  ::
+::ShapesDodecahedron
+::
 ::
 
 The `cientos` package provides a `<Dodecahedron />` component that serves as a short-cut for a `DodecahedronGeometry`.

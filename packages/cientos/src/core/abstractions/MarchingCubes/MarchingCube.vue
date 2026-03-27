@@ -22,9 +22,18 @@ const vec = new Vector3()
 const color = computed(() => new Color(props.color))
 
 useLoop().onBeforeRender(() => {
-  if (!parent.value || !cubeRef.value) { return }
+  if (!parent.value || !cubeRef.value) {
+    return
+  }
   cubeRef.value.getWorldPosition(vec)
-  parent.value.addBall(0.5 + vec.x * 0.5, 0.5 + vec.y * 0.5, 0.5 + vec.z * 0.5, props.strength, props.subtract, color.value)
+  parent.value.addBall(
+    0.5 + vec.x * 0.5,
+    0.5 + vec.y * 0.5,
+    0.5 + vec.z * 0.5,
+    props.strength,
+    props.subtract,
+    color.value,
+  )
 })
 
 defineExpose({ instance: cubeRef })

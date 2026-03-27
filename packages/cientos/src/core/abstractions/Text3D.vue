@@ -165,8 +165,11 @@ const loader = new FontLoader()
 const slots: Slots = useSlots()
 
 const localText = computed((): string => {
-  if (text?.value) { return text.value }
-  else if (slots.default) { return (slots.default()[0].children as string)?.trim() }
+  if (text?.value) {
+    return text.value
+  } else if (slots.default) {
+    return (slots.default()[0].children as string)?.trim()
+  }
   return needUpdates.value ? '' : 'TresJS'
 })
 
@@ -182,12 +185,10 @@ const localFont = await new Promise((resolve, reject) => {
       loader.load(font.value, (font) => {
         resolve(font)
       })
-    }
-    else {
+    } else {
       resolve(font.value)
     }
-  }
-  catch (error) {
+  } catch (error) {
     reject(console.error('cientos', error))
   }
 })
@@ -207,7 +208,10 @@ const textOptions = computed(() => ({
 watchEffect(() => {
   if (text3DRef.value && needUpdates.value) {
     text3DRef.value.geometry.dispose()
-    text3DRef.value.geometry = new TextGeometry(localText.value, textOptions.value as TextGeometryParameters)
+    text3DRef.value.geometry = new TextGeometry(
+      localText.value,
+      textOptions.value as TextGeometryParameters,
+    )
     if (center.value) {
       text3DRef.value.geometry.center()
     }
@@ -216,15 +220,8 @@ watchEffect(() => {
 </script>
 
 <template>
-  <TresMesh
-    v-if="font"
-    ref="text3DRef"
-  >
-    <TresTextGeometry
-      v-if="localText"
-      :args="[localText, textOptions]"
-      :center="center"
-    />
+  <TresMesh v-if="font" ref="text3DRef">
+    <TresTextGeometry v-if="localText" :args="[localText, textOptions]" :center="center" />
     <slot></slot>
   </TresMesh>
 </template>

@@ -14,46 +14,26 @@ setInterval(() => {
   <div class="grid grid-cols-2">
     <div class="aspect-video">
       <TresCanvas clear-color="#fff">
-        <TresPerspectiveCamera
-          :position="[5, 5, 5]"
-          :look-at="[0, 0, 0]"
-        />
+        <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
 
-        <TresAmbientLight
-          :intensity="0.5"
-          color="red"
-        />
-        <TresMesh
-          v-if="showBoxAndSphere"
-          ref="boxRef"
-          :position="[0, 2, 0]"
-        >
+        <TresAmbientLight :intensity="0.5" color="red" />
+        <TresMesh v-if="showBoxAndSphere" ref="boxRef" :position="[0, 2, 0]">
           <TresBoxGeometry :args="[1, 1, 1]" />
           <TresMeshNormalMaterial />
         </TresMesh>
-        <TresDirectionalLight
-          :position="[0, 2, 4]"
-          :intensity="1"
-          cast-shadow
-        />
+        <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
         <TresAxesHelper />
         <TresGridHelper :args="[10, 10, 0x444444, 'teal']" />
       </TresCanvas>
     </div>
     <div class="aspect-video">
       <TresCanvas clear-color="#000">
-        <TresPerspectiveCamera
-          :position="[5, 5, 5]"
-          :look-at="[0, 0, 0]"
-        />
+        <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
         <TresMesh v-if="showBoxAndSphere">
           <TresSphereGeometry :args="[1, 32, 32]" />
           <TresMeshNormalMaterial />
         </TresMesh>
-        <TresAmbientLight
-          :intensity="0.5"
-          color="red"
-        />
+        <TresAmbientLight :intensity="0.5" color="red" />
       </TresCanvas>
     </div>
   </div>

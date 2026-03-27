@@ -44,24 +44,28 @@ const newLocal = {
   footer: {
     credits: `Copyright © ${new Date().getFullYear()}`,
     colorMode: false,
-    links: [{
-      'icon': 'i-simple-icons-github',
-      'to': 'https://github.com',
-      'target': '_blank',
-      'aria-label': 'GitHub',
-    }],
+    links: [
+      {
+        icon: 'i-simple-icons-github',
+        to: 'https://github.com',
+        target: '_blank',
+        'aria-label': 'GitHub',
+      },
+    ],
   },
   toc: {
     title: 'Table of Contents',
     bottom: {
       title: 'Community',
       edit: 'https://github.com/edit/main/docs/content',
-      links: [{
-        icon: 'i-lucide-star',
-        label: 'Star on GitHub',
-        to: 'https://github.com',
-        target: '_blank',
-      }],
+      links: [
+        {
+          icon: 'i-lucide-star',
+          label: 'Star on GitHub',
+          to: 'https://github.com',
+          target: '_blank',
+        },
+      ],
     },
   },
 } satisfies AppConfigInput

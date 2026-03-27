@@ -9,7 +9,6 @@ import type { TresCamera } from '../../types'
  * Interface for the return value of the useCamera composable
  */
 export interface UseCameraReturn {
-
   activeCamera: ComputedRef<TresCamera>
   /**
    * The list of cameras
@@ -59,7 +58,9 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
       ? cameraOrUuid
       : cameras.value.find((camera: TresCamera) => camera.uuid === cameraOrUuid)
 
-    if (!camera) { return }
+    if (!camera) {
+      return
+    }
 
     const otherCameras = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
     cameras.value = [camera, ...otherCameras]
@@ -71,7 +72,9 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    * @param active - Whether to set the camera as active
    */
   const registerCamera = (camera: TresCamera, active = false): void => {
-    if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
+    if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) {
+      return
+    }
     cameras.value.push(camera)
 
     if (active) {

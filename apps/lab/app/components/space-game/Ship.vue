@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, shallowRef } from 'vue'
 import type { GameStore } from '../TheExperience.vue'
-import { BoxGeometry, Color, Group, MeshBasicMaterial, PointLight, Vector3 } from 'three';
+import { BoxGeometry, Color, Group, MeshBasicMaterial, PointLight, Vector3 } from 'three'
 
 const geometry = new BoxGeometry(1, 1, 40)
 const lightgreen = new Color('lightgreen')
@@ -37,7 +37,12 @@ useLoop().onBeforeRender(() => {
       g.position.z -= 20
     }
   }
-  laserLight.value.intensity += ((gameStore.lasers.length && Date.now() - gameStore.lasers[gameStore.lasers.length - 1] < 100 ? 200000 : 0) - laserLight.value.intensity) * 0.3
+  laserLight.value.intensity +=
+    ((gameStore.lasers.length && Date.now() - gameStore.lasers[gameStore.lasers.length - 1] < 100
+      ? 200000
+      : 0) -
+      laserLight.value.intensity) *
+    0.3
 
   // Get ships orientation and save it to the stores ray
   main.value.getWorldPosition(position)
@@ -78,8 +83,14 @@ useLoop().onBeforeRender(() => {
           <TresBoxGeometry :args="[2, 40, 2]" />
         </TresMesh>
       </TresGroup>
-      <TresPointLight ref="laserLight" :position="[0, 0, -20]" :distance="100" :intensity="0" color="lightgreen" />
-      <TresGroup v-for="laser, i of gameStore.lasers" ref="laserGroup" :key="i">
+      <TresPointLight
+        ref="laserLight"
+        :position="[0, 0, -20]"
+        :distance="100"
+        :intensity="0"
+        color="lightgreen"
+      />
+      <TresGroup v-for="(laser, i) of gameStore.lasers" ref="laserGroup" :key="i">
         <TresMesh :position="[-2.8, 0, -0.8]" :geometry="geometry" :material="laserMaterial" />
         <TresMesh :position="[2.8, 0, -0.8]" :geometry="geometry" :material="laserMaterial" />
       </TresGroup>

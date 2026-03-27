@@ -29,20 +29,29 @@ export interface LensDistortionPmndrsProps {
 const props = defineProps<LensDistortionPmndrsProps>()
 
 const { pass, effect } = useEffectPmndrs(
-  () => new LensDistortionEffect({
-    ...props,
-    distortion: props.distortion ? (Array.isArray(props.distortion) ? new Vector2(...props.distortion) : props.distortion) : new Vector2(),
-    principalPoint: props.principalPoint ? (Array.isArray(props.principalPoint) ? new Vector2(...props.principalPoint) : props.principalPoint) : new Vector2(),
-    focalLength: props.focalLength ? (Array.isArray(props.focalLength) ? new Vector2(...props.focalLength) : props.focalLength) : new Vector2(),
-  }),
+  () =>
+    new LensDistortionEffect({
+      ...props,
+      distortion: props.distortion
+        ? Array.isArray(props.distortion)
+          ? new Vector2(...props.distortion)
+          : props.distortion
+        : new Vector2(),
+      principalPoint: props.principalPoint
+        ? Array.isArray(props.principalPoint)
+          ? new Vector2(...props.principalPoint)
+          : props.principalPoint
+        : new Vector2(),
+      focalLength: props.focalLength
+        ? Array.isArray(props.focalLength)
+          ? new Vector2(...props.focalLength)
+          : props.focalLength
+        : new Vector2(),
+    }),
   props,
 )
 
 defineExpose({ pass, effect })
 
-makePropWatchersUsingAllProps(
-  props,
-  effect,
-  () => new LensDistortionEffect(),
-)
+makePropWatchersUsingAllProps(props, effect, () => new LensDistortionEffect())
 </script>

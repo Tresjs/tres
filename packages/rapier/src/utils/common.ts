@@ -2,22 +2,22 @@ import type { QuaternionLike, Vector3Like } from 'three'
 
 export const isVector3Like = (value: any): value is Vector3Like => {
   return (
-    value !== null
-    && typeof value === 'object'
-    && typeof value.x === 'number'
-    && typeof value.y === 'number'
-    && typeof value.z === 'number'
+    value !== null &&
+    typeof value === 'object' &&
+    typeof value.x === 'number' &&
+    typeof value.y === 'number' &&
+    typeof value.z === 'number'
   )
 }
 
 export const isVector4Like = (value: any): value is QuaternionLike => {
   return (
-    value !== null
-    && typeof value === 'object'
-    && typeof value.x === 'number'
-    && typeof value.y === 'number'
-    && typeof value.z === 'number'
-    && typeof value.w === 'number'
+    value !== null &&
+    typeof value === 'object' &&
+    typeof value.x === 'number' &&
+    typeof value.y === 'number' &&
+    typeof value.z === 'number' &&
+    typeof value.w === 'number'
   )
 }
 

@@ -12,29 +12,25 @@ const gl = reactive({
   clearColor: '#82DBC5',
 })
 
-const { wireframe } = useControls({
-  wireframe: false,
-}, { uuid })
+const { wireframe } = useControls(
+  {
+    wireframe: false,
+  },
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      :position="[4, 4, 4]"
-    />
+    <TresPerspectiveCamera :position="[4, 4, 4]" />
     <TresMesh>
       <TresTorusKnotGeometry />
-      <TresMeshNormalMaterial
-        :wireframe="wireframe"
-      />
+      <TresMeshNormalMaterial :wireframe="wireframe" />
     </TresMesh>
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :position="[3, 3, 3]"
-      :intensity="1"
-    />
+    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
     <OrbitControls />
   </TresCanvas>
 </template>

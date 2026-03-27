@@ -19,10 +19,6 @@ watchEffect(() => {
 <template>
   <TresMesh>
     <TresBoxGeometry :args="[1, 1, 1]" />
-    <TresMeshBasicMaterial
-      v-if="fboTarget"
-      :color="0xFF8833"
-      :map="fboTarget.texture ?? null"
-    />
+    <TresMeshBasicMaterial v-if="fboTarget" :color="0xff8833" :map="fboTarget.texture ?? null" />
   </TresMesh>
 </template>

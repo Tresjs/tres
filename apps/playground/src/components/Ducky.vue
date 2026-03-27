@@ -3,8 +3,10 @@ import { useGLTF } from '@tresjs/cientos'
 import { Mesh } from 'three'
 import { watch } from 'vue'
 
-const { state }
-  = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf', { draco: true })
+const { state } = useGLTF(
+  'https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/duck/model.gltf',
+  { draco: true },
+)
 
 watch(state, (model) => {
   model.scene.traverse((child) => {

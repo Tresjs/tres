@@ -13,7 +13,9 @@ function update() {
   elapsed += 1000 / 30
   ry.value = elapsed * 0.001
 }
-onMounted(() => { intervalId = setInterval(update, 1000 / 30) })
+onMounted(() => {
+  intervalId = setInterval(update, 1000 / 30)
+})
 onUnmounted(() => clearInterval(intervalId))
 </script>
 
@@ -31,7 +33,7 @@ onUnmounted(() => clearInterval(intervalId))
   </div>
   <TresCanvas clear-color="#333">
     <TresPerspectiveCamera :rotation-y="ry" />
-    <TheExperience ref="r" @intersect="(b) => txt = b" />
+    <TheExperience ref="r" @intersect="(b) => (txt = b)" />
   </TresCanvas>
 </template>
 

@@ -1,12 +1,12 @@
 {
   "name": "playground",
-  "type": "module",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "vite --host",
-    "build": "vite build",
-    "preview": "vite preview",
+    "dev": "vp dev --host",
+    "build": "vp build",
+    "preview": "vp preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

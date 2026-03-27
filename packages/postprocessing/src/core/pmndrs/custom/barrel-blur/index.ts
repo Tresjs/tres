@@ -16,8 +16,14 @@ export class BarrelBlurEffect extends Effect {
    * @param {Vector2} [options.offset] - Offset of the barrel distortion center (0 to 1 for both x and y). This allows you to change the position of the distortion effect.
    *
    */
-  constructor({ blendFunction = BlendFunction.NORMAL, amount = 0.15, offset = new Vector2(0.5, 0.5) } = {}) {
-    super('BarrelBlurEffect', `
+  constructor({
+    blendFunction = BlendFunction.NORMAL,
+    amount = 0.15,
+    offset = new Vector2(0.5, 0.5),
+  } = {}) {
+    super(
+      'BarrelBlurEffect',
+      `
     uniform float amount;
     uniform vec2 offset;
 
@@ -61,13 +67,15 @@ export class BarrelBlurEffect extends Effect {
 
         outputColor = vec4(outcol, inputColor.a); // Preserves original alpha
     }
-      `, {
-      blendFunction,
-      uniforms: new Map<string, Uniform<number | Vector2>>([
-        ['amount', new Uniform(amount)], // Uniform controlling the intensity of distortion
-        ['offset', new Uniform(offset)], // Uniform controlling the offset of distortion
-      ]),
-    })
+      `,
+      {
+        blendFunction,
+        uniforms: new Map<string, Uniform<number | Vector2>>([
+          ['amount', new Uniform(amount)], // Uniform controlling the intensity of distortion
+          ['offset', new Uniform(offset)], // Uniform controlling the offset of distortion
+        ]),
+      },
+    )
   }
 
   /**

@@ -10,7 +10,9 @@ watch(state, (state) => {
 const stone = computed(() => nodes.value.Stone)
 const stoneCarved = computed(() => nodes.value.StoneCarved)
 const logo = computed(() => nodes.value.Logo)
-const littleStones = computed(() => Object.values(nodes.value).filter(node => node.name.includes('Stone00')))
+const littleStones = computed(() =>
+  Object.values(nodes.value).filter((node) => node.name.includes('Stone00')),
+)
 
 const { state: stonesTexture } = useTexture('/models/nuxt-stones/RockBaked.png')
 const { state: littleStonesTexture } = useTexture('/models/nuxt-stones/LittleRocksBaked.png')
@@ -23,13 +25,19 @@ watch(littleStonesTexture, (texture) => {
   texture.flipY = false
 })
 
-const stoneBakedMaterial = computed(() => new MeshBasicMaterial({
-  map: stonesTexture.value,
-}))
+const stoneBakedMaterial = computed(
+  () =>
+    new MeshBasicMaterial({
+      map: stonesTexture.value,
+    }),
+)
 
-const littleStonesBakedMaterial = computed(() => new MeshBasicMaterial({
-  map: littleStonesTexture.value,
-}))
+const littleStonesBakedMaterial = computed(
+  () =>
+    new MeshBasicMaterial({
+      map: littleStonesTexture.value,
+    }),
+)
 
 watch([stone, stoneCarved, stoneBakedMaterial], ([stone, stoneCarved, texture]) => {
   if (stone) {
@@ -61,9 +69,6 @@ onBeforeRender(({ elapsed }) => {
 
 <template>
   <TresGroup rotation-y="1.57">
-    <primitive
-      v-if="state"
-      :object="state.scene"
-    />
+    <primitive v-if="state" :object="state.scene" />
   </TresGroup>
 </template>

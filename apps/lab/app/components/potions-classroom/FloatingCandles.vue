@@ -3,7 +3,9 @@ const { nodes } = useGLTF('/models/potions-classroom/wizard-potions-classroom.gl
   draco: true,
 })
 
-const floatingCandle = computed(() => Object.values(nodes.value).filter(node => node.name.includes('FloatingCandle')))
+const floatingCandle = computed(() =>
+  Object.values(nodes.value).filter((node) => node.name.includes('FloatingCandle')),
+)
 </script>
 
 <template>
@@ -11,6 +13,12 @@ const floatingCandle = computed(() => Object.values(nodes.value).filter(node => 
     <primitive v-if="candle" :object="candle" />
   </Levioso>
   <Levioso>
-    <TresPointLight :position="[0, 8, 0]" color="#FF6619" :intensity="2" :distance="10" :decay="2" />
+    <TresPointLight
+      :position="[0, 8, 0]"
+      color="#FF6619"
+      :intensity="2"
+      :distance="10"
+      :decay="2"
+    />
   </Levioso>
 </template>

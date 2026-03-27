@@ -34,22 +34,26 @@ This monorepo contains the following packages and apps:
 ### Development Setup
 
 1. Fork and clone the repository:
+
 ```bash
 git clone https://github.com/<your-username>/tres.git
 cd tres
 ```
 
 2. Install dependencies:
+
 ```bash
 pnpm install
 ```
 
 3. Build all packages:
+
 ```bash
 pnpm build
 ```
 
 4. Start development mode for a specific package:
+
 ```bash
 # For core package (runs playground)
 pnpm --filter playground dev
@@ -153,6 +157,7 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 The scope should be the package or app name:
 
 **Packages:**
+
 - `core`
 - `cientos`
 - `postprocessing`
@@ -161,6 +166,7 @@ The scope should be the package or app name:
 - `eslint-config`
 
 **Apps:**
+
 - `docs`
 - `playground`
 - `lab`
@@ -189,10 +195,9 @@ BREAKING CHANGE: useCameraManager now requires sizes parameter
 ### TypeScript
 
 - **Always use TypeScript** for all code
-- **Avoid using `any`** - find a good type if possible  
+- **Avoid using `any`** - find a good type if possible
 - Use `type` for unions, `interface` for object shapes
 - Document public APIs with JSDoc comments
-
 
 ### Vue Components
 
@@ -201,7 +206,6 @@ BREAKING CHANGE: useCameraManager now requires sizes parameter
 - Define emits with `defineEmits<{ eventName: [arg: Type] }>()`
 - Use PascalCase for component names
 - Use `defineModel()` for v-model bindings
-
 
 ### General Guidelines
 
@@ -227,6 +231,7 @@ pnpm --filter @tresjs/core test:watch
 ```
 
 Please include tests for:
+
 - New features
 - Bug fixes
 - Edge cases
@@ -269,6 +274,7 @@ When contributing features or fixes:
 ### Keep Core Minimal
 
 The `@tresjs/core` package should remain minimal and focused on the core Three.js/Vue integration. Consider adding complex features to:
+
 - `@tresjs/cientos` for helpers and abstractions
 - `@tresjs/post-processing` for effects
 - A new package if it's a distinct feature set
@@ -276,6 +282,7 @@ The `@tresjs/core` package should remain minimal and focused on the core Three.j
 ### Bug Reports
 
 When reporting bugs, please include:
+
 - A clear description of the issue
 - Steps to reproduce
 - Expected vs actual behavior
@@ -285,6 +292,7 @@ When reporting bugs, please include:
 ### Feature Requests
 
 For new features:
+
 - Open an issue first to discuss the feature
 - Explain the use case and benefits
 - Consider if it belongs in core or a separate package

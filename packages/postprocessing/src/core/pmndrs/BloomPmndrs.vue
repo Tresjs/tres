@@ -10,7 +10,7 @@ export interface BloomPmndrsProps {
    * @default BlendFunction.SCREEN
    * @type {BlendFunction}
    * @memberof BloomPmndrsProps
-  */
+   */
   blendFunction?: BlendFunction
   /**
    * The intensity of the bloom effect.
@@ -60,12 +60,9 @@ export interface BloomPmndrsProps {
 </script>
 
 <script setup lang="ts">
-const props = withDefaults(
-  defineProps<BloomPmndrsProps>(),
-  {
-    mipmapBlur: undefined,
-  },
-)
+const props = withDefaults(defineProps<BloomPmndrsProps>(), {
+  mipmapBlur: undefined,
+})
 
 const { pass, effect } = useEffectPmndrs(() => new BloomEffect(props), props, ['mipmapBlur'])
 

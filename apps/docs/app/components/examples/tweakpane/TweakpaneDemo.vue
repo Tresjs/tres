@@ -42,9 +42,21 @@ onMounted(() => {
 
   // Rotation controls
   const rotationFolder = pane.value.addFolder({ title: 'Rotation' })
-  rotationFolder.addBinding(controls.value, 'rotationX', { min: -Math.PI, max: Math.PI, step: 0.01 })
-  rotationFolder.addBinding(controls.value, 'rotationY', { min: -Math.PI, max: Math.PI, step: 0.01 })
-  rotationFolder.addBinding(controls.value, 'rotationZ', { min: -Math.PI, max: Math.PI, step: 0.01 })
+  rotationFolder.addBinding(controls.value, 'rotationX', {
+    min: -Math.PI,
+    max: Math.PI,
+    step: 0.01,
+  })
+  rotationFolder.addBinding(controls.value, 'rotationY', {
+    min: -Math.PI,
+    max: Math.PI,
+    step: 0.01,
+  })
+  rotationFolder.addBinding(controls.value, 'rotationZ', {
+    min: -Math.PI,
+    max: Math.PI,
+    step: 0.01,
+  })
 
   // Material controls
   const materialFolder = pane.value.addFolder({ title: 'Material' })

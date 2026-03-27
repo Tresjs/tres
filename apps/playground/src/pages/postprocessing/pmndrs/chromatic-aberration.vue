@@ -20,19 +20,22 @@ const glComposer = {
   multisampling: 4,
 }
 
-const { offsetX, offsetY, radialModulation, modulationOffset, blendFunction } = useControls({
-  offsetX: { value: 0.085, step: 0.001, max: 0.5 },
-  offsetY: { value: 0.0, step: 0.001, max: 0.5 },
-  radialModulation: false,
-  modulationOffset: { value: 0, step: 0.01 },
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.SRC,
+const { offsetX, offsetY, radialModulation, modulationOffset, blendFunction } = useControls(
+  {
+    offsetX: { value: 0.085, step: 0.001, max: 0.5 },
+    offsetY: { value: 0.0, step: 0.001, max: 0.5 },
+    radialModulation: false,
+    modulationOffset: { value: 0, step: 0.01 },
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.SRC,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 
 watchEffect(() => {
   // modulationOffset.value.visible = radialModulation.value.value
@@ -42,28 +45,25 @@ watchEffect(() => {
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls auto-rotate />
 
-    <TresMesh :position="[0, .5, 0]">
+    <TresMesh :position="[0, 0.5, 0]">
       <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="#82DBC5" :roughness=".25" />
+      <TresMeshPhysicalMaterial color="#82DBC5" :roughness="0.25" />
     </TresMesh>
 
-    <ContactShadows
-      :opacity="1"
-      :position-y="-.5"
-    />
+    <ContactShadows :opacity="1" :position-y="-0.5" />
 
     <Suspense>
       <EffectComposerPmndrs v-bind="glComposer">
-        <ChromaticAberrationPmndrs :offset="new Vector2(offsetX, offsetY)" :radial-modulation="radialModulation" :modulation-offset="modulationOffset" :blendFunction="Number(blendFunction)" />
+        <ChromaticAberrationPmndrs
+          :offset="new Vector2(offsetX, offsetY)"
+          :radial-modulation="radialModulation"
+          :modulation-offset="modulationOffset"
+          :blendFunction="Number(blendFunction)"
+        />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

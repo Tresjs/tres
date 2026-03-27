@@ -19,8 +19,8 @@ onMounted(() => {
   intervalId = setInterval(() => {
     elapsed += 1000 / 30
     y0.value = (1 + Math.sin(elapsed * 0.001)) * 6
-    y1.value = (1 + Math.sin(elapsed * 0.001 + 2 * Math.PI / 3)) * 6
-    y2.value = (1 + Math.sin(elapsed * 0.001 + 4 * Math.PI / 3)) * 6
+    y1.value = (1 + Math.sin(elapsed * 0.001 + (2 * Math.PI) / 3)) * 6
+    y2.value = (1 + Math.sin(elapsed * 0.001 + (4 * Math.PI) / 3)) * 6
     visible.value = Math.sin(elapsed * 0.001) > 0
     f.value = Infinity
     fog.value = Math.sin(elapsed * 0.1) <= 0 ? redFog : whiteFog
@@ -28,7 +28,9 @@ onMounted(() => {
   }, 1000 / 30)
 })
 
-onUnmounted(() => { clearInterval(intervalId) })
+onUnmounted(() => {
+  clearInterval(intervalId)
+})
 </script>
 
 <template>

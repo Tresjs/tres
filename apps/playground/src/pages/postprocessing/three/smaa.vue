@@ -3,11 +3,14 @@ import { Output, SMAA } from '@tresjs/post-processing'
 import BasicScene from '@/components/BasicScene.vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 
-const { enabled } = useControls({
-  enabled: true,
-}, {
-  uuid: 'postprocessing-three-smaa',
-})
+const { enabled } = useControls(
+  {
+    enabled: true,
+  },
+  {
+    uuid: 'postprocessing-three-smaa',
+  },
+)
 </script>
 
 <template>

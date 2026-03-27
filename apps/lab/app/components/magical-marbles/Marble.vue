@@ -5,7 +5,7 @@ import { useTexture, CustomShaderMaterial } from '@tresjs/cientos'
 import { useLoop, useTres } from '@tresjs/core'
 import { vertex, fragment } from './shaders'
 
-const ctx = gsap.context(() => { })
+const ctx = gsap.context(() => {})
 
 const props = defineProps({
   colors: {
@@ -14,13 +14,13 @@ const props = defineProps({
   },
   params: {
     type: Object as PropType<{
-      roughness?: number,
-      metalness?: number,
-      iterations?: number,
-      depth?: number,
-      smoothing?: number,
-      displacement?: number,
-      speed?: number,
+      roughness?: number
+      metalness?: number
+      iterations?: number
+      depth?: number
+      smoothing?: number
+      displacement?: number
+      speed?: number
     }>,
     default: () => ({}),
   },
@@ -44,29 +44,43 @@ const { renderer } = useTres()
 
 const currentColor = computed(() => colors.value[indexColor.value])
 
-const colorFinalB = computed(() => new Color(`hsl(${currentColor.value[0]}, ${currentColor.value[1]}%, ${currentColor.value[2]}%)`))
+const colorFinalB = computed(
+  () =>
+    new Color(
+      `hsl(${currentColor.value[0]}, ${currentColor.value[1]}%, ${currentColor.value[2]}%)`,
+    ),
+)
 
 const animateSphereColor = async () => {
   await nextTick()
 
   ctx.add(() => {
-    tl = gsap.timeline({})
+    tl = gsap
+      .timeline({})
       .addLabel('sphereAnimation')
-      .to(uniforms.colorB.value, {
-        r: colorFinalB.value.r,
-        g: colorFinalB.value.g,
-        b: colorFinalB.value.b,
-        duration: 1.2,
-        ease: 'power2.out',
-      }, 'sphereAnimation')
-      .to(uniforms.uDisplacementSpeed, {
-        overwrite: 'auto',
-        ease: 'power2.out',
-        keyframes: [
-          { value: 1.175, duration: 0.3 },
-          { value: 1, duration: 0.65, overwrite: 'auto' },
-        ],
-      }, 'sphereAnimation')
+      .to(
+        uniforms.colorB.value,
+        {
+          r: colorFinalB.value.r,
+          g: colorFinalB.value.g,
+          b: colorFinalB.value.b,
+          duration: 1.2,
+          ease: 'power2.out',
+        },
+        'sphereAnimation',
+      )
+      .to(
+        uniforms.uDisplacementSpeed,
+        {
+          overwrite: 'auto',
+          ease: 'power2.out',
+          keyframes: [
+            { value: 1.175, duration: 0.3 },
+            { value: 1, duration: 0.65, overwrite: 'auto' },
+          ],
+        },
+        'sphereAnimation',
+      )
   })
 }
 
@@ -77,7 +91,11 @@ const uniforms = reactive({
   uTime: { value: 1 },
   uDisplacementSpeed: { value: 1 },
   colorA: { value: new Color(0, 0, 0) },
-  colorB: { value: new Color(`hsl(${colors.value[indexColor.value][0]}, ${colors.value[indexColor.value][1]}%, ${colors.value[indexColor.value][2]}%)`) },
+  colorB: {
+    value: new Color(
+      `hsl(${colors.value[indexColor.value][0]}, ${colors.value[indexColor.value][1]}%, ${colors.value[indexColor.value][2]}%)`,
+    ),
+  },
   heightMap: { value: heightMapTexture.value },
   displacementMap: { value: displacementMapTexture.value },
   iterations: { value: params.value.iterations },
@@ -94,7 +112,7 @@ uniformKeys.forEach((key) => {
     (val) => {
       uniforms[key].value = val
     },
-    { immediate: true }
+    { immediate: true },
   )
 })
 
@@ -117,7 +135,7 @@ function animateScale(targetScale: number) {
     z: targetScale,
     duration: 1,
     ease: 'elastic.out(1, 0.4)',
-    overwrite: 'auto'
+    overwrite: 'auto',
   })
 }
 
@@ -151,19 +169,31 @@ onRender(({ elapsed }) => {
     elapsedStart.value = elapsed
   }
 
-  uniforms.uTime.value = ((elapsed - elapsedStart.value) * (params.value.speed ?? 1))
+  uniforms.uTime.value = (elapsed - elapsedStart.value) * (params.value.speed ?? 1)
 })
 
 defineExpose({
-  animateSphereColor
+  animateSphereColor,
 })
 </script>
 
 <template>
-  <Sphere ref="sphereRef" :args="[1, 64, 32]" @pointerdown="onSpherePointerDown" @pointerup="onSpherePointerUp"
-    @pointerenter="onSpherePointerEnter" @pointerleave="onSpherePointerLeave">
-    <CustomShaderMaterial :roughness="params.roughness" :metalness="params.metalness"
-      :base-material="MeshStandardMaterial" :vertex-shader="vertex" :fragment-shader="fragment" :uniforms="uniforms"
-      silent />
+  <Sphere
+    ref="sphereRef"
+    :args="[1, 64, 32]"
+    @pointerdown="onSpherePointerDown"
+    @pointerup="onSpherePointerUp"
+    @pointerenter="onSpherePointerEnter"
+    @pointerleave="onSpherePointerLeave"
+  >
+    <CustomShaderMaterial
+      :roughness="params.roughness"
+      :metalness="params.metalness"
+      :base-material="MeshStandardMaterial"
+      :vertex-shader="vertex"
+      :fragment-shader="fragment"
+      :uniforms="uniforms"
+      silent
+    />
   </Sphere>
 </template>

@@ -25,16 +25,16 @@ export const createNode = (object: TresObject): SceneGraphObject => {
   if (object.name !== '') {
     node.tags.push({
       label: object.name,
-      textColor: 0x57BF65,
-      backgroundColor: 0xF0FCF3,
+      textColor: 0x57bf65,
+      backgroundColor: 0xf0fcf3,
     })
   }
   const memory = calculateMemoryUsage(object)
   if (memory > 0) {
     node.tags.push({
       label: `${bytesToKB(memory)} KB`,
-      textColor: 0xEFAC35,
-      backgroundColor: 0xFFF9DC,
+      textColor: 0xefac35,
+      backgroundColor: 0xfff9dc,
       tooltip: 'Memory usage',
     })
   }
@@ -43,15 +43,15 @@ export const createNode = (object: TresObject): SceneGraphObject => {
     if (isLight(object)) {
       node.tags.push({
         label: `${object.intensity}`,
-        textColor: 0x9499A6,
-        backgroundColor: 0xF8F9FA,
+        textColor: 0x9499a6,
+        backgroundColor: 0xf8f9fa,
         tooltip: 'Intensity',
       })
     }
     node.tags.push({
       label: `#${new Color(object.color).getHexString()}`,
-      textColor: 0x9499A6,
-      backgroundColor: 0xF8F9FA,
+      textColor: 0x9499a6,
+      backgroundColor: 0xf8f9fa,
       tooltip: 'Color',
     })
   }
@@ -59,15 +59,14 @@ export const createNode = (object: TresObject): SceneGraphObject => {
   if (object.type.includes('Camera')) {
     node.tags.push({
       label: `${object.fov}°`,
-      textColor: 0x9499A6,
-      backgroundColor: 0xF8F9FA,
+      textColor: 0x9499a6,
+      backgroundColor: 0xf8f9fa,
       tooltip: 'Field of view',
     })
     node.tags.push({
-
       label: `x: ${Math.round(object.position.x)} y: ${Math.round(object.position.y)} z: ${Math.round(object.position.z)}`,
-      textColor: 0x9499A6,
-      backgroundColor: 0xF8F9FA,
+      textColor: 0x9499a6,
+      backgroundColor: 0xf8f9fa,
       tooltip: 'Position',
     })
   }
@@ -99,8 +98,12 @@ export function createContextNode(key: string, uuid: string, parentKey = ''): Sc
  */
 export function buildGraph(object: TresObject, node: SceneGraphObject, filter: string = '') {
   object.children.forEach((child: TresObject) => {
-    if (child.type === 'HightlightMesh') { return }
-    if (filter && !child.type.includes(filter) && !child.name.includes(filter)) { return }
+    if (child.type === 'HightlightMesh') {
+      return
+    }
+    if (filter && !child.type.includes(filter) && !child.name.includes(filter)) {
+      return
+    }
 
     const childNode = createNode(child)
     node.children.push(childNode)
@@ -133,7 +136,10 @@ export function buildContextGraph(
   }
 
   // Generate UUID only on the first call (for TresContext)
-  const uuid = depth === 0 ? (object?.scene?.value?.uuid || Math.random().toString(36).slice(2, 11)) : contextUuid
+  const uuid =
+    depth === 0
+      ? object?.scene?.value?.uuid || Math.random().toString(36).slice(2, 11)
+      : contextUuid
 
   visited.add(object)
 
@@ -154,14 +160,13 @@ export function buildContextGraph(
     if (isRef(value)) {
       childNode.tags.push({
         label: `Ref<${typeof value.value}>`,
-        textColor: 0x42B883,
-        backgroundColor: 0xF0FCF3,
+        textColor: 0x42b883,
+        backgroundColor: 0xf0fcf3,
       })
       // If ref value is an object, continue recursion with its value
       if (value.value && typeof value.value === 'object') {
         buildContextGraph(value.value, childNode, visited, depth + 1, maxDepth, uuid, chainedKey)
-      }
-      else {
+      } else {
         // For primitive ref values, show them in the label
         childNode.label = `${key}: ${JSON.stringify(value.value)}`
       }
@@ -174,15 +179,13 @@ export function buildContextGraph(
         if (visited.has(value)) {
           childNode.tags.push({
             label: 'Circular',
-            textColor: 0xFF0000,
-            backgroundColor: 0xFFF0F0,
+            textColor: 0xff0000,
+            backgroundColor: 0xfff0f0,
           })
-        }
-        else {
+        } else {
           buildContextGraph(value, childNode, visited, depth + 1, maxDepth, uuid, chainedKey)
         }
-      }
-      else {
+      } else {
         childNode.label = `${key}: {}`
       }
     }
@@ -191,8 +194,8 @@ export function buildContextGraph(
       childNode.label = `${key}: Array(${value.length})`
       childNode.tags.push({
         label: `length: ${value.length}`,
-        textColor: 0x9499A6,
-        backgroundColor: 0xF8F9FA,
+        textColor: 0x9499a6,
+        backgroundColor: 0xf8f9fa,
       })
     }
     // Handle primitive values
@@ -235,145 +238,163 @@ export const inspectorTreeHandler = (tres: TresContext) => (payload: any) => {
  * @param options.prevInstance - The previously selected instance
  * @returns A function that handles inspector state payload updates
  */
-export const inspectorStateHandler = (tres: TresContext, { highlightMesh, prevInstance }: { highlightMesh: Mesh | null, prevInstance: TresObject | null }) => (payload: any) => {
-  if (payload.inspectorId !== INSPECTOR_ID) { return }
-
-  const highlightMaterial = new MeshBasicMaterial({
-    color: 0xA7E6D7, // Highlight color, e.g., yellow
-    transparent: true,
-    opacity: 0.2,
-    depthTest: false, // So the highlight is always visible
-    side: DoubleSide, // To ensure the highlight is visible from all angles
-  })
-
-  if (payload.nodeId.includes('scene')) {
-    // Extract UUID from scene-uuid format
-    const match = payload.nodeId.match(/^scene-(.+)$/)
-    const uuid = match ? match[1] : null
-    if (!uuid) { return }
-
-    const [instance] = tres.scene.value.getObjectsByProperty('uuid', uuid) as TresObject[]
-    if (!instance) { return }
-
-    if (prevInstance && highlightMesh && highlightMesh.parent) {
-      prevInstance.remove(highlightMesh)
-    }
-
-    if (isMesh(instance)) {
-      const newHighlightMesh = new HightlightMesh(instance.geometry.clone(), highlightMaterial)
-      instance.add(newHighlightMesh)
-
-      highlightMesh = newHighlightMesh
-      prevInstance = instance
-    }
-
-    payload.state = {
-      object: Object.entries(instance)
-        .map(([key, value]) => {
-          if (key === 'children') {
-            return { key, value: value.filter((child: { type: string }) => child.type !== 'HightlightMesh') }
-          }
-          return { key, value, editable: true }
-        })
-        .filter(({ key }) => {
-          return key !== 'parent'
-        }),
-    }
-
-    if (isScene(instance)) {
-      const sceneState = {
-        ...payload.state,
-        state: [
-          {
-            key: 'Scene Info',
-            value: {
-              objects: instance.children.length,
-              memory: calculateMemoryUsage(instance),
-              calls: tres.renderer.instance.info.render.calls,
-              triangles: tres.renderer.instance.info.render.triangles,
-              points: tres.renderer.instance.info.render.points,
-              lines: tres.renderer.instance.info.render.lines,
-            },
-          },
-        ],
-      }
-
-      if ('programs' in tres.renderer.instance.info) {
-        sceneState.state.push({
-          key: 'Programs',
-          value: tres.renderer.instance.info.programs?.map(program => ({
-            ...program,
-            programName: program.name,
-          })),
-        })
-      }
-      payload.state = sceneState
-    }
-  }
-  else if (payload.nodeId.includes('context')) {
-    // Format is: context-uuid-chainedKey
-    // Use regex to match: 'context-' followed by UUID (which may contain dashes) followed by '-' and the chainedKey
-    const match = payload.nodeId.match(/^context-([^-]+(?:-[^-]+)*)-(.+)$/)
-    const chainedKey = match ? match[2] : 'context'
-
-    if (!chainedKey || chainedKey === 'context') {
-      // Root context node
-      payload.state = {
-        object: Object.entries(tres)
-          .filter(([key]) => !key.startsWith('_') && key !== 'parent')
-          .map(([key, value]) => ({
-            key,
-            value: isRef(value) ? value.value : value,
-            editable: false,
-          })),
-      }
+export const inspectorStateHandler =
+  (
+    tres: TresContext,
+    {
+      highlightMesh,
+      prevInstance,
+    }: { highlightMesh: Mesh | null; prevInstance: TresObject | null },
+  ) =>
+  (payload: any) => {
+    if (payload.inspectorId !== INSPECTOR_ID) {
       return
     }
 
-    // Traverse the object path
-    const parts = chainedKey.split('.')
-    let value = tres as Record<string, any>
-    for (const part of parts) {
-      if (!value || typeof value !== 'object') { break }
-      value = isRef(value[part]) ? value[part].value : value[part]
-    }
+    const highlightMaterial = new MeshBasicMaterial({
+      color: 0xa7e6d7, // Highlight color, e.g., yellow
+      transparent: true,
+      opacity: 0.2,
+      depthTest: false, // So the highlight is always visible
+      side: DoubleSide, // To ensure the highlight is visible from all angles
+    })
 
-    if (value !== undefined) {
+    if (payload.nodeId.includes('scene')) {
+      // Extract UUID from scene-uuid format
+      const match = payload.nodeId.match(/^scene-(.+)$/)
+      const uuid = match ? match[1] : null
+      if (!uuid) {
+        return
+      }
+
+      const [instance] = tres.scene.value.getObjectsByProperty('uuid', uuid) as TresObject[]
+      if (!instance) {
+        return
+      }
+
+      if (prevInstance && highlightMesh && highlightMesh.parent) {
+        prevInstance.remove(highlightMesh)
+      }
+
+      if (isMesh(instance)) {
+        const newHighlightMesh = new HightlightMesh(instance.geometry.clone(), highlightMaterial)
+        instance.add(newHighlightMesh)
+
+        highlightMesh = newHighlightMesh
+        prevInstance = instance
+      }
+
       payload.state = {
-        object: Object.entries(value)
-          .filter(([key]) => !key.startsWith('_') && key !== 'parent')
-          .map(([key, val]) => {
-            if (isRef(val)) {
+        object: Object.entries(instance)
+          .map(([key, value]) => {
+            if (key === 'children') {
               return {
                 key,
-                value: val.value,
-                editable: false,
+                value: value.filter((child: { type: string }) => child.type !== 'HightlightMesh'),
               }
             }
-            if (typeof val === 'function') {
-              return {
-                key,
-                value: 'ƒ()',
-                editable: false,
-              }
-            }
-            if (val && typeof val === 'object') {
-              return {
-                key,
-                value: Array.isArray(val) ? `Array(${val.length})` : 'Object',
-                editable: false,
-              }
-            }
-            return {
-              key,
-              value: val,
-              editable: false,
-            }
+            return { key, value, editable: true }
+          })
+          .filter(({ key }) => {
+            return key !== 'parent'
           }),
+      }
+
+      if (isScene(instance)) {
+        const sceneState = {
+          ...payload.state,
+          state: [
+            {
+              key: 'Scene Info',
+              value: {
+                objects: instance.children.length,
+                memory: calculateMemoryUsage(instance),
+                calls: tres.renderer.instance.info.render.calls,
+                triangles: tres.renderer.instance.info.render.triangles,
+                points: tres.renderer.instance.info.render.points,
+                lines: tres.renderer.instance.info.render.lines,
+              },
+            },
+          ],
+        }
+
+        if ('programs' in tres.renderer.instance.info) {
+          sceneState.state.push({
+            key: 'Programs',
+            value: tres.renderer.instance.info.programs?.map((program) => ({
+              ...program,
+              programName: program.name,
+            })),
+          })
+        }
+        payload.state = sceneState
+      }
+    } else if (payload.nodeId.includes('context')) {
+      // Format is: context-uuid-chainedKey
+      // Use regex to match: 'context-' followed by UUID (which may contain dashes) followed by '-' and the chainedKey
+      const match = payload.nodeId.match(/^context-([^-]+(?:-[^-]+)*)-(.+)$/)
+      const chainedKey = match ? match[2] : 'context'
+
+      if (!chainedKey || chainedKey === 'context') {
+        // Root context node
+        payload.state = {
+          object: Object.entries(tres)
+            .filter(([key]) => !key.startsWith('_') && key !== 'parent')
+            .map(([key, value]) => ({
+              key,
+              value: isRef(value) ? value.value : value,
+              editable: false,
+            })),
+        }
+        return
+      }
+
+      // Traverse the object path
+      const parts = chainedKey.split('.')
+      let value = tres as Record<string, any>
+      for (const part of parts) {
+        if (!value || typeof value !== 'object') {
+          break
+        }
+        value = isRef(value[part]) ? value[part].value : value[part]
+      }
+
+      if (value !== undefined) {
+        payload.state = {
+          object: Object.entries(value)
+            .filter(([key]) => !key.startsWith('_') && key !== 'parent')
+            .map(([key, val]) => {
+              if (isRef(val)) {
+                return {
+                  key,
+                  value: val.value,
+                  editable: false,
+                }
+              }
+              if (typeof val === 'function') {
+                return {
+                  key,
+                  value: 'ƒ()',
+                  editable: false,
+                }
+              }
+              if (val && typeof val === 'object') {
+                return {
+                  key,
+                  value: Array.isArray(val) ? `Array(${val.length})` : 'Object',
+                  editable: false,
+                }
+              }
+              return {
+                key,
+                value: val,
+                editable: false,
+              }
+            }),
+        }
       }
     }
   }
-}
 
 const editSceneObject = (scene: Scene, objectUuid: string, propertyPath: string[], value: any) => {
   // Find the target object
@@ -388,8 +409,7 @@ const editSceneObject = (scene: Scene, objectUuid: string, propertyPath: string[
   for (let i = 0; i < propertyPath.length - 1; i++) {
     if (currentProperty[propertyPath[i]] !== undefined) {
       currentProperty = currentProperty[propertyPath[i]]
-    }
-    else {
+    } else {
       console.warn(`Property path is not valid: ${propertyPath.join('.')}`)
       return
     }
@@ -399,8 +419,7 @@ const editSceneObject = (scene: Scene, objectUuid: string, propertyPath: string[
   const lastProperty = propertyPath[propertyPath.length - 1]
   if (currentProperty[lastProperty] !== undefined) {
     currentProperty[lastProperty] = value
-  }
-  else {
+  } else {
     console.warn(`Property path is not valid: ${propertyPath.join('.')}`)
   }
 }
@@ -416,7 +435,9 @@ export const inspectorEditStateHandler = (tres: TresContext) => (payload: any) =
       // Extract UUID from scene-uuid format
       const match = payload.nodeId.match(/^scene-(.+)$/)
       const uuid = match ? match[1] : null
-      if (!uuid) { return }
+      if (!uuid) {
+        return
+      }
 
       // Handle scene object editing
       editSceneObject(tres.scene.value, uuid, payload.path, payload.state.value)

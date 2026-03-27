@@ -16,7 +16,9 @@ const gl = {
 const rigidTorusRef = shallowRef()
 
 const jump = () => {
-  if (!rigidTorusRef.value) { return }
+  if (!rigidTorusRef.value) {
+    return
+  }
   rigidTorusRef.value.instance.applyImpulse({ x: 0, y: 5, z: 0 }, true)
 }
 
@@ -66,10 +68,7 @@ const onCollisionExit = (event: any) => {
           </TresMesh>
         </RigidBody>
 
-        <RigidBody
-          :position="[0, 15, 0]"
-          @collision-enter="onCollisionEnterBall"
-        >
+        <RigidBody :position="[0, 15, 0]" @collision-enter="onCollisionEnterBall">
           <BallCollider
             :args="[1, 1, 1]"
             activeCollision

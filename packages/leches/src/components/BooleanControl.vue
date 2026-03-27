@@ -26,11 +26,11 @@ function onKeydown(event: KeyboardEvent) {
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
-    <ControlLabel
-      :label="label"
-      :control="control"
-    />
+  <div
+    class="tl-flex tl-gap-1 tl-items-center"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing)"
+  >
+    <ControlLabel :label="label" :control="control" />
     <input
       :id="control.uniqueKey"
       :checked="controlValue"
@@ -46,27 +46,15 @@ function onKeydown(event: KeyboardEvent) {
         tabindex="0"
         role="checkbox"
         :aria-checked="controlValue"
-        :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': controlValue,
-                  'tl-bg-gray-100 dark:tl-bg-dark-300': !controlValue }"
-        class="leches-checkbox
-          tl-flex
-          tl-justify-center
-          tl-items-center
-          tl-rounded
-          tl-text-white
-          tl-outline-none
-          tl-border-none
-          focus:tl-border-gray-200
-          focus:tl-ring-2
-          focus:tl-ring-gray-200
-          tl-transition-colors
-          tl-duration-200"
+        :class="{
+          'tl-bg-dark-500 dark:tl-bg-gray-400': controlValue,
+          'tl-bg-gray-100 dark:tl-bg-dark-300': !controlValue,
+        }"
+        class="leches-checkbox tl-flex tl-justify-center tl-items-center tl-rounded tl-text-white tl-outline-none tl-border-none focus:tl-border-gray-200 focus:tl-ring-2 focus:tl-ring-gray-200 tl-transition-colors tl-duration-200"
         @keydown="onKeydown"
       >
-        <i
-          v-show="controlValue"
-          class="i-ic:baseline-check tl-text-light dark:tl-text-dark"
-        ></i></span>
+        <i v-show="controlValue" class="i-ic:baseline-check tl-text-light dark:tl-text-dark"></i
+      ></span>
     </label>
   </div>
 </template>

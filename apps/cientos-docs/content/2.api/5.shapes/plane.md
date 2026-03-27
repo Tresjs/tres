@@ -4,8 +4,8 @@ description: Short-cut for a PlaneGeometry and a MeshBasicMaterial with a Mesh o
 ---
 
 ::SceneControlsWrapper
-  ::ShapesPlane
-  ::
+::ShapesPlane
+::
 ::
 
 The `cientos` package provides a `<Plane />` component that serves as a short-cut for a `PlaneGeometry`.

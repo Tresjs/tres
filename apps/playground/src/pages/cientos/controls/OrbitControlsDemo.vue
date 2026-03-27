@@ -52,155 +52,168 @@ const {
   'enable Rotate': enableRotate,
   keyPanSpeed,
   switchCamera,
-} = useControls({
-  'enable Damping': controlsState.enableDamping,
-  'dampingFactor': {
-    value: controlsState.dampingFactor,
-    step: 0.01,
-    min: 0,
-    max: 10,
+} = useControls(
+  {
+    'enable Damping': controlsState.enableDamping,
+    dampingFactor: {
+      value: controlsState.dampingFactor,
+      step: 0.01,
+      min: 0,
+      max: 10,
+    },
+    'enable Zoom': controlsState.enableZoom,
+    'enable Rotate': controlsState.enableRotate,
+    'enable Pan': controlsState.enablePan,
+    keyPanSpeed: {
+      value: controlsState.keyPanSpeed,
+      step: 0.01,
+      min: 0,
+      max: 10,
+    },
+    switchCamera: {
+      label: 'Switch Camera',
+      value: controlsState.switchCamera,
+      options: ['orbit', 'firstPerson'],
+    },
   },
-  'enable Zoom': controlsState.enableZoom,
-  'enable Rotate': controlsState.enableRotate,
-  'enable Pan': controlsState.enablePan,
-  'keyPanSpeed': {
-    value: controlsState.keyPanSpeed,
-    step: 0.01,
-    min: 0,
-    max: 10,
-  },
-  'switchCamera': {
-    label: 'Switch Camera',
-    value: controlsState.switchCamera,
-    options: ['orbit', 'firstPerson'],
-  },
-}, { uuid })
+  { uuid },
+)
 
-watch([
-  enableDamping,
-  dampingFactor,
-  enableZoom,
-  enablePan,
-  keyPanSpeed,
-  enableRotate,
-], (
-  [enableDampingValue, dampingFactorValue, enableZoomValue, enablePanValue, keyPanSpeedValue, enableRotateValue],
-) => {
-  controlsState.enableDamping = enableDampingValue
-  controlsState.dampingFactor = dampingFactorValue
-  controlsState.enableZoom = enableZoomValue
-  controlsState.enablePan = enablePanValue
-  controlsState.enableRotate = enableRotateValue
-  controlsState.keyPanSpeed = keyPanSpeedValue
-})
+watch(
+  [enableDamping, dampingFactor, enableZoom, enablePan, keyPanSpeed, enableRotate],
+  ([
+    enableDampingValue,
+    dampingFactorValue,
+    enableZoomValue,
+    enablePanValue,
+    keyPanSpeedValue,
+    enableRotateValue,
+  ]) => {
+    controlsState.enableDamping = enableDampingValue
+    controlsState.dampingFactor = dampingFactorValue
+    controlsState.enableZoom = enableZoomValue
+    controlsState.enablePan = enablePanValue
+    controlsState.enableRotate = enableRotateValue
+    controlsState.keyPanSpeed = keyPanSpeedValue
+  },
+)
 
-const {
-  AnglesMaxPolarAngle,
-  AnglesMinPolarAngle,
-  AnglesMaxAzimuthAngle,
-  AnglesMinAzimuthAngle,
-} = useControls('Angles', {
-  maxPolarAngle: {
-    value: controlsState.maxPolarAngle,
-    step: 0.01,
-    min: 0,
-    max: Math.PI,
-  },
-  minPolarAngle: {
-    value: controlsState.minPolarAngle,
-    step: 0.01,
-    min: 0,
-    max: Math.PI,
-  },
-  maxAzimuthAngle: {
-    value: controlsState.maxAzimuthAngle,
-    step: 0.01,
-    min: 0,
-    max: 2 * Math.PI,
-  },
-  minAzimuthAngle: {
-    value: controlsState.minPolarAngle,
-    step: 0.01,
-    min: 0,
-    max: 2 * Math.PI,
-  },
-}, { uuid })
+const { AnglesMaxPolarAngle, AnglesMinPolarAngle, AnglesMaxAzimuthAngle, AnglesMinAzimuthAngle } =
+  useControls(
+    'Angles',
+    {
+      maxPolarAngle: {
+        value: controlsState.maxPolarAngle,
+        step: 0.01,
+        min: 0,
+        max: Math.PI,
+      },
+      minPolarAngle: {
+        value: controlsState.minPolarAngle,
+        step: 0.01,
+        min: 0,
+        max: Math.PI,
+      },
+      maxAzimuthAngle: {
+        value: controlsState.maxAzimuthAngle,
+        step: 0.01,
+        min: 0,
+        max: 2 * Math.PI,
+      },
+      minAzimuthAngle: {
+        value: controlsState.minPolarAngle,
+        step: 0.01,
+        min: 0,
+        max: 2 * Math.PI,
+      },
+    },
+    { uuid },
+  )
 
-watch([
-  AnglesMaxPolarAngle,
-  AnglesMinPolarAngle,
-  AnglesMaxAzimuthAngle,
-  AnglesMinAzimuthAngle,
-  keyPanSpeed,
-], ([
-  AnglesMaxPolarAngleValue,
-  AnglesMinPolarAngleValue,
-  AnglesMaxAzimuthAngleValue,
-  AnglesMinAzimuthAngleValue,
-  _keyPanSpeedValue,
-]) => {
-  controlsState.maxPolarAngle = AnglesMaxPolarAngleValue
-  controlsState.minPolarAngle = AnglesMinPolarAngleValue
-  controlsState.maxAzimuthAngle = AnglesMaxAzimuthAngleValue
-  controlsState.minAzimuthAngle = AnglesMinAzimuthAngleValue
-})
+watch(
+  [
+    AnglesMaxPolarAngle,
+    AnglesMinPolarAngle,
+    AnglesMaxAzimuthAngle,
+    AnglesMinAzimuthAngle,
+    keyPanSpeed,
+  ],
+  ([
+    AnglesMaxPolarAngleValue,
+    AnglesMinPolarAngleValue,
+    AnglesMaxAzimuthAngleValue,
+    AnglesMinAzimuthAngleValue,
+    _keyPanSpeedValue,
+  ]) => {
+    controlsState.maxPolarAngle = AnglesMaxPolarAngleValue
+    controlsState.minPolarAngle = AnglesMinPolarAngleValue
+    controlsState.maxAzimuthAngle = AnglesMaxAzimuthAngleValue
+    controlsState.minAzimuthAngle = AnglesMinAzimuthAngleValue
+  },
+)
 
-const { DistancesMaxDistance, DistancesMinDistance } = useControls('Distances', {
-  maxDistance: {
-    value: controlsState.maxDistance,
-    step: 0.01,
-    min: 0,
-    max: 100,
+const { DistancesMaxDistance, DistancesMinDistance } = useControls(
+  'Distances',
+  {
+    maxDistance: {
+      value: controlsState.maxDistance,
+      step: 0.01,
+      min: 0,
+      max: 100,
+    },
+    minDistance: {
+      value: controlsState.minDistance,
+      step: 0.01,
+      min: 0,
+      max: 100,
+    },
   },
-  minDistance: {
-    value: controlsState.minDistance,
-    step: 0.01,
-    min: 0,
-    max: 100,
-  },
-}, { uuid })
+  { uuid },
+)
 
-watch([DistancesMaxDistance, DistancesMinDistance], ([
-  DistancesMaxDistanceValue,
-  DistancesMinDistanceValue,
-]) => {
-  controlsState.maxDistance = DistancesMaxDistanceValue
-  controlsState.minDistance = DistancesMinDistanceValue
-})
+watch(
+  [DistancesMaxDistance, DistancesMinDistance],
+  ([DistancesMaxDistanceValue, DistancesMinDistanceValue]) => {
+    controlsState.maxDistance = DistancesMaxDistanceValue
+    controlsState.minDistance = DistancesMinDistanceValue
+  },
+)
 
-const { ZoomEnableZoom, ZoomMinZoom, ZoomMaxZoom, ZoomZoomSpeed } = useControls('Zoom', {
-  enableZoom: controlsState.enableZoom,
-  minZoom: {
-    value: controlsState.minZoom,
-    step: 0.01,
-    min: 0,
-    max: 10,
+const { ZoomEnableZoom, ZoomMinZoom, ZoomMaxZoom, ZoomZoomSpeed } = useControls(
+  'Zoom',
+  {
+    enableZoom: controlsState.enableZoom,
+    minZoom: {
+      value: controlsState.minZoom,
+      step: 0.01,
+      min: 0,
+      max: 10,
+    },
+    maxZoom: {
+      value: controlsState.maxZoom,
+      step: 0.01,
+      min: 0,
+      max: 100,
+    },
+    zoomSpeed: {
+      value: controlsState.zoomSpeed,
+      step: 0.01,
+      min: 0,
+      max: 100,
+    },
   },
-  maxZoom: {
-    value: controlsState.maxZoom,
-    step: 0.01,
-    min: 0,
-    max: 100,
-  },
-  zoomSpeed: {
-    value: controlsState.zoomSpeed,
-    step: 0.01,
-    min: 0,
-    max: 100,
-  },
-}, { uuid })
+  { uuid },
+)
 
-watch([ZoomEnableZoom, ZoomMinZoom, ZoomMaxZoom, ZoomZoomSpeed], ([
-  ZoomEnableZoomValue,
-  ZoomMinZoomValue,
-  ZoomMaxZoomValue,
-  ZoomZoomSpeedValue,
-]) => {
-  controlsState.enableZoom = ZoomEnableZoomValue
-  controlsState.minZoom = ZoomMinZoomValue
-  controlsState.maxZoom = ZoomMaxZoomValue
-  controlsState.zoomSpeed = ZoomZoomSpeedValue
-})
+watch(
+  [ZoomEnableZoom, ZoomMinZoom, ZoomMaxZoom, ZoomZoomSpeed],
+  ([ZoomEnableZoomValue, ZoomMinZoomValue, ZoomMaxZoomValue, ZoomZoomSpeedValue]) => {
+    controlsState.enableZoom = ZoomEnableZoomValue
+    controlsState.minZoom = ZoomMinZoomValue
+    controlsState.maxZoom = ZoomMaxZoomValue
+    controlsState.zoomSpeed = ZoomZoomSpeedValue
+  },
+)
 
 function onChange() {
   /* console.log('change') */
@@ -220,12 +233,7 @@ function onEnd() {
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera v-if="switchCamera === 'orbit'" name="orbit" :position="[3, 3, 3]" />
     <TresPerspectiveCamera v-else name="firstPerson" :position="[0, 0, 3]" />
-    <OrbitControls
-      v-bind="controlsState"
-      @change="onChange"
-      @start="onStart"
-      @end="onEnd"
-    />
+    <OrbitControls v-bind="controlsState" @change="onChange" @start="onStart" @end="onEnd" />
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

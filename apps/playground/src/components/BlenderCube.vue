@@ -5,18 +5,17 @@ import { whenever } from '@vueuse/core'
 const emit = defineEmits<{
   ready: []
 }>()
-const { nodes, isReady } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
+const { nodes, isReady } = useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
+  { draco: true },
+)
 const model = computed(() => nodes.value.BlenderCube)
 
 defineExpose({
   model,
 })
 
-whenever(
-  isReady,
-  () => emit('ready'),
-  { once: true },
-)
+whenever(isReady, () => emit('ready'), { once: true })
 </script>
 
 <template>

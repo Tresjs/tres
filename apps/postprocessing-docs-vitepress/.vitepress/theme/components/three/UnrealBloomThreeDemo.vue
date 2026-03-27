@@ -24,10 +24,7 @@ const { effectComposer } = useRouteDisposal()
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <TresMesh>
       <TresSphereGeometry :args="[2, 32, 32]" />
       <TresMeshStandardMaterial
@@ -39,10 +36,7 @@ const { effectComposer } = useRouteDisposal()
     <TresGridHelper />
 
     <TresAmbientLight :intensity="2" />
-    <TresDirectionalLight
-      :position="[3, 3, 3]"
-      :intensity="1"
-    />
+    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" />
     <Suspense>
       <EffectComposer ref="effectComposer">
         <UnrealBloom v-bind="bloomParams" />

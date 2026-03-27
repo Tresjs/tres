@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/KuwaharaDemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/KuwaharaDemo.vue{0}
+
 </details>
 
 The `Kuwahara` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/KuwaharaEffect.js~KuwaharaEffect.html) package. It allows you to apply a Kuwahara filter to your scene, providing a painterly effect.
@@ -52,11 +53,11 @@ const effectProps = {
 
 ## Props
 
-| Prop           | Description                                                                                                                                                                  | Default                  |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| **radius**     | The intensity of the Kuwahara effect. A value between `0` (no effect) and `1` (maximum effect).                                                                               | `1`                      |
-| **blendFunction** | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL`   |
-| **sectorCount** | The number of sectors used in the Kuwahara filter. Higher values can improve the quality of the effect but may reduce performance. <br> It is preferable that the value is an **`Integer`**. <br> The maximum value is **`8`**.  | `4`                      |
+| Prop              | Description                                                                                                                                                                                                                     | Default                |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| **radius**        | The intensity of the Kuwahara effect. A value between `0` (no effect) and `1` (maximum effect).                                                                                                                                 | `1`                    |
+| **blendFunction** | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options.                                | `BlendFunction.NORMAL` |
+| **sectorCount**   | The number of sectors used in the Kuwahara filter. Higher values can improve the quality of the effect but may reduce performance. <br> It is preferable that the value is an **`Integer`**. <br> The maximum value is **`8`**. | `4`                    |
 
 ::: warning
 It is normal to experience a drastic drop in FPS when you significantly increase the `radius` in the Kuwahara effect. This is because a higher `radius` increases the number of calculations performed for each pixel, which can be very costly in terms of performance. If you decide to have a higher radius due to aesthetic constraints or other reasons, the `sectorCount` value has been integrated to counteract the frame drop.

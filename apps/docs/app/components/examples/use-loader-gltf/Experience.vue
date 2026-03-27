@@ -31,17 +31,10 @@ const nodes = computed(() => graph.value?.nodes)
 </script>
 
 <template>
-  <TresPerspectiveCamera
-    :position="[5, 5, 5]"
-    :look-at="[0, 2, 0]"
-  />
+  <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 2, 0]" />
   <OrbitControls />
   <TresGridHelper />
   <TresAmbientLight :intensity="2" />
   <!-- Render the Cube node if it exists -->
-  <primitive
-    v-if="nodes?.BlenderCube"
-    :position="[0, 2, 0]"
-    :object="nodes?.BlenderCube"
-  />
+  <primitive v-if="nodes?.BlenderCube" :position="[0, 2, 0]" :object="nodes?.BlenderCube" />
 </template>

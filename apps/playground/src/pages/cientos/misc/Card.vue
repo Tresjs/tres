@@ -12,12 +12,14 @@ const { active, borderRounded } = toRefs(props)
 
 <template>
   <div
-    style="white-space:nowrap"
+    style="white-space: nowrap"
     class="transition-all duration-1000 p-2 rounded-lg"
-    :class="[active ? 'bg-light' : 'bg-dark', active ? 'text-dark' : 'text-light', borderRounded ? 'rounded-full' : 'rounded-none']"
+    :class="[
+      active ? 'bg-light' : 'bg-dark',
+      active ? 'text-dark' : 'text-light',
+      borderRounded ? 'rounded-full' : 'rounded-none',
+    ]"
   >
-    <slot>
-      I'm a card {{ active ? '📦' : '📭' }}
-    </slot>
+    <slot> I'm a card {{ active ? '📦' : '📭' }} </slot>
   </div>
 </template>

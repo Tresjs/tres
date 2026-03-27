@@ -6,21 +6,17 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const {
-  scaleX,
-  scaleY,
-  opacity,
-  transparent,
-  toneMapped,
-  side,
-} = useControls({
-  scaleX: { value: 2, min: 0.1, max: 10, step: 0.1 },
-  scaleY: { value: 2, min: 0.1, max: 10, step: 0.1 },
-  opacity: { value: 1, min: 0, max: 1, step: 0.01 },
-  transparent: false,
-  toneMapped: true,
-  side: { value: DoubleSide, options: [FrontSide, BackSide, DoubleSide] },
-}, { uuid })
+const { scaleX, scaleY, opacity, transparent, toneMapped, side } = useControls(
+  {
+    scaleX: { value: 2, min: 0.1, max: 10, step: 0.1 },
+    scaleY: { value: 2, min: 0.1, max: 10, step: 0.1 },
+    opacity: { value: 1, min: 0, max: 1, step: 0.01 },
+    transparent: false,
+    toneMapped: true,
+    side: { value: DoubleSide, options: [FrontSide, BackSide, DoubleSide] },
+  },
+  { uuid },
+)
 </script>
 
 <template>

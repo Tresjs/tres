@@ -11,16 +11,16 @@ TresJS is a Vue-based declarative 3D custom renderer for Three.js
 - **@tresjs/eslint-config** (`packages/eslint-config`): Shared ESLint configuration for the ecosystem
 - **@tresjs/nuxt** (`packages/nuxt`): Nuxt module integration
 
-
 ## Versioning
 
 Version increments follow conventional commits:
+
 - `feat:` → minor bump
 - `fix:` → patch bump
 - `BREAKING CHANGE:` or `feat!:` → major bump
 
-
 ### Workspace Dependencies
+
 Packages use pnpm's `workspace:*` protocol for internal dependencies. The catalog in `pnpm-workspace.yaml` manages shared dependency versions (Three.js, Vue, Vite, etc.).
 
 ## Research & Documentation

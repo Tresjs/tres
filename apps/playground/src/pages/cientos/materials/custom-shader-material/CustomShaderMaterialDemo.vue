@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  CustomShaderMaterial,
-  OrbitControls,
-  useTexture,
-} from '@tresjs/cientos'
+import { CustomShaderMaterial, OrbitControls, useTexture } from '@tresjs/cientos'
 import { useLoop } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 import { MeshMatcapMaterial, Uniform } from 'three'
@@ -52,34 +48,32 @@ const materialProps = {
 }
 
 onBeforeRender(() => {
-  materialProps.uniforms.u_Time.value
-    += 0.01 * materialProps.uniforms.u_WobbleSpeed.value
+  materialProps.uniforms.u_Time.value += 0.01 * materialProps.uniforms.u_WobbleSpeed.value
 })
 
-const { speed, amplitude, frequency } = useControls({
-  speed: {
-    value: materialProps.uniforms.u_WobbleSpeed.value,
-    min: 0,
-    max: 10,
+const { speed, amplitude, frequency } = useControls(
+  {
+    speed: {
+      value: materialProps.uniforms.u_WobbleSpeed.value,
+      min: 0,
+      max: 10,
+    },
+    amplitude: {
+      value: materialProps.uniforms.u_WobbleAmplitude.value,
+      min: 0,
+      max: 0.2,
+      step: 0.01,
+    },
+    frequency: {
+      value: materialProps.uniforms.u_WobbleFrequency.value,
+      min: 1,
+      max: 30,
+    },
   },
-  amplitude: {
-    value: materialProps.uniforms.u_WobbleAmplitude.value,
-    min: 0,
-    max: 0.2,
-    step: 0.01,
-  },
-  frequency: {
-    value: materialProps.uniforms.u_WobbleFrequency.value,
-    min: 1,
-    max: 30,
-  },
-}, { uuid })
+  { uuid },
+)
 
-watch([speed, amplitude, frequency], ([
-  speedValue,
-  amplitudeValue,
-  frequencyValue,
-]) => {
+watch([speed, amplitude, frequency], ([speedValue, amplitudeValue, frequencyValue]) => {
   materialProps.uniforms.u_WobbleSpeed.value = speedValue
   materialProps.uniforms.u_WobbleAmplitude.value = amplitudeValue
   materialProps.uniforms.u_WobbleFrequency.value = frequencyValue
@@ -87,10 +81,7 @@ watch([speed, amplitude, frequency], ([
 </script>
 
 <template>
-  <TresPerspectiveCamera
-    :position="[0, 2, 4]"
-    :look-at="[0, 0, 0]"
-  />
+  <TresPerspectiveCamera :position="[0, 2, 4]" :look-at="[0, 0, 0]" />
 
   <OrbitControls />
 

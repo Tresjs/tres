@@ -27,14 +27,14 @@ const { ref, intersect, off } = useIntersect()
 
 ## Arguments
 
-| Name         | Description |  Type       |
-| :----------- | ----------- | ----------- |
+| Name         | Description                                                                                | Type                               |
+| :----------- | ------------------------------------------------------------------------------------------ | ---------------------------------- |
 | **onChange** | Optional callback function triggered when the observed object enters or leaves the screen. | `(isIntersected: boolean) => void` |
 
 ## Return
 
-| Name         | Description |  Type       |
-| :----------- | ----------- | ----------- |
-| **ref** | Vue `ShallowRef` to pass to the object to be observed. | `ShallowRef<Object3D>` |
-| **intersects** | Updates when the observed object's intersect status changes. | `ShallowRef<boolean>` |
-| **off** | Calling this function stops `useIntersect` until `ref` changes. | `() => void` |
+| Name           | Description                                                     | Type                   |
+| :------------- | --------------------------------------------------------------- | ---------------------- |
+| **ref**        | Vue `ShallowRef` to pass to the object to be observed.          | `ShallowRef<Object3D>` |
+| **intersects** | Updates when the observed object's intersect status changes.    | `ShallowRef<boolean>`  |
+| **off**        | Calling this function stops `useIntersect` until `ref` changes. | `() => void`           |

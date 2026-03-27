@@ -17,7 +17,6 @@ watch(actions, (newActions) => {
   currentAction.value.loop = LoopOnce
   currentAction.value.play()
 })
-
 </script>
 
 <template>

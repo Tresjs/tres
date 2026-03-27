@@ -7,23 +7,28 @@ const uuid = 'core-issues-1005'
 
 const totalItems = ref(1)
 
-const { visible } = useControls({
-  visible: true,
-  addItem: {
-    type: 'button',
-    label: 'Add Item',
-    size: 'block',
-    onClick: () => totalItems.value++,
-  },
-  removeItem: {
-    type: 'button',
-    label: 'Remove Item',
-    size: 'block',
-    onClick: () => {
-      if (totalItems.value > 0) { totalItems.value-- }
+const { visible } = useControls(
+  {
+    visible: true,
+    addItem: {
+      type: 'button',
+      label: 'Add Item',
+      size: 'block',
+      onClick: () => totalItems.value++,
+    },
+    removeItem: {
+      type: 'button',
+      label: 'Remove Item',
+      size: 'block',
+      onClick: () => {
+        if (totalItems.value > 0) {
+          totalItems.value--
+        }
+      },
     },
   },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>

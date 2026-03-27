@@ -5,14 +5,17 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'leches-controls-slider'
 
-const { positionX } = useControls({
-  positionX: {
-    value: 0,
-    min: -5,
-    max: 5,
-    step: 0.1,
+const { positionX } = useControls(
+  {
+    positionX: {
+      value: 0,
+      min: -5,
+      max: 5,
+      step: 0.1,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>

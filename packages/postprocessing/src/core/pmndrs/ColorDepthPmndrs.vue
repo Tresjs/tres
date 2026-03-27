@@ -34,35 +34,31 @@ makePropWatcher(
   'blendMode.blendFunction',
   () => new ColorDepthEffect(),
 )
-watch(
-  [effect, () => props.bits],
-  () => {
-    if (!effect.value) { return }
+watch([effect, () => props.bits], () => {
+  if (!effect.value) {
+    return
+  }
 
-    if (props.bits !== undefined) {
-      effect.value?.setBitDepth(props.bits)
-    }
-    else {
-      const plainEffect = new ColorDepthEffect()
-      effect.value?.setBitDepth(plainEffect.getBitDepth())
-      plainEffect.dispose()
-    }
-  },
-)
+  if (props.bits !== undefined) {
+    effect.value?.setBitDepth(props.bits)
+  } else {
+    const plainEffect = new ColorDepthEffect()
+    effect.value?.setBitDepth(plainEffect.getBitDepth())
+    plainEffect.dispose()
+  }
+})
 
-watch(
-  [effect, () => props.opacity],
-  () => {
-    if (!effect.value) { return }
+watch([effect, () => props.opacity], () => {
+  if (!effect.value) {
+    return
+  }
 
-    if (props.opacity !== undefined) {
-      effect.value?.blendMode.setOpacity(props.opacity)
-    }
-    else {
-      const plainEffect = new ColorDepthEffect()
-      effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
-      plainEffect.dispose()
-    }
-  },
-)
+  if (props.opacity !== undefined) {
+    effect.value?.blendMode.setOpacity(props.opacity)
+  } else {
+    const plainEffect = new ColorDepthEffect()
+    effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
+    plainEffect.dispose()
+  }
+})
 </script>

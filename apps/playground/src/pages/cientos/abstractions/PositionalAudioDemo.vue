@@ -13,17 +13,17 @@ const positionalAudioIsPlaying = ref(false)
 const positionalAudioRef = shallowRef(null)
 
 const handlerAudio = (action: string) => {
-  if (!positionalAudioRef.value) { return }
+  if (!positionalAudioRef.value) {
+    return
+  }
 
   const { play, pause, stop } = positionalAudioRef.value
 
   if (action === 'play') {
     play()
-  }
-  else if (action === 'pause') {
+  } else if (action === 'pause') {
     pause()
-  }
-  else if (action === 'stop') {
+  } else if (action === 'stop') {
     stop()
   }
 }
@@ -34,35 +34,19 @@ const onContinue = () => {
 </script>
 
 <template>
-  <div
-    v-if="!ready"
-    class="playground-positional-audio__ready"
-  >
-    <button @click="onContinue">
-      click to continue
-    </button>
+  <div v-if="!ready" class="playground-positional-audio__ready">
+    <button @click="onContinue">click to continue</button>
   </div>
 
-  <div
-    v-if="ready"
-    class="playground-positional-audio__controls"
-  >
+  <div v-if="ready" class="playground-positional-audio__controls">
     <div class="playground-positional-audio__controls-events">
-      <p>
-        @is-playing: {{ positionalAudioIsPlaying }}
-      </p>
+      <p>@is-playing: {{ positionalAudioIsPlaying }}</p>
     </div>
 
     <div class="playground-positional-audio__controls-methods">
-      <button @click="handlerAudio('play')">
-        play
-      </button>
-      <button @click="handlerAudio('pause')">
-        pause
-      </button>
-      <button @click="handlerAudio('stop')">
-        stop
-      </button>
+      <button @click="handlerAudio('play')">play</button>
+      <button @click="handlerAudio('pause')">pause</button>
+      <button @click="handlerAudio('stop')">stop</button>
     </div>
   </div>
   <GraphPane />
@@ -79,30 +63,20 @@ const onContinue = () => {
           :ready="ready"
           :inner-angle="180"
           :outer-angle="220"
-          :outer-gain=".2"
+          :outer-gain="0.2"
           :distance="2"
           helper
           url="https://raw.githubusercontent.com/Tresjs/assets/main/music/beat-1.mp3"
-          @is-playing="(e) => positionalAudioIsPlaying = e"
+          @is-playing="(e) => (positionalAudioIsPlaying = e)"
         />
       </Suspense>
     </Box>
 
-    <Box
-      :args="[4, 2, 0.1]"
-      :position="[0, 0, -1]"
-    >
-      <TresMeshBasicMaterial
-        color="#ff0000"
-        transparent
-        :opacity="0.5"
-      />
+    <Box :args="[4, 2, 0.1]" :position="[0, 0, -1]">
+      <TresMeshBasicMaterial color="#ff0000" transparent :opacity="0.5" />
     </Box>
 
-    <TresGridHelper
-      :position="[0, -.01, 0]"
-      :args="[10, 10]"
-    />
+    <TresGridHelper :position="[0, -0.01, 0]" :args="[10, 10]" />
   </TresCanvas>
 </template>
 

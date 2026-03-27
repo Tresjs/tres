@@ -19,54 +19,67 @@ const uuid = 'fxaa-pmndrs'
 const wrapperRef = ref<HTMLElement | undefined>(undefined)
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
-const { blendFunction, autoRotateSpeed, opacity, samples, minEdgeThreshold, maxEdgeThreshold, subpixelQuality } = useControls({
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.SRC,
+const {
+  blendFunction,
+  autoRotateSpeed,
+  opacity,
+  samples,
+  minEdgeThreshold,
+  maxEdgeThreshold,
+  subpixelQuality,
+} = useControls(
+  {
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.SRC,
+    },
+    autoRotateSpeed: {
+      value: 0.5,
+      min: 0,
+      max: 10,
+      step: 0.1,
+    },
+    opacity: {
+      value: 1,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+    samples: {
+      value: 12,
+      min: 0,
+      max: 32,
+      step: 1,
+    },
+    minEdgeThreshold: {
+      value: 0.0312,
+      min: 0,
+      max: 1,
+      step: 0.001,
+    },
+    maxEdgeThreshold: {
+      value: 0.125,
+      min: 0,
+      max: 1,
+      step: 0.001,
+    },
+    subpixelQuality: {
+      value: 0.75,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
   },
-  autoRotateSpeed: {
-    value: 0.5,
-    min: 0,
-    max: 10,
-    step: 0.1,
-  },
-  opacity: {
-    value: 1,
-    min: 0,
-    max: 1,
-    step: 0.01,
-  },
-  samples: {
-    value: 12,
-    min: 0,
-    max: 32,
-    step: 1,
-  },
-  minEdgeThreshold: {
-    value: 0.0312,
-    min: 0,
-    max: 1,
-    step: 0.001,
-  },
-  maxEdgeThreshold: {
-    value: 0.125,
-    min: 0,
-    max: 1,
-    step: 0.001,
-  },
-  subpixelQuality: {
-    value: 0.75,
-    min: 0,
-    max: 1,
-    step: 0.01,
-  },
-}, { uuid })
+  { uuid },
+)
 
 const onChange = (e: { object: PerspectiveCamera }) => {
-  if (!cameraRef.value) { return }
+  if (!cameraRef.value) {
+    return
+  }
 
   cameraRef.value.position.copy(e.object.position)
   cameraRef.value.rotation.copy(e.object.rotation)
@@ -81,11 +94,7 @@ const onChange = (e: { object: PerspectiveCamera }) => {
   <div ref="wrapperRef" class="h-[100%] w-[100%] relative">
     <p class="playground-fxaa-infos text-xl absolute">Left: No FXAA — Right: FXAA</p>
 
-    <TresCanvas
-      v-bind="gl"
-      class="playground-fxaa-canvas-left"
-      window-size
-    >
+    <TresCanvas v-bind="gl" class="playground-fxaa-canvas-left" window-size>
       <TresPerspectiveCamera :position="[0, 2.5, 3.5]" />
       <OrbitControls
         auto-rotate
@@ -101,11 +110,7 @@ const onChange = (e: { object: PerspectiveCamera }) => {
       </TresMesh>
     </TresCanvas>
 
-    <TresCanvas
-      v-bind="gl"
-      class="playground-fxaa-canvas-right"
-      window-size
-    >
+    <TresCanvas v-bind="gl" class="playground-fxaa-canvas-right" window-size>
       <TresPerspectiveCamera ref="cameraRef" :position="[0, 2.5, 3.5]" />
 
       <TresMesh :position="[0, 0.5, 0]">

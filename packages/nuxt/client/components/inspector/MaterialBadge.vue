@@ -10,9 +10,9 @@ defineProps<Props>()
  * Check if value is a Material object
  */
 function isMaterial(value: unknown): boolean {
-  return value !== null
-    && typeof value === 'object'
-    && value.constructor?.name?.includes('Material')
+  return (
+    value !== null && typeof value === 'object' && value.constructor?.name?.includes('Material')
+  )
 }
 
 /**
@@ -36,11 +36,13 @@ function getMaterialColor(material: unknown): string | null {
  * Check if material is a "normal" material that should show gradient
  */
 function isNormalMaterial(material: unknown): boolean {
-  return material !== null
-    && typeof material === 'object'
-    && (material.constructor?.name === 'MeshNormalMaterial'
-      || material.constructor?.name === 'MeshStandardMaterial'
-      || material.constructor?.name === 'MeshBasicMaterial')
+  return (
+    material !== null &&
+    typeof material === 'object' &&
+    (material.constructor?.name === 'MeshNormalMaterial' ||
+      material.constructor?.name === 'MeshStandardMaterial' ||
+      material.constructor?.name === 'MeshBasicMaterial')
+  )
 }
 
 /**

@@ -53,15 +53,8 @@ function onPointerMissed(ev: TresPointerEvent) {
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas
-    window-size
-    v-bind="gl"
-    @pointermissed="onPointerMissed"
-  >
-    <TresPerspectiveCamera
-      :position="[11, 11, 11]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas window-size v-bind="gl" @pointermissed="onPointerMissed">
+    <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <template v-for="(x, xIndex) in [-2.5, 0, 2.5]">
       <template v-for="(y, yIndex) in [-2.5, 0, 2.5]">

@@ -1,9 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable no-console */
 import { OrbitControls } from '@tresjs/cientos'
-import {
-  TresCanvas,
-} from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { BoxGeometry, Mesh, MeshNormalMaterial } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 import Character from './Character.vue'
@@ -32,10 +30,7 @@ const handlePointerLeave = (e: PointerEvent) => {
 <template>
   <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#202020">
-    <TresPerspectiveCamera
-      :position="[6, 6, 6]"
-      :look-at="[0, 0, 0]"
-    />
+    <TresPerspectiveCamera :position="[6, 6, 6]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <Suspense>
       <Character />

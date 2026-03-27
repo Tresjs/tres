@@ -37,14 +37,14 @@ class MockObject3D {
 
   traverse(callback: (obj: MockObject3D) => void) {
     callback(this)
-    this.children.forEach(child => child.traverse(callback))
+    this.children.forEach((child) => child.traverse(callback))
   }
 
   // Add dispose method for cleanup
   dispose() {
     this.material?.dispose()
     this.geometry?.dispose()
-    this.children.forEach(child => child.dispose())
+    this.children.forEach((child) => child.dispose())
   }
 }
 
@@ -114,7 +114,11 @@ describe('useLoader', () => {
 
   it('loads a resource successfully', () => {
     const TresMockLoader = MockLoader as unknown as LoaderProto<GLTF>
-    const result = useLoader(TresMockLoader, 'mock-url.glb') as UseAsyncStateReturn<GLTF, [string], false>
+    const result = useLoader(TresMockLoader, 'mock-url.glb') as UseAsyncStateReturn<
+      GLTF,
+      [string],
+      false
+    >
 
     // Initial state
     expect(result.isLoading.value).toBe(true)
@@ -138,7 +142,11 @@ describe('useLoader', () => {
 
   it('handles loading state correctly', () => {
     const TresMockLoader = MockLoader as unknown as LoaderProto<GLTF>
-    const result = useLoader(TresMockLoader, 'mock-url.glb') as UseAsyncStateReturn<GLTF, [string], false>
+    const result = useLoader(TresMockLoader, 'mock-url.glb') as UseAsyncStateReturn<
+      GLTF,
+      [string],
+      false
+    >
 
     // Initial state should be loading
     expect(result.isLoading.value).toBe(true)
@@ -156,7 +164,11 @@ describe('useLoader', () => {
 
   it('handles errors correctly', () => {
     const TresMockErrorLoader = MockErrorLoader as unknown as LoaderProto<GLTF>
-    const result = useLoader(TresMockErrorLoader, 'mock-url.glb') as UseAsyncStateReturn<GLTF, [string], false>
+    const result = useLoader(TresMockErrorLoader, 'mock-url.glb') as UseAsyncStateReturn<
+      GLTF,
+      [string],
+      false
+    >
 
     // Initial state
     expect(result.isLoading.value).toBe(true)
@@ -197,7 +209,11 @@ describe('useLoader', () => {
 
   it('tracks loading progress correctly', () => {
     const TresMockLoader = MockLoader as unknown as LoaderProto<GLTF>
-    const result = useLoader(TresMockLoader, 'mock-url.glb') as UseAsyncStateReturn<GLTF, [string], false> & { progress: { loaded: number, total: number, percentage: number } }
+    const result = useLoader(TresMockLoader, 'mock-url.glb') as UseAsyncStateReturn<
+      GLTF,
+      [string],
+      false
+    > & { progress: { loaded: number; total: number; percentage: number } }
 
     // Initial progress state
     expect(result.progress.loaded).toBe(0)
@@ -206,20 +222,27 @@ describe('useLoader', () => {
 
     // Watch for progress updates
     return new Promise<void>((resolve) => {
-      watch(() => result.progress.percentage, (percentage) => {
-        if (percentage === 100) {
-          expect(result.progress.loaded).toBe(100)
-          expect(result.progress.total).toBe(100)
-          expect(result.progress.percentage).toBe(100)
-          resolve()
-        }
-      })
+      watch(
+        () => result.progress.percentage,
+        (percentage) => {
+          if (percentage === 100) {
+            expect(result.progress.loaded).toBe(100)
+            expect(result.progress.total).toBe(100)
+            expect(result.progress.percentage).toBe(100)
+            resolve()
+          }
+        },
+      )
     })
   })
 
   it('supports loading a new resource with the load method', async () => {
     const TresMockLoader = MockLoader as unknown as LoaderProto<GLTF>
-    const result = useLoader(TresMockLoader, 'initial-url.glb') as UseAsyncStateReturn<GLTF, [string], false> & { load: (path: string) => void }
+    const result = useLoader(TresMockLoader, 'initial-url.glb') as UseAsyncStateReturn<
+      GLTF,
+      [string],
+      false
+    > & { load: (path: string) => void }
 
     // Initial state
     expect(result.isLoading.value).toBe(true)

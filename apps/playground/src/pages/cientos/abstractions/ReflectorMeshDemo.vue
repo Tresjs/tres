@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  MeshWobbleMaterial,
-  OrbitControls,
-  Reflector,
-  Stars,
-} from '@tresjs/cientos'
+import { MeshWobbleMaterial, OrbitControls, Reflector, Stars } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef, watch } from 'vue'
@@ -34,21 +29,12 @@ const options = {
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[3, 3, 6]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[3, 3, 6]" :look-at="[0, 0, 0]" />
     <Stars />
     <TresMesh>
       <TresTorusGeometry />
-      <MeshWobbleMaterial
-        color="orange"
-        :speed="1"
-        :factor="2"
-      />
+      <MeshWobbleMaterial color="orange" :speed="1" :factor="2" />
     </TresMesh>
     <Reflector
       ref="reflectorRef"

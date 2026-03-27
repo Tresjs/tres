@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { TresLeches, useControls } from '/@/'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vite-plus/test'
 import { defineComponent, nextTick } from 'vue'
 import { dispose } from '/@/composables/useControls'
 
@@ -14,7 +14,9 @@ class Vector3 {
   }
 
   set(x, y, z) {
-    if (z === undefined) { z = this.z } // sprite.scale.set(x,y)
+    if (z === undefined) {
+      z = this.z
+    } // sprite.scale.set(x,y)
 
     this.x = x
     this.y = y

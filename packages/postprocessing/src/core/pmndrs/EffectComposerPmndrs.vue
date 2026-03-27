@@ -2,7 +2,12 @@
 import type { EffectComposer } from 'postprocessing'
 import type { InjectionKey, ShallowRef } from 'vue'
 import { useTresContext } from '@tresjs/core'
-import { DepthDownsamplingPass, EffectComposer as EffectComposerImpl, NormalPass, RenderPass } from 'postprocessing'
+import {
+  DepthDownsamplingPass,
+  EffectComposer as EffectComposerImpl,
+  NormalPass,
+  RenderPass,
+} from 'postprocessing'
 
 import { HalfFloatType } from 'three'
 
@@ -10,7 +15,8 @@ import WEBGL from 'three/examples/jsm/capabilities/WebGL.js'
 
 import { computed, onUnmounted, provide, shallowRef, watch } from 'vue'
 
-export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposer | null>> = Symbol('effectComposerPmndrs')
+export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposer | null>> =
+  Symbol('effectComposerPmndrs')
 
 export interface EffectComposerPmndrsProps {
   enabled?: boolean
@@ -47,7 +53,9 @@ provide(effectComposerInjectionKey, effectComposer)
 defineExpose({ composer: effectComposer })
 
 const setNormalPass = () => {
-  if (!effectComposer.value) { return }
+  if (!effectComposer.value) {
+    return
+  }
 
   normalPass = new NormalPass(scene.value, camera.activeCamera.value)
   normalPass.enabled = false
@@ -65,9 +73,14 @@ const setNormalPass = () => {
 const effectComposerParams = computed(() => {
   const plainEffectComposer = new EffectComposerImpl()
   const params = {
-    depthBuffer: props.depthBuffer !== undefined ? props.depthBuffer : plainEffectComposer.inputBuffer.depthBuffer,
+    depthBuffer:
+      props.depthBuffer !== undefined
+        ? props.depthBuffer
+        : plainEffectComposer.inputBuffer.depthBuffer,
     stencilBuffer:
-      props.stencilBuffer !== undefined ? props.stencilBuffer : plainEffectComposer.inputBuffer.stencilBuffer,
+      props.stencilBuffer !== undefined
+        ? props.stencilBuffer
+        : plainEffectComposer.inputBuffer.stencilBuffer,
     multisampling: WEBGL.isWebGL2Available()
       ? props.multisampling !== undefined
         ? props.multisampling
@@ -81,35 +94,58 @@ const effectComposerParams = computed(() => {
 })
 
 const initEffectComposer = () => {
-  if (!renderer.instance && !scene.value && !camera.activeCamera.value) { return }
+  if (!renderer.instance && !scene.value && !camera.activeCamera.value) {
+    return
+  }
 
   effectComposer.value?.dispose()
   effectComposer.value = new EffectComposerImpl(renderer.instance, effectComposerParams.value)
   effectComposer.value.addPass(new RenderPass(scene.value, camera.activeCamera.value))
 
-  if (!props.disableNormalPass) { setNormalPass() }
+  if (!props.disableNormalPass) {
+    setNormalPass()
+  }
 }
 
 watch([scene, camera.activeCamera, () => props.disableNormalPass], () => {
-  if (!sizes.width.value || !sizes.height.value) { return }
+  if (!sizes.width.value || !sizes.height.value) {
+    return
+  }
 
   initEffectComposer()
 })
 
-watch(() => [sizes.width.value, sizes.height.value], ([width, height]) => {
-  // effect composer should only live once the canvas has a size > 0
-  if (!width && !height) { return }
-  if (effectComposer.value) { effectComposer.value.setSize(width, height) }
-  else { initEffectComposer() }
-}, {
-  immediate: true,
-})
+watch(
+  () => [sizes.width.value, sizes.height.value],
+  ([width, height]) => {
+    // effect composer should only live once the canvas has a size > 0
+    if (!width && !height) {
+      return
+    }
+    if (effectComposer.value) {
+      effectComposer.value.setSize(width, height)
+    } else {
+      initEffectComposer()
+    }
+  },
+  {
+    immediate: true,
+  },
+)
 
 renderer.replaceRenderFunction((notifySuccess) => {
-  if (props.enabled && renderer.instance && effectComposer.value && sizes.width.value && sizes.height.value) {
+  if (
+    props.enabled &&
+    renderer.instance &&
+    effectComposer.value &&
+    sizes.width.value &&
+    sizes.height.value
+  ) {
     const currentAutoClear = renderer.instance.autoClear
     renderer.instance.autoClear = props.autoClear
-    if (props.stencilBuffer && !props.autoClear) { renderer.instance.clearStencil() }
+    if (props.stencilBuffer && !props.autoClear) {
+      renderer.instance.clearStencil()
+    }
     effectComposer.value.render()
     emit('render', effectComposer.value)
     renderer.instance.autoClear = currentAutoClear

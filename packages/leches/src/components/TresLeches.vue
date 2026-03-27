@@ -10,15 +10,18 @@ import ControlInput from './ControlInput.vue'
 
 import iconUrl from '../assets/tresleches-icon.svg?url'
 
-const props = withDefaults(defineProps<{
-  uuid?: string
-  collapsed?: boolean
-  float?: boolean
-}>(), {
-  uuid: 'default',
-  collapsed: false,
-  float: true,
-})
+const props = withDefaults(
+  defineProps<{
+    uuid?: string
+    collapsed?: boolean
+    float?: boolean
+  }>(),
+  {
+    uuid: 'default',
+    collapsed: false,
+    float: true,
+  },
+)
 const slots = defineSlots<{
   default: () => any
 }>()
@@ -63,12 +66,13 @@ defineExpose({ controls })
 
 function onChange(key: string, value: string) {
   const control = controls.value[key] as any
-  if (!control) { return }
+  if (!control) {
+    return
+  }
   // Update the ref (control.value is a ref)
   if (isRef(control.value)) {
     control.value.value = value
-  }
-  else {
+  } else {
     control.value = value
   }
 }
@@ -95,7 +99,9 @@ const groupedControls = computed(() => {
 })
 
 function calculateHeight() {
-  if (isCollapsedAndNotFloat.value) { return COLLAPSED_SIZE } // Height when collapsed
+  if (isCollapsedAndNotFloat.value) {
+    return COLLAPSED_SIZE
+  } // Height when collapsed
 
   // Calculate total controls including those in folders
   let totalControls = 0
@@ -104,14 +110,20 @@ function calculateHeight() {
     const controls = groupedControls.value[folderName]
     totalControls += controls.length
     // Add height for folder header if it's not the default folder
-    if (folderName !== 'default') { totalControls += 1 }
+    if (folderName !== 'default') {
+      totalControls += 1
+    }
     // Check if there's an FPS graph control
-    if (controls.some(control => control.type === 'fpsgraph')) {
+    if (controls.some((control) => control.type === 'fpsgraph')) {
       hasFPSGraph = true
     }
   }
 
-  const calculatedHeight = HEADER_HEIGHT + CONTENT_PADDING + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
+  const calculatedHeight =
+    HEADER_HEIGHT +
+    CONTENT_PADDING +
+    totalControls * CONTROL_HEIGHT +
+    (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
   const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
   return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
 }
@@ -133,13 +145,15 @@ const panelStyle = computed(() => {
   if (float.value) {
     return [
       style.value,
-      { width: `${panelWidth.value}px`, height: `${panelHeight.value}px`, right: '16px', left: 'auto' },
+      {
+        width: `${panelWidth.value}px`,
+        height: `${panelHeight.value}px`,
+        right: '16px',
+        left: 'auto',
+      },
     ]
-  }
-  else {
-    return [
-      { width: 'auto', height: 'auto' },
-    ]
+  } else {
+    return [{ width: 'auto', height: 'auto' }]
   }
 })
 
@@ -182,22 +196,30 @@ const { apply } = useMotion(paneRef, {
 })
 
 // Recalculate height when controls are added/removed (e.g. child components mounting)
-watch(groupedControls, async () => {
-  const newHeight = calculateHeight()
-  if (newHeight === panelHeight.value) { return }
-  panelHeight.value = newHeight
-  if (!isCollapsed.value && float.value) {
-    await apply({
-      width: panelWidth.value,
-      height: newHeight,
-      right: '1rem',
-      left: 'auto',
-    })
-  }
-}, { flush: 'post' })
+watch(
+  groupedControls,
+  async () => {
+    const newHeight = calculateHeight()
+    if (newHeight === panelHeight.value) {
+      return
+    }
+    panelHeight.value = newHeight
+    if (!isCollapsed.value && float.value) {
+      await apply({
+        width: panelWidth.value,
+        height: newHeight,
+        right: '1rem',
+        left: 'auto',
+      })
+    }
+  },
+  { flush: 'post' },
+)
 
 const handleScroll = () => {
-  if (!scrollContainer.value) { return }
+  if (!scrollContainer.value) {
+    return
+  }
 
   const { scrollTop, scrollHeight, clientHeight } = scrollContainer.value
   showTopGradient.value = scrollTop > 20
@@ -223,7 +245,9 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
   const naturalHeight = startHeight + scrollOverflow
 
   function onMouseMove(e: MouseEvent) {
-    if (!isResizing.value || !paneRef.value) { return }
+    if (!isResizing.value || !paneRef.value) {
+      return
+    }
 
     if (resizeEdge.value === 'right' || resizeEdge.value === 'corner') {
       const deltaX = e.clientX - startX
@@ -237,7 +261,11 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
       panelWidth.value = newWidth
     }
 
-    if (resizeEdge.value === 'bottom' || resizeEdge.value === 'corner' || resizeEdge.value === 'corner-left') {
+    if (
+      resizeEdge.value === 'bottom' ||
+      resizeEdge.value === 'corner' ||
+      resizeEdge.value === 'corner-left'
+    ) {
       const deltaY = e.clientY - startY
       panelHeight.value = Math.min(naturalHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
 
@@ -278,35 +306,39 @@ function toggleCollapsed() {
 }
 
 // Update animation when panel state changes
-watch(isCollapsed, async (value) => {
-  if (!float.value) {
-    // Non-float mode: clear motion inline styles so CSS layout takes over
-    await nextTick()
-    if (paneRef.value) {
-      paneRef.value.style.width = ''
-      paneRef.value.style.height = ''
-      paneRef.value.style.right = ''
-      paneRef.value.style.left = ''
-      paneRef.value.style.opacity = '1'
-      paneRef.value.style.transform = ''
+watch(
+  isCollapsed,
+  async (value) => {
+    if (!float.value) {
+      // Non-float mode: clear motion inline styles so CSS layout takes over
+      await nextTick()
+      if (paneRef.value) {
+        paneRef.value.style.width = ''
+        paneRef.value.style.height = ''
+        paneRef.value.style.right = ''
+        paneRef.value.style.left = ''
+        paneRef.value.style.opacity = '1'
+        paneRef.value.style.transform = ''
+      }
+      return
     }
-    return
-  }
-  if (!value) {
-    await nextTick() // Wait for slot to be visible
-    await apply({
-      width: panelWidth.value,
-      height: panelHeight.value,
-      right: '1rem',
-      left: 'auto',
-    })
-    return
-  }
-  await apply('enter')
-}, { immediate: true })
+    if (!value) {
+      await nextTick() // Wait for slot to be visible
+      await apply({
+        width: panelWidth.value,
+        height: panelHeight.value,
+        right: '1rem',
+        left: 'auto',
+      })
+      return
+    }
+    await apply('enter')
+  },
+  { immediate: true },
+)
 
 function onFolderOpen(value: boolean) {
-  panelHeight.value = panelHeight.value + (CONTROL_HEIGHT * (value ? 1 : -1))
+  panelHeight.value = panelHeight.value + CONTROL_HEIGHT * (value ? 1 : -1)
 }
 
 const slotsRef = ref()
@@ -339,10 +371,7 @@ onUnmounted(() => {
       :id="`tres-leches-pane-${uuid}`"
       ref="paneRef"
       class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden"
-      :class="[
-        $attrs.class,
-        float ? 'tl-absolute tl-top-4' : 'tl-relative',
-      ]"
+      :class="[$attrs.class, float ? 'tl-absolute tl-top-4' : 'tl-relative']"
       :style="panelStyle"
     >
       <header
@@ -351,26 +380,20 @@ onUnmounted(() => {
       >
         <div v-if="!isCollapsed && float" class="w-1/3"></div>
         <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing w-1/3">
-          <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
-            class="i-ic-baseline-drag-indicator"
-          ></i>
+          <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i
+          ><i class="i-ic-baseline-drag-indicator"></i>
         </div>
-        <div class="tl-flex tl-p-0.5" :class="[!isCollapsed && float ? 'tl-justify-end' : 'tl-justify-center']">
+        <div
+          class="tl-flex tl-p-0.5"
+          :class="[!isCollapsed && float ? 'tl-justify-end' : 'tl-justify-center']"
+        >
           <button
-            class="tl-rounded-full
-              tl-inline-flex tl-justify-center tl-items-center
-              tl-p-1.5
-              tl-bg-gray-100
-              dark:tl-bg-dark-300
-              tl-outline-none
-              tl-border-none
-              tl-cursor-pointer"
+            class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"
           >
             <img
               :src="iconUrl"
               alt="TresLechesIcon"
-              class="
-              tl-w-4 tl-h-4 tl-block"
+              class="tl-w-4 tl-h-4 tl-block"
               :width="16"
               :height="16"
               @click="toggleCollapsed"
@@ -394,18 +417,23 @@ onUnmounted(() => {
           @scroll="handleScroll"
         >
           <template v-for="(group, folderName) of groupedControls" :key="folderName">
-            <Folder v-if="folderName !== 'default'" :label="folderName" :controls="group" @open="onFolderOpen" />
+            <Folder
+              v-if="folderName !== 'default'"
+              :label="folderName"
+              :controls="group"
+              @open="onFolderOpen"
+            />
             <template v-if="folderName === 'default'">
               <ControlInput
                 v-for="control in group"
                 :key="control.label"
                 :control="control"
-                @change="newValue => onChange(control.key, newValue)"
+                @change="(newValue) => onChange(control.key, newValue)"
               />
             </template>
           </template>
 
-          <div v-if="hasSlots" ref="slotsRef" style="padding: 0 var(--tl-h-padding);">
+          <div v-if="hasSlots" ref="slotsRef" style="padding: 0 var(--tl-h-padding)">
             <slot></slot>
           </div>
         </div>
@@ -419,7 +447,7 @@ onUnmounted(() => {
       <span
         v-if="!isCollapsed"
         class="tl-absolute tl-left-0 tl-right-0 tl-bottom-0 tl-h-2 hover:tl-h-4 tl-transition-all tl-cursor-ns-resize tl-z-10"
-        @mousedown="e => startResize('bottom', e)"
+        @mousedown="(e) => startResize('bottom', e)"
       ></span>
       <!-- <span
         v-if="!isCollapsed"
@@ -429,12 +457,12 @@ onUnmounted(() => {
       <span
         v-if="!isCollapsed"
         class="tl-absolute tl-left-0 tl-top-0 tl-bottom-0 tl-w-2 hover:tl-w-4 tl-transition-all tl-cursor-ew-resize tl-z-10"
-        @mousedown="e => startResize('left', e)"
+        @mousedown="(e) => startResize('left', e)"
       ></span>
       <span
         v-if="!isCollapsed"
         class="tl-absolute tl-left-0 tl-bottom-0 tl-w-4 tl-h-4 hover:tl-w-6 hover:tl-h-6 tl-transition-all tl-cursor-nesw-resize tl-z-10"
-        @mousedown="e => startResize('corner-left', e)"
+        @mousedown="(e) => startResize('corner-left', e)"
       ></span>
     </div>
   </div>

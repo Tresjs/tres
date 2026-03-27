@@ -127,7 +127,7 @@ tags: ['basic', 'cientos', 'useGLTF', 'blender']
 
 ### Broken Github demo links
 
-Note that the system will automatically add a link to your demo's source code on Github, so that visitors can see how you made your demo. 
+Note that the system will automatically add a link to your demo's source code on Github, so that visitors can see how you made your demo.
 
 The link will be broken until your demo is merged into the main Lab branch.
 

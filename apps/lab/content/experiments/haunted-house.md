@@ -37,17 +37,20 @@ This experiment demonstrates comprehensive 3D scene creation techniques:
 ### Scene Components
 
 #### **Building Architecture**
+
 - **Brick Walls**: 4x2.5x4 box geometry with realistic brick texturing
 - **Wooden Door**: Displacement-mapped door with alpha transparency and detailed textures
 - **Cone Roof**: 4-sided pyramid roof with reddish-brown material
 - **Door Light**: Warm orange point light illuminating the entrance
 
 #### **Ghost Animation System**
+
 - **Ghost 1**: Magenta light orbiting at 4-unit radius with vertical bobbing
 - **Ghost 2**: Cyan light following 5-unit circular path with complex Y movement
 - **Ghost 3**: Orange light with variable radius (7 + oscillation) creating unpredictable patterns
 
 #### **Environmental Details**
+
 - **Graveyard**: 50 procedurally placed tombstones with random rotations
 - **Bushes**: 4 spherical bushes of varying sizes around the house
 - **Grass Floor**: 20x20 plane with 8x8 texture repetition for seamless tiling

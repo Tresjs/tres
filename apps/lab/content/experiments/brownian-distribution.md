@@ -9,7 +9,6 @@ date: 2025-01-01
 lastUpdated: 2025-01-01
 ---
 
-
 This experiment demonstrates **spatial object distribution** using a random walk algorithm inspired by [Brownian motion principles](https://en.wikipedia.org/wiki/Brownian_motion). Rather than animating particles in motion, this visualization shows how objects can be positioned in 3D space using statistical patterns derived from random walk algorithms.
 
 ### What You'll See

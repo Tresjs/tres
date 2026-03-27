@@ -6,7 +6,6 @@ import { NoToneMapping } from 'three'
 import { BlendFunction } from 'postprocessing'
 import { ASCIIPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 
-
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
@@ -22,7 +21,20 @@ const leviosoProps = {
   range: [-1, 1] as [number, number],
 }
 
-const { size: textureSize, characters, font, fontSize, cellCount, enabled, blendFunction, opacity, cellSize, inverted, color, useSceneColor } = useControls({
+const {
+  size: textureSize,
+  characters,
+  font,
+  fontSize,
+  cellCount,
+  enabled,
+  blendFunction,
+  opacity,
+  cellSize,
+  inverted,
+  color,
+  useSceneColor,
+} = useControls({
   enabled: true,
   cellSize: { value: 10, step: 1, min: 2, max: 64 },
   useSceneColor: false,
@@ -35,7 +47,7 @@ const { size: textureSize, characters, font, fontSize, cellCount, enabled, blend
   cellCount: { value: 16, step: 1, min: 4, max: 64 },
   opacity: { value: 1, step: 0.1, min: 0.0, max: 1.0 },
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -46,21 +58,19 @@ const { size: textureSize, characters, font, fontSize, cellCount, enabled, blend
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
+    <TresCanvas v-bind="gl">
       <TresPerspectiveCamera :position="[5, 3, 7]" />
       <OrbitControls auto-rotate />
 
       <Levioso v-bind="leviosoProps">
-        <TresMesh :position="[-2, .5, 0]">
+        <TresMesh :position="[-2, 0.5, 0]">
           <TresBoxGeometry :args="[2, 2, 2]" />
           <TresMeshPhysicalMaterial color="white" />
         </TresMesh>
       </Levioso>
 
       <Levioso v-bind="leviosoProps">
-        <TresMesh :position="[3, .5, 0]">
+        <TresMesh :position="[3, 0.5, 0]">
           <TresSphereGeometry :args="[1.5, 32, 32]" />
           <TresMeshPhysicalMaterial color="white" />
         </TresMesh>

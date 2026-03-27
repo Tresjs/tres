@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { rapierRoutes } from '@/router/routes/rapier'
 
-const sections = [
-  { icon: '📦', title: 'Basics', routes: rapierRoutes },
-]
+const sections = [{ icon: '📦', title: 'Basics', routes: rapierRoutes }]
 </script>
 
 <template>
@@ -16,7 +14,9 @@ const sections = [
           <img src="/rapier.svg" alt="TresJS Rapier" class="w-20 h-20" />
         </div>
         <div class="sm:w-2/3">
-          <h1 class="w-auto max-w-75 mx-auto text-5xl text-zinc-700 mb-3 sm:mx-none sm:w-1/2 sm:max-w-72">
+          <h1
+            class="w-auto max-w-75 mx-auto text-5xl text-zinc-700 mb-3 sm:mx-none sm:w-1/2 sm:max-w-72"
+          >
             <span class="text-tres-rapier">Rapier</span> Playground
           </h1>
           <p class="text-lg">Testing zone for TresJS/rapier physics</p>
@@ -44,9 +44,7 @@ const sections = [
               </router-link>
             </div>
           </div>
-          <div v-else>
-            (empty)
-          </div>
+          <div v-else>(empty)</div>
         </div>
       </div>
     </div>

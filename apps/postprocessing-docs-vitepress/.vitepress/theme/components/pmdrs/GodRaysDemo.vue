@@ -10,7 +10,6 @@ import { EffectComposerPmndrs, GodRaysPmndrs } from '@tresjs/post-processing'
 import { onUnmounted, ref, watch } from 'vue'
 import { gsap } from 'gsap'
 
-
 const gl = {
   toneMapping: NoToneMapping,
 }
@@ -19,12 +18,27 @@ let tween: gsap.core.Tween | null = null
 
 const sphereMeshRef = ref<Mesh | null>(null)
 
-const { state: pbrTexture } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/lens-distortion/room-map.png')
+const { state: pbrTexture } = useTexture(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/lens-distortion/room-map.png',
+)
 
-const { freezeAnimationLightSource, blur, kernelSize, resolutionScale, opacity, blendFunction, density, decay, weight, exposure, samples, clampMax } = useControls({
+const {
+  freezeAnimationLightSource,
+  blur,
+  kernelSize,
+  resolutionScale,
+  opacity,
+  blendFunction,
+  density,
+  decay,
+  weight,
+  exposure,
+  samples,
+  clampMax,
+} = useControls({
   freezeAnimationLightSource: { value: false, label: 'pauseLightSource', type: 'boolean' },
   kernelSize: {
-    options: Object.keys(KernelSize).map(key => ({
+    options: Object.keys(KernelSize).map((key) => ({
       text: key,
       value: KernelSize[key as keyof typeof KernelSize],
     })),
@@ -40,7 +54,7 @@ const { freezeAnimationLightSource, blur, kernelSize, resolutionScale, opacity, 
   resolutionScale: { value: 0.5, step: 0.1, min: 0.1, max: 1.0 },
   blur: true,
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -55,7 +69,9 @@ const torusMeshes = [
 ]
 
 watch(sphereMeshRef, () => {
-  if (!sphereMeshRef.value) { return }
+  if (!sphereMeshRef.value) {
+    return
+  }
 
   tween = gsap.to(sphereMeshRef.value.position, {
     x: 20,
@@ -68,12 +84,13 @@ watch(sphereMeshRef, () => {
 })
 
 watch(freezeAnimationLightSource, () => {
-  if (!sphereMeshRef.value) { return }
+  if (!sphereMeshRef.value) {
+    return
+  }
 
   if (freezeAnimationLightSource.value) {
     tween?.pause()
-  }
-  else {
+  } else {
     tween?.resume()
   }
 })
@@ -85,13 +102,8 @@ onUnmounted(() => {
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[0, 5, 35]"
-        :look-at="[0, 0, 0]"
-      />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[0, 5, 35]" :look-at="[0, 0, 0]" />
       <OrbitControls auto-rotate />
 
       <TresMesh ref="sphereMeshRef" :position="[-20, 2, 0]">
@@ -99,7 +111,7 @@ onUnmounted(() => {
         <TresMeshBasicMaterial color="#FFDDAA" :transparent="true" />
       </TresMesh>
 
-      <template v-for="(mesh) in torusMeshes" :key="`demo-god-rays-${mesh.color}`">
+      <template v-for="mesh in torusMeshes" :key="`demo-god-rays-${mesh.color}`">
         <TresMesh :rotation-y="mesh.rotationY" :position="mesh.position">
           <TresTorusGeometry :args="[5, 2, 16, 100]" />
           <TresMeshPhysicalMaterial :roughness="mesh.roughness" :color="`${mesh.color}`" />

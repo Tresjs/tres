@@ -17,7 +17,9 @@ const rigidCubeRef = shallowRef<ExposedRigidBody | null>(null)
 const rigidSphereRef = shallowRef<ExposedRigidBody | null>(null)
 
 const jumpCube = () => {
-  if (!rigidCubeRef.value) { return }
+  if (!rigidCubeRef.value) {
+    return
+  }
   rigidCubeRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
 }
 
@@ -44,7 +46,10 @@ const windSphere = () => {
         </RigidBody>
 
         <RigidBody ref="rigidSphereRef" collider="ball">
-          <TresMesh :position="[Math.random() * 2, Math.random() * 2 + 8, Math.random() * 2]" @click="windSphere">
+          <TresMesh
+            :position="[Math.random() * 2, Math.random() * 2 + 8, Math.random() * 2]"
+            @click="windSphere"
+          >
             <TresSphereGeometry />
             <TresMeshNormalMaterial />
           </TresMesh>

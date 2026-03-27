@@ -11,7 +11,9 @@ import PixelationPmndrs, { type PixelationPmndrsProps } from './PixelationPmndrs
 import VignettePmndrs, { type VignettePmndrsProps } from './VignettePmndrs.vue'
 import BarrelBlurPmndrs, { type BarrelBlurPmndrsProps } from './BarrelBlurPmndrs.vue'
 import ToneMappingPmndrs, { type ToneMappingPmndrsProps } from './ToneMappingPmndrs.vue'
-import ChromaticAberrationPmndrs, { type ChromaticAberrationPmndrsProps } from './ChromaticAberrationPmndrs.vue'
+import ChromaticAberrationPmndrs, {
+  type ChromaticAberrationPmndrsProps,
+} from './ChromaticAberrationPmndrs.vue'
 import HueSaturationPmndrs, { type HueSaturationPmndrsProps } from './HueSaturationPmndrs.vue'
 import ScanlinePmndrs, { type ScanlinePmndrsProps } from './ScanlinePmndrs.vue'
 import KuwaharaPmndrs, { type KuwaharaPmndrsProps } from './KuwaharaPmndrs.vue'
@@ -22,12 +24,16 @@ import TiltShiftPmndrs, { type TiltShiftPmndrsProps } from './TiltShiftPmndrs.vu
 import DotScreenPmndrs, { type DotScreenPmndrsProps } from './DotScreenPmndrs.vue'
 import SepiaPmndrs, { type SepiaPmndrsProps } from './SepiaPmndrs.vue'
 import LinocutPmndrs, { type LinocutPmndrsProps } from './LinocutPmndrs.vue'
-import DepthPickingPassPmndrs, { type DepthPickingPassPmndrsProps } from './DepthPickingPassPmndrs.vue'
+import DepthPickingPassPmndrs, {
+  type DepthPickingPassPmndrsProps,
+} from './DepthPickingPassPmndrs.vue'
 import GodRaysPmndrs, { type GodRaysPmndrsProps } from './GodRaysPmndrs.vue'
 import ColorDepthPmndrs, { type ColorDepthPmndrsProps } from './ColorDepthPmndrs.vue'
 import GridPmndrs, { type GridPmndrsProps } from './GridPmndrs.vue'
 import FishEyePmndrs, { type FishEyePmndrsProps } from './FishEyePmndrs.vue'
-import BrightnessContrastPmndrs, { type BrightnessContrastPmndrsProps } from './BrightnessContrastPmndrs.vue'
+import BrightnessContrastPmndrs, {
+  type BrightnessContrastPmndrsProps,
+} from './BrightnessContrastPmndrs.vue'
 import SMAAPmndrs, { type SMAAPmndrsProps } from './SMAAPmndrs.vue'
 import FXAAPmndrs, { type FXAAPmndrsProps } from './FXAAPmndrs.vue'
 import TexturePmndrs, { type TexturePmndrsProps } from './TexturePmndrs.vue'

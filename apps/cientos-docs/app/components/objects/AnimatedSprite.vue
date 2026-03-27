@@ -5,16 +5,19 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const ASSETS_URL = 'https://raw.githubusercontent.com/Tresjs/'
-  + 'assets/main/textures/animated-sprite/'
+const ASSETS_URL =
+  'https://raw.githubusercontent.com/Tresjs/' + 'assets/main/textures/animated-sprite/'
 
-const { fps, paused, loop, flipX, animation } = useControls({
-  fps: { value: 15, min: 1, max: 60, step: 1 },
-  paused: false,
-  loop: true,
-  flipX: false,
-  animation: { value: 'cientosIdle', options: ['cientosIdle', 'cientosWalk'] },
-}, { uuid })
+const { fps, paused, loop, flipX, animation } = useControls(
+  {
+    fps: { value: 15, min: 1, max: 60, step: 1 },
+    paused: false,
+    loop: true,
+    flipX: false,
+    animation: { value: 'cientosIdle', options: ['cientosIdle', 'cientosWalk'] },
+  },
+  { uuid },
+)
 </script>
 
 <template>

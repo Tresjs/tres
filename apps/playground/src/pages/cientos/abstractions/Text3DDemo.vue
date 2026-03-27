@@ -26,13 +26,7 @@ const reactiveText = ref('You can edit me')
     <TresPerspectiveCamera :position="[0, 0.5, 5]" />
     <OrbitControls />
     <Suspense>
-      <Text3D
-        :text="reactiveText"
-        :size="0.3"
-        :font="fontPath"
-        center
-        :need-updates="true"
-      />
+      <Text3D :text="reactiveText" :size="0.3" :font="fontPath" center :need-updates="true" />
     </Suspense>
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />

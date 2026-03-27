@@ -31,9 +31,7 @@ defineExpose({
 })
 
 makePropWatchers(
-  [
-    [() => props.blendFunction, 'blendMode.blendFunction'],
-  ],
+  [[() => props.blendFunction, 'blendMode.blendFunction']],
   effect,
   () => new TextureEffect(),
 )
@@ -43,8 +41,7 @@ watch(
   () => {
     if (props.opacity !== undefined) {
       effect.value?.blendMode.setOpacity(props.opacity)
-    }
-    else {
+    } else {
       const plainEffect = new TextureEffect()
       effect.value?.blendMode.setOpacity(plainEffect.blendMode.getOpacity())
       plainEffect.dispose()

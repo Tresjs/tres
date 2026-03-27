@@ -71,39 +71,56 @@ useLoop().onBeforeRender(({ delta }) => {
 })
 
 watchEffect(() => {
-  if (controls.value) { bounds.controls = controls.value as unknown as BoundsControlsProto }
+  if (controls.value) {
+    bounds.controls = controls.value as unknown as BoundsControlsProto
+  }
 })
 
 const shallowCam = computed(() => camera.value?.uuid)
-watch(shallowCam, () => {
-  if (camera.value) { bounds.camera = camera.value }
-}, { immediate: true, deep: false })
+watch(
+  shallowCam,
+  () => {
+    if (camera.value) {
+      bounds.camera = camera.value
+    }
+  },
+  { immediate: true, deep: false },
+)
 
 const refreshDebounce = useDebounceFn(refresh, 250, { maxWait: 2000 })
 
-watch(() => [size.width.value, size.height.value], () => {
-  if (props.useResize) { refreshDebounce() }
-})
+watch(
+  () => [size.width.value, size.height.value],
+  () => {
+    if (props.useResize) {
+      refreshDebounce()
+    }
+  },
+)
 
 // NOTE: Tres core doesn't currently allow for most
 // callback props to declaratively redefine methods.
 // (Most method props will be called instead.)
 // So we need to watch and update here.
-watch(() => [props.easing], () => {
-  bounds.easing = props.easing ?? defaultEasing
-}, { immediate: true })
+watch(
+  () => [props.easing],
+  () => {
+    bounds.easing = props.easing ?? defaultEasing
+  },
+  { immediate: true },
+)
 
-onMounted(() => { if (props.useMounted) { refreshDebounce() } })
+onMounted(() => {
+  if (props.useMounted) {
+    refreshDebounce()
+  }
+})
 onUnmounted(() => bounds.dispose())
 defineExpose({ instance: bounds })
 </script>
 
 <template>
-  <primitive
-    :object="bounds"
-    :duration="duration"
-    :offset="offset"
-  >
+  <primitive :object="bounds" :duration="duration" :offset="offset">
     <slot></slot>
   </primitive>
 </template>

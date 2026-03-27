@@ -63,7 +63,10 @@ export interface SVGLayer {
  * @param {UseSVGOptions} options - Options for processing the SVG
  * @returns Object containing the SVG state, loading state, processed layers and disposal function
  */
-export function useSVG(path: MaybeRef<string>, options: UseSVGOptions = {}): {
+export function useSVG(
+  path: MaybeRef<string>,
+  options: UseSVGOptions = {},
+): {
   state: Ref<SVGResult | null>
   isLoading: Ref<boolean>
   execute: (delay?: number, ...args: any[]) => Promise<SVGResult>
@@ -94,7 +97,9 @@ export function useSVG(path: MaybeRef<string>, options: UseSVGOptions = {}): {
    * Process SVG paths into renderable layers
    */
   const layers = computed(() => {
-    if (!result.state.value?.paths) { return [] }
+    if (!result.state.value?.paths) {
+      return []
+    }
 
     const _layers: SVGLayer[] = []
     const paths = result.state.value.paths
@@ -151,7 +156,7 @@ export function useSVG(path: MaybeRef<string>, options: UseSVGOptions = {}): {
         }
 
         for (const subPath of path.subPaths) {
-          const points = subPath.getPoints().map(v2 => new Vector2(v2.x, -v2.y))
+          const points = subPath.getPoints().map((v2) => new Vector2(v2.x, -v2.y))
           const geometry = SVGLoader.pointsToStroke(points, style)
 
           if (offsetZ) {
@@ -175,7 +180,7 @@ export function useSVG(path: MaybeRef<string>, options: UseSVGOptions = {}): {
    * Dispose of all geometries to free memory
    */
   const dispose = () => {
-    layers.value.forEach(layer => layer.geometry.dispose())
+    layers.value.forEach((layer) => layer.geometry.dispose())
   }
 
   return {

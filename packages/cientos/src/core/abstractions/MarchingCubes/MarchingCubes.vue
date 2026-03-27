@@ -20,7 +20,16 @@ const props = withDefaults(defineProps<MarchingCubesProps>(), {
 })
 
 const defaultMaterial = new MeshBasicMaterial()
-const marchingCubes = computed(() => new MarchingCubesImpl(props.resolution, defaultMaterial, props.enableUvs, props.enableColors, props.maxPolyCount))
+const marchingCubes = computed(
+  () =>
+    new MarchingCubesImpl(
+      props.resolution,
+      defaultMaterial,
+      props.enableUvs,
+      props.enableColors,
+      props.maxPolyCount,
+    ),
+)
 const api = { parent: marchingCubes }
 
 export type MarchingCubesApi = typeof api
@@ -34,7 +43,9 @@ useLoop().onBeforeRender(() => {
   marchingCubes.value.reset()
 })
 
-onUnmounted(() => { defaultMaterial.dispose() })
+onUnmounted(() => {
+  defaultMaterial.dispose()
+})
 
 defineExpose({ instance: marchingCubes })
 </script>

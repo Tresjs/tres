@@ -47,9 +47,7 @@ useControls({
 
 <template>
   <TresLeches />
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera />
     <OrbitControls />
     <TresGridHelper />

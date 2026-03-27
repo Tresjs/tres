@@ -5,20 +5,36 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { once, accumulate, frames, blend, limit, scale, opacity, alphaTest, color, colorBlend, resolution, toneMapped } = useControls({
-  once: true,
-  accumulate: true,
-  frames: { value: 40, min: 1, max: 100, step: 1 },
-  blend: { value: 100, min: 0, max: 200, step: 5 },
-  limit: Infinity,
-  scale: { value: 10, min: 1, max: 30, step: 1 },
-  opacity: { value: 1, min: 0, max: 1, step: 0.1 },
-  alphaTest: { value: 0.65, min: 0, max: 1, step: 0.05 },
-  color: '#000000',
-  colorBlend: { value: 2, min: 0, max: 5, step: 0.1 },
-  resolution: { value: 1024, min: 256, max: 2048, step: 256 },
-  toneMapped: true,
-}, { uuid })
+const {
+  once,
+  accumulate,
+  frames,
+  blend,
+  limit,
+  scale,
+  opacity,
+  alphaTest,
+  color,
+  colorBlend,
+  resolution,
+  toneMapped,
+} = useControls(
+  {
+    once: true,
+    accumulate: true,
+    frames: { value: 40, min: 1, max: 100, step: 1 },
+    blend: { value: 100, min: 0, max: 200, step: 5 },
+    limit: Infinity,
+    scale: { value: 10, min: 1, max: 30, step: 1 },
+    opacity: { value: 1, min: 0, max: 1, step: 0.1 },
+    alphaTest: { value: 0.65, min: 0, max: 1, step: 0.05 },
+    color: '#000000',
+    colorBlend: { value: 2, min: 0, max: 5, step: 0.1 },
+    resolution: { value: 1024, min: 256, max: 2048, step: 256 },
+    toneMapped: true,
+  },
+  { uuid },
+)
 </script>
 
 <template>

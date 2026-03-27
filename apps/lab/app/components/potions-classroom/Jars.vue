@@ -3,7 +3,7 @@ const { nodes } = useGLTF('/models/potions-classroom/wizard-potions-classroom.gl
   draco: true,
 })
 
-const jars = computed(() => Object.values(nodes.value).filter(node => node.name.includes('Jar')))
+const jars = computed(() => Object.values(nodes.value).filter((node) => node.name.includes('Jar')))
 </script>
 
 <template>

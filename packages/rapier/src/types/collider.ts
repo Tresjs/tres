@@ -44,9 +44,7 @@ export interface ColliderProps {
    * @important Only radius is required for `ball` shape.
    * @default [x: 1, y: 1, z: 1]
    */
-  args?:
-    | [halfWidth: number, halfHeight: number, HalfDepth: number]
-    | [radius: number]
+  args?: [halfWidth: number, halfHeight: number, HalfDepth: number] | [radius: number]
   /**
    * @description {@link Collider} position.
    * @default [x: 0, y: 0, z: 0]

@@ -23,7 +23,7 @@ import { GlobalAudio } from '@tresjs/cientos'
 </template>
 ```
 
-*The `src` prop is required
+\*The `src` prop is required
 
 ## Props
 

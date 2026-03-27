@@ -29,10 +29,11 @@ export interface BarrelBlurPmndrsProps {
 const props = defineProps<BarrelBlurPmndrsProps>()
 
 const { pass, effect } = useEffectPmndrs(
-  () => new BarrelBlurEffect({
-    ...props,
-    offset: Array.isArray(props.offset) ? new Vector2(...props.offset) : props.offset,
-  }),
+  () =>
+    new BarrelBlurEffect({
+      ...props,
+      offset: Array.isArray(props.offset) ? new Vector2(...props.offset) : props.offset,
+    }),
   props,
 )
 

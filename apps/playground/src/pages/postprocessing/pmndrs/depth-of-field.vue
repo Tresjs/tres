@@ -13,14 +13,15 @@ import Ducky from '@/components/Ducky.vue'
 const uuid = 'depth-of-field-pmndrs'
 
 useControls('fpsgraph', { uuid })
-const controls = useControls({
-  focusDistance: {
-    value: 0.001,
-    min: 0,
-    max: 0.01,
-    step: 0.0001,
-  },
-  /* worldFocusDistance: {
+const controls = useControls(
+  {
+    focusDistance: {
+      value: 0.001,
+      min: 0,
+      max: 0.01,
+      step: 0.0001,
+    },
+    /* worldFocusDistance: {
     value: 3.8,
     min: 0,
     max: 10,
@@ -32,71 +33,47 @@ const controls = useControls({
     max: 1,
     step: 0.001,
   }, */
-  bokehScale: {
-    value: 5.9,
-    min: 1,
-    max: 15,
-    step: 0.01,
+    bokehScale: {
+      value: 5.9,
+      min: 1,
+      max: 15,
+      step: 0.01,
+    },
+    focusRange: {
+      value: 0.011,
+      min: 0,
+      max: 1,
+      step: 0.001,
+    },
   },
-  focusRange: {
-    value: 0.011,
-    min: 0,
-    max: 1,
-    step: 0.001,
-  },
-}, { uuid }) as { [key: string]: Ref<{ value: number }> }
+  { uuid },
+) as { [key: string]: Ref<{ value: number }> }
 
 const effectParams = computed(() =>
-  Object
-    .entries(controls)
-    .reduce(
-      (acc, [key, value]) => ({ ...acc, [key]: value.value })
-      , {},
-    ),
+  Object.entries(controls).reduce((acc, [key, value]) => ({ ...acc, [key]: value.value }), {}),
 )
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#ff9cce" shadows>
-    <TresPerspectiveCamera
-      :position="[0, 1, 5]"
-      :look-at="[0, 1, 2]"
-    />
+    <TresPerspectiveCamera :position="[0, 1, 5]" :look-at="[0, 1, 2]" />
     <OrbitControls />
-    <Backdrop
-      :floor="1.5"
-      :scale="[100, 30, 30]"
-      :position="[0, 0, -50]"
-      receive-shadow
-    >
-      <TresMeshPhysicalMaterial
-        :roughness="1"
-        color="#ff9cce"
-        :side="2"
-      />
+    <Backdrop :floor="1.5" :scale="[100, 30, 30]" :position="[0, 0, -50]" receive-shadow>
+      <TresMeshPhysicalMaterial :roughness="1" color="#ff9cce" :side="2" />
     </Backdrop>
-    <TresGroup
-      :position="[-5, 0.5, -10]"
-      :scale="0.5"
-    >
+    <TresGroup :position="[-5, 0.5, -10]" :scale="0.5">
       <Suspense>
         <Ducky />
       </Suspense>
     </TresGroup>
-    <TresGroup
-      :position="[0, 0.5, 0]"
-      :scale="0.5"
-    >
+    <TresGroup :position="[0, 0.5, 0]" :scale="0.5">
       <Suspense>
         <BlenderCube />
       </Suspense>
     </TresGroup>
     <TresAmbientLight />
-    <TresDirectionalLight
-      :position="[5, 5, 5]"
-      cast-shadow
-    />
+    <TresDirectionalLight :position="[5, 5, 5]" cast-shadow />
 
     <EffectComposerPmndrs>
       <DepthOfFieldPmndrs

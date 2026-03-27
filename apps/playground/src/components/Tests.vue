@@ -1,11 +1,14 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  tests: { getPass: () => boolean, msg: string }[]
-}>(), {
-  tests: () => [],
-})
+const props = withDefaults(
+  defineProps<{
+    tests: { getPass: () => boolean; msg: string }[]
+  }>(),
+  {
+    tests: () => [],
+  },
+)
 
-const tests = shallowRef<{ isPass: boolean, msg: string }[]>([])
+const tests = shallowRef<{ isPass: boolean; msg: string }[]>([])
 watch(() => [props.tests], run, { immediate: true })
 
 function run() {
@@ -23,7 +26,7 @@ defineExpose({
 <template>
   <div>
     <ul>
-      <li v-for="test, i of tests" :key="i">
+      <li v-for="(test, i) of tests" :key="i">
         <TestResult :is-pass="test.isPass" :msg="test.msg" />
       </li>
     </ul>

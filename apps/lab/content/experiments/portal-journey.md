@@ -41,5 +41,3 @@ This experiment showcases advanced 3D rendering techniques:
 - **Lighting Drama**: Strategic light placement highlighting key scene elements
 
 This experiment serves as an excellent reference for creating magical environments and demonstrates how proper lighting and shader effects can transform a simple scene into a captivating fantasy world.
-
-

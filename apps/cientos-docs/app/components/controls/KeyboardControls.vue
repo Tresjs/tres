@@ -5,9 +5,12 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { moveSpeed } = useControls({
-  moveSpeed: { value: 0.1, min: 0.01, max: 1, step: 0.05 },
-}, { uuid })
+const { moveSpeed } = useControls(
+  {
+    moveSpeed: { value: 0.1, min: 0.01, max: 1, step: 0.05 },
+  },
+  { uuid },
+)
 </script>
 
 <template>

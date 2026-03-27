@@ -29,7 +29,7 @@ export function useAnimations<T extends AnimationClip>(
   const setupActions = () => {
     const items = unref(animations)
     if (items && items.length > 0) {
-      Object.keys(actions).forEach(key => delete actions[key])
+      Object.keys(actions).forEach((key) => delete actions[key])
       items.forEach((animation: T) => {
         const action = mixer.value.clipAction(animation, reference.value)
         actions[animation.name] = action

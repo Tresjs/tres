@@ -10,10 +10,13 @@ const { nodes } = useGLTF('/models/potions-classroom/wizard-potions-classroom.gl
   draco: true,
 })
 
-const bakedMaterial = computed(() => new MeshBasicMaterial({
-  map: props.texture,
-  side: DoubleSide,
-}))
+const bakedMaterial = computed(
+  () =>
+    new MeshBasicMaterial({
+      map: props.texture,
+      side: DoubleSide,
+    }),
+)
 
 watch([nodes, bakedMaterial], ([nodes, texture]) => {
   nodes.Table.children.forEach((child) => {
@@ -23,7 +26,9 @@ watch([nodes, bakedMaterial], ([nodes, texture]) => {
   })
 })
 
-const stools = computed(() => Object.values(nodes.value).filter(node => node.name.includes('Stool')))
+const stools = computed(() =>
+  Object.values(nodes.value).filter((node) => node.name.includes('Stool')),
+)
 
 watch([stools, bakedMaterial], ([stools, texture]) => {
   stools.forEach((stool) => {

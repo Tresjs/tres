@@ -20,10 +20,7 @@ import {
 import { HorizontalBlurShader, VerticalBlurShader } from 'three-stdlib'
 import { onUnmounted, toValue, watch } from 'vue'
 import type { TresColor, TresRenderer } from '@tresjs/core'
-import type {
-  ColorRepresentation,
-  Scene,
-} from 'three'
+import type { ColorRepresentation, Scene } from 'three'
 
 export interface ContactShadowsProps {
   /**
@@ -154,11 +151,7 @@ const props = withDefaults(defineProps<ContactShadowsProps>(), {
   depthWrite: false,
 })
 
-function blurShadow(
-  blur: number,
-  renderer: TresRenderer,
-  pool: ReturnType<typeof init>,
-) {
+function blurShadow(blur: number, renderer: TresRenderer, pool: ReturnType<typeof init>) {
   pool.blurPlane.visible = true
   pool.blurPlane.material = pool.horizontalBlurMaterial
   pool.horizontalBlurMaterial.uniforms.tDiffuse.value = pool.renderTarget.texture
@@ -185,11 +178,7 @@ function update(
   renderer: TresRenderer,
   pool: ReturnType<typeof init>,
 ) {
-  const {
-    renderTarget,
-    shadowCamera,
-    depthMaterial,
-  } = pool
+  const { renderTarget, shadowCamera, depthMaterial } = pool
   const initialBackground = scene.background
   scene.background = null
 
@@ -253,7 +242,14 @@ function init(p: typeof props) {
   shadowGroup.add(blurPlane)
 
   // NOTE: The camera to render the depth material from
-  const shadowCamera = new OrthographicCamera(-p.width / 2, p.width / 2, p.height / 2, -p.height / 2, 0, 0.3)
+  const shadowCamera = new OrthographicCamera(
+    -p.width / 2,
+    p.width / 2,
+    p.height / 2,
+    -p.height / 2,
+    0,
+    0.3,
+  )
   shadowCamera.rotation.x = Math.PI / 2 // get the camera to look up
   shadowGroup.add(shadowCamera)
 
@@ -275,7 +271,7 @@ function init(p: typeof props) {
     plane,
     blurPlane,
   }
-};
+}
 
 function setSize(ps: typeof props, pool: ReturnType<typeof init>) {
   const shadowCamera = pool.shadowCamera
@@ -285,8 +281,8 @@ function setSize(ps: typeof props, pool: ReturnType<typeof init>) {
   shadowCamera.bottom = -ps.height / 2
   shadowCamera.far = ps.far
 
-  const w = ps.width * (Array.isArray(ps.scale) ? ps.scale[0] : (ps.scale || 1))
-  const h = ps.height * (Array.isArray(ps.scale) ? ps.scale[1] : (ps.scale || 1))
+  const w = ps.width * (Array.isArray(ps.scale) ? ps.scale[0] : ps.scale || 1)
+  const h = ps.height * (Array.isArray(ps.scale) ? ps.scale[1] : ps.scale || 1)
   pool.shadowGroup.scale.set(w, ps.far, h)
 }
 
@@ -304,7 +300,7 @@ function setResolution(resolution: number, pool: ReturnType<typeof init>) {
 }
 
 function setColors(ps: typeof props, pool: ReturnType<typeof init>) {
-  pool.plane.material.color = new Color(ps.color as ColorRepresentation ?? 'black')
+  pool.plane.material.color = new Color((ps.color as ColorRepresentation) ?? 'black')
 
   pool.depthMaterial.dispose()
   pool.depthMaterial = new MeshDepthMaterial()
@@ -323,31 +319,50 @@ const { onBeforeRender } = useLoop()
 const pool = init(props)
 
 let count = 0
-const updateOnNextRender = () => count = count >= props.frames ? props.frames - 1 : count
-onBeforeRender(
-  ({ renderer, scene /* invalidate */ }) => {
-    if (count < props.frames) {
-      count++
-      update(props, toValue(scene), renderer, pool)
-      // TODO: comment this until invalidate is back in the loop callback on v5
-      // invalidate()
-    }
+const updateOnNextRender = () => (count = count >= props.frames ? props.frames - 1 : count)
+onBeforeRender(({ renderer, scene /* invalidate */ }) => {
+  if (count < props.frames) {
+    count++
+    update(props, toValue(scene), renderer, pool)
+    // TODO: comment this until invalidate is back in the loop callback on v5
+    // invalidate()
+  }
+})
+
+watch(
+  () => [props.opacity, props.depthWrite, props.blur, props.smooth],
+  () => {
+    pool.plane.material.opacity = props.opacity ?? 1
+    pool.plane.material.depthWrite = props.depthWrite ?? false
+    updateOnNextRender()
   },
+  { immediate: true },
 )
 
-watch(() => [props.opacity, props.depthWrite, props.blur, props.smooth], () => {
-  pool.plane.material.opacity = props.opacity ?? 1
-  pool.plane.material.depthWrite = props.depthWrite ?? false
-  updateOnNextRender()
-}, { immediate: true })
+watch(
+  () => [props.color, props.tint],
+  () => {
+    setColors(props, pool)
+    updateOnNextRender()
+  },
+  { immediate: true },
+)
 
-watch(() => [props.color, props.tint], () => {
-  setColors(props, pool)
-  updateOnNextRender()
-}, { immediate: true })
-
-watch(() => [props.resolution], () => { setResolution(props.resolution, pool); updateOnNextRender() })
-watch(() => [props.width, props.height, props.scale, props.far], () => { setSize(props, pool); updateOnNextRender() }, { immediate: true })
+watch(
+  () => [props.resolution],
+  () => {
+    setResolution(props.resolution, pool)
+    updateOnNextRender()
+  },
+)
+watch(
+  () => [props.width, props.height, props.scale, props.far],
+  () => {
+    setSize(props, pool)
+    updateOnNextRender()
+  },
+  { immediate: true },
+)
 
 onUnmounted(() => {
   for (const obj of Object.values(pool)) {

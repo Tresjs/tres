@@ -79,8 +79,7 @@ const reflectorRef = shallowRef<Reflector>()
 
 extend({ Reflector })
 
-const { color, textureWidth, textureHeight, clipBias, multisample, shader }
-  = toRefs(props)
+const { color, textureWidth, textureHeight, clipBias, multisample, shader } = toRefs(props)
 
 const colorValue = computed(() => new Color(color.value))
 
@@ -96,11 +95,7 @@ defineExpose({
 <template>
   <TresReflector
     ref="reflectorRef"
-    :args="[undefined, { textureWidth,
-                         textureHeight,
-                         clipBias,
-                         multisample,
-                         shader }]"
+    :args="[undefined, { textureWidth, textureHeight, clipBias, multisample, shader }]"
     :material-uniforms-color-value="colorValue"
   >
     <slot>

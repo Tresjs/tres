@@ -11,14 +11,16 @@ const { unlimitedFps, fps } = useControls({
   fps: { value: 30, min: 1, max: 120, step: 1, visible },
 })
 
-const fpsLimit = computed(() => unlimitedFps.value ? undefined : fps.value)
+const fpsLimit = computed(() => (unlimitedFps.value ? undefined : fps.value))
 
 watch(fpsLimit, (value) => {
   visible.value = value !== undefined
 })
 
 const onLoop = ({ delta }: { delta: number }) => {
-  if (!boxRef.value) { return }
+  if (!boxRef.value) {
+    return
+  }
 
   boxRef.value.rotation.x += delta * 0.8
   boxRef.value.rotation.y += delta * 1.2

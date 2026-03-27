@@ -35,16 +35,44 @@ const props = withDefaults(defineProps<TransformControlsProps>(), {
 
 const emit = defineEmits(['dragging', 'change', 'mouseDown', 'mouseUp', 'objectChange'])
 
-const { object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, space, size, showX, showY, showZ }
-  = toRefs(props)
+const {
+  object,
+  mode,
+  enabled,
+  axis,
+  translationSnap,
+  rotationSnap,
+  scaleSnap,
+  space,
+  size,
+  showX,
+  showY,
+  showZ,
+} = toRefs(props)
 
 const controlsRef = shallowRef<TransformControls | null>(null)
 
 const { controls, camera: activeCamera, renderer, extend, invalidate } = useTres()
 
-watch([object, mode, enabled, axis, translationSnap, rotationSnap, scaleSnap, space, size, showX, showY, showZ], () => {
-  invalidate()
-})
+watch(
+  [
+    object,
+    mode,
+    enabled,
+    axis,
+    translationSnap,
+    rotationSnap,
+    scaleSnap,
+    space,
+    size,
+    showX,
+    showY,
+    showZ,
+  ],
+  () => {
+    invalidate()
+  },
+)
 
 extend({ TransformControls })
 
@@ -58,7 +86,9 @@ interface DraggingEvent extends Event {
 }
 
 const onDragingChange = (e: DraggingEvent) => {
-  if (controls.value) { controls.value.enabled = !(e).value }
+  if (controls.value) {
+    controls.value.enabled = !e.value
+  }
   invalidate()
   emit('dragging', e.value)
 }

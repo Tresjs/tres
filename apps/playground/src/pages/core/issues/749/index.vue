@@ -12,12 +12,10 @@ import TheExperience from './TheExperience.vue'
   <OverlayInfo>
     <h1>Issue #749: attach-detach</h1>
     <h2>Setup</h2>
-    <p>
-      In this scene, there is a Mesh.
-      <ul>
-        <li>It should switch between a box and a sphere.</li>
-        <li>It should switch between red and "MeshNormalMaterial".</li>
-      </ul>
-    </p>
+    <p>In this scene, there is a Mesh.</p>
+    <ul>
+      <li>It should switch between a box and a sphere.</li>
+      <li>It should switch between red and "MeshNormalMaterial".</li>
+    </ul>
   </OverlayInfo>
 </template>

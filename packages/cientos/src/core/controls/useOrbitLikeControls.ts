@@ -129,7 +129,7 @@ export interface OrbitLikeControlsProps {
    * Touch action mapping.
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.touches
    */
-  touches?: { ONE?: number, TWO?: number }
+  touches?: { ONE?: number; TWO?: number }
   /**
    * Whether to enable zooming.
    * @default true
@@ -161,7 +161,7 @@ export interface OrbitLikeControlsProps {
    *          MapControls: { LEFT: MOUSE.PAN, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.ROTATE }
    * @see https://threejs.org/docs/#examples/en/controls/OrbitControls.mouseButtons
    */
-  mouseButtons?: { LEFT?: number, MIDDLE?: number, RIGHT?: number }
+  mouseButtons?: { LEFT?: number; MIDDLE?: number; RIGHT?: number }
 
   /**
    * Defines how the camera's position is translated when panning.
@@ -204,7 +204,9 @@ export interface OrbitLikeControlsEmits<T extends OrbitControls = OrbitControls>
   end: [controls: T]
 }
 
-export type OrbitLikeControlsEmitFn<T extends OrbitControls> = <E extends keyof OrbitLikeControlsEmits<T>>(
+export type OrbitLikeControlsEmitFn<T extends OrbitControls> = <
+  E extends keyof OrbitLikeControlsEmits<T>,
+>(
   event: E,
   ...args: OrbitLikeControlsEmits<T>[E]
 ) => void
@@ -220,31 +222,38 @@ export function useOrbitLikeControls<T extends OrbitControls>(
     invalidate()
   })
 
-  whenever(controlsRef, (value) => {
-    value.addEventListener('change', () => {
-      invalidate()
-      if (value) {
-        emit('change', controlsRef.value as T)
-      }
-    })
-    value.addEventListener('start', () => {
-      controlsRef.value && emit('start', controlsRef.value as T)
-    })
-    value.addEventListener('end', () => {
-      controlsRef.value && emit('end', controlsRef.value as T)
-    })
+  whenever(
+    controlsRef,
+    (value) => {
+      value.addEventListener('change', () => {
+        invalidate()
+        if (value) {
+          emit('change', controlsRef.value as T)
+        }
+      })
+      value.addEventListener('start', () => {
+        controlsRef.value && emit('start', controlsRef.value as T)
+      })
+      value.addEventListener('end', () => {
+        controlsRef.value && emit('end', controlsRef.value as T)
+      })
 
-    if (props.makeDefault) {
-      controls.value = value
-    }
-    else {
-      controls.value = null
-    }
-  }, { once: true })
+      if (props.makeDefault) {
+        controls.value = value
+      } else {
+        controls.value = null
+      }
+    },
+    { once: true },
+  )
 
   const { onBeforeRender } = useLoop()
   onBeforeRender(() => {
-    if (controlsRef.value && controlsRef.value.enabled && (props.enableDamping || props.autoRotate)) {
+    if (
+      controlsRef.value &&
+      controlsRef.value.enabled &&
+      (props.enableDamping || props.autoRotate)
+    ) {
       controlsRef.value.update()
     }
   })

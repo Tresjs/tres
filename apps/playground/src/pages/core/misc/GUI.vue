@@ -21,9 +21,13 @@ const boxPosition = ref(new Vector3(0, 0, 0))
 
 useControls('fpsgraph', { uuid })
 useControls(gl, { uuid })
-useControls('Box', {
-  position: boxPosition.value,
-}, { uuid })
+useControls(
+  'Box',
+  {
+    position: boxPosition.value,
+  },
+  { uuid },
+)
 
 const boxWidth = ref(1)
 
@@ -34,10 +38,7 @@ setTimeout(() => {
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas
-    v-bind="gl"
-    :window-size="true"
-  >
+  <TresCanvas v-bind="gl" :window-size="true">
     <TresPerspectiveCamera :look-at="[0, 4, 0]" />
     <OrbitControls />
     <TresMesh :position-x="boxPosition.x">

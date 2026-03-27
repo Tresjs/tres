@@ -9,20 +9,20 @@ const uuid = inject('uuid')
 const { state: model } = useGLTF('/models/Artificer.glb')
 
 // Controls for BVH options
-const { enabled, debug } = useControls({
-  enabled: true,
-  debug: false,
-}, { uuid })
+const { enabled, debug } = useControls(
+  {
+    enabled: true,
+    debug: false,
+  },
+  { uuid },
+)
 
 // BVH composable with reactive controls
-useBVH(
-  () => model.value?.scene,
-  {
-    enabled,
-    debug,
-    verbose: false,
-  },
-)
+useBVH(() => model.value?.scene, {
+  enabled,
+  debug,
+  verbose: false,
+})
 </script>
 
 <template>

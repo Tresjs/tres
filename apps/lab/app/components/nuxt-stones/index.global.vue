@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { BlendFunction } from 'postprocessing'
 
-
-
 const bloomParams = reactive({
   luminanceThreshold: 0.2,
   luminanceSmoothing: 0.3,

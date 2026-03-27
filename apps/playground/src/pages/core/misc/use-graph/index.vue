@@ -11,7 +11,12 @@ const gl = {
 
 const group = new Group()
 
-group.add(new Mesh(new BoxGeometry(1, 1, 1), new MeshStandardMaterial({ name: 'FancyMaterial', color: 'red' })))
+group.add(
+  new Mesh(
+    new BoxGeometry(1, 1, 1),
+    new MeshStandardMaterial({ name: 'FancyMaterial', color: 'red' }),
+  ),
+)
 
 const graph = useGraph(group)
 

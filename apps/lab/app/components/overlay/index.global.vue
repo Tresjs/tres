@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <OverlayBackground />
@@ -10,16 +8,16 @@
     </div>
     <div class="top-left">
       <a href="https://tresjs.org" class="logo">
-        <img src="/logos/tres_logo_white.svg" alt="TresJS Logo" width="140">
+        <img src="/logos/tres_logo_white.svg" alt="TresJS Logo" width="140" />
       </a>
     </div>
     <div class="bottom-left">
-      <div style="display:flex">
-        <div style="padding-right:20px; padding-top:5px">
-          <img src="/logos/tres_shapes_stack_white.svg" width="25" alt="">
+      <div style="display: flex">
+        <div style="padding-right: 20px; padding-top: 5px">
+          <img src="/logos/tres_shapes_stack_white.svg" width="25" alt="" />
         </div>
         <div>
-          <a href="https://tresjs.org">TresJS is Vue.js + Three.js</a><br>
+          <a href="https://tresjs.org">TresJS is Vue.js + Three.js</a><br />
           <a href="/">See more experiments and examples</a>
         </div>
       </div>
@@ -29,7 +27,7 @@
 
 <style>
 body {
-  color: white
+  color: white;
 }
 
 .overlay {
@@ -45,7 +43,7 @@ body {
 
 .overlay a {
   pointer-events: auto;
-  color: #FFF;
+  color: #fff;
   transition: color 0.25s;
 }
 

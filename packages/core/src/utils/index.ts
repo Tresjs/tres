@@ -3,7 +3,15 @@ import type { AttachType, LocalState, TresInstance, TresObject, TresPrimitive } 
 import type { Material, Mesh, Texture } from 'three'
 import type { TresContext } from '../composables/useTresContextProvider'
 import { Scene } from 'three'
-import { isBufferGeometry, isFog, isMaterial, isString, isTresCamera, isTresPrimitive, isUndefined } from './is'
+import {
+  isBufferGeometry,
+  isFog,
+  isMaterial,
+  isString,
+  isTresCamera,
+  isTresPrimitive,
+  isUndefined,
+} from './is'
 import { filterInPlace } from './array'
 
 export * from './logger'
@@ -26,12 +34,11 @@ export function disposeObject3D(object: TresObject): void {
   delete object.__tres
   // Clone the children array to safely iterate
   const children = [...object.children]
-  children.forEach(child => disposeObject3D(child))
+  children.forEach((child) => disposeObject3D(child))
 
   if (object instanceof Scene) {
     // TODO: Handle Scene-specific cleanup
-  }
-  else {
+  } else {
     const mesh = object as unknown as Partial<Mesh>
     if (object) {
       object.dispose?.()
@@ -41,9 +48,8 @@ export function disposeObject3D(object: TresObject): void {
     }
 
     if (Array.isArray(mesh.material)) {
-      mesh.material.forEach(material => disposeMaterial(material))
-    }
-    else if (mesh.material) {
+      mesh.material.forEach((material) => disposeMaterial(material))
+    } else if (mesh.material) {
       disposeMaterial(mesh.material)
     }
   }
@@ -57,21 +63,19 @@ export function resolve(obj: Record<string, any>, key: string) {
     while (target && entries.length) {
       if (!(currKey in target)) {
         currKey = joinAsCamelCase(currKey, entries.shift() as string)
-      }
-      else {
+      } else {
         target = target[currKey]
         currKey = entries.shift() as string
       }
     }
     return { target, key: joinAsCamelCase(currKey, ...entries) }
-  }
-  else {
+  } else {
     return { target, key }
   }
 }
 
 function joinAsCamelCase(...strings: string[]): string {
-  return strings.map((s, i) => i === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1)).join('')
+  return strings.map((s, i) => (i === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1))).join('')
 }
 
 export function attach(parent: TresInstance, child: TresInstance, type: AttachType) {
@@ -91,7 +95,7 @@ export function attach(parent: TresInstance, child: TresInstance, type: AttachTy
         const previousAttach = target[key]
         const augmentedArray: any[] & { __tresDetach?: () => void } = []
         augmentedArray.__tresDetach = () => {
-          if (augmentedArray.every(v => isUndefined(v))) {
+          if (augmentedArray.every((v) => isUndefined(v))) {
             target[key] = previousAttach
           }
         }
@@ -102,8 +106,7 @@ export function attach(parent: TresInstance, child: TresInstance, type: AttachTy
     const { target, key } = resolve(parent, type)
     child.__tres.previousAttach = target[key]
     target[key] = unboxTresPrimitive(child)
-  }
-  else {
+  } else {
     child.__tres.previousAttach = type(parent, child)
   }
 }
@@ -123,15 +126,20 @@ export function detach(parent: any, child: TresInstance, type: AttachType) {
       target[key] = previous
     }
 
-    if ('__tresDetach' in target) { target.__tresDetach() }
-  }
-  else {
+    if ('__tresDetach' in target) {
+      target.__tresDetach()
+    }
+  } else {
     child.__tres?.previousAttach?.(parent, child)
   }
   delete child.__tres?.previousAttach
 }
 
-export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial<LocalState>, context: TresContext): TresInstance {
+export function prepareTresInstance<T extends TresObject>(
+  obj: T,
+  state: Partial<LocalState>,
+  context: TresContext,
+): TresInstance {
   const instance = obj as unknown as TresInstance
 
   instance.__tres = {
@@ -145,9 +153,13 @@ export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial
   }
 
   if (!instance.__tres.attach) {
-    if (isMaterial(instance)) { instance.__tres.attach = 'material' }
-    else if (isBufferGeometry(instance)) { instance.__tres.attach = 'geometry' }
-    else if (isFog(instance)) { instance.__tres.attach = 'fog' }
+    if (isMaterial(instance)) {
+      instance.__tres.attach = 'material'
+    } else if (isBufferGeometry(instance)) {
+      instance.__tres.attach = 'geometry'
+    } else if (isFog(instance)) {
+      instance.__tres.attach = 'fog'
+    }
   }
 
   return instance
@@ -156,7 +168,9 @@ export function prepareTresInstance<T extends TresObject>(obj: T, state: Partial
 export function invalidateInstance(instance: TresObject) {
   const ctx = instance?.__tres?.root
 
-  if (!ctx?.renderer) { return }
+  if (!ctx?.renderer) {
+    return
+  }
 
   if (ctx.renderer.canBeInvalidated.value) {
     ctx.renderer.invalidate()
@@ -178,7 +192,9 @@ export function setPrimitiveObject(
 
   const oldObject = unboxTresPrimitive(primitive)
   newObject = unboxTresPrimitive(newObject)
-  if (oldObject === newObject) { return true }
+  if (oldObject === newObject) {
+    return true
+  }
 
   const newInstance: TresInstance = prepareTresInstance(newObject, primitive.__tres ?? {}, context)
 
@@ -226,8 +242,7 @@ export function unboxTresPrimitive<T>(maybePrimitive: T): T | TresInstance {
     const primitive = maybePrimitive as unknown as TresPrimitive
     primitive.object.__tres = primitive.__tres
     return primitive.object
-  }
-  else {
+  } else {
     return maybePrimitive
   }
 }
@@ -235,17 +250,18 @@ export function unboxTresPrimitive<T>(maybePrimitive: T): T | TresInstance {
 export function doRemoveDetach(node: TresObject, context: TresContext) {
   // NOTE: Remove `node` from its parent's __tres parent/objects graph
   const parent = node.__tres?.parent || context.scene.value
-  if (node.__tres) { node.__tres.parent = null }
+  if (node.__tres) {
+    node.__tres.parent = null
+  }
   if (parent && parent.__tres && 'objects' in parent.__tres) {
-    filterInPlace(parent.__tres.objects, obj => obj !== node)
+    filterInPlace(parent.__tres.objects, (obj) => obj !== node)
   }
 
   // NOTE: THREE.removeFromParent removes `node` from
   // `parent.children`.
   if (node.__tres?.attach) {
     detach(parent, node as TresInstance, node.__tres.attach)
-  }
-  else {
+  } else {
     // NOTE: In case this is a primitive, we added the :object, not
     // the primitive. So we "unbox" here to remove the :object.
     // If not a primitive, unboxing returns the argument.

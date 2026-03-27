@@ -1,7 +1,7 @@
 /// <reference types="histoire" />
-/// <reference types="vitest" />
+/// <reference types="vite-plus/test" />
 
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite-plus'
 import vue from '@vitejs/plugin-vue'
 
 import banner from 'vite-plugin-banner'
@@ -18,7 +18,9 @@ import { presetScrollbar } from 'unocss-preset-scrollbar'
 
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
 // eslint-disable-next-line no-console
-console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`)
+console.log(
+  `${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`,
+)
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -37,7 +39,8 @@ export default defineConfig({
       mode: 'vue-scoped',
       /* options */
       shortcuts: {
-        'tl-leches-input': 'tl-text-left tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none focus:tl-ring-2 focus:tl-border-gray-200 focus:tl-ring focus:tl-ring-gray-200 tl-font-sans',
+        'tl-leches-input':
+          'tl-text-left tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none focus:tl-ring-2 focus:tl-border-gray-200 focus:tl-ring focus:tl-ring-gray-200 tl-font-sans',
       },
       presets: [
         presetUno({
@@ -48,11 +51,10 @@ export default defineConfig({
           scale: 1.2,
           warn: true,
           extraProperties: {
-            'display': 'inline-block',
+            display: 'inline-block',
             'vertical-align': 'middle',
             // ...
           },
-
         }),
         presetScrollbar({
           prefix: 'tl-',
@@ -79,12 +81,9 @@ export default defineConfig({
       formats: ['es'],
     },
     cssCodeSplit: false, // <--- important!
-    watch: {
-      include: [resolve(__dirname, 'src')],
-    },
     rollupOptions: {
       plugins: [
-      /*   analyze(),
+        /*   analyze(),
         visualizer({
           gzipSize: true,
           brotliSize: true,
@@ -98,7 +97,7 @@ export default defineConfig({
         // for externalized deps
         globals: {
           '@vueuse/core': 'VueUseCore',
-          'vue': 'Vue',
+          vue: 'Vue',
         },
       },
     },

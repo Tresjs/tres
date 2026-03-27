@@ -16,12 +16,7 @@ import {
 } from 'three'
 import { computed, onUnmounted, shallowRef, toRefs, watch } from 'vue'
 import type { TresControl } from '@tresjs/core'
-import type {
-  Camera,
-  Object3D,
-  OrthographicCamera,
-  PerspectiveCamera,
-} from 'three'
+import type { Camera, Object3D, OrthographicCamera, PerspectiveCamera } from 'three'
 import { isOrthographicCamera, isPerspectiveCamera } from '../../utils/types'
 
 export interface CameraControlsProps {
@@ -397,33 +392,35 @@ watch(props, () => {
   invalidate()
 })
 
-const mouseButtons = computed(() => getMouseButtons(
-  props.camera || activeCamera.value,
-  props.mouseButtons,
-))
-const touches = computed(() => getTouches(
-  props.camera || activeCamera.value,
-  props.touches,
-))
+const mouseButtons = computed(() =>
+  getMouseButtons(props.camera || activeCamera.value, props.mouseButtons),
+)
+const touches = computed(() => getTouches(props.camera || activeCamera.value, props.touches))
 
-const controlsRef = shallowRef<TresControl & CameraControls | null>(null)
+const controlsRef = shallowRef<(TresControl & CameraControls) | null>(null)
 extend({ CameraControls })
 
-whenever(controlsRef, (value) => {
-  value.addEventListener('update', () => {
-    controlsRef.value && emit('change', controlsRef.value)
-    invalidate()
-  })
-  value.addEventListener('controlend', () => controlsRef.value && emit('end', controlsRef.value))
-  value.addEventListener('controlstart', () => controlsRef.value && emit('start', controlsRef.value))
+whenever(
+  controlsRef,
+  (value) => {
+    value.addEventListener('update', () => {
+      controlsRef.value && emit('change', controlsRef.value)
+      invalidate()
+    })
+    value.addEventListener('controlend', () => controlsRef.value && emit('end', controlsRef.value))
+    value.addEventListener(
+      'controlstart',
+      () => controlsRef.value && emit('start', controlsRef.value),
+    )
 
-  if (makeDefault.value) {
-    controls.value = value
-  }
-  else {
-    controls.value = null
-  }
-}, { once: true })
+    if (makeDefault.value) {
+      controls.value = value
+    } else {
+      controls.value = null
+    }
+  },
+  { once: true },
+)
 
 const { onBeforeRender } = useLoop()
 
@@ -452,13 +449,11 @@ const getMouseButtons = (
   left: CameraControls.ACTION.ROTATE,
   middle: CameraControls.ACTION.DOLLY,
   right: CameraControls.ACTION.TRUCK,
-  wheel: (
-    isPerspectiveCamera(camera)
-      ? CameraControls.ACTION.DOLLY
-      : isOrthographicCamera(camera)
-        ? CameraControls.ACTION.ZOOM
-        : CameraControls.ACTION.NONE
-  ),
+  wheel: isPerspectiveCamera(camera)
+    ? CameraControls.ACTION.DOLLY
+    : isOrthographicCamera(camera)
+      ? CameraControls.ACTION.ZOOM
+      : CameraControls.ACTION.NONE,
   ...mouseButtons,
 })
 
@@ -467,13 +462,11 @@ const getTouches = (
   touches?: Partial<CameraControls['touches']>,
 ): CameraControls['touches'] => ({
   one: CameraControls.ACTION.TOUCH_ROTATE,
-  two: (
-    isPerspectiveCamera(camera)
-      ? CameraControls.ACTION.TOUCH_DOLLY_TRUCK
-      : isOrthographicCamera(camera)
-        ? CameraControls.ACTION.TOUCH_ZOOM_TRUCK
-        : CameraControls.ACTION.NONE
-  ),
+  two: isPerspectiveCamera(camera)
+    ? CameraControls.ACTION.TOUCH_DOLLY_TRUCK
+    : isOrthographicCamera(camera)
+      ? CameraControls.ACTION.TOUCH_ZOOM_TRUCK
+      : CameraControls.ACTION.NONE,
   three: CameraControls.ACTION.TOUCH_TRUCK,
   ...touches,
 })

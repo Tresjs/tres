@@ -35,25 +35,26 @@ onMounted(async () => {
   resume()
 })
 
-const { 'Depth Buffer': isUseDepthBuffer, 'MSAA Samples': numMsaaSamples } = useControls({
-  'Depth Buffer': state.depth,
-  'MSAA Samples': {
-    label: 'MSAA Samples',
-    value: state.settings.samples,
-    min: 0,
-    max: 8,
-    step: 1,
+const { 'Depth Buffer': isUseDepthBuffer, 'MSAA Samples': numMsaaSamples } = useControls(
+  {
+    'Depth Buffer': state.depth,
+    'MSAA Samples': {
+      label: 'MSAA Samples',
+      value: state.settings.samples,
+      min: 0,
+      max: 8,
+      step: 1,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 
-watch(
-  isUseDepthBuffer.value,
-  () => { state.depth = isUseDepthBuffer.value.value },
-)
-watch(
-  numMsaaSamples.value,
-  () => { state.settings.samples = numMsaaSamples.value.value },
-)
+watch(isUseDepthBuffer.value, () => {
+  state.depth = isUseDepthBuffer.value.value
+})
+watch(numMsaaSamples.value, () => {
+  state.settings.samples = numMsaaSamples.value.value
+})
 </script>
 
 <template>
@@ -62,32 +63,23 @@ watch(
 
   <TresGridHelper :args="[10, 10]" />
   <Stats />
-  <Fbo
-    ref="fboRef"
-    v-bind="state"
-  />
+  <Fbo ref="fboRef" v-bind="state" />
 
   <TresMesh>
     <TresBoxGeometry :args="[1, 1, 1]" />
     <TresMeshBasicMaterial
       ref="materialRef"
-      :color="0xFF8833"
+      :color="0xff8833"
       :map="fboRef?.instance.texture ?? null"
     />
   </TresMesh>
 
-  <TresMesh
-    ref="torusRef"
-    :position="[3, 0, 0]"
-  >
+  <TresMesh ref="torusRef" :position="[3, 0, 0]">
     <TresTorusGeometry :args="[1, 0.5, 16, 100]" />
     <TresMeshNormalMaterial />
   </TresMesh>
 
-  <TresMesh
-    ref="capsuleRef"
-    :position="[-2, 0, 0]"
-  >
+  <TresMesh ref="capsuleRef" :position="[-2, 0, 0]">
     <TresCapsuleGeometry :args="[0.4, 1, 4, 8]" />
     <TresMeshNormalMaterial />
   </TresMesh>

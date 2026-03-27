@@ -17,9 +17,5 @@ const props = defineProps<PixelationPmndrsProps>()
 const { pass, effect } = useEffectPmndrs(() => new PixelationEffect(props.granularity), props)
 defineExpose({ pass, effect })
 
-makePropWatchersUsingAllProps(
-  props,
-  effect,
-  () => new PixelationEffect(),
-)
+makePropWatchersUsingAllProps(props, effect, () => new PixelationEffect())
 </script>

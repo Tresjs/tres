@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vite-plus/test'
 import { useLoop } from './index'
 import { useCreateRafLoop } from '../useCreateRafLoop'
 
@@ -45,7 +45,9 @@ describe(useLoop.name, () => {
   it('should call registered callbacks in the right order', async () => {
     let toTest = ''
 
-    const add = (num: number) => () => { toTest += num }
+    const add = (num: number) => () => {
+      toTest += num
+    }
 
     loop.onBeforeRender(add(0), -1)
     loop.onBeforeRender(add(1), 0)

@@ -1,4 +1,18 @@
-import type { BufferGeometry, Camera, Color, ColorRepresentation, Fog, Group, Light, Material, Mesh, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
+import type {
+  BufferGeometry,
+  Camera,
+  Color,
+  ColorRepresentation,
+  Fog,
+  Group,
+  Light,
+  Material,
+  Mesh,
+  Object3D,
+  OrthographicCamera,
+  PerspectiveCamera,
+  Scene,
+} from 'three'
 import { Layers } from 'three'
 import { isNumber, isString } from './typed'
 import { createTypeGuard } from './util'

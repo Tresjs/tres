@@ -22,7 +22,10 @@ export interface TorusKnotProps {
   color?: TresColor
 }
 
-const props = withDefaults(defineProps<TorusKnotProps>(), { args: () => [1, 0.4, 64, 8], color: '#ffffff' })
+const props = withDefaults(defineProps<TorusKnotProps>(), {
+  args: () => [1, 0.4, 64, 8],
+  color: '#ffffff',
+})
 const { args, color } = toRefs(props)
 const { invalidate } = useTres()
 
@@ -38,9 +41,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="torusKnotRef"
-  >
+  <TresMesh ref="torusKnotRef">
     <TresTorusKnotGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

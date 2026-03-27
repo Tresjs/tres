@@ -18,11 +18,7 @@ export interface RigidBodyUserData {
 }
 
 /** @description Tres-Rapier supported `RigidBody` types. */
-export type RigidBodyType =
-  | 'dynamic'
-  | 'kinematic'
-  | 'kinematicVelocity'
-  | 'fixed'
+export type RigidBodyType = 'dynamic' | 'kinematic' | 'kinematicVelocity' | 'fixed'
 
 export interface RigidBodyProps extends Pick<
   ColliderProps,

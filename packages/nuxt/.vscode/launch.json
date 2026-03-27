@@ -17,18 +17,13 @@
       "name": "server: nuxt",
       "outputCapture": "std",
       "program": "${workspaceFolder}/node_modules/nuxt/bin/nuxt.mjs",
-      "args": [
-        "dev playground"
-      ],
+      "args": ["dev playground"]
     }
   ],
   "compounds": [
     {
       "name": "fullstack: nuxt",
-      "configurations": [
-        "server: nuxt",
-        "client: chrome"
-      ]
+      "configurations": ["server: nuxt", "client: chrome"]
     }
   ]
 }

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-const { clearColor } = useControls({
-  clearColor: '#82DBC5',
-}, {
-  uuid: 'simple',
-})
+const { clearColor } = useControls(
+  {
+    clearColor: '#82DBC5',
+  },
+  {
+    uuid: 'simple',
+  },
+)
 </script>
 
 <template>
@@ -11,9 +14,7 @@ const { clearColor } = useControls({
     <ClientOnly>
       <TresLeches uuid="simple" />
     </ClientOnly>
-    <TresCanvas
-      :clear-color="clearColor"
-    >
+    <TresCanvas :clear-color="clearColor">
       <TresPerspectiveCamera />
       <TresGroup>
         <TresMesh name="Im a pretty Box">

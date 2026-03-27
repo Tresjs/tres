@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Mesh } from 'three';
+import { Mesh } from 'three'
 import { watch } from 'vue'
 
 const props = defineProps<{
@@ -9,7 +9,6 @@ const props = defineProps<{
 const { nodes } = useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/low-poly/airplane.gltf',
 )
-
 
 const airplane = computed(() => nodes.value.Low_Poly_Airplane)
 
@@ -23,7 +22,6 @@ watch(airplane, (airplane) => {
   })
   airplane.updateMatrixWorld()
 })
-
 
 watch(
   () => props.planet,

@@ -8,16 +8,25 @@ import { EffectComposerPmndrs, SMAAPmndrs } from '@tresjs/post-processing'
 import type { PerspectiveCamera } from 'three'
 import { ref } from 'vue'
 
-
 const gl = {
   antialias: false,
   clearColor: '#FC7BAC',
   toneMapping: NoToneMapping,
 }
 
-const { blendFunction, debug, autoRotateSpeed, opacity, preset, wireframe, boxColor, predicationMode, edgeDetectionMode } = useControls({
+const {
+  blendFunction,
+  debug,
+  autoRotateSpeed,
+  opacity,
+  preset,
+  wireframe,
+  boxColor,
+  predicationMode,
+  edgeDetectionMode,
+} = useControls({
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -32,21 +41,21 @@ const { blendFunction, debug, autoRotateSpeed, opacity, preset, wireframe, boxCo
     value: 0,
   },
   preset: {
-    options: Object.keys(SMAAPreset).map(key => ({
+    options: Object.keys(SMAAPreset).map((key) => ({
       text: key,
       value: SMAAPreset[key as keyof typeof SMAAPreset],
     })),
     value: SMAAPreset.HIGH,
   },
   predicationMode: {
-    options: Object.keys(PredicationMode).map(key => ({
+    options: Object.keys(PredicationMode).map((key) => ({
       text: key,
       value: PredicationMode[key as keyof typeof PredicationMode],
     })),
     value: PredicationMode.DISABLED,
   },
   edgeDetectionMode: {
-    options: Object.keys(EdgeDetectionMode).map(key => ({
+    options: Object.keys(EdgeDetectionMode).map((key) => ({
       text: key,
       value: EdgeDetectionMode[key as keyof typeof EdgeDetectionMode],
     })),
@@ -72,7 +81,9 @@ const wrapperRef = ref<HTMLElement | undefined>(undefined)
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
 const onChange = (e: { object: PerspectiveCamera }) => {
-  if (!cameraRef.value) { return }
+  if (!cameraRef.value) {
+    return
+  }
 
   cameraRef.value.position.copy(e.object.position)
   cameraRef.value.rotation.copy(e.object.rotation)
@@ -83,14 +94,17 @@ const onChange = (e: { object: PerspectiveCamera }) => {
 
 <template>
   <div ref="wrapperRef" class="aspect-16/9 relative h-full">
-    <TresCanvas
-      v-bind="gl"
-      class="doc-smaa-canvas-left"
-    >
+    <TresCanvas v-bind="gl" class="doc-smaa-canvas-left">
       <TresPerspectiveCamera :position="[0, 2, 3.5]" />
-      <OrbitControls :domElement="wrapperRef" auto-rotate :auto-rotate-speed="autoRotateSpeed" :target="[0, 0.25, 0]" @change="onChange" />
+      <OrbitControls
+        :domElement="wrapperRef"
+        auto-rotate
+        :auto-rotate-speed="autoRotateSpeed"
+        :target="[0, 0.25, 0]"
+        @change="onChange"
+      />
 
-      <TresMesh :position="[0, .5, 0]">
+      <TresMesh :position="[0, 0.5, 0]">
         <TresBoxGeometry :args="[2, 2, 2]" />
         <TresMeshBasicMaterial :color="boxColor" :wireframe="wireframe" />
       </TresMesh>
@@ -98,13 +112,10 @@ const onChange = (e: { object: PerspectiveCamera }) => {
 
     <div class="doc-smaa-divider"></div>
 
-    <TresCanvas
-      v-bind="gl"
-      class="doc-smaa-canvas-right"
-    >
+    <TresCanvas v-bind="gl" class="doc-smaa-canvas-right">
       <TresPerspectiveCamera ref="cameraRef" :position="[0, 2, 3.5]" />
 
-      <TresMesh :position="[0, .5, 0]">
+      <TresMesh :position="[0, 0.5, 0]">
         <TresBoxGeometry :args="[2, 2, 2]" />
         <TresMeshBasicMaterial :color="boxColor" :wireframe="wireframe" />
       </TresMesh>

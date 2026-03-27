@@ -17,7 +17,9 @@ export default class RandomizedLights extends Group {
   constructor(config: Partial<RandomizedLights> = {}) {
     super()
     Object.assign(this, config)
-    if (this.count === 0) { this.count = 8 }
+    if (this.count === 0) {
+      this.count = 8
+    }
     if (!config.mapSize) {
       this.mapSize = 512
     }
@@ -44,7 +46,7 @@ export default class RandomizedLights extends Group {
   }
 
   get count() {
-    return this.children.filter(c => 'isDirectionalLight' in c).length
+    return this.children.filter((c) => 'isDirectionalLight' in c).length
   }
 
   get mapSize() {
@@ -94,7 +96,7 @@ export default class RandomizedLights extends Group {
   }
 
   get lights(): DirectionalLight[] {
-    return this.children.filter(c => 'isDirectionalLight' in c) as DirectionalLight[]
+    return this.children.filter((c) => 'isDirectionalLight' in c) as DirectionalLight[]
   }
 
   update() {
@@ -116,8 +118,7 @@ export default class RandomizedLights extends Group {
           Math.abs(Math.cos(lambda) * Math.sin(phi) * this.length),
           Math.sin(lambda) * this.length,
         )
-      }
-      else {
+      } else {
         if (Math.random() > this.ambient) {
           light.position.set(
             this.position.x + MathUtils.randFloatSpread(this.radius),

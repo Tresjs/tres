@@ -32,27 +32,35 @@ Ready-made abstractions for TresJS
 Extending helpers and composables using Three.js addons.
 
 #links
-  :::u-button
-  ---
-  size: lg
-  color: neutral
-  to: /getting-started
-  trailing-icon: i-lucide-arrow-right
-  ---
-  Get started
-  :::
+:::u-button
 
-  :::u-button
-  ---
-  color: neutral
-  icon: i-simple-icons-github
-  size: lg
-  target: _blank
-  to: https://github.com/tresjs/tres
-  variant: subtle
-  ---
-  Star on GitHub
-  :::
+---
+
+size: lg
+color: neutral
+to: /getting-started
+trailing-icon: i-lucide-arrow-right
+
+---
+
+Get started
+:::
+
+:::u-button
+
+---
+
+color: neutral
+icon: i-simple-icons-github
+size: lg
+target: \_blank
+to: https://github.com/tresjs/tres
+variant: subtle
+
+---
+
+Star on GitHub
+:::
 ::
 
 ::u-page-section
@@ -60,67 +68,87 @@ Extending helpers and composables using Three.js addons.
 Features you will love
 
 #links
-  :::u-button
-  ---
-  color: neutral
-  size: lg
-  target: _blank
-  to: https://lab.tresjs.org/
-  trailingIcon: i-lucide:flask-conical
-  variant: subtle
-  ---
-  Explore the lab
-  :::
+:::u-button
+
+---
+
+color: neutral
+size: lg
+target: \_blank
+to: https://lab.tresjs.org/
+trailingIcon: i-lucide:flask-conical
+variant: subtle
+
+---
+
+Explore the lab
+:::
 
 #features
 
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-threedotjs
-  target: _blank
-  to: https://github.com/pmndrs/three-stdlib
-  ---
-  #title
-  three-stdlib
+:::u-page-feature
 
-  #description
-  Because the Three.js addons repo structure is... daunting.
-  :::
-  :::u-page-feature
-  ---
-  icon: i-lucide-biceps-flexed
-  target: _blank
-  to: https://threejs.org
-  ---
-  #title
-  Extendable
+---
 
-  #description
-  You want to create a fancy shader material component? Submit a PR 🤗.
-  :::
+icon: i-simple-icons-threedotjs
+target: \_blank
+to: https://github.com/pmndrs/three-stdlib
 
-  :::u-page-feature
-  ---
-  icon: i-lucide-heart
-  target: _blank
-  to: https://ui.nuxt.com
-  ---
-  #title
-  Community-Driven
-  #description
-  Benefits from the active and growing Vue TresJS community.
-  :::
+---
 
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-typescript
-  target: _blank
-  to: https://www.typescriptlang.org
-  ---
-  #title
-  TypeScript
+#title
+three-stdlib
 
-  #description
-  A fully typed development experience.
-  :::
+#description
+Because the Three.js addons repo structure is... daunting.
+:::
+:::u-page-feature
+
+---
+
+icon: i-lucide-biceps-flexed
+target: \_blank
+to: https://threejs.org
+
+---
+
+#title
+Extendable
+
+#description
+You want to create a fancy shader material component? Submit a PR 🤗.
+:::
+
+:::u-page-feature
+
+---
+
+icon: i-lucide-heart
+target: \_blank
+to: https://ui.nuxt.com
+
+---
+
+#title
+Community-Driven
+#description
+Benefits from the active and growing Vue TresJS community.
+:::
+
+:::u-page-feature
+
+---
+
+icon: i-simple-icons-typescript
+target: \_blank
+to: https://www.typescriptlang.org
+
+---
+
+#title
+TypeScript
+
+#description
+A fully typed development experience.
+:::
 ::

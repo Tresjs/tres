@@ -60,7 +60,10 @@ useRafFn(({ timestamp }) => {
       .map(
         (fps, index) =>
           `${index * strokeWidth},${
-            height.value + topOffset - strokeWidth / 2 - (fps * (height.value + topOffset - strokeWidth)) / 120
+            height.value +
+            topOffset -
+            strokeWidth / 2 -
+            (fps * (height.value + topOffset - strokeWidth)) / 120
           }`,
       )
       .join(' ')
@@ -71,27 +74,15 @@ const isDark = useDark()
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
-    <ControlLabel
-      :label="label"
-      :control="control"
-    />
+  <div
+    class="tl-flex tl-gap-1 tl-items-center"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing)"
+  >
+    <ControlLabel :label="label" :control="control" />
     <div
       ref="containerRef"
-      class="
-        tl-relative
-        tl-w-2/3
-        tl-py-1
-        tl-text-right
-        tl-text-gray-400
-        tl-bg-gray-100
-        dark:tl-bg-dark-300
-        dark:tl-text-gray-400
-        tl-outline-none
-        tl-border-none
-        tl-font-sans
-      "
-      style="border-radius: var(--tl-blade-radius);"
+      class="tl-relative tl-w-2/3 tl-py-1 tl-text-right tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-font-sans"
+      style="border-radius: var(--tl-blade-radius)"
     >
       <div class="tl-absolute tl-bottom-0.5 tl-right-0.5 tl-font-sans">
         {{ Math.round(fps) }} FPS

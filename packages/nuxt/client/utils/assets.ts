@@ -1,7 +1,16 @@
 import type { AssetLoadData } from '@tresjs/core'
 import { bytesToKB, calculateMemoryUsage } from './perf'
 import type { Material, Texture } from 'three'
-import { Scene, Mesh, WebGLRenderer, PerspectiveCamera, Box3, Vector3, AmbientLight, DirectionalLight } from 'three'
+import {
+  Scene,
+  Mesh,
+  WebGLRenderer,
+  PerspectiveCamera,
+  Box3,
+  Vector3,
+  AmbientLight,
+  DirectionalLight,
+} from 'three'
 
 export interface AssetInfo {
   id: string
@@ -37,22 +46,22 @@ export function extractMaterials(scene: Scene): AssetInfo[] {
     }
   })
 
-  return Array.from(materials.values()).map((material): AssetInfo => ({
-    id: material.uuid,
-    name: material.name || material.type || 'Unnamed Material',
-    type: 'material',
-    format: material.type,
-    usage: 1, // Materials are lightweight
-  }))
+  return Array.from(materials.values()).map(
+    (material): AssetInfo => ({
+      id: material.uuid,
+      name: material.name || material.type || 'Unnamed Material',
+      type: 'material',
+      format: material.type,
+      usage: 1, // Materials are lightweight
+    }),
+  )
 }
 
 /**
  * Gets all assets from the scene
  */
 export function extractAllAssets(scene: Scene): AssetInfo[] {
-  return [
-    ...extractMaterials(scene),
-  ]
+  return [...extractMaterials(scene)]
 }
 
 // Helper functions
@@ -112,8 +121,7 @@ function getTexturePreview(texture: Texture): string | undefined {
         return texture.image.currentSrc
       }
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.warn('Failed to get texture preview:', error)
   }
   return undefined
@@ -155,12 +163,10 @@ function repairCorruptedBuffers(object: Object3D): boolean {
               if (typeof attribute.array === 'string') {
                 // Handle comma-separated string
                 arrayData = attribute.array.split(',').map(Number)
-              }
-              else if (Array.isArray(attribute.array)) {
+              } else if (Array.isArray(attribute.array)) {
                 // Handle regular array
                 arrayData = attribute.array
-              }
-              else if (attribute.array.length !== undefined) {
+              } else if (attribute.array.length !== undefined) {
                 // Handle array-like object
                 arrayData = Array.from(attribute.array as ArrayLike<number>)
               }
@@ -173,12 +179,10 @@ function repairCorruptedBuffers(object: Object3D): boolean {
                 const maxValue = Math.max(...arrayData)
                 if (maxValue > 65535) {
                   repairedArray = new Uint32Array(arrayData)
-                }
-                else {
+                } else {
                   repairedArray = new Uint16Array(arrayData)
                 }
-              }
-              else {
+              } else {
                 // Position, normal, uv, etc. use float arrays
                 repairedArray = new Float32Array(arrayData)
               }
@@ -189,12 +193,20 @@ function repairCorruptedBuffers(object: Object3D): boolean {
               attribute.needsUpdate = true
 
               if (process.env.NODE_ENV === 'development') {
-                console.log(`Repaired ${attributeName} buffer for geometry:`, child.name, 'as', repairedArray.constructor.name)
+                console.log(
+                  `Repaired ${attributeName} buffer for geometry:`,
+                  child.name,
+                  'as',
+                  repairedArray.constructor.name,
+                )
               }
-            }
-            catch (error) {
+            } catch (error) {
               if (process.env.NODE_ENV === 'development') {
-                console.warn(`Failed to repair ${attributeName} buffer for geometry:`, child.name, error)
+                console.warn(
+                  `Failed to repair ${attributeName} buffer for geometry:`,
+                  child.name,
+                  error,
+                )
               }
               return false
             }
@@ -216,11 +228,9 @@ function repairCorruptedBuffers(object: Object3D): boolean {
 
             if (typeof indexArray === 'string') {
               arrayData = indexArray.split(',').map(Number)
-            }
-            else if (Array.isArray(indexArray)) {
+            } else if (Array.isArray(indexArray)) {
               arrayData = indexArray
-            }
-            else if (indexArray.length !== undefined) {
+            } else if (indexArray.length !== undefined) {
               arrayData = Array.from(indexArray as ArrayLike<number>)
             }
 
@@ -230,8 +240,7 @@ function repairCorruptedBuffers(object: Object3D): boolean {
 
             if (maxValue > 65535) {
               repairedArray = new Uint32Array(arrayData)
-            }
-            else {
+            } else {
               repairedArray = new Uint16Array(arrayData)
             }
 
@@ -239,10 +248,14 @@ function repairCorruptedBuffers(object: Object3D): boolean {
             child.geometry.index.needsUpdate = true
 
             if (process.env.NODE_ENV === 'development') {
-              console.log(`Repaired index buffer for geometry:`, child.name, 'as', repairedArray.constructor.name)
+              console.log(
+                `Repaired index buffer for geometry:`,
+                child.name,
+                'as',
+                repairedArray.constructor.name,
+              )
             }
-          }
-          catch (error) {
+          } catch (error) {
             if (process.env.NODE_ENV === 'development') {
               console.warn(`Failed to repair index buffer for geometry:`, child.name, error)
             }
@@ -335,8 +348,7 @@ function getModelPreview(model: Object3D): string | undefined {
       // Fallback positioning
       camera.position.set(3, 3, 3)
       camera.lookAt(0, 0, 0)
-    }
-    else {
+    } else {
       // Position camera at an angle for better view
       const distance = maxDim * 2.5
       camera.position.set(
@@ -349,9 +361,9 @@ function getModelPreview(model: Object3D): string | undefined {
 
     // Add stronger lighting
     const ambientLight = new AmbientLight(0x404040, 0.8)
-    const directionalLight1 = new DirectionalLight(0xFFFFFF, 1.0)
+    const directionalLight1 = new DirectionalLight(0xffffff, 1.0)
     directionalLight1.position.set(1, 1, 1)
-    const directionalLight2 = new DirectionalLight(0xFFFFFF, 0.5)
+    const directionalLight2 = new DirectionalLight(0xffffff, 0.5)
     directionalLight2.position.set(-1, -1, -1)
 
     scene.add(ambientLight, directionalLight1, directionalLight2)
@@ -364,8 +376,7 @@ function getModelPreview(model: Object3D): string | undefined {
     renderer.dispose()
 
     return dataURL
-  }
-  catch (error) {
+  } catch (error) {
     console.warn('Failed to generate model preview:', error)
     return undefined
   }
@@ -384,8 +395,7 @@ export function formatAsset(asset: AssetLoadData): AssetInfo {
       preview, // Add model preview
       // object: asset.asset,
     }
-  }
-  else if (asset.loader.name === 'TextureLoader') {
+  } else if (asset.loader.name === 'TextureLoader') {
     const image = asset.asset.image
     const size = image ? `${image.width}x${image.height}` : 'Unknown'
     const preview = getTexturePreview(asset.asset)

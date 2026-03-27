@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "Vue.volar",
-    "Vue.vscode-typescript-vue-plugin"
+    "Vue.vscode-typescript-vue-plugin",
+    "VoidZero.vite-plus-extension-pack"
   ]
 }

@@ -3,14 +3,17 @@ import { UnrealBloom } from '@tresjs/post-processing'
 import BasicScene from '@/components/BasicScene.vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 
-const { enabled, radius, strength, threshold } = useControls({
-  enabled: true,
-  radius: { value: 0.85, min: 0, max: 1, step: 0.01 },
-  strength: { value: 0.4, min: 0, max: 1, step: 0.01 },
-  threshold: { value: 0.1, min: 0, max: 1, step: 0.01 },
-}, {
-  uuid: 'postprocessing-three-unreal-bloom',
-})
+const { enabled, radius, strength, threshold } = useControls(
+  {
+    enabled: true,
+    radius: { value: 0.85, min: 0, max: 1, step: 0.01 },
+    strength: { value: 0.4, min: 0, max: 1, step: 0.01 },
+    threshold: { value: 0.1, min: 0, max: 1, step: 0.01 },
+  },
+  {
+    uuid: 'postprocessing-three-unreal-bloom',
+  },
+)
 </script>
 
 <template>

@@ -10,9 +10,12 @@ const gl = {
   alpha: false,
 }
 
-const { colorEdges } = useControls({
-  colorEdges: '#505050',
-}, { uuid })
+const { colorEdges } = useControls(
+  {
+    colorEdges: '#505050',
+  },
+  { uuid },
+)
 
 const dataBoxes = ['#82DBC5', '#505050', '#F6B03B']
 </script>

@@ -13,19 +13,22 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { blendFunction, bits, opacity } = useControls({
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.NORMAL,
+const { blendFunction, bits, opacity } = useControls(
+  {
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.NORMAL,
+    },
+    bits: { value: 8, step: 1, min: 1, max: 32 },
+    opacity: { value: 1, step: 0.1, min: 0, max: 1 },
   },
-  bits: { value: 8, step: 1, min: 1, max: 32 },
-  opacity: { value: 1, step: 0.1, min: 0, max: 1 },
-}, { uuid })
+  { uuid },
+)
 
-const meshes: { position: [number, number, number], color: string }[] = [
+const meshes: { position: [number, number, number]; color: string }[] = [
   { position: [0, 0.5, 0], color: 'white' },
   { position: [0, 0.5, -10], color: 'red' },
   { position: [0, 0.5, 10], color: 'yellow' },
@@ -37,17 +40,11 @@ const meshes: { position: [number, number, number], color: string }[] = [
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[17.5, 7.5, 5]" />
     <OrbitControls auto-rotate />
 
-    <TresMesh
-      v-for="(mesh, index) in meshes"
-      :key="index"
-      :position="mesh.position"
-    >
+    <TresMesh v-for="(mesh, index) in meshes" :key="index" :position="mesh.position">
       <TresBoxGeometry :args="[2, 2, 2]" />
       <TresMeshPhysicalMaterial :color="mesh.color" :roughness="0.25" />
     </TresMesh>

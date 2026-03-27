@@ -6,35 +6,38 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'core-cameras-perspective'
 
-const { position, lookAt, fov, near, far, zoom } = useControls({
-  position: new Vector3(8, 8, 8),
-  lookAt: new Vector3(0, 0, 0),
-  // TODO: For some reason, the PerspectiveCamera's fov prop is not updating when the value is changed.
-  fov: {
-    value: 45,
-    min: 1,
-    max: 180,
-    step: 1,
+const { position, lookAt, fov, near, far, zoom } = useControls(
+  {
+    position: new Vector3(8, 8, 8),
+    lookAt: new Vector3(0, 0, 0),
+    // TODO: For some reason, the PerspectiveCamera's fov prop is not updating when the value is changed.
+    fov: {
+      value: 45,
+      min: 1,
+      max: 180,
+      step: 1,
+    },
+    near: {
+      value: 0.1,
+      min: 0.01,
+      max: 100,
+      step: 0.01,
+    },
+    far: {
+      value: 1000,
+      min: 0.01,
+      max: 1000,
+      step: 0.01,
+    },
+    zoom: {
+      value: 1,
+      min: 0.01,
+      max: 10,
+      step: 0.01,
+    },
   },
-  near: {
-    value: 0.1,
-    min: 0.01,
-    max: 100,
-    step: 0.01,
-  },
-  far: {
-    value: 1000,
-    min: 0.01,
-    max: 1000,
-    step: 0.01,
-  },
-  zoom: {
-    value: 1,
-    min: 0.01,
-    max: 10,
-    step: 0.01,
-  },
-}, { uuid })
+  { uuid },
+)
 
 const cameraRef = ref<PerspectiveCamera>()
 

@@ -18,25 +18,28 @@ const cameraUuidList = computed(() => [
   camera3.value?.uuid,
 ])
 
-const { cameras: activeCameraIndex } = useControls({
-  cameras: {
-    value: 0,
-    options: [
-      {
-        text: 'Camera 1',
-        value: 0,
-      },
-      {
-        text: 'Camera 2',
-        value: 1,
-      },
-      {
-        text: 'Camera 3',
-        value: 2,
-      },
-    ],
+const { cameras: activeCameraIndex } = useControls(
+  {
+    cameras: {
+      value: 0,
+      options: [
+        {
+          text: 'Camera 1',
+          value: 0,
+        },
+        {
+          text: 'Camera 2',
+          value: 1,
+        },
+        {
+          text: 'Camera 3',
+          value: 2,
+        },
+      ],
+    },
   },
-}, { uuid })
+  { uuid },
+)
 
 const activeCameraUuid = computed(() => cameraUuidList.value[activeCameraIndex.value])
 </script>
@@ -79,9 +82,6 @@ const activeCameraUuid = computed(() => cameraUuidList.value[activeCameraIndex.v
       <TresMeshToonMaterial color="cyan" />
     </TresMesh>
 
-    <TresDirectionalLight
-      :position="[0, 2, 4]"
-      :intensity="1"
-    />
+    <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" />
   </TresCanvas>
 </template>

@@ -25,66 +25,69 @@ export interface TresContext {
 
 export const INJECTION_KEY = 'useTres' // this is intentionally not a symbol as it can not properly be bridged to the custom renderer
 
-const [useTresContextProvider, _useTresContext] = createInjectionState(({
-  scene,
-  canvas,
-  fpsLimit,
-  windowSize,
-  rendererOptions,
-}: {
-  scene: TresScene
-  canvas: MaybeRef<HTMLCanvasElement>
-  fpsLimit?: MaybeRefOrGetter<number>
-  windowSize: MaybeRefOrGetter<boolean>
-  rendererOptions: RendererOptions
-}): TresContext => {
-  const localScene = shallowRef(scene)
-  const sizes = useSizes(windowSize, canvas)
+const [useTresContextProvider, _useTresContext] = createInjectionState(
+  ({
+    scene,
+    canvas,
+    fpsLimit,
+    windowSize,
+    rendererOptions,
+  }: {
+    scene: TresScene
+    canvas: MaybeRef<HTMLCanvasElement>
+    fpsLimit?: MaybeRefOrGetter<number>
+    windowSize: MaybeRefOrGetter<boolean>
+    rendererOptions: RendererOptions
+  }): TresContext => {
+    const localScene = shallowRef(scene)
+    const sizes = useSizes(windowSize, canvas)
 
-  const camera = useCameraManager({ sizes })
+    const camera = useCameraManager({ sizes })
 
-  const renderer = useRendererManager(
-    {
+    const renderer = useRendererManager({
       scene: localScene,
       canvas,
       options: rendererOptions,
       fpsLimit,
       contextParts: { sizes, camera },
-    },
-  )
+    })
 
-  const events = useEventManager({
-    canvas,
-    contextParts: { scene: localScene, camera, renderer },
-  })
+    const events = useEventManager({
+      canvas,
+      contextParts: { scene: localScene, camera, renderer },
+    })
 
-  const ctx: TresContext = {
-    sizes,
-    scene: localScene,
-    camera,
-    renderer,
-    controls: ref(null),
-    extend,
-    events,
-  }
+    const ctx: TresContext = {
+      sizes,
+      scene: localScene,
+      camera,
+      renderer,
+      controls: ref(null),
+      extend,
+      events,
+    }
 
-  // Add context to scene local state
-  ctx.scene.value.__tres = {
-    root: ctx,
-    objects: [],
-    isUnmounting: false,
-  }
+    // Add context to scene local state
+    ctx.scene.value.__tres = {
+      root: ctx,
+      objects: [],
+      isUnmounting: false,
+    }
 
-  return ctx
-}, {
-  injectionKey: 'useTres',
-})
+    return ctx
+  },
+  {
+    injectionKey: 'useTres',
+  },
+)
 
 const useTresContext = () => {
   const ctx = _useTresContext()
 
   if (!ctx) {
-    throw new Error('useTresContext must be used together with useTresContextProvider.\n You probably tried to use it above or on the same level as a TresCanvas component.\n It should be used in child components of a TresCanvas instance.')
+    throw new Error(
+      'useTresContext must be used together with useTresContextProvider.\n You probably tried to use it above or on the same level as a TresCanvas component.\n It should be used in child components of a TresCanvas instance.',
+    )
   }
 
   return ctx!

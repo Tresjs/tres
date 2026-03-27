@@ -1,33 +1,23 @@
 <script setup lang="ts">
-import {
-  Environment,
-  Lightformer,
-  OrbitControls,
-  Sphere,
-  useProgress,
-} from '@tresjs/cientos'
+import { Environment, Lightformer, OrbitControls, Sphere, useProgress } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const environmentFiles = [
-  '/px.jpg',
-  '/nx.jpg',
-  '/py.jpg',
-  '/ny.jpg',
-  '/pz.jpg',
-  '/nz.jpg',
-]
+const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg', '/nz.jpg']
 
 const { progress, hasFinishLoading } = await useProgress()
 
-const { intensity, form, toneMapped, color } = useControls({
-  intensity: { value: 100, min: 0, max: 200, step: 1 },
-  form: { value: 'rect', options: ['circle', 'ring', 'rect'] },
-  toneMapped: false,
-  color: '#ffffff',
-}, { uuid })
+const { intensity, form, toneMapped, color } = useControls(
+  {
+    intensity: { value: 100, min: 0, max: 200, step: 1 },
+    form: { value: 'rect', options: ['circle', 'ring', 'rect'] },
+    toneMapped: false,
+    color: '#ffffff',
+  },
+  { uuid },
+)
 </script>
 
 <template>
@@ -56,8 +46,22 @@ const { intensity, form, toneMapped, color } = useControls({
         :environmentIntensity="0.05"
         path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
       >
-        <Lightformer :intensity="intensity" :position="[0, -2, 3]" :scale="2" :form="form" :tone-mapped="toneMapped" :color="color" />
-        <Lightformer :intensity="intensity" :position="[0, 2, -3]" :scale="2" :form="form" :tone-mapped="toneMapped" :color="color" />
+        <Lightformer
+          :intensity="intensity"
+          :position="[0, -2, 3]"
+          :scale="2"
+          :form="form"
+          :tone-mapped="toneMapped"
+          :color="color"
+        />
+        <Lightformer
+          :intensity="intensity"
+          :position="[0, 2, -3]"
+          :scale="2"
+          :form="form"
+          :tone-mapped="toneMapped"
+          :color="color"
+        />
       </Environment>
     </Suspense>
     <Sphere>

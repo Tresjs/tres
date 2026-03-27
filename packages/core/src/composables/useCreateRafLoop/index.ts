@@ -2,7 +2,10 @@ import type { MaybeRefOrGetter } from 'vue'
 import { createEventHook, useRafFn } from '@vueuse/core'
 import { createTimer } from '../../utils/createTimer'
 
-export interface RafLoopContext { delta: number, elapsed: number }
+export interface RafLoopContext {
+  delta: number
+  elapsed: number
+}
 
 /**
  * @param cycleFn the function that is called before the after event hook is triggered and after the before event hook is triggered.
@@ -18,20 +21,23 @@ export const useCreateRafLoop = (
     after: createEventHook<RafLoopContext>(),
   }
 
-  const { pause, resume, isActive } = useRafFn(() => {
-    timer.update() // must be called once per frame before getDelta/getElapsed
-    const context: RafLoopContext = {
-      delta: timer.getDelta(), // do not call getDelta individually for before and after event hooks as it resets the delta and leads to incorrect delta values (see issue #1323)
-      elapsed: timer.getElapsed(),
-    }
+  const { pause, resume, isActive } = useRafFn(
+    () => {
+      timer.update() // must be called once per frame before getDelta/getElapsed
+      const context: RafLoopContext = {
+        delta: timer.getDelta(), // do not call getDelta individually for before and after event hooks as it resets the delta and leads to incorrect delta values (see issue #1323)
+        elapsed: timer.getElapsed(),
+      }
 
-    eventHooks.before.trigger(context)
-    cycleFn()
-    eventHooks.after.trigger(context)
-  }, {
-    immediate: false,
-    fpsLimit,
-  })
+      eventHooks.before.trigger(context)
+      cycleFn()
+      eventHooks.after.trigger(context)
+    },
+    {
+      immediate: false,
+      fpsLimit,
+    },
+  )
 
   const start = () => {
     timer.start()

@@ -205,9 +205,12 @@ import { dispose } from '@tresjs/core'
 import { useGLTF } from '@tresjs/cientos'
 import { onUnmounted } from 'vue'
 
-const { nodes } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', {
-  draco: true,
-})
+const { nodes } = await useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
+  {
+    draco: true,
+  },
+)
 const model = nodes.Cube
 
 onUnmounted(() => {

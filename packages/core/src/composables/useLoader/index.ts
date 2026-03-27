@@ -13,15 +13,16 @@ export interface LoaderMethods {
   setKTX2Loader: (ktx2Loader: any) => void
 }
 
-export type TresLoader<T> = Loader & Partial<LoaderMethods> & {
-  load: (
-    url: string,
-    onLoad: (result: T) => void,
-    onProgress?: (event: ProgressEvent<EventTarget>) => void,
-    onError?: (err: unknown) => void
-  ) => void
-  loadAsync: (url: string, onProgress?: (event: ProgressEvent) => void) => Promise<T>
-}
+export type TresLoader<T> = Loader &
+  Partial<LoaderMethods> & {
+    load: (
+      url: string,
+      onLoad: (result: T) => void,
+      onProgress?: (event: ProgressEvent<EventTarget>) => void,
+      onError?: (err: unknown) => void,
+    ) => void
+    loadAsync: (url: string, onProgress?: (event: ProgressEvent) => void) => Promise<T>
+  }
 
 export type LoaderProto<T> = new (manager?: LoadingManager) => TresLoader<T>
 
@@ -38,7 +39,11 @@ export interface TresLoaderOptions<T, Shallow extends boolean> {
  * @template Shallow - Whether to use shallow reactivity for better performance
  * @extends {UseAsyncStateReturn<T, [string], Shallow>} - Extends VueUse's useAsyncState return type
  */
-export type UseLoaderReturn<T, Shallow extends boolean> = UseAsyncStateReturn<T, [string], Shallow> & {
+export type UseLoaderReturn<T, Shallow extends boolean> = UseAsyncStateReturn<
+  T,
+  [string],
+  Shallow
+> & {
   /**
    * Loads a new asset from the given path
    * @param path - The URL or path to the asset to load
@@ -81,19 +86,25 @@ export function useLoader<T, Shallow extends boolean = false>(
 
   const initialPath = toValue(path)
   const result = useAsyncState(
-    (path?: string) => new Promise((resolve, reject) => {
-      const assetPath = path || initialPath || ''
+    (path?: string) =>
+      new Promise((resolve, reject) => {
+        const assetPath = path || initialPath || ''
 
-      proto.load(assetPath, (result: T) => {
-        resolve(result as unknown as TresObject)
-      }, (event: ProgressEvent<EventTarget>) => {
-        progress.loaded = event.loaded
-        progress.total = event.total
-        progress.percentage = ((progress.loaded / progress.total) * 100)
-      }, (err: unknown) => {
-        reject(err)
-      })
-    }),
+        proto.load(
+          assetPath,
+          (result: T) => {
+            resolve(result as unknown as TresObject)
+          },
+          (event: ProgressEvent<EventTarget>) => {
+            progress.loaded = event.loaded
+            progress.total = event.total
+            progress.percentage = (progress.loaded / progress.total) * 100
+          },
+          (err: unknown) => {
+            reject(err)
+          },
+        )
+      }),
     options?.initialValue ?? null,
     {
       ...options?.asyncOptions,
@@ -102,16 +113,19 @@ export function useLoader<T, Shallow extends boolean = false>(
   )
 
   // Watch for path changes and reload the model
-  const unsub = watch(() => toValue(path), (newPath) => {
-    if (newPath) {
-      const value = result.state.value
-      // Safely dispose the scene if it exists
-      if (value && typeof value === 'object' && 'scene' in value && value.scene) {
-        disposeObject3D(value.scene as unknown as TresObject)
+  const unsub = watch(
+    () => toValue(path),
+    (newPath) => {
+      if (newPath) {
+        const value = result.state.value
+        // Safely dispose the scene if it exists
+        if (value && typeof value === 'object' && 'scene' in value && value.scene) {
+          disposeObject3D(value.scene as unknown as TresObject)
+        }
+        result.execute(0, newPath)
       }
-      result.execute(0, newPath)
-    }
-  })
+    },
+  )
 
   // Cleanup on component unmount
   onUnmounted(() => {

@@ -6,7 +6,11 @@ export const v1 = new Vector3(0, 0, 0)
 export const v2 = new Vector3(0, 0, 0)
 export const v3 = new Vector3(0, 0, 0)
 
-export function calculatePosition(instance: TresObject3D, camera: TresCamera, size: { width: number, height: number }) {
+export function calculatePosition(
+  instance: TresObject3D,
+  camera: TresCamera,
+  size: { width: number; height: number },
+) {
   const objectPos = v1.setFromMatrixPosition(instance.matrixWorld)
   objectPos.project(camera)
   const widthHalf = size.width / 2
@@ -26,7 +30,12 @@ export function isObjectBehindCamera(el: TresObject3D, camera: TresCamera) {
   return deltaCamObj.angleTo(camDir) > Math.PI / 2
 }
 
-export function isObjectVisible(el: TresObject3D, camera: TresCamera, raycaster: Raycaster, occlude: any) {
+export function isObjectVisible(
+  el: TresObject3D,
+  camera: TresCamera,
+  raycaster: Raycaster,
+  occlude: any,
+) {
   const elPos = v1.setFromMatrixPosition(el.matrixWorld)
   const screenPos = elPos.clone()
   screenPos.project(camera)
@@ -45,7 +54,7 @@ export function isObjectVisible(el: TresObject3D, camera: TresCamera, raycaster:
 export function getViewportFactor(
   camera: TresCamera,
   target: Vector3 = new Vector3(0, 0, 0),
-  size: { width: number, height: number },
+  size: { width: number; height: number },
 ) {
   const { width, height } = size
   const aspect = width / height
@@ -70,16 +79,14 @@ export function getViewportFactor(
 export function objectScale(el: TresObject3D, camera: TresCamera) {
   if (camera instanceof OrthographicCamera) {
     return camera.zoom
-  }
-  else if (camera instanceof PerspectiveCamera) {
+  } else if (camera instanceof PerspectiveCamera) {
     const objectPos = v1.setFromMatrixPosition(el.matrixWorld)
     const cameraPos = v2.setFromMatrixPosition(camera.matrixWorld)
     const vFOV = (camera.fov * Math.PI) / 180
     const dist = objectPos.distanceTo(cameraPos)
     const scaleFOV = 2 * Math.tan(vFOV / 2) * dist
     return 1 / scaleFOV
-  }
-  else {
+  } else {
     return 1
   }
 }
@@ -106,9 +113,10 @@ export function getCSSMatrix(matrix: Matrix4, multipliers: number[], prepend = '
   return prepend + matrix3d
 }
 
-export const getCameraCSSMatrix
-  = ((multipliers: number[]) =>
-    (matrix: Matrix4) => getCSSMatrix(matrix, multipliers))([1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1])
+export const getCameraCSSMatrix = (
+  (multipliers: number[]) => (matrix: Matrix4) =>
+    getCSSMatrix(matrix, multipliers)
+)([1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1, 1, -1, 1, 1])
 
 export const getObjectCSSMatrix = (matrix: Matrix4, factor: number) => {
   const m = [

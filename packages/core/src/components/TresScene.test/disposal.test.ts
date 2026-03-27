@@ -37,12 +37,11 @@ describe('disposal', () => {
     expect(isBufferGeometry(mesh.geometry)).toBe(true)
 
     expect(isMaterial(mesh.material)).toBe(true)
-    if (!isMaterial(mesh.material)) { throw new Error('never') } // to satisfy typescript
+    if (!isMaterial(mesh.material)) {
+      throw new Error('never')
+    } // to satisfy typescript
 
-    const disposalSpies = [
-      mesh.geometry,
-      mesh.material,
-    ].map(item => vi.spyOn(item, 'dispose'))
+    const disposalSpies = [mesh.geometry, mesh.material].map((item) => vi.spyOn(item, 'dispose'))
 
     return {
       exists,
@@ -66,7 +65,7 @@ describe('disposal', () => {
     sceneWrapper.unmount()
 
     expect(rendererSpy).toHaveBeenCalledOnce()
-    disposalSpies.forEach(spy => expect(spy).toHaveBeenCalledOnce())
+    disposalSpies.forEach((spy) => expect(spy).toHaveBeenCalledOnce())
   })
 
   it('should dispose of a mesh and geometry when the parent component is unmounted', async () => {
@@ -83,7 +82,7 @@ describe('disposal', () => {
     exists.value = false
     await nextTick()
 
-    disposalSpies.forEach(spy => expect(spy).toHaveBeenCalledOnce())
+    disposalSpies.forEach((spy) => expect(spy).toHaveBeenCalledOnce())
 
     sceneWrapper.unmount()
   })
@@ -104,13 +103,13 @@ describe('disposal', () => {
     exists.value = false
     await nextTick()
 
-    disposalSpies.forEach(spy => expect(spy).toHaveBeenCalledOnce())
+    disposalSpies.forEach((spy) => expect(spy).toHaveBeenCalledOnce())
 
     sceneWrapper.unmount()
   })
 
   it('should not dispose of anything below a component that has the dispose prop set to false or null', async () => {
-    [false, null].forEach(async (dispose) => {
+    ;[false, null].forEach(async (dispose) => {
       const { disposalSpies, sceneWrapper, exists } = await checkDisposal({
         template: `
         <TresGroup v-if="exists" :dispose="dispose">
@@ -126,7 +125,7 @@ describe('disposal', () => {
       exists.value = false
       await nextTick()
 
-      disposalSpies.forEach(spy => expect(spy).not.toHaveBeenCalledOnce())
+      disposalSpies.forEach((spy) => expect(spy).not.toHaveBeenCalledOnce())
 
       sceneWrapper.unmount()
     })
@@ -148,8 +147,12 @@ describe('disposal', () => {
 
     const parentMesh = context.scene.value.children[0]
 
-    if (!isMesh(parentMesh)) { throw new Error('never') } // to satisfy typescript
-    if (!isMaterial(parentMesh.material)) { throw new Error('never') } // to satisfy typescript
+    if (!isMesh(parentMesh)) {
+      throw new Error('never')
+    } // to satisfy typescript
+    if (!isMaterial(parentMesh.material)) {
+      throw new Error('never')
+    } // to satisfy typescript
 
     const parentDisposalSpies = [
       vi.spyOn(parentMesh.geometry, 'dispose'),
@@ -159,8 +162,8 @@ describe('disposal', () => {
     exists.value = false
     await nextTick()
 
-    disposalSpies.forEach(spy => expect(spy).toHaveBeenCalledOnce())
-    parentDisposalSpies.forEach(spy => expect(spy).not.toHaveBeenCalled())
+    disposalSpies.forEach((spy) => expect(spy).toHaveBeenCalledOnce())
+    parentDisposalSpies.forEach((spy) => expect(spy).not.toHaveBeenCalled())
 
     sceneWrapper.unmount()
   })
@@ -185,27 +188,37 @@ describe('disposal', () => {
           ${primitiveTemplate}
         </TresGroup>`
           : primitiveTemplate,
-        getMesh: ({ scene }) => withParent ? scene.value.children[0].children[0] as Mesh : scene.value.children[0] as Mesh,
+        getMesh: ({ scene }) =>
+          withParent
+            ? (scene.value.children[0].children[0] as Mesh)
+            : (scene.value.children[0] as Mesh),
         setupContext: { meshWithMaterial, dispose },
       })
 
       exists.value = false
       await nextTick()
 
-      disposalSpies.forEach(spy => expect(spy).not.toHaveBeenCalled())
+      disposalSpies.forEach((spy) => expect(spy).not.toHaveBeenCalled())
 
       sceneWrapper.unmount()
     }
     it('should not dispose primitives when unmounted', () => checkPrimitiveDisposal())
-    it('should not dispose primitives when parent is unmounted', () => checkPrimitiveDisposal({ withParent: true }))
+    it('should not dispose primitives when parent is unmounted', () =>
+      checkPrimitiveDisposal({ withParent: true }))
 
-    it('should not dispose primitives when dispose prop is set to default', () => checkPrimitiveDisposal({ dispose: 'default' }))
-    it('should not dispose primitives when dispose prop is set to false', () => checkPrimitiveDisposal({ dispose: false }))
-    it('should not dispose primitives when dispose prop is set to null', () => checkPrimitiveDisposal({ dispose: null }))
+    it('should not dispose primitives when dispose prop is set to default', () =>
+      checkPrimitiveDisposal({ dispose: 'default' }))
+    it('should not dispose primitives when dispose prop is set to false', () =>
+      checkPrimitiveDisposal({ dispose: false }))
+    it('should not dispose primitives when dispose prop is set to null', () =>
+      checkPrimitiveDisposal({ dispose: null }))
 
-    it('should not dispose primitives when dispose prop is set to default (via parent unmount)', () => checkPrimitiveDisposal({ dispose: 'default', withParent: true }))
-    it('should not dispose primitives when dispose prop is set to false (via parent unmount)', () => checkPrimitiveDisposal({ dispose: false, withParent: true }))
-    it('should not dispose primitives when dispose prop is set to null (via parent unmount)', () => checkPrimitiveDisposal({ dispose: null, withParent: true }))
+    it('should not dispose primitives when dispose prop is set to default (via parent unmount)', () =>
+      checkPrimitiveDisposal({ dispose: 'default', withParent: true }))
+    it('should not dispose primitives when dispose prop is set to false (via parent unmount)', () =>
+      checkPrimitiveDisposal({ dispose: false, withParent: true }))
+    it('should not dispose primitives when dispose prop is set to null (via parent unmount)', () =>
+      checkPrimitiveDisposal({ dispose: null, withParent: true }))
 
     it('should call dispose function when dispose prop has a custom function', async () => {
       const dispose = vi.fn()

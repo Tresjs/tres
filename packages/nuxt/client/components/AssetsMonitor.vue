@@ -10,9 +10,9 @@ const { scene } = useDevtoolsHook()
 const groupedAssets = computed(() => {
   const assets = scene.assets || []
   return {
-    textures: assets.filter(asset => asset.type === 'texture'),
-    materials: assets.filter(asset => asset.type === 'material'),
-    models: assets.filter(asset => asset.type === 'model'),
+    textures: assets.filter((asset) => asset.type === 'texture'),
+    materials: assets.filter((asset) => asset.type === 'material'),
+    models: assets.filter((asset) => asset.type === 'model'),
   }
 })
 
@@ -70,60 +70,43 @@ const getAssetColor = (type: string) => {
           <div class="font-bold text-neutral-900 dark:text-white">
             {{ assetStats.total }}
           </div>
-          <div class="text-sm">
-            Total Assets
-          </div>
+          <div class="text-sm">Total Assets</div>
         </div>
       </UCard>
 
       <UCard>
         <div class="text-center">
           <div class="flex items-center justify-center gap-2 mb-1">
-            <UIcon
-              name="i-tabler:photo"
-              class="w-5 h-5"
-            />
-            <div class="font-bold ">
+            <UIcon name="i-tabler:photo" class="w-5 h-5" />
+            <div class="font-bold">
               {{ assetStats.textures }}
             </div>
           </div>
-          <div class="text-sm">
-            Textures
-          </div>
+          <div class="text-sm">Textures</div>
         </div>
       </UCard>
 
       <UCard>
         <div class="text-center">
           <div class="flex items-center justify-center gap-2 mb-1">
-            <UIcon
-              name="i-tabler:burger"
-              class="w-5 h-5"
-            />
+            <UIcon name="i-tabler:burger" class="w-5 h-5" />
             <div class="font-bold">
               {{ assetStats.models }}
             </div>
           </div>
-          <div class="text-sm">
-            Models
-          </div>
+          <div class="text-sm">Models</div>
         </div>
       </UCard>
 
       <UCard>
         <div class="text-center">
           <div class="flex items-center justify-center gap-2 mb-1">
-            <UIcon
-              name="i-tabler:database"
-              class="w-5 h-5"
-            />
+            <UIcon name="i-tabler:database" class="w-5 h-5" />
             <!-- <div class="font-bold">
               {{ formatMemorySize(assetStats.totalMemory) }}
             </div> -->
           </div>
-          <div class="text-sm text-neutral-600 dark:text-neutral-400">
-            Memory Used
-          </div>
+          <div class="text-sm text-neutral-600 dark:text-neutral-400">Memory Used</div>
         </div>
       </UCard>
     </div>
@@ -131,18 +114,10 @@ const getAssetColor = (type: string) => {
     <!-- Assets Grid -->
     <div v-if="scene.assets && scene.assets.length > 0">
       <!-- Textures -->
-      <div
-        v-if="groupedAssets.textures.length > 0"
-        class="pb-4"
-      >
+      <div v-if="groupedAssets.textures.length > 0" class="pb-4">
         <div class="flex items-center gap-2 my-2 mb-4">
-          <UIcon
-            name="i-tabler:photo"
-            class="w-5 h-5"
-          />
-          <h3 class="font-semibold">
-            Textures
-          </h3>
+          <UIcon name="i-tabler:photo" class="w-5 h-5" />
+          <h3 class="font-semibold">Textures</h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -156,42 +131,22 @@ const getAssetColor = (type: string) => {
 
       <!-- Models -->
 
-      <div
-        v-if="groupedAssets.models.length > 0"
-        class="pb-4"
-      >
+      <div v-if="groupedAssets.models.length > 0" class="pb-4">
         <div class="flex items-center gap-2 my-2 mb-4">
-          <UIcon
-            name="i-tabler:burger"
-            class="w-5 h-5"
-          />
-          <h3 class="text-lg font-semibold">
-            Models
-          </h3>
+          <UIcon name="i-tabler:burger" class="w-5 h-5" />
+          <h3 class="text-lg font-semibold">Models</h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          <ModelAssetCard
-            v-for="asset in groupedAssets.models"
-            :key="asset.id"
-            :asset="asset"
-          />
+          <ModelAssetCard v-for="asset in groupedAssets.models" :key="asset.id" :asset="asset" />
         </div>
       </div>
 
       <!-- Materials -->
-      <div
-        v-if="groupedAssets.materials.length > 0"
-        class="pb-4"
-      >
+      <div v-if="groupedAssets.materials.length > 0" class="pb-4">
         <div class="flex items-center gap-2 my-2 mb-4">
-          <UIcon
-            name="i-tabler:palette"
-            class="w-5 h-5"
-          />
-          <h3 class="text-lg font-semibold">
-            Materials
-          </h3>
+          <UIcon name="i-tabler:palette" class="w-5 h-5" />
+          <h3 class="text-lg font-semibold">Materials</h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -214,10 +169,7 @@ const getAssetColor = (type: string) => {
             </template>
 
             <div class="pb-2 text-sm">
-              <div
-                v-if="asset.format"
-                class="flex justify-between"
-              >
+              <div v-if="asset.format" class="flex justify-between">
                 <span class="text-neutral-600 dark:text-neutral-400">Type:</span>
                 <span>{{ asset.format }}</span>
               </div>
@@ -230,13 +182,8 @@ const getAssetColor = (type: string) => {
     <!-- Empty State -->
     <UCard v-else>
       <div class="text-center py-8">
-        <UIcon
-          name="i-tabler:file-x"
-          class="w-12 h-12 text-neutral-400 mx-auto mb-4"
-        />
-        <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mb-2">
-          No Assets Found
-        </h3>
+        <UIcon name="i-tabler:file-x" class="w-12 h-12 text-neutral-400 mx-auto mb-4" />
+        <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mb-2">No Assets Found</h3>
         <p class="text-neutral-600 dark:text-neutral-400">
           No textures, geometries, or materials detected in the current scene.
         </p>

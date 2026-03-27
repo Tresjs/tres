@@ -8,16 +8,10 @@ defineProps<{
 </script>
 
 <template>
-  <UCard
-    :key="asset.id"
-    class="hover:shadow-md transition-shadow"
-  >
+  <UCard :key="asset.id" class="hover:shadow-md transition-shadow">
     <template #header>
       <div class="flex items-center gap-2">
-        <UIcon
-          name="i-tabler:photo"
-          class="w-4 h-4"
-        />
+        <UIcon name="i-tabler:photo" class="w-4 h-4" />
         <div class="text-sm font-medium truncate">
           {{ asset.source }}
         </div>
@@ -30,11 +24,7 @@ defineProps<{
         v-if="asset.preview"
         class="w-full h-32 bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden"
       >
-        <img
-          :src="asset.preview"
-          :alt="asset.name"
-          class="w-full h-full object-contain"
-        >
+        <img :src="asset.preview" :alt="asset.name" class="w-full h-full object-contain" />
       </div>
 
       <!-- Fallback for textures without preview -->
@@ -42,37 +32,26 @@ defineProps<{
         v-else
         class="w-full h-32 bg-neutral-100 dark:bg-neutral-800 rounded-lg flex items-center justify-center"
       >
-        <UIcon
-          name="i-tabler:photo-off"
-          class="w-8 h-8 text-neutral-400"
-        />
+        <UIcon name="i-tabler:photo-off" class="w-8 h-8 text-neutral-400" />
       </div>
 
       <div class="flex flex-col gap-1 py-2 text-sm">
-        <div
-          v-if="asset.dimensions"
-          class="flex justify-between"
-        >
+        <div v-if="asset.dimensions" class="flex justify-between">
           <span class="text-neutral-600 dark:text-neutral-400 font-semibold">Size</span>
-          <span class="font-mono">{{ asset.dimensions }} <UBadge
-            v-if="asset.resolution"
-            variant="soft"
-            color="primary"
-          >{{ asset.resolution }}</UBadge></span>
+          <span class="font-mono"
+            >{{ asset.dimensions }}
+            <UBadge v-if="asset.resolution" variant="soft" color="primary">{{
+              asset.resolution
+            }}</UBadge></span
+          >
         </div>
 
-        <div
-          v-if="asset.format"
-          class="flex justify-between"
-        >
+        <div v-if="asset.format" class="flex justify-between">
           <span class="text-neutral-600 dark:text-neutral-400 font-semibold">Format</span>
           <span>{{ asset.format }}</span>
         </div>
 
-        <div
-          v-if="asset.usage"
-          class="flex justify-between"
-        >
+        <div v-if="asset.usage" class="flex justify-between">
           <span class="text-neutral-600 dark:text-neutral-400 font-semibold">Memory</span>
           <span class="font-mono">{{ formatMemorySize(asset.usage) }}</span>
         </div>

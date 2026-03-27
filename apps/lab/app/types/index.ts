@@ -24,4 +24,4 @@ export interface AuthorItem {
   name: string
   avatar: string
   bio?: string
-} 
+}

@@ -18,10 +18,7 @@ onBeforeRender(({ elapsed }) => {
 
 <template>
   <TresPerspectiveCamera :position="[0, 1, 5]" :look-at="[0, 1, 0]" />
-  <TresMesh
-    ref="cubeRef"
-    :position="[0, 1, 0]"
-  >
+  <TresMesh ref="cubeRef" :position="[0, 1, 0]">
     <TresBoxGeometry :args="[1, 1, 1]" />
     <TresMeshNormalMaterial />
   </TresMesh>

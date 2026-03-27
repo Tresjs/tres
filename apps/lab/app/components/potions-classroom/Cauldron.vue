@@ -13,10 +13,13 @@ const { nodes, materials } = useGLTF('/models/potions-classroom/wizard-potions-c
 })
 
 // Create baked material reactively using computed
-const bakedMaterial = computed(() => new MeshBasicMaterial({
-  map: props.texture,
-  side: DoubleSide,
-}))
+const bakedMaterial = computed(
+  () =>
+    new MeshBasicMaterial({
+      map: props.texture,
+      side: DoubleSide,
+    }),
+)
 
 // Watch for changes to apply materials when GLTF loads and texture changes
 watch([nodes, materials, bakedMaterial], ([nodes, materials, material]) => {

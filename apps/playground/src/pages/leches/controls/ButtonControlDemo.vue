@@ -16,28 +16,31 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
-useControls({
-  reset: {
-    type: 'button',
-    onClick: () => {
-      // eslint-disable-next-line no-console
-      console.log('Reset')
+useControls(
+  {
+    reset: {
+      type: 'button',
+      onClick: () => {
+        // eslint-disable-next-line no-console
+        console.log('Reset')
+      },
+      icon: 'i-carbon-reset',
+      size: 'sm',
     },
-    icon: 'i-carbon-reset',
-    size: 'sm',
-  },
-  accept: {
-    label: 'Accept',
-    type: 'button',
-    variant: 'secondary',
-    onClick: () => {
-      // eslint-disable-next-line no-console
-      console.log('accept')
+    accept: {
+      label: 'Accept',
+      type: 'button',
+      variant: 'secondary',
+      onClick: () => {
+        // eslint-disable-next-line no-console
+        console.log('accept')
+      },
+      icon: 'i-carbon-checkmark',
+      size: 'block',
     },
-    icon: 'i-carbon-checkmark',
-    size: 'block',
   },
-}, { uuid })
+  { uuid },
+)
 
 /* const { position: lightPosition } = useControls('light', {
   position: new Vector3(3, 3, 3),
@@ -46,9 +49,7 @@ useControls({
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera />
     <OrbitControls />
     <TresGridHelper />

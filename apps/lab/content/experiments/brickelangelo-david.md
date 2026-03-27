@@ -46,4 +46,3 @@ This experiment showcases several advanced 3D techniques:
 - **Classical Aesthetics**: Typography and presentation honoring the original masterpiece
 
 This experiment serves as both a technical demonstration of advanced TresJS capabilities and an artistic homage to one of history's greatest sculptures, bridging classical art with modern digital techniques.
-

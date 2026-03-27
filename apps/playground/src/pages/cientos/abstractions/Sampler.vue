@@ -14,14 +14,17 @@ const gl = {
   toneMapping: ACESFilmicToneMapping,
 }
 
-const { samples } = useControls({
-  samples: {
-    min: 1,
-    max: 50,
-    step: 1,
-    value: 1,
+const { samples } = useControls(
+  {
+    samples: {
+      min: 1,
+      max: 50,
+      step: 1,
+      value: 1,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
@@ -35,17 +38,11 @@ const { samples } = useControls({
         <TresTorusGeometry />
       </TresMesh>
 
-      <TresInstancedMesh
-        :args="[null!, null!, 1000]"
-      >
-        <TresBoxGeometry
-          :args="[0.1, 0.1, 0.1]"
-        />
+      <TresInstancedMesh :args="[null!, null!, 1000]">
+        <TresBoxGeometry :args="[0.1, 0.1, 0.1]" />
         <TresMeshNormalMaterial />
       </TresInstancedMesh>
     </Sampler>
-    <TresGridHelper
-      :args="[10, 10]"
-    />
+    <TresGridHelper :args="[10, 10]" />
   </TresCanvas>
 </template>

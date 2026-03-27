@@ -14,19 +14,21 @@ const gl = reactive({
 })
 
 useControls('fpsgraph', {}, { uuid })
-const { isDark } = useControls({
-  isDark: {
-    label: 'Is Dark',
-    type: 'boolean',
-    value: false,
+const { isDark } = useControls(
+  {
+    isDark: {
+      label: 'Is Dark',
+      type: 'boolean',
+      value: false,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 const list = ref([
   {
     label: 'Item 1',
     value: 1,
   },
-
 ])
 
 /* setInterval(() => {
@@ -45,23 +47,14 @@ const list = ref([
     </div>
   </TresLeches>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera
-      :position="[4, 4, 4]"
-    />
+    <TresPerspectiveCamera :position="[4, 4, 4]" />
     <TresMesh :position="[0, 3, 0]" cast-shadow>
       <TresTorusKnotGeometry />
       <TresMeshNormalMaterial />
     </TresMesh>
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :position="[3, 3, 3]"
-      :intensity="1"
-      cast-shadow
-    />
-    <TresMesh
-      :rotate-x="-Math.PI / 2"
-      receive-shadow
-    >
+    <TresDirectionalLight :position="[3, 3, 3]" :intensity="1" cast-shadow />
+    <TresMesh :rotate-x="-Math.PI / 2" receive-shadow>
       <TresPlaneGeometry :args="[10, 10]" />
       <TresMeshStandardMaterial color="white" />
     </TresMesh>

@@ -38,7 +38,12 @@ const props = defineProps<ShockWavePmndrsProps>()
 const { camera } = useTres()
 
 const { pass, effect } = useEffectPmndrs(
-  () => new ShockWaveEffect(camera.value, Array.isArray(props.position) ? new Vector3(...props.position) : props.position, props),
+  () =>
+    new ShockWaveEffect(
+      camera.value,
+      Array.isArray(props.position) ? new Vector3(...props.position) : props.position,
+      props,
+    ),
   props,
 )
 
@@ -47,12 +52,13 @@ defineExpose({ pass, effect })
 watch(
   () => props.position,
   (newPosition) => {
-    if (!effect.value) { return }
+    if (!effect.value) {
+      return
+    }
 
     if (Array.isArray(newPosition)) {
       effect.value.position.set(...newPosition)
-    }
-    else if (newPosition instanceof Vector3) {
+    } else if (newPosition instanceof Vector3) {
       effect.value.position.copy(newPosition)
     }
   },

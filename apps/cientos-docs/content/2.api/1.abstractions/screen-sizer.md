@@ -4,8 +4,8 @@ description: Scale objects to screen space where 1 unit equals 1 pixel.
 ---
 
 ::SceneWrapper
-  ::AbstractionsScreenSizer
-  ::
+::AbstractionsScreenSizer
+::
 ::
 
 Adds a `<TresObject3D />` wrapper that scales to "screen space". By default `1` THREE world unit will be translated to 1 screen pixel.

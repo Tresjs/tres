@@ -1,22 +1,29 @@
 {
   "name": "@tresjs/leches",
-  "type": "module",
   "version": "1.1.4",
   "description": "Tasty GUI for Vue controls 🍰",
-  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "keywords": [
+    "controls",
+    "gui",
+    "pane",
+    "vue"
+  ],
   "license": "MIT",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tresjs/tres.git",
     "directory": "packages/leches"
   },
-  "keywords": [
-    "vue",
-    "gui",
-    "pane",
-    "controls"
+  "files": [
+    "*.d.ts",
+    "dist"
   ],
+  "type": "module",
   "sideEffects": false,
+  "main": "./dist/tresleches.js",
+  "module": "./dist/tresleches.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -25,30 +32,20 @@
     "./styles": "./dist/tresleches.css",
     "./*": "./*"
   },
-  "main": "./dist/tresleches.js",
-  "module": "./dist/tresleches.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "*.d.ts",
-    "dist"
-  ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "vite build",
-    "build:analyze": "ANALYZE=true vite build",
-    "preview": "vite preview",
-    "test": "vitest",
+    "build": "vp build",
+    "build:analyze": "ANALYZE=true vp build",
+    "preview": "vp preview",
+    "test": "vp test",
     "test:ci": "echo 'Tests disabled for this branch'",
-    "test:ui": "vitest --ui",
-    "test:browser": "BROWSER_TEST=true HEADLESS=true vitest",
-    "test:browser:ui": "BROWSER_TEST=true vitest",
-    "coverage": "vitest run --coverage",
+    "test:ui": "vp test --ui",
+    "test:browser": "BROWSER_TEST=true HEADLESS=true vp test",
+    "test:browser:ui": "BROWSER_TEST=true vp test",
+    "coverage": "vp test run --coverage",
     "lint": "eslint ."
-  },
-  "peerDependencies": {
-    "vue": ">=3.3.4"
   },
   "dependencies": {
     "@unocss/core": "66.3.2",
@@ -63,7 +60,6 @@
     "@typescript-eslint/eslint-plugin": "catalog:eslint",
     "@typescript-eslint/parser": "catalog:eslint",
     "@vitejs/plugin-vue": "catalog:vite",
-    "@vitest/browser": "^3.0.9",
     "@vitest/ui": "catalog:testing",
     "@vue/test-utils": "catalog:testing",
     "@vueuse/core": "catalog:utils",
@@ -78,15 +74,19 @@
     "typescript": "catalog:typescript",
     "unocss": "catalog:utils",
     "unplugin-vue-components": "^28.8.0",
-    "vite": "catalog:vite",
+    "vite": "catalog:",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-dts": "catalog:vite",
     "vite-plugin-inspect": "^11.3.0",
+    "vite-plus": "catalog:",
     "vite-svg-loader": "^5.1.0",
-    "vitest": "catalog:testing",
+    "vitest": "catalog:",
     "vue": "catalog:vue",
     "webdriverio": "^9.12.1"
+  },
+  "peerDependencies": {
+    "vue": ">=3.3.4"
   },
   "nx": {
     "implicitDependencies": [

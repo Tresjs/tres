@@ -35,4 +35,5 @@ import { EffectComposerPmndrs, PixelationPmndrs } from '@tresjs/post-processing'
 | granularity | The granularity of the pixels. | 30      |
 
 ## Further Reading
+
 For more details, see the [PixelationEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/PixelationEffect.js~PixelationEffect.html)

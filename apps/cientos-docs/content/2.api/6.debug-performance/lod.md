@@ -4,8 +4,8 @@ description: Level of Detail - show meshes with more or less geometry based on d
 ---
 
 ::SceneWrapper
-  ::DebugPerformanceLOD
-  ::
+::DebugPerformanceLOD
+::
 ::
 
 Level of Detail - show meshes with more or less geometry based on distance from the camera.
@@ -48,7 +48,7 @@ import { LOD } from '@tresjs/cientos'
 
 ## Props
 
-| Prop               | Description                                                            | Default |
-| :----------------- | :--------------------------------------------------------------------- | ------- |
-| **levels**           |  `number[]` - The distances at which to display each level of detail. There should be one `levels` value for each `LOD` child. |         |
-| **hysteresis**           | Threshold used to avoid flickering at LOD boundaries, as a fraction of distance. | `0.0` |
+| Prop           | Description                                                                                                                   | Default |
+| :------------- | :---------------------------------------------------------------------------------------------------------------------------- | ------- |
+| **levels**     | `number[]` - The distances at which to display each level of detail. There should be one `levels` value for each `LOD` child. |         |
+| **hysteresis** | Threshold used to avoid flickering at LOD boundaries, as a fraction of distance.                                              | `0.0`   |

@@ -6,19 +6,16 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'abstractions-mask'
 
-const {
-  id,
-  invert,
-  colorWrite,
-  depthWrite,
-  enabled,
-} = useControls({
-  id: { value: 1, min: 1, max: 2, step: 1 },
-  invert: false,
-  colorWrite: false,
-  depthWrite: false,
-  enabled: true,
-}, { uuid })
+const { id, invert, colorWrite, depthWrite, enabled } = useControls(
+  {
+    id: { value: 1, min: 1, max: 2, step: 1 },
+    invert: false,
+    colorWrite: false,
+    depthWrite: false,
+    enabled: true,
+  },
+  { uuid },
+)
 </script>
 
 <template>

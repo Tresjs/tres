@@ -25,7 +25,9 @@ const brick = computed(() => brickNodes.value.LegoPiece)
 const instanceCount = 75000 // or whatever count you want
 
 const brickMaterial = new MeshPhongMaterial({ color: 'lightgray' })
-const brickInstancedMesh = computed(() => new InstancedMesh(brick.value?.geometry, brickMaterial, instanceCount))
+const brickInstancedMesh = computed(
+  () => new InstancedMesh(brick.value?.geometry, brickMaterial, instanceCount),
+)
 
 useControls('fpsgraph')
 const isReady = ref(false)
@@ -58,8 +60,6 @@ watch([david, brickInstancedMesh], ([davidModel, brickInstancedMesh]) => {
   isReady.value = true
   emit('ready')
 })
-
-
 </script>
 
 <template>

@@ -57,4 +57,3 @@ This experiment demonstrates advanced audio-visual techniques:
 - **Permission Management**: Robust handling of browser microphone permissions
 
 This experiment showcases the power of combining audio processing with real-time 3D graphics, creating an engaging interactive experience that bridges digital art and music visualization.
-

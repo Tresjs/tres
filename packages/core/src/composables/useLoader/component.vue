@@ -28,18 +28,18 @@ const emit = defineEmits<{
 const { state, isLoading, error } = useLoader(props.loader, props.path, { manager: props.manager })
 
 whenever(error, (err) => {
-  if (err) { emit('error', err) }
+  if (err) {
+    emit('error', err)
+  }
 })
 
 whenever(state, (value) => {
-  if (value) { emit('loaded', value as T) }
+  if (value) {
+    emit('loaded', value as T)
+  }
 })
 </script>
 
 <template>
-  <slot
-    :state="state"
-    :is-loading="isLoading"
-    :error="error"
-  ></slot>
+  <slot :state="state" :is-loading="isLoading" :error="error"></slot>
 </template>

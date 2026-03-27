@@ -2,27 +2,14 @@
 import { ActiveCollisionTypes } from '@dimforge/rapier3d-compat'
 import { type TresObject3D, useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
-import {
-  nextTick,
-  onUnmounted,
-  onUpdated,
-  provide,
-  shallowRef,
-  type ShallowRef,
-  watch,
-} from 'vue'
+import { nextTick, onUnmounted, onUpdated, provide, shallowRef, type ShallowRef, watch } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createColliderPropsFromObject, createRigidBody } from '../core'
 import { hasValidColliderGeometry } from '../utils'
 import { makePropsWatcherRB } from '../utils/props'
 import { Collider } from './colliders'
-import type {
-  ColliderProps,
-  ExposedRigidBody,
-  RigidBodyContext,
-  RigidBodyProps,
-} from '../types'
+import type { ColliderProps, ExposedRigidBody, RigidBodyContext, RigidBodyProps } from '../types'
 
 const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   type: 'dynamic',
@@ -69,59 +56,70 @@ defineExpose({
   group: bodyGroup,
 } satisfies { [K in keyof ExposedRigidBody]: ShallowRef<ExposedRigidBody[K] | undefined> })
 
-watch(bodyGroup, async (group) => {
-  await nextTick()
+watch(
+  bodyGroup,
+  async (group) => {
+    await nextTick()
 
-  if (!(group instanceof Object3D) || bodyContext.value) { return }
-
-  const newPhysicsState: RigidBodyContext = {
-    ...props,
-    ...createRigidBody({
-      object: group,
-      rigidBodyType: props.type,
-      world,
-    }),
-    group,
-    colliders: [],
-  }
-
-  if (props.collider !== false) {
-    const collidersProps: ColliderProps[] = []
-
-    for (const child of group.children) {
-      // Skip children without valid geometry (e.g., collider wrappers, empty Object3Ds)
-      if (!hasValidColliderGeometry(child as Object3D)) { continue }
-
-      const createdProps = createColliderPropsFromObject(
-        child as TresObject3D,
-        props.collider,
-      )
-      collidersProps.push({ ...props, ...createdProps })
+    if (!(group instanceof Object3D) || bodyContext.value) {
+      return
     }
 
-    autoColliderProps.value = collidersProps
-  }
+    const newPhysicsState: RigidBodyContext = {
+      ...props,
+      ...createRigidBody({
+        object: group,
+        rigidBodyType: props.type,
+        world,
+      }),
+      group,
+      colliders: [],
+    }
 
-  instance.value = newPhysicsState.rigidBody
-  instanceDesc.value = newPhysicsState.rigidBodyDesc
-  bodyContext.value = newPhysicsState
-}, { once: true })
+    if (props.collider !== false) {
+      const collidersProps: ColliderProps[] = []
 
-makePropsWatcherRB(props, [
-  'gravityScale',
-  'additionalMass',
-  'linearDamping',
-  'angularDamping',
-  'dominanceGroup',
-  'linvel',
-  'angvel',
-  'enabledRotations',
-  'enabledTranslations',
-], instance)
+      for (const child of group.children) {
+        // Skip children without valid geometry (e.g., collider wrappers, empty Object3Ds)
+        if (!hasValidColliderGeometry(child as Object3D)) {
+          continue
+        }
+
+        const createdProps = createColliderPropsFromObject(child as TresObject3D, props.collider)
+        collidersProps.push({ ...props, ...createdProps })
+      }
+
+      autoColliderProps.value = collidersProps
+    }
+
+    instance.value = newPhysicsState.rigidBody
+    instanceDesc.value = newPhysicsState.rigidBodyDesc
+    bodyContext.value = newPhysicsState
+  },
+  { once: true },
+)
+
+makePropsWatcherRB(
+  props,
+  [
+    'gravityScale',
+    'additionalMass',
+    'linearDamping',
+    'angularDamping',
+    'dominanceGroup',
+    'linvel',
+    'angvel',
+    'enabledRotations',
+    'enabledTranslations',
+  ],
+  instance,
+)
 
 // reactively set autoColliderProps
 const setAutoColliderProp = <K extends keyof ColliderProps>(prop: K, value: ColliderProps[K]) => {
-  if (autoColliderProps.value.length === 0 || props.collider === false) { return }
+  if (autoColliderProps.value.length === 0 || props.collider === false) {
+    return
+  }
 
   autoColliderProps.value.forEach((_props) => {
     _props[prop] = value
@@ -129,31 +127,63 @@ const setAutoColliderProp = <K extends keyof ColliderProps>(prop: K, value: Coll
 }
 
 // Automatic collider props watchers
-watch(() => props.friction, value => setAutoColliderProp('friction', value))
-watch(() => props.mass, value => setAutoColliderProp('mass', value))
-watch(() => props.restitution, value => setAutoColliderProp('restitution', value))
-watch(() => props.density, value => setAutoColliderProp('density', value))
-watch(() => props.activeCollision, value => setAutoColliderProp('activeCollision', value))
-watch(() => props.activeCollisionTypes, value => setAutoColliderProp('activeCollisionTypes', value))
-watch(() => props.collisionGroups, value => setAutoColliderProp('collisionGroups', value))
-watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
+watch(
+  () => props.friction,
+  (value) => setAutoColliderProp('friction', value),
+)
+watch(
+  () => props.mass,
+  (value) => setAutoColliderProp('mass', value),
+)
+watch(
+  () => props.restitution,
+  (value) => setAutoColliderProp('restitution', value),
+)
+watch(
+  () => props.density,
+  (value) => setAutoColliderProp('density', value),
+)
+watch(
+  () => props.activeCollision,
+  (value) => setAutoColliderProp('activeCollision', value),
+)
+watch(
+  () => props.activeCollisionTypes,
+  (value) => setAutoColliderProp('activeCollisionTypes', value),
+)
+watch(
+  () => props.collisionGroups,
+  (value) => setAutoColliderProp('collisionGroups', value),
+)
+watch(
+  () => props.sensor,
+  (value) => setAutoColliderProp('sensor', value),
+)
 
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
-  if (!instance.value) { return }
+  if (!instance.value) {
+    return
+  }
   instance.value.lockTranslations(_lockTranslations, true)
 })
 watch([() => props.lockRotations, instance], ([_lockRotations, _]) => {
-  if (!instance.value) { return }
+  if (!instance.value) {
+    return
+  }
   instance.value.lockRotations(_lockRotations, true)
 })
 watch([() => props.enableCcd, instance], ([_enableCcd, _]) => {
-  if (!instance.value) { return }
+  if (!instance.value) {
+    return
+  }
   instance.value.enableCcd(_enableCcd)
 })
 
 onBeforeRender(() => {
   const context = bodyContext.value
-  if (!context) { return }
+  if (!context) {
+    return
+  }
 
   const position = context.rigidBody.translation()
   const rotation = context.rigidBody.rotation()
@@ -167,7 +197,9 @@ onUpdated(() => {
 })
 
 onUnmounted(() => {
-  if (!bodyContext.value) { return }
+  if (!bodyContext.value) {
+    return
+  }
 
   world.value.removeRigidBody(bodyContext.value.rigidBody)
 

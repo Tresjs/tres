@@ -33,4 +33,3 @@ jobs:
       - run: |
           PATHS=$(pnpm list --recursive --depth=0 --json | jq -r '.[] | select(.private == false) | .path' | tr '\n' ' ')
           pnpx pkg-pr-new publish $PATHS --compact --pnpm
-

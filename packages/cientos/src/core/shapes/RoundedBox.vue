@@ -26,7 +26,10 @@ export interface BoxProps {
   color?: TresColor
 }
 
-const props = withDefaults(defineProps<BoxProps>(), { args: () => [1, 1, 1, 2, 0.1], color: '#ffffff' })
+const props = withDefaults(defineProps<BoxProps>(), {
+  args: () => [1, 1, 1, 2, 0.1],
+  color: '#ffffff',
+})
 
 const { args, color } = toRefs(props)
 const { invalidate, extend } = useTres()

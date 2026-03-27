@@ -4,8 +4,8 @@ description: Short-cut for a ConeGeometry and a MeshBasicMaterial with a Mesh ob
 ---
 
 ::SceneControlsWrapper
-  ::ShapesCone
-  ::
+::ShapesCone
+::
 ::
 
 The `cientos` package provides a `<Cone />` component that serves as a short-cut for a `ConeGeometry`.

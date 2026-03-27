@@ -4,8 +4,8 @@ description: Render to texture using Frame Buffer Objects.
 ---
 
 ::SceneWrapper
-  ::ObjectsFbo
-  ::
+::ObjectsFbo
+::
 ::
 
 An FBO (or Frame Buffer Object) is generally used to render to a texture. This is useful for post-processing effects like blurring, or for rendering to a texture that will be used as a texture in a later draw call.
@@ -64,13 +64,13 @@ function onLoop({ elapsed }: { elapsed: number }) {
 
 ## Props
 
-| Prop           | Description                                                                                                                                                            | Default              |
-| :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| **`width`**    | `number` - The width of the FBO.                                                                                                                                       | Width of the canvas  |
-| **`height`**   | `number` - the height of the FBO                                                                                                                                       | Height of the canvas |
-| **`depth`**    | `boolean` - Whether or not the FBO should render the depth to a [`depthTexture`](https://threejs.org/docs/?q=webglre#api/en/renderers/WebGLRenderTarget.depthTexture). | `false`              |
-| **`settings`** | `WebGLRenderTargetOptions` - Every other configuration property for the [`WebGLRenderTarget` class](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget)      | `{}`                 |
-| **`autoRender`** | `boolean` - Whether to automatically render the FBO on the default scene. | `true`               |
+| Prop             | Description                                                                                                                                                            | Default              |
+| :--------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
+| **`width`**      | `number` - The width of the FBO.                                                                                                                                       | Width of the canvas  |
+| **`height`**     | `number` - the height of the FBO                                                                                                                                       | Height of the canvas |
+| **`depth`**      | `boolean` - Whether or not the FBO should render the depth to a [`depthTexture`](https://threejs.org/docs/?q=webglre#api/en/renderers/WebGLRenderTarget.depthTexture). | `false`              |
+| **`settings`**   | `WebGLRenderTargetOptions` - Every other configuration property for the [`WebGLRenderTarget` class](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget)      | `{}`                 |
+| **`autoRender`** | `boolean` - Whether to automatically render the FBO on the default scene.                                                                                              | `true`               |
 
 ## useFBO
 

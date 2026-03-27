@@ -5,18 +5,32 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { resolution, mix, blurMixSmooth, blurMixRough, blurDepthEdgeMin, blurDepthEdgeMax, blurDepthScale, blurDepthBias, distortion, reflectorOffset } = useControls({
-  resolution: { value: 256, min: 64, max: 2048, step: 64 },
-  mix: { value: 1, min: 0, max: 1, step: 0.1 },
-  blurMixSmooth: { value: 1, min: 0, max: 2, step: 0.1 },
-  blurMixRough: { value: 1, min: 0, max: 2, step: 0.1 },
-  blurDepthEdgeMin: { value: 0, min: 0, max: 1, step: 0.05 },
-  blurDepthEdgeMax: { value: 0.2, min: 0, max: 1, step: 0.05 },
-  blurDepthScale: { value: 1, min: 0, max: 3, step: 0.1 },
-  blurDepthBias: { value: 0, min: -1, max: 1, step: 0.1 },
-  distortion: { value: 0, min: 0, max: 1, step: 0.1 },
-  reflectorOffset: { value: 0, min: -1, max: 1, step: 0.1 },
-}, { uuid })
+const {
+  resolution,
+  mix,
+  blurMixSmooth,
+  blurMixRough,
+  blurDepthEdgeMin,
+  blurDepthEdgeMax,
+  blurDepthScale,
+  blurDepthBias,
+  distortion,
+  reflectorOffset,
+} = useControls(
+  {
+    resolution: { value: 256, min: 64, max: 2048, step: 64 },
+    mix: { value: 1, min: 0, max: 1, step: 0.1 },
+    blurMixSmooth: { value: 1, min: 0, max: 2, step: 0.1 },
+    blurMixRough: { value: 1, min: 0, max: 2, step: 0.1 },
+    blurDepthEdgeMin: { value: 0, min: 0, max: 1, step: 0.05 },
+    blurDepthEdgeMax: { value: 0.2, min: 0, max: 1, step: 0.05 },
+    blurDepthScale: { value: 1, min: 0, max: 3, step: 0.1 },
+    blurDepthBias: { value: 0, min: -1, max: 1, step: 0.1 },
+    distortion: { value: 0, min: 0, max: 1, step: 0.1 },
+    reflectorOffset: { value: 0, min: -1, max: 1, step: 0.1 },
+  },
+  { uuid },
+)
 </script>
 
 <template>

@@ -7,8 +7,5 @@ extend({ OrbitControls })
 </script>
 
 <template>
-  <TresOrbitControls
-    v-if="renderer"
-    :args="[camera, renderer?.domElement]"
-  />
+  <TresOrbitControls v-if="renderer" :args="[camera, renderer?.domElement]" />
 </template>

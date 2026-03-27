@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/GridDemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/GridDemo.vue{0}
+
 </details>
 
 The `GridEffect` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/GridEffect.js~GridEffect.html) package.
@@ -49,11 +50,12 @@ const effectProps = {
 
 ## Props
 
-| Prop          | Description                                                         | Default                     |
-| ------------- | ------------------------------------------------------------------- | --------------------------- |
-| blendFunction | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options.             | `BlendFunction.OVERLAY`        |
-| scale         | The grid scale, which can be used to adjust the spacing effect.     | `1.0`                       |
-| lineWidth     | The width of the lines in the grid pattern.                                | `1.0`                       |
+| Prop          | Description                                                                                                                                                                                      | Default                 |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------- |
+| blendFunction | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.OVERLAY` |
+| scale         | The grid scale, which can be used to adjust the spacing effect.                                                                                                                                  | `1.0`                   |
+| lineWidth     | The width of the lines in the grid pattern.                                                                                                                                                      | `1.0`                   |
 
 ## Further Reading
+
 For more details, see the [GridEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/GridEffect.js~GridEffect.html)

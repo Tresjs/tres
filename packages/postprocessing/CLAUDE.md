@@ -11,6 +11,7 @@ This package provides a collection of ready-made post-processing effects as Vue 
 Effects are organized in [src/core/](src/core/) by implementation:
 
 ### pmndrs Effects (`src/core/pmndrs/`)
+
 Effects powered by the pmndrs/postprocessing library:
 
 - **EffectComposerPmndrs.vue**: Main composer for pmndrs effects
@@ -23,6 +24,7 @@ Effects powered by the pmndrs/postprocessing library:
 - **Special Effects**: GlitchPmndrs, GodRaysPmndrs, NoisePmndrs, OutlinePmndrs, TexturePmndrs, TiltShiftPmndrs, VignettePmndrs
 
 ### Three.js Effects (`src/core/three/`)
+
 Effects using Three.js native post-processing:
 
 - **EffectComposer.vue**: Main composer for Three.js effects
@@ -34,9 +36,11 @@ Effects using Three.js native post-processing:
 - **UnrealBloom.vue**: Unreal-style bloom effect
 
 ### Custom Effects (`src/core/pmndrs/custom/`)
+
 Custom shader-based effects for specialized use cases
 
 ### Composables
+
 Both pmndrs and three implementations include composables for effect management in their respective `composables/` directories.
 
 ## Key Features

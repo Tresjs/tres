@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/TextureDemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/TextureDemo.vue{0}
+
 </details>
 
 The `TextureEffect` component is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/TextureEffect.js~TextureEffect.html) package.
@@ -19,7 +20,7 @@ The `<TexturePmndrs>` component is easy to use and provides customizable options
 
 :::info
 This component is designed to work with a provided texture and **does not** include built-in functionality to modify the texture itself. <br><br>
-If you need to adjust properties such as **rotation**, **repeat**, or **other attributes**, you should modify them directly the texture *(See usage example below)* that you pass to the `<TexturePmndrs />` component.
+If you need to adjust properties such as **rotation**, **repeat**, or **other attributes**, you should modify them directly the texture _(See usage example below)_ that you pass to the `<TexturePmndrs />` component.
 :::
 
 ```vue{2,16-20,41-45}
@@ -74,11 +75,11 @@ setTextureSwizzleRGBA(ColorChannel.RED, ColorChannel.BLUE, ColorChannel.GREEN, C
 
 ## Props
 
-| Prop          | Description                                                                                     | Default                     |
-| ------------- | ----------------------------------------------------------------------------------------------- | --------------------------- |
-| blendFunction | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL`      |
-| texture       | The texture used for the effect. See the [`Texture`](https://threejs.org/docs/#api/en/textures/Texture) documentation                                                          | `null`                      |
-| opacity       | The opacity of the texture.                                                                    | `1.0`                       |
+| Prop          | Description                                                                                                                                                                                      | Default                |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------- |
+| blendFunction | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.NORMAL` |
+| texture       | The texture used for the effect. See the [`Texture`](https://threejs.org/docs/#api/en/textures/Texture) documentation                                                                            | `null`                 |
+| opacity       | The opacity of the texture.                                                                                                                                                                      | `1.0`                  |
 
 ## Further Reading
 

@@ -67,11 +67,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-    window-size
-    @loop="onLoop"
-  >
+  <TresCanvas v-bind="gl" window-size @loop="onLoop">
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
       :fov="45"
@@ -82,16 +78,9 @@ function onLoop({ elapsed }: { elapsed: number }) {
     <OrbitControls />
     <TresAmbientLight :intensity="0.5" />
     <TresPoints>
-      <TresBufferGeometry
-        :position="[positionArray, 3]"
-        :a-scale="[scaleArray, 1]"
-      />
+      <TresBufferGeometry :position="[positionArray, 3]" :a-scale="[scaleArray, 1]" />
       <TresShaderMaterial v-bind="shader" />
     </TresPoints>
-    <TresDirectionalLight
-      :position="[0, 2, 4]"
-      :intensity="1"
-      cast-shadow
-    />
+    <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
   </TresCanvas>
 </template>

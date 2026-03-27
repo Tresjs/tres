@@ -183,7 +183,7 @@ description: Page description for SEO
 
 # Heading
 
-Content here with **bold** and *italic* text.
+Content here with **bold** and _italic_ text.
 
 ::callout
 Custom MDC component
@@ -195,11 +195,13 @@ Custom MDC component
 Use Vue components directly in markdown:
 
 ```md
-::block-hero
----
+## ::block-hero
+
 cta:
-  - Get started
-  - /getting-started
+
+- Get started
+- /getting-started
+
 ---
 
 #title

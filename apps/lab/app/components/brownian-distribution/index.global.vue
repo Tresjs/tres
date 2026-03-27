@@ -2,7 +2,6 @@
 import { useDark } from '@vueuse/core'
 import { colors } from './constants'
 const isDark = useDark()
-
 </script>
 
 <template>
@@ -10,5 +9,4 @@ const isDark = useDark()
     <BrownianDistributionExperiment />
     <TheScreenshot />
   </TresCanvas>
-
 </template>

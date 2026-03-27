@@ -26,16 +26,10 @@ const doorTexturePaths = [
 ]
 
 // Load brick textures
-const {
-  textures: brickTextures,
-  error: brickError
-} = useTextures(brickTexturePaths)
+const { textures: brickTextures, error: brickError } = useTextures(brickTexturePaths)
 
 // Load door textures
-const {
-  textures: doorTextures,
-  error: doorError
-} = useTextures(doorTexturePaths)
+const { textures: doorTextures, error: doorError } = useTextures(doorTexturePaths)
 
 // Create wall material options from loaded textures
 const wallOptions = computed(() => ({
@@ -68,11 +62,17 @@ watch([brickError, doorError], ([brickErr, doorErr]) => {
   }
 })
 watch(wallRef, (value) => {
-  value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
+  value.geometry.setAttribute(
+    'uv2',
+    new Float32BufferAttribute(value.geometry.attributes.uv.array, 2),
+  )
 })
 
 watch(doorRef, (value) => {
-  value.geometry.setAttribute('uv2', new Float32BufferAttribute(value.geometry.attributes.uv.array, 2))
+  value.geometry.setAttribute(
+    'uv2',
+    new Float32BufferAttribute(value.geometry.attributes.uv.array, 2),
+  )
 })
 </script>
 
@@ -90,7 +90,13 @@ watch(doorRef, (value) => {
       <TresBoxGeometry :args="[4, 2.5, 4]" />
       <TresMeshStandardMaterial v-bind="wallOptions" />
     </TresMesh>
-    <TresPointLight :position="[0, 2.2, 2.7]" :args="['#ff7d46', 1, 7]" :shadow-mapSize-width="256"
-      :shadow-mapSize-height="256" :shadow-camera-far="7" cast-shadow />
+    <TresPointLight
+      :position="[0, 2.2, 2.7]"
+      :args="['#ff7d46', 1, 7]"
+      :shadow-mapSize-width="256"
+      :shadow-mapSize-height="256"
+      :shadow-camera-far="7"
+      cast-shadow
+    />
   </TresGroup>
 </template>

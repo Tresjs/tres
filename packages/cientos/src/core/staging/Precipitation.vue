@@ -118,7 +118,7 @@ export interface PrecipitationProps {
 const props = withDefaults(defineProps<PrecipitationProps>(), {
   size: 0.1,
   area: () => [10, 10, 20],
-  color: 0xFFFFFF,
+  color: 0xffffff,
   alphaTest: 0.01,
   opacity: 0.8,
   count: 5000,
@@ -168,12 +168,14 @@ const setSpeed = () => {
 setSpeed()
 setPosition()
 
-watch((speed), () => {
+watch(speed, () => {
   setSpeed()
 })
 
 watchEffect(() => {
-  if (speed.value) { return }
+  if (speed.value) {
+    return
+  }
   setPosition()
 })
 
@@ -185,16 +187,14 @@ watchEffect(async () => {
   if (typeof alphaMapUrl.value === 'string') {
     const { state: alphaMap } = useTexture(alphaMapUrl.value)
     alphaMapTexture.value = alphaMap.value
-  }
-  else {
+  } else {
     alphaMapTexture.value = alphaMapUrl.value ?? null
   }
 
   if (typeof mapUrl.value === 'string') {
     const { state: map } = useTexture(mapUrl.value)
     mapTexture.value = map.value
-  }
-  else {
+  } else {
     mapTexture.value = mapUrl.value ?? null
   }
 })
@@ -202,7 +202,10 @@ watchEffect(async () => {
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
-  if (geometryRef.value?.attributes.position.array && geometryRef.value?.attributes.position.count) {
+  if (
+    geometryRef.value?.attributes.position.array &&
+    geometryRef.value?.attributes.position.count
+  ) {
     const positionArray = geometryRef.value.attributes.position.array
     for (let i = 0; i < geometryRef.value.attributes.position.count; i++) {
       const velocityX = velocityArray[i * 2]
@@ -211,8 +214,15 @@ onBeforeRender(() => {
       positionArray[i * 3] += velocityX
       positionArray[i * 3 + 1] -= velocityY
 
-      if (positionArray[i * 3] <= -area.value[0] / 2 || positionArray[i * 3] >= area.value[0] / 2) { positionArray[i * 3] = positionArray[i * 3] * -1 }
-      if (positionArray[i * 3 + 1] <= -area.value[1] / 2 || positionArray[i * 3 + 1] >= area.value[1] / 2) { positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1 }
+      if (positionArray[i * 3] <= -area.value[0] / 2 || positionArray[i * 3] >= area.value[0] / 2) {
+        positionArray[i * 3] = positionArray[i * 3] * -1
+      }
+      if (
+        positionArray[i * 3 + 1] <= -area.value[1] / 2 ||
+        positionArray[i * 3 + 1] >= area.value[1] / 2
+      ) {
+        positionArray[i * 3 + 1] = positionArray[i * 3 + 1] * -1
+      }
     }
     geometryRef.value.attributes.position.needsUpdate = true
 

@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/FXAADemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/FXAADemo.vue{0}
+
 </details>
 
 The `FXAAEffect` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/FXAAEffect.js~FXAAEffect.html) package.
@@ -55,14 +56,15 @@ const effectProps = {
 
 ## Props
 
-| Prop          | Description                                                         | Default                     |
-| ------------- | ------------------------------------------------------------------- | --------------------------- |
-| blendFunction | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options.             | `BlendFunction.SRC`        |
-| opacity | The opacity of the effect.             | `1`        |
-| samples | The maximum amount of edge detection samples.             | `12`        |
-| minEdgeThreshold | The minimum edge detection threshold. <br> Range: `[0.0, 1.0]`.             | `0.0312`        |
-| maxEdgeThreshold | The maximum edge detection threshold. <br> Range: `[0.0, 1.0]`.             | `0.125`        |
-| subpixelQuality | The subpixel blend quality. Range: `[0.0, 1.0]`.             | `0.75`        |
+| Prop             | Description                                                                                                                                                                                      | Default             |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| blendFunction    | Defines how the effect blends with the original scene. See the [`BlendFunction`](https://pmndrs.github.io/postprocessing/public/docs/variable/index.html#static-variable-BlendFunction) options. | `BlendFunction.SRC` |
+| opacity          | The opacity of the effect.                                                                                                                                                                       | `1`                 |
+| samples          | The maximum amount of edge detection samples.                                                                                                                                                    | `12`                |
+| minEdgeThreshold | The minimum edge detection threshold. <br> Range: `[0.0, 1.0]`.                                                                                                                                  | `0.0312`            |
+| maxEdgeThreshold | The maximum edge detection threshold. <br> Range: `[0.0, 1.0]`.                                                                                                                                  | `0.125`             |
+| subpixelQuality  | The subpixel blend quality. Range: `[0.0, 1.0]`.                                                                                                                                                 | `0.75`              |
 
 ## Further Reading
+
 For more details, see the [FXAAEffect documentation](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/FXAAEffect.js~FXAAEffect.html)

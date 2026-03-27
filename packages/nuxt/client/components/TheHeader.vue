@@ -1,30 +1,20 @@
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <UHeader>
     <template #title>
       <div class="flex items-center">
-        <img
-          src="/logo.svg"
-          alt="Tres.js"
-          class="h-3 mr-4"
+        <img src="/logo.svg" alt="Tres.js" class="h-3 mr-4" />
+        <a class="font-bold text-dark font-sans text-sm" href="/" title="Home"
+          >Tres<span class="text-primary-400">DevTools</span></a
         >
-        <a
-          class="font-bold text-dark font-sans text-sm"
-          href="/"
-          title="Home"
-        >Tres<span class="text-primary-400">DevTools</span></a>
       </div>
     </template>
 
     <template #right>
       <UColorModeButton />
 
-      <UTooltip
-        text="Open on GitHub"
-        :kbds="['meta', 'G']"
-      >
+      <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
         <UButton
           color="neutral"
           variant="ghost"

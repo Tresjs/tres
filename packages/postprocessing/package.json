@@ -1,55 +1,50 @@
 {
   "name": "@tresjs/post-processing",
-  "type": "module",
   "version": "3.6.0",
   "description": "Post-processing library for TresJS",
-  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Tresjs/tres.git",
-    "directory": "packages/postprocessing"
-  },
   "keywords": [
-    "vue",
     "3d",
-    "threejs",
-    "three",
-    "post-processing",
     "effects",
-    "fx"
+    "fx",
+    "post-processing",
+    "three",
+    "threejs",
+    "vue"
   ],
+  "license": "MIT",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "maintainers": [
     "Alvaro Saburido (https://github.com/alvarosabu/)",
     "Tino Koch (https://github.com/Tinoooo)",
     "Damien Montastier (https://github.com/damienmontastier)"
   ],
-  "exports": {
-    ".": "./dist/tres-post-processing.js",
-    "./package.json": "./package.json"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/postprocessing"
   },
-  "main": "./dist/tres-post-processing.js",
-  "module": "./dist/tres-post-processing.js",
-  "types": "./dist/tres-post-processing.d.ts",
   "files": [
     "*.d.ts",
     "dist"
   ],
+  "type": "module",
+  "main": "./dist/tres-post-processing.js",
+  "module": "./dist/tres-post-processing.js",
+  "types": "./dist/tres-post-processing.d.ts",
+  "exports": {
+    ".": "./dist/tres-post-processing.js",
+    "./package.json": "./package.json"
+  },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "tsdown",
-    "build:analyze": "ANALYZE=true tsdown",
-    "preview": "vite preview",
+    "build": "vp pack",
+    "build:analyze": "ANALYZE=true vp pack",
+    "preview": "vp preview",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"
-  },
-  "peerDependencies": {
-    "@tresjs/core": "5.7.0",
-    "three": ">=0.169",
-    "vue": ">=3.4"
   },
   "dependencies": {
     "@vueuse/core": "catalog:utils",
@@ -67,13 +62,18 @@
     "rollup-plugin-analyzer": "catalog:build",
     "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
-    "tsdown": "catalog:build",
     "typescript": "catalog:typescript",
-    "vite": "catalog:vite",
+    "vite": "catalog:",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
+    "vite-plus": "catalog:",
     "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
+  },
+  "peerDependencies": {
+    "@tresjs/core": "5.7.0",
+    "three": ">=0.169",
+    "vue": ">=3.4"
   },
   "nx": {
     "implicitDependencies": [

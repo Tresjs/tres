@@ -2,13 +2,21 @@ import type { ColorRepresentation, ColorSpace, Object3D, ShadowMapType, ToneMapp
 
 import type { TresContext } from '../useTresContextProvider'
 
-import {
-  createEventHook,
-  unrefElement,
-  useTimeout,
-} from '@vueuse/core'
+import { createEventHook, unrefElement, useTimeout } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, type MaybeRefOrGetter, nextTick, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
+import {
+  computed,
+  type MaybeRef,
+  type MaybeRefOrGetter,
+  nextTick,
+  onUnmounted,
+  type Reactive,
+  ref,
+  type ShallowRef,
+  toValue,
+  watch,
+  watchEffect,
+} from 'vue'
 import type { Renderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
@@ -78,22 +86,22 @@ export interface RendererOptions {
   preserveDrawingBuffer?: boolean
   /**
    * Power preference for the renderer.
-    * Power preference for the renderer.
-    * - `default`: Automatically chooses the most suitable power setting.
-    * - `high-performance`: Prioritizes rendering performance.
-    * - `low-power`: Tries to reduce power usage.
+   * Power preference for the renderer.
+   * - `default`: Automatically chooses the most suitable power setting.
+   * - `high-performance`: Prioritizes rendering performance.
+   * - `low-power`: Tries to reduce power usage.
    * @see {@link https://threejs.org/docs/#api/en/renderers/WebGLRenderer}
    * @default 'default'
    * @readonly
    */
   powerPreference?: WebGLPowerPreference
   /**
-     * Whether to create the WebGL context with an alpha buffer.
-     * This is a WebGL context option that must be set during context creation and cannot be changed later.
-     * When true, the canvas can be transparent, showing content behind it.
-     * @readonly
-     * @default false
-     */
+   * Whether to create the WebGL context with an alpha buffer.
+   * This is a WebGL context option that must be set during context creation and cannot be changed later.
+   * When true, the canvas can be transparent, showing content behind it.
+   * @readonly
+   * @default false
+   */
   alpha?: boolean
   /**
    * Whether to premultiply the alpha of the canvas.
@@ -200,15 +208,13 @@ export interface UseRendererOptions {
   contextParts: Pick<TresContext, 'sizes' | 'camera'>
 }
 
-export function useRendererManager(
-  {
-    scene,
-    canvas,
-    options,
-    fpsLimit,
-    contextParts: { sizes, camera },
-  }: UseRendererOptions,
-) {
+export function useRendererManager({
+  scene,
+  canvas,
+  options,
+  fpsLimit,
+  contextParts: { sizes, camera },
+}: UseRendererOptions) {
   const getRenderer = () => {
     if (isFunction(options.renderer)) {
       return options.renderer({
@@ -229,7 +235,9 @@ export function useRendererManager(
 
   const frames = ref(toValue(options.renderMode) === 'manual' ? 0 : 1) // 1 to make sure the first frame is rendered
   const maxFrames = 60
-  const canBeInvalidated = computed(() => toValue(options.renderMode) === 'on-demand' && frames.value === 0)
+  const canBeInvalidated = computed(
+    () => toValue(options.renderMode) === 'on-demand' && frames.value === 0,
+  )
 
   const forceMaterialUpdate = () =>
     scene.value.traverse((child: Object3D) => {
@@ -290,8 +298,7 @@ export function useRendererManager(
       // WebGLRenderer is ready immediately (no async init needed)
 
       isInitialized.value = true
-    }
-    catch (e) {
+    } catch (e) {
       // Handle initialization errors (e.g., WebGPU not supported, GPU initialization failure)
       const rendererError = new TresRendererError(
         e instanceof Error ? e.message : 'Unknown error',
@@ -303,11 +310,11 @@ export function useRendererManager(
 
       // Log detailed error message to help users diagnose the issue
       console.error(
-        '[TresJS] Renderer initialization failed. This may occur if:\n'
-        + '  - WebGPU is not supported by your browser\n'
-        + '  - GPU is not available or lacks required features\n'
-        + '  - GPU drivers are outdated\n'
-        + `Error details: ${rendererError.message}`,
+        '[TresJS] Renderer initialization failed. This may occur if:\n' +
+          '  - WebGPU is not supported by your browser\n' +
+          '  - GPU is not available or lacks required features\n' +
+          '  - GPU drivers are outdated\n' +
+          `Error details: ${rendererError.message}`,
         rendererError,
       )
 
@@ -319,9 +326,7 @@ export function useRendererManager(
   const renderEventHook = createEventHook<TresRenderer>()
 
   const notifyFrameRendered = () => {
-    frames.value = isModeAlways.value
-      ? 1
-      : Math.max(0, frames.value - 1)
+    frames.value = isModeAlways.value ? 1 : Math.max(0, frames.value - 1)
 
     renderEventHook.trigger(renderer)
   }
@@ -337,13 +342,16 @@ export function useRendererManager(
     renderFunction = fn
   }
 
-  const loop = useCreateRafLoop(() => {
-    if (frames.value) {
-      renderFunction(notifyFrameRendered)
-    }
-  }, {
-    fpsLimit,
-  })
+  const loop = useCreateRafLoop(
+    () => {
+      if (frames.value) {
+        renderFunction(notifyFrameRendered)
+      }
+    },
+    {
+      fpsLimit,
+    },
+  )
 
   // Only start the render loop after renderer initialization is complete
   readyEventHook.on(() => {
@@ -354,29 +362,37 @@ export function useRendererManager(
 
   // Watch the sizes and invalidate the renderer when they change
   // Also watch isRendererInitialized to ensure size is set once renderer is ready
-  watch([sizes.width, sizes.height, isInitialized], () => {
-    // Wait for renderer initialization before setting size (required for WebGPU)
-    if (!isInitialized.value) { return }
+  watch(
+    [sizes.width, sizes.height, isInitialized],
+    () => {
+      // Wait for renderer initialization before setting size (required for WebGPU)
+      if (!isInitialized.value) {
+        return
+      }
 
-    renderer.setSize(sizes.width.value, sizes.height.value)
+      renderer.setSize(sizes.width.value, sizes.height.value)
 
-    if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
-      // Defer trigger to ensure listeners are registered (especially Context.vue's onReady)
-      // With window-size, this watch runs immediately with non-zero sizes,
-      // which can fire before Context.vue registers its listener
-      hasTriggeredReady = true
-      nextTick(() => {
-        readyEventHook.trigger(renderer)
-      })
-    }
+      if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
+        // Defer trigger to ensure listeners are registered (especially Context.vue's onReady)
+        // With window-size, this watch runs immediately with non-zero sizes,
+        // which can fire before Context.vue registers its listener
+        hasTriggeredReady = true
+        nextTick(() => {
+          readyEventHook.trigger(renderer)
+        })
+      }
 
-    invalidateOnDemand()
-  }, {
-    immediate: true,
-  })
+      invalidateOnDemand()
+    },
+    {
+      immediate: true,
+    },
+  )
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isInitialized.value) {
+      return
+    }
     setPixelRatio(renderer, sizes.pixelRatio.value, toValue(options.dpr))
   })
 
@@ -399,10 +415,13 @@ export function useRendererManager(
     const clearColor = toValue(options.clearColor)
     const clearAlpha = toValue(options.clearAlpha)
 
-    const isClearColorWithAlpha = typeof clearColor === 'string' && clearColor.length === 9 && clearColor.startsWith('#')
+    const isClearColorWithAlpha =
+      typeof clearColor === 'string' && clearColor.length === 9 && clearColor.startsWith('#')
 
     if (isClearColorWithAlpha && clearAlpha !== undefined) {
-      logWarning(`clearColor with alpha (e.g. ${clearColor}) and clearAlpha cannot both be set, using clearColor as source of truth`)
+      logWarning(
+        `clearColor with alpha (e.g. ${clearColor}) and clearAlpha cannot both be set, using clearColor as source of truth`,
+      )
     }
 
     if (isClearColorWithAlpha) {
@@ -421,14 +440,20 @@ export function useRendererManager(
   // Watchers for updatable renderer options at runtime
   // All watchers must wait for renderer initialization (especially for WebGPU)
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isInitialized.value) {
+      return
+    }
     const value = clearColorAndAlpha.value
-    if (value.color === undefined || value.alpha === undefined) { return }
+    if (value.color === undefined || value.alpha === undefined) {
+      return
+    }
     renderer.setClearColor(value.color, value.alpha)
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isInitialized.value) {
+      return
+    }
     const value = options.toneMapping
     if (value) {
       renderer.toneMapping = value
@@ -436,7 +461,9 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isInitialized.value) {
+      return
+    }
     const value = options.toneMappingExposure
     if (value) {
       renderer.toneMappingExposure = value
@@ -444,7 +471,9 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isInitialized.value) {
+      return
+    }
     const value = options.outputColorSpace
     if (value) {
       renderer.outputColorSpace = value
@@ -452,17 +481,25 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isInitialized.value) {
+      return
+    }
     const value = options.shadows
-    if (value === undefined) { return }
+    if (value === undefined) {
+      return
+    }
     renderer.shadowMap.enabled = value
     forceMaterialUpdate()
   })
 
   watchEffect(() => {
-    if (!isInitialized.value) { return }
+    if (!isInitialized.value) {
+      return
+    }
     const value = options.shadowMapType
-    if (value === undefined) { return }
+    if (value === undefined) {
+      return
+    }
     renderer.shadowMap.type = value
     forceMaterialUpdate()
   })

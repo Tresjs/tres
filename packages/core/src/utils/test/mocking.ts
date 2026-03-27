@@ -1,4 +1,4 @@
-import { vi } from 'vitest'
+import { vi } from 'vite-plus/test'
 
 /**
  * Mocks WebGLRenderer to avoid WebGL context issues in JSDOM
@@ -15,8 +15,18 @@ export const mockWebGLRenderer = async () => {
         toneMapping = actual.ACESFilmicToneMapping
         toneMappingExposure = 1
         outputColorSpace = actual.SRGBColorSpace
-        info = { render: { calls: 0, triangles: 0 }, memory: { geometries: 0, textures: 0 }, autoReset: true, reset: vi.fn() }
-        capabilities = { isWebGL2: true, maxTextures: 16, maxCubemapSize: 16384, maxTextureSize: 16384 }
+        info = {
+          render: { calls: 0, triangles: 0 },
+          memory: { geometries: 0, textures: 0 },
+          autoReset: true,
+          reset: vi.fn(),
+        }
+        capabilities = {
+          isWebGL2: true,
+          maxTextures: 16,
+          maxCubemapSize: 16384,
+          maxTextureSize: 16384,
+        }
         debug = { checkShaderErrors: true }
         xr = { enabled: false }
 

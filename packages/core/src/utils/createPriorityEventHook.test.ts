@@ -46,10 +46,9 @@ describe('createPrioritizableEventHook', () => {
       for (const i of [-3, -2, -1, 0, 1, 2, 3]) {
         const priority = i % 2 ? i : 0
         if (priority === 0) {
-          updateHook.on(() => (result.push(i)))
-        }
-        else {
-          updateHook.on(() => (result.push(i)), priority)
+          updateHook.on(() => result.push(i))
+        } else {
+          updateHook.on(() => result.push(i), priority)
         }
       }
       updateHook.trigger()
@@ -96,29 +95,28 @@ describe('createPrioritizableEventHook', () => {
       for (let i = 0; i < NUM_TESTS; i++) {
         const insertOrder = {}
         const getArr = () => getArray0ToN(4)
-        const arr = shuffle((getArr().concat(getArr()).concat(getArr())))
+        const arr = shuffle(getArr().concat(getArr()).concat(getArr()))
         // NOTE: arr is [0,0,0,1,1,1,2,2,2,3,3,3] – shuffled
         const result = []
         for (const priority of arr) {
           if (!(priority in insertOrder)) {
             insertOrder[priority] = 0
-          }
-          else {
+          } else {
             insertOrder[priority]++
           }
           const msg = `${priority}.${insertOrder[priority]}`
-          updateHook.on(() => (result.push(msg)), priority)
+          updateHook.on(() => result.push(msg), priority)
         }
         updateHook.trigger()
-        expect(result).toStrictEqual(
-          '0.0|0.1|0.2|1.0|1.1|1.2|2.0|2.1|2.2|3.0|3.1|3.2'.split('|'),
-        )
+        expect(result).toStrictEqual('0.0|0.1|0.2|1.0|1.1|1.2|2.0|2.1|2.2|3.0|3.1|3.2'.split('|'))
       }
     })
     describe('... with an event added twice', () => {
       it('triggers once', () => {
         let result = ''
-        const fn0 = () => { result += '0' }
+        const fn0 = () => {
+          result += '0'
+        }
         updateHook.on(fn0)
         updateHook.on(fn0, 1)
         updateHook.on(fn0, 2)
@@ -126,8 +124,8 @@ describe('createPrioritizableEventHook', () => {
         expect(result).toBe('0')
       })
       it('is counted once', () => {
-        const fn0 = () => { }
-        const fn1 = () => { }
+        const fn0 = () => {}
+        const fn1 = () => {}
         updateHook.on(fn0)
         updateHook.on(fn1)
         updateHook.on(fn0)
@@ -135,8 +133,12 @@ describe('createPrioritizableEventHook', () => {
       })
       it('uses latest insert order', () => {
         let result = ''
-        const fn0 = () => { result += '0' }
-        const fn1 = () => { result += '1' }
+        const fn0 = () => {
+          result += '0'
+        }
+        const fn1 = () => {
+          result += '1'
+        }
         updateHook.on(fn0)
         updateHook.on(fn1)
         updateHook.on(fn0)
@@ -145,8 +147,12 @@ describe('createPrioritizableEventHook', () => {
       })
       it('uses latest priority', () => {
         let result = ''
-        const fn0 = () => { result += '0' }
-        const fn1 = () => { result += '1' }
+        const fn0 = () => {
+          result += '0'
+        }
+        const fn1 = () => {
+          result += '1'
+        }
         updateHook.on(fn0, 0)
         updateHook.on(fn1, 1)
         updateHook.on(fn0, 2)
@@ -156,8 +162,12 @@ describe('createPrioritizableEventHook', () => {
     })
     it('returns an object with `off`', () => {
       let result = ''
-      const fn0 = () => { result += '0' }
-      const fn1 = () => { result += '1' }
+      const fn0 = () => {
+        result += '0'
+      }
+      const fn1 = () => {
+        result += '1'
+      }
       const off0 = updateHook.on(fn0).off
       const off1 = updateHook.on(fn1).off
       updateHook.trigger()
@@ -178,8 +188,12 @@ describe('createPrioritizableEventHook', () => {
   describe('off', () => {
     it('removes the passed event', () => {
       let result = ''
-      const fn0 = () => { result += '0' }
-      const fn1 = () => { result += '1' }
+      const fn0 = () => {
+        result += '0'
+      }
+      const fn1 = () => {
+        result += '1'
+      }
       updateHook.on(fn0)
       updateHook.on(fn1)
       updateHook.trigger()
@@ -201,8 +215,12 @@ describe('createPrioritizableEventHook', () => {
 
     it('does nothing if hook does not contain passed event', () => {
       let result = ''
-      const fn0 = () => { result += '0' }
-      const fn1 = () => { result += '1' }
+      const fn0 = () => {
+        result += '0'
+      }
+      const fn1 = () => {
+        result += '1'
+      }
       updateHook.on(fn0)
       updateHook.on(fn1)
       updateHook.trigger()
@@ -221,8 +239,12 @@ describe('createPrioritizableEventHook', () => {
   describe('trigger', () => {
     it('calls added events', () => {
       let result = ''
-      const fn0 = () => { result += '0' }
-      const fn1 = () => { result += '1' }
+      const fn0 = () => {
+        result += '0'
+      }
+      const fn1 = () => {
+        result += '1'
+      }
       updateHook.on(fn0)
       updateHook.on(fn1)
 
@@ -231,8 +253,12 @@ describe('createPrioritizableEventHook', () => {
     })
     it('calls added events with an argument', () => {
       let result = ''
-      const fn0 = (i: number) => { result += `${i}` }
-      const fn1 = (i: number) => { result += `${1 + i}` }
+      const fn0 = (i: number) => {
+        result += `${i}`
+      }
+      const fn1 = (i: number) => {
+        result += `${1 + i}`
+      }
       updateHook.on(fn0)
       updateHook.on(fn1)
 
@@ -246,18 +272,17 @@ describe('createPrioritizableEventHook', () => {
 })
 
 function getArray0ToN(n: number) {
-  return Array.from({ length: n }).fill(0).map((_, i) => i)
+  return Array.from({ length: n })
+    .fill(0)
+    .map((_, i) => i)
 }
 
 function shuffle(array: any[]) {
   let currentIndex = array.length
   while (currentIndex !== 0) {
     const randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ]
+    currentIndex--
+    ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
   }
   return array
-};
+}

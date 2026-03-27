@@ -59,9 +59,7 @@ if (local.value) {
 }
 
 const { x, y } = useMouse(mouseOptions)
-const { width, height } = local.value
-  ? useElementSize(renderer.domElement)
-  : useWindowSize()
+const { width, height } = local.value ? useElementSize(renderer.domElement) : useWindowSize()
 
 const cameraGroupRef = shallowRef<Group>()
 const _factor = ref()
@@ -83,17 +81,17 @@ const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ delta /* invalidate */ }) => {
   if (
-    disabled.value
-    || !cameraGroupRef.value
-    || Number.isNaN(cursorX.value)
-    || Number.isNaN(cursorY.value)
+    disabled.value ||
+    !cameraGroupRef.value ||
+    Number.isNaN(cursorX.value) ||
+    Number.isNaN(cursorY.value)
   ) {
     return
   }
-  cameraGroupRef.value.position.x
-    += (cursorX.value - cameraGroupRef.value.position.x) * _ease.value[0] * delta
-  cameraGroupRef.value.position.y
-    += (cursorY.value - cameraGroupRef.value.position.y) * _ease.value[1] * delta
+  cameraGroupRef.value.position.x +=
+    (cursorX.value - cameraGroupRef.value.position.x) * _ease.value[0] * delta
+  cameraGroupRef.value.position.y +=
+    (cursorY.value - cameraGroupRef.value.position.y) * _ease.value[1] * delta
 
   // TODO: comment this until invalidate is back in the loop callback on v5
   // invalidate()
@@ -101,7 +99,7 @@ onBeforeRender(({ delta /* invalidate */ }) => {
 
 watch(
   () => cameraGroupRef.value,
-  value => value?.add(camera.value!),
+  (value) => value?.add(camera.value!),
 )
 </script>
 

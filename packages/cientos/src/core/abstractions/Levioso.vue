@@ -34,7 +34,9 @@ defineExpose({
   let elapsed = START_OFFSET
 
   onBeforeRender(({ delta /* invalidate */ }) => {
-    if (!groupRef.value) { return }
+    if (!groupRef.value) {
+      return
+    }
 
     elapsed += delta * props.speed
     const theta = elapsed * PERIOD_SCALE
@@ -43,7 +45,9 @@ defineExpose({
     group.rotation.x = Math.cos(theta) * AMPLITUDE_ROTATION_X * props.rotationFactor
     group.rotation.y = Math.sin(theta) * AMPLITUDE_ROTATION_Y * props.rotationFactor
     group.rotation.z = Math.sin(theta) * AMPLITUDE_ROTATION_Z * props.rotationFactor
-    group.position.y = MathUtils.mapLinear(Math.sin(theta), -1, 1, props.range[0], props.range[1]) * props.floatFactor
+    group.position.y =
+      MathUtils.mapLinear(Math.sin(theta), -1, 1, props.range[0], props.range[1]) *
+      props.floatFactor
 
     // TODO: comment this until invalidate is back in the loop callback on v5
     // invalidate()
@@ -52,10 +56,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresGroup
-
-    ref="groupRef"
-  >
+  <TresGroup ref="groupRef">
     <slot></slot>
   </TresGroup>
 </template>

@@ -1,11 +1,30 @@
 <script setup lang="ts">
-import { Box, CatmullRomCurve3, Circle, Cone, Cylinder, Dodecahedron, Icosahedron, Octahedron, OrbitControls, Plane, Ring, RoundedBox, Sphere, Superformula, Tetrahedron, Torus, TorusKnot, Tube } from '@tresjs/cientos'
+import {
+  Box,
+  CatmullRomCurve3,
+  Circle,
+  Cone,
+  Cylinder,
+  Dodecahedron,
+  Icosahedron,
+  Octahedron,
+  OrbitControls,
+  Plane,
+  Ring,
+  RoundedBox,
+  Sphere,
+  Superformula,
+  Tetrahedron,
+  Torus,
+  TorusKnot,
+  Tube,
+} from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { QuadraticBezierCurve3, Vector3 } from 'three'
 import { onUnmounted } from 'vue'
 import OverlayInfo from '@/components/OverlayInfo.vue'
 
-const COLORS = [0x81DBC5, 0xEFAC35, 0xFFFFFF, 0x444444]
+const COLORS = [0x81dbc5, 0xefac35, 0xffffff, 0x444444]
 const WIGGLE_SIZE = 0.3
 const NUM_SHAPES = 17
 
@@ -27,7 +46,9 @@ const intervalId = setInterval(() => {
     n = 0
     const oldWiggle = wiggle
     wiggle = getArrayNext(wiggles, wiggle)
-    if (oldWiggle !== wiggle) { oldWiggle.value = 0 }
+    if (oldWiggle !== wiggle) {
+      oldWiggle.value = 0
+    }
     if (oldWiggle === wiggles[wiggles.length - 1] && wiggle === wiggles[0]) {
       i.value = (i.value + 1) % NUM_SHAPES
     }
@@ -48,17 +69,8 @@ onUnmounted(() => clearInterval(intervalId))
 </script>
 
 <template>
-  <TresCanvas
-    window-size
-    clear-color="#111"
-    render-mode="on-demand"
-  >
-    <TresPerspectiveCamera
-      :fov="45"
-      :aspect="1"
-      :near="0.1"
-      :far="1000"
-    />
+  <TresCanvas window-size clear-color="#111" render-mode="on-demand">
+    <TresPerspectiveCamera :fov="45" :aspect="1" :near="0.1" :far="1000" />
     <OrbitControls />
     <Box
       v-if="i === 0"
@@ -68,7 +80,10 @@ onUnmounted(() => clearInterval(intervalId))
     <CatmullRomCurve3
       v-if="i === 1"
       :vertexColors="[colorRef, colorRef]"
-      :points="[[-0.5 + wiggle0, -0.5 + wiggle1, -0.5], [0.5 + wiggle2, 0.5, 0.5]]"
+      :points="[
+        [-0.5 + wiggle0, -0.5 + wiggle1, -0.5],
+        [0.5 + wiggle2, 0.5, 0.5],
+      ]"
       :line-width="40 + wiggle3 * 200"
     />
     <Circle
@@ -79,7 +94,15 @@ onUnmounted(() => clearInterval(intervalId))
     <Cone
       v-if="i === 3"
       :color="colorRef"
-      :args="[1 + wiggle0, 1 + wiggle1, 12 + Math.floor(wiggle2 * 100), 12, false, 0, Math.PI * 2 + wiggle3 * 10]"
+      :args="[
+        1 + wiggle0,
+        1 + wiggle1,
+        12 + Math.floor(wiggle2 * 100),
+        12,
+        false,
+        0,
+        Math.PI * 2 + wiggle3 * 10,
+      ]"
     />
     <Cylinder
       v-if="i === 4"
@@ -140,24 +163,50 @@ onUnmounted(() => clearInterval(intervalId))
     <Torus
       v-if="i === 14"
       :color="colorRef"
-      :args="[0.5 + wiggle0, 0.25 + wiggle1, 32 + Math.floor(100 * wiggle2), 32, 2 * Math.PI - 20 * wiggle3]"
+      :args="[
+        0.5 + wiggle0,
+        0.25 + wiggle1,
+        32 + Math.floor(100 * wiggle2),
+        32,
+        2 * Math.PI - 20 * wiggle3,
+      ]"
     />
     <TorusKnot
       v-if="i === 15"
       :color="colorRef"
-      :args="[0.5 + wiggle0, 0.1 + wiggle1, 256 + Math.floor(100 * wiggle2), 8 - Math.floor(20 * wiggle3)]"
+      :args="[
+        0.5 + wiggle0,
+        0.1 + wiggle1,
+        256 + Math.floor(100 * wiggle2),
+        8 - Math.floor(20 * wiggle3),
+      ]"
     />
     <Tube
       v-if="i === 16"
       :color="colorRef"
-      :args="[new QuadraticBezierCurve3(new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 0, 0)), 20 + Math.floor(100 * wiggle0), 0.2 + 10 * (wiggle1 + wiggle2), 8 + Math.floor(50 * wiggle3)]"
+      :args="[
+        new QuadraticBezierCurve3(
+          new Vector3(-1, 0, 0),
+          new Vector3(0, 1, 0),
+          new Vector3(1, 0, 0),
+        ),
+        20 + Math.floor(100 * wiggle0),
+        0.2 + 10 * (wiggle1 + wiggle2),
+        8 + Math.floor(50 * wiggle3),
+      ]"
     />
   </TresCanvas>
   <OverlayInfo>
     <h1>render-mode="on-demand" Shapes</h1>
     <h2>Setup</h2>
-    <p>The canvas' "render-mode" is set to "on-demand". This means it only rerenders when <code>invalidate()</code> is called.</p>
+    <p>
+      The canvas' "render-mode" is set to "on-demand". This means it only rerenders when
+      <code>invalidate()</code> is called.
+    </p>
     <p>There should be 1 shape on the canvas at a time.</p>
-    <p>The shape should constantly be visibly changing properties. A pause indicates that a shape is not calling <code>invalidate()</code>.</p>
+    <p>
+      The shape should constantly be visibly changing properties. A pause indicates that a shape is
+      not calling <code>invalidate()</code>.
+    </p>
   </OverlayInfo>
 </template>

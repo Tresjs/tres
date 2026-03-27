@@ -4,8 +4,8 @@ description: Short-cut for a TetrahedronGeometry and a MeshBasicMaterial with a 
 ---
 
 ::SceneControlsWrapper
-  ::ShapesTetrahedron
-  ::
+::ShapesTetrahedron
+::
 ::
 
 The `cientos` package provides a `<Tetrahedron />` component that serves as a short-cut for a `TetrahedronGeometry`.

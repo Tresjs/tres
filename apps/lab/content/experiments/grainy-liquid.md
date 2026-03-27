@@ -7,7 +7,6 @@ date: 2025-08-13
 lastUpdated: 2025-12-02
 ---
 
-
 A dynamic website design featuring animated liquid blobs created with custom GLSL shaders, demonstrating organic deformation and fluid-like behavior.
 
 ## Technical Implementation
@@ -48,6 +47,7 @@ vec3 displacedPosition = pos + normal * displacement * u_amplitude;
 ```
 
 **Key Features:**
+
 - **Simplex noise implementation** for smooth, organic deformation
 - **Multi-layered noise** with different frequencies and speeds
 - **Normal-based displacement** to maintain blob volume
@@ -74,6 +74,7 @@ finalColor += vec3(grain);
 ```
 
 **Key Features:**
+
 - **Fresnel effect** for realistic edge lighting
 - **Fractal Brownian Motion (FBM)** for organic color patterns
 - **Multi-layer grain** for surface texture
@@ -88,15 +89,16 @@ Individual blob with customizable properties:
 
 ```typescript
 interface Props {
-  colorA?: string     // Primary color
-  colorB?: string     // Secondary color  
-  colorC?: string     // Highlight color
-  speed?: number      // Animation speed
-  amplitude?: number  // Deformation intensity
+  colorA?: string // Primary color
+  colorB?: string // Secondary color
+  colorC?: string // Highlight color
+  speed?: number // Animation speed
+  amplitude?: number // Deformation intensity
 }
 ```
 
 **Features:**
+
 - **Interactive controls** via `useControls()` for real-time adjustment
 - **Prop-based customization** for different blob variations
 - **Shader uniform management** with reactive updates
@@ -111,17 +113,18 @@ const blobs: BlobConfig[] = [
   {
     position: [-4, 2, 0],
     scale: [1.8, 1.8, 1.8],
-    colorA: '#6366f1',  // Purple blob
+    colorA: '#6366f1', // Purple blob
     colorB: '#8b5cf6',
     colorC: '#ddd6fe',
     speed: 0.6,
-    amplitude: 0.15
+    amplitude: 0.15,
   },
   // Pink and gray blobs with different properties...
 ]
 ```
 
 **Features:**
+
 - **Varied positioning** for layered composition
 - **Different scales** to create depth
 - **Unique color palettes** per blob
@@ -150,6 +153,7 @@ Complete website design with 3D background and text overlay:
 ```
 
 **Features:**
+
 - **Layered design** with 3D background and HTML overlay
 - **Responsive typography** using TailwindCSS
 - **Google Fonts integration** (Playfair Display serif)

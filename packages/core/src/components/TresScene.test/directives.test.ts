@@ -27,9 +27,7 @@ describe('directives', () => {
     })
 
     const { createScene } = await initializeSceneCreator()
-    const { sceneWrapper, context } = await createScene(
-      () => h(VForBoxes),
-    )
+    const { sceneWrapper, context } = await createScene(() => h(VForBoxes))
 
     checkBoxes(context.scene.value.children, 5)
 
@@ -67,9 +65,7 @@ describe('directives', () => {
     })
 
     const { createScene } = await initializeSceneCreator()
-    const { sceneWrapper, context } = await createScene(
-      () => h(Group),
-    )
+    const { sceneWrapper, context } = await createScene(() => h(Group))
 
     checkBoxes(context.scene.value.children, 5)
 
@@ -106,9 +102,7 @@ describe('directives', () => {
     })
 
     const { createScene } = await initializeSceneCreator()
-    const { sceneWrapper, context } = await createScene(
-      () => h(SwapMaterial),
-    )
+    const { sceneWrapper, context } = await createScene(() => h(SwapMaterial))
 
     const mesh = context.scene.value.children[0] as THREE.Mesh
     expect(mesh.name).toBe('swapMesh')

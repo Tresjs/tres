@@ -19,39 +19,18 @@ const effectParams = ref({
 
 <template>
   <TresCanvas clear-color="#ff9cce" shadows>
-    <TresPerspectiveCamera
-      :position="[0, 1, 3]"
-      :look-at="[0, 0.75, 2]"
-    />
-    <Backdrop
-      :floor="1.5"
-      :scale="[100, 30, 30]"
-      :position="[0, 0, -50]"
-      receive-shadow
-    >
-      <TresMeshPhysicalMaterial
-        :roughness="1"
-        color="#ff9cce"
-        :side="2"
-      />
+    <TresPerspectiveCamera :position="[0, 1, 3]" :look-at="[0, 0.75, 2]" />
+    <Backdrop :floor="1.5" :scale="[100, 30, 30]" :position="[0, 0, -50]" receive-shadow>
+      <TresMeshPhysicalMaterial :roughness="1" color="#ff9cce" :side="2" />
     </Backdrop>
-    <TresGroup
-      :position="[-5, 0.5, -10]"
-      :scale="0.5"
-    >
+    <TresGroup :position="[-5, 0.5, -10]" :scale="0.5">
       <Ducky />
     </TresGroup>
-    <TresGroup
-      :position="[0, 0.5, 0]"
-      :scale="0.5"
-    >
+    <TresGroup :position="[0, 0.5, 0]" :scale="0.5">
       <BlenderCube />
     </TresGroup>
     <TresAmbientLight />
-    <TresDirectionalLight
-      :position="[5, 5, 5]"
-      cast-shadow
-    />
+    <TresDirectionalLight :position="[5, 5, 5]" cast-shadow />
 
     <EffectComposerPmndrs ref="effectComposer">
       <DepthOfFieldPmndrs

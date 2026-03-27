@@ -19,7 +19,9 @@ class EnvironmentScene extends Object3D {
       if (object instanceof Mesh) {
         object.geometry.dispose()
         object.material.dispose()
-        if (object.material.map) { object.material.map.dispose() }
+        if (object.material.map) {
+          object.material.map.dispose()
+        }
         this.virtualScene.remove(object)
       }
     })

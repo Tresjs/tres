@@ -6,9 +6,7 @@ import { OrbitControls } from '@tresjs/cientos'
 <template>
   <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
   <tres-canvas>
-    <tres-perspective-camera
-      :position="[9, 9, 9]"
-    />
+    <tres-perspective-camera :position="[9, 9, 9]" />
     <!-- eslint-disable-next-line vue/component-name-in-template-casing -->
     <orbit-controls />
 

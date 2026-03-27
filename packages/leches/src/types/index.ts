@@ -50,7 +50,10 @@ export interface LechesSelectControl extends Omit<LechesControl<string | number>
   options: LechesSelectOption[]
 }
 
-export interface LechesButtonControl extends Omit<LechesControl<LechesSelectControlButton>, 'type'> {
+export interface LechesButtonControl extends Omit<
+  LechesControl<LechesSelectControlButton>,
+  'type'
+> {
   type: 'button'
   value: LechesSelectControlButton
 }

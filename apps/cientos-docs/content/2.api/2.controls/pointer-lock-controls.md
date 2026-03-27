@@ -4,8 +4,8 @@ description: Allows you to capture the mouse movement and simulate a first perso
 ---
 
 ::SceneControlsWrapper
-  ::ControlsPointerLockControls
-  ::
+::ControlsPointerLockControls
+::
 ::
 
 [PointerLockControls](https://threejs.org/docs/index.html?q=pointe#examples/en/controls/PointerLockControls) is a camera controller that allows you to capture the mouse movement and simulate a first person camera. It is a perfect choice for first person 3D games.

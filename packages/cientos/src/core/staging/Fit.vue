@@ -20,13 +20,10 @@ export interface Props {
   precise?: boolean
 }
 
-const props = withDefaults(
-  defineProps<Props>(),
-  {
-    into: () => new Box3(new Vector3(-0.5, -0.5, -0.5), new Vector3(0.5, 0.5, 0.5)),
-    precise: false,
-  },
-)
+const props = withDefaults(defineProps<Props>(), {
+  into: () => new Box3(new Vector3(-0.5, -0.5, -0.5), new Vector3(0.5, 0.5, 0.5)),
+  precise: false,
+})
 
 const { invalidate } = useTres()
 
@@ -55,7 +52,7 @@ function fit(container: typeof props.into, precise: typeof props.precise) {
   const { box3: containerBox, use } = normalizeContainer(container, precise)
 
   const childBox = new Box3()
-  inner.value.children.forEach(c => childBox.expandByObject(c, precise))
+  inner.value.children.forEach((c) => childBox.expandByObject(c, precise))
   const childBoxSize = childBox.getSize(new Vector3())
   const containerBoxSize = containerBox.getSize(new Vector3())
 
@@ -77,8 +74,7 @@ function fit(container: typeof props.into, precise: typeof props.precise) {
     // NOTE: Move the scaled children so that they occupy the container.
     const containerBoxCenter = middle.value.worldToLocal(containerBox.getCenter(new Vector3()))
     middle.value.position.copy(containerBoxCenter.sub(childBoxCenter.multiplyScalar(scale)))
-  }
-  else {
+  } else {
     // NOTE: Move the scaled children so that they appear to scale
     // relative to the center of their bounding box (and not the origin
     // of the "inner" THREE.Group).
@@ -88,22 +84,25 @@ function fit(container: typeof props.into, precise: typeof props.precise) {
   invalidate()
 }
 
-function normalizeContainer(container: typeof props.into, precise: typeof props.precise): IntoPropNormalized {
+function normalizeContainer(
+  container: typeof props.into,
+  precise: typeof props.precise,
+): IntoPropNormalized {
   if (typeof container === 'number') {
     container = new Vector3(container, container, container)
-  }
-  else if (Array.isArray(container)) {
+  } else if (Array.isArray(container)) {
     container = new Vector3(...container)
   }
 
   if (container && 'isVector3' in container && container.isVector3) {
     return { box3: new Box3(new Vector3(0, 0, 0), container), use: { position: false } }
-  }
-  else if (container && 'isBox3' in container && container.isBox3) {
+  } else if (container && 'isBox3' in container && container.isBox3) {
     return { box3: container as Box3, use: { position: true } }
-  }
-  else if (container && 'isObject3D' in container && container.isObject3D) {
-    return { box3: new Box3().setFromObject(container as Object3D, precise ?? false), use: { position: true } }
+  } else if (container && 'isObject3D' in container && container.isObject3D) {
+    return {
+      box3: new Box3().setFromObject(container as Object3D, precise ?? false),
+      use: { position: true },
+    }
   }
 
   return {
@@ -112,7 +111,10 @@ function normalizeContainer(container: typeof props.into, precise: typeof props.
   }
 }
 
-watch(() => [props.into, props.precise], () => fit(props.into, props.precise))
+watch(
+  () => [props.into, props.precise],
+  () => fit(props.into, props.precise),
+)
 
 onMounted(() => {
   fit(props.into, props.precise)
@@ -130,7 +132,9 @@ defineExpose({
   fit: (
     into: typeof props.into = new Box3(new Vector3(-0.5, -0.5, -0.5), new Vector3(0.5, 0.5, 0.5)),
     precise = false,
-  ) => { fit(into, precise) },
+  ) => {
+    fit(into, precise)
+  },
   update: () => fit(props.into, props.precise),
 })
 </script>

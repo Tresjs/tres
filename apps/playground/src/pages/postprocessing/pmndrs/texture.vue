@@ -16,39 +16,44 @@ const gl = {
 
 const uuid = 'texture-pmndrs'
 
-const textureEffectRef: Ref<{ pass: EffectPass, effect: TextureEffect } | null> = ref(null)
+const textureEffectRef: Ref<{ pass: EffectPass; effect: TextureEffect } | null> = ref(null)
 
-const { state: texture } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/dirt/color.jpg')
+const { state: texture } = useTexture(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/dirt/color.jpg',
+)
 
 watch(texture, (newTexture) => {
   newTexture.colorSpace = SRGBColorSpace
   newTexture.wrapS = newTexture.wrapT = RepeatWrapping
 })
 
-const { blendFunction, rotation, opacity } = useControls({
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.PIN_LIGHT,
+const { blendFunction, rotation, opacity } = useControls(
+  {
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.PIN_LIGHT,
+    },
+    opacity: {
+      value: 1,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+    repeat: texture.value.repeat,
+    offset: texture.value.offset,
+    center: texture.value.center,
+    rotation: {
+      value: texture.value.rotation,
+      min: 0,
+      max: 2 * Math.PI,
+      step: 0.001,
+    },
   },
-  opacity: {
-    value: 1,
-    min: 0,
-    max: 1,
-    step: 0.01,
-  },
-  repeat: texture.value.repeat,
-  offset: texture.value.offset,
-  center: texture.value.center,
-  rotation: {
-    value: texture.value.rotation,
-    min: 0,
-    max: 2 * Math.PI,
-    step: 0.001,
-  },
-}, { uuid })
+  { uuid },
+)
 
 watch(rotation, () => {
   texture.value.rotation = rotation.value
@@ -68,27 +73,19 @@ watch(rotation, () => {
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls auto-rotate />
 
-    <TresMesh :position="[0, .5, 0]">
+    <TresMesh :position="[0, 0.5, 0]">
       <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="black" :roughness=".25" />
+      <TresMeshPhysicalMaterial color="black" :roughness="0.25" />
     </TresMesh>
 
-    <ContactShadows
-      :opacity="1"
-      :position-y="-.5"
-    />
+    <ContactShadows :opacity="1" :position-y="-0.5" />
 
     <Suspense>
-      <Environment background :blur=".5" preset="snow" />
+      <Environment background :blur="0.5" preset="snow" />
     </Suspense>
 
     <Suspense>

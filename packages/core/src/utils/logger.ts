@@ -10,9 +10,10 @@ function resolveRuntimeMode(): string {
   try {
     // Using optional chaining to avoid ReferenceErrors when import.meta is not defined
     const modeFromImportMeta = (import.meta as any)?.env?.MODE as string | undefined
-    if (modeFromImportMeta) { return modeFromImportMeta }
-  }
-  catch {
+    if (modeFromImportMeta) {
+      return modeFromImportMeta
+    }
+  } catch {
     // ignore – fall back to process.env
   }
   // Fallback for Node contexts
@@ -35,8 +36,7 @@ export function logError(...args: OneOrMore<any>): void {
   if (typeof args[0] === 'string') {
     // NOTE: Don't break console string substitution
     args[0] = logPrefix + args[0]
-  }
-  else {
+  } else {
     args.unshift(logPrefix)
   }
   console.error(...args)
@@ -50,8 +50,7 @@ export function logWarning(...args: OneOrMore<any>): void {
   if (typeof args[0] === 'string') {
     // NOTE: Don't break console string substitution
     args[0] = logPrefix + args[0]
-  }
-  else {
+  } else {
     args.unshift(logPrefix)
   }
   console.warn(...args)

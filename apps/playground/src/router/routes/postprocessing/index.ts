@@ -63,8 +63,4 @@ export const pmndrsRoutes = [
   makeRoute('On-demand', '🔄', false),
 ]
 
-export const postProcessingRoutes = [
-  home,
-  ...threeRoutes,
-  ...pmndrsRoutes,
-]
+export const postProcessingRoutes = [home, ...threeRoutes, ...pmndrsRoutes]

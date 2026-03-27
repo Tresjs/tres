@@ -17,25 +17,16 @@ const useOwnCamera = ref(false)
 
 <template>
   <div>
-    <input
-      v-model="useOwnCamera"
-      type="checkbox"
-    />
+    <input v-model="useOwnCamera" type="checkbox" />
     <div class="w-1/2 aspect-video">
-      <TresCanvas
-        v-bind="state"
-        :camera="useOwnCamera ? camera : undefined"
-      >
+      <TresCanvas v-bind="state" :camera="useOwnCamera ? camera : undefined">
         <TresAmbientLight :intensity="0.5" />
         <TresMesh :position="[0, 4, 0]">
           <TresBoxGeometry :args="[1, 1, 1]" />
           <TresMeshToonMaterial color="cyan" />
         </TresMesh>
 
-        <TresDirectionalLight
-          :position="[0, 2, 4]"
-          :intensity="1"
-        />
+        <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" />
       </TresCanvas>
     </div>
   </div>

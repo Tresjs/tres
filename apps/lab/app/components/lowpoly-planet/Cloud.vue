@@ -5,7 +5,9 @@ const props = defineProps<{
   planet: TresObject
 }>()
 
-const { nodes } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/low-poly/cloud.gltf')
+const { nodes } = useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/low-poly/cloud.gltf',
+)
 
 watch(nodes, (nodes) => {
   console.log(nodes)
@@ -29,8 +31,6 @@ watch(cloud, (cloud) => {
   cloud.updateMatrixWorld()
 })
 
-
-
 watch(
   () => props.planet,
   (planet) => {
@@ -44,7 +44,6 @@ const { onBeforeRender } = useLoop()
 
 let angle = random(-1, 1) * Math.PI
 const speed = Math.random() / 10
-
 
 onBeforeRender(({ delta }) => {
   if (!cloudRef.value || !props.planet) return

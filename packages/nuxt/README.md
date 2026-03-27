@@ -19,7 +19,7 @@ Official Nuxt module for TresJS. Build 3D scenes as they were Vue components.
 - `TresCanvas` client only, you don't need to add `.client` to the component name or `<ClientOnly />`
 - Automatically configures vue compiler to support TresJS components, see [why](https://tresjs.org/guide/troubleshooting.html#failed-resolve-component-trescomponent-%F0%9F%A4%94)?
 - All the DX Magic that comes with Nuxt ✨
--  NEW v2: TresJS nuxt devtools.
+- NEW v2: TresJS nuxt devtools.
 
 ## Quick Setup
 
@@ -91,9 +91,7 @@ const uniforms = {
 </script>
 
 <template>
-  <TresMesh
-    :position="[0, 4, 0]"
-  >
+  <TresMesh :position="[0, 4, 0]">
     <TresSphereGeometry :args="[2, 32, 32]" />
     <TresShaderMaterial
       :vertex-shader="vertexShader"

@@ -2,7 +2,7 @@
 import { useLoop } from '@tresjs/core'
 import { inject, shallowRef } from 'vue'
 import type { GameStore } from '../TheExperience.vue'
-import { Box3, Vector3, MeshBasicMaterial, Color, MeshPhongMaterial, Group } from 'three';
+import { Box3, Vector3, MeshBasicMaterial, Color, MeshPhongMaterial, Group } from 'three'
 
 const gameStore = inject('gameStore') as GameStore
 const clock = gameStore.mutation.clock
@@ -36,9 +36,17 @@ onBeforeRender(() => {
     <TresMesh :position="[0, 0, 50]" :rotation="[Math.PI / 2, 0, 0]" :material="glowMaterial">
       <TresCylinderGeometry :args="[0.25, 0.25, 100, 4]" />
     </TresMesh>
-    <TresMesh v-if="nodes.Sphere_DroneGlowmat_0" name="Sphere_DroneGlowmat_0"
-      :geometry="nodes.Sphere_DroneGlowmat_0.geometry" :material="materials.DroneGlowmat" />
-    <TresMesh v-if="nodes.Sphere_Body_0" name="Sphere_Body_0" :geometry="nodes.Sphere_Body_0.geometry"
-      :material="bodyMaterial" />
+    <TresMesh
+      v-if="nodes.Sphere_DroneGlowmat_0"
+      name="Sphere_DroneGlowmat_0"
+      :geometry="nodes.Sphere_DroneGlowmat_0.geometry"
+      :material="materials.DroneGlowmat"
+    />
+    <TresMesh
+      v-if="nodes.Sphere_Body_0"
+      name="Sphere_Body_0"
+      :geometry="nodes.Sphere_Body_0.geometry"
+      :material="bodyMaterial"
+    />
   </TresGroup>
 </template>

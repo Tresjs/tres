@@ -46,5 +46,3 @@ This experiment demonstrates advanced rendering techniques:
 - **Reactive Parameters**: Real-time adjustment of bloom parameters
 
 This experiment showcases how modern post-processing techniques can transform a simple 3D scene into a visually stunning and atmospheric experience, perfect for game development and interactive media applications.
-
-

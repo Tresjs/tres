@@ -19,7 +19,10 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
+  <div
+    class="tl-flex tl-gap-1 tl-items-center"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing)"
+  >
     <ControlLabel :label="label" :control="control" />
     <label
       :for="`${control.uniqueKey}-color`"

@@ -28,9 +28,5 @@ defineExpose({ pass })
 const { onBeforeRender } = useLoop()
 onBeforeRender(() => invalidate())
 
-makePropWatchers(
-  [[() => props.goWild, 'goWild']],
-  pass,
-  () => new GlitchPass(),
-)
+makePropWatchers([[() => props.goWild, 'goWild']], pass, () => new GlitchPass())
 </script>

@@ -10,27 +10,32 @@ import { EffectComposerPmndrs, TexturePmndrs, ToneMappingPmndrs } from '@tresjs/
 import type { Ref } from 'vue'
 import type { EffectPass, TextureEffect } from 'postprocessing'
 
-
 const gl = {
   clearColor: '#ffffff',
   toneMapping: NoToneMapping,
   toneMappingExposure: 2,
 }
 
-const textureEffectRef: Ref<{ pass: EffectPass, effect: TextureEffect } | null> = ref(null)
+const textureEffectRef: Ref<{ pass: EffectPass; effect: TextureEffect } | null> = ref(null)
 
-const { state: texture } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/dirt/color.jpg')
+const { state: texture } = useTexture(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/textures/dirt/color.jpg',
+)
 
-watch(texture, (newTexture) => {
-  if (newTexture) {
-    newTexture.colorSpace = SRGBColorSpace
-    newTexture.wrapS = newTexture.wrapT = RepeatWrapping
-  }
-}, { immediate: true })
+watch(
+  texture,
+  (newTexture) => {
+    if (newTexture) {
+      newTexture.colorSpace = SRGBColorSpace
+      newTexture.wrapS = newTexture.wrapT = RepeatWrapping
+    }
+  },
+  { immediate: true },
+)
 
 const { blendFunction, rotation, opacity } = useControls({
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -88,24 +93,16 @@ watch(rotation, () => {
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[5, 7, 5]"
-        :look-at="[0, 0, 0]"
-      />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[5, 7, 5]" :look-at="[0, 0, 0]" />
       <OrbitControls auto-rotate />
 
-      <TresMesh :position="[0, .5, 0]">
+      <TresMesh :position="[0, 0.5, 0]">
         <TresBoxGeometry :args="[2, 2, 2]" />
         <TresMeshBasicMaterial color="white" />
       </TresMesh>
 
-      <ContactShadows
-        :opacity="1"
-        :position-y="-.5"
-      />
+      <ContactShadows :opacity="1" :position-y="-0.5" />
 
       <Suspense>
         <Environment background :blur="0.1" preset="dawn" />

@@ -18,7 +18,11 @@ export function getInputMode(step: number): 'numeric' | 'decimal' {
 
 export function clampValue(value: number, min?: number, max?: number): number {
   let result = value
-  if (min !== undefined && result < min) { result = min }
-  if (max !== undefined && result > max) { result = max }
+  if (min !== undefined && result < min) {
+    result = min
+  }
+  if (max !== undefined && result > max) {
+    result = max
+  }
   return result
 }

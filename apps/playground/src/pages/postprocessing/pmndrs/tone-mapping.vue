@@ -17,63 +17,62 @@ const glComposer = {
   multisampling: 4,
 }
 
-const { blendFunction, resolution, mode } = useControls({
-  mode: {
-    options: Object.keys(ToneMappingMode).map(key => ({
-      text: key,
-      value: ToneMappingMode[key as keyof typeof ToneMappingMode],
-    })),
-    value: ToneMappingMode.AGX,
+const { blendFunction, resolution, mode } = useControls(
+  {
+    mode: {
+      options: Object.keys(ToneMappingMode).map((key) => ({
+        text: key,
+        value: ToneMappingMode[key as keyof typeof ToneMappingMode],
+      })),
+      value: ToneMappingMode.AGX,
+    },
+    resolution: {
+      value: 256,
+      options: [
+        { text: '128', value: 128 },
+        { text: '256', value: 256 },
+        { text: '512', value: 512 },
+        { text: '1024', value: 1024 },
+        { text: '2048', value: 2048 },
+      ],
+    },
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.OVERLAY,
+    },
   },
-  resolution: {
-    value: 256,
-    options: [
-      { text: '128', value: 128 },
-      { text: '256', value: 256 },
-      { text: '512', value: 512 },
-      { text: '1024', value: 1024 },
-      { text: '2048', value: 2048 },
-    ],
-  },
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.OVERLAY,
-  },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[3, 3, 3]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
     <OrbitControls auto-rotate />
 
     <TresMesh>
       <TresBoxGeometry />
-      <TresMeshPhysicalMaterial color="#FFFFFF" :roughness=".25" :transmission=".85" />
+      <TresMeshPhysicalMaterial color="#FFFFFF" :roughness="0.25" :transmission="0.85" />
     </TresMesh>
 
     <Suspense>
-      <Environment background :blur=".85" preset="dawn" />
+      <Environment background :blur="0.85" preset="dawn" />
     </Suspense>
 
-    <ContactShadows
-      :opacity=".5"
-      :position-y="-.5"
-    />
+    <ContactShadows :opacity="0.5" :position-y="-0.5" />
 
     <Suspense>
       <EffectComposerPmndrs v-bind="glComposer">
-        <ToneMappingPmndrs :mode="Number(mode)" :resolution="Number(resolution)" :blendFunction="Number(blendFunction)" />
+        <ToneMappingPmndrs
+          :mode="Number(mode)"
+          :resolution="Number(resolution)"
+          :blendFunction="Number(blendFunction)"
+        />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

@@ -40,8 +40,7 @@ watch(skipFills, (_newValue) => {
 const switchSVG = () => {
   if (currentSVG.value === svgTriangleString) {
     currentSVG.value = svgSquareString
-  }
-  else {
+  } else {
     currentSVG.value = svgTriangleString
   }
   skipFills.value = !skipFills.value
@@ -58,11 +57,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresGroup
-    v-if="!isLoading && layers.length > 0"
-    :scale="0.01"
-    :position="[-1, 1, 0]"
-  >
+  <TresGroup v-if="!isLoading && layers.length > 0" :scale="0.01" :position="[-1, 1, 0]">
     <!-- Render the SVG layers manually using the composable -->
     <TresMesh
       v-for="(layer, index) in layers"

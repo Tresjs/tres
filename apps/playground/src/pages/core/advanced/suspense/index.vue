@@ -8,16 +8,19 @@ const uuid = 'core-advanced-suspense'
 
 const ctx = ref(null)
 
-const { show } = useControls({
-  show: true,
-  button: {
-    label: 'Render dispose',
-    type: 'button',
-    onClick() {
-      ctx?.value?.renderer?.instance?.value?.dispose()
+const { show } = useControls(
+  {
+    show: true,
+    button: {
+      label: 'Render dispose',
+      type: 'button',
+      onClick() {
+        ctx?.value?.renderer?.instance?.value?.dispose()
+      },
     },
   },
-}, { uuid })
+  { uuid },
+)
 
 watchEffect(() => {
   if (!ctx.value) {
@@ -41,8 +44,8 @@ watchEffect(() => {
   <OverlayInfo>
     <h1>Suspense</h1>
     <p>
-      Because the model in this page is loaded asynchronously behind the scenes
-      with <code>useGLTF</code>, it must be wrapped in a Suspense component.
+      Because the model in this page is loaded asynchronously behind the scenes with
+      <code>useGLTF</code>, it must be wrapped in a Suspense component.
     </p>
   </OverlayInfo>
 </template>

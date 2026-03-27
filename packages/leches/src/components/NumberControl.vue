@@ -23,8 +23,8 @@ const { onMouseDown, isDragging } = useNumberDrag({
   step,
   min: computed(() => props.control.min),
   max: computed(() => props.control.max),
-  onUpdate: v => emit('change', v),
-  formatDelta: v => formatter.value(v),
+  onUpdate: (v) => emit('change', v),
+  formatDelta: (v) => formatter.value(v),
 })
 
 watch(controlValue, (v) => {
@@ -57,18 +57,26 @@ function commit() {
 
 function onKeyDown(e: KeyboardEvent) {
   if (e.key === 'Enter') {
-    ; (e.target as HTMLInputElement).blur()
+    ;(e.target as HTMLInputElement).blur()
     return
   }
   const modifier = e.shiftKey ? 10 : e.altKey ? 0.1 : 1
   if (e.key === 'ArrowUp') {
     e.preventDefault()
-    const newVal = clampValue(controlValue.value + step.value * modifier, props.control.min, props.control.max)
+    const newVal = clampValue(
+      controlValue.value + step.value * modifier,
+      props.control.min,
+      props.control.max,
+    )
     emit('change', newVal)
   }
   if (e.key === 'ArrowDown') {
     e.preventDefault()
-    const newVal = clampValue(controlValue.value - step.value * modifier, props.control.min, props.control.max)
+    const newVal = clampValue(
+      controlValue.value - step.value * modifier,
+      props.control.min,
+      props.control.max,
+    )
     emit('change', newVal)
   }
 }
@@ -77,7 +85,7 @@ function onKeyDown(e: KeyboardEvent) {
 <template>
   <div
     class="tl-flex tl-gap-1 tl-justify-between tl-items-center"
-    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing)"
   >
     <ControlLabel :label="label" :control="control" />
     <div

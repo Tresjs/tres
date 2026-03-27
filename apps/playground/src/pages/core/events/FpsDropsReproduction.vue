@@ -2,11 +2,7 @@
 import { Icosahedron, OrbitControls } from '@tresjs/cientos'
 
 import { TresCanvas } from '@tresjs/core'
-import {
-  AgXToneMapping,
-  PCFSoftShadowMap,
-  SRGBColorSpace,
-} from 'three'
+import { AgXToneMapping, PCFSoftShadowMap, SRGBColorSpace } from 'three'
 
 const gl = {
   shadows: true,
@@ -29,17 +25,17 @@ const gl = {
     <TresDirectionalLight
       :intensity="0.4"
       :position="[30, 20, 10]"
-      :color="0xFFFFFF"
+      :color="0xffffff"
       :bias="-0.0001"
     />
     <TresDirectionalLight
       :intensity="0.4"
       :position="[-30, -20, 40]"
-      :color="0xFFFFFF"
+      :color="0xffffff"
       :bias="-0.0001"
       castShadow
     />
-    <TresHemisphereLight :intensity="1" :color="0xFFFFFF" :ground-color="0xFFFFFF" />
+    <TresHemisphereLight :intensity="1" :color="0xffffff" :ground-color="0xffffff" />
     >
     <Icosahedron :args="[4, 150]" :position="[0, 0, 0]" :rotation="[Math.PI, 0, 0]">
       <TresMeshNormalMaterial wireframe />

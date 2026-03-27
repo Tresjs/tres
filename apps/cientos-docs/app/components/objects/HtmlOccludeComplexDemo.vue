@@ -49,7 +49,7 @@ const occluderRefs = computed<TresObject3D[]>(() => {
         :occlude="occluderRefs"
         :distance-factor="4"
         :z-index-range="[28, 0]"
-        @on-occlude="(event: boolean) => isOccluded = event"
+        @on-occlude="(event: boolean) => (isOccluded = event)"
       >
         <h1 class="box">Move camera</h1>
       </Html>
@@ -64,10 +64,7 @@ const occluderRefs = computed<TresObject3D[]>(() => {
       <TresSphereGeometry />
       <TresMeshNormalMaterial />
       <Html v-bind="htmlProps" :distance-factor="4" :z-index-range="[28, 0]">
-        <h1
-          class="text-xs p-1 rounded"
-          :class="[isOccluded ? 'box' : 'bg-dark text-white']"
-        >
+        <h1 class="text-xs p-1 rounded" :class="[isOccluded ? 'box' : 'bg-dark text-white']">
           Occlude {{ index + 1 }}
         </h1>
       </Html>

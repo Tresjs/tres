@@ -20,17 +20,20 @@ const cameraRef = ref(null)
 
 watchEffect(() => {
   if (cameraRef.value) {
-    (cameraRef.value as Camera).lookAt(0, 5, 0)
+    ;(cameraRef.value as Camera).lookAt(0, 5, 0)
   }
 })
 
 const { hasFinishLoading, progress } = await useProgress()
 
-const { floor, segments, receiveShadow } = useControls({
-  floor: { value: 1.5, min: 0, max: 5, step: 0.05 },
-  segments: { value: 20, min: 1, max: 128, step: 1 },
-  receiveShadow: true,
-}, { uuid })
+const { floor, segments, receiveShadow } = useControls(
+  {
+    floor: { value: 1.5, min: 0, max: 5, step: 0.05 },
+    segments: { value: 20, min: 1, max: 128, step: 1 },
+    receiveShadow: true,
+  },
+  { uuid },
+)
 </script>
 
 <template>
@@ -43,9 +46,7 @@ const { floor, segments, receiveShadow } = useControls({
       v-show="!hasFinishLoading"
       class="absolute bg-grey-600 t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono"
     >
-      <div class="w-200px">
-        Loading... {{ progress }} %
-      </div>
+      <div class="w-200px">Loading... {{ progress }} %</div>
     </div>
   </Transition>
   <TresCanvas v-bind="gl">
@@ -72,11 +73,7 @@ const { floor, segments, receiveShadow } = useControls({
       :position="[0, 0, -3]"
       :receive-shadow="receiveShadow"
     >
-      <TresMeshPhysicalMaterial
-        :roughness="1"
-        color="pink"
-        :side="2"
-      />
+      <TresMeshPhysicalMaterial :roughness="1" color="pink" :side="2" />
     </Backdrop>
     <TresAmbientLight :intensity="0.5" />
     <TresDirectionalLight

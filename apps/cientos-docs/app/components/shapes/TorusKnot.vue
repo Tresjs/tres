@@ -5,15 +5,18 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { radius, tube, tubularSegments, radialSegments, p, q, showWireframe } = useControls({
-  radius: { value: 1, min: 0.1, max: 5, step: 0.1 },
-  tube: { value: 0.4, min: 0.05, max: 2, step: 0.05 },
-  tubularSegments: { value: 64, min: 3, max: 256, step: 1 },
-  radialSegments: { value: 8, min: 3, max: 64, step: 1 },
-  p: { value: 2, min: 1, max: 10, step: 1 },
-  q: { value: 3, min: 1, max: 10, step: 1 },
-  showWireframe: false,
-}, { uuid })
+const { radius, tube, tubularSegments, radialSegments, p, q, showWireframe } = useControls(
+  {
+    radius: { value: 1, min: 0.1, max: 5, step: 0.1 },
+    tube: { value: 0.4, min: 0.05, max: 2, step: 0.05 },
+    tubularSegments: { value: 64, min: 3, max: 256, step: 1 },
+    radialSegments: { value: 8, min: 3, max: 64, step: 1 },
+    p: { value: 2, min: 1, max: 10, step: 1 },
+    q: { value: 3, min: 1, max: 10, step: 1 },
+    showWireframe: false,
+  },
+  { uuid },
+)
 </script>
 
 <template>

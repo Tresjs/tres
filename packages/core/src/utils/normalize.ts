@@ -4,9 +4,9 @@ import { Color, Vector3 } from 'three'
 export type SizeFlexibleParams =
   | number[]
   | {
-    width: number
-    height: number
-  }
+      width: number
+      height: number
+    }
 
 export interface Vector2PropInterface {
   x?: number
@@ -31,7 +31,9 @@ export function normalizeVectorFlexibleParam(value: VectorFlexibleParams): Array
   return value as Array<number>
 }
 
-export function normalizeColor(value: Color | Array<number> | string | number | ColorRepresentation) {
+export function normalizeColor(
+  value: Color | Array<number> | string | number | ColorRepresentation,
+) {
   if (value instanceof Color) {
     return value
   }

@@ -28,10 +28,7 @@ const { effectComposer } = useRouteDisposal()
     <TresAmbientLight :intensity="1" />
     <Suspense>
       <EffectComposerPmndrs ref="effectComposer">
-        <NoisePmndrs
-          premultiply
-          :blend-function="BlendFunction.SCREEN"
-        />
+        <NoisePmndrs premultiply :blend-function="BlendFunction.SCREEN" />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

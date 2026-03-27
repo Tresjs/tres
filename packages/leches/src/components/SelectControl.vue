@@ -16,8 +16,8 @@ function onChange(event: Event) {
   const selectedValue = (event.target as HTMLSelectElement).value
 
   // Find the matching option to preserve the original type
-  const selectedOption = props.control.options?.find((option: LechesSelectOption) =>
-    String(option.value) === selectedValue,
+  const selectedOption = props.control.options?.find(
+    (option: LechesSelectOption) => String(option.value) === selectedValue,
   )
 
   // Use the original value with its correct type
@@ -26,11 +26,15 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-justify-start tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing); min-height: var(--tl-unit-size);">
-    <ControlLabel
-      :label="label"
-      :control="control"
-    />
+  <div
+    class="tl-flex tl-gap-1 tl-justify-start tl-items-center"
+    style="
+      padding: 0 var(--tl-h-padding);
+      margin-bottom: var(--tl-unit-spacing);
+      min-height: var(--tl-unit-size);
+    "
+  >
+    <ControlLabel :label="label" :control="control" />
     <select
       :id="control.uniqueKey"
       :value="String(controlValue)"

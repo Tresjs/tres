@@ -34,6 +34,7 @@ This experiment is inspired by one of [Bruno Simon's](https://threejs-journey.co
 ### Geometry Harmonization
 
 When morphing between models with different vertex counts, the system:
+
 1. Determines the maximum vertex count between both models
 2. Pads the smaller geometry by randomly sampling existing vertices
 3. Creates matched Float32BufferAttribute arrays for seamless interpolation

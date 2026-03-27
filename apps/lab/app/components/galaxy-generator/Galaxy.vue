@@ -121,62 +121,77 @@ onBeforeRender(({ elapsed }) => {
   }
 })
 
-const { count, size, radius, branches, spin, randomness, randomnessPower, insideColor, outsideColor } = useControls({
+const {
+  count,
+  size,
+  radius,
+  branches,
+  spin,
+  randomness,
+  randomnessPower,
+  insideColor,
+  outsideColor,
+} = useControls(
+  {
+    count: {
+      value: 30000,
+      min: 0,
+      max: 100000,
+      step: 1,
+    },
+    size: {
+      value: 20,
+      min: 0.01,
+      max: 40,
+      step: 1,
+    },
+    radius: {
+      value: 5,
+      min: 0.1,
+      max: 20,
+      step: 0.01,
+    },
+    branches: {
+      value: 5,
+      min: 2,
+      max: 10,
+      step: 1,
+    },
+    spin: {
+      value: 4,
+      min: -5,
+      max: 5,
+      step: 0.01,
+    },
+    randomness: {
+      value: 0.13,
+      min: 0.1,
+      max: 0.2,
+      step: 0.01,
+    },
+    randomnessPower: {
+      value: 7.5,
+      min: 1,
+      max: 10,
+      step: 0.001,
+    },
+    insideColor: '#b5f28d',
+    outsideColor: '#1b3984',
+  },
+  {
+    uuid: 'galaxy-generator',
+  },
+)
 
-  count: {
-    value: 30000,
-    min: 0,
-    max: 100000,
-    step: 1,
+watch(
+  [count, size, radius, branches, spin, randomness, randomnessPower, insideColor, outsideColor],
+  (state) => {
+    state.forEach((value, index) => {
+      parameters[Object.keys(parameters)[index] as string] = value
+    })
+    updateGalaxy()
   },
-  size: {
-    value: 20,
-    min: 0.01,
-    max: 40,
-    step: 1,
-  },
-  radius: {
-    value: 5,
-    min: 0.1,
-    max: 20,
-    step: 0.01,
-  },
-  branches: {
-    value: 5,
-    min: 2,
-    max: 10,
-    step: 1,
-  },
-  spin: {
-    value: 4,
-    min: -5,
-    max: 5,
-    step: 0.01,
-  },
-  randomness: {
-    value: 0.13,
-    min: 0.1,
-    max: 0.2,
-    step: 0.01,
-  },
-  randomnessPower: {
-    value: 7.5,
-    min: 1,
-    max: 10,
-    step: 0.001,
-  },
-  insideColor: '#b5f28d',
-  outsideColor: '#1b3984',
-}, {
-  uuid: 'galaxy-generator',
-})
-
-watch([count, size, radius, branches, spin, randomness, randomnessPower, insideColor, outsideColor], (state) => {
-  state.forEach((value, index) => {
-    parameters[Object.keys(parameters)[index] as string] = value
-  })
-  updateGalaxy()
-})
+)
 
 onMounted(() => {
   gsap.to('.title', {
@@ -192,8 +207,12 @@ onMounted(() => {
 
 <template>
   <TresPoints ref="bufferRef">
-    <TresBufferGeometry :position="[positions, 3]" :a-scale="[scales, 1]" :color="[colors, 3]"
-      :a-randomness="[randomnessArray, 3]" />
+    <TresBufferGeometry
+      :position="[positions, 3]"
+      :a-scale="[scales, 1]"
+      :color="[colors, 3]"
+      :a-randomness="[randomnessArray, 3]"
+    />
     <TresShaderMaterial v-bind="shader" />
   </TresPoints>
 </template>

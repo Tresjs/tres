@@ -19,6 +19,7 @@ Development sandbox for testing `@tresjs/core` and `@tresjs/cientos` features.
 ## Code Style
 
 This is a **testing environment** - code quality standards are relaxed:
+
 - Experiment freely without strict conventions
 - Quick prototypes are encouraged
 - No need for production-ready code

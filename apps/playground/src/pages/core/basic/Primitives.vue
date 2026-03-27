@@ -29,10 +29,13 @@ const gl = {
 const canvas = ref()
 const meshRef = ref()
 
-const { knot, isVisible } = useControls({
-  knot: true,
-  isVisible: true,
-}, { uuid })
+const { knot, isVisible } = useControls(
+  {
+    knot: true,
+    isVisible: true,
+  },
+  { uuid },
+)
 
 watchEffect(() => {
   if (meshRef.value) {
@@ -106,10 +109,7 @@ const modelArray = ref([torus, torusKnot, sphere]) */
     :style="{ background: '#008080' }"
     @render="rotate"
   >
-    <TresPerspectiveCamera
-      :position="[7, 7, 7]"
-      :look-at="[0, 0, 0]"
-    />
+    <TresPerspectiveCamera :position="[7, 7, 7]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <!--  <primitive
       :object="reactivePrimitiveRef"
@@ -120,19 +120,11 @@ const modelArray = ref([torus, torusKnot, sphere]) */
       :object="model"
       :position="[index * 2, index * 2, 0]"
     /> -->
-    <primitive
-      v-if="isVisible"
-      ref="primitiveRef"
-      :object="knot ? torusKnot : torus"
-    />
+    <primitive v-if="isVisible" ref="primitiveRef" :object="knot ? torusKnot : torus" />
     <!--    <Suspense>
       <DynamicModel />
     </Suspense> -->
     <TresAxesHelper :args="[1]" />
-    <TresDirectionalLight
-      :position="[0, 2, 4]"
-      :intensity="2"
-      cast-shadow
-    />
+    <TresDirectionalLight :position="[0, 2, 4]" :intensity="2" cast-shadow />
   </TresCanvas>
 </template>

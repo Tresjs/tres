@@ -1,54 +1,49 @@
 {
   "name": "@tresjs/cientos",
-  "type": "module",
   "version": "5.6.0",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
-  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "keywords": [
+    "3d",
+    "composables",
+    "three",
+    "threejs",
+    "threejs-vue",
+    "vue"
+  ],
   "license": "MIT",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "maintainers": [
+    "Alvaro Saburido (https://github.com/alvarosabu/)",
+    "Jaime Torrealba (https://github.com/JaimeTorrealba)"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tresjs/tres.git",
     "directory": "packages/cientos"
   },
-  "keywords": [
-    "vue",
-    "3d",
-    "threejs",
-    "three",
-    "threejs-vue",
-    "composables"
-  ],
-  "maintainers": [
-    "Alvaro Saburido (https://github.com/alvarosabu/)",
-    "Jaime Torrealba (https://github.com/JaimeTorrealba)"
-  ],
-  "sideEffects": false,
-  "exports": {
-    ".": "./dist/trescientos.js",
-    "./package.json": "./package.json"
-  },
-  "main": "./dist/trescientos.js",
-  "module": "./dist/trescientos.js",
-  "types": "./dist/trescientos.d.ts",
   "files": [
     "*.d.ts",
     "dist"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/trescientos.js",
+  "module": "./dist/trescientos.js",
+  "types": "./dist/trescientos.d.ts",
+  "exports": {
+    ".": "./dist/trescientos.js",
+    "./package.json": "./package.json"
+  },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "dev": "cd playground/vue && pnpm dev",
-    "build": "tsdown",
-    "build:analyze": "ANALYZE=true tsdown",
+    "build": "vp pack",
+    "build:analyze": "ANALYZE=true vp pack",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"
-  },
-  "peerDependencies": {
-    "@tresjs/core": "5.7.0",
-    "three": ">=0.133",
-    "vue": ">=3.5.17"
   },
   "dependencies": {
     "@vueuse/core": "catalog:utils",
@@ -74,14 +69,19 @@
     "rollup-plugin-analyzer": "catalog:build",
     "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
-    "tsdown": "catalog:build",
     "typescript": "catalog:typescript",
-    "vite": "catalog:vite",
+    "vite": "catalog:",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
     "vite-plugin-glsl": "^1.5.1",
+    "vite-plus": "catalog:",
     "vite-svg-loader": "^5.1.0",
     "vue-tsc": "catalog:typescript"
+  },
+  "peerDependencies": {
+    "@tresjs/core": "5.7.0",
+    "three": ">=0.133",
+    "vue": ">=3.5.17"
   },
   "nx": {
     "implicitDependencies": [

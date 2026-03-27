@@ -22,36 +22,31 @@ setInterval(() => {
   time += 1 / 30
   let i = 0
   for (const r of [r0, r1, r2, r3, r4, r5, r6, r7, r8, r9]) {
-    if (!r.value) { return }
+    if (!r.value) {
+      return
+    }
     const p = r.value.instance.position
     p.x = Math.sin(i + 1.26 * time * (1.03 + 0.5 * Math.cos(0.21 * i))) * 0.27
     p.y = Math.cos(i + 1.12 * time * Math.cos(1.22 + 0.1424 * i)) * 0.77
-    p.z = Math.cos(i + 1.32 * time * 0.1 * Math.sin((0.92 + 0.53 * i))) * 0.27
+    p.z = Math.cos(i + 1.32 * time * 0.1 * Math.sin(0.92 + 0.53 * i)) * 0.27
     i++
   }
 }, 1000 / 30)
 
-const {
-  hasWallX,
-  hasWallY,
-  hasWallZ,
-  x,
-  y,
-  z,
-  strength,
-  subtract,
-  enableColors,
-} = useControls({
-  hasWallX: true,
-  hasWallY: true,
-  hasWallZ: true,
-  x: { value: 0, min: -1, max: 1, step: 0.1 },
-  y: { value: 0, min: -1, max: 1, step: 0.1 },
-  z: { value: 0, min: -1, max: 1, step: 0.1 },
-  strength: { value: 0.5, min: -5, max: 5 },
-  subtract: { value: 12, min: 0, max: 100 },
-  enableColors: true,
-}, { uuid })
+const { hasWallX, hasWallY, hasWallZ, x, y, z, strength, subtract, enableColors } = useControls(
+  {
+    hasWallX: true,
+    hasWallY: true,
+    hasWallZ: true,
+    x: { value: 0, min: -1, max: 1, step: 0.1 },
+    y: { value: 0, min: -1, max: 1, step: 0.1 },
+    z: { value: 0, min: -1, max: 1, step: 0.1 },
+    strength: { value: 0.5, min: -5, max: 5 },
+    subtract: { value: 12, min: 0, max: 100 },
+    enableColors: true,
+  },
+  { uuid },
+)
 </script>
 
 <template>
@@ -65,11 +60,7 @@ const {
       <MarchingPlane v-if="hasWallY" plane-type="y" />
       <MarchingPlane v-if="hasWallZ" plane-type="z" />
 
-      <MarchingCube
-        :position="[x, y, z]"
-        :strength="strength"
-        :subtract="subtract"
-      />
+      <MarchingCube :position="[x, y, z]" :strength="strength" :subtract="subtract" />
       <MarchingCube ref="r0" color="red" />
       <MarchingCube ref="r1" color="red" />
       <MarchingCube ref="r2" color="red" />
@@ -82,7 +73,13 @@ const {
       <MarchingCube ref="r9" color="green" />
 
       <TresMeshBasicMaterial v-if="enableColors" :vertex-colors="true" />
-      <TresMeshPhongMaterial v-else specular="#111111" :shininess="30" color="#049ef4" :reflectivity="1" />
+      <TresMeshPhongMaterial
+        v-else
+        specular="#111111"
+        :shininess="30"
+        color="#049ef4"
+        :reflectivity="1"
+      />
     </MarchingCubes>
     <TresAxesHelper />
 

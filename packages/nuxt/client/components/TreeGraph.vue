@@ -53,10 +53,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
           class="w-3 h-3 text-neutral-400 dark:text-neutral-500"
         />
       </div>
-      <div
-        v-else
-        class="mr-1 w-4 h-4"
-      />
+      <div v-else class="mr-1 w-4 h-4" />
 
       <!-- Node content -->
       <div class="flex items-center gap-2 flex-1 min-w-0">
@@ -72,22 +69,12 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
         </span>
 
         <!-- Name badge -->
-        <UBadge
-          v-if="item.name"
-          color="primary"
-          size="sm"
-          variant="soft"
-        >
+        <UBadge v-if="item.name" color="primary" size="sm" variant="soft">
           {{ item.name }}
         </UBadge>
 
         <!-- Memory size badge -->
-        <UBadge
-          v-if="item.memorySize > 0"
-          color="warning"
-          size="sm"
-          variant="soft"
-        >
+        <UBadge v-if="item.memorySize > 0" color="warning" size="sm" variant="soft">
           {{ item.memorySize }} KB
         </UBadge>
       </div>

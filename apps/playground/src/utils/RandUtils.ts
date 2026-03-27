@@ -101,7 +101,7 @@ export default class RandUtils {
     return indicies
       .slice(0, n)
       .sort()
-      .map(i => array[i])
+      .map((i) => array[i])
   }
 
   /**
@@ -110,7 +110,7 @@ export default class RandUtils {
    */
   shuffle<T>(array: T[]): T[] {
     return array
-      .map(value => ({ value, sort: this._getNext() }))
+      .map((value) => ({ value, sort: this._getNext() }))
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value)
   }
@@ -124,7 +124,7 @@ export default class RandUtils {
     }
     return () => {
       // NOTE: Mulberry32 generator
-      seed += 0x6D2B79F5
+      seed += 0x6d2b79f5
       let t = seed
       t = Math.imul(t ^ (t >>> 15), t | 1)
       t ^= t + Math.imul(t ^ (t >>> 7), t | 61)

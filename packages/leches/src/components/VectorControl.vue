@@ -32,11 +32,15 @@ function syncDisplayValues() {
 
 syncDisplayValues()
 
-watch(controlValue, () => {
-  if (focused.value === null) {
-    syncDisplayValues()
-  }
-}, { deep: true })
+watch(
+  controlValue,
+  () => {
+    if (focused.value === null) {
+      syncDisplayValues()
+    }
+  },
+  { deep: true },
+)
 
 function emitAxisChange(index: number, newAxisValue: number) {
   const value = controlValue.value
@@ -55,7 +59,7 @@ function createDragForAxis(index: number) {
       emitAxisChange(index, v)
       displayValues.value[index] = formatter.value(v)
     },
-    formatDelta: v => formatter.value(v),
+    formatDelta: (v) => formatter.value(v),
   })
 }
 
@@ -101,7 +105,7 @@ function onKeyDown(e: KeyboardEvent, index: number) {
 <template>
   <div
     class="tl-flex tl-gap-1 tl-justify-between tl-items-center"
-    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing)"
   >
     <ControlLabel :label="label" :control="control" />
     <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-gap-0.5">
@@ -116,11 +120,15 @@ function onKeyDown(e: KeyboardEvent, index: number) {
           'leches-num--drg': axisDrags[$index].isDragging.value,
         }"
       >
-        <div class="leches-knob leches-knob--inline" @mousedown="axisDrags[$index].onMouseDown($event)"></div>
+        <div
+          class="leches-knob leches-knob--inline"
+          @mousedown="axisDrags[$index].onMouseDown($event)"
+        ></div>
         <span
           v-if="labels[$index] && isVector"
           class="tl-font-bold tl-py-0.5 tl-text-0.65rem tl-text-gray-300 dark:tl-text-gray-400"
-        >{{ labels[$index] }}</span>
+          >{{ labels[$index] }}</span
+        >
 
         <input
           :id="`${control.uniqueKey}-${labels[$index]}`"
@@ -131,18 +139,8 @@ function onKeyDown(e: KeyboardEvent, index: number) {
           :aria-valuenow="vector[$index]"
           :aria-valuemin="control.min"
           :aria-valuemax="control.max"
-          class="tl-w-full
-            tl-text-right
-            tl-text-0.65rem
-            tl-text-gray-400
-            dark:tl-text-gray-400
-            tl-bg-transparent
-            focus:tl-border-gray-200
-            tl-outline-none
-            tl-border-none
-            tl-font-sans
-            tl-appearence-none"
-          style="padding: var(--tl-input-padding);"
+          class="tl-w-full tl-text-right tl-text-0.65rem tl-text-gray-400 dark:tl-text-gray-400 tl-bg-transparent focus:tl-border-gray-200 tl-outline-none tl-border-none tl-font-sans tl-appearence-none"
+          style="padding: var(--tl-input-padding)"
           @focus="onFocus($index)"
           @blur="onBlur($index)"
           @keydown="onKeyDown($event, $index)"

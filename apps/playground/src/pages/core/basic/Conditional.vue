@@ -38,29 +38,15 @@ const material = new MeshPhongMaterial({ color: '#ff0000' })
       :far="1000"
       :look-at="[-8, 3, -3]"
     />
-    <TresDirectionalLight
-      :position="[0, 8, 4]"
-      :intensity="0.2"
-      cast-shadow
-    />
-    <TresMesh
-      v-if="paneElements.boxPropMaterialVisible"
-      :position="[0, 0, 0]"
-      :material="material"
-    >
+    <TresDirectionalLight :position="[0, 8, 4]" :intensity="0.2" cast-shadow />
+    <TresMesh v-if="paneElements.boxPropMaterialVisible" :position="[0, 0, 0]" :material="material">
       <TresBoxGeometry :args="[1, 1, 1]" />
     </TresMesh>
-    <TresMesh
-      v-if="paneElements.boxVisible"
-      :position="[4, 0, 0]"
-    >
+    <TresMesh v-if="paneElements.boxVisible" :position="[4, 0, 0]">
       <TresBoxGeometry :args="[1, 1, 1]" />
       <TresMeshToonMaterial color="#efefef" />
     </TresMesh>
-    <TresGroup
-      v-if="paneElements.groupVisible"
-      :position="[0, -4, -5]"
-    >
+    <TresGroup v-if="paneElements.groupVisible" :position="[0, -4, -5]">
       <TresGroup>
         <TresMesh :position="[0, 0, 0]">
           <TresBoxGeometry :args="[1, 1, 1]" />

@@ -17,7 +17,9 @@ export interface ExplosionData {
 }
 
 function updateExplosions() {
-  if (!Array.isArray(instancedMeshesRef.value)) { return }
+  if (!Array.isArray(instancedMeshesRef.value)) {
+    return
+  }
 
   dummy.scale.set(1, 1, 1)
   dummy.rotation.set(0, 0, 0)
@@ -27,7 +29,7 @@ function updateExplosions() {
     const explosion = gameStore.explosions[i]
     if (explosion) {
       explosion.particles.forEach((particle, ii) => {
-        (particle.position as Vector3).add(particle.dPos)
+        ;(particle.position as Vector3).add(particle.dPos)
         dummy.position.copy(particle.position)
         dummy.updateMatrix()
         instancedMesh.setMatrixAt(ii, dummy.matrix)
@@ -47,9 +49,15 @@ onBeforeRender(updateExplosions)
 </script>
 
 <template>
-  <TresInstancedMesh v-for="explosion, i of gameStore.explosions" ref="instancedMeshesRef" :key="i"
-    :args="[undefined, undefined, explosion.particles.length]" :position="explosion.offset" :frustum-culled="false"
-    :scale="2">
+  <TresInstancedMesh
+    v-for="(explosion, i) of gameStore.explosions"
+    ref="instancedMeshesRef"
+    :key="i"
+    :args="[undefined, undefined, explosion.particles.length]"
+    :position="explosion.offset"
+    :frustum-culled="false"
+    :scale="2"
+  >
     <TresDodecahedronGeometry :args="[10, 0]" />
     <TresMeshBasicMaterial :color="explosion.color" :transparent="true" :opacity="1" :fog="false" />
   </TresInstancedMesh>

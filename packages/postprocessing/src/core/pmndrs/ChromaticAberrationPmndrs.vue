@@ -27,22 +27,23 @@ export interface ChromaticAberrationPmndrsProps {
   modulationOffset?: number
 }
 
-const props = withDefaults(
-  defineProps<ChromaticAberrationPmndrsProps>(),
-  {
-    radialModulation: undefined,
-  },
-)
+const props = withDefaults(defineProps<ChromaticAberrationPmndrsProps>(), {
+  radialModulation: undefined,
+})
 
 const plainEffect = new ChromaticAberrationEffect()
 
-const { pass, effect } = useEffectPmndrs(() => new ChromaticAberrationEffect({
-  ...props,
-  // Unfortunately, these defaults must be set this way as the type in postprocessing is not correct.
-  // The arguments are optional in the actual constructor, but not in the type.
-  radialModulation: props.radialModulation ?? plainEffect.radialModulation,
-  modulationOffset: props.modulationOffset ?? plainEffect.modulationOffset,
-}), props)
+const { pass, effect } = useEffectPmndrs(
+  () =>
+    new ChromaticAberrationEffect({
+      ...props,
+      // Unfortunately, these defaults must be set this way as the type in postprocessing is not correct.
+      // The arguments are optional in the actual constructor, but not in the type.
+      radialModulation: props.radialModulation ?? plainEffect.radialModulation,
+      modulationOffset: props.modulationOffset ?? plainEffect.modulationOffset,
+    }),
+  props,
+)
 
 plainEffect.dispose()
 

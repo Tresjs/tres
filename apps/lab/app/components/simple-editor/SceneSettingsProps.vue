@@ -22,15 +22,17 @@ function handleModelValueUpdate() {
 
 <template>
   <div class="grid grid-cols-[auto_auto] gap-1">
-    Width: <input
+    Width:
+    <input
       v-model="internalModelValue.width"
       class="dark:text-black"
       @update:model-value="handleModelValueUpdate"
-    >
-    Height: <input
+    />
+    Height:
+    <input
       v-model="internalModelValue.height"
       class="dark:text-black"
       @update:model-value="handleModelValueUpdate"
-    >
+    />
   </div>
 </template>

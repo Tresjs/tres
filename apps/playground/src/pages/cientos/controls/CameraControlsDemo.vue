@@ -38,26 +38,29 @@ function onEnd() {
   console.log('end')
 }
 
-const { distance, minDistance, maxDistance } = useControls({
-  distance: {
-    value: controlsState.distance,
-    min: 0,
-    max: 100,
-    step: 0.01,
+const { distance, minDistance, maxDistance } = useControls(
+  {
+    distance: {
+      value: controlsState.distance,
+      min: 0,
+      max: 100,
+      step: 0.01,
+    },
+    minDistance: {
+      value: controlsState.minDistance,
+      min: 0,
+      max: 10,
+      step: 0.01,
+    },
+    maxDistance: {
+      value: controlsState.maxDistance,
+      min: 0,
+      max: 100,
+      step: 0.01,
+    },
   },
-  minDistance: {
-    value: controlsState.minDistance,
-    min: 0,
-    max: 10,
-    step: 0.01,
-  },
-  maxDistance: {
-    value: controlsState.maxDistance,
-    min: 0,
-    max: 100,
-    step: 0.01,
-  },
-}, { uuid })
+  { uuid },
+)
 
 useControls(
   'Dolly',
@@ -147,10 +150,7 @@ useControls(
     <TresGridHelper :position="[0, -1, 0]" />
     <TresMesh ref="boxMeshRef">
       <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshBasicMaterial
-        color="orange"
-        wireframe
-      />
+      <TresMeshBasicMaterial color="orange" wireframe />
     </TresMesh>
     <TresAmbientLight :intensity="1" />
   </TresCanvas>

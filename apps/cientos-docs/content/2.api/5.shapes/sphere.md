@@ -4,8 +4,8 @@ description: Short-cut for a SphereGeometry and a MeshBasicMaterial with a Mesh 
 ---
 
 ::SceneControlsWrapper
-  ::ShapesSphere
-  ::
+::ShapesSphere
+::
 ::
 
 The `cientos` package provides a `<Sphere />` component that serves as a short-cut for a `SphereGeometry`.

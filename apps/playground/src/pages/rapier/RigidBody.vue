@@ -18,12 +18,16 @@ const rigidTorusRef = shallowRef<ExposedRigidBody>()
 const rigidBoxRef = shallowRef<ExposedRigidBody>()
 
 const jump = () => {
-  if (!rigidTorusRef.value) { return }
+  if (!rigidTorusRef.value) {
+    return
+  }
   rigidTorusRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
 }
 
 const rotate = () => {
-  if (!rigidBoxRef.value) { return }
+  if (!rigidBoxRef.value) {
+    return
+  }
   rigidBoxRef.value.instance.applyTorqueImpulse({ x: 0, y: 2.5, z: 0 }, true)
 }
 
@@ -98,12 +102,8 @@ const {
           :dominanceGroup
           :lockTranslations
           :lockRotations
-          :linvel="{ x: linvelX,
-                     y: linvelY,
-                     z: linvelZ }"
-          :angvel="{ x: angvelX,
-                     y: angvelY,
-                     z: angvelZ }"
+          :linvel="{ x: linvelX, y: linvelY, z: linvelZ }"
+          :angvel="{ x: angvelX, y: angvelY, z: angvelZ }"
           :enabledRotations="[enabledRotationX, enabledRotationY, enabledRotationZ]"
           :enabledTranslations="[enabledTranslationX, enabledTranslationY, enabledTranslationZ]"
         >
@@ -124,18 +124,14 @@ const {
           :angularDamping
           :dominanceGroup
           :lockTranslations
-          :linvel="{ x: linvelX,
-                     y: linvelY,
-                     z: linvelZ }"
-          :angvel="{ x: angvelX,
-                     y: angvelY,
-                     z: angvelZ }"
+          :linvel="{ x: linvelX, y: linvelY, z: linvelZ }"
+          :angvel="{ x: angvelX, y: angvelY, z: angvelZ }"
           :enabledRotations="[enabledRotationX, enabledRotationY, enabledRotationZ]"
           :enabledTranslations="[enabledTranslationX, enabledTranslationY, enabledTranslationZ]"
         >
           <TresMesh :position="[4, 2, 5]" @click="rotate">
             <TresBoxGeometry />
-            <TresMeshBasicMaterial :color="0xFF0000" />
+            <TresMeshBasicMaterial :color="0xff0000" />
           </TresMesh>
         </RigidBody>
 

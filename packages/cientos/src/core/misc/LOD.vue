@@ -10,25 +10,25 @@ interface LODProps {
    */
   levels: number[]
   /**
-  * Threshold used to avoid flickering at LOD boundaries, as a fraction of distance
-  * @default 0.0
-  */
+   * Threshold used to avoid flickering at LOD boundaries, as a fraction of distance
+   * @default 0.0
+   */
   hysteresis?: number
 }
 
-const props = withDefaults(
-  defineProps<LODProps>(),
-  {
-    hysteresis: 0.0,
-  },
-)
+const props = withDefaults(defineProps<LODProps>(), {
+  hysteresis: 0.0,
+})
 
 const lodRef = shallowRef(new LOD())
 
 function onChange() {
   // NOTE: Check validity of `levels`.
   // It should exist. It should be an array. Every value should be a number.
-  const distances = (props.levels && props.levels.length && props.levels.every(n => typeof n === 'number')) ? [...props.levels] : [1000]
+  const distances =
+    props.levels && props.levels.length && props.levels.every((n) => typeof n === 'number')
+      ? [...props.levels]
+      : [1000]
 
   // NOTE: Add `levels` values if there fewer `levels` values than `children`.
   while (distances.length < lodRef.value.children.length) {
@@ -38,7 +38,11 @@ function onChange() {
   // NOTE: Levels can be in any order, but the THREE implementation doesn't work
   // work properly unless the levels are pushed in ascending order of `distance`.
   // So, construct ascending order of `distance`.
-  const levels = [] as { distance: number, hysteresis: number, object: Object3D<Object3DEventMap> }[]
+  const levels = [] as {
+    distance: number
+    hysteresis: number
+    object: Object3D<Object3DEventMap>
+  }[]
   for (let i = 0; i < lodRef.value.children.length; i++) {
     const hysteresis = props.hysteresis
     const distance = distances[i]
@@ -51,7 +55,7 @@ function onChange() {
   lodRef.value.levels.length = 0
 
   // NOTE: Push levels in ascending order of `distance`.
-  levels.forEach(level => lodRef.value.levels.push(level))
+  levels.forEach((level) => lodRef.value.levels.push(level))
 }
 
 if (isReactive(props.levels)) {

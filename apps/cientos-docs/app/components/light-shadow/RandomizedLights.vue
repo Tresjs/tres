@@ -1,11 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import {
-  AccumulativeShadows,
-  OrbitControls,
-  Plane,
-  RandomizedLights,
-} from '@tresjs/cientos'
+import { AccumulativeShadows, OrbitControls, Plane, RandomizedLights } from '@tresjs/cientos'
 </script>
 
 <template>

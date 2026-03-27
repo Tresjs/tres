@@ -15,24 +15,15 @@ watch(torusRef, (value) => {
     <TresPerspectiveCamera :position="[0, 0.5, 5]" />
     <OrbitControls />
 
-    <TresMesh
-      ref="torusRef"
-    >
+    <TresMesh ref="torusRef">
       <TresTorusGeometry />
     </TresMesh>
 
-    <TresInstancedMesh
-      ref="instancesRef"
-      :args="[null!, null!, 1_000]"
-    >
-      <TresSphereGeometry
-        :args="[0.1, 32, 32]"
-      />
+    <TresInstancedMesh ref="instancesRef" :args="[null!, null!, 1_000]">
+      <TresSphereGeometry :args="[0.1, 32, 32]" />
       <TresMeshNormalMaterial />
     </TresInstancedMesh>
 
-    <TresGridHelper
-      :args="[10, 10]"
-    />
+    <TresGridHelper :args="[10, 10]" />
   </TresCanvas>
 </template>

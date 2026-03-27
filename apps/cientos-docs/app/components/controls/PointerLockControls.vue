@@ -5,11 +5,14 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { maxPolarAngle, minPolarAngle, pointerSpeed } = useControls({
-  maxPolarAngle: { value: Math.PI, min: 0, max: Math.PI, step: 0.1 },
-  minPolarAngle: { value: 0, min: 0, max: Math.PI, step: 0.1 },
-  pointerSpeed: { value: 1, min: 0.1, max: 5, step: 0.1 },
-}, { uuid })
+const { maxPolarAngle, minPolarAngle, pointerSpeed } = useControls(
+  {
+    maxPolarAngle: { value: Math.PI, min: 0, max: Math.PI, step: 0.1 },
+    minPolarAngle: { value: 0, min: 0, max: Math.PI, step: 0.1 },
+    pointerSpeed: { value: 1, min: 0.1, max: 5, step: 0.1 },
+  },
+  { uuid },
+)
 </script>
 
 <template>

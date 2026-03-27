@@ -15,32 +15,31 @@ const glComposer = {
   multisampling: 4,
 }
 
-const { distortion, principalPoint, focalLength, skew } = useControls({
-  distortion: { value: new Vector2(0.5, 0.5), min: -1, max: 1, step: 0.001 },
-  principalPoint: { value: new Vector2(0.0, 0.0), min: -0.5, max: 0.5, step: 0.001 },
-  focalLength: { value: new Vector2(0.5, 0.5), min: -1, max: 1, step: 0.001 },
-  skew: { value: 0, min: -1, max: 1, step: 0.001 },
-}, { uuid })
+const { distortion, principalPoint, focalLength, skew } = useControls(
+  {
+    distortion: { value: new Vector2(0.5, 0.5), min: -1, max: 1, step: 0.001 },
+    principalPoint: { value: new Vector2(0.0, 0.0), min: -0.5, max: 0.5, step: 0.001 },
+    focalLength: { value: new Vector2(0.5, 0.5), min: -1, max: 1, step: 0.001 },
+    skew: { value: 0, min: -1, max: 1, step: 0.001 },
+  },
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 2]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[5, 5, 2]" />
     <OrbitControls auto-rotate :target="[0, 1, 0]" />
 
     <TresMesh :position="[0, 1, 0]">
       <TresBoxGeometry :args="[2, 2, 2]" />
-      <TresMeshPhysicalMaterial color="#0f0f0f" :roughness=".5" />
+      <TresMeshPhysicalMaterial color="#0f0f0f" :roughness="0.5" />
     </TresMesh>
 
     <Suspense>
-      <Environment background :blur=".25" preset="modern" />
+      <Environment background :blur="0.25" preset="modern" />
     </Suspense>
 
     <Suspense>

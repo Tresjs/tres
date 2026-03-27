@@ -2,7 +2,10 @@
 import { useAnimations, useGLTF } from '@tresjs/cientos'
 import { useLoop } from '@tresjs/core'
 
-const { state } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/ugly-naked-bunny/ugly-naked-bunny-animated.gltf', { draco: true })
+const { state } = useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/ugly-naked-bunny/ugly-naked-bunny-animated.gltf',
+  { draco: true },
+)
 
 const animations = computed(() => state.value?.animations || [])
 const model = computed(() => state?.value?.scene)
@@ -25,8 +28,5 @@ watch(actions, (newActions) => {
 </script>
 
 <template>
-  <primitive
-    v-if="state?.scene"
-    :object="state?.scene"
-  />
+  <primitive v-if="state?.scene" :object="state?.scene" />
 </template>

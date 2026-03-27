@@ -20,10 +20,7 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
 <template>
   <SceneWrapper>
     <TresCanvas :renderer="createWebGPURenderer">
-      <TresPerspectiveCamera
-        :position="[3, 3, 3]"
-        :look-at="[0, 0, 0]"
-      />
+      <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
       <Suspense>
         <HologramCube />
       </Suspense>

@@ -21,8 +21,12 @@ const props = withDefaults(defineProps<MaskProps>(), {
 const meshRef = shallowRef<Mesh>()
 
 function update() {
-  const material = Array.isArray(meshRef.value?.material) ? meshRef.value.material[0] : meshRef.value?.material
-  if (!material) { return }
+  const material = Array.isArray(meshRef.value?.material)
+    ? meshRef.value.material[0]
+    : meshRef.value?.material
+  if (!material) {
+    return
+  }
 
   material.colorWrite = props.colorWrite
   material.depthWrite = props.depthWrite

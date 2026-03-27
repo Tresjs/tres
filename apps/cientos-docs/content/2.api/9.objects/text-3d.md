@@ -4,8 +4,8 @@ description: Render text in 3D using TextGeometry.
 ---
 
 ::SceneControlsWrapper
-  ::ObjectsText
-  ::
+::ObjectsText
+::
 ::
 
 `<Text3D />` is a component that renders text in 3D. It is a wrapper around the [TextGeometry](https://threejs.org/docs/#api/en/geometries/TextGeometry) class.
@@ -18,10 +18,7 @@ To use the `<Text3D />` component you need to pass the `font` prop with the URL 
 <template>
   <TresCanvas>
     <Suspense>
-      <Text3D
-        text="TresJS"
-        font="/fonts/FiraCodeRegular.json"
-      >
+      <Text3D text="TresJS" font="/fonts/FiraCodeRegular.json">
         <TresMeshNormalMaterial />
       </Text3D>
     </Suspense>
@@ -51,12 +48,7 @@ In addition, you can use the power of Vue to add reactivity, but you need to app
   <input v-model="myReactiveText" />
   <TresCanvas>
     <Suspense>
-      <Text3D
-        :text="myReactiveText"
-        font="/fonts/FiraCodeRegular.json"
-        center
-        need-updates
-      />
+      <Text3D :text="myReactiveText" font="/fonts/FiraCodeRegular.json" center need-updates />
     </Suspense>
   </TresCanvas>
 </template>

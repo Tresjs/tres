@@ -3,7 +3,11 @@ import { CatmullRomCurve3, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 
 const NUM_POINTS = 10
-const points = ref(Array.from({ length: NUM_POINTS }).fill(0).map((_, i) => [i * 0.1, 0, 0]))
+const points = ref(
+  Array.from({ length: NUM_POINTS })
+    .fill(0)
+    .map((_, i) => [i * 0.1, 0, 0]),
+)
 const colors = ref([
   [1.0, 0.0, 0.0],
   [0.9, 0.1, 0.0],
@@ -47,7 +51,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
   points.value.forEach((v, i) => {
     const progress = i * 0.5 + elapsed * 0.25
     v[0] = Math.cos(progress)
-    v[1] = Math.sin((progress) * Math.PI * 3) * 0.1
+    v[1] = Math.sin(progress * Math.PI * 3) * 0.1
     v[2] = Math.sin(progress)
   })
 

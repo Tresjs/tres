@@ -27,7 +27,8 @@ function getVertexArray(offset = 0) {
     const i = v * 3
     const x = vertices[i]
     const y = vertices[i + 1] + offset
-    vertices[i + 2] = Math.abs(noise((NOISE_SEED + x) * NOISE_SCALE, (NOISE_SEED + y) * NOISE_SCALE, 0)) * 7
+    vertices[i + 2] =
+      Math.abs(noise((NOISE_SEED + x) * NOISE_SCALE, (NOISE_SEED + y) * NOISE_SCALE, 0)) * 7
     vertices[i + 2] *= 1 - Math.abs(Math.sin(x * 0.2)) + 0.1
     vertices[i + 2] *= Math.cos((Math.PI * y) / depth)
     vertices[i + 2] += Math.sin(y * 0.133) * 0.5
@@ -40,8 +41,11 @@ function getVertexArray(offset = 0) {
   <TresGroup ref="landscapeRef">
     <slot />
     <TresMesh :rotation="[-Math.PI * 0.5, 0, 0]">
-      <TresPlaneGeometry ref="geometryRef" :args="[width, depth, width, depth]"
-        :attributes-position-array="getVertexArray()" />
+      <TresPlaneGeometry
+        ref="geometryRef"
+        :args="[width, depth, width, depth]"
+        :attributes-position-array="getVertexArray()"
+      />
       <TresMeshBasicMaterial :color="props.color" />
     </TresMesh>
   </TresGroup>

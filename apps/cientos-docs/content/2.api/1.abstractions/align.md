@@ -4,8 +4,8 @@ description: Calculate and align children within their parent using bounding box
 ---
 
 ::SceneControlsWrapper
-  ::AbstractionsAlign
-  ::
+::AbstractionsAlign
+::
 ::
 
 Calculates a bounding box around its children and aligns them as a group within their parent. The component measures its contents and realigns on every frame unless `cacheKey` is set.
@@ -40,21 +40,21 @@ import { TresCanvas } from '@tresjs/core'
 
 All props are optional.
 
-| Prop         | Description                         | Default |
-| ------------ | ----------------------------------- | ------- |
-| `top`        | If `true`, aligns bounding box bottom to `0` on the y-axis | `false` |
-| `bottom`     | If `true`, aligns bounding box top to `0` on the y-axis. | `false` |
-| `left`       | If `true`, aligns bounding box right to `0` on the x-axis. | `false` |
-| `right`      | If `true`, aligns bounding box left to `0` on the x-axis. | `false` |
-| `front`      | If `true`, aligns bounding box back to `0` on the z-axis. | `false` |
-| `back`       | If `true`, aligns bounding box front to `0` on the z-axis. | `false` |
-| `disable`    | If `true`, disables alignment on all axes. | `false` |
-| `disableX`   | If `true`, disables alignment on the x-axis. | `false` |
-| `disableY`   | If `true`, disables alignment on the y-axis. | `false` |
-| `disableZ`   | If `true`, disables alignment on the z-axis. | `false` |
-| `precise`    | See [Box3.setFromObject](https://threejs.org/docs/index.html?q=box3#api/en/math/Box3.setFromObject). | `true` |
-| `onAlign`    | Callback that fires when updating, after measurement. | |
-| `cacheKey`   | If set, component will only update when `cacheKey`'s value changes. If unset, component will update every frame. | `undefined` |
+| Prop       | Description                                                                                                      | Default     |
+| ---------- | ---------------------------------------------------------------------------------------------------------------- | ----------- |
+| `top`      | If `true`, aligns bounding box bottom to `0` on the y-axis                                                       | `false`     |
+| `bottom`   | If `true`, aligns bounding box top to `0` on the y-axis.                                                         | `false`     |
+| `left`     | If `true`, aligns bounding box right to `0` on the x-axis.                                                       | `false`     |
+| `right`    | If `true`, aligns bounding box left to `0` on the x-axis.                                                        | `false`     |
+| `front`    | If `true`, aligns bounding box back to `0` on the z-axis.                                                        | `false`     |
+| `back`     | If `true`, aligns bounding box front to `0` on the z-axis.                                                       | `false`     |
+| `disable`  | If `true`, disables alignment on all axes.                                                                       | `false`     |
+| `disableX` | If `true`, disables alignment on the x-axis.                                                                     | `false`     |
+| `disableY` | If `true`, disables alignment on the y-axis.                                                                     | `false`     |
+| `disableZ` | If `true`, disables alignment on the z-axis.                                                                     | `false`     |
+| `precise`  | See [Box3.setFromObject](https://threejs.org/docs/index.html?q=box3#api/en/math/Box3.setFromObject).             | `true`      |
+| `onAlign`  | Callback that fires when updating, after measurement.                                                            |             |
+| `cacheKey` | If set, component will only update when `cacheKey`'s value changes. If unset, component will update every frame. | `undefined` |
 
 ## AlignCallbackOptions
 

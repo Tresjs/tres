@@ -5,46 +5,50 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'leches-controls-number'
 
-const { basicNumber, withStep, _withMinMax, clamped, _integer, customFormat, degFormat } = useControls({
-  // Basic number (default step 0.1)
-  basicNumber: 5,
-  // Custom step
-  withStep: {
-    value: 0,
-    step: 0.01,
-  },
-  // Min/max bounds
-  withMinMax: {
-    value: 0,
-    min: -10,
-    max: 10,
-    step: 0.5,
-  },
-  // Clamped to positive
-  clamped: {
-    value: 1,
-    min: 0,
-    max: 100,
-    step: 1,
-  },
-  // Integer step
-  integer: {
-    value: 10,
-    step: 1,
-  },
-  // Custom format function
-  customFormat: {
-    value: 0.5,
-    step: 0.001,
-    format: (v: number) => `${(v * 100).toFixed(1)}%`,
-  },
-  // Degrees format
-  degFormat: {
-    value: 45,
-    step: 1,
-    format: (v: number) => `${v.toFixed(0)}°`,
-  },
-}, { uuid })
+const { basicNumber, withStep, _withMinMax, clamped, _integer, customFormat, degFormat } =
+  useControls(
+    {
+      // Basic number (default step 0.1)
+      basicNumber: 5,
+      // Custom step
+      withStep: {
+        value: 0,
+        step: 0.01,
+      },
+      // Min/max bounds
+      withMinMax: {
+        value: 0,
+        min: -10,
+        max: 10,
+        step: 0.5,
+      },
+      // Clamped to positive
+      clamped: {
+        value: 1,
+        min: 0,
+        max: 100,
+        step: 1,
+      },
+      // Integer step
+      integer: {
+        value: 10,
+        step: 1,
+      },
+      // Custom format function
+      customFormat: {
+        value: 0.5,
+        step: 0.001,
+        format: (v: number) => `${(v * 100).toFixed(1)}%`,
+      },
+      // Degrees format
+      degFormat: {
+        value: 45,
+        step: 1,
+        format: (v: number) => `${v.toFixed(0)}°`,
+      },
+    },
+    { uuid },
+  )
 </script>
 
 <template>
@@ -54,11 +58,7 @@ const { basicNumber, withStep, _withMinMax, clamped, _integer, customFormat, deg
     <TresMesh
       :position="[basicNumber.value * 0.1, 0, 0]"
       :rotation="[0, degFormat.value * (Math.PI / 180), 0]"
-      :scale="[
-        customFormat.value + 0.5,
-        customFormat.value + 0.5,
-        customFormat.value + 0.5,
-      ]"
+      :scale="[customFormat.value + 0.5, customFormat.value + 0.5, customFormat.value + 0.5]"
     >
       <TresBoxGeometry :args="[1, 1, 1]" />
       <TresMeshStandardMaterial

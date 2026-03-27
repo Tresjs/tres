@@ -65,8 +65,12 @@ const props = withDefaults(
 
 const emit = defineEmits(['update:modelValue'])
 
-if (props.smoothScroll < 0) { logWarning('SmoothControl must be greater than zero') }
-if (props.pages < 0) { logWarning('Pages must be greater than zero') }
+if (props.smoothScroll < 0) {
+  logWarning('SmoothControl must be greater than zero')
+}
+if (props.pages < 0) {
+  logWarning('Pages must be greater than zero')
+}
 
 const { camera, controls, renderer } = useTresContext()
 
@@ -107,7 +111,9 @@ const unWatch = watch(
 watch(
   isScrolling,
   (value) => {
-    if (controls.value) { controls.value.enabled = !value }
+    if (controls.value) {
+      controls.value.enabled = !value
+    }
   },
   {
     immediate: true,
@@ -115,18 +121,20 @@ watch(
 )
 
 watch(windowY, (value) => {
-  if (!isScrolling.value && !props.htmlScroll) { return }
-  progressScroll.value = (value / height.value / (scrollNodeY.value / height.value - 1))
+  if (!isScrolling.value && !props.htmlScroll) {
+    return
+  }
+  progressScroll.value = value / height.value / (scrollNodeY.value / height.value - 1)
   progress.value = -1 * progressScroll.value
   emit('update:modelValue', progressScroll.value)
 })
 watch(containerY, (value) => {
-  progressScroll.value = (value / height.value / (scrollNodeY.value / height.value))
+  progressScroll.value = value / height.value / (scrollNodeY.value / height.value)
   progress.value = -1 * progressScroll.value
   emit('update:modelValue', progressScroll.value)
 })
 watch(containerX, (value) => {
-  progressScroll.value = (value / width.value / (scrollNodeY.value / width.value - 1))
+  progressScroll.value = value / width.value / (scrollNodeY.value / width.value - 1)
   progress.value = +progressScroll.value
   emit('update:modelValue', progressScroll.value)
 })
@@ -137,7 +145,12 @@ watch(
     const canvas = value?.domElement
     if (props.htmlScroll && value?.domElement) {
       // use window scroll only Y axis
-      if (canvas?.style.width && canvas?.style.position && canvas?.style.top && canvas?.style.left) {
+      if (
+        canvas?.style.width &&
+        canvas?.style.position &&
+        canvas?.style.top &&
+        canvas?.style.left
+      ) {
         canvas.style.width = '100%'
         canvas.style.position = 'fixed'
         canvas.style.zIndex = ' -99999'
@@ -145,8 +158,7 @@ watch(
         canvas.style.left = '0'
       }
       scrollNodeY.value = document.body.scrollHeight
-    }
-    else {
+    } else {
       const fixed = document.createElement('div')
       const fill = document.createElement('div')
 
@@ -177,7 +189,7 @@ watch(
       }
       scrollContainer.appendChild(fill)
       if (value?.domElement.parentNode) {
-        (value.domElement.parentNode as HTMLElement).style.position = 'relative'
+        ;(value.domElement.parentNode as HTMLElement).style.position = 'relative'
       }
       value?.domElement?.parentNode?.appendChild(scrollContainer)
       scrollNodeY.value = props.horizontal ? width.value * props.pages : height.value * props.pages
@@ -192,8 +204,11 @@ const { onBeforeRender } = useLoop()
 
 onBeforeRender(() => {
   if (camera.activeCamera.value?.position) {
-    const delta
-      = (progress.value * props.distance - camera.activeCamera.value.position[direction] + initCameraPos) * props.smoothScroll
+    const delta =
+      (progress.value * props.distance -
+        camera.activeCamera.value.position[direction] +
+        initCameraPos) *
+      props.smoothScroll
 
     camera.activeCamera.value.position[direction] += delta
     if (wrapperRef.value.children.length > 0) {

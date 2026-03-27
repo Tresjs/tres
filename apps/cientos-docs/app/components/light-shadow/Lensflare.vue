@@ -8,13 +8,16 @@ const uuid = inject(`uuid`)
 
 const [x, z] = [shallowRef(0), shallowRef(0)]
 
-const { scale, seed, color, distance, size } = useControls({
-  scale: { value: 0.33, min: 0.1, max: 2, step: 0.1 },
-  seed: { value: 1028, min: 1, max: 5000, step: 1 },
-  color: '#ffffff',
-  distance: { value: 0, min: -2, max: 2, step: 0.1 },
-  size: { value: 1, min: 0.1, max: 10, step: 0.5 },
-}, { uuid })
+const { scale, seed, color, distance, size } = useControls(
+  {
+    scale: { value: 0.33, min: 0.1, max: 2, step: 0.1 },
+    seed: { value: 1028, min: 1, max: 5000, step: 1 },
+    color: '#ffffff',
+    distance: { value: 0, min: -2, max: 2, step: 0.1 },
+    size: { value: 1, min: 0.1, max: 10, step: 0.5 },
+  },
+  { uuid },
+)
 
 function onLoop({ elapsed }: { elapsed: number }) {
   z.value = Math.cos(elapsed * 0.5) * 2
@@ -26,13 +29,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
   <TresCanvas clear-color="#333" @loop="onLoop">
     <OrbitControls />
     <TresPointLight :position="[x, 0, z]">
-      <Lensflare
-        :seed="seed"
-        :scale="scale"
-        :color="color"
-        :distance="distance"
-        :size="size"
-      />
+      <Lensflare :seed="seed" :scale="scale" :color="color" :distance="distance" :size="size" />
     </TresPointLight>
     <Torus
       v-for="n in [-2, 0, 2]"

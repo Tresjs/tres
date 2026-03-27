@@ -22,8 +22,7 @@ describe('nodeOps', () => {
       pool.push(v)
       return v
     }
-  },
-  )
+  })
 
   afterAll(() => {
     // NOTE: Dispose disposable objects.
@@ -37,7 +36,7 @@ describe('nodeOps', () => {
 
   describe('createElement', () => {
     it('creates an instance with given tag', async () => {
-    // Setup
+      // Setup
       const tag = 'TresMesh'
       const props = { args: [] }
 
@@ -50,7 +49,7 @@ describe('nodeOps', () => {
     })
 
     it('creates an instance with given tag and props', async () => {
-    // Setup
+      // Setup
       const tag = 'TresTorusGeometry'
       const props = { args: [10, 3, 16, 100] }
 
@@ -65,7 +64,7 @@ describe('nodeOps', () => {
     })
 
     it.skip('creates an camera instance', async () => {
-    // Setup
+      // Setup
       const tag = 'TresPerspectiveCamera'
       const props = { args: [75, 2, 0.1, 5] }
 
@@ -78,13 +77,13 @@ describe('nodeOps', () => {
     })
 
     it.skip('logs a warning if the camera doesnt have a position', async () => {
-    // Setup
+      // Setup
       const tag = 'TresPerspectiveCamera'
       const props = { args: [75, 2, 0.1, 5] }
 
       // Spy
       const consoleWarnSpy = vi.spyOn(console, 'warn')
-      consoleWarnSpy.mockImplementation(() => { })
+      consoleWarnSpy.mockImplementation(() => {})
 
       // Test
       const instance = nodeOps.createElement(tag, undefined, undefined, props)
@@ -114,26 +113,46 @@ describe('nodeOps', () => {
     it('it sets a non-zero position on a camera if no position is provided', () => {
       const camera = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, {})
       const position: Vector3 = camera.position
-      assert(['x', 'y', 'z'].some(coord => position[coord] !== 0))
+      assert(['x', 'y', 'z'].some((coord) => position[coord] !== 0))
     })
 
     it('it calls `camera.lookAt(0, 0, 0)` on a camera if no "look-at" prop is provided', () => {
-      for (const position of [[1, 2, 3], [1, 0, 0], [3, 4, 5], [-1, 2, -10]]) {
-        const cameraA = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, { position })
-        const cameraB = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, { position, lookAt: [0, 0, 0] })
+      for (const position of [
+        [1, 2, 3],
+        [1, 0, 0],
+        [3, 4, 5],
+        [-1, 2, -10],
+      ]) {
+        const cameraA = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, {
+          position,
+        })
+        const cameraB = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, {
+          position,
+          lookAt: [0, 0, 0],
+        })
         assert(cameraA.rotation.equals(cameraB.rotation))
       }
     })
 
     it('throws an error if tag does not exist in catalogue', () => {
-      expect(() => { nodeOps.createElement('THIS_TAG_DOES_NOT_EXIST', undefined, undefined, {}) }).toThrow()
+      expect(() => {
+        nodeOps.createElement('THIS_TAG_DOES_NOT_EXIST', undefined, undefined, {})
+      }).toThrow()
     })
 
     it('does not throw an error if `props` is `null`', () => {
-      expect(() => { nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, null) }).not.toThrow()
-      expect(() => { nodeOps.createElement('TresMesh', undefined, undefined, null) }).not.toThrow()
-      expect(() => { nodeOps.createElement('TresBoxGeometry', undefined, undefined, null) }).not.toThrow()
-      expect(() => { nodeOps.createElement('TresMeshNormalMaterial', undefined, undefined, null) }).not.toThrow()
+      expect(() => {
+        nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, null)
+      }).not.toThrow()
+      expect(() => {
+        nodeOps.createElement('TresMesh', undefined, undefined, null)
+      }).not.toThrow()
+      expect(() => {
+        nodeOps.createElement('TresBoxGeometry', undefined, undefined, null)
+      }).not.toThrow()
+      expect(() => {
+        nodeOps.createElement('TresMeshNormalMaterial', undefined, undefined, null)
+      }).not.toThrow()
     })
 
     it('creates an instance with given tag using kebab-case notation', () => {
@@ -182,7 +201,9 @@ describe('nodeOps', () => {
       it('if "attach" prop is provided, sets `parent[attach], even if the field does not exist on the parent`', () => {
         const parent = nodeOps.createElement('Object3D', undefined, undefined, {})
         for (const attach of ['material', 'foo', 'bar', 'baz']) {
-          const child = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach })
+          const child = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {
+            attach,
+          })
           nodeOps.insert(child, parent)
           expect(parent[attach]).toBe(child)
           expect(parent.children.length).toBe(0)
@@ -192,9 +213,15 @@ describe('nodeOps', () => {
       it('can attach and detach a material array', () => {
         const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
         const previousMaterial = parent.material
-        const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-0' })
-        const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-1' })
-        const material2 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-2' })
+        const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {
+          attach: 'material-0',
+        })
+        const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {
+          attach: 'material-1',
+        })
+        const material2 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {
+          attach: 'material-2',
+        })
         nodeOps.insert(material0, parent)
         expect(parent.material[0]).toStrictEqual(material0)
         nodeOps.insert(material1, parent)
@@ -231,9 +258,13 @@ describe('nodeOps', () => {
 
       it('can attach and detach a "pierced" string', () => {
         const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
-        const material = nodeOps.createElement('MeshBasicMaterial', undefined, undefined, { color: 'red' })
+        const material = nodeOps.createElement('MeshBasicMaterial', undefined, undefined, {
+          color: 'red',
+        })
         const previousColor = material.color
-        const color = nodeOps.createElement('Color', undefined, undefined, { attach: 'material-color' })
+        const color = nodeOps.createElement('Color', undefined, undefined, {
+          attach: 'material-color',
+        })
         nodeOps.insert(material, parent)
         nodeOps.insert(color, parent)
         expect(parent.material.color).toBe(color)
@@ -242,7 +273,9 @@ describe('nodeOps', () => {
 
         material.alphaMap = new THREE.Texture()
         const previousAlphaMap = material.alphaMap
-        const alphaMap = nodeOps.createElement('Texture', undefined, undefined, { attach: 'material-alpha-map' })
+        const alphaMap = nodeOps.createElement('Texture', undefined, undefined, {
+          attach: 'material-alpha-map',
+        })
         nodeOps.insert(alphaMap, parent)
         expect(parent.material.alphaMap).toBe(alphaMap)
         nodeOps.remove(alphaMap)
@@ -252,7 +285,10 @@ describe('nodeOps', () => {
       it('attach can be patched', () => {
         const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
         const previousMaterial = parent.material
-        const material = nodeOps.createElement('MeshBasicMaterial', undefined, undefined, { color: 'red', attach: 'material' })
+        const material = nodeOps.createElement('MeshBasicMaterial', undefined, undefined, {
+          color: 'red',
+          attach: 'material',
+        })
         nodeOps.insert(material, parent)
         expect(parent.material).toBe(material)
 
@@ -272,9 +308,15 @@ describe('nodeOps', () => {
       it('can attach and detach a material array by patching `attach`', () => {
         const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
         const previousMaterial = parent.material
-        const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-0' })
-        const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-1' })
-        const material2 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, { attach: 'material-2' })
+        const material0 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {
+          attach: 'material-0',
+        })
+        const material1 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {
+          attach: 'material-1',
+        })
+        const material2 = nodeOps.createElement('MeshNormalMaterial', undefined, undefined, {
+          attach: 'material-2',
+        })
         nodeOps.insert(material0, parent)
         nodeOps.insert(material1, parent)
         nodeOps.insert(material2, parent)
@@ -311,21 +353,21 @@ describe('nodeOps', () => {
       const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
       const material = nodeOps.createElement('MeshNormalMaterial')
       nodeOps.insert(material, parent)
-      expect(parent.__tres.objects.map(child => child.uuid)).toStrictEqual([material.uuid])
+      expect(parent.__tres.objects.map((child) => child.uuid)).toStrictEqual([material.uuid])
     })
 
     it('adds a geometry to parent.__tres.objects', () => {
       const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
       const geometry = nodeOps.createElement('BoxGeometry')
       nodeOps.insert(geometry, parent)
-      expect(parent.__tres.objects.map(child => child.uuid)).toStrictEqual([geometry.uuid])
+      expect(parent.__tres.objects.map((child) => child.uuid)).toStrictEqual([geometry.uuid])
     })
 
     it('adds a fog to parent.__tres.objects', () => {
       const parent = nodeOps.createElement('Mesh', undefined, undefined, {})
       const fog = nodeOps.createElement('Fog')
       nodeOps.insert(fog, parent)
-      expect(parent.__tres.objects.map(child => child.uuid)).toStrictEqual([fog.uuid])
+      expect(parent.__tres.objects.map((child) => child.uuid)).toStrictEqual([fog.uuid])
     })
 
     it('adds parent to child.__tres.parent', () => {
@@ -367,15 +409,31 @@ describe('nodeOps', () => {
       const parent1 = nodeOps.createElement('Mesh', undefined, undefined, {})
       const parent2 = nodeOps.createElement('Mesh', undefined, undefined, {})
 
-      const materialPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, { object: material })
-      const materialPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, { object: material })
-      const materialPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, { object: material })
-      const materialPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, { object: otherMaterial })
+      const materialPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, {
+        object: material,
+      })
+      const materialPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, {
+        object: material,
+      })
+      const materialPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, {
+        object: material,
+      })
+      const materialPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, {
+        object: otherMaterial,
+      })
 
-      const geometryPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, { object: geometry })
-      const geometryPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, { object: geometry })
-      const geometryPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, { object: geometry })
-      const geometryPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, { object: otherGeometry })
+      const geometryPrimitive0 = nodeOps.createElement('primitive', undefined, undefined, {
+        object: geometry,
+      })
+      const geometryPrimitive1 = nodeOps.createElement('primitive', undefined, undefined, {
+        object: geometry,
+      })
+      const geometryPrimitive2 = nodeOps.createElement('primitive', undefined, undefined, {
+        object: geometry,
+      })
+      const geometryPrimitiveOther = nodeOps.createElement('primitive', undefined, undefined, {
+        object: otherGeometry,
+      })
 
       nodeOps.insert(parent0, grandparent)
       nodeOps.insert(parent1, grandparent)
@@ -552,7 +610,7 @@ describe('nodeOps', () => {
 
   describe('patchProp', () => {
     it('patches property of node', async () => {
-    // Setup
+      // Setup
       const node = nodeOps.createElement('Mesh')!
       const prop = 'visible'
       const nextValue = false
@@ -565,7 +623,7 @@ describe('nodeOps', () => {
     })
 
     it('patches/traverses pierced props', async () => {
-    // Setup
+      // Setup
       const node = nodeOps.createElement('Mesh')!
       const prop = 'position-x'
       const nextValue = 5
@@ -582,7 +640,7 @@ describe('nodeOps', () => {
     })
 
     it('patches/traverses pierced props with array values', async () => {
-    // Setup
+      // Setup
       const light = nodeOps.createElement('DirectionalLight')!
 
       // DirectionalLight shadow might be null by default, need to enable it
@@ -601,7 +659,7 @@ describe('nodeOps', () => {
     })
 
     it('does not patch/traverse pierced props of existing dashed properties', async () => {
-    // Setup
+      // Setup
       const node = nodeOps.createElement('Mesh')!
       const prop = 'cast-shadow'
       const nextValue = true
@@ -614,7 +672,7 @@ describe('nodeOps', () => {
     })
 
     it('preserves ALL_CAPS_CASE in pierced props', () => {
-    // Issue: https://github.com/Tresjs/tres/issues/605
+      // Issue: https://github.com/Tresjs/tres/issues/605
       const { createElement, patchProp } = nodeOps
       const node = createElement('TresMeshStandardMaterial', undefined, undefined, {})!
       const allCapsKey = 'STANDARD'
@@ -682,16 +740,18 @@ describe('nodeOps', () => {
         it('replaces original object', () => {
           const material0 = new THREE.MeshNormalMaterial()
           const material1 = new THREE.MeshBasicMaterial()
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: material0 })
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, {
+            object: material0,
+          })
           nodeOps.patchProp(primitive, 'object', material0, material1)
           expect(primitive.object).toBe(material1)
         })
 
         it('does not alter __tres on another primitive sharing the same object', () => {
           const doFreeze = (o: any) => {
-          // NOTE: o.root contains references to scene, etc.
-          // These will change simply by adding elements to the
-          // scene. So copy and remove root.
+            // NOTE: o.root contains references to scene, etc.
+            // These will change simply by adding elements to the
+            // scene. So copy and remove root.
             o = { ...o }
             delete o.root
             return JSON.parse(JSON.stringify(o))
@@ -699,11 +759,15 @@ describe('nodeOps', () => {
 
           const materialA = new THREE.MeshNormalMaterial()
           const materialB = new THREE.MeshNormalMaterial()
-          const primitive0 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
+          const primitive0 = nodeOps.createElement('primitive', undefined, undefined, {
+            object: materialA,
+          })
 
           const primitive0Tres = doFreeze(primitive0.__tres)
           expect(doFreeze(primitive0.__tres)).toStrictEqual(primitive0Tres)
-          const primitive1 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
+          const primitive1 = nodeOps.createElement('primitive', undefined, undefined, {
+            object: materialA,
+          })
 
           expect(primitive0.__tres).not.toBe(primitive1.__tres)
           expect(doFreeze(primitive0.__tres)).toStrictEqual(primitive0Tres)
@@ -723,8 +787,12 @@ describe('nodeOps', () => {
           const { mesh: child1 } = createElementMesh(nodeOps)
           const materialA = new THREE.MeshNormalMaterial()
           const materialB = new THREE.MeshBasicMaterial()
-          const primitive1 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
-          const primitive0 = nodeOps.createElement('primitive', undefined, undefined, { object: materialA })
+          const primitive1 = nodeOps.createElement('primitive', undefined, undefined, {
+            object: materialA,
+          })
+          const primitive0 = nodeOps.createElement('primitive', undefined, undefined, {
+            object: materialA,
+          })
 
           nodeOps.insert(primitive0, child0)
           nodeOps.insert(primitive1, child1)
@@ -752,11 +820,13 @@ describe('nodeOps', () => {
           expect(child0.material).toBe(materialB)
           expect(child1.material).toBe(materialB)
         })
-        it('attaches the new object to the old object\'s parent; clears old object\'s parent', () => {
+        it("attaches the new object to the old object's parent; clears old object's parent", () => {
           const { mesh: parent } = createElementMesh(nodeOps)
           const { mesh: child0 } = createThreeBox()
           const { mesh: child1 } = createThreeBox()
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: child0 })
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, {
+            object: child0,
+          })
           nodeOps.insert(primitive, parent)
           expect(child0.parent).toBe(parent)
           expect(parent.children[0]).toBe(child0)
@@ -772,7 +842,9 @@ describe('nodeOps', () => {
           const { mesh: parent } = createElementMesh(nodeOps)
           const { mesh: child0 } = createElementMesh(nodeOps)
           const { mesh: child1 } = createElementMesh(nodeOps)
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: child0 })
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, {
+            object: child0,
+          })
           nodeOps.insert(primitive, parent)
           nodeOps.patchProp(primitive, 'position-x', undefined, -999)
           expect(child0.position.x).toBe(-999)
@@ -792,7 +864,9 @@ describe('nodeOps', () => {
           const grandchild1 = new THREE.Mesh()
           child0.add(grandchild0)
           child1.add(grandchild1)
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: child0 })
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, {
+            object: child0,
+          })
           nodeOps.insert(primitive, parent)
           expect(primitive.children[0]).toBe(grandchild0)
           expect(primitive.children.length).toBe(1)
@@ -814,7 +888,9 @@ describe('nodeOps', () => {
           const { mesh: child0 } = createElementMesh(nodeOps)
           const { mesh: child1 } = createElementMesh(nodeOps)
           const { mesh: vueGrandchild } = createElementMesh(nodeOps)
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: child0 })
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, {
+            object: child0,
+          })
           nodeOps.insert(primitive, parent)
           nodeOps.insert(vueGrandchild, primitive)
           expect(nodeOps.parentNode(vueGrandchild)).toBe(primitive)
@@ -832,7 +908,9 @@ describe('nodeOps', () => {
         it('does not copy UUID', () => {
           const material0 = new THREE.MeshNormalMaterial()
           const material1 = new THREE.MeshNormalMaterial()
-          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: material0 })
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, {
+            object: material0,
+          })
           nodeOps.patchProp(primitive, 'object', material0, material1)
           expect(material0.uuid).not.toBe(material1.uuid)
 
@@ -846,7 +924,9 @@ describe('nodeOps', () => {
       it('updates values appropriately', () => {
         const args0 = [{ color: new THREE.Color('red') }]
         const args1 = [{ color: new THREE.Color('blue') }]
-        const material = nodeOps.createElement('MeshBasicMaterial', undefined, undefined, { args: args0 })
+        const material = nodeOps.createElement('MeshBasicMaterial', undefined, undefined, {
+          args: args0,
+        })
         expect(material.color.getHexString()).toBe('ff0000')
         nodeOps.patchProp(material, 'args', args0, args1)
         expect(material.color.getHexString()).toBe('0000ff')
@@ -854,7 +934,9 @@ describe('nodeOps', () => {
       it('creates a new instance', () => {
         const args0 = [1, 1]
         const args1 = [2, 3]
-        const geometry = nodeOps.createElement('TresBoxGeometry', undefined, undefined, { args: args0 })
+        const geometry = nodeOps.createElement('TresBoxGeometry', undefined, undefined, {
+          args: args0,
+        })
         const uuid = geometry.uuid
         nodeOps.patchProp(geometry, 'args', args0, args1)
         expect(geometry.uuid).not.toBe(uuid)
@@ -874,10 +956,10 @@ describe('nodeOps', () => {
       })
 
       it('calls `set` with value if !Array.isArray(value)', () => {
-        const s = v => JSON.stringify(v)
+        const s = (v) => JSON.stringify(v)
         const object3d = nodeOps.createElement('Object3D', undefined, undefined, {})
         let result = -1
-        object3d.layers.set = v => result = v
+        object3d.layers.set = (v) => (result = v)
         for (let i = 0; i < 3; i++) {
           const v = Math.floor(Math.random() * 32)
           nodeOps.patchProp(object3d, 'layers', undefined, v)
@@ -885,14 +967,20 @@ describe('nodeOps', () => {
         }
       })
       it('spreads value if it is an array', () => {
-        const s = v => JSON.stringify(v)
+        const s = (v) => JSON.stringify(v)
         const camera = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, {})
         const result = []
         camera.position.fromArray = ([x, y, z]: THREE.Vector3Tuple) => result.push({ x, y, z })
         nodeOps.patchProp(camera, 'position', undefined, [0, 0, 0])
         nodeOps.patchProp(camera, 'position', undefined, [1, 2, 3])
         nodeOps.patchProp(camera, 'position', undefined, [4, 5, 6])
-        expect(s(result)).toBe(s([{ x: 0, y: 0, z: 0 }, { x: 1, y: 2, z: 3 }, { x: 4, y: 5, z: 6 }]))
+        expect(s(result)).toBe(
+          s([
+            { x: 0, y: 0, z: 0 },
+            { x: 1, y: 2, z: 3 },
+            { x: 4, y: 5, z: 6 },
+          ]),
+        )
       })
     })
   })
@@ -1027,8 +1115,7 @@ describe('nodeOps', () => {
       for (let i = 0; i < allSiblings.length; i++) {
         if (i < allSiblings.length - 1) {
           expect(nodeOps.nextSibling(allSiblings[i]).uuid).toBe(allSiblings[i + 1].uuid)
-        }
-        else {
+        } else {
           // NOTE: Last sibling
           expect(nodeOps.nextSibling(allSiblings[i])).toBe(null)
         }
@@ -1057,8 +1144,7 @@ describe('nodeOps', () => {
         const nextSibling = nodeOps.nextSibling(node)
         if (nextSibling) {
           expect(nextSibling).toBe(nodeToNextSibling.get(node))
-        }
-        else {
+        } else {
           expect(nextSibling).toBeFalsy()
           expect(nodeToNextSibling.get(node)).toBeFalsy()
         }
@@ -1305,7 +1391,10 @@ function createElementPrimitiveMesh(nodeOps: ReturnType<typeof getNodeOps>) {
   return { primitive, mesh, geometry, material }
 }
 
-function createTreeIn<T>(root: T, insertCallback: (parent: T, childI: number, levelI: number) => T) {
+function createTreeIn<T>(
+  root: T,
+  insertCallback: (parent: T, childI: number, levelI: number) => T,
+) {
   let levelII = 0
   const nextLevel = [root] as T[]
   while (nextLevel.length) {
@@ -1319,8 +1408,7 @@ function createTreeIn<T>(root: T, insertCallback: (parent: T, childI: number, le
         const child = insertCallback(parent, childI++, levelII)
         if (child) {
           nextLevel.push(child)
-        }
-        else {
+        } else {
           break
         }
       }

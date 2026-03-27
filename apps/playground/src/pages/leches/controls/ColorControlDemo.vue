@@ -5,9 +5,12 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'leches-controls-color'
 
-const { clearColor } = useControls({
-  clearColor: '#82DBC5',
-}, { uuid })
+const { clearColor } = useControls(
+  {
+    clearColor: '#82DBC5',
+  },
+  { uuid },
+)
 </script>
 
 <template>

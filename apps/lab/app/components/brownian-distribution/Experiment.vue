@@ -1,8 +1,13 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <TresPerspectiveCamera :position="[0, 0, 22]" :fov="45" :near="0.1" :far="1000" :look-at="[0, 5, 0]" />
+  <TresPerspectiveCamera
+    :position="[0, 0, 22]"
+    :fov="45"
+    :near="0.1"
+    :far="1000"
+    :look-at="[0, 5, 0]"
+  />
   <OrbitControls />
   <TresAmbientLight :intensity="0.5" />
   <BrownianDistributionImagotype />

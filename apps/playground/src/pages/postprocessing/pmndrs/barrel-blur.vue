@@ -36,57 +36,54 @@ const neonColors = [
   '#EE82EE', // Violet
 ]
 
-const { blendFunction, amount, offsetX, offsetY } = useControls({
-  amount: { value: 0.2, step: 0.001, max: 1 },
-  offsetX: { value: 0.5, step: 0.01, min: 0, max: 1 },
-  offsetY: { value: 0.5, step: 0.01, min: 0, max: 1 },
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.OVERLAY,
+const { blendFunction, amount, offsetX, offsetY } = useControls(
+  {
+    amount: { value: 0.2, step: 0.001, max: 1 },
+    offsetX: { value: 0.5, step: 0.01, min: 0, max: 1 },
+    offsetY: { value: 0.5, step: 0.01, min: 0, max: 1 },
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.OVERLAY,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      :position="[0, 6.5, 6.5]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera :position="[0, 6.5, 6.5]" :look-at="[0, 0, 0]" />
     <OrbitControls auto-rotate />
 
     <TresAmbientLight :intensity="1" />
 
     <template v-for="(color, index) in neonColors" :key="index">
-      <TresMesh :position="[index % 4 * 2 - 3, 0, Math.floor(index / 4) * 2 - 3]">
+      <TresMesh :position="[(index % 4) * 2 - 3, 0, Math.floor(index / 4) * 2 - 3]">
         <TresBoxGeometry :args="[2, 2, 2]" />
-        <TresMeshStandardMaterial :color="color" :roughness=".5" :metalness="1" />
+        <TresMeshStandardMaterial :color="color" :roughness="0.5" :metalness="1" />
       </TresMesh>
     </template>
 
     <Suspense>
-      <Environment :blur=".25" preset="snow" />
+      <Environment :blur="0.25" preset="snow" />
     </Suspense>
 
     <TresDirectionalLight color="white" />
 
-    <ContactShadows
-      :opacity=".65"
-      :position-y="-1"
-      :scale="35"
-      :blur="1"
-    />
+    <ContactShadows :opacity="0.65" :position-y="-1" :scale="35" :blur="1" />
 
     <Suspense>
       <EffectComposerPmndrs v-bind="glComposer">
-        <BarrelBlurPmndrs :amount="amount" :offset="[offsetX, offsetY]" :blendFunction="Number(blendFunction)" />
+        <BarrelBlurPmndrs
+          :amount="amount"
+          :offset="[offsetX, offsetY]"
+          :blendFunction="Number(blendFunction)"
+        />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>

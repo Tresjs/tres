@@ -21,9 +21,7 @@ watch(holographicMaterialRef, (value) => {
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <Sphere :scale="0.5">
       <HolographicMaterial
@@ -43,10 +41,7 @@ watch(holographicMaterialRef, (value) => {
         :side="FrontSide" -->
     </Sphere>
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :intensity="1"
-      :position="[2, 2, 2]"
-    />
+    <TresDirectionalLight :intensity="1" :position="[2, 2, 2]" />
     <OrbitControls />
   </TresCanvas>
 </template>

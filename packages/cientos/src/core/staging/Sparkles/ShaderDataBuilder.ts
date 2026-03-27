@@ -10,16 +10,11 @@ import type {
   GradientTresColor,
   GradientVectorFlexibleParams,
 } from './../../../utils/Gradient'
-import type {
-  CanvasGradientRenderer,
-  ShaderDataEntry,
-} from './ShaderData'
+import type { CanvasGradientRenderer, ShaderDataEntry } from './ShaderData'
 
 type rgbaSuffixes = ['r', 'rg', 'rgb', 'rgba']
 type xyzwSuffixes = ['x', 'xy', 'xyz', 'xyzw']
-type ShaderSuffix =
-  | (rgbaSuffixes)[number]
-  | (xyzwSuffixes)[number]
+type ShaderSuffix = rgbaSuffixes[number] | xyzwSuffixes[number]
 
 export default class ShaderDataBuilder {
   private entries: ShaderDataEntry<any>[]
@@ -36,9 +31,7 @@ export default class ShaderDataBuilder {
   }
 
   get add() {
-    return new ShaderDataBuilderAdd((entry: ShaderDataEntry<any>) =>
-      this.onAdd<any>(entry),
-    )
+    return new ShaderDataBuilderAdd((entry: ShaderDataEntry<any>) => this.onAdd<any>(entry))
   }
 
   build() {
@@ -100,9 +93,7 @@ class ShaderDataEntryBuilder<T> {
 class ShaderDataBuilderAdd {
   private onAdd: (entry: ShaderDataEntry<any>) => ShaderDataEntryBuilder<any>
 
-  constructor(
-    onAdd: (entry: ShaderDataEntry<any>) => ShaderDataEntryBuilder<any>,
-  ) {
+  constructor(onAdd: (entry: ShaderDataEntry<any>) => ShaderDataEntryBuilder<any>) {
     this.onAdd = onAdd
   }
 
@@ -115,18 +106,10 @@ class ShaderDataBuilderAdd {
   }
 
   GradientScalar(data: MaybeRef<GradientScalar>, min: number, max: number) {
-    return this.onAdd(
-      new ShaderDataEntryScalarGradient(data, 'scalar', min, max),
-    )
+    return this.onAdd(new ShaderDataEntryScalarGradient(data, 'scalar', min, max))
   }
 
-  GradientXyz(
-    data: MaybeRef<GradientVectorFlexibleParams>,
-    min: number,
-    max: number,
-  ) {
-    return this.onAdd(
-      new ShaderDataEntryXyzGradient(data, 'position', min, max),
-    )
+  GradientXyz(data: MaybeRef<GradientVectorFlexibleParams>, min: number, max: number) {
+    return this.onAdd(new ShaderDataEntryXyzGradient(data, 'position', min, max))
   }
 }

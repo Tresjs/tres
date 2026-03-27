@@ -10,9 +10,12 @@ export function calculateMemoryUsage(object: TresObject | Scene) {
       const geometry = node.geometry
       const verticesMemory = geometry.attributes.position.count * 3 * Float32Array.BYTES_PER_ELEMENT
       const facesMemory = geometry.index ? geometry.index.count * Uint32Array.BYTES_PER_ELEMENT : 0
-      const normalsMemory
-        = geometry.attributes.normal ? geometry.attributes.normal.count * 3 * Float32Array.BYTES_PER_ELEMENT : 0
-      const uvsMemory = geometry.attributes.uv ? geometry.attributes.uv.count * 2 * Float32Array.BYTES_PER_ELEMENT : 0
+      const normalsMemory = geometry.attributes.normal
+        ? geometry.attributes.normal.count * 3 * Float32Array.BYTES_PER_ELEMENT
+        : 0
+      const uvsMemory = geometry.attributes.uv
+        ? geometry.attributes.uv.count * 2 * Float32Array.BYTES_PER_ELEMENT
+        : 0
 
       const geometryMemory = verticesMemory + facesMemory + normalsMemory + uvsMemory
       totalMemory += geometryMemory
@@ -24,7 +27,9 @@ export function calculateMemoryUsage(object: TresObject | Scene) {
 
 export function boundedPush<T>(arr: T[], value: T, max: number) {
   arr.push(value)
-  if (arr.length > max) { arr.shift() }
+  if (arr.length > max) {
+    arr.shift()
+  }
 }
 
 export function bytesToKB(bytes: number): string {

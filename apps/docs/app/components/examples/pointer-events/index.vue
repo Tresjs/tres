@@ -27,13 +27,8 @@ const handlePointerLeave = (event: PointerEvent) => {
 
 <template>
   <SceneWrapper>
-    <TresCanvas
-      clear-color="#82DBC5"
-    >
-      <TresPerspectiveCamera
-        :position="[2, 2, 2]"
-        :look-at="[0, 0, 0]"
-      />
+    <TresCanvas clear-color="#82DBC5">
+      <TresPerspectiveCamera :position="[2, 2, 2]" :look-at="[0, 0, 0]" />
       <TresMesh
         @click="handleClick"
         @pointerenter="handlePointerEnter"

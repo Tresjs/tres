@@ -5,11 +5,14 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { disabled, factor, ease } = useControls({
-  disabled: false,
-  factor: { value: 5, min: 0, max: 20, step: 0.5 },
-  ease: { value: 0.1, min: 0, max: 1, step: 0.05 },
-}, { uuid })
+const { disabled, factor, ease } = useControls(
+  {
+    disabled: false,
+    factor: { value: 5, min: 0, max: 20, step: 0.5 },
+    ease: { value: 0.1, min: 0, max: 1, step: 0.05 },
+  },
+  { uuid },
+)
 </script>
 
 <template>

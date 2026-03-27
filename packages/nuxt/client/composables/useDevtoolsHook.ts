@@ -165,47 +165,47 @@ function _useDevtoolsHook(): DevtoolsHookReturn {
   // Initialize DevtoolsMessenger if not exists
   if (typeof window !== 'undefined' && window.parent.parent.__TRES__DEVTOOLS__) {
     // Subscribe to different message types
-    window.parent.parent.__TRES__DEVTOOLS__.subscribe((message: DevtoolsMessage<DevtoolsMessageData>) => {
-      /* if (message.type === 'asset-load') {
+    window.parent.parent.__TRES__DEVTOOLS__.subscribe(
+      (message: DevtoolsMessage<DevtoolsMessageData>) => {
+        /* if (message.type === 'asset-load') {
         const messageData = message.data as AssetLoadData
         const formattedAsset = formatAsset(messageData)
         state.scene.assets.push(formattedAsset)
       } */
 
-      if (message.type === 'context') {
-        const context = message.data as ContextMessageData
-        if (context.scene.value.children.length > 0) {
-          // Use scene UUID for lightweight change detection
-          const currentSceneUuid = context.scene.value.uuid
-          if (currentSceneUuid !== lastSceneUuid) {
-            state.scene.value = context.scene.value
-            state.scene.objects = countObjectsInScene(context.scene.value)
-            state.scene.graph = getSceneGraph(context.scene.value as unknown as TresObject)
-            lastSceneUuid = currentSceneUuid
+        if (message.type === 'context') {
+          const context = message.data as ContextMessageData
+          if (context.scene.value.children.length > 0) {
+            // Use scene UUID for lightweight change detection
+            const currentSceneUuid = context.scene.value.uuid
+            if (currentSceneUuid !== lastSceneUuid) {
+              state.scene.value = context.scene.value
+              state.scene.objects = countObjectsInScene(context.scene.value)
+              state.scene.graph = getSceneGraph(context.scene.value as unknown as TresObject)
+              lastSceneUuid = currentSceneUuid
+            }
+          } else {
+            state.scene.value = undefined
+            state.scene.graph = null
+            /* state.scene.assets = [] */
+            lastSceneUuid = null
           }
-        }
-        else {
-          state.scene.value = undefined
-          state.scene.graph = null
-          /* state.scene.assets = [] */
-          lastSceneUuid = null
-        }
 
-        // Update renderer info from context
-        if (context.renderer?.instance?.info) {
-          Object.assign(state.renderer.info.render, context.renderer.instance.info.render)
-          Object.assign(state.renderer.info.memory, context.renderer.instance.info.memory)
-          state.renderer.info.programs = [...(context.renderer.instance.info.programs || [])]
+          // Update renderer info from context
+          if (context.renderer?.instance?.info) {
+            Object.assign(state.renderer.info.render, context.renderer.instance.info.render)
+            Object.assign(state.renderer.info.memory, context.renderer.instance.info.memory)
+            state.renderer.info.programs = [...(context.renderer.instance.info.programs || [])]
+          }
+        } else if (message.type === 'performance') {
+          const performance = message.data as PerformanceMessageData
+          Object.assign(state.fps, performance.fps)
+          state.fps.accumulator = [...performance.fps.accumulator]
+          Object.assign(state.memory, performance.memory)
+          state.memory.accumulator = [...performance.memory.accumulator]
         }
-      }
-      else if (message.type === 'performance') {
-        const performance = message.data as PerformanceMessageData
-        Object.assign(state.fps, performance.fps)
-        state.fps.accumulator = [...performance.fps.accumulator]
-        Object.assign(state.memory, performance.memory)
-        state.memory.accumulator = [...performance.memory.accumulator]
-      }
-    })
+      },
+    )
   }
 
   return state

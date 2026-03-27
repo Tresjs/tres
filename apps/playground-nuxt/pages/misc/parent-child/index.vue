@@ -7,6 +7,6 @@ useControls('fpsgraph', { uuid })
 <template>
   <TresLeches :uuid="uuid" class="z-20 top-20" />
   <TresCanvas window-size clear-color="#82DBC5">
-    <Child/>
+    <Child />
   </TresCanvas>
 </template>

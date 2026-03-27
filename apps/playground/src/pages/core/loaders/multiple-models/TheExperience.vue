@@ -24,27 +24,39 @@ manager.onProgress = (url, loaded, total) => {
 }
 
 // Create individual loaders for each model
-const models = ref(modelPaths.map(path => useLoader<GLTF>(GLTFLoader, path, {
-  manager,
-})))
+const models = ref(
+  modelPaths.map((path) =>
+    useLoader<GLTF>(GLTFLoader, path, {
+      manager,
+    }),
+  ),
+)
 
-const computedIsLoading = computed(() => models.value.some(model => model.isLoading))
+const computedIsLoading = computed(() => models.value.some((model) => model.isLoading))
 
 // Check if all models have loaded successfully and their scenes are available
-const allModelsLoaded = computed(() => models.value.every(model =>
-  !model.isLoading && model.state?.scene,
-))
+const allModelsLoaded = computed(() =>
+  models.value.every((model) => !model.isLoading && model.state?.scene),
+)
 
-watch(allModelsLoaded, () => {
-  console.log('allModelsLoaded', allModelsLoaded.value)
-}, { immediate: true })
+watch(
+  allModelsLoaded,
+  () => {
+    console.log('allModelsLoaded', allModelsLoaded.value)
+  },
+  { immediate: true },
+)
 
-watch([computedIsLoading, allModelsLoaded], ([isLoading, loaded]) => {
-  // Only set hasFinishLoading to true when all models are loaded AND their scenes are available
-  setTimeout(() => {
-    state.hasFinishLoading = !isLoading && loaded
-  }, 1000)
-}, { immediate: true })
+watch(
+  [computedIsLoading, allModelsLoaded],
+  ([isLoading, loaded]) => {
+    // Only set hasFinishLoading to true when all models are loaded AND their scenes are available
+    setTimeout(() => {
+      state.hasFinishLoading = !isLoading && loaded
+    }, 1000)
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

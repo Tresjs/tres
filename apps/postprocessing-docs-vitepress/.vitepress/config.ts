@@ -28,7 +28,10 @@ export default defineConfig({
         content: '/og-banner.png',
       },
     ],
-    ['script', { 'defer': 'true', 'data-site': 'OWBUVCJK', 'src': 'https://cdn.usefathom.com/script.js' }],
+    [
+      'script',
+      { defer: 'true', 'data-site': 'OWBUVCJK', src: 'https://cdn.usefathom.com/script.js' },
+    ],
   ],
   themeConfig: {
     logo: '/logo.svg',
@@ -36,9 +39,7 @@ export default defineConfig({
       provider: 'local',
     },
     // https://vitepress.dev/reference/default-theme-config
-    nav: [
-      { text: 'Guide', link: '/guide/' },
-    ],
+    nav: [{ text: 'Guide', link: '/guide/' }],
 
     sidebar: [
       {
@@ -93,7 +94,10 @@ export default defineConfig({
       {
         text: 'Advanced',
         items: [
-          { text: 'You might not need this module', link: '/guide/advanced/you-might-not-need-post-processing' },
+          {
+            text: 'You might not need this module',
+            link: '/guide/advanced/you-might-not-need-post-processing',
+          },
         ],
       },
     ],

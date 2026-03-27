@@ -9,19 +9,19 @@ const { state: model } = useGLTF('/models/cyber_samurai/cyber_samurai.glb', {
 
 const uuid = 'bvh-demo'
 
-const { enabled, debug, wireframe } = useControls({
-  enabled: true,
-  debug: false,
-  wireframe: false,
-}, { uuid })
-
-useBVH(
-  () => model.value?.scene,
+const { enabled, debug, wireframe } = useControls(
   {
-    enabled,
-    debug,
+    enabled: true,
+    debug: false,
+    wireframe: false,
   },
+  { uuid },
 )
+
+useBVH(() => model.value?.scene, {
+  enabled,
+  debug,
+})
 const isHovering = ref(false)
 
 const handleClick = (event: PointerEvent) => {
@@ -40,8 +40,7 @@ watch(wireframe, (newVal) => {
           child.material.forEach((m: any) => {
             m.wireframe = true
           })
-        }
-        else {
+        } else {
           child.material.wireframe = true
         }
       }
@@ -58,16 +57,13 @@ watch(wireframe, (newVal) => {
     @pointerenter="isHovering = true"
     @pointerleave="isHovering = false"
   >
-    <Html
-      center
-      :distance-factor="8"
-      :position="[0, 2, 0]"
-    >
+    <Html center :distance-factor="8" :position="[0, 2, 0]">
       <div class="flex flex-col items-center gap-1">
         <span
           v-if="isHovering"
           class="text-white font-sans text-sm font-bold bg-black px-2 py-1 rounded-md"
-        >Cyber Samurai</span>
+          >Cyber Samurai</span
+        >
       </div>
     </Html>
   </primitive>

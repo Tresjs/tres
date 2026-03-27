@@ -26,18 +26,18 @@ const emit = defineEmits<{
 const { state: texture, isLoading, error } = useTexture(props.path)
 
 whenever(error, (err) => {
-  if (err) { emit('error', err) }
+  if (err) {
+    emit('error', err)
+  }
 })
 
 whenever(texture, (value) => {
-  if (value) { emit('loaded', value) }
+  if (value) {
+    emit('loaded', value)
+  }
 })
 </script>
 
 <template>
-  <slot
-    :state="texture"
-    :is-loading="isLoading"
-    :error="error"
-  ></slot>
+  <slot :state="texture" :is-loading="isLoading" :error="error"></slot>
 </template>

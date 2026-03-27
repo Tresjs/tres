@@ -1,2 +1,2 @@
-/// <reference types="vite/client" />
+/// <reference types="vite-plus/client" />
 /// <reference types="./types/tres.d.ts" />

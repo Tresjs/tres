@@ -21,9 +21,14 @@ export const initializeSceneCreator = async () => {
     const scene = defineComponent({
       setup() {
         const onReady = (ctx: TresContext) => resolveReady(ctx)
-        return () => h(TresCanvas, { windowSize: true, onReady }, {
-          default: slotContent,
-        })
+        return () =>
+          h(
+            TresCanvas,
+            { windowSize: true, onReady },
+            {
+              default: slotContent,
+            },
+          )
       },
     })
 

@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   colorB: '#ec4899',
   colorC: '#f1f5f9',
   speed: 0.8,
-  amplitude: 0.15
+  amplitude: 0.15,
 })
 
 const { onBeforeRender } = useLoop()
@@ -30,21 +30,21 @@ const controlsConfig = {
     min: 0,
     max: 0.5,
     step: 0.01,
-    label: 'Amplitude'
+    label: 'Amplitude',
   },
   frequency: {
     value: 1.2,
     min: 0.1,
     max: 3,
     step: 0.1,
-    label: 'Frequency'
+    label: 'Frequency',
   },
   speed: {
     value: props.speed,
     min: 0.1,
     max: 2,
     step: 0.1,
-    label: 'Speed'
+    label: 'Speed',
   },
   colorA: props.colorA,
   colorB: props.colorB,
@@ -54,25 +54,35 @@ const controlsConfig = {
     min: 0.5,
     max: 5,
     step: 0.1,
-    label: 'Noise Scale'
+    label: 'Noise Scale',
   },
   grainIntensity: {
     value: 0.08,
     min: 0,
     max: 0.2,
     step: 0.01,
-    label: 'Grain'
+    label: 'Grain',
   },
   fresnelPower: {
     value: 2.0,
     min: 0.5,
     max: 5,
     step: 0.1,
-    label: 'Fresnel'
-  }
+    label: 'Fresnel',
+  },
 }
 
-const { amplitude: amplitudeControl, frequency, speed: speedControl, colorA: colorAControl, colorB: colorBControl, colorC: colorCControl, noiseScale, grainIntensity, fresnelPower } = useControls(controlsConfig)
+const {
+  amplitude: amplitudeControl,
+  frequency,
+  speed: speedControl,
+  colorA: colorAControl,
+  colorB: colorBControl,
+  colorC: colorCControl,
+  noiseScale,
+  grainIntensity,
+  fresnelPower,
+} = useControls(controlsConfig)
 
 function hexToVector3(hex: string): Vector3 {
   const color = new Color(hex)
@@ -89,7 +99,7 @@ const uniforms = ref({
   u_colorC: { value: hexToVector3(colorCControl.value) },
   u_noiseScale: { value: noiseScale.value },
   u_grainIntensity: { value: grainIntensity.value },
-  u_fresnelPower: { value: fresnelPower.value }
+  u_fresnelPower: { value: fresnelPower.value },
 })
 
 watch([amplitudeControl, frequency, speedControl, noiseScale, grainIntensity, fresnelPower], () => {
@@ -111,7 +121,7 @@ onBeforeRender(({ elapsed }) => {
   if (uniforms.value) {
     uniforms.value.u_time.value = elapsed
   }
-  
+
   if (blobRef.value) {
     blobRef.value.rotation.y += 0.005
     blobRef.value.rotation.x += 0.002
@@ -122,8 +132,8 @@ onBeforeRender(({ elapsed }) => {
 <template>
   <TresMesh ref="blobRef">
     <TresIcosahedronGeometry :args="[2, 64]" />
-    <TresShaderMaterial 
-      :uniforms="uniforms" 
+    <TresShaderMaterial
+      :uniforms="uniforms"
       :vertex-shader="vertexShader"
       :fragment-shader="fragmentShader"
       :transparent="false"

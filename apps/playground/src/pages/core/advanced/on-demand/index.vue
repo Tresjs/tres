@@ -7,16 +7,19 @@ const uuid = 'core-advanced-on-demand'
 
 const renderTimes = ref(0)
 
-useControls({
-  renderTimes: {
-    value: renderTimes,
-    type: 'graph',
-    label: 'Render Times (ms)',
-    onUpdate: () => {
-      renderTimes.value = 0
+useControls(
+  {
+    renderTimes: {
+      value: renderTimes,
+      type: 'graph',
+      label: 'Render Times (ms)',
+      onUpdate: () => {
+        renderTimes.value = 0
+      },
     },
   },
-}, { uuid })
+  { uuid },
+)
 
 function onRender() {
   renderTimes.value = 1
@@ -25,11 +28,7 @@ function onRender() {
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas
-    render-mode="on-demand"
-    clear-color="#82DBC5"
-    @render="onRender"
-  >
+  <TresCanvas render-mode="on-demand" clear-color="#82DBC5" @render="onRender">
     <OnDemandExperience />
   </TresCanvas>
 </template>

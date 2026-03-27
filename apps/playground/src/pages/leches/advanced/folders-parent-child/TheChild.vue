@@ -18,38 +18,49 @@ onBeforeRender(({ elapsed }) => {
 
 const uuid = 'leches-basic-parent-child'
 
-const { wireframe, number, booleanDropdown } = useControls({
-  wireframe: false,
-  number: 1,
-  booleanDropdown: {
-    value: true,
-    options: [{
-      text: 'Option 1',
+const { wireframe, number, booleanDropdown } = useControls(
+  {
+    wireframe: false,
+    number: 1,
+    booleanDropdown: {
       value: true,
-    }, {
-      text: 'Option 2',
-      value: false,
-    }, {
-      text: 'Option 3',
-      value: true,
-    }],
+      options: [
+        {
+          text: 'Option 1',
+          value: true,
+        },
+        {
+          text: 'Option 2',
+          value: false,
+        },
+        {
+          text: 'Option 3',
+          value: true,
+        },
+      ],
+    },
+    rangeNumberReallyLongName: {
+      value: 1,
+      min: 0,
+      max: 10,
+      step: 0.1,
+    },
   },
-  rangeNumberReallyLongName: {
-    value: 1,
-    min: 0,
-    max: 10,
-    step: 0.1,
-  },
-}, { uuid })
+  { uuid },
+)
 
-const { _germanRangeNumberReallyLongName } = useControls('german', {
-  rangeNumberReallyLongName: {
-    value: 1,
-    min: 0,
-    max: 10,
-    step: 0.1,
+const { _germanRangeNumberReallyLongName } = useControls(
+  'german',
+  {
+    rangeNumberReallyLongName: {
+      value: 1,
+      min: 0,
+      max: 10,
+      step: 0.1,
+    },
   },
-}, { uuid })
+  { uuid },
+)
 
 watch(booleanDropdown, (value) => {
   // eslint-disable-next-line no-console

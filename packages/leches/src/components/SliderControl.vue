@@ -25,8 +25,8 @@ const sliderFilledStyle = computed(() => {
   const colorEnd = isDark.value ? '#2d2d2d' : '#9ca3af'
   return {
     backgroundImage: `linear-gradient(to right, ${colorStart} 0% ${
-      (100 * ((controlValue.value as number) - (props.control.min || 0)))
-      / ((props.control.max || 100) - (props.control.min || 0))
+      (100 * ((controlValue.value as number) - (props.control.min || 0))) /
+      ((props.control.max || 100) - (props.control.min || 0))
     }%, ${colorEnd} 0%)`,
   }
 })
@@ -47,8 +47,8 @@ const { onMouseDown, isDragging } = useNumberDrag({
   step,
   min: computed(() => props.control.min),
   max: computed(() => props.control.max),
-  onUpdate: v => emit('change', v),
-  formatDelta: v => formatter.value(v),
+  onUpdate: (v) => emit('change', v),
+  formatDelta: (v) => formatter.value(v),
 })
 
 watch(isDragging, (dragging) => {
@@ -82,23 +82,31 @@ function onKeyDown(e: KeyboardEvent) {
   const modifier = e.shiftKey ? 10 : e.altKey ? 0.1 : 1
   if (e.key === 'ArrowUp') {
     e.preventDefault()
-    const newVal = clampValue(controlValue.value + step.value * modifier, props.control.min, props.control.max)
+    const newVal = clampValue(
+      controlValue.value + step.value * modifier,
+      props.control.min,
+      props.control.max,
+    )
     emit('change', newVal)
   }
   if (e.key === 'ArrowDown') {
     e.preventDefault()
-    const newVal = clampValue(controlValue.value - step.value * modifier, props.control.min, props.control.max)
+    const newVal = clampValue(
+      controlValue.value - step.value * modifier,
+      props.control.min,
+      props.control.max,
+    )
     emit('change', newVal)
   }
 }
 </script>
 
 <template>
-  <div class="tl-relative tl-flex tl-gap-2 tl-justify-between tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
-    <ControlLabel
-      :label="label"
-      :control="control"
-    />
+  <div
+    class="tl-relative tl-flex tl-gap-2 tl-justify-between tl-items-center"
+    style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing)"
+  >
+    <ControlLabel :label="label" :control="control" />
     <div class="tl-relative tl-w-2/3 tl-flex tl-justify-between tl-items-center tl-gap-0.5">
       <input
         :value="controlValue"

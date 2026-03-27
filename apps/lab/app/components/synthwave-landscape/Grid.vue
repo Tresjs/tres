@@ -65,7 +65,11 @@ const lineMaterial = new LineMaterial({
 
 const grid = new Line2(lineGeometry, lineMaterial)
 
-const matDefault = new MeshBasicMaterial({ color: new Color(props.fill), opacity: OPACITY, blending: AdditiveBlending })
+const matDefault = new MeshBasicMaterial({
+  color: new Color(props.fill),
+  opacity: OPACITY,
+  blending: AdditiveBlending,
+})
 const geo = new PlaneGeometry(1, 1, 1, 1)
 const position = geo.attributes.position.array
 position[1] = 1
@@ -77,7 +81,11 @@ const offsets: number[] = []
 const invNumDivisions = 1 / numDivisions
 const mats = props.colFills.reduce(
   (o, c) => {
-    o[c.colNum] = new MeshBasicMaterial({ color: new Color(c.color), opacity: OPACITY, blending: AdditiveBlending })
+    o[c.colNum] = new MeshBasicMaterial({
+      color: new Color(c.color),
+      opacity: OPACITY,
+      blending: AdditiveBlending,
+    })
     return o
   },
   {} as Record<number, MeshBasicMaterial>,
@@ -98,7 +106,9 @@ watch(() => props.progress, update)
 
 function update() {
   cols.forEach((col, i) => {
-    col.scale.y = Math.abs(Math.floor(Math.sin(props.progress + -offsets[i] * 0.2) * numDivisions)) * invNumDivisions
+    col.scale.y =
+      Math.abs(Math.floor(Math.sin(props.progress + -offsets[i] * 0.2) * numDivisions)) *
+      invNumDivisions
   })
 }
 </script>

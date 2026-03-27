@@ -10,21 +10,16 @@ import type { CollisionType, SourceTarget } from '../types'
  * @param target - The traversing target.
  * @param started - Whether the intersection started or ended
  */
-export const emitIntersection = (
-  source: SourceTarget,
-  target: SourceTarget,
-  started: boolean,
-) => {
+export const emitIntersection = (source: SourceTarget, target: SourceTarget, started: boolean) => {
   const CollisionType: CollisionType = started ? 'enter' : 'exit'
   const [rigidBodyObject] = source.objects
   const colliderNode = rigidBodyObject?.__vnode?.children?.[1]?.children?.find(
-    child =>
-      child?.component?.exposed?.instance?.value === source.context.collider,
+    (child) => child?.component?.exposed?.instance?.value === source.context.collider,
   )
 
   if (
-    (rigidBodyObject?.__vnode?.ctx as unknown as ComponentInternalInstance)?.props?.sensor
-    && colliderNode?.component === undefined
+    (rigidBodyObject?.__vnode?.ctx as unknown as ComponentInternalInstance)?.props?.sensor &&
+    colliderNode?.component === undefined
   ) {
     rigidBodyObject?.__vnode?.ctx?.emit?.(`intersection-${CollisionType}`, {
       source,

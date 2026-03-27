@@ -6,18 +6,22 @@ import { Vector3 } from 'three'
 
 const uuid = 'shapes-cubic-bezier-line'
 
-const { startX, startY, startZ, endX, endY, endZ, moveMidA, moveMidB, lineWidth, enabled } = useControls({
-  startX: { value: 0, min: -10, max: 10 },
-  startY: { value: 0, min: -10, max: 10 },
-  startZ: { value: 0, min: -10, max: 10 },
-  endX: { value: 3, min: -10, max: 10 },
-  endY: { value: 3, min: -10, max: 10 },
-  endZ: { value: 3, min: -10, max: 10 },
-  moveMidA: true,
-  moveMidB: true,
-  lineWidth: { value: 1, min: 0.01, max: 10 },
-  enabled: true,
-}, { uuid })
+const { startX, startY, startZ, endX, endY, endZ, moveMidA, moveMidB, lineWidth, enabled } =
+  useControls(
+    {
+      startX: { value: 0, min: -10, max: 10 },
+      startY: { value: 0, min: -10, max: 10 },
+      startZ: { value: 0, min: -10, max: 10 },
+      endX: { value: 3, min: -10, max: 10 },
+      endY: { value: 3, min: -10, max: 10 },
+      endZ: { value: 3, min: -10, max: 10 },
+      moveMidA: true,
+      moveMidB: true,
+      lineWidth: { value: 1, min: 0.01, max: 10 },
+      enabled: true,
+    },
+    { uuid },
+  )
 
 const midA = reactive([1, 1, 1] as [number, number, number])
 const midB = new Vector3(2, 2, 2)

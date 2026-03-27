@@ -13,16 +13,22 @@ const ready = ref(false)
 const positionalAudioRef = shallowRef(null)
 const ballRef = shallowRef(null)
 
-const { distance, helper, loop, innerAngle, outerAngle, outerGain } = useControls({
-  distance: { value: 2, min: 0, max: 10, step: 0.1 },
-  helper: false,
-  loop: false,
-  innerAngle: { value: 195, min: 0, max: 360, step: 5 },
-  outerAngle: { value: 260, min: 0, max: 360, step: 5 },
-  outerGain: { value: 0.3, min: 0, max: 1, step: 0.1 },
-}, { uuid })
+const { distance, helper, loop, innerAngle, outerAngle, outerGain } = useControls(
+  {
+    distance: { value: 2, min: 0, max: 10, step: 0.1 },
+    helper: false,
+    loop: false,
+    innerAngle: { value: 195, min: 0, max: 360, step: 5 },
+    outerAngle: { value: 260, min: 0, max: 360, step: 5 },
+    outerGain: { value: 0.3, min: 0, max: 1, step: 0.1 },
+  },
+  { uuid },
+)
 
-const { state } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/positional-audio/ping-pong.glb', { draco: true })
+const { state } = useGLTF(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/positional-audio/ping-pong.glb',
+  { draco: true },
+)
 
 const onBallBounce = () => {
   const iteration = tl.iteration() % 2
@@ -33,7 +39,9 @@ const onBallBounce = () => {
 }
 
 watch([ready], () => {
-  if (!ballRef?.value || !ready.value) { return }
+  if (!ballRef?.value || !ready.value) {
+    return
+  }
 
   ctx.add(() => {
     tl = gsap
@@ -43,7 +51,7 @@ watch([ready], () => {
 })
 
 onMounted(() => {
-  ctx = gsap.context(() => { })
+  ctx = gsap.context(() => {})
 })
 
 onUnmounted(() => {
@@ -53,39 +61,20 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="!ready"
-    class="ready"
-  >
-    <button @click="ready = true">
-      click to continue
-    </button>
+  <div v-if="!ready" class="ready">
+    <button @click="ready = true">click to continue</button>
   </div>
 
-  <div
-    v-if="ready"
-    class="controls"
-  >
-    <button @click="tl?.play()">
-      play
-    </button>
-    <button @click="tl?.pause()">
-      pause
-    </button>
+  <div v-if="ready" class="controls">
+    <button @click="tl?.play()">play</button>
+    <button @click="tl?.pause()">pause</button>
   </div>
 
-  <TresCanvas
-    clear-color="#333"
-  >
+  <TresCanvas clear-color="#333">
     <TresPerspectiveCamera :position="[0, 0.5, 15]" />
     <OrbitControls make-default />
 
-    <Sphere
-      ref="ballRef"
-      :args="[1, 16, 16]"
-      :position="[0, 3, 0]"
-      :rotation-x="Math.PI / -2"
-    >
+    <Sphere ref="ballRef" :args="[1, 16, 16]" :position="[0, 3, 0]" :rotation-x="Math.PI / -2">
       <TresMeshStandardMaterial />
 
       <Suspense>
@@ -104,19 +93,13 @@ onUnmounted(() => {
     </Sphere>
     <primitive
       v-if="state?.scene"
-      :scale="[.2, .2, .2]"
+      :scale="[0.2, 0.2, 0.2]"
       :position="[0, -1.15, 0]"
       receive-shadow
       :object="state?.scene"
     />
-    <TresAmbientLight
-      color="#ffffff"
-      :intensity="2"
-    />
-    <TresDirectionalLight
-      :position="[5, 10, 0]"
-      :intensity="2"
-    />
+    <TresAmbientLight color="#ffffff" :intensity="2" />
+    <TresDirectionalLight :position="[5, 10, 0]" :intensity="2" />
   </TresCanvas>
 </template>
 

@@ -2,7 +2,6 @@ import svgLoader from 'vite-svg-loader'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -30,7 +29,7 @@ export default defineNuxtConfig({
         /[/]packages[/\\]leches[/\\]dist[/\\]tresleches\.js$/,
         /[/]packages[/\\]postprocessing[/\\]dist[/\\]tres-post-processing\.js$/,
       ],
-    }
+    },
   },
 
   fonts: {
@@ -64,7 +63,7 @@ export default defineNuxtConfig({
     serverBundle: {
       collections: ['lucide', 'carbon', 'game-icons', 'ic', 'logos', 'ph'],
       externalizeIconsJson: true,
-    }
+    },
   },
 
   vite: {
@@ -83,7 +82,7 @@ export default defineNuxtConfig({
         'radashi',
         '@pmndrs/pointer-events',
       ],
-    }
+    },
   },
 
   compatibilityDate: '2024-08-29',

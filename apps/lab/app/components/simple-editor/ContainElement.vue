@@ -14,8 +14,12 @@ const { width, height } = useElementSize(parentElementRef)
 const containerAspectRatio = computed(() => width.value / height.value)
 
 const isLandscape = computed(() => props.aspectRatio < containerAspectRatio.value)
-const containedWidth = computed(() => isLandscape.value ? height.value * props.aspectRatio : width.value)
-const containedHeight = computed(() => isLandscape.value ? height.value : width.value / props.aspectRatio)
+const containedWidth = computed(() =>
+  isLandscape.value ? height.value * props.aspectRatio : width.value,
+)
+const containedHeight = computed(() =>
+  isLandscape.value ? height.value : width.value / props.aspectRatio,
+)
 </script>
 
 <template>
@@ -30,4 +34,3 @@ const containedHeight = computed(() => isLandscape.value ? height.value : width.
     <slot />
   </div>
 </template>
-

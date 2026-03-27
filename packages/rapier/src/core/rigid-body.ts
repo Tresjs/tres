@@ -19,13 +19,16 @@ import type {
 export const createRigidBodyDesc = (props: CreateRigidBodyDescProps) => {
   const { object, rigidBodyType } = props
 
-  if (!object) { return }
+  if (!object) {
+    return
+  }
 
-  const safeRigidBodyDescType: keyof typeof RigidBodyDesc = rigidBodyType === 'kinematic'
-    ? 'kinematicPositionBased'
-    : rigidBodyType === 'kinematicVelocity'
-      ? 'kinematicVelocityBased'
-      : rigidBodyType
+  const safeRigidBodyDescType: keyof typeof RigidBodyDesc =
+    rigidBodyType === 'kinematic'
+      ? 'kinematicPositionBased'
+      : rigidBodyType === 'kinematicVelocity'
+        ? 'kinematicVelocityBased'
+        : rigidBodyType
   const rigidBodyDesc = RigidBodyDesc[safeRigidBodyDescType]()
     .setTranslation(object.position.x, object.position.y, object.position.z)
     .setRotation(object.quaternion)
@@ -61,7 +64,9 @@ export const createRigidBody = (props: CreateRigidBodyProps): CreateRigidBodyRet
     )
   }
 
-  const rigidBody = props.world.value.createRigidBody(rigidBodyDesc) as RigidBody & { userData?: RigidBodyUserData }
+  const rigidBody = props.world.value.createRigidBody(rigidBodyDesc) as RigidBody & {
+    userData?: RigidBodyUserData
+  }
 
   return {
     rigidBody,

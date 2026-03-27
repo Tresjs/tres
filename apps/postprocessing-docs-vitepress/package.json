@@ -1,8 +1,8 @@
 {
   "name": "postprocessing-docs-vitepress",
-  "type": "module",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
@@ -11,8 +11,8 @@
   "dependencies": {
     "@tresjs/cientos": "workspace:*",
     "@tresjs/core": "workspace:*",
-    "@tresjs/post-processing": "workspace:*",
     "@tresjs/leches": "1.0.0-next.0",
+    "@tresjs/post-processing": "workspace:*",
     "gsap": "catalog:utils"
   },
   "devDependencies": {

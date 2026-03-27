@@ -1,25 +1,41 @@
 import type { TresCamera, TresInstance, TresObject, TresPrimitive } from '../../types'
-import { isBufferGeometry, isCamera, isFog, isMaterial, isObject3D, isOrthographicCamera, isPerspectiveCamera } from './three'
+import {
+  isBufferGeometry,
+  isCamera,
+  isFog,
+  isMaterial,
+  isObject3D,
+  isOrthographicCamera,
+  isPerspectiveCamera,
+} from './three'
 import { createTypeGuard } from './util'
 
-interface VectorLike { set: (...args: any[]) => void, constructor?: (...args: any[]) => any }
+interface VectorLike {
+  set: (...args: any[]) => void
+  constructor?: (...args: any[]) => any
+}
 export const isVectorLike = (value: unknown): value is VectorLike =>
   value !== null && typeof value === 'object' && 'set' in value && typeof value.set === 'function'
 
-interface Copyable { copy: (...args: any[]) => void, constructor?: (...args: any[]) => any }
+interface Copyable {
+  copy: (...args: any[]) => void
+  constructor?: (...args: any[]) => any
+}
 export const isCopyable = (value: unknown): value is Copyable =>
   isVectorLike(value) && 'copy' in value && typeof value.copy === 'function'
 
-interface ClassInstance { constructor?: (...args: any[]) => any }
-export const isClassInstance = (object: unknown): object is ClassInstance =>
-  !!(object)?.constructor
+interface ClassInstance {
+  constructor?: (...args: any[]) => any
+}
+export const isClassInstance = (object: unknown): object is ClassInstance => !!object?.constructor
 
 /**
  * Type guard to check if a value is a TresCamera
  * @param value - The value to check
  * @returns True if the value is a TresCamera instance, false otherwise
  */
-export const isTresCamera = (value: unknown): value is TresCamera => isCamera(value) || isOrthographicCamera(value) || isPerspectiveCamera(value)
+export const isTresCamera = (value: unknown): value is TresCamera =>
+  isCamera(value) || isOrthographicCamera(value) || isPerspectiveCamera(value)
 
 /**
  * Type guard to check if a value is a TresObject

@@ -5,9 +5,13 @@ import TheChild from './TheChild.vue'
 
 const uuid = 'leches-basic-parent-child'
 
-const { canvasClearColor } = useControls('🎨 canvas', {
-  clearColor: '#82DBC5',
-}, { uuid })
+const { canvasClearColor } = useControls(
+  '🎨 canvas',
+  {
+    clearColor: '#82DBC5',
+  },
+  { uuid },
+)
 </script>
 
 <template>

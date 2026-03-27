@@ -4,8 +4,8 @@ description: Makes a geometry look like glass by re-defining the MeshPhysicalMat
 ---
 
 ::SceneWrapper
-  ::MaterialsGlassMaterial
-  ::
+::MaterialsGlassMaterial
+::
 ::
 
 The `cientos` package provides a new`<MeshGlassMaterial />` component that makes a geometry look like glass. This is achieved by re-defining the `MeshPhysicalMaterial`.
@@ -68,6 +68,7 @@ watch(glassMaterialRef, value => {
   </TresMesh>
 </template>
 ```
+
 ## Tips
 
 - For more fine tuning effects you can provide an environment map texture as an envMap and play with the intensity to achieve a more realistic effect

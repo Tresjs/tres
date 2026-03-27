@@ -10,10 +10,13 @@ const { nodes } = useGLTF('/models/potions-classroom/wizard-potions-classroom.gl
   draco: true,
 })
 
-const bakedMaterial = computed(() => new MeshBasicMaterial({
-  map: props.texture,
-  side: DoubleSide,
-}))
+const bakedMaterial = computed(
+  () =>
+    new MeshBasicMaterial({
+      map: props.texture,
+      side: DoubleSide,
+    }),
+)
 
 watch([nodes, bakedMaterial], ([nodes, texture]) => {
   nodes.Room.material = texture

@@ -10,16 +10,19 @@ const canvas = ref<InstanceType<typeof TresCanvas>>()
 
 const renderTimes = ref(0)
 
-useControls({
-  renderTimes: {
-    value: renderTimes,
-    type: 'graph',
-    label: 'Render Times (ms)',
-    onUpdate: () => {
-      renderTimes.value = 0
+useControls(
+  {
+    renderTimes: {
+      value: renderTimes,
+      type: 'graph',
+      label: 'Render Times (ms)',
+      onUpdate: () => {
+        renderTimes.value = 0
+      },
     },
   },
-}, { uuid })
+  { uuid },
+)
 
 function onRender() {
   renderTimes.value = 1
@@ -28,19 +31,10 @@ function onRender() {
 
 <template>
   <TresLeches uuid="on-demand-pmndrs" />
-  <TresCanvas
-    ref="canvas"
-    render-mode="on-demand"
-    clear-color="#c0ffee"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas ref="canvas" render-mode="on-demand" clear-color="#c0ffee">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
-    <TresMesh
-      :position="[-3.5, 1, 0]"
-    >
+    <TresMesh :position="[-3.5, 1, 0]">
       <TresConeGeometry :args="[1.25, 2, 4, 1, false, Math.PI * 0.25]" />
       <TresMeshNormalMaterial />
     </TresMesh>

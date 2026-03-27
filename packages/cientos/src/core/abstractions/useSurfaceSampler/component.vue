@@ -19,11 +19,22 @@ watch(props, () => {
 
 // TODO: refactor to use watch instead.
 watchEffect(() => {
-  instancedRef.value = props.instanceMesh ?? samplerRef.value?.children.find((c: any) => Object.prototype.hasOwnProperty.call(c, 'instanceMatrix')) as InstancedMesh
+  instancedRef.value =
+    props.instanceMesh ??
+    (samplerRef.value?.children.find((c: any) =>
+      Object.prototype.hasOwnProperty.call(c, 'instanceMatrix'),
+    ) as InstancedMesh)
 
-  meshToSampleRef.value = props.mesh ?? (samplerRef.value?.children.find((c: any) => c.type === 'Mesh') as Mesh)
+  meshToSampleRef.value =
+    props.mesh ?? (samplerRef.value?.children.find((c: any) => c.type === 'Mesh') as Mesh)
 
-  useSurfaceSampler(meshToSampleRef.value, props.count, instancedRef.value, props.weight, props.transform)
+  useSurfaceSampler(
+    meshToSampleRef.value,
+    props.count,
+    instancedRef.value,
+    props.weight,
+    props.transform,
+  )
 })
 
 defineExpose({

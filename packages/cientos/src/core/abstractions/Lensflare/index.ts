@@ -23,20 +23,11 @@ export interface SeedProps {
   seed?: number
 }
 
-const easingFunctions = [
-  linear,
-  easeInCubic,
-  easeInOutCubic,
-  easeInQuart,
-  easeOutBounce,
-]
+const easingFunctions = [linear, easeInCubic, easeInOutCubic, easeInQuart, easeOutBounce]
 
 const lerp = MathUtils.lerp
 
-const getSeededRandomProps = (
-  seed = 0,
-  seedProps = defaultSeedProps,
-): LensflareElementProps[] => {
+const getSeededRandomProps = (seed = 0, seedProps = defaultSeedProps): LensflareElementProps[] => {
   const rand: RandUtils = new RandUtils(seed)
 
   const easingFn = rand.choice(easingFunctions) as (n: number) => number
@@ -44,25 +35,20 @@ const getSeededRandomProps = (
   return seedProps
     .map((preset, i) => {
       const rand: RandUtils = new RandUtils(
-        seed * (i * 7907 + 1)
-        + (typeof preset.seed === 'number' ? preset.seed : 0),
+        seed * (i * 7907 + 1) + (typeof preset.seed === 'number' ? preset.seed : 0),
       )
       const numElements = rand.int(preset.length[0], preset.length[1])
-      return Array.from({ length: numElements }).fill(0).map(() => {
-        const progress = easingFn(rand.rand())
-        return {
-          texture: rand.defaultChoice(
-            preset.texture,
-            defaultLensflareElementProps.texture,
-          ),
-          size: lerp(preset.size[0], preset.size[1], easingFn(1 - progress)),
-          distance: lerp(preset.distance[0], preset.distance[1], progress),
-          color: rand.defaultChoice(
-            preset.color,
-            defaultLensflareElementProps.color,
-          ),
-        }
-      })
+      return Array.from({ length: numElements })
+        .fill(0)
+        .map(() => {
+          const progress = easingFn(rand.rand())
+          return {
+            texture: rand.defaultChoice(preset.texture, defaultLensflareElementProps.texture),
+            size: lerp(preset.size[0], preset.size[1], easingFn(1 - progress)),
+            distance: lerp(preset.distance[0], preset.distance[1], progress),
+            color: rand.defaultChoice(preset.color, defaultLensflareElementProps.color),
+          }
+        })
     })
     .flat()
 }
@@ -91,7 +77,11 @@ export const partialLensflarePropsArrayToLensflarePropsArray = (
   seedProps: SeedProps[] | undefined = undefined,
   systemDefaultElement = defaultLensflareElementProps,
 ): LensflareElementProps[] => {
-  if (elements !== undefined && elements.length > 0 && (typeof seed === 'number' || typeof seedProps !== 'undefined')) {
+  if (
+    elements !== undefined &&
+    elements.length > 0 &&
+    (typeof seed === 'number' || typeof seedProps !== 'undefined')
+  ) {
     const seeded = getSeededRandomProps(seed ?? 0, seedProps ?? defaultSeedProps)
     const seededLength = seeded.length
     const elementsLength = elements.length
@@ -99,22 +89,28 @@ export const partialLensflarePropsArrayToLensflarePropsArray = (
       return seeded.map((_seededProps, i) =>
         Object.assign(_seededProps, userDefaultElement, i < elementsLength ? elements[i] : {}),
       )
-    }
-    else {
+    } else {
       return elements.map((_element, i) =>
-        Object.assign({}, systemDefaultElement, i < seededLength ? seeded[i] : {}, userDefaultElement, _element),
+        Object.assign(
+          {},
+          systemDefaultElement,
+          i < seededLength ? seeded[i] : {},
+          userDefaultElement,
+          _element,
+        ),
       )
     }
   }
 
   if (elements !== undefined && elements.length > 0) {
     const fullDefaultProps = Object.assign({}, systemDefaultElement, userDefaultElement)
-    return elements.map(element => Object.assign({}, fullDefaultProps, element))
+    return elements.map((element) => Object.assign({}, fullDefaultProps, element))
   }
 
-  const _seedProps = (seedProps === undefined || seedProps.length === 0) ? defaultSeedProps : seedProps
+  const _seedProps =
+    seedProps === undefined || seedProps.length === 0 ? defaultSeedProps : seedProps
   const seededProps = getSeededRandomProps(seed ?? 0, _seedProps)
-  return seededProps.map(props => Object.assign({}, props, userDefaultElement))
+  return seededProps.map((props) => Object.assign({}, props, userDefaultElement))
 }
 
 export interface LensflareElementProps {
@@ -134,8 +130,8 @@ function filter<T extends object>(
   obj: T,
   predicate: <K extends keyof T>(value: T[K], key: K) => boolean,
 ) {
-  const result: { [K in keyof T]?: T[K] } = {};
-  (Object.keys(obj) as Array<keyof T>).forEach((name) => {
+  const result: { [K in keyof T]?: T[K] } = {}
+  ;(Object.keys(obj) as Array<keyof T>).forEach((name) => {
     if (predicate(obj[name], name)) {
       result[name] = obj[name]
     }

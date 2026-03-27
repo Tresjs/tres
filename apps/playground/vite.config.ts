@@ -4,7 +4,7 @@ import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite-plus'
 import glsl from 'vite-plugin-glsl'
 import { qrcode } from 'vite-plugin-qrcode'
 import VueDevTools from 'vite-plugin-vue-devtools'
@@ -51,7 +51,10 @@ export default defineConfig({
         ? {
             '@tresjs/core': resolve(__dirname, '../../packages/core/src/index.ts'),
             '@tresjs/cientos': resolve(__dirname, '../../packages/cientos/src/index.ts'),
-            '@tresjs/post-processing': resolve(__dirname, '../../packages/postprocessing/src/index.ts'),
+            '@tresjs/post-processing': resolve(
+              __dirname,
+              '../../packages/postprocessing/src/index.ts',
+            ),
             '@tresjs/rapier': resolve(__dirname, '../../packages/rapier/src/index.ts'),
           }
         : {}),

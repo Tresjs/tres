@@ -7,7 +7,8 @@
 <details>
   <summary>Demo code</summary>
 
-  <<< @/.vitepress/theme/components/pmdrs/LensDistortionDemo.vue{0}
+<<< @/.vitepress/theme/components/pmdrs/LensDistortionDemo.vue{0}
+
 </details>
 
 The `LensDistortion` effect is part of the [`postprocessing`](https://pmndrs.github.io/postprocessing/public/docs/class/src/effects/LensDistortionEffect.js~LensDistortionEffect.html) package. It allows you to apply a lens distortion effect to your scene, providing flexibility for creating realistic camera effects.
@@ -53,12 +54,12 @@ const effectProps = {
 
 ## Props
 
-| Prop           | Description                                                                                                                                                                  | Default                  |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| **distortion** | The distortion effect strength. <br> Accepts `Vector2` or `[number, number]`.                                                                                                      | `[0.0, 0.0]`             |
-| **principalPoint** | The center point. <br> Accepts `Vector2` or `[number, number]`.                                                                                                               | `[0.0, 0.0]`             |
-| **focalLength** | The focal length. <br> Accepts `Vector2` or `[number, number]`.                                                                                                                  | `[1.0, 1.0]`             |
-| **skew**        | The skew value.                                                                                                                                               | `0`                      |
+| Prop               | Description                                                                   | Default      |
+| ------------------ | ----------------------------------------------------------------------------- | ------------ |
+| **distortion**     | The distortion effect strength. <br> Accepts `Vector2` or `[number, number]`. | `[0.0, 0.0]` |
+| **principalPoint** | The center point. <br> Accepts `Vector2` or `[number, number]`.               | `[0.0, 0.0]` |
+| **focalLength**    | The focal length. <br> Accepts `Vector2` or `[number, number]`.               | `[1.0, 1.0]` |
+| **skew**           | The skew value.                                                               | `0`          |
 
 ## Further Reading
 

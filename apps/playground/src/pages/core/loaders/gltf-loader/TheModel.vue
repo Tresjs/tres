@@ -16,19 +16,22 @@ const dracoLoader = new DRACOLoader()
 // Set the path to the Draco decoder (you might want to use a CDN or local path)
 dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/')
 
-const modelPath = ref('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb')
-
-const { state: model, isLoading, _load, progress } = useLoader(
-  GLTFLoader,
-  modelPath,
-  {
-    extensions: (loader) => {
-      if (loader instanceof GLTFLoader) {
-        loader.setDRACOLoader(dracoLoader)
-      }
-    },
-  },
+const modelPath = ref(
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
 )
+
+const {
+  state: model,
+  isLoading,
+  _load,
+  progress,
+} = useLoader(GLTFLoader, modelPath, {
+  extensions: (loader) => {
+    if (loader instanceof GLTFLoader) {
+      loader.setDRACOLoader(dracoLoader)
+    }
+  },
+})
 const scene = computed(() => model.value?.scene)
 const graph = useGraph(scene)
 
@@ -54,10 +57,14 @@ watch(model, (newModel) => {
   }, 1000)
 })
 
-watch(progress, (newProgress) => {
-  console.log('progress', newProgress)
-  state.progress = newProgress.percentage
-}, { immediate: true })
+watch(
+  progress,
+  (newProgress) => {
+    console.log('progress', newProgress)
+    state.progress = newProgress.percentage
+  },
+  { immediate: true },
+)
 
 const modelRef = ref<Mesh>()
 

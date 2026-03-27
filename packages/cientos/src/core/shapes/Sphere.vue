@@ -23,7 +23,10 @@ export interface SphereProps {
   color?: TresColor
 }
 
-const props = withDefaults(defineProps<SphereProps>(), { args: () => [2, 32, 16], color: '#ffffff' })
+const props = withDefaults(defineProps<SphereProps>(), {
+  args: () => [2, 32, 16],
+  color: '#ffffff',
+})
 const { invalidate } = useTres()
 
 const { args, color } = toRefs(props)
@@ -39,9 +42,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="sphereRef"
-  >
+  <TresMesh ref="sphereRef">
     <TresSphereGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

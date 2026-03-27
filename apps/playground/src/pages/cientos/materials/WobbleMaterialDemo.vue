@@ -17,26 +17,15 @@ const context = ref()
 </script>
 
 <template>
-  <TresCanvas
-    v-bind="gl"
-    ref="context"
-    render-mode="on-demand"
-  >
+  <TresCanvas v-bind="gl" ref="context" render-mode="on-demand">
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <TresMesh>
       <TresTorusGeometry />
-      <MeshWobbleMaterial
-        color="orange"
-        :speed="10"
-        :factor="8"
-      />
+      <MeshWobbleMaterial color="orange" :speed="10" :factor="8" />
     </TresMesh>
     <TresGridHelper :args="[10, 10]" />
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :intensity="1"
-      :position="[2, 2, 2]"
-    />
+    <TresDirectionalLight :intensity="1" :position="[2, 2, 2]" />
     <OrbitControls />
   </TresCanvas>
 </template>

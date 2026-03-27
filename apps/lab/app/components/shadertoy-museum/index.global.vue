@@ -21,50 +21,57 @@ const state: ShaderToyMuseumState = reactive({
   },
 })
 
-
-useControls({
-  next: {
-    type: 'button',
-    label: 'Next',
-    onClick: () => {
-      state.next()
-    }
-  }
-}, {
-  uuid,
-})
+useControls(
+  {
+    next: {
+      type: 'button',
+      label: 'Next',
+      onClick: () => {
+        state.next()
+      },
+    },
+  },
+  {
+    uuid,
+  },
+)
 
 provide('state', state)
 
-
-watch(state.shaderToyTargets, (newShaderToyTargets) => {
-  if (newShaderToyTargets.length > 0) {
-    // state.next()
-  }
-}, { immediate: true })
+watch(
+  state.shaderToyTargets,
+  (newShaderToyTargets) => {
+    if (newShaderToyTargets.length > 0) {
+      // state.next()
+    }
+  },
+  { immediate: true },
+)
 
 const shaderToyTarget = computed(() => state.shaderToyTargets[state.i])
 
-watch(shaderToyTarget, (newShaderToyTarget) => {
-  if (newShaderToyTarget) {
-    state.title = newShaderToyTarget.title
-    state.author = newShaderToyTarget.author
-    state.description = newShaderToyTarget.description
-    state.href = newShaderToyTarget.href
-  }
-}, { immediate: true })
-
-onMounted(
-  () => {
-    setTimeout(() => {
-      state.next()
-
-      setInterval(() => {
-        state.next()
-      }, 8000)
-    }, 3000)
-  }
+watch(
+  shaderToyTarget,
+  (newShaderToyTarget) => {
+    if (newShaderToyTarget) {
+      state.title = newShaderToyTarget.title
+      state.author = newShaderToyTarget.author
+      state.description = newShaderToyTarget.description
+      state.href = newShaderToyTarget.href
+    }
+  },
+  { immediate: true },
 )
+
+onMounted(() => {
+  setTimeout(() => {
+    state.next()
+
+    setInterval(() => {
+      state.next()
+    }, 8000)
+  }, 3000)
+})
 </script>
 
 <template>

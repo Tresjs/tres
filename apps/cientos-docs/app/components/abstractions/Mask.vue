@@ -5,9 +5,12 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { colorWrite } = useControls({
-  colorWrite: true,
-}, { uuid })
+const { colorWrite } = useControls(
+  {
+    colorWrite: true,
+  },
+  { uuid },
+)
 </script>
 
 <template>

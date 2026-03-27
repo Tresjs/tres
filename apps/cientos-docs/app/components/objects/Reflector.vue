@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import {
-  MeshWobbleMaterial,
-  OrbitControls,
-  Reflector,
-} from '@tresjs/cientos'
+import { MeshWobbleMaterial, OrbitControls, Reflector } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { color } = useControls({
-  color: '#f7f7f7',
-}, { uuid })
+const { color } = useControls(
+  {
+    color: '#f7f7f7',
+  },
+  { uuid },
+)
 </script>
 
 <template>

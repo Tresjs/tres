@@ -8,11 +8,14 @@ import type { TresObjectMap } from '@/types/tres'
 import { DRACOLoader } from 'three/examples/jsm/Addons.js'
 import type { LoadingManager } from 'three'
 
-export function usePocGLTF(path: MaybeRef<string>, options?: {
-  draco?: boolean
-  manager?: LoadingManager
-  asyncOptions?: UseAsyncStateOptions<true, any | null>
-}) {
+export function usePocGLTF(
+  path: MaybeRef<string>,
+  options?: {
+    draco?: boolean
+    manager?: LoadingManager
+    asyncOptions?: UseAsyncStateOptions<true, any | null>
+  },
+) {
   const loader = new GLTFLoader(options?.manager)
   if (options?.draco) {
     const dracoLoader = new DRACOLoader()
@@ -23,18 +26,24 @@ export function usePocGLTF(path: MaybeRef<string>, options?: {
   const initialPath = toValue(path)
 
   const result = useAsyncState(
-    (path?: string) => new Promise((resolve, reject) => {
-      loader.load(path || initialPath || '', (result: GLTF) => {
-        const loadedData = result
-        if (loadedData.scene) {
-          const graph = buildGraph(loadedData.scene)
-          Object.assign(loadedData, graph)
-        }
-        resolve(loadedData as unknown as TresObject)
-      }, undefined, (err: unknown) => {
-        reject(err)
-      })
-    }),
+    (path?: string) =>
+      new Promise((resolve, reject) => {
+        loader.load(
+          path || initialPath || '',
+          (result: GLTF) => {
+            const loadedData = result
+            if (loadedData.scene) {
+              const graph = buildGraph(loadedData.scene)
+              Object.assign(loadedData, graph)
+            }
+            resolve(loadedData as unknown as TresObject)
+          },
+          undefined,
+          (err: unknown) => {
+            reject(err)
+          },
+        )
+      }),
     null,
     {
       ...options?.asyncOptions,

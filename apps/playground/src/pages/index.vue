@@ -18,7 +18,9 @@ const sections = [
           <img src="/logo.svg" alt="TresJS logo" class="max-w-24 sm:max-w-48 align-baseline" />
         </div>
         <div class="sm:w-2/3">
-          <h1 class="w-auto max-w-75 mx-auto text-5xl text-zinc-700 mb-3 sm:mx-none sm:w-1/2 sm:max-w-72">
+          <h1
+            class="w-auto max-w-75 mx-auto text-5xl text-zinc-700 mb-3 sm:mx-none sm:w-1/2 sm:max-w-72"
+          >
             <span class="text-tres-primary">TresJS</span> Playground
           </h1>
           <p class="text-lg">Testing zone for TresJS ecosystem</p>

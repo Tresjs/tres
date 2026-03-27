@@ -16,34 +16,47 @@ const gl = {
 
 const uuid = 'glitch-pmndrs'
 
-const { mode, active, ratio, columns, delay, duration, strength, chromaticAberrationOffset, chromaticAberrationEnabled } = useControls({
-  delay: new Vector2(1.5, 3.5),
-  duration: new Vector2(0.6, 1.0),
-  strength: new Vector2(0.3, 1.0),
-  mode: {
-    value: GlitchMode.SPORADIC,
-    options: [
-      {
-        text: 'Sporadic',
-        value: GlitchMode.SPORADIC,
-      },
-      {
-        text: 'Constant Mild',
-        value: GlitchMode.CONSTANT_MILD,
-      },
-      {
-        text: 'Constant Wild',
-        value: GlitchMode.CONSTANT_WILD,
-      },
-    ],
+const {
+  mode,
+  active,
+  ratio,
+  columns,
+  delay,
+  duration,
+  strength,
+  chromaticAberrationOffset,
+  chromaticAberrationEnabled,
+} = useControls(
+  {
+    delay: new Vector2(1.5, 3.5),
+    duration: new Vector2(0.6, 1.0),
+    strength: new Vector2(0.3, 1.0),
+    mode: {
+      value: GlitchMode.SPORADIC,
+      options: [
+        {
+          text: 'Sporadic',
+          value: GlitchMode.SPORADIC,
+        },
+        {
+          text: 'Constant Mild',
+          value: GlitchMode.CONSTANT_MILD,
+        },
+        {
+          text: 'Constant Wild',
+          value: GlitchMode.CONSTANT_WILD,
+        },
+      ],
+    },
+    active: true,
+    ratio: 0.85,
+    columns: 2,
+    dtSize: 64,
+    chromaticAberrationOffset: new Vector2(0.001, 0.001),
+    chromaticAberrationEnabled: true,
   },
-  active: true,
-  ratio: 0.85,
-  columns: 2,
-  dtSize: 64,
-  chromaticAberrationOffset: new Vector2(0.001, 0.001),
-  chromaticAberrationEnabled: true,
-}, { uuid })
+  { uuid },
+)
 
 /* pane.addInput(glitchParams, 'delay')
 pane.addInput(glitchParams, 'duration')
@@ -64,14 +77,8 @@ pane.addInput(glitchParams, 'dtSize', { min: 1, max: 64, step: 1 }) */
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas
-    v-bind="gl"
-    render-mode="on-demand"
-  >
-    <TresPerspectiveCamera
-      :position="[5, 5, 5]"
-      :look-at="[0, 0, 0]"
-    />
+  <TresCanvas v-bind="gl" render-mode="on-demand">
+    <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <TresMesh>
       <TresSphereGeometry :args="[2, 32, 32]" />

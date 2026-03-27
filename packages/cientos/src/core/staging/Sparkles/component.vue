@@ -153,8 +153,9 @@ interface SparkleProps {
 }
 
 const props = withDefaults(defineProps<SparkleProps>(), {
-  map: 'https://raw.githubusercontent.com/Tresjs/assets/'
-    + 'e41a93c56ec7cb5ac2d241f309e23582a5fe1fc6/textures/sparkles/particle.png',
+  map:
+    'https://raw.githubusercontent.com/Tresjs/assets/' +
+    'e41a93c56ec7cb5ac2d241f309e23582a5fe1fc6/textures/sparkles/particle.png',
   geometry: undefined,
   directionalLight: undefined,
 
@@ -173,8 +174,16 @@ const props = withDefaults(defineProps<SparkleProps>(), {
 
   normalThreshold: 0.7,
 
-  sequenceColor: () => [[0.7, '#82dbc5'], [0.8, '#fbb03b']],
-  sequenceAlpha: () => [[0.0, 0.0], [0.10, 1.0], [0.5, 1.0], [0.9, 0.0]],
+  sequenceColor: () => [
+    [0.7, '#82dbc5'],
+    [0.8, '#fbb03b'],
+  ],
+  sequenceAlpha: () => [
+    [0.0, 0.0],
+    [0.1, 1.0],
+    [0.5, 1.0],
+    [0.9, 0.0],
+  ],
   sequenceOffset: () => [0.0, 0.0, 0.0],
   sequenceSurfaceDistance: () => [0.05, 0.08, 0.1],
   sequenceSize: () => [0.0, 1.0],
@@ -196,24 +205,18 @@ const version = Number.parseInt(REVISION.replace(/\D+/g, ''))
 
 const refs = toRefs(props)
 const map: Texture = typeof props.map === 'string' ? useEmptyDataTexture() : props.map
-const { texture: infoTexture, yFor } = new ShaderDataBuilder(256)
-  .add
+const { texture: infoTexture, yFor } = new ShaderDataBuilder(256).add
   .GradientTresColor(refs.sequenceColor)
   .id('sequenceColor')
-  .add
-  .Gradient01(refs.sequenceAlpha)
+  .add.Gradient01(refs.sequenceAlpha)
   .id('sequenceAlpha')
-  .add
-  .Gradient01(refs.sequenceSurfaceDistance)
+  .add.Gradient01(refs.sequenceSurfaceDistance)
   .id('sequenceSurfaceDistance')
-  .add
-  .Gradient01(refs.sequenceSize)
+  .add.Gradient01(refs.sequenceSize)
   .id('sequenceSize')
-  .add
-  .GradientXyz(refs.sequenceOffset, -1, 1)
+  .add.GradientXyz(refs.sequenceOffset, -1, 1)
   .id('sequenceOffset')
-  .add
-  .GradientXyz(refs.sequenceNoise, 0, 1)
+  .add.GradientXyz(refs.sequenceNoise, 0, 1)
   .id('sequenceNoise')
   .build()
   .useTexture()
@@ -344,27 +347,38 @@ const uniformsRefs: [IUniform, Ref][] = [
   [u.uInfoTexture, infoTexture],
 ]
 
-uniformsRefs.forEach(
-  ([uniform, ref]) => watch(
+uniformsRefs.forEach(([uniform, ref]) =>
+  watch(
     ref,
-    () => { uniform.value = ref.value },
+    () => {
+      uniform.value = ref.value
+    },
     NOW,
   ),
 )
 
-watch([refs.noiseScale, refs.lifetimeSec], () => {
-  // NOTE: Scale noise by lifetime so that scaling lifetime keeps same noise period
-  u.uNoiseScale.value = refs.noiseScale.value * refs.lifetimeSec.value
-}, NOW)
+watch(
+  [refs.noiseScale, refs.lifetimeSec],
+  () => {
+    // NOTE: Scale noise by lifetime so that scaling lifetime keeps same noise period
+    u.uNoiseScale.value = refs.noiseScale.value * refs.lifetimeSec.value
+  },
+  NOW,
+)
 
-watch([refs.lifetimeSec, refs.cooldownSec], () => { u.uCooldownRatio.value = refs.cooldownSec.value / refs.lifetimeSec.value }, NOW)
+watch(
+  [refs.lifetimeSec, refs.cooldownSec],
+  () => {
+    u.uCooldownRatio.value = refs.cooldownSec.value / refs.lifetimeSec.value
+  },
+  NOW,
+)
 
 watch(refs.map, () => {
   if (typeof refs.map.value === 'string') {
     const { state: texture } = useTexture(refs.map.value)
     mat.uniforms.uMap.value = texture
-  }
-  else {
+  } else {
     mat.uniforms.uMap.value = refs.map.value
   }
 })
@@ -373,7 +387,9 @@ const rotation = new Quaternion()
 const normal = new Vector3()
 useLoop().onBeforeRender(({ elapsed /* invalidate */ }) => {
   sparkles.getWorldQuaternion(rotation)
-  normal.copy(props.directionalLight ? props.directionalLight.position : Object3D.DEFAULT_UP).normalize()
+  normal
+    .copy(props.directionalLight ? props.directionalLight.position : Object3D.DEFAULT_UP)
+    .normalize()
   normal.applyQuaternion(rotation.invert())
   mat.uniforms.uNormal.value = normal
   mat.uniforms.uTime.value = elapsed / (props.cooldownSec + props.lifetimeSec)
@@ -393,15 +409,20 @@ onMounted(() => {
   if (props.geometry) {
     if (isBufferGeometry(props.geometry)) {
       sparkles.geometry.copy(props.geometry)
-    }
-    else if (isObject3D(props.geometry) && 'geometry' in props.geometry && isBufferGeometry(props.geometry.geometry)) {
+    } else if (
+      isObject3D(props.geometry) &&
+      'geometry' in props.geometry &&
+      isBufferGeometry(props.geometry.geometry)
+    ) {
       sparkles.geometry.copy(props.geometry.geometry)
     }
-  }
-  else if (isObject3D(sparkles.parent) && 'geometry' in sparkles.parent && isBufferGeometry(sparkles.parent.geometry)) {
+  } else if (
+    isObject3D(sparkles.parent) &&
+    'geometry' in sparkles.parent &&
+    isBufferGeometry(sparkles.parent.geometry)
+  ) {
     sparkles.geometry.copy(sparkles.parent.geometry)
-  }
-  else {
+  } else {
     sparkles.geometry = new IcosahedronGeometry(1, 16)
   }
 

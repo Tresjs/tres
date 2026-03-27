@@ -4,8 +4,8 @@ description: Short-cut for a CylinderGeometry and a MeshBasicMaterial with a Mes
 ---
 
 ::SceneControlsWrapper
-  ::ShapesCylinder
-  ::
+::ShapesCylinder
+::
 ::
 
 The `cientos` package provides a `<Cylinder />` component that serves as a short-cut for a `CylinderGeometry`.

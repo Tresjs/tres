@@ -11,7 +11,7 @@ import { BoxHelper } from 'three'
     <TresMesh>
       <TresSphereGeometry />
       <TresMeshNormalMaterial />
-      <Helper :type="BoxHelper" :args="[0xFF0000]" />
+      <Helper :type="BoxHelper" :args="[0xff0000]" />
     </TresMesh>
     <TresAmbientLight />
   </TresCanvas>

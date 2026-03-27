@@ -17,30 +17,33 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { cameraPosition } = useControls('🎥 camera', {
-  position: new Vector3(7, 7, 7),
-}, { uuid })
+const { cameraPosition } = useControls(
+  '🎥 camera',
+  {
+    position: new Vector3(7, 7, 7),
+  },
+  { uuid },
+)
 
-const { lightPosition } = useControls('💡 light', {
-  position: new Vector3(3, 3, 3),
-}, { uuid })
+const { lightPosition } = useControls(
+  '💡 light',
+  {
+    position: new Vector3(3, 3, 3),
+  },
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas
-    v-bind="gl"
-  >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[cameraPosition.x, cameraPosition.y, cameraPosition.z]" />
     <OrbitControls />
     <TresGridHelper />
     <Sphere :position="[0, 2, 0]">
       <TresMeshToonMaterial />
     </Sphere>
-    <TresDirectionalLight
-      :args="[0xFFFFFF, 1]"
-      :position-x="lightPosition.x"
-    />
+    <TresDirectionalLight :args="[0xffffff, 1]" :position-x="lightPosition.x" />
     <TresAmbientLight :intensity="1" />
   </TresCanvas>
 </template>

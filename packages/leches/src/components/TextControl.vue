@@ -19,11 +19,15 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="tl-flex tl-gap-1 tl-justify-start  tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing); min-height: var(--tl-unit-size);">
-    <ControlLabel
-      :label="label"
-      :control="control"
-    />
+  <div
+    class="tl-flex tl-gap-1 tl-justify-start tl-items-center"
+    style="
+      padding: 0 var(--tl-h-padding);
+      margin-bottom: var(--tl-unit-spacing);
+      min-height: var(--tl-unit-size);
+    "
+  >
+    <ControlLabel :label="label" :control="control" />
     <input
       :id="control.uniqueKey"
       :value="controlValue"

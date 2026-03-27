@@ -32,27 +32,35 @@ Bring Three to the Vue ecosystem
 Create awesome Three-based experiences with the framework you love.
 
 #links
-  :::u-button
-  ---
-  size: lg
-  color: neutral
-  to: /getting-started
-  trailing-icon: i-lucide-arrow-right
-  ---
-  Get started
-  :::
+:::u-button
 
-  :::u-button
-  ---
-  color: neutral
-  icon: i-simple-icons-github
-  size: lg
-  target: _blank
-  to: https://github.com/tresjs/tres
-  variant: subtle
-  ---
-  Star on GitHub
-  :::
+---
+
+size: lg
+color: neutral
+to: /getting-started
+trailing-icon: i-lucide-arrow-right
+
+---
+
+Get started
+:::
+
+:::u-button
+
+---
+
+color: neutral
+icon: i-simple-icons-github
+size: lg
+target: \_blank
+to: https://github.com/tresjs/tres
+variant: subtle
+
+---
+
+Star on GitHub
+:::
 ::
 
 ::u-page-section
@@ -60,92 +68,119 @@ Create awesome Three-based experiences with the framework you love.
 Features you will love
 
 #links
-  :::u-button
-  ---
-  color: neutral
-  size: lg
-  target: _blank
-  to: https://lab.tresjs.org/
-  trailingIcon: i-lucide:flask-conical
-  variant: subtle
-  ---
-  Explore the lab
-  :::
+:::u-button
+
+---
+
+color: neutral
+size: lg
+target: \_blank
+to: https://lab.tresjs.org/
+trailingIcon: i-lucide:flask-conical
+variant: subtle
+
+---
+
+Explore the lab
+:::
 
 #features
-  :::u-page-feature
-  ---
-  icon: i-lucide-lightbulb
-  target: _blank
-  ---
-  #title
-  Declarative
+:::u-page-feature
 
-  #description
-  Build 3D scenes with familiar Vue components and composables.
-  :::
+---
 
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-threedotjs
-  target: _blank
-  to: https://threejs.org
-  ---
-  #title
-  Up to date with Three.js
+icon: i-lucide-lightbulb
+target: \_blank
 
-  #description
-  Enjoy the latest features right away.
-  :::
+---
 
-  :::u-page-feature
-  ---
-  icon: i-lucide-smile
-  target: _blank
-  to: https://ui.nuxt.com
-  ---
-  #title
-  DX focused
-  #description
-  Inspect your 3D scenes like never before with official devtools.
-  :::
+#title
+Declarative
 
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-typescript
-  target: _blank
-  to: https://www.typescriptlang.org
-  ---
-  #title
-  TypeScript
+#description
+Build 3D scenes with familiar Vue components and composables.
+:::
 
-  #description
-  A fully typed development experience.
-  :::
+:::u-page-feature
 
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-nuxtdotjs
-  target: _blank
-  to: https://nuxt.com/modules/tresjs
-  ---
-  #title
-  Nuxt module
+---
 
-  #description
-  Enjoy the best of both worlds with a fully integrated experience.
-  :::
+icon: i-simple-icons-threedotjs
+target: \_blank
+to: https://threejs.org
 
-  :::u-page-feature
-  ---
-  icon: i-lucide:tree-deciduous
-  target: _blank
+---
 
-  ---
-  #title
-  Ecosystem
+#title
+Up to date with Three.js
 
-  #description
-  Extend the core functionality with packages such as cientos and postprocessing or add your own custom packages.
-  :::
+#description
+Enjoy the latest features right away.
+:::
+
+:::u-page-feature
+
+---
+
+icon: i-lucide-smile
+target: \_blank
+to: https://ui.nuxt.com
+
+---
+
+#title
+DX focused
+#description
+Inspect your 3D scenes like never before with official devtools.
+:::
+
+:::u-page-feature
+
+---
+
+icon: i-simple-icons-typescript
+target: \_blank
+to: https://www.typescriptlang.org
+
+---
+
+#title
+TypeScript
+
+#description
+A fully typed development experience.
+:::
+
+:::u-page-feature
+
+---
+
+icon: i-simple-icons-nuxtdotjs
+target: \_blank
+to: https://nuxt.com/modules/tresjs
+
+---
+
+#title
+Nuxt module
+
+#description
+Enjoy the best of both worlds with a fully integrated experience.
+:::
+
+:::u-page-feature
+
+---
+
+icon: i-lucide:tree-deciduous
+target: \_blank
+
+---
+
+#title
+Ecosystem
+
+#description
+Extend the core functionality with packages such as cientos and postprocessing or add your own custom packages.
+:::
 ::

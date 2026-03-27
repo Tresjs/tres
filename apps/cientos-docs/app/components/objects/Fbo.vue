@@ -27,10 +27,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
     <TresMesh>
       <TresBoxGeometry :args="[1, 1, 1]" />
 
-      <TresMeshBasicMaterial
-        :color="0xFFFFFF"
-        :map="fboRef?.instance?.texture ?? null"
-      />
+      <TresMeshBasicMaterial :color="0xffffff" :map="fboRef?.instance?.texture ?? null" />
     </TresMesh>
 
     <TresMesh ref="torusRef" :position="[3, 0, 0]">

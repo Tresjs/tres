@@ -21,7 +21,7 @@ function onClick() {
 </script>
 
 <template>
-  <button @click="onClick">Click me </button>
+  <button @click="onClick">Click me</button>
   <SubVueComponentWithInject />
   <ProvideInjectExperience />
 </template>

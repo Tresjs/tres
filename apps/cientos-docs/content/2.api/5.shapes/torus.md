@@ -4,8 +4,8 @@ description: Short-cut for a TorusGeometry and a MeshBasicMaterial with a Mesh o
 ---
 
 ::SceneControlsWrapper
-  ::ShapesTorus
-  ::
+::ShapesTorus
+::
 ::
 
 The `cientos` package provides a `<Torus />` component that serves as a short-cut for a `TorusGeometry`.

@@ -1,13 +1,31 @@
 <script setup lang="ts">
 import { useDark } from '@vueuse/core'
-import { MathUtils, Vector3, Euler, BoxGeometry, CylinderGeometry, SphereGeometry, MeshToonMaterial  } from 'three'
+import {
+  MathUtils,
+  Vector3,
+  Euler,
+  BoxGeometry,
+  CylinderGeometry,
+  SphereGeometry,
+  MeshToonMaterial,
+} from 'three'
 
 import { colors } from './constants'
 const { lerp } = MathUtils
 const COUNT = 2000
 
-const brownian = (stepSize: number, xMin: number, xMax: number, yMin: number, yMax: number, zMin: number, zMax: number) => {
-  let x = 0; let y = 0; let z = 0
+const brownian = (
+  stepSize: number,
+  xMin: number,
+  xMax: number,
+  yMin: number,
+  yMax: number,
+  zMin: number,
+  zMax: number,
+) => {
+  let x = 0
+  let y = 0
+  let z = 0
   const r = () => (Math.random() - 0.5) * 2 * stepSize
   const isInBounds = () => xMin < x && x < xMax && yMin < y && y < yMax && zMin < z && z < zMax
   const reset = () => {
@@ -20,7 +38,9 @@ const brownian = (stepSize: number, xMin: number, xMax: number, yMin: number, yM
     x += r()
     y += r()
     z += r()
-    if (!isInBounds()) { reset() }
+    if (!isInBounds()) {
+      reset()
+    }
     return [x, y, z]
   }
 }
@@ -64,7 +84,7 @@ watch(isDark, (newVal) => {
   <TresGroup :position="[0, 0, -30]">
     <TresGroup :position="[0, 0, -30]">
       <TresMesh
-        v-for="position, i of objectPositions"
+        v-for="(position, i) of objectPositions"
         :key="i"
         :geometry="[sphereGeometry, cubeGeometry, pyramidGeometry][i % 3]"
         :material="mainMaterial"

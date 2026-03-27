@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Camera, Light } from 'three';
+import type { Camera, Light } from 'three'
 import { Box3, Mesh, MeshPhongMaterial, Quaternion, Vector3 } from 'three'
 import { shaderToySrc } from './shader-toy'
 import { shaderToyLights } from './shader-toy/lights'
@@ -19,22 +19,24 @@ watch(gallery, (newGallery) => {
 
       if (child.name.startsWith('ShaderToy')) {
         if (!child.userData.name) {
-          throw ("Missing Blender property 'userData.name'.")
+          throw "Missing Blender property 'userData.name'."
         }
         if (typeof child.userData.name !== 'string') {
-          throw ("Blender GLTF 'userData.name' should be a string.")
+          throw "Blender GLTF 'userData.name' should be a string."
         }
         if (!(child.userData.name in shaderToySrc)) {
-          throw (`${child.userData.name} not in shaderToySrc. Srcs: ${Object.keys(shaderToySrc).join(', ')}`)
+          throw `${child.userData.name} not in shaderToySrc. Srcs: ${Object.keys(shaderToySrc).join(', ')}`
         }
 
         const name = child.userData.name as keyof typeof shaderToySrc
         const shader = shaderToySrc[name as keyof typeof shaderToySrc]
         const lightFn = shaderToyLights[name as keyof typeof shaderToyLights]
-        const cameras = child.children.filter(c => 'isPerspectiveCamera' in c && c.isPerspectiveCamera) as Camera[]
-        const lights = child.children.filter(c => 'isLight' in c && c.isLight) as Light[]
-        const target = child.children.filter(c => c.name.startsWith('Target'))[0] as Mesh
-        const floor = child.children.filter(c => c.name.startsWith('Floor'))[0] as Mesh
+        const cameras = child.children.filter(
+          (c) => 'isPerspectiveCamera' in c && c.isPerspectiveCamera,
+        ) as Camera[]
+        const lights = child.children.filter((c) => 'isLight' in c && c.isLight) as Light[]
+        const target = child.children.filter((c) => c.name.startsWith('Target'))[0] as Mesh
+        const floor = child.children.filter((c) => c.name.startsWith('Floor'))[0] as Mesh
 
         const box = new Box3()
         box.setFromObject(child)
@@ -83,7 +85,9 @@ watch(gallery, (newGallery) => {
         })
       }
     })
-    state.shaderToyTargets.sort((a: ShaderToyTarget, b: ShaderToyTarget) => (a.name).localeCompare(b.name))
+    state.shaderToyTargets.sort((a: ShaderToyTarget, b: ShaderToyTarget) =>
+      a.name.localeCompare(b.name),
+    )
 
     for (const info of state.shaderToyTargets) {
       for (const light of info.lights) {
@@ -92,7 +96,7 @@ watch(gallery, (newGallery) => {
 
         const userData = light.userData
         for (const key of Object.keys(userData)) {
-          if ((typeof userData[key]) === 'string' && userData[key].startsWith('{')) {
+          if (typeof userData[key] === 'string' && userData[key].startsWith('{')) {
             try {
               if (key === 'x' || key === 'y' || key === 'z') {
                 const data = JSON.parse(userData[key])

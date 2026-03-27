@@ -21,19 +21,11 @@ const gl = {
     <Suspense>
       <Jeep />
     </Suspense>
-    <TresMesh
-      :rotate-x="Math.PI * -0.5"
-      :position-y="-2"
-      receive-shadow
-    >
+    <TresMesh :rotate-x="Math.PI * -0.5" :position-y="-2" receive-shadow>
       <TresPlaneGeometry :args="[40, 40]" />
-      <TresMeshStandardMaterial :color="0xF7F7F7" />
+      <TresMeshStandardMaterial :color="0xf7f7f7" />
     </TresMesh>
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight
-      :intensity="1"
-      cast-shadow
-      :position="[5, 10, 5]"
-    />
+    <TresDirectionalLight :intensity="1" cast-shadow :position="[5, 10, 5]" />
   </TresCanvas>
 </template>

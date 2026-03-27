@@ -22,7 +22,10 @@ export interface TetrahedronProps {
   color?: TresColor
 }
 
-const props = withDefaults(defineProps<TetrahedronProps>(), { args: () => [1, 0], color: '#ffffff' })
+const props = withDefaults(defineProps<TetrahedronProps>(), {
+  args: () => [1, 0],
+  color: '#ffffff',
+})
 const { invalidate } = useTres()
 
 const { args, color } = toRefs(props)
@@ -38,10 +41,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="tetrahedronRef"
-    :rotation="[-Math.PI / 2, 0, 0]"
-  >
+  <TresMesh ref="tetrahedronRef" :rotation="[-Math.PI / 2, 0, 0]">
     <TresTetrahedronGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

@@ -118,10 +118,11 @@ export interface OceanProps {
 const props = withDefaults(defineProps<OceanProps>(), {
   textureWidth: 512,
   textureHeight: 512,
-  waterNormals: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg',
+  waterNormals:
+    'https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg',
   sunDirection: () => new Vector3(),
-  sunColor: 0xFFFFFF,
-  waterColor: 0x001E0F,
+  sunColor: 0xffffff,
+  waterColor: 0x001e0f,
   distortionScale: 3.7,
   size: 1,
   clipBias: 0.0,

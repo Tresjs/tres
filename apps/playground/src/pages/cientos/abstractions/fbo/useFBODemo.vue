@@ -24,18 +24,12 @@ const capsuleRef = shallowRef(null)
 
     <FboCube />
 
-    <TresMesh
-      ref="torusRef"
-      :position="[3, 0, 0]"
-    >
+    <TresMesh ref="torusRef" :position="[3, 0, 0]">
       <TresTorusGeometry :args="[1, 0.5, 16, 100]" />
       <TresMeshNormalMaterial />
     </TresMesh>
 
-    <TresMesh
-      ref="capsuleRef"
-      :position="[-2, 0, 0]"
-    >
+    <TresMesh ref="capsuleRef" :position="[-2, 0, 0]">
       <TresCapsuleGeometry :args="[0.4, 1, 4, 8]" />
       <TresMeshNormalMaterial />
     </TresMesh>

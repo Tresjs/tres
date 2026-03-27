@@ -45,71 +45,74 @@ const {
   color,
   depthWrite,
   rotationX,
-} = useControls({
-  width: {
-    value: state.width,
-    step: 0.1,
-    min: 0.1,
-    max: 10,
+} = useControls(
+  {
+    width: {
+      value: state.width,
+      step: 0.1,
+      min: 0.1,
+      max: 10,
+    },
+    height: {
+      value: state.height,
+      step: 0.1,
+      min: 0.1,
+      max: 10,
+    },
+    near: {
+      value: state.near,
+      step: 0.1,
+      min: 0,
+      max: 30,
+    },
+    far: {
+      value: state.far,
+      step: 0.1,
+      min: 0,
+      max: 30,
+    },
+    scale: {
+      value: state.scale,
+      step: 0.1,
+      min: 0.1,
+      max: 30,
+    },
+    blur: {
+      value: state.blur,
+      step: 0.1,
+      min: 0,
+      max: 10,
+    },
+    smooth: state.smooth,
+    opacity: {
+      value: state.opacity,
+      step: 0.1,
+      min: 0,
+      max: 1,
+    },
+    resolution: {
+      value: state.resolution,
+      step: 1,
+      min: 0,
+      max: 1024,
+    },
+    tint: {
+      type: 'color',
+      value: state.tint,
+    },
+    color: {
+      type: 'color',
+      value: state.color,
+    },
+    depthWrite: state.depthWrite,
+    rotationX: {
+      value: state.rotationX,
+      step: 0.1,
+      max: 9,
+    },
   },
-  height: {
-    value: state.height,
-    step: 0.1,
-    min: 0.1,
-    max: 10,
-  },
-  near: {
-    value: state.near,
-    step: 0.1,
-    min: 0,
-    max: 30,
-  },
-  far: {
-    value: state.far,
-    step: 0.1,
-    min: 0,
-    max: 30,
-  },
-  scale: {
-    value: state.scale,
-    step: 0.1,
-    min: 0.1,
-    max: 30,
-  },
-  blur: {
-    value: state.blur,
-    step: 0.1,
-    min: 0,
-    max: 10,
-  },
-  smooth: state.smooth,
-  opacity: {
-    value: state.opacity,
-    step: 0.1,
-    min: 0,
-    max: 1,
-  },
-  resolution: {
-    value: state.resolution,
-    step: 1,
-    min: 0,
-    max: 1024,
-  },
-  tint: {
-    type: 'color',
-    value: state.tint,
-  },
-  color: {
-    type: 'color',
-    value: state.color,
-  },
-  depthWrite: state.depthWrite,
-  rotationX: {
-    value: state.rotationX,
-    step: 0.1,
-    max: 9,
-  },
-}, { uuid })
+  { uuid },
+)
 
 const boxRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
 const icoRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })

@@ -4,17 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 
-const {
-  segments,
-  opacity,
-  speed,
-  depth,
-  color,
-  depthTest,
-  spreadY,
-  spreadX,
-  scale,
-} = useControls({
+const { segments, opacity, speed, depth, color, depthTest, spreadY, spreadX, scale } = useControls({
   segments: {
     label: 'Segments',
     value: 5,

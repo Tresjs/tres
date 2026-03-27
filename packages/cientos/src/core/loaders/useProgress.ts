@@ -29,7 +29,9 @@ export function useProgress(): Promise<{
         hasFinishLoading.value = true
         items.value.push(item)
       }
-      progress.value = Math.round(((loaded - saveLastTotalLoaded) / (total - saveLastTotalLoaded)) * 100 || 100)
+      progress.value = Math.round(
+        ((loaded - saveLastTotalLoaded) / (total - saveLastTotalLoaded)) * 100 || 100,
+      )
     }
 
     DefaultLoadingManager.onError = (error) => {

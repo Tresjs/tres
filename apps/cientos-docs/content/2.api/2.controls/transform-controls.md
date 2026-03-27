@@ -6,8 +6,8 @@ description: Set of three gizmos that can be used to translate, rotate and scale
 The [Transform Controls](https://threejs.org/docs/#examples/en/controls/TransformControls) are a set of three gizmos that can be used to translate, rotate and scale objects in the scene. It adapts a similar interaction model of DCC tools like Blender
 
 ::SceneControlsWrapper
-  ::ControlsTransformControls
-  ::
+::ControlsTransformControls
+::
 ::
 
 ## Usage
@@ -73,7 +73,7 @@ The scale mode allows you to scale the object around the scene.
 
 | Prop                | Description                                                                                   | Default     |
 | :------------------ | :-------------------------------------------------------------------------------------------- | ----------- |
-| **object**         | The instance [Object3D](https://threejs.org/docs/index.html#api/en/core/Object3D) to control. | `null`      |
+| **object**          | The instance [Object3D](https://threejs.org/docs/index.html#api/en/core/Object3D) to control. | `null`      |
 | **mode**            | The mode of the controls. Can be `translate`, `rotate` or `scale`.                            | `translate` |
 | **enabled**         | If `true`, the controls will be enabled.                                                      | `true`      |
 | **axis**            | The axis to use for the controls. Can be `X`, `Y`, `Z`, `XY`, `YZ`, `XZ`, `XYZ`.              | `XYZ`       |

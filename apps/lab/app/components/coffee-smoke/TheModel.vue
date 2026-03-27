@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const { nodes } = useGLTF('/models/coffee-smoke/coffee-mug-table-baked.glb', { draco: true })
 
 const mug = computed(() => nodes.value.mug)

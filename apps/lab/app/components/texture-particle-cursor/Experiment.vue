@@ -1,10 +1,18 @@
 <script setup lang="ts">
-import type { Mesh, Texture} from 'three';
-import { Vector2, Uniform, ShaderMaterial, PlaneGeometry, DoubleSide, CanvasTexture, BufferAttribute } from 'three';
-import { useDevicePixelRatio,  } from '@vueuse/core';
-import vertexShader from './shaders/vertex.glsl';
-import fragmentShader from './shaders/fragment.glsl';
-import type { TresPointerEvent } from '@tresjs/core';
+import type { Mesh, Texture } from 'three'
+import {
+  Vector2,
+  Uniform,
+  ShaderMaterial,
+  PlaneGeometry,
+  DoubleSide,
+  CanvasTexture,
+  BufferAttribute,
+} from 'three'
+import { useDevicePixelRatio } from '@vueuse/core'
+import vertexShader from './shaders/vertex.glsl'
+import fragmentShader from './shaders/fragment.glsl'
+import type { TresPointerEvent } from '@tresjs/core'
 
 const { state: texture, isLoading } = useTexture('/textures/rockhopper.png')
 
@@ -24,7 +32,9 @@ const displacement = {
   texture: null as Texture | null,
 }
 
-const canRender = computed(() => !isLoading.value && sizes.width.value > 0 && sizes.height.value > 0)
+const canRender = computed(
+  () => !isLoading.value && sizes.width.value > 0 && sizes.height.value > 0,
+)
 
 // 2D Canvas
 
@@ -40,11 +50,14 @@ displacement.canvas.style.zIndex = '10'
 
 document.body.appendChild(displacement.canvas)
 
-const { showDebug } = useControls({
-  showDebug: true
-}, {
-  uuid: 'texture-particle-cursor-experiment',
-})
+const { showDebug } = useControls(
+  {
+    showDebug: true,
+  },
+  {
+    uuid: 'texture-particle-cursor-experiment',
+  },
+)
 
 watch(showDebug!, (newShowDebug) => {
   displacement.canvas!.style.opacity = newShowDebug ? '1' : '0'
@@ -80,14 +93,17 @@ const onMouseMove = (event: TresPointerEvent) => {
 
   const uv = intersection?.uv
   if (uv && displacement.canvas) {
-    displacement.canvasCursor!.set(uv.x * displacement.canvas.width, (1 - uv.y) * displacement.canvas.height)
+    displacement.canvasCursor!.set(
+      uv.x * displacement.canvas.width,
+      (1 - uv.y) * displacement.canvas.height,
+    )
   }
 }
 
 displacement.texture = new CanvasTexture(displacement.canvas)
 
 /** Particles */
-const particlesGeometry = new PlaneGeometry(10,10,128,128)
+const particlesGeometry = new PlaneGeometry(10, 10, 128, 128)
 // Performance tweak
 particlesGeometry.setIndex(null)
 particlesGeometry.deleteAttribute('normal')
@@ -120,21 +136,25 @@ watch(texture, (newTexture) => {
   }
 })
 
-
-watch(sizes.height, () => {
-  if (sizes.width.value > 0 && sizes.height.value > 0) {
-    particlesMaterial.uniforms.uResolution!.value = new Vector2(sizes.width.value * pixelRatio.value, sizes.height.value * pixelRatio.value)
-  }
-}, { immediate: true })
-
-
+watch(
+  sizes.height,
+  () => {
+    if (sizes.width.value > 0 && sizes.height.value > 0) {
+      particlesMaterial.uniforms.uResolution!.value = new Vector2(
+        sizes.width.value * pixelRatio.value,
+        sizes.height.value * pixelRatio.value,
+      )
+    }
+  },
+  { immediate: true },
+)
 
 // Tick
 
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ elapsed }) => {
-  particlesMaterial.uniforms.uTime!.value = elapsed 
+  particlesMaterial.uniforms.uTime!.value = elapsed
 
   if (displacement.canvas && displacement.context && displacement.glowImage) {
     displacement.context.globalCompositeOperation = 'source-over'
@@ -154,12 +174,12 @@ onBeforeRender(({ elapsed }) => {
       displacement.glowImage,
       displacement.canvasCursor!.x - glowSize * 0.5,
       displacement.canvasCursor!.y - glowSize * 0.5,
-      glowSize, glowSize,
+      glowSize,
+      glowSize,
     )
   }
   displacement.texture!.needsUpdate = true
 })
-
 </script>
 <template>
   <TresPoints v-if="canRender" :geometry="particlesGeometry" :material="particlesMaterial" />

@@ -6,7 +6,6 @@ import { EffectComposerPmndrs, LinocutPmndrs } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 import { NoToneMapping } from 'three'
 
-
 const gl = {
   clearColor: '#00ff00',
   toneMapping: NoToneMapping,
@@ -23,7 +22,7 @@ const { blendFunction, scale, noiseScale, centerX, centerY, rotation } = useCont
   centerY: { value: 0.5, step: 0.01, min: 0, max: 1 },
   rotation: { value: 0.0, step: 0.01, min: -Math.PI, max: Math.PI },
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -34,12 +33,8 @@ const { blendFunction, scale, noiseScale, centerX, centerY, rotation } = useCont
 
 <template>
   <div class="aspect-16/9">
-    <TresCanvas
-      v-bind="gl"
-    >
-      <TresPerspectiveCamera
-        :position="[0, 6.5, 6.5]"
-      />
+    <TresCanvas v-bind="gl">
+      <TresPerspectiveCamera :position="[0, 6.5, 6.5]" />
       <OrbitControls auto-rotate />
 
       <TresMesh>
@@ -48,15 +43,10 @@ const { blendFunction, scale, noiseScale, centerX, centerY, rotation } = useCont
       </TresMesh>
 
       <Suspense>
-        <Environment :blur=".25" preset="snow" />
+        <Environment :blur="0.25" preset="snow" />
       </Suspense>
 
-      <ContactShadows
-        :opacity=".65"
-        :position-y="-1"
-        :scale="35"
-        :blur="1"
-      />
+      <ContactShadows :opacity="0.65" :position-y="-1" :scale="35" :blur="1" />
 
       <Suspense>
         <EffectComposerPmndrs v-bind="glComposer">

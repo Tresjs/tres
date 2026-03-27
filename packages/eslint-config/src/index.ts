@@ -20,7 +20,4 @@ const tresLintConfig = (
   )
 }
 
-export {
-  nuxt,
-  tresLintConfig,
-}
+export { nuxt, tresLintConfig }

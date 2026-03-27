@@ -28,7 +28,12 @@ const getPoint3 = (point2: THREE.Vector3, camera: THREE.Camera, size: Size, zVal
   return vector
 }
 
-export const calculateScaleFactor = (point3: THREE.Vector3, radiusPx: number, camera: THREE.Camera, size: Size) => {
+export const calculateScaleFactor = (
+  point3: THREE.Vector3,
+  radiusPx: number,
+  camera: THREE.Camera,
+  size: Size,
+) => {
   const point2 = getPoint2(tV2.copy(point3), camera, size)
   let scale = 0
   for (let i = 0; i < 2; ++i) {

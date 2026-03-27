@@ -65,7 +65,9 @@ const sphere = new Sphere()
 const previous = { width: 0, height: 0, depth: 0, position: new Vector3() }
 
 function update() {
-  if (!outer.value || !inner.value || !ref.value) { return }
+  if (!outer.value || !inner.value || !ref.value) {
+    return
+  }
   outer.value.matrixWorld.identity()
   box3.setFromObject(inner.value, props.precise)
   const width = box3.max.x - box3.min.x
@@ -83,10 +85,12 @@ function update() {
     props.disable || props.disableZ ? 0 : -center.z + zAlign,
   )
 
-  if (previous.width !== width
-    || previous.height !== height
-    || previous.depth !== depth
-    || !outer.value.position.equals(previous.position)) {
+  if (
+    previous.width !== width ||
+    previous.height !== height ||
+    previous.depth !== depth ||
+    !outer.value.position.equals(previous.position)
+  ) {
     emit('change', {
       parent: ref.value.parent! as Object3D<Object3DEventMap>,
       container: ref.value,
@@ -125,15 +129,16 @@ watchEffect(() => {
   // NOTE: Don't update if we resolve to the previous cacheKey value,
   // unless cacheKey is null or undefined.
   const nextKey = toValue(props.cacheKey)
-  if (nextKey === cacheKey && cacheKey !== null && cacheKey !== undefined) { return }
+  if (nextKey === cacheKey && cacheKey !== null && cacheKey !== undefined) {
+    return
+  }
   cacheKey = nextKey
 
   if (props.cacheKey === null || props.cacheKey === undefined) {
     off = loop.onBeforeRender(() => {
       update()
     }).off
-  }
-  else {
+  } else {
     update()
   }
 })

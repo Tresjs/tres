@@ -38,4 +38,3 @@ This experiment showcases particle system techniques:
 - **Boundary Handling**: Particles that respect scene boundaries and return to rest positions
 
 This experiment perfectly demonstrates how interactive particle systems can create engaging user experiences, combining physics simulation with real-time user input for dynamic visual feedback.
-

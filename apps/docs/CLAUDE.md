@@ -13,11 +13,13 @@ Nuxt-based documentation site using Nuxt Content and Nuxt UI Pro.
 ### UI Components
 
 **ALWAYS prefer Nuxt UI components over custom CSS:**
+
 - Use existing Nuxt UI components from `@nuxt/ui`
 - Refer to [Nuxt UI v4 docs](https://ui.nuxt.com) for available components
 - Only create custom components when Nuxt UI doesn't provide the functionality
 
 **Component Hierarchy:**
+
 1. First choice: Nuxt UI components (`<UButton>`, `<UCard>`, `<UContainer>`, etc.)
 2. Last resort: Custom Vue components with Tailwind utilities
 

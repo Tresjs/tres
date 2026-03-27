@@ -26,11 +26,7 @@ function onRender() {
     <ClientOnly>
       <TresLeches />
     </ClientOnly>
-    <TresCanvas
-      render-mode="on-demand"
-      clear-color="#82DBC5"
-      @render="onRender"
-    >
+    <TresCanvas render-mode="on-demand" clear-color="#82DBC5" @render="onRender">
       <FirstExperience />
     </TresCanvas>
   </SceneWrapper>

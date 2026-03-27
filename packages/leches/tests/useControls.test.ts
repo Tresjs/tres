@@ -1,5 +1,5 @@
 import { isRef, nextTick } from 'vue'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vite-plus/test'
 import { dispose, useControls, useControlsProvider } from '/@/composables/useControls'
 import { mount } from '@vue/test-utils'
 import { TresLeches } from '/@/'

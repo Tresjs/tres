@@ -4,13 +4,15 @@ import { TresCanvas } from '@tresjs/core'
 import { BoxGeometry, IcosahedronGeometry, MeshBasicMaterial, Vector3 } from 'three'
 
 const COUNT = 1000
-const positions = Array.from({ length: COUNT }).fill(0).map(() => {
-  return new Vector3(
-    10000 * (Math.random() * 2 - 1),
-    7500 * (Math.random() * 2 - 1),
-    10000 * (Math.random() * 2 - 1),
-  )
-})
+const positions = Array.from({ length: COUNT })
+  .fill(0)
+  .map(() => {
+    return new Vector3(
+      10000 * (Math.random() * 2 - 1),
+      7500 * (Math.random() * 2 - 1),
+      10000 * (Math.random() * 2 - 1),
+    )
+  })
 
 const geometries = [
   new IcosahedronGeometry(100, 16),
@@ -50,8 +52,7 @@ function resetLevels() {
     while (levels.value.length && Math.random() > 0.5) {
       levels.value.pop()
     }
-  }
-  else {
+  } else {
     // NOTE: Reverse levels sometimes.
     levels.value.reverse()
   }
@@ -66,7 +67,7 @@ onUnmounted(() => {
   <TresCanvas clear-color="gray" @pointerdown="resetLevels">
     <TresPerspectiveCamera :near="1" :far="25000" :position="[0, 0, 0]" />
     <TresGroup :position-z="x">
-      <LOD v-for="position, i of positions" :key="i" :levels="levels" :position="position">
+      <LOD v-for="(position, i) of positions" :key="i" :levels="levels" :position="position">
         <TresMesh :geometry="geometries[0]" :material="materials[0]" />
         <TresMesh :geometry="geometries[1]" :material="materials[1]" />
         <TresMesh :geometry="geometries[2]" :material="materials[2]" />

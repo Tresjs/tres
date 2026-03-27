@@ -40,20 +40,23 @@ export interface UseGLTFOptions {
  * @param {UseGLTFOptions} options - Options for loading the model
  * @returns {{ state: GLTF, isLoading: boolean, execute: () => Promise<void> }} Object containing the model state, loading state and reload function
  */
-export function useGLTF(path: MaybeRef<string>, options?: UseGLTFOptions): {
+export function useGLTF(
+  path: MaybeRef<string>,
+  options?: UseGLTFOptions,
+): {
   state: Ref<GLTF | null>
   isLoading: Ref<boolean>
   execute: (delay?: number, ...args: any[]) => Promise<GLTF>
   nodes: ComputedRef<Record<string, any>>
   materials: ComputedRef<Record<string, any>>
 } {
-  const useLoaderOptions: TresLoaderOptions<GLTF, true> = {
-
-  }
+  const useLoaderOptions: TresLoaderOptions<GLTF, true> = {}
   if (options?.draco) {
     const dracoLoader = new DRACOLoader()
     // Set the path to the Draco decoder (you might want to use a CDN or local path)
-    dracoLoader.setDecoderPath(options.decoderPath || 'https://www.gstatic.com/draco/versioned/decoders/1.5.6/')
+    dracoLoader.setDecoderPath(
+      options.decoderPath || 'https://www.gstatic.com/draco/versioned/decoders/1.5.6/',
+    )
     useLoaderOptions.extensions = (loader: TresLoader<GLTF>) => {
       if (loader instanceof GLTFLoader) {
         loader.setDRACOLoader(dracoLoader)
@@ -64,16 +67,20 @@ export function useGLTF(path: MaybeRef<string>, options?: UseGLTFOptions): {
   const result = useLoader(GLTFLoader, path, useLoaderOptions)
   if (options?.traverse) {
     watch(result.state, (state) => {
-      state.scene.traverse(child => options.traverse?.(child as TresObject))
+      state.scene.traverse((child) => options.traverse?.(child as TresObject))
     })
   }
 
   const nodes = computed(() => {
-    return result.state.value?.scene ? buildGraph(result.state.value?.scene as unknown as TresObject).nodes : {}
+    return result.state.value?.scene
+      ? buildGraph(result.state.value?.scene as unknown as TresObject).nodes
+      : {}
   })
 
   const materials = computed(() => {
-    return result.state.value?.scene ? buildGraph(result.state.value?.scene as unknown as TresObject).materials : {}
+    return result.state.value?.scene
+      ? buildGraph(result.state.value?.scene as unknown as TresObject).materials
+      : {}
   })
 
   return {

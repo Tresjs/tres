@@ -43,7 +43,7 @@ defineSlots<{
 }>()
 
 const canvasRef = ref<HTMLCanvasElement>()
-const contextRef = shallowRef<{ context: TresContext, dispose: () => void }>()
+const contextRef = shallowRef<{ context: TresContext; dispose: () => void }>()
 
 defineExpose<TresCanvasInstance>({
   get context() {
@@ -68,7 +68,7 @@ defineExpose<TresCanvasInstance>({
       left: 0,
       pointerEvents: 'auto',
       touchAction: 'none',
-      ...$attrs.style as Object,
+      ...($attrs.style as Object),
     }"
   >
     <Context

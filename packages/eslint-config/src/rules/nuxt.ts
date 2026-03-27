@@ -1,7 +1,6 @@
 // https://github.com/nuxt/eslint-config/blob/main/packages/eslint-config/index.js
 
 const nuxtConfig = [
-
   // Nuxt can use auto-imports, eslint should not throw errors for undefined variables.
   {
     name: 'tres:nuxt:auto-imports',

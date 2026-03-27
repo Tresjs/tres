@@ -23,10 +23,10 @@ import { EffectComposer, SMAA } from '@tresjs/post-processing'
 
 ## Props
 
-| Prop    | Description                                                                                       | Default                         |
-|---------|---------------------------------------------------------------------------------------------------|---------------------------------|
-| `width` | The width of the render target. If not provided, it defaults to the width of the renderer.        |       |
-| `height`| The height of the render target. If not provided, it defaults to the height of the renderer.      |    |
+| Prop     | Description                                                                                  | Default |
+| -------- | -------------------------------------------------------------------------------------------- | ------- |
+| `width`  | The width of the render target. If not provided, it defaults to the width of the renderer.   |         |
+| `height` | The height of the render target. If not provided, it defaults to the height of the renderer. |         |
 
 ## Further Reading
 

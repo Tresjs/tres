@@ -3,11 +3,14 @@ import { Glitch } from '@tresjs/post-processing'
 import BasicScene from '@/components/BasicScene.vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 
-const { goWild } = useControls({
-  goWild: false,
-}, {
-  uuid: 'postprocessing-three-glitch',
-})
+const { goWild } = useControls(
+  {
+    goWild: false,
+  },
+  {
+    uuid: 'postprocessing-three-glitch',
+  },
+)
 </script>
 
 <template>

@@ -26,7 +26,7 @@ const permissionModal = overlay.create(BlobPermissionModal, { destroyOnClose: tr
 const handleMicrophoneStream = () => {
   if (!stream.value) return
   // Create audio context and analyser
-  const audioContext = new (window.AudioContext)()
+  const audioContext = new window.AudioContext()
   const source = audioContext.createMediaStreamSource(stream.value)
   analyser.value = audioContext.createAnalyser()
   analyser.value.fftSize = 2048
@@ -64,14 +64,14 @@ watch(
       stop()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
 
 <template>
   <div class="w-full h-full relative overflow-hidden">
     <NuxtLink class="absolute top-12 left-12" to="/">
-      <img src="/logos/tres_logo_white.svg" alt="TresJS Logo">
+      <img src="/logos/tres_logo_white.svg" alt="TresJS Logo" />
     </NuxtLink>
     <ClientOnly>
       <TresLeches collapsed />
@@ -80,12 +80,8 @@ watch(
       <DancingBlobTheDancingBlob :analyser="analyser!" :data-array="dataArray!" />
       <TheScreenshot />
     </TresCanvas>
-    <div class="bg-dance-text z-20" aria-hidden="true">
-      SOUND
-    </div>
-    <div class="bg-track-text z-10" aria-hidden="true">
-      01/Track
-    </div>
+    <div class="bg-dance-text z-20" aria-hidden="true">SOUND</div>
+    <div class="bg-track-text z-10" aria-hidden="true">01/Track</div>
   </div>
 </template>
 

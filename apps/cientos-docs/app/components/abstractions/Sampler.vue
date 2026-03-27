@@ -5,9 +5,12 @@ import { useControls } from '@tresjs/leches'
 
 const uuid = inject(`uuid`)
 
-const { count } = useControls({
-  count: { value: 50, min: 1, max: 500, step: 10 },
-}, { uuid })
+const { count } = useControls(
+  {
+    count: { value: 50, min: 1, max: 500, step: 10 },
+  },
+  { uuid },
+)
 </script>
 
 <template>

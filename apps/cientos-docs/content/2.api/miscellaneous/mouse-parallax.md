@@ -4,8 +4,8 @@ description: Create parallax effects based on mouse movement.
 ---
 
 ::SceneControlsWrapper
-  ::MiscellaneousMouseParallax
-  ::
+::MiscellaneousMouseParallax
+::
 ::
 
 `<MouseParallax />` is a component that allows you to easily create a [parallax](https://en.wikipedia.org/wiki/Parallax) effect. The camera will update automatically according to the mouse position.

@@ -22,10 +22,11 @@ function handleModelValueUpdate() {
 
 <template>
   <div class="grid grid-cols-[auto_auto] gap-1">
-    Radius: <input
+    Radius:
+    <input
       v-model="internalModelValue.properties.radius"
       class="dark:text-black"
       @update:model-value="handleModelValueUpdate"
-    >
+    />
   </div>
 </template>

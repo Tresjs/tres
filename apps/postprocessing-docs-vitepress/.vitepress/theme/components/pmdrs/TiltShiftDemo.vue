@@ -6,7 +6,6 @@ import { EffectComposerPmndrs, TiltShiftPmndrs } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 import { NoToneMapping } from 'three'
 
-
 const gl = {
   toneMapping: NoToneMapping,
 }
@@ -15,19 +14,11 @@ const glComposer = {
   multisampling: 4,
 }
 
-const colors = [
-  '#FF5733',
-  '#33FF57',
-  '#3357FF',
-  '#FF33A1',
-  '#33FFF5',
-  '#FF5733',
-  '#FF8D33',
-]
+const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#33FFF5', '#FF5733', '#FF8D33']
 
 const { blendFunction, offset, rotation, focusArea, feather } = useControls({
   blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
+    options: Object.keys(BlendFunction).map((key) => ({
       text: key,
       value: BlendFunction[key as keyof typeof BlendFunction],
     })),
@@ -47,7 +38,10 @@ const { blendFunction, offset, rotation, focusArea, feather } = useControls({
       <OrbitControls auto-rotate />
 
       <template v-for="index in 50" :key="index">
-        <TresMesh :position="[(index % 10) * 3 - 13.5, 0, Math.floor(index / 10) * 3 - 7.5]" :scale="[2, Math.random() * 5 + 2, 2]">
+        <TresMesh
+          :position="[(index % 10) * 3 - 13.5, 0, Math.floor(index / 10) * 3 - 7.5]"
+          :scale="[2, Math.random() * 5 + 2, 2]"
+        >
           <TresBoxGeometry :args="[1, 1, 1]" />
           <TresMeshPhysicalMaterial
             :color="colors[index % colors.length]"
@@ -60,7 +54,7 @@ const { blendFunction, offset, rotation, focusArea, feather } = useControls({
       </template>
 
       <Suspense>
-        <Environment background :blur=".35" preset="snow" />
+        <Environment background :blur="0.35" preset="snow" />
       </Suspense>
 
       <Suspense>

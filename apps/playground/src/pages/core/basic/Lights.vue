@@ -18,14 +18,8 @@ const planeRef: Ref<TresObject | null> = ref(null)
 </script>
 
 <template>
-  <TresCanvas
-
-    v-bind="gl"
-  >
-    <TresPerspectiveCamera
-      v-distance-to="planeRef"
-      :position="[3, 3, 3]"
-    />
+  <TresCanvas v-bind="gl">
+    <TresPerspectiveCamera v-distance-to="planeRef" :position="[3, 3, 3]" />
     <OrbitControls />
 
     <TresDirectionalLight
@@ -36,25 +30,15 @@ const planeRef: Ref<TresObject | null> = ref(null)
       cast-shadow
       :shadow-mapSize="[512, 512]"
     />
-    <TresMesh
-      ref="planeRef"
-      v-log:material
-      :rotation="[-Math.PI / 2, 0, 0]"
-      receive-shadow
-    >
+    <TresMesh ref="planeRef" v-log:material :rotation="[-Math.PI / 2, 0, 0]" receive-shadow>
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>
-    <TresMesh
-      :position="[-2, 2, 0]"
-    >
+    <TresMesh :position="[-2, 2, 0]">
       <TresBoxGeometry :args="[1, 1, 1]" />
       <TresMeshToonMaterial color="red" />
     </TresMesh>
-    <TresMesh
-      :position="[2, 4, 0]"
-      cast-shadow
-    >
+    <TresMesh :position="[2, 4, 0]" cast-shadow>
       <TresSphereGeometry :args="[1, 32, 32]" />
       <TresMeshToonMaterial color="yellow" />
     </TresMesh>

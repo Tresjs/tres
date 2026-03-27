@@ -59,4 +59,3 @@ Fully controllable marble characteristics:
 - **HDR Environment**: Urban environment preset for realistic reflections
 
 This experiment perfectly demonstrates how custom shaders can create captivating interactive materials, combining mathematical precision with artistic beauty to create an engaging user experience.
-

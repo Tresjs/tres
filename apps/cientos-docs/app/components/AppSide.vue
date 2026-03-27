@@ -18,10 +18,7 @@ const asideNavigation = computed(() => {
 <template>
   <UPageAside>
     <UPageAnchors :links="links" />
-    <USeparator
-      type="dashed"
-      class="my-6"
-    />
+    <USeparator type="dashed" class="my-6" />
     <UContentNavigation
       class="pr-4"
       highlight

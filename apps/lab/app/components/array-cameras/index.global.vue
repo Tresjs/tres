@@ -13,25 +13,45 @@ const ASPECT_RATIO = computed(() => width.value / height.value)
 const cameras = computed(() => {
   const cameraOptions = [
     {
-      viewPort: new Vector4(Math.floor(0), Math.floor(0), Math.ceil(WIDTH.value * 2), Math.ceil(HEIGHT.value * 2)),
+      viewPort: new Vector4(
+        Math.floor(0),
+        Math.floor(0),
+        Math.ceil(WIDTH.value * 2),
+        Math.ceil(HEIGHT.value * 2),
+      ),
       position: new Vector3(15, 0, 3),
       factor: 0.4,
       name: 'left_bottom',
     },
     {
-      viewPort: new Vector4(Math.floor(WIDTH.value), Math.floor(0), Math.ceil(WIDTH.value * 2), Math.ceil(HEIGHT.value * 2)),
+      viewPort: new Vector4(
+        Math.floor(WIDTH.value),
+        Math.floor(0),
+        Math.ceil(WIDTH.value * 2),
+        Math.ceil(HEIGHT.value * 2),
+      ),
       position: new Vector3(0, 0, -3),
       factor: 2,
       name: 'center_bottom',
     },
     {
-      viewPort: new Vector4(Math.floor(WIDTH.value * 2), Math.floor(0), Math.ceil(WIDTH.value * 2), Math.ceil(HEIGHT.value * 2)),
+      viewPort: new Vector4(
+        Math.floor(WIDTH.value * 2),
+        Math.floor(0),
+        Math.ceil(WIDTH.value * 2),
+        Math.ceil(HEIGHT.value * 2),
+      ),
       position: new Vector3(-15, 0, 3),
       factor: 0.4,
       name: 'right_bottom',
     },
     {
-      viewPort: new Vector4(Math.floor(WIDTH.value - 75), Math.floor(HEIGHT.value), Math.ceil(WIDTH.value * 2.5), Math.ceil(HEIGHT.value * 2.5)),
+      viewPort: new Vector4(
+        Math.floor(WIDTH.value - 75),
+        Math.floor(HEIGHT.value),
+        Math.ceil(WIDTH.value * 2.5),
+        Math.ceil(HEIGHT.value * 2.5),
+      ),
       position: new Vector3(0, 0, 3),
       factor: 2,
       name: 'center_top',

@@ -100,8 +100,12 @@ const pitchNoise = new SimplexNoise()
 const rollNoise = new SimplexNoise()
 
 function constrainIntensity() {
-  if (currentIntensity.value < 0) { currentIntensity.value = 0 }
-  if (currentIntensity.value > 1) { currentIntensity.value = 1 }
+  if (currentIntensity.value < 0) {
+    currentIntensity.value = 0
+  }
+  if (currentIntensity.value > 1) {
+    currentIntensity.value = 1
+  }
 }
 
 watch(intensity, (newVal) => {
@@ -133,7 +137,9 @@ const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ elapsed, delta }) => {
   const cam = camera.activeCamera.value
-  if (!cam) { return }
+  if (!cam) {
+    return
+  }
 
   if (!decay.value && currentIntensity.value < intensity.value) {
     setIntensity(currentIntensity.value + decayRate.value * delta)

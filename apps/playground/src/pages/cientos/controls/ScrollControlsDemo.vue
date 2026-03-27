@@ -23,9 +23,12 @@ const gl = {
 }
 
 useControls('fpsgraph', { uuid })
-useControls({
-  progress: progress.value,
-}, { uuid })
+useControls(
+  {
+    progress: progress.value,
+  },
+  { uuid },
+)
 
 const onLoop = () => {
   if (boxRef.value) {
@@ -37,31 +40,14 @@ const onLoop = () => {
 
 <template>
   <TresLeches :uuid="uuid" class="important-fixed" />
-  <TresCanvas
-    v-bind="gl"
-    window-size
-    @loop="() => onLoop()"
-  >
+  <TresCanvas v-bind="gl" window-size @loop="() => onLoop()">
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stars :radius="1" />
     <TresGridHelper :args="[10, 10]" />
 
-    <ScrollControls
-      v-model="progress"
-      :distance="10"
-      :smooth-scroll="0.1"
-      html-scroll
-    >
-      <Sphere
-        :scale="0.1"
-        :position="[1, 2, 0]"
-      />
-      <Box
-        ref="boxRef"
-        :scale="0.5"
-        :color="0xFF00FF"
-        :position="[-1, 1, 0]"
-      />
+    <ScrollControls v-model="progress" :distance="10" :smooth-scroll="0.1" html-scroll>
+      <Sphere :scale="0.1" :position="[1, 2, 0]" />
+      <Box ref="boxRef" :scale="0.5" :color="0xff00ff" :position="[-1, 1, 0]" />
     </ScrollControls>
   </TresCanvas>
   <main>

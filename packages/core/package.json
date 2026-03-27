@@ -1,28 +1,27 @@
 {
   "name": "@tresjs/core",
-  "type": "module",
   "version": "5.7.0",
   "description": "Declarative ThreeJS using Vue Components",
-  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "keywords": [
+    "3d",
+    "three",
+    "threejs",
+    "threejs-vue",
+    "vue"
+  ],
   "license": "MIT",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tresjs/tres.git",
     "directory": "packages/core"
   },
-  "keywords": [
-    "vue",
-    "3d",
-    "threejs",
-    "three",
-    "threejs-vue"
+  "files": [
+    "*.d.ts",
+    "dist"
   ],
+  "type": "module",
   "sideEffects": false,
-  "exports": {
-    ".": "./dist/tres.js",
-    "./template-compiler-options": "./dist/template-compiler-options.mjs",
-    "./package.json": "./package.json"
-  },
   "main": "./dist/tres.js",
   "module": "./dist/tres.js",
   "types": "./dist/tres.d.ts",
@@ -33,27 +32,24 @@
       ]
     }
   },
-  "files": [
-    "*.d.ts",
-    "dist"
-  ],
+  "exports": {
+    ".": "./dist/tres.js",
+    "./template-compiler-options": "./dist/template-compiler-options.mjs",
+    "./package.json": "./package.json"
+  },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "tsdown",
-    "build:analyze": "ANALYZE=true tsdown",
-    "test": "vitest",
-    "test:ci": "vitest run",
-    "test:ui": "vitest --ui --coverage.enabled=true",
-    "coverage": "vitest run --coverage",
+    "build": "vp pack",
+    "build:analyze": "ANALYZE=true vp pack",
+    "test": "vp test",
+    "test:ci": "vp test run",
+    "test:ui": "vp test --ui --coverage.enabled=true",
+    "coverage": "vp test run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "vue-tsc --noEmit"
-  },
-  "peerDependencies": {
-    "three": ">=0.133",
-    "vue": ">=3.4"
   },
   "dependencies": {
     "@pmndrs/pointer-events": "^6.6.17",
@@ -79,16 +75,20 @@
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
-    "tsdown": "catalog:build",
     "typescript": "catalog:typescript",
-    "vite": "catalog:vite",
+    "vite": "catalog:",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
     "vite-plugin-inspect": "^11.3.3",
-    "vitest": "catalog:testing",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:",
     "vue": "catalog:vue",
     "vue-demi": "^0.14.10",
     "vue-tsc": "catalog:typescript"
+  },
+  "peerDependencies": {
+    "three": ">=0.133",
+    "vue": ">=3.4"
   },
   "nx": {
     "implicitDependencies": [

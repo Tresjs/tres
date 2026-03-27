@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import type { App } from 'vue'
-import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
+import type {
+  TresCamera,
+  TresContextWithClock,
+  TresObject,
+  TresPointerEvent,
+  TresScene,
+} from '../types'
 import * as THREE from 'three'
 import {
   createRenderer,
@@ -94,12 +100,16 @@ const createInternalComponent = (context: TresContext, empty = false) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
-      if (ctx) { ctx.app = instance?.appContext.app as App }
+      if (ctx) {
+        ctx.app = instance?.appContext.app as App
+      }
       const provides: { [key: string | symbol]: unknown } = {}
 
       // Helper function to recursively merge provides from parents
       function mergeProvides(currentInstance: any) {
-        if (!currentInstance) { return }
+        if (!currentInstance) {
+          return
+        }
 
         // Recursively process the parent instance
         if (currentInstance.parent) {
@@ -115,10 +125,9 @@ const createInternalComponent = (context: TresContext, empty = false) =>
       if (instance?.parent && props.enableProvideBridge) {
         mergeProvides(instance.parent)
 
-        Reflect.ownKeys(provides)
-          .forEach((key) => {
-            provide(key, provides[key])
-          })
+        Reflect.ownKeys(provides).forEach((key) => {
+          provide(key, provides[key])
+        })
       }
 
       provide(CONTEXT_INJECTION_KEY, context)
@@ -146,19 +155,21 @@ const dispose = (context: TresContext, force = false) => {
       context.renderer.instance.forceContextLoss()
     }
   }
-  (scene.value as TresScene).__tres = {
+  ;(scene.value as TresScene).__tres = {
     root: context,
     objects: [],
     isUnmounting: true,
   }
 }
-const context = shallowRef<TresContext>(useTresContextProvider({
-  scene: scene.value as TresScene,
-  canvas: props.canvas,
-  fpsLimit: () => props.fpsLimit ?? Infinity,
-  windowSize: props.windowSize ?? false,
-  rendererOptions: props,
-}))
+const context = shallowRef<TresContext>(
+  useTresContextProvider({
+    scene: scene.value as TresScene,
+    canvas: props.canvas,
+    fpsLimit: () => props.fpsLimit ?? Infinity,
+    windowSize: props.windowSize ?? false,
+    rendererOptions: props,
+  }),
+)
 
 defineExpose({ context, dispose: () => dispose(context.value, true) })
 
@@ -176,7 +187,7 @@ const unmountCanvas = () => {
   const isTresScene = (value: unknown): value is TresScene => isScene(value) && '__tres' in value
 
   if (isTresScene(scene.value)) {
-    (scene.value as TresScene).__tres.isUnmounting = true
+    ;(scene.value as TresScene).__tres.isUnmounting = true
   }
 
   mountCustomRenderer(context.value, true)
@@ -187,12 +198,7 @@ const { camera, renderer } = context.value
 const { registerCamera, cameras, activeCamera, deregisterCamera } = camera
 
 const addDefaultCamera = () => {
-  const camera = new PerspectiveCamera(
-    45,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000,
-  )
+  const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
   camera.position.set(3, 3, 3)
   camera.lookAt(0, 0, 0)
   registerCamera(camera)
@@ -260,7 +266,9 @@ renderer.onError((error) => {
 })
 
 // HMR support
-if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
+if (import.meta.hot) {
+  import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext))
+}
 
 // warn if the canvas has no area
 onMounted(async () => {
@@ -268,7 +276,9 @@ onMounted(async () => {
 
   if (!context.value.sizes.width || !context.value.sizes.height.value) {
     const windowSizePropName: keyof Pick<ContextProps, 'windowSize'> = 'windowSize'
-    console.warn(`TresCanvas: The canvas has no area, so nothing can be rendered. Set it manually on the parent element or use the prop ${windowSizePropName}.`)
+    console.warn(
+      `TresCanvas: The canvas has no area, so nothing can be rendered. Set it manually on the parent element or use the prop ${windowSizePropName}.`,
+    )
   }
 })
 

@@ -3,15 +3,12 @@ import { watchEffect } from 'vue'
 import { Mesh } from 'three'
 import { useGLTF } from '.'
 
-const props = withDefaults(
-  defineProps<GLTFModelProps>(),
-  {
-    draco: false,
-    castShadow: false,
-    receiveShadow: false,
-    decoderPath: 'https://www.gstatic.com/draco/versioned/decoders/1.4.1/',
-  },
-)
+const props = withDefaults(defineProps<GLTFModelProps>(), {
+  draco: false,
+  castShadow: false,
+  receiveShadow: false,
+  decoderPath: 'https://www.gstatic.com/draco/versioned/decoders/1.4.1/',
+})
 
 const { state, isLoading } = useGLTF(props.path as string, {
   draco: props.draco,
@@ -91,8 +88,5 @@ export interface GLTFModelProps {
 </script>
 
 <template>
-  <primitive
-    v-if="!isLoading && state?.scene"
-    :object="state?.scene"
-  />
+  <primitive v-if="!isLoading && state?.scene" :object="state?.scene" />
 </template>

@@ -17,7 +17,10 @@ const props = defineProps<PixelationProps>()
 
 const { scene, camera } = useTres()
 
-const { pass } = useEffect(() => new RenderPixelatedPass(props.pixelSize, scene.value, camera.value!), props)
+const { pass } = useEffect(
+  () => new RenderPixelatedPass(props.pixelSize, scene.value, camera.value!),
+  props,
+)
 
 defineExpose({ pass })
 

@@ -74,8 +74,7 @@ const setValueByPath = (obj: unknown, path: string, value: unknown): void => {
     const key = keys[i]!
     if (current[key] && typeof current[key] === 'object') {
       current = current[key] as Record<string, unknown>
-    }
-    else {
+    } else {
       return // Path doesn't exist
     }
   }
@@ -101,8 +100,14 @@ const setValueByPath = (obj: unknown, path: string, value: unknown): void => {
  */
 const isCameraProjectionProperty = (path: string): boolean => {
   const projectionProperties = [
-    'fov', 'aspect', 'near', 'far', // PerspectiveCamera
-    'left', 'right', 'top', 'bottom', // OrthographicCamera
+    'fov',
+    'aspect',
+    'near',
+    'far', // PerspectiveCamera
+    'left',
+    'right',
+    'top',
+    'bottom', // OrthographicCamera
   ]
 
   const property = path.split('.').pop()
@@ -129,10 +134,7 @@ const isCameraProjectionProperty = (path: string): boolean => {
       />
     </div>
     <div>
-      <div
-        v-if="selectedObject"
-        class="relative isolate"
-      >
+      <div v-if="selectedObject" class="relative isolate">
         <InspectorProps
           :key="refreshTrigger"
           :object="selectedObject"

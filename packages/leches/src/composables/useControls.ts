@@ -44,25 +44,34 @@ export function useControlsProvider(uuid: string = DEFAULT_UUID) {
 const inferType = (value: any): LechesControlUnion['type'] => {
   const colorRegex = /^#(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^0x(?:[A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
 
-  if (typeof value === 'boolean') { return 'boolean' }
-  if (typeof value === 'number') { return 'number' }
-  if (typeof value === 'string' && colorRegex.test(value)) { return 'color' }
-  if (typeof value === 'string') { return 'text' }
-  if (value.isVector3
-    || value.isVector2
-    || value.isEuler
-    || Array.isArray(value.value)
-    || value.value.isVector3
-    || value.value.isVector2
-    || value.value.isEuler
-    || Array.isArray(value.value.value)
+  if (typeof value === 'boolean') {
+    return 'boolean'
+  }
+  if (typeof value === 'number') {
+    return 'number'
+  }
+  if (typeof value === 'string' && colorRegex.test(value)) {
+    return 'color'
+  }
+  if (typeof value === 'string') {
+    return 'text'
+  }
+  if (
+    value.isVector3 ||
+    value.isVector2 ||
+    value.isEuler ||
+    Array.isArray(value.value) ||
+    value.value.isVector3 ||
+    value.value.isVector2 ||
+    value.value.isEuler ||
+    Array.isArray(value.value.value)
   ) {
     return 'vector'
   }
-  if (value.min !== undefined || value.max !== undefined || value.step !== undefined) { return 'range' }
-  if (
-    value.options
-    && Array.isArray(value.options)) {
+  if (value.min !== undefined || value.max !== undefined || value.step !== undefined) {
+    return 'range'
+  }
+  if (value.options && Array.isArray(value.options)) {
     return 'select'
   }
   if (value.type === 'graph') {
@@ -77,7 +86,13 @@ const inferType = (value: any): LechesControlUnion['type'] => {
 }
 
 // Updated createControl function to return proper discriminated union types
-const createControl = (key: string, value: any, type: LechesControlUnion['type'], folderName: string | null, options?: any): LechesControlUnion => {
+const createControl = (
+  key: string,
+  value: any,
+  type: LechesControlUnion['type'],
+  folderName: string | null,
+  options?: any,
+): LechesControlUnion => {
   const baseControl = {
     key,
     label: key,
@@ -92,7 +107,9 @@ const createControl = (key: string, value: any, type: LechesControlUnion['type']
 
   if (folderName) {
     baseControl.folder = folderName
-    baseControl.label = baseControl.label.replace(folderName.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim(), '').toLowerCase()
+    baseControl.label = baseControl.label
+      .replace(folderName.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim(), '')
+      .toLowerCase()
   }
 
   // Return the appropriate typed control based on type with all necessary properties
@@ -114,17 +131,18 @@ const createControl = (key: string, value: any, type: LechesControlUnion['type']
       return { ...baseControl, type } as LechesStringControl
     case 'select': {
       // Process select options properly
-      const processedOptions = options?.options?.map((option: string | LechesSelectOption) => {
-        if (typeof option === 'object') {
-          if ('text' in option && 'value' in option) {
-            return option as LechesSelectOption
+      const processedOptions =
+        options?.options?.map((option: string | LechesSelectOption) => {
+          if (typeof option === 'object') {
+            if ('text' in option && 'value' in option) {
+              return option as LechesSelectOption
+            }
           }
-        }
-        return {
-          text: String(option),
-          value: option,
-        }
-      }) || []
+          return {
+            text: String(option),
+            value: option,
+          }
+        }) || []
 
       return {
         ...baseControl,
@@ -168,9 +186,12 @@ export const useControls = (
   const values: { [key: string]: Ref<any> } = {}
 
   const folderName = typeof folderNameOrParams === 'string' ? folderNameOrParams : null
-  const controlsParams = folderName ? paramsOrOptions as { [key: string]: any } : folderNameOrParams
+  const controlsParams = folderName
+    ? (paramsOrOptions as { [key: string]: any })
+    : folderNameOrParams
 
-  const actualOptions = folderName && folderName !== 'fpsgraph' ? options! : paramsOrOptions as { uuid?: string }
+  const actualOptions =
+    folderName && folderName !== 'fpsgraph' ? options! : (paramsOrOptions as { uuid?: string })
   const uuid = actualOptions?.uuid || DEFAULT_UUID
 
   if (!store[uuid]) {
@@ -212,9 +233,16 @@ export const useControls = (
     uniqueKey = `${uuid}-${key}`
 
     // If the value is an object with control options
-    if (typeof value === 'object' && !isRef(value) && !Array.isArray(value) && value.value !== undefined) {
+    if (
+      typeof value === 'object' &&
+      !isRef(value) &&
+      !Array.isArray(value) &&
+      value.value !== undefined
+    ) {
       const controlOptions = value
-      const reactiveValue = isRef(controlOptions.value) ? controlOptions.value : ref(controlOptions.value)
+      const reactiveValue = isRef(controlOptions.value)
+        ? controlOptions.value
+        : ref(controlOptions.value)
       const controlType = controlOptions.type || inferType(controlOptions)
 
       // Create control with all options upfront
@@ -238,7 +266,12 @@ export const useControls = (
 
     // If the value is a ref, use it directly
     if (isRef(value)) {
-      const control = createControl(key, value, (value.value as any).type || inferType(value.value), folderName)
+      const control = createControl(
+        key,
+        value,
+        (value.value as any).type || inferType(value.value),
+        folderName,
+      )
       controls[key] = control
       result[key] = control
       values[key] = value

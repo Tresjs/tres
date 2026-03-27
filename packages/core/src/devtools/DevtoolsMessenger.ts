@@ -42,9 +42,8 @@ export class DevtoolsMessenger {
 
     // If there are subscribers, send immediately
     if (this.subscribers.size > 0) {
-      this.subscribers.forEach(subscriber => subscriber(message))
-    }
-    else {
+      this.subscribers.forEach((subscriber) => subscriber(message))
+    } else {
       // Only queue specific message types (like asset-load)
       // Performance and context messages are dropped when no subscribers
       if (QUEUEABLE_MESSAGE_TYPES.includes(type)) {
@@ -76,7 +75,7 @@ export class DevtoolsMessenger {
 
     // Send all queued messages to current subscribers
     this.messageQueue.forEach((message) => {
-      this.subscribers.forEach(subscriber => subscriber(message))
+      this.subscribers.forEach((subscriber) => subscriber(message))
     })
 
     // Clear the queue after sending

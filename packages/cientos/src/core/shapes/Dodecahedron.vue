@@ -22,7 +22,10 @@ export interface DodecahedronProps {
   color?: TresColor
 }
 
-const props = withDefaults(defineProps<DodecahedronProps>(), { args: () => [1, 0], color: '#ffffff' })
+const props = withDefaults(defineProps<DodecahedronProps>(), {
+  args: () => [1, 0],
+  color: '#ffffff',
+})
 const { invalidate } = useTres()
 
 const { args, color } = toRefs(props)
@@ -38,9 +41,7 @@ defineExpose({
 </script>
 
 <template>
-  <TresMesh
-    ref="dodecahedronRef"
-  >
+  <TresMesh ref="dodecahedronRef">
     <TresDodecahedronGeometry :args="args" />
     <slot>
       <TresMeshBasicMaterial :color="color" />

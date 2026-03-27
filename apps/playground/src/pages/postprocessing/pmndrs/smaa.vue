@@ -19,60 +19,74 @@ const uuid = 'smaa-pmndrs'
 const wrapperRef = ref<HTMLElement | undefined>(undefined)
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
-const { blendFunction, debug, autoRotateSpeed, opacity, preset, wireframe, predicationMode, edgeDetectionMode } = useControls({
-  blendFunction: {
-    options: Object.keys(BlendFunction).map(key => ({
-      text: key,
-      value: BlendFunction[key as keyof typeof BlendFunction],
-    })),
-    value: BlendFunction.NORMAL,
+const {
+  blendFunction,
+  debug,
+  autoRotateSpeed,
+  opacity,
+  preset,
+  wireframe,
+  predicationMode,
+  edgeDetectionMode,
+} = useControls(
+  {
+    blendFunction: {
+      options: Object.keys(BlendFunction).map((key) => ({
+        text: key,
+        value: BlendFunction[key as keyof typeof BlendFunction],
+      })),
+      value: BlendFunction.NORMAL,
+    },
+    debug: {
+      options: [
+        { text: 'OFF', value: 0 },
+        { text: 'EDGES', value: 1 },
+        { text: 'WEIGHTS', value: 2 },
+      ],
+      value: 0,
+    },
+    preset: {
+      options: Object.keys(SMAAPreset).map((key) => ({
+        text: key,
+        value: SMAAPreset[key as keyof typeof SMAAPreset],
+      })),
+      value: SMAAPreset.MEDIUM,
+    },
+    predicationMode: {
+      options: Object.keys(PredicationMode).map((key) => ({
+        text: key,
+        value: PredicationMode[key as keyof typeof PredicationMode],
+      })),
+      value: PredicationMode.DISABLED,
+    },
+    edgeDetectionMode: {
+      options: Object.keys(EdgeDetectionMode).map((key) => ({
+        text: key,
+        value: EdgeDetectionMode[key as keyof typeof EdgeDetectionMode],
+      })),
+      value: EdgeDetectionMode.COLOR,
+    },
+    opacity: {
+      value: 1,
+      min: 0,
+      max: 1,
+      step: 0.01,
+    },
+    autoRotateSpeed: {
+      value: 0.5,
+      min: 0,
+      max: 10,
+      step: 0.1,
+    },
+    wireframe: false,
   },
-  debug: {
-    options: [
-      { text: 'OFF', value: 0 },
-      { text: 'EDGES', value: 1 },
-      { text: 'WEIGHTS', value: 2 },
-    ],
-    value: 0,
-  },
-  preset: {
-    options: Object.keys(SMAAPreset).map(key => ({
-      text: key,
-      value: SMAAPreset[key as keyof typeof SMAAPreset],
-    })),
-    value: SMAAPreset.MEDIUM,
-  },
-  predicationMode: {
-    options: Object.keys(PredicationMode).map(key => ({
-      text: key,
-      value: PredicationMode[key as keyof typeof PredicationMode],
-    })),
-    value: PredicationMode.DISABLED,
-  },
-  edgeDetectionMode: {
-    options: Object.keys(EdgeDetectionMode).map(key => ({
-      text: key,
-      value: EdgeDetectionMode[key as keyof typeof EdgeDetectionMode],
-    })),
-    value: EdgeDetectionMode.COLOR,
-  },
-  opacity: {
-    value: 1,
-    min: 0,
-    max: 1,
-    step: 0.01,
-  },
-  autoRotateSpeed: {
-    value: 0.5,
-    min: 0,
-    max: 10,
-    step: 0.1,
-  },
-  wireframe: false,
-}, { uuid })
+  { uuid },
+)
 
 const onChange = (e: { object: PerspectiveCamera }) => {
-  if (!cameraRef.value) { return }
+  if (!cameraRef.value) {
+    return
+  }
 
   cameraRef.value.position.copy(e.object.position)
   cameraRef.value.rotation.copy(e.object.rotation)
@@ -87,11 +101,7 @@ const onChange = (e: { object: PerspectiveCamera }) => {
   <div ref="wrapperRef" class="h-[100%] w-[100%] relative">
     <p class="playground-smaa-infos text-xl absolute">Left: No SMAA — Right: SMAA</p>
 
-    <TresCanvas
-      v-bind="gl"
-      class="playground-smaa-canvas-left"
-      window-size
-    >
+    <TresCanvas v-bind="gl" class="playground-smaa-canvas-left" window-size>
       <TresPerspectiveCamera :position="[0, 2.5, 3.5]" />
       <OrbitControls
         auto-rotate
@@ -107,11 +117,7 @@ const onChange = (e: { object: PerspectiveCamera }) => {
       </TresMesh>
     </TresCanvas>
 
-    <TresCanvas
-      v-bind="gl"
-      class="playground-smaa-canvas-right"
-      window-size
-    >
+    <TresCanvas v-bind="gl" class="playground-smaa-canvas-right" window-size>
       <TresPerspectiveCamera ref="cameraRef" :position="[0, 2.5, 3.5]" />
 
       <TresMesh :position="[0, 0.5, 0]">

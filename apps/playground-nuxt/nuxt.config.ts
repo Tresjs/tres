@@ -21,14 +21,13 @@ export default defineNuxtConfig({
   imports: {
     transform: {
       exclude: [
-        /[\/]packages[\\/]cientos[\\/]dist[\\/]trescientos\.js$/,
-        /[\/]packages[\\/]core[\\/]dist[\\/]tres\.js$/,
-        /[\/]packages[\\/]leches[\\/]dist[\\/]tresleches\.js$/,
-        /[\/]packages[\\/]postprocessing[\\/]dist[\\/]tres-post-processing\.js$/,
+        /[/]packages[\\/]cientos[\\/]dist[\\/]trescientos\.js$/,
+        /[/]packages[\\/]core[\\/]dist[\\/]tres\.js$/,
+        /[/]packages[\\/]leches[\\/]dist[\\/]tresleches\.js$/,
+        /[/]packages[\\/]postprocessing[\\/]dist[\\/]tres-post-processing\.js$/,
       ],
-    }
+    },
   },
-
 
   // for testing purposes
   // imports: {
