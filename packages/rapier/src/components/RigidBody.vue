@@ -41,6 +41,8 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   enabledTranslations: () => [true, true, true],
 
   // Auto-generated colliders props
+  activeContactForce: false,
+  contactForceEventThreshold: 0,
   friction: 0.5,
   mass: 1,
   restitution: 0,
@@ -137,6 +139,9 @@ watch(() => props.activeCollision, value => setAutoColliderProp('activeCollision
 watch(() => props.activeCollisionTypes, value => setAutoColliderProp('activeCollisionTypes', value))
 watch(() => props.collisionGroups, value => setAutoColliderProp('collisionGroups', value))
 watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
+watch(() => props.activeContactForce, value => setAutoColliderProp('activeContactForce', value))
+watch(() => props.contactForceEventThreshold, value => setAutoColliderProp('contactForceEventThreshold', value))
+
 
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }
@@ -195,6 +200,8 @@ onUnmounted(() => {
       :activeCollisionTypes="_props.activeCollisionTypes"
       :collisionGroups="_props.collisionGroups"
       :sensor="_props.sensor"
+      :activeContactForce="_props.activeContactForce"
+      :contactForceEventThreshold="_props.contactForceEventThreshold"
     />
     <slot></slot>
   </TresGroup>
