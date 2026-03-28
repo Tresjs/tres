@@ -20,6 +20,11 @@ export const abstractionsRoutes = [
     component: () => import('@/pages/cientos/abstractions/lensflare/index.vue'),
   },
   {
+    path: '/cientos/abstractions/lensflare-elements',
+    name: 'Lensflare (elements)',
+    component: () => import('@/pages/cientos/abstractions/lensflare-elements/index.vue'),
+  },
+  {
     path: '/cientos/abstractions/reflector-mesh',
     name: 'ReflectorMeshDemo',
     component: () => import('@/pages/cientos/abstractions/ReflectorMeshDemo.vue'),

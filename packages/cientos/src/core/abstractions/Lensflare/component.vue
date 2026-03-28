@@ -11,14 +11,36 @@ import { onMounted, onUnmounted, shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Texture } from 'three'
 import type { LensflareElement } from 'three-stdlib'
-import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps, filterLensflareElementProps } from '.'
+import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps } from '.'
 import type { LensflareElementProps, SeedProps } from '.'
+
+const props = withDefaults(defineProps<LensflareProps>(), {
+  scale: 1.0,
+  distance: 1.0,
+  elements: undefined,
+  seed: undefined,
+  seedProps: undefined,
+  color: undefined,
+  texture: undefined,
+})
+
+function pickDefined(obj: Record<string, unknown>): Partial<LensflareElementProps> {
+  const result: Record<string, unknown> = {}
+  for (const [k, v] of Object.entries(obj)) {
+    if (v !== undefined) { result[k] = v }
+  }
+  return result as Partial<LensflareElementProps>
+}
 
 export interface LensflareProps {
   /**
-   * scale of the lensflare
+   * scale of the lensflare element sizes
    */
   scale?: number
+  /**
+   * multiplier for element distances from flare center
+   */
+  distance?: number
   /**
    * array of lensflare element properties
    */
@@ -36,34 +58,18 @@ export interface LensflareProps {
    */
   color?: TresColor
   /**
-   *  default distance of lensflare elements from flare center
-   */
-  distance?: number
-  /**
-   *  default size of lensflare elements
-   */
-  size?: number
-  /**
    * default texture of lensflare elements
    */
   texture?: Texture | string
 }
 
-const props = withDefaults(defineProps<LensflareProps>(), {
-  scale: 1.0,
-  elements: undefined,
-  seed: undefined,
-  seedProps: undefined,
-  color: undefined,
-  distance: undefined,
-  size: undefined,
-  texture: undefined,
-})
-
 const lensflareRef = shallowRef<Lensflare>()
 const lensflareElementPropsArrayRef = shallowRef<LensflareElementProps[]>([])
 const userDefaultLensflareElementPropsRef
-  = shallowRef<Partial<LensflareElementProps>>(filterLensflareElementProps(props))
+  = shallowRef<Partial<LensflareElementProps>>(pickDefined({
+    color: props.color,
+    texture: props.texture,
+  }))
 
 defineExpose({
   instance: lensflareRef,
@@ -97,7 +103,7 @@ const lensflareElementPropsToLensflareElement = (p: LensflareElementProps) => {
   return p as LensflareElement
 }
 
-const scaleThreeElements = () => {
+const applyScaleAndDistance = () => {
   // NOTE: We can't remove already added elements from the THREE lensflare.
   // So if we've previously added more elements than are currently needed,
   // make those elements too small to display.
@@ -107,6 +113,7 @@ const scaleThreeElements = () => {
 
   lensflareElementPropsArrayRef.value.forEach((elementProps, i) => {
     threeElements[i].size = elementProps.size * props.scale
+    threeElements[i].distance = elementProps.distance * props.distance
   })
 }
 
@@ -141,7 +148,7 @@ const updateThreeElements = () => {
     threeElement.color = normalizeColor(color)
   })
 
-  scaleThreeElements()
+  applyScaleAndDistance()
 }
 
 onUnmounted(() => {
@@ -154,13 +161,11 @@ onMounted(() => {
     = fillInProps(props.elements, userDefaultLensflareElementPropsRef.value, props.seed, props.seedProps)
 })
 
-watch(() => [props.color, props.distance, props.size, props.texture], () => {
-  userDefaultLensflareElementPropsRef.value = {
+watch(() => [props.color, props.texture], () => {
+  userDefaultLensflareElementPropsRef.value = pickDefined({
     color: props.color,
-    distance: props.distance,
-    size: props.size,
-    texture: props.texture as Texture | string,
-  }
+    texture: props.texture,
+  })
 })
 
 watch(() => [userDefaultLensflareElementPropsRef.value, props.elements, props.seed, props.seedProps], () => {
@@ -168,8 +173,8 @@ watch(() => [userDefaultLensflareElementPropsRef.value, props.elements, props.se
     = fillInProps(props.elements, userDefaultLensflareElementPropsRef.value, props.seed, props.seedProps)
 })
 
-watch(() => props.scale, () => {
-  scaleThreeElements()
+watch(() => [props.scale, props.distance], () => {
+  applyScaleAndDistance()
 })
 
 watch(() => lensflareElementPropsArrayRef.value, () => {
