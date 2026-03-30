@@ -9,7 +9,7 @@ export interface SceneGraphObject {
   defaultExpanded: boolean
   memorySize: number
   children: SceneGraphObject[]
-  onSelect: () => void
+  onSelect?: () => void
   value?: unknown
 }
 

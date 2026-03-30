@@ -1,7 +1,6 @@
 {
   "name": "@tresjs/rapier",
   "version": "0.0.0",
-  "private": true,
   "description": "TresJs physics support, powered by rapier",
   "keywords": [
     "3d",
@@ -67,7 +66,7 @@
     "three": "catalog:three",
     "typescript": "catalog:typescript",
     "vite": "catalog:",
-    "vite-plus": "catalog:",
+    "vite-plus": "0.1.15-alpha.4",
     "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
   },

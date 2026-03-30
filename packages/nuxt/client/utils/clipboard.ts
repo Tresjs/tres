@@ -42,7 +42,7 @@ export const copyValueAsVector3 = async (node: InspectorNode): Promise<void> => 
   try {
     if (!node.children || node.children.length < 3) return
     await navigator.clipboard.writeText(
-      `new Vector3(${node.children[0].value}, ${node.children[1].value}, ${node.children[2].value})`,
+      `new Vector3(${node.children[0]!.value}, ${node.children[1]!.value}, ${node.children[2]!.value})`,
     )
   } catch (error) {
     console.error('Failed to copy prop as Vector3:', error)

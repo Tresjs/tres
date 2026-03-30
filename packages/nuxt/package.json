@@ -74,7 +74,7 @@
     "playwright": "^1.55.0",
     "three": "catalog:three",
     "typescript": "catalog:typescript",
-    "vite-plus": "catalog:",
+    "vite-plus": "0.1.15-alpha.4",
     "vitest": "catalog:",
     "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"

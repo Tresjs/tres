@@ -1,6 +1,5 @@
-import type { AssetLoadData } from '@tresjs/core'
 import { bytesToKB, calculateMemoryUsage } from './perf'
-import type { Material, Texture } from 'three'
+import type { Material, Texture, Object3D } from 'three'
 import {
   Scene,
   Mesh,
@@ -78,8 +77,9 @@ function getTextureFormat(texture: Texture): string {
 
 function getTextureSource(texture: Texture): string {
   if (texture.image) {
-    if (texture.image.src) return texture.image.src.split('/').pop() || 'Unknown'
-    if (texture.image.currentSrc) return texture.image.currentSrc.split('/').pop() || 'Unknown'
+    const image = texture.image as { src?: string; currentSrc?: string }
+    if (image.src) return image.src.split('/').pop() || 'Unknown'
+    if (image.currentSrc) return image.currentSrc.split('/').pop() || 'Unknown'
   }
   return 'Generated'
 }
@@ -87,13 +87,14 @@ function getTextureSource(texture: Texture): string {
 function getTextureMemoryUsage(texture: Texture): number {
   if (!texture.image) return 0
 
-  const width = texture.image.width || 0
-  const height = texture.image.height || 0
+  const img = texture.image as { width?: number; height?: number }
+  const width = img.width || 0
+  const height = img.height || 0
 
   // Estimate bytes per pixel based on format
   let bytesPerPixel = 4 // RGBA default
-  if (texture.format === 1023) bytesPerPixel = 3 // RGB
-  if (texture.format === 1025) bytesPerPixel = 1 // Alpha
+  if ((texture.format as number) === 1023) bytesPerPixel = 3 // RGB
+  if ((texture.format as number) === 1025) bytesPerPixel = 1 // Alpha
 
   // Calculate memory usage in KB (GPU memory, not file size)
   const memoryBytes = width * height * bytesPerPixel
@@ -106,9 +107,10 @@ function getTextureMemoryUsage(texture: Texture): number {
 function getTexturePreview(texture: Texture): string | undefined {
   try {
     if (texture.image) {
+      const image = texture.image as { src?: string; currentSrc?: string }
       // For HTMLImageElement, HTMLCanvasElement, or ImageBitmap
-      if (texture.image.src) {
-        return texture.image.src
+      if (image.src) {
+        return image.src
       }
 
       // For canvas or other image types, convert to data URL
@@ -117,8 +119,8 @@ function getTexturePreview(texture: Texture): string | undefined {
       }
 
       // For other image elements, try to get currentSrc
-      if (texture.image.currentSrc) {
-        return texture.image.currentSrc
+      if (image.currentSrc) {
+        return image.currentSrc
       }
     }
   } catch (error) {
@@ -141,7 +143,7 @@ function getModelName(url: string): string {
 function repairCorruptedBuffers(object: Object3D): boolean {
   let wasCorrupted = false
 
-  object.traverse((child) => {
+  object.traverse((child: any) => {
     if (child.geometry && child.geometry.attributes) {
       // Check and repair each attribute
       Object.keys(child.geometry.attributes).forEach((attributeName) => {
@@ -275,7 +277,7 @@ function repairCorruptedBuffers(object: Object3D): boolean {
 function checkForCorruptedBuffers(object: Object3D): boolean {
   let hasCorruption = false
 
-  object.traverse((child) => {
+  object.traverse((child: any) => {
     if (child.geometry && child.geometry.attributes) {
       // Check if position attribute exists and has valid data
       const position = child.geometry.attributes.position
@@ -300,7 +302,7 @@ function checkForCorruptedBuffers(object: Object3D): boolean {
 /**
  * Generate a preview image for a 3D model
  */
-function getModelPreview(model: Object3D): string | undefined {
+function getModelPreview(model: any): string | undefined {
   try {
     // Check if the model has corrupted buffer data (from devtools messaging)
 
@@ -382,8 +384,9 @@ function getModelPreview(model: Object3D): string | undefined {
   }
 }
 
-export function formatAsset(asset: AssetLoadData): AssetInfo {
-  if (asset.loader.name === 'sg' || asset.loader.name === 'FBXLoader') {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function formatAsset(asset: any): AssetInfo {
+  if (asset.loader?.name === 'sg' || asset.loader?.name === 'FBXLoader') {
     const preview = getModelPreview(asset.asset)
     return {
       id: asset.id,
@@ -391,12 +394,11 @@ export function formatAsset(asset: AssetLoadData): AssetInfo {
       type: 'model',
       format: getModelFormat(asset.url),
       source: getModelName(asset.url),
-      usage: bytesToKB(calculateMemoryUsage(asset.asset)),
-      preview, // Add model preview
-      // object: asset.asset,
+      usage: Number(bytesToKB(calculateMemoryUsage(asset.asset))),
+      preview,
     }
-  } else if (asset.loader.name === 'TextureLoader') {
-    const image = asset.asset.image
+  } else if (asset.loader?.name === 'TextureLoader') {
+    const image = asset.asset?.image
     const size = image ? `${image.width}x${image.height}` : 'Unknown'
     const preview = getTexturePreview(asset.asset)
     return {
@@ -408,7 +410,7 @@ export function formatAsset(asset: AssetLoadData): AssetInfo {
       format: getTextureFormat(asset.asset),
       source: getTextureSource(asset.asset),
       usage: getTextureMemoryUsage(asset.asset),
-      resolution: `${image.width / 1024}K`,
+      resolution: image ? `${image.width / 1024}K` : undefined,
     }
   }
   return {

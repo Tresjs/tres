@@ -96,7 +96,7 @@ export default defineNuxtModule<ModuleOptions>({
     const coreDeps = Object.keys(allDeps).filter((d) => d.startsWith('@tresjs/'))
 
     for (const mod of new Set([...options.modules, ...coreDeps])) {
-      if (mod === '@tresjs/core' || mod === '@tresjs/nuxt') {
+      if (mod === '@tresjs/core' || mod === '@tresjs/nuxt' || mod === '@tresjs/eslint-config') {
         continue
       }
 
@@ -147,7 +147,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     if (options.glsl) {
-      addVitePlugin(glsl())
+      addVitePlugin(glsl() as any)
     }
   },
 })

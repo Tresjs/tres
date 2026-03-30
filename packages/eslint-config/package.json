@@ -46,7 +46,7 @@
   "devDependencies": {
     "eslint": "catalog:eslint",
     "eslint-flat-config-viewer": "^0.1.20",
-    "vite-plus": "catalog:"
+    "vite-plus": "0.1.15-alpha.4"
   },
   "peerDependencies": {
     "eslint": ">=8.40.0"

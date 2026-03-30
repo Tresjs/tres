@@ -74,7 +74,7 @@
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
     "vite-plugin-glsl": "^1.5.1",
-    "vite-plus": "catalog:",
+    "vite-plus": "0.1.15-alpha.4",
     "vite-svg-loader": "^5.1.0",
     "vue-tsc": "catalog:typescript"
   },

@@ -8,6 +8,7 @@ import type {
   BoxSceneNode,
   CameraSceneNode,
   ConeSceneNode,
+  SceneNode,
   SceneSettings,
   SphereSceneNode,
 } from './types'
@@ -163,6 +164,23 @@ function addSphereSceneNode() {
 
 function selectSceneNode(sceneNodeId: string) {
   selectedNodeId.value = sceneNodeId
+}
+
+function handleTransformStart() {
+  transformControlFocused.value = true
+  history.pause()
+}
+
+function handleTransformEnd() {
+  transformControlFocused.value = false
+  history.resume(true)
+}
+
+function handleSceneNodeUpdate(node: SceneNode) {
+  if (selectedNode.value == null) return
+  selectedNode.value.position = node.position
+  selectedNode.value.rotation = node.rotation
+  selectedNode.value.scale = node.scale
 }
 
 function handleTransformChange(sceneNodeId: string, object: Object3D) {
@@ -357,16 +375,10 @@ function handleDeleteSceneNode(sceneNodeId: string) {
                 :object="sceneNodeRefs[selectedNodeId!]"
                 :mode="currentMode"
                 :space="currentSpace"
-                @mouse-down="
-                  transformControlFocused = true
-                  history.pause()
-                "
-                @mouse-up="
-                  transformControlFocused = false
-                  history.resume(true)
-                "
+                @mouse-down="handleTransformStart"
+                @mouse-up="handleTransformEnd"
                 @object-change="
-                  handleTransformChange(selectedNodeId!, sceneNodeRefs[selectedNodeId!])
+                  () => handleTransformChange(selectedNodeId!, sceneNodeRefs[selectedNodeId!])
                 "
               />
               <TresGridHelper :args="[100, 10, '#44403C', '#E4E4E7']" />
@@ -385,11 +397,7 @@ function handleDeleteSceneNode(sceneNodeId: string) {
         <b> Scene Node Properties </b>
         <SimpleEditorSceneNodeProps
           :model-value="selectedNode"
-          @update:model-value="
-            selectedNode!.position = $event.position
-            selectedNode!.rotation = $event.rotation
-            selectedNode!.scale = $event.scale
-          "
+          @update:model-value="handleSceneNodeUpdate"
         />
         <SimpleEditorSceneNodeCameraProps
           v-if="selectedNode.type === 'camera'"

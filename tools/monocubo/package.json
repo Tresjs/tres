@@ -25,6 +25,6 @@
     "@types/inquirer": "^9.0.8",
     "@types/node": "catalog:node",
     "typescript": "5.8.3",
-    "vite-plus": "catalog:"
+    "vite-plus": "0.1.15-alpha.4"
   }
 }

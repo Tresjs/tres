@@ -20,8 +20,9 @@ export function setupDevToolsUI(nuxt: Nuxt, resolver: Resolver) {
   // In local development, use Nitro to proxy to the separate Nuxt Server
   else {
     nuxt.hook('vite:extendConfig', (config) => {
-      config.server = config.server || {}
-      config.server.proxy = config.server.proxy || {}
+      // @ts-expect-error -- config.server may be read-only in type but is mutable at runtime in this hook
+      config.server ??= {}
+      config.server!.proxy = config.server!.proxy || {}
       config.server.proxy[DEVTOOLS_UI_ROUTE] = {
         target: 'http://localhost:' + DEVTOOLS_UI_LOCAL_PORT + DEVTOOLS_UI_ROUTE,
         changeOrigin: true,

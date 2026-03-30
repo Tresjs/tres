@@ -5,6 +5,11 @@ packages:
   - packages/*/playground/*
   - tools/*
 
+catalog:
+  vite: npm:@voidzero-dev/vite-plus-core@alpha
+  vite-plus: 0.1.15-alpha.4
+  vitest: npm:@voidzero-dev/vite-plus-test@alpha
+
 catalogs:
   build:
     rollup-plugin-analyzer: ^4.0.0
@@ -56,13 +61,11 @@ catalogs:
   vue:
     vue: ^3.5.22
     vue-router: ^4.5.1
-catalog:
-  vite: npm:@voidzero-dev/vite-plus-core@latest
-  vitest: npm:@voidzero-dev/vite-plus-test@latest
-  vite-plus: latest
+
 overrides:
   vite: 'catalog:'
   vitest: 'catalog:'
+
 peerDependencyRules:
   allowAny:
     - vite

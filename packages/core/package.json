@@ -80,7 +80,7 @@
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
     "vite-plugin-inspect": "^11.3.3",
-    "vite-plus": "catalog:",
+    "vite-plus": "0.1.15-alpha.4",
     "vitest": "catalog:",
     "vue": "catalog:vue",
     "vue-demi": "^0.14.10",
