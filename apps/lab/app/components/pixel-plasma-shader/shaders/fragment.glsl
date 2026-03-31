@@ -11,10 +11,6 @@ void main() {
   float squareDist = max(centered.x, centered.y);
   if (squareDist >= 0.5) discard;
 
-  // Inner radial glow: bright center fading to edges
-  float dist = length(pc - 0.5) * 2.0;
-  float glow = 1.0 - smoothstep(0.0, 1.0, dist);
-  float alpha = mix(0.5, 1.0, glow) * vMask;
-
+  float alpha = vMask;
   gl_FragColor = vec4(vColor, alpha);
 }

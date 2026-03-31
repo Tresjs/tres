@@ -1,5 +1,5 @@
-import tresjs from '@tresjs/eslint-config'
+import { tresLintConfig } from '@tresjs/eslint-config'
 
-export default tresjs({
-  ignores: ['.data/**'],
+export default tresLintConfig({
+  ignores: ['.data/**', 'CLAUDE.md'],
 })

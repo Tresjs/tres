@@ -42,7 +42,6 @@ watch([speed, rotationFactor, floatFactor], ([speed, rotationFactor, floatFactor
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
     <Levioso
-      ref="groupRef"
       v-bind="leviosoState"
     >
       <TorusKnot :position="[0, 4, 0]">

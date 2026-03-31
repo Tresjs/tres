@@ -22,7 +22,10 @@ const prevCanvasCursor = new Vector2(9999, 9999)
 
 // --- Particle geometry: full plane, uniform grid ---
 const aspect = sizes.width.value / sizes.height.value
-const particlesGeometry = new PlaneGeometry(10 * aspect, 10, 128, 128)
+const subdivisions = 64
+const planeHeight = 10
+const subdivsX = Math.round(subdivisions * aspect)
+const particlesGeometry = new PlaneGeometry(planeHeight * aspect, planeHeight, subdivsX, subdivisions)
 particlesGeometry.setIndex(null)
 particlesGeometry.deleteAttribute('normal')
 
@@ -50,10 +53,11 @@ const particlesMaterial = new ShaderMaterial({
     uColorSecondary: new Uniform(new Vector3(0.702, 0.635, 1.0)),
     uZoom: new Uniform(0.5),
     uSizeContrast: new Uniform(1.0),
-    uSpeed: new Uniform(1.0),
+    uSpeed: new Uniform(0.1),
     uSineFrequency: new Uniform(3.0),
-    uSineSpeed: new Uniform(0.3),
-    uSineAmplitude: new Uniform(0.15),
+    uSineSpeed: new Uniform(0.6),
+    uSineAmplitude: new Uniform(0.05),
+    uGridCellSize: new Uniform(planeHeight / subdivisions),
   },
   transparent: true,
   depthWrite: false,
@@ -74,28 +78,23 @@ const { palettePrimary, paletteSecondary } = useControls('🫟 palette', {
 }, { uuid })
 
 const { particlesZoom, particlesContrast, particlesSpeed } = useControls('🎬 particles', {
-  zoom: { value: 0.5, min: 0.1, max: 2.0, step: 0.01 },
-  contrast: { value: 1.0, min: 0.1, max: 5.0, step: 0.01 },
-  speed: { value: 1.0, min: 0.0, max: 5.0, step: 0.01 },
+  zoom: { value: 0.7, min: 0.1, max: 2.0, step: 0.01 },
+  contrast: { value: 3.0, min: 0.1, max: 7.0, step: 0.01 },
+  speed: { value: 0.2, min: 0.0, max: 5.0, step: 0.01 },
 }, { uuid })
 
-const { sineFrequency, sineSpeed, sineAmplitude } = useControls('🌊 sine wave', {
+const { sineFrequency, sineSpeed, sineAmplitude } = useControls('🌊 sine', {
   frequency: { value: 3.0, min: 1.0, max: 10.0, step: 0.1 },
   speed: { value: 0.3, min: 0.0, max: 2.0, step: 0.01 },
-  amplitude: { value: 0.15, min: 0.0, max: 0.5, step: 0.01 },
+  amplitude: { value: 0.05, min: 0.0, max: 0.5, step: 0.01 },
 }, { uuid })
 
-const { postprocessingChromaticAberration, postprocessingBloom } = useControls('👾 postprocessing', {
-  chromaticAberration: { value: false, type: 'boolean' },
-  bloom: { value: false, type: 'boolean' },
-}, { uuid })
-
-watch(particlesZoom, val => particlesMaterial.uniforms.uZoom!.value = val)
-watch(particlesContrast, val => particlesMaterial.uniforms.uSizeContrast!.value = val)
-watch(particlesSpeed, val => particlesMaterial.uniforms.uSpeed!.value = val)
-watch(sineFrequency, val => particlesMaterial.uniforms.uSineFrequency!.value = val)
-watch(sineSpeed, val => particlesMaterial.uniforms.uSineSpeed!.value = val)
-watch(sineAmplitude, val => particlesMaterial.uniforms.uSineAmplitude!.value = val)
+watch(particlesZoom, val => particlesMaterial.uniforms.uZoom!.value = val, { immediate: true })
+watch(particlesContrast, val => particlesMaterial.uniforms.uSizeContrast!.value = val, { immediate: true })
+watch(particlesSpeed, val => particlesMaterial.uniforms.uSpeed!.value = val, { immediate: true })
+watch(sineFrequency, val => particlesMaterial.uniforms.uSineFrequency!.value = val, { immediate: true })
+watch(sineSpeed, val => particlesMaterial.uniforms.uSineSpeed!.value = val, { immediate: true })
+watch(sineAmplitude, val => particlesMaterial.uniforms.uSineAmplitude!.value = val, { immediate: true })
 
 watch(palettePrimary, (hex: string) => {
   const c = new Color(hex)
@@ -105,11 +104,6 @@ watch(paletteSecondary, (hex: string) => {
   const c = new Color(hex)
   particlesMaterial.uniforms.uColorSecondary!.value.set(c.r, c.g, c.b)
 }, { immediate: true })
-
-const chromaticAberrationOffset = computed(() =>
-  postprocessingChromaticAberration.value ? new Vector2(0.001, 0.001) : new Vector2(0, 0),
-)
-const bloomIntensity = computed(() => postprocessingBloom.value ? 1 : 0)
 
 // --- Pointer: capture UV for cursor displacement ---
 const onMouseMove = (event: TresPointerEvent) => {
@@ -155,10 +149,4 @@ onBeforeRender(({ elapsed }) => {
     <TresPlaneGeometry :args="[15 * aspect, 15]" />
     <TresMeshBasicMaterial />
   </TresMesh>
-  <Suspense>
-    <EffectComposerPmndrs>
-      <ChromaticAberrationPmndrs :offset="chromaticAberrationOffset" radial-modulation />
-      <BloomPmndrs :intensity="bloomIntensity" :luminance-threshold="0" :luminance-smoothing="0.3" mipmap-blur />
-    </EffectComposerPmndrs>
-  </Suspense>
 </template>

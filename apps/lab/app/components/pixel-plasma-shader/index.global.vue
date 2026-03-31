@@ -5,7 +5,7 @@ useControls('fpsgraph', { uuid })
 provide('uuid', uuid)
 
 const { canvasClearColor } = useControls('🎨 canvas', {
-  clearColor: '#08060E',
+  clearColor: '#171122',
 }, { uuid })
 </script>
 

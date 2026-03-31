@@ -5,7 +5,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'leches-controls-number'
 
-const { basicNumber, withStep, withMinMax, clamped, integer, customFormat, degFormat } = useControls({
+const { basicNumber, withStep, _withMinMax, clamped, _integer, customFormat, degFormat } = useControls({
   // Basic number (default step 0.1)
   basicNumber: 5,
   // Custom step

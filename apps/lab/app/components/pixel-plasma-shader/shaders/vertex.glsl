@@ -11,6 +11,7 @@ uniform float uSpeed;
 uniform float uSineFrequency;
 uniform float uSineSpeed;
 uniform float uSineAmplitude;
+uniform float uGridCellSize;
 
 attribute float aIntensity;
 attribute float aAngle;
@@ -69,19 +70,18 @@ void main() {
 
   // --- Domain-warped FBM → waveIntensity ---
   vec2 q = vec2(
-    fbm(uv * 3.0 + t * 0.01),
-    fbm(uv * 3.0 + vec2(5.2, 1.3) + t * 0.01)
+    fbm(uv * 2.0 + t * 0.02),
+    fbm(uv * 2.0 + vec2(5.2, 1.3) + t * 0.02)
   );
   vec2 r = vec2(
-    fbm((uv + 4.0 * q) * 3.0 + vec2(1.7, 9.2)),
-    fbm((uv + 4.0 * q) * 3.0 + vec2(8.3, 2.8))
+    fbm((uv + 2.0 * q) * 2.0 + vec2(1.7, 9.2)),
+    fbm((uv + 2.0 * q) * 2.0 + vec2(8.3, 2.8))
   );
-  float waveIntensity = smoothstep(0.1, 0.9, fbm((uv + r) * 3.0 * uZoom));
+  float waveIntensity = smoothstep(0.05, 0.95, fbm((uv + r) * 2.0 * uZoom));
 
   // --- Color ---
   float noiseBlend = snoise(uv * 3.0 + t * 0.005) * 0.5 + 0.5;
   vColor = mix(uColorSecondary, uColorPrimary, waveIntensity * noiseBlend);
-  vColor = pow(vColor, vec3(2.0));
 
   // --- Scrolling sine mask ---
   float sineEdge = uSineAmplitude * sin(uv.y * uSineFrequency * PI + uTime * uSineSpeed);
@@ -99,7 +99,10 @@ void main() {
   vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
   gl_Position = projectionMatrix * mvPosition;
 
+  // Size that exactly fills one grid cell (no overlap)
+  float baseSize = uGridCellSize * projectionMatrix[1][1] * uResolution.y * 0.5 / (-mvPosition.z);
+
   float sizeWave = pow(waveIntensity, uSizeContrast);
-  gl_PointSize = 0.1 * uResolution.y * sizeWave;
-  gl_PointSize *= (1.0 / -mvPosition.z);
+  float sizeMask = mix(0.05, 1.0, vMask);
+  gl_PointSize = baseSize * sizeWave * sizeMask;
 }

@@ -4,6 +4,7 @@ import { useTres } from '@tresjs/core'
 const { sizes } = useTres()
 const state: SizesType = inject('state-sizes')
 
+// eslint-disable-next-line no-console
 console.log(sizes)
 watch(() => [sizes.width, sizes.height, sizes.aspectRatio, sizes.pixelRatio], ([width, height, aspectRatio, pixelRatio]) => {
   state.width = width

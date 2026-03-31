@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Mesh, Texture} from 'three';
-import { Vector2, Uniform, ShaderMaterial, PlaneGeometry, DoubleSide, CanvasTexture, Float32BufferAttribute, BufferAttribute, AdditiveBlending } from 'three';
+import { Vector2, Uniform, ShaderMaterial, PlaneGeometry, DoubleSide, CanvasTexture, BufferAttribute } from 'three';
 import { useDevicePixelRatio,  } from '@vueuse/core';
 import vertexShader from './shaders/vertex.glsl';
 import fragmentShader from './shaders/fragment.glsl';

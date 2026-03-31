@@ -4,6 +4,12 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   compatibilityDate: '2025-07-16',
 
+  icon: {
+    serverBundle: {
+      collections: ['heroicons', 'lucide'],
+    },
+  },
+
   // for testing purposes: include some nuxt build tests
   nitro: {
     routeRules: {

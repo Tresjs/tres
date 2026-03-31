@@ -86,6 +86,11 @@ const { palettePrimary, paletteSecondary } = useControls('🫟 palette', {
   },
 }, { uuid })
 
+watch([palettePrimary, paletteSecondary], ([newPalettePrimary, newPaletteSecondary]) => {
+  particlesMaterial.uniforms.uColorPrimary!.value = new Color(newPalettePrimary);
+  particlesMaterial.uniforms.uColorSecondary!.value = new Color(newPaletteSecondary);
+})
+
 const { particlesZoom, particlesContrast, particlesSpeed } = useControls('🎬 particles', {
   zoom: {
     value: 0.5,

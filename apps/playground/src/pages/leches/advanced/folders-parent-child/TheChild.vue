@@ -42,10 +42,12 @@ const { wireframe, number, booleanDropdown } = useControls({
   },
 }, { uuid })
 
-const paletteControls = useControls('🫟 palette', {
-  materialColor: {
-    value: '#ff0000',
-    type: 'color',
+const { _germanRangeNumberReallyLongName } = useControls('german', {
+  rangeNumberReallyLongName: {
+    value: 1,
+    min: 0,
+    max: 10,
+    step: 0.1,
   },
 }, { uuid })
 

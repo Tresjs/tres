@@ -55,4 +55,9 @@ export const rapierRoutes = [
     name: 'Expose',
     component: () => import('@/pages/rapier/ExposeDemo.vue'),
   },
+  {
+    path: '/rapier/ragdoll',
+    name: 'Basic Ragdoll',
+    component: () => import('@/pages/rapier/RagdollDemo.vue'),
+  },
 ]
