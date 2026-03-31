@@ -12,6 +12,7 @@ uniform float uSineFrequency;
 uniform float uSineSpeed;
 uniform float uSineAmplitude;
 uniform float uGridCellSize;
+uniform float uDisplacementStrength;
 
 attribute float aIntensity;
 attribute float aAngle;
@@ -92,7 +93,7 @@ void main() {
   float displacementIntensity = texture2D(uDisplacementTexture, uv).r;
   displacementIntensity = smoothstep(0.1, 0.9, displacementIntensity);
   vec3 displacement = vec3(cos(aAngle), sin(aAngle), 0.0);
-  displacement *= displacementIntensity * 0.05 * aIntensity;
+  displacement *= displacementIntensity * uDisplacementStrength * aIntensity;
   newPosition += displacement;
 
   // --- Final position + point size ---

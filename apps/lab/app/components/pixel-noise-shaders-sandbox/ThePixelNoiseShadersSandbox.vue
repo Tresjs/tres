@@ -53,6 +53,7 @@ const particlesMaterial = new ShaderMaterial({
     uZoom: new Uniform(0.5),
     uSizeContrast: new Uniform(1.0),
     uSpeed: new Uniform(1.0),
+    uDisplacementStrength: new Uniform(0.2),
   },
   transparent: true,
   depthWrite: false,
@@ -123,6 +124,15 @@ watch(particlesContrast, (val) => {
 watch(particlesSpeed, (val) => {
   particlesMaterial.uniforms.uSpeed!.value = val;
 })
+const { cursorSpeed, cursorStrength, cursorRadius, cursorTrail } = useControls('👆 cursor', {
+  speed: { value: 0.1, min: 0.01, max: 1.0, step: 0.01 },
+  strength: { value: 0.2, min: 0.0, max: 0.5, step: 0.01 },
+  radius: { value: 0.5, min: 0.1, max: 1.0, step: 0.01 },
+  trail: { value: 0.06, min: 0.01, max: 0.3, step: 0.01 },
+}, { uuid })
+
+watch(cursorStrength, val => particlesMaterial.uniforms.uDisplacementStrength!.value = val, { immediate: true })
+
 const { postprocessingChromaticAberration, postprocessingBloom } = useControls('👾 postprocessing', {
   chromaticAberration: {
     value: false,
@@ -160,17 +170,17 @@ onBeforeRender(({ elapsed }) => {
 
   // Fade canvas to black
   ctx.globalCompositeOperation = 'source-over';
-  ctx.globalAlpha = 0.06;
+  ctx.globalAlpha = cursorTrail.value;
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Speed-scaled radial glow at cursor
   const dist = canvasCursor.distanceTo(prevCanvasCursor);
   prevCanvasCursor.copy(canvasCursor);
-  const speedAlpha = Math.min(dist * 0.1, 1);
+  const speedAlpha = Math.min(dist * cursorSpeed.value, 1);
 
   if (speedAlpha > 0) {
-    const r = canvas.width * 0.5;
+    const r = canvas.width * cursorRadius.value;
     const glow = ctx.createRadialGradient(canvasCursor.x, canvasCursor.y, 0, canvasCursor.x, canvasCursor.y, r);
     glow.addColorStop(0, 'rgba(255,255,255,1)');
     glow.addColorStop(1, 'rgba(0,0,0,0)');
