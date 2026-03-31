@@ -3,7 +3,7 @@ import type { TresPointerEvent } from '@tresjs/core'
 import { useLoop, useTresContext } from '@tresjs/core'
 import { BloomPmndrs, ChromaticAberrationPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { BufferAttribute, CanvasTexture, Color, PlaneGeometry, ShaderMaterial, Uniform, Vector2, Vector3 } from 'three'
-import { computed, watch } from 'vue'
+import { computed, inject, watch } from 'vue'
 import fragmentShader from './shaders/fragment.glsl'
 import vertexShader from './shaders/vertex.glsl'
 
@@ -100,11 +100,11 @@ watch(sineAmplitude, val => particlesMaterial.uniforms.uSineAmplitude!.value = v
 watch(palettePrimary, (hex: string) => {
   const c = new Color(hex)
   particlesMaterial.uniforms.uColorPrimary!.value.set(c.r, c.g, c.b)
-})
+}, { immediate: true })
 watch(paletteSecondary, (hex: string) => {
   const c = new Color(hex)
   particlesMaterial.uniforms.uColorSecondary!.value.set(c.r, c.g, c.b)
-})
+}, { immediate: true })
 
 const chromaticAberrationOffset = computed(() =>
   postprocessingChromaticAberration.value ? new Vector2(0.001, 0.001) : new Vector2(0, 0),
