@@ -7,7 +7,7 @@ packages:
 
 catalog:
   vite: npm:@voidzero-dev/vite-plus-core@alpha
-  vite-plus: 0.1.15-alpha.4
+  vite-plus: 0.1.15
   vitest: npm:@voidzero-dev/vite-plus-test@alpha
 
 catalogs:
