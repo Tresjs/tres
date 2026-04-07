@@ -552,7 +552,7 @@ importers:
     devDependencies:
       unocss:
         specifier: catalog:utils
-        version: 66.6.7(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+        version: 66.6.7(@unocss/webpack@66.5.11(webpack@5.104.1(esbuild@0.27.2)))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
       unplugin-vue-components:
         specifier: ^28.0.0
         version: 28.8.0(@babel/parser@7.28.5)(@nuxt/kit@4.3.1(magicast@0.5.1))(vue@3.5.26(typescript@5.9.3))
@@ -562,6 +562,76 @@ importers:
       vitepress:
         specifier: catalog:docs
         version: 1.6.4(@algolia/client-search@5.46.2)(@types/node@24.10.4)(axios@1.13.2)(change-case@5.4.4)(fuse.js@7.1.0)(lightningcss@1.31.1)(postcss@8.5.6)(search-insights@2.17.3)(terser@5.44.1)(typescript@5.9.3)
+
+  apps/rapier-docs:
+    dependencies:
+      '@iconify-json/lucide':
+        specifier: ^1.2.68
+        version: 1.2.82
+      '@iconify-json/simple-icons':
+        specifier: ^1.2.53
+        version: 1.2.63
+      '@iconify-json/vscode-icons':
+        specifier: ^1.2.30
+        version: 1.2.37
+      '@nuxt/content':
+        specifier: catalog:nuxt
+        version: 3.10.0(better-sqlite3@12.5.0)(magicast@0.5.1)(valibot@1.2.0(typescript@5.8.3))
+      '@nuxt/image':
+        specifier: catalog:nuxt
+        version: 1.11.0(db0@0.3.4(better-sqlite3@12.5.0))(ioredis@5.8.2)(magicast@0.5.1)
+      '@nuxt/scripts':
+        specifier: 0.12.1
+        version: 0.12.1(@googlemaps/markerclusterer@2.6.2)(@unhead/vue@2.1.1(vue@3.5.26(typescript@5.8.3)))(db0@0.3.4(better-sqlite3@12.5.0))(ioredis@5.8.2)(magicast@0.5.1)(typescript@5.8.3)(vue@3.5.26(typescript@5.8.3))
+      '@nuxt/ui':
+        specifier: catalog:nuxt
+        version: 4.5.0(@nuxt/content@3.10.0(better-sqlite3@12.5.0)(magicast@0.5.1)(valibot@1.2.0(typescript@5.8.3)))(@tiptap/extensions@3.20.0(@tiptap/core@3.20.0(@tiptap/pm@3.20.0))(@tiptap/pm@3.20.0))(@tiptap/y-tiptap@3.0.1(prosemirror-model@1.25.4)(prosemirror-state@1.4.4)(prosemirror-view@1.41.4)(y-protocols@1.0.7(yjs@13.6.28))(yjs@13.6.28))(axios@1.13.2)(change-case@5.4.4)(db0@0.3.4(better-sqlite3@12.5.0))(embla-carousel@8.6.0)(focus-trap@7.7.0)(ioredis@5.8.2)(magicast@0.5.1)(tailwindcss@4.2.1)(typescript@5.8.3)(valibot@1.2.0(typescript@5.8.3))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-router@4.6.4(vue@3.5.26(typescript@5.8.3)))(vue@3.5.26(typescript@5.8.3))(yjs@13.6.28)(zod@3.25.76)
+      '@tresjs/cientos':
+        specifier: workspace:^
+        version: link:../../packages/cientos
+      '@tresjs/core':
+        specifier: workspace:^
+        version: link:../../packages/core
+      '@tresjs/leches':
+        specifier: workspace:^
+        version: link:../../packages/leches
+      '@unhead/vue':
+        specifier: ^2.0.17
+        version: 2.1.1(vue@3.5.26(typescript@5.8.3))
+      better-sqlite3:
+        specifier: ^12.4.1
+        version: 12.5.0
+      nuxt:
+        specifier: catalog:nuxt
+        version: 4.1.3(@parcel/watcher@2.5.1)(@types/node@24.10.4)(@vue/compiler-sfc@3.5.26)(better-sqlite3@12.5.0)(cac@6.7.14)(commander@13.1.0)(db0@0.3.4(better-sqlite3@12.5.0))(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.31.1)(magicast@0.5.1)(optionator@0.9.4)(rolldown@1.0.0-beta.57)(rollup@4.54.0)(terser@5.44.1)(tsx@4.21.0)(typescript@5.8.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))(vue-tsc@3.2.1(typescript@5.8.3))(yaml@2.8.2)
+      nuxt-llms:
+        specifier: 0.1.3
+        version: 0.1.3(magicast@0.5.1)
+      tweakpane:
+        specifier: ^4.0.5
+        version: 4.0.5
+      vue:
+        specifier: catalog:vue
+        version: 3.5.26(typescript@5.8.3)
+      vue-router:
+        specifier: catalog:vue
+        version: 4.6.4(vue@3.5.26(typescript@5.8.3))
+    devDependencies:
+      '@tresjs/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@tweakpane/core':
+        specifier: ^2.0.5
+        version: 2.0.5
+      eslint:
+        specifier: catalog:eslint
+        version: 9.39.2(jiti@2.6.1)
+      typescript:
+        specifier: catalog:typescript
+        version: 5.8.3
+      vue-tsc:
+        specifier: catalog:typescript
+        version: 3.2.1(typescript@5.8.3)
 
   packages/cientos:
     dependencies:
@@ -847,7 +917,7 @@ importers:
         version: 5.8.3
       unocss:
         specifier: catalog:utils
-        version: 66.6.7(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+        version: 66.6.7(@unocss/webpack@66.5.11(webpack@5.104.1(esbuild@0.27.2)))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
       unplugin-vue-components:
         specifier: ^28.8.0
         version: 28.8.0(@babel/parser@7.28.5)(@nuxt/kit@4.3.1(magicast@0.5.1))(vue@3.5.26(typescript@5.8.3))
@@ -13343,7 +13413,7 @@ snapshots:
       ofetch: 1.5.1
       ohash: 2.0.11
       pathe: 2.0.3
-      perfect-debounce: 2.0.0
+      perfect-debounce: 2.1.0
       pkg-types: 2.3.0
       scule: 1.3.0
       semver: 7.7.4
@@ -13535,9 +13605,11 @@ snapshots:
       defu: 6.1.4
       focus-trap: 7.7.0
       splitpanes: 3.2.0(vue@3.5.26(typescript@5.8.3))
-      unocss: 66.5.11(@unocss/webpack@66.5.11(webpack@5.104.1(esbuild@0.27.2)))(postcss@8.5.6)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+      unocss: 66.6.7(@unocss/webpack@66.5.11(webpack@5.104.1(esbuild@0.27.2)))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
       v-lazy-show: 0.3.0(@vue/compiler-core@3.5.26)
     transitivePeerDependencies:
+      - '@unocss/astro'
+      - '@unocss/postcss'
       - '@unocss/webpack'
       - '@vue/compiler-core'
       - async-validator
@@ -13699,7 +13771,7 @@ snapshots:
       eslint-flat-config-utils: 2.1.4
       eslint-merge-processors: 2.0.0(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-import-lite: 0.3.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      eslint-plugin-import-x: 4.16.1(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-jsdoc: 61.5.0(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-regexp: 2.10.0(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-unicorn: 62.0.0(eslint@9.39.2(jiti@2.6.1))
@@ -14970,7 +15042,7 @@ snapshots:
 
   '@oxc-minify/binding-wasm32-wasi@0.94.0':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.0
+      '@napi-rs/wasm-runtime': 1.1.1
     optional: true
 
   '@oxc-minify/binding-win32-arm64-msvc@0.94.0':
@@ -15070,7 +15142,7 @@ snapshots:
 
   '@oxc-parser/binding-wasm32-wasi@0.94.0':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.0
+      '@napi-rs/wasm-runtime': 1.1.1
     optional: true
 
   '@oxc-parser/binding-win32-arm64-msvc@0.115.0':
@@ -15134,7 +15206,7 @@ snapshots:
 
   '@oxc-transform/binding-wasm32-wasi@0.94.0':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.0
+      '@napi-rs/wasm-runtime': 1.1.1
     optional: true
 
   '@oxc-transform/binding-win32-arm64-msvc@0.94.0':
@@ -15323,7 +15395,7 @@ snapshots:
 
   '@rolldown/binding-wasm32-wasi@1.0.0-beta.57':
     dependencies:
-      '@napi-rs/wasm-runtime': 1.1.0
+      '@napi-rs/wasm-runtime': 1.1.1
     optional: true
 
   '@rolldown/binding-win32-arm64-msvc@1.0.0-beta.45':
@@ -16402,7 +16474,7 @@ snapshots:
       consola: 3.4.2
       magic-string: 0.30.21
       pathe: 2.0.3
-      perfect-debounce: 2.0.0
+      perfect-debounce: 2.1.0
       tinyglobby: 0.2.15
       unplugin-utils: 0.3.1
 
@@ -17121,7 +17193,7 @@ snapshots:
       birpc: 2.9.0
       hookable: 5.5.3
       mitt: 3.0.1
-      perfect-debounce: 2.0.0
+      perfect-debounce: 2.1.0
       speakingurl: 14.0.1
       superjson: 2.2.6
 
@@ -17987,7 +18059,7 @@ snapshots:
       jiti: 2.6.1
       ohash: 2.0.11
       pathe: 2.0.3
-      perfect-debounce: 2.0.0
+      perfect-debounce: 2.1.0
       pkg-types: 2.3.0
       rc9: 2.1.2
     optionalDependencies:
@@ -18004,7 +18076,7 @@ snapshots:
       jiti: 2.6.1
       ohash: 2.0.11
       pathe: 2.0.3
-      perfect-debounce: 2.0.0
+      perfect-debounce: 2.1.0
       pkg-types: 2.3.0
       rc9: 2.1.2
     optionalDependencies:
@@ -18988,21 +19060,6 @@ snapshots:
       unrs-resolver: 1.11.1
     optionalDependencies:
       '@typescript-eslint/utils': 8.50.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-    transitivePeerDependencies:
-      - supports-color
-
-  eslint-plugin-import-x@4.16.1(eslint@9.39.2(jiti@2.6.1)):
-    dependencies:
-      '@typescript-eslint/types': 8.50.1
-      comment-parser: 1.4.1
-      debug: 4.4.3
-      eslint: 9.39.2(jiti@2.6.1)
-      eslint-import-context: 0.1.9(unrs-resolver@1.11.1)
-      is-glob: 4.0.3
-      minimatch: 10.1.1
-      semver: 7.7.4
-      stable-hash-x: 0.2.0
-      unrs-resolver: 1.11.1
     transitivePeerDependencies:
       - supports-color
 
@@ -21297,7 +21354,7 @@ snapshots:
       ofetch: 1.5.1
       ohash: 2.0.11
       pathe: 2.0.3
-      perfect-debounce: 2.0.0
+      perfect-debounce: 2.1.0
       pkg-types: 2.3.0
       pretty-bytes: 7.1.0
       radix3: 1.1.2
@@ -21495,7 +21552,7 @@ snapshots:
       oxc-transform: 0.94.0
       oxc-walker: 0.5.2(oxc-parser@0.94.0)
       pathe: 2.0.3
-      perfect-debounce: 2.0.0
+      perfect-debounce: 2.1.0
       pkg-types: 2.3.0
       radix3: 1.1.2
       scule: 1.3.0
@@ -21623,7 +21680,7 @@ snapshots:
       oxc-transform: 0.94.0
       oxc-walker: 0.5.2(oxc-parser@0.94.0)
       pathe: 2.0.3
-      perfect-debounce: 2.0.0
+      perfect-debounce: 2.1.0
       pkg-types: 2.3.0
       radix3: 1.1.2
       scule: 1.3.0
@@ -23747,7 +23804,7 @@ snapshots:
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tree-kill: 1.2.2
-      unconfig-core: 7.4.2
+      unconfig-core: 7.5.0
       unrun: 0.2.21(synckit@0.11.11)
     optionalDependencies:
       typescript: 5.8.3
@@ -24016,7 +24073,7 @@ snapshots:
   unocss-preset-scrollbar@3.2.0(unocss@66.6.7(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))):
     dependencies:
       '@unocss/preset-mini': 65.5.0
-      unocss: 66.6.7(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+      unocss: 66.6.7(@unocss/webpack@66.5.11(webpack@5.104.1(esbuild@0.27.2)))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
 
   unocss@66.5.11(@unocss/webpack@66.5.11(webpack@5.104.1(esbuild@0.27.2)))(postcss@8.5.6)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
     dependencies:
@@ -24046,7 +24103,7 @@ snapshots:
       - postcss
       - supports-color
 
-  unocss@66.6.7(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
+  unocss@66.6.7(@unocss/webpack@66.5.11(webpack@5.104.1(esbuild@0.27.2)))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2)):
     dependencies:
       '@unocss/cli': 66.6.7
       '@unocss/core': 66.6.7
@@ -24065,6 +24122,8 @@ snapshots:
       '@unocss/transformer-directives': 66.6.7
       '@unocss/transformer-variant-group': 66.6.7
       '@unocss/vite': 66.6.7(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.44.1)(tsx@4.21.0)(yaml@2.8.2))
+    optionalDependencies:
+      '@unocss/webpack': 66.5.11(webpack@5.104.1(esbuild@0.27.2))
     transitivePeerDependencies:
       - vite
 
