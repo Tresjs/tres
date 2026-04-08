@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   activeCollision: false,
   activeCollisionTypes: ActiveCollisionTypes.DEFAULT,
   collisionGroups: undefined,
+  solverGroups: undefined,
   sensor: false,
   activeContactForce: false,
   contactForceEventThreshold: 0,
@@ -90,11 +91,11 @@ watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
 
 watch([() => props.activeCollision, () => props.activeContactForce, colliderInfos], () => {
   if (!colliderInfos.value?.collider) { return }
-  // eslint-disable-next-line no-bitwise
+
   let flags = ActiveEvents.NONE
-  // eslint-disable-next-line no-bitwise
+
   if (props.activeCollision) { flags |= ActiveEvents.COLLISION_EVENTS }
-  // eslint-disable-next-line no-bitwise
+
   if (props.activeContactForce) { flags |= ActiveEvents.CONTACT_FORCE_EVENTS }
   colliderInfos.value.collider.setActiveEvents(flags)
 })

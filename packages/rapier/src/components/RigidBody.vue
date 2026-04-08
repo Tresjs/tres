@@ -49,7 +49,8 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   density: 1,
   activeCollision: false,
   activeCollisionTypes: ActiveCollisionTypes.DEFAULT,
-  collisionGroups: undefined, // TODO: Make the `collisionGroups` (Not working yet).
+  collisionGroups: undefined,
+  solverGroups: undefined,
   sensor: false,
 })
 
@@ -124,7 +125,6 @@ makePropsWatcherRB(props, [
 // reactively set autoColliderProps
 const setAutoColliderProp = <K extends keyof ColliderProps>(prop: K, value: ColliderProps[K]) => {
   if (autoColliderProps.value.length === 0 || props.collider === false) { return }
-
   autoColliderProps.value.forEach((_props) => {
     _props[prop] = value
   })
@@ -138,6 +138,7 @@ watch(() => props.density, value => setAutoColliderProp('density', value))
 watch(() => props.activeCollision, value => setAutoColliderProp('activeCollision', value))
 watch(() => props.activeCollisionTypes, value => setAutoColliderProp('activeCollisionTypes', value))
 watch(() => props.collisionGroups, value => setAutoColliderProp('collisionGroups', value))
+watch(() => props.solverGroups, value => setAutoColliderProp('solverGroups', value))
 watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
 watch(() => props.activeContactForce, value => setAutoColliderProp('activeContactForce', value))
 watch(() => props.contactForceEventThreshold, value => setAutoColliderProp('contactForceEventThreshold', value))
@@ -199,6 +200,7 @@ onUnmounted(() => {
       :activeCollision="_props.activeCollision"
       :activeCollisionTypes="_props.activeCollisionTypes"
       :collisionGroups="_props.collisionGroups"
+      :solverGroups="_props.solverGroups"
       :sensor="_props.sensor"
       :activeContactForce="_props.activeContactForce"
       :contactForceEventThreshold="_props.contactForceEventThreshold"

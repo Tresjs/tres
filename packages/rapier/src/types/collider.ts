@@ -98,6 +98,11 @@ export interface ColliderProps {
    */
   collisionGroups?: undefined | number
   /**
+   * @description To set the solver group.
+   * @default undefined
+   */
+  solverGroups?: undefined | number
+  /**
    * @description Whether this collider is a sensor.
    * @default undefined
    */

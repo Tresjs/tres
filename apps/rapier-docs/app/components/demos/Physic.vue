@@ -15,7 +15,7 @@ const gl = {
 const uuid = inject(`uuid`)
 
 const { gravityY, gravityX, gravityZ, debug } = useControls({
-  gravityY: { value: 0, min: -20, max: 20, step: 0.1 },
+  gravityY: { value: -9.8, min: -20, max: 20, step: 0.1 },
   gravityX: { value: 0, min: -20, max: 20, step: 0.1 },
   gravityZ: { value: 0, min: -20, max: 20, step: 0.1 },
   debug: true,
