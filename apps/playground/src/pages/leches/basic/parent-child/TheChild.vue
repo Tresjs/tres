@@ -34,6 +34,10 @@ const { wireframe, number, booleanDropdown } = useControls({
       value: true,
     }],
   },
+  color: {
+    value: 'red',
+    type: 'color',
+  },
 }, { uuid })
 
 watch(booleanDropdown, (value) => {
@@ -50,22 +54,12 @@ watch(number, (value) => {
 <template>
   <TresPerspectiveCamera :position="[5, 5, 5]" />
   <OrbitControls />
-  <TresAmbientLight
-    :intensity="0.5"
-    color="red"
-  />
-  <TresMesh
-    ref="boxRef"
-    :position="[0, 2, 0]"
-  >
+  <TresAmbientLight :intensity="0.5" color="red" />
+  <TresMesh ref="boxRef" :position="[0, 2, 0]">
     <TresBoxGeometry :args="[1, 1, 1]" />
     <TresMeshNormalMaterial :wireframe="wireframe" />
   </TresMesh>
-  <TresDirectionalLight
-    :position="[0, 2, 4]"
-    :intensity="1"
-    cast-shadow
-  />
+  <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
   <TresAxesHelper />
   <TresGridHelper :args="[10, 10, 0x444444, 'teal']" />
 </template>

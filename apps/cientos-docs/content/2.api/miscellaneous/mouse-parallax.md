@@ -12,7 +12,7 @@ description: Create parallax effects based on mouse movement.
 
 ## Usage
 
-You only need to import it and add it to your template as `<MouseParallax />`. Additionally, you can pass the following props:
+You only need to import and add it to your template as `<MouseParallax />`. Additionally, you can pass the following props:
 
 `factor` is a number to increase the movement range of the camera. This could be an array of two values corresponding to the x and y values, in that order: `:factor=[x,y]`.
 

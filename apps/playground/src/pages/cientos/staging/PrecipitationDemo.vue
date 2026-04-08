@@ -67,7 +67,6 @@ const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls({
     max: 30,
   },
 }, { uuid })
-
 </script>
 
 <template>
@@ -75,7 +74,6 @@ const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls({
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 2, 15]" />
     <Precipitation
-      ref="precipitationRef"
       :speed="speed"
       :area="[areaX, areaY, areaZ]"
       :count="count"

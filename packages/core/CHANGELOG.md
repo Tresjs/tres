@@ -1,3 +1,13 @@
+## 5.8.0 (2026-03-30)
+
+### 🚀 Features
+
+- add fpsLimit prop to Context and related composables ([e1e0c37a](https://github.com/Tresjs/tres/commit/e1e0c37a))
+
+### ❤️ Thank You
+
+- Tino Koch @tinoooo
+
 ## 5.7.0 (2026-03-10)
 
 ### 🚀 Features

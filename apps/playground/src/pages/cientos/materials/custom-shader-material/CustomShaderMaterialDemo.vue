@@ -98,11 +98,11 @@ watch([speed, amplitude, frequency], ([
     <TresTorusKnotGeometry :args="[1, 0.3, 512, 32]" />
     <CustomShaderMaterial
       v-if="texture01"
-      :base-material="() => new MeshMatcapMaterial({ matcap: texture01 })" 
-      :matcap="texture01" 
-      :fragment-shader="materialProps.fragmentShader" 
-      :vertex-shader="materialProps.vertexShader" 
-      :uniforms="materialProps.uniforms" 
-      />
+      :base-material="() => new MeshMatcapMaterial({ matcap: texture01 })"
+      :matcap="texture01"
+      :fragment-shader="materialProps.fragmentShader"
+      :vertex-shader="materialProps.vertexShader"
+      :uniforms="materialProps.uniforms"
+    />
   </TresMesh>
 </template>

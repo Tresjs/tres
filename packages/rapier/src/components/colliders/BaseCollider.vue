@@ -18,6 +18,7 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   activeCollision: false,
   activeCollisionTypes: ActiveCollisionTypes.DEFAULT,
   collisionGroups: undefined,
+  solverGroups: undefined,
   sensor: false,
 })
 
@@ -84,6 +85,11 @@ makePropsWatcherCL(
 watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
   if (!colliderInfos.value?.collider || !_collisionGroups) { return }
   colliderInfos.value.collider.setCollisionGroups(_collisionGroups)
+})
+
+watch([() => props.solverGroups, colliderInfos], ([_solverGroups, _]) => {
+  if (!colliderInfos.value?.collider || !_solverGroups) { return }
+  colliderInfos.value.collider.setSolverGroups(_solverGroups)
 })
 
 watch([() => props.activeCollision, colliderInfos], ([_activeCollision]) => {

@@ -27,14 +27,14 @@ pane
     label: 'waterColor',
     view: 'color',
   })
-  .on('change', (ev) => (waterColor.value = ev.value))
+  .on('change', ev => (waterColor.value = ev.value))
 
 pane
   .addBinding({ value: sunColor.value }, 'value', {
     label: 'sunColor',
     view: 'color',
   })
-  .on('change', (ev) => (sunColor.value = ev.value))
+  .on('change', ev => (sunColor.value = ev.value))
 
 pane
   .addBinding({ value: speed.value }, 'value', {
@@ -43,7 +43,7 @@ pane
     max: 1,
     step: 0.01,
   })
-  .on('change', (ev) => (speed.value = ev.value))
+  .on('change', ev => (speed.value = ev.value))
 
 pane
   .addBinding({ value: size.value }, 'value', {
@@ -52,7 +52,7 @@ pane
     max: 50,
     step: 1,
   })
-  .on('change', (ev) => (size.value = ev.value))
+  .on('change', ev => (size.value = ev.value))
 
 pane
   .addBinding({ value: distortionScale.value }, 'value', {
@@ -61,7 +61,7 @@ pane
     max: 100,
     step: 1,
   })
-  .on('change', (ev) => (distortionScale.value = ev.value))
+  .on('change', ev => (distortionScale.value = ev.value))
 
 pane
   .addBinding({ value: alpha.value }, 'value', {
@@ -70,7 +70,7 @@ pane
     max: 1,
     step: 0.01,
   })
-  .on('change', (ev) => (alpha.value = ev.value))
+  .on('change', ev => (alpha.value = ev.value))
 </script>
 
 <template>
@@ -86,7 +86,12 @@ pane
     <TresMesh :position-y="1">
       <TresBoxGeometry :args="[1, 1, 1]" />
     </TresMesh>
-    <OrbitControls :enable-pan="false" :enable-zoom="false" :max-polar-angle="Math.PI * 0.495" :min-distance="40.0"
-      :max-distance="200.0" />
+    <OrbitControls
+      :enable-pan="false"
+      :enable-zoom="false"
+      :max-polar-angle="Math.PI * 0.495"
+      :min-distance="40.0"
+      :max-distance="200.0"
+    />
   </TresCanvas>
 </template>

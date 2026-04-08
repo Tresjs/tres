@@ -19,12 +19,12 @@ const cientosRoutes = [
 ]
 export {
   abstractionsRoutes,
+  cientosRoutes,
   controlsRoutes,
   loadersRoutes,
   materialsRoutes,
   miscRoutes,
+  performanceRoutes,
   shapesRoutes,
   stagingRoutes,
-  performanceRoutes,
-  cientosRoutes,
 }

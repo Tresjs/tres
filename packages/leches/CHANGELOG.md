@@ -1,3 +1,44 @@
+## 1.2.0 (2026-04-02)
+
+### 🚀 Features
+
+- **leches:** refactor Number Control component ([1c06f6e5](https://github.com/Tresjs/tres/commit/1c06f6e5))
+- **leches:** add SVG drag guide arrow and tooltip like tweakpane ([3d376978](https://github.com/Tresjs/tres/commit/3d376978))
+- **leches:** rewrite VectorControl with text input, drag handle, format support ([4d2220e4](https://github.com/Tresjs/tres/commit/4d2220e4))
+- **leches:** rewrite NumberControl with text input, drag handle, format support ([808c489a](https://github.com/Tresjs/tres/commit/808c489a))
+- **leches:** add useNumberDrag composable with delta tooltip ([ae18cb1d](https://github.com/Tresjs/tres/commit/ae18cb1d))
+- **leches:** pass format option in createControl, fix nullish coalescing ([05b0cf0f](https://github.com/Tresjs/tres/commit/05b0cf0f))
+- **leches:** add format option to number and vector control types ([06fa24d3](https://github.com/Tresjs/tres/commit/06fa24d3))
+- **leches:** add format utilities for number controls ([561f7c65](https://github.com/Tresjs/tres/commit/561f7c65))
+- **leches:** enhance controls with new range and color options ([12643926](https://github.com/Tresjs/tres/commit/12643926))
+- **leches:** migrate tl-text-xs to CSS variable ([0a3f1dd2](https://github.com/Tresjs/tres/commit/0a3f1dd2))
+- **leches:** compact button and graph controls ([55490360](https://github.com/Tresjs/tres/commit/55490360))
+- **leches:** compact folder, control input, and label ([7a00bd49](https://github.com/Tresjs/tres/commit/7a00bd49))
+- **leches:** compact slider and vector controls ([8894f7d4](https://github.com/Tresjs/tres/commit/8894f7d4))
+- **leches:** compact row spacing for simple controls ([fbab805c](https://github.com/Tresjs/tres/commit/fbab805c))
+- **leches:** add CSS variables and update root constants for compact layout ([3f163a6f](https://github.com/Tresjs/tres/commit/3f163a6f))
+
+### 🩹 Fixes
+
+- **leches:** fix SVG guide visibility — use CSS var for stroke, non-zero width ([3ee61540](https://github.com/Tresjs/tres/commit/3ee61540))
+- **leches:** portal guide/tooltip to body to avoid overflow clipping ([c6b2ce27](https://github.com/Tresjs/tres/commit/c6b2ce27))
+- **leches:** add left padding to vector inline knob ([8ae91d41](https://github.com/Tresjs/tres/commit/8ae91d41))
+- **leches:** inline vector knob before x/y/z labels ([caed0780](https://github.com/Tresjs/tres/commit/caed0780))
+- **leches:** offset vector knob right to clear x/y/z labels ([f14baca3](https://github.com/Tresjs/tres/commit/f14baca3))
+- **leches:** set text color on vector axis containers for knob currentColor ([eaf6e5d8](https://github.com/Tresjs/tres/commit/eaf6e5d8))
+- **leches:** lock drag to x-axis using Pointer Lock API ([4df706a9](https://github.com/Tresjs/tres/commit/4df706a9))
+- **leches:** tweakpane-style drag knob with ::before pseudo-element ([6a76d694](https://github.com/Tresjs/tres/commit/6a76d694))
+- **leches:** use thin vertical bar drag handle matching tweakpane style ([7822e31a](https://github.com/Tresjs/tres/commit/7822e31a))
+- **leches:** enforce compact font-size on folder headers ([2bf697ba](https://github.com/Tresjs/tres/commit/2bf697ba))
+- **leches:** slot wrapper padding and vector control dead class cleanup ([4e9e7c6e](https://github.com/Tresjs/tres/commit/4e9e7c6e))
+- **leches:** handle parent child mixed folder controls assignment ([030cdf27](https://github.com/Tresjs/tres/commit/030cdf27))
+- **TresLeches:** update controls handling to ensure reactive access and expose controls correctly ([134697a1](https://github.com/Tresjs/tres/commit/134697a1))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Claude Opus 4.6 (1M context)
+
 ## 1.1.4 (2026-01-14)
 
 ### 🩹 Fixes
