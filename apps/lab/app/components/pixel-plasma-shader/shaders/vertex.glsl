@@ -13,6 +13,8 @@ uniform float uSineSpeed;
 uniform float uSineAmplitude;
 uniform float uGridCellSize;
 uniform float uDisplacementStrength;
+uniform float uMinCellSize;
+uniform float uMaxCellSize;
 
 attribute float aIntensity;
 attribute float aAngle;
@@ -105,5 +107,5 @@ void main() {
 
   float sizeWave = pow(waveIntensity, uSizeContrast);
   float sizeMask = mix(0.05, 1.0, vMask);
-  gl_PointSize = baseSize * sizeWave * sizeMask;
+  gl_PointSize = clamp(baseSize * sizeWave * sizeMask, uMinCellSize, uMaxCellSize);
 }

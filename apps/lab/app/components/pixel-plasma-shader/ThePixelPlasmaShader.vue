@@ -59,6 +59,8 @@ const particlesMaterial = new ShaderMaterial({
     uSineAmplitude: new Uniform(0.05),
     uGridCellSize: new Uniform(planeHeight / subdivisions),
     uDisplacementStrength: new Uniform(0.05),
+    uMinCellSize: new Uniform(0.5),
+    uMaxCellSize: new Uniform(50.0),
   },
   transparent: true,
   depthWrite: false,
@@ -78,10 +80,12 @@ const { palettePrimary, paletteSecondary } = useControls('🫟 palette', {
   secondary: { value: '#b3a2ff', type: 'color' },
 }, { uuid })
 
-const { particlesZoom, particlesContrast, particlesSpeed } = useControls('🎬 particles', {
+const { particlesZoom, particlesContrast, particlesSpeed, particlesMinSize, particlesMaxSize } = useControls('🎬 particles', {
   zoom: { value: 0.7, min: 0.1, max: 2.0, step: 0.01 },
   contrast: { value: 3.0, min: 0.1, max: 7.0, step: 0.01 },
   speed: { value: 0.2, min: 0.0, max: 5.0, step: 0.01 },
+  minSize: { value: 0.5, min: 0.0, max: 20.0, step: 0.1 },
+  maxSize: { value: 50.0, min: 1.0, max: 100.0, step: 0.5 },
 }, { uuid })
 
 const { cursorStrength, cursorRadius, cursorRecovery } = useControls('👆 cursor', {
@@ -99,6 +103,8 @@ const { sineFrequency, sineSpeed, sineAmplitude } = useControls('🌊 sine', {
 watch(particlesZoom, val => particlesMaterial.uniforms.uZoom!.value = val, { immediate: true })
 watch(particlesContrast, val => particlesMaterial.uniforms.uSizeContrast!.value = val, { immediate: true })
 watch(particlesSpeed, val => particlesMaterial.uniforms.uSpeed!.value = val, { immediate: true })
+watch(particlesMinSize, val => particlesMaterial.uniforms.uMinCellSize!.value = val, { immediate: true })
+watch(particlesMaxSize, val => particlesMaterial.uniforms.uMaxCellSize!.value = val, { immediate: true })
 watch(cursorStrength, val => particlesMaterial.uniforms.uDisplacementStrength!.value = val, { immediate: true })
 watch(sineFrequency, val => particlesMaterial.uniforms.uSineFrequency!.value = val, { immediate: true })
 watch(sineSpeed, val => particlesMaterial.uniforms.uSineSpeed!.value = val, { immediate: true })

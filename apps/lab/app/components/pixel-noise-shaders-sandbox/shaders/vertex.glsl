@@ -7,6 +7,8 @@ uniform float uZoom;
 uniform float uSizeContrast;
 uniform float uSpeed;
 uniform float uDisplacementStrength;
+uniform float uMinCellSize;
+uniform float uMaxCellSize;
 
 attribute float aIntensity;
 attribute float aAngle;
@@ -97,4 +99,5 @@ void main() {
   float sizeWave = pow(waveIntensity, uSizeContrast);
   gl_PointSize = 0.1 * uResolution.y * sizeWave;
   gl_PointSize *= (1.0 / -viewPosition.z);
+  gl_PointSize = clamp(gl_PointSize, uMinCellSize, uMaxCellSize);
 }

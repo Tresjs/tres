@@ -54,6 +54,8 @@ const particlesMaterial = new ShaderMaterial({
     uSizeContrast: new Uniform(1.0),
     uSpeed: new Uniform(1.0),
     uDisplacementStrength: new Uniform(0.2),
+    uMinCellSize: new Uniform(0.5),
+    uMaxCellSize: new Uniform(50.0),
   },
   transparent: true,
   depthWrite: false,
@@ -92,7 +94,7 @@ watch([palettePrimary, paletteSecondary], ([newPalettePrimary, newPaletteSeconda
   particlesMaterial.uniforms.uColorSecondary!.value = new Color(newPaletteSecondary);
 })
 
-const { particlesZoom, particlesContrast, particlesSpeed } = useControls('🎬 particles', {
+const { particlesZoom, particlesContrast, particlesSpeed, particlesMinSize, particlesMaxSize } = useControls('🎬 particles', {
   zoom: {
     value: 0.5,
     min: 0.1,
@@ -111,6 +113,8 @@ const { particlesZoom, particlesContrast, particlesSpeed } = useControls('🎬 p
     max: 5.0,
     step: 0.01,
   },
+  minSize: { value: 0.5, min: 0.0, max: 20.0, step: 0.1 },
+  maxSize: { value: 50.0, min: 1.0, max: 100.0, step: 0.5 },
 }, { uuid })
 
 watch(particlesZoom, (val) => {
@@ -124,6 +128,9 @@ watch(particlesContrast, (val) => {
 watch(particlesSpeed, (val) => {
   particlesMaterial.uniforms.uSpeed!.value = val;
 })
+
+watch(particlesMinSize, val => particlesMaterial.uniforms.uMinCellSize!.value = val, { immediate: true })
+watch(particlesMaxSize, val => particlesMaterial.uniforms.uMaxCellSize!.value = val, { immediate: true })
 const { cursorStrength, cursorRadius, cursorRecovery } = useControls('👆 cursor', {
   strength: { value: 0.2, min: 0.0, max: 0.5, step: 0.01 },
   radius: { value: 0.5, min: 0.1, max: 1.0, step: 0.01 },
