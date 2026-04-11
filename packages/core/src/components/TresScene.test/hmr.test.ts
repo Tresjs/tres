@@ -106,4 +106,66 @@ describe('hMR', () => {
       ;(import.meta as any).hot = origHot
     }
   })
+
+  it('preserves primitive object identity across HMR', async () => {
+    const { createScene, getRoot } = await initializeSceneCreator()
+
+    const sharedMesh = new THREE.Mesh(
+      new THREE.BoxGeometry(),
+      new THREE.MeshBasicMaterial(),
+    )
+
+    const { context, sceneWrapper } = await createScene(() => [
+      h('primitive', { object: sharedMesh }),
+    ])
+
+    expect(context.scene.value.children).toHaveLength(1)
+    expect(context.scene.value.children[0]).toBe(sharedMesh)
+
+    const canvas = sceneWrapper.find('canvas').element as HTMLCanvasElement
+    getRoot(canvas)!.hmrTick.value++
+    await nextTick()
+
+    expect(context.scene.value.children).toHaveLength(1)
+    expect(context.scene.value.children[0]).toBe(sharedMesh) // same reference
+
+    sceneWrapper.unmount()
+  })
+
+  it('registers devtools exactly once per mount, not per HMR tick', async () => {
+    const registerSpy = vi.fn()
+    vi.doMock('../../devtools', async (importOriginal) => {
+      const mod = await importOriginal<typeof import('../../devtools')>()
+      return { ...mod, registerTresDevtools: registerSpy }
+    })
+
+    try {
+      const { createScene, getRoot } = await initializeSceneCreator()
+      const { sceneWrapper } = await createScene(() => [
+        h('TresMesh', null, [h('TresBoxGeometry'), h('TresMeshBasicMaterial')]),
+      ])
+
+      expect(registerSpy).toHaveBeenCalledTimes(1)
+
+      const canvas = sceneWrapper.find('canvas').element as HTMLCanvasElement
+      getRoot(canvas)!.hmrTick.value++
+      await nextTick()
+      getRoot(canvas)!.hmrTick.value++
+      await nextTick()
+
+      expect(registerSpy).toHaveBeenCalledTimes(1) // no duplicate registration
+
+      sceneWrapper.unmount()
+    }
+    finally {
+      vi.doUnmock('../../devtools')
+    }
+  })
+
+  it('mounts cleanly with no default slot', async () => {
+    const { createScene } = await initializeSceneCreator()
+
+    // Empty slot content — simulates <TresCanvas /> with no children
+    await expect(createScene(() => [])).resolves.toBeDefined()
+  })
 })
