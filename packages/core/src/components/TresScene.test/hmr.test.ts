@@ -1,6 +1,7 @@
 import { h, nextTick } from 'vue'
 import * as THREE from 'three'
-import { beforeAll, describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it, vi } from 'vitest'
+import { mount } from '@vue/test-utils'
 import { initializeSceneCreator } from './util'
 import { extend } from '../../core/catalogue'
 
@@ -162,10 +163,25 @@ describe('hMR', () => {
     }
   })
 
-  it('mounts cleanly with no default slot', async () => {
+  it('mounts cleanly with empty default slot', async () => {
+    // Exercises the `slots.default() -> []` path inside the internal component.
+    // Guards against e.g. a future `scene.children[0]` access with no null check.
     const { createScene } = await initializeSceneCreator()
-
-    // Empty slot content — simulates <TresCanvas /> with no children
     await expect(createScene(() => [])).resolves.toBeDefined()
+  })
+
+  it('mounts cleanly with undefined default slot', async () => {
+    // Exercises the `slots.default?.() ?? []` optional-chain path — the case
+    // where slots.default is undefined (user wrote <TresCanvas /> with no
+    // children). Pre-Task-2 this would have thrown on `slots.default()`.
+    await initializeSceneCreator()
+    const TresCanvas = (await import('../TresCanvas.vue')).default
+    const wrapper = mount(TresCanvas, {
+      attachTo: document.body,
+      props: { windowSize: true },
+    })
+    await nextTick()
+    expect(wrapper.find('canvas').exists()).toBe(true)
+    wrapper.unmount()
   })
 })
