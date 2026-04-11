@@ -17,6 +17,9 @@ export async function getInstallationOctokit(
   if (cached && cached.expiresAt > Date.now() + 60000) {
     return new Octokit({ auth: cached.token })
   }
+  if (cached) {
+    tokenCache.delete(installationId)
+  }
 
   const auth = createAppAuth({
     appId,

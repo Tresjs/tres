@@ -1,11 +1,6 @@
 import type { Context } from 'hono'
+import type { Env } from '../env'
 import { generateEmbeddingsBatch } from '../ai/rag'
-
-interface Env {
-  DB: D1Database
-  AI: Ai
-  ADMIN_SECRET: string
-}
 
 const DOC_SOURCES: Record<string, { name: string, url: string }> = {
   core: { name: 'core', url: 'https://docs.tresjs.org/llms-full.txt' },
@@ -20,7 +15,7 @@ interface DocChunk {
   content: string
 }
 
-async function fetchDocs(source: { name: string; url: string }): Promise<DocChunk[]> {
+async function fetchDocs(source: { name: string, url: string }): Promise<DocChunk[]> {
   console.log(`Fetching ${source.name} docs from ${source.url}...`)
 
   try {
@@ -44,7 +39,7 @@ function parseDocsIntoChunks(source: string, baseUrl: string, text: string): Doc
   const sections = text.split(/(?=^#{1,2}\s)/m)
 
   for (const section of sections) {
-    if (section.trim().length < 50) continue
+    if (section.trim().length < 50) { continue }
 
     const titleMatch = section.match(/^#{1,2}\s+(.+)$/m)
     const title = titleMatch?.[1] ?? 'Untitled'
@@ -136,7 +131,7 @@ export async function handleSeedDocs(
     const chunk = chunks[i]
     const embedding = embeddings[i]
 
-    if (!embedding) continue
+    if (!embedding) { continue }
 
     try {
       await c.env.DB.prepare(

@@ -1,4 +1,5 @@
 import type { Context } from 'hono'
+import type { Env } from '../../env'
 import type { IssuePayload, TriageResult } from '../../types'
 import { analyzeIssue } from '../../ai/claude'
 import { searchDocs } from '../../ai/rag'
@@ -16,15 +17,6 @@ import {
 } from '../../triage/detect'
 import { addComment, addLabels, closeIssueAsFeatureRequest, isOrgMember } from '../api'
 import { getInstallationOctokit } from '../auth'
-
-interface Env {
-  DB: D1Database
-  AI: Ai
-  GITHUB_APP_ID: string
-  GITHUB_PRIVATE_KEY: string
-  GITHUB_WEBHOOK_SECRET: string
-  ANTHROPIC_API_KEY: string
-}
 
 export async function handleIssueOpened(
   c: Context<{ Bindings: Env }>,
@@ -61,7 +53,9 @@ export async function handleIssueOpened(
     return
   }
 
-  // Only do full bug analysis for bug/unknown issues
+  // Only do full bug analysis for bug/unknown issues.
+  // Intentional no-op: feature requests from org members skip both the redirect
+  // (handled above) and the bug path — maintainers can open features freely.
   if (issueType !== 'bug' && issueType !== 'unknown') {
     return
   }
@@ -95,8 +89,8 @@ export async function handleIssueOpened(
   // Build triage result
   const labelsToAdd: string[] = []
   // Skip needs reproduction label for org members
-  if (!reproduction && !authorIsOrgMember) labelsToAdd.push('needs reproduction')
-  if (!systemInfo || !expectedBehavior) labelsToAdd.push('waiting for author')
+  if (!reproduction && !authorIsOrgMember) { labelsToAdd.push('needs reproduction') }
+  if (!systemInfo || !expectedBehavior) { labelsToAdd.push('waiting for author') }
   const pkgLabel = detectedPackage ?? normalizedAiPackage
   if (pkgLabel) {
     labelsToAdd.push(pkgLabel)

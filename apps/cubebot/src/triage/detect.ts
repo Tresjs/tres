@@ -80,19 +80,19 @@ export function detectPackage(issue: IssuePayload['issue']): string | null {
 }
 
 export function hasReproduction(body: string | null): boolean {
-  if (!body) return false
+  if (!body) { return false }
   return REPRODUCTION_PATTERNS.some(pattern => pattern.test(body))
 }
 
 export function hasSystemInfo(body: string | null): boolean {
-  if (!body) return false
+  if (!body) { return false }
   // Need at least 2 matches to consider it valid system info
   const matches = SYSTEM_INFO_PATTERNS.filter(pattern => pattern.test(body))
   return matches.length >= 2
 }
 
 export function hasExpectedBehavior(body: string | null): boolean {
-  if (!body) return false
+  if (!body) { return false }
   const lower = body.toLowerCase()
   return (
     lower.includes('expected')

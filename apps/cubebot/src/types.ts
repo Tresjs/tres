@@ -51,6 +51,6 @@ export interface TriageResult {
   hasSystemInfo: boolean
   hasExpectedBehavior: boolean
   summary: string
-  suggestedDocs: Array<{ title: string; url: string; reason: string }>
+  suggestedDocs: Array<{ title: string, url: string, reason: string }>
   labelsToAdd: string[]
 }

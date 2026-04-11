@@ -29,6 +29,6 @@ export async function verifyWebhookSignature(
   // Constant-time comparison to prevent timing attacks
   const sigBytes = encoder.encode(signature)
   const expectedBytes = encoder.encode(expectedSignature)
-  if (sigBytes.length !== expectedBytes.length) return false
+  if (sigBytes.length !== expectedBytes.length) { return false }
   return crypto.subtle.timingSafeEqual(sigBytes, expectedBytes)
 }
