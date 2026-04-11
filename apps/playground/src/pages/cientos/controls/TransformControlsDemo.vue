@@ -66,14 +66,12 @@ const { mode, enabled, space, axis, size, showX, showY, showZ } = useControls({
   showY: true,
   showZ: true,
 }, { uuid })
-
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
   <TresCanvas
     v-bind="gl"
-    ref="context"
   >
     <TresPerspectiveCamera :position="[11, 11, 11]" :look-at="[0, 0, 0]" />
     <OrbitControls make-default />

@@ -13,7 +13,6 @@ const gl = {
 
 const torusRef = shallowRef(null)
 const capsuleRef = shallowRef(null)
-
 </script>
 
 <template>

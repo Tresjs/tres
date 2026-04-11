@@ -1,3 +1,4 @@
+import type { MaybeRefOrGetter } from 'vue'
 import { createEventHook, useRafFn } from '@vueuse/core'
 import { createTimer } from '../../utils/createTimer'
 
@@ -6,7 +7,10 @@ export interface RafLoopContext { delta: number, elapsed: number }
 /**
  * @param cycleFn the function that is called before the after event hook is triggered and after the before event hook is triggered.
  */
-export const useCreateRafLoop = (cycleFn: () => void) => {
+export const useCreateRafLoop = (
+  cycleFn: () => void,
+  { fpsLimit }: { fpsLimit?: MaybeRefOrGetter<number> } = {},
+) => {
   const timer = createTimer()
 
   const eventHooks = {
@@ -26,6 +30,7 @@ export const useCreateRafLoop = (cycleFn: () => void) => {
     eventHooks.after.trigger(context)
   }, {
     immediate: false,
+    fpsLimit,
   })
 
   const start = () => {

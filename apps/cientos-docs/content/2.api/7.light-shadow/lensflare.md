@@ -1,6 +1,6 @@
 ---
 title: Lensflare
-description: Wraps the three.js Lensflare with seeded random element generation.
+description: Wraps the Three.js Lensflare with seeded random element generation.
 ---
 
 ::SceneControlsWrapper
@@ -8,7 +8,7 @@ description: Wraps the three.js Lensflare with seeded random element generation.
   ::
 ::
 
-`<Lensflare />` wraps the [three.js Lensflare](https://threejs.org/docs/#examples/en/objects/Lensflare).
+`<Lensflare />` wraps the [Three.js Lensflare](https://threejs.org/docs/#examples/en/objects/Lensflare).
 
 ## Usage
 
@@ -31,14 +31,13 @@ import { Lensflare } from '@tresjs/cientos'
 
 | Name | Description | Default |
 | :--- | :---------- | :------ |
-| **scale** |  `number` – scale of the lensflare | `1.0` |
+| **scale** |  `number` – multiplier for lensflare element sizes | `1.0` |
+| **distance** | `number` – multiplier for element distances from flare center | `1.0` |
 | **elements** | `Partial&lt;LensflareElementProps&gt;[]` – array of lensflare element properties | `undefined` |
 | **seed** | `number` – random seed for generating random seeded elements | `undefined` |
 | **seedProps** | `SeedProps[]` – specifications for generating random seeded elements | `undefined` |
 | **color** | `TresColor` – default color of lensflare elements | `undefined` |
-| **distance** | `number` – default distance of lensflare elements from flare center | `undefined` |
-| **size** | `number` – default size of lensflare elements | `undefined` |
-| **texture** | `Texture string[]` – default texture of lensflare elements | `undefined` |
+| **texture** | `Texture \| string` – default texture of lensflare elements | `undefined` |
 
 ## `elements`
 
@@ -165,9 +164,13 @@ When mixing random elements with elements, the final number of lensflare element
 If more than one source sets the same property on a given element, the following order of precendence is used. Higher in the list (lower number) equals higher precendence.
 
 1. `elements`
-2. `color`, `distance`, `size`, `texture` – default element properties
+2. `color`, `texture` – default element properties
 3. `seed`, `seedProps` – generated random elements
 4. built-in default element properties
+
+::prose-note
+`scale` and `distance` are applied as **multipliers** at render time, not as default values. They proportionally adjust all element sizes and distances respectively, preserving the variation between elements. Use `scale` to make the entire lensflare larger or smaller, and `distance` to spread or compress the scattered elements.
+::
 
 ::prose-note
 If elements, seed, and seedProps are all undefined, a seed of 0 and built-in default seedProps will be used to generate the lensflare elements.
@@ -185,7 +188,6 @@ Here's an example of precedence. Assume this is in our vue template.
   ]"
   :texture="http://example.net/ring.png"
   color="red"
-  :size="256"
   :seed="1"
 />
 ```
@@ -236,13 +238,13 @@ The resulting 3 lensflare elements will have the following properties, from the 
   {
     color: 'red', // from component prop `color`
     distance: 0.5, // from `elements`
-    size: 256, // from component prop `size`
+    size: 512, // from random element generator
     texture: 'http://example.net/ring.png', // from component prop `texture`
   },
   {
     color: 'red', // from component prop `color`
     distance: 2, // from random element generator
-    size: 256, // from component prop `size`
+    size: 512, // from random element generator
     texture: 'http://example.net/ring.png', // from component prop `texture`
   },
 ]

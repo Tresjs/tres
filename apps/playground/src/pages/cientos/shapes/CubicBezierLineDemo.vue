@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CubicBezierLine, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { TresLeches, useControls  } from '@tresjs/leches'
+import { TresLeches, useControls } from '@tresjs/leches'
 import { Vector3 } from 'three'
 
 const uuid = 'shapes-cubic-bezier-line'

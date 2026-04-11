@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Html, useBVH, useGLTF } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
-import { Mesh } from 'three'
+import type { Mesh } from 'three'
 
 const { state: model } = useGLTF('/models/cyber_samurai/cyber_samurai.glb', {
   draco: true,
@@ -40,7 +40,8 @@ watch(wireframe, (newVal) => {
           child.material.forEach((m: any) => {
             m.wireframe = true
           })
-        } else {
+        }
+        else {
           child.material.wireframe = true
         }
       }

@@ -22,7 +22,9 @@ const {
   moveToX,
   moveToY,
   moveToZ,
-  upX, upY, upZ,
+  upX,
+  upY,
+  upZ,
 } = useControls({
   duration: { value: 0.5, min: 0, max: 10, step: 0.25 },
   offset: { value: 1, min: -2, max: 2, step: 0.25 },

@@ -111,7 +111,6 @@ const {
   },
 }, { uuid })
 
-
 const boxRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
 const icoRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
 const torusRef = shallowRef({ instance: { rotation: { x: 0, y: 0, z: 0 } } })
@@ -170,20 +169,20 @@ onUnmounted(() => clearInterval(intervalId))
     </TorusKnot>
     <TresGroup>
       <ContactShadows
-      :width="width"
-      :height="height"
-      :blur="blur"
-      :far="far"
-      :smooth="smooth"
-      :opacity="opacity"
-      :resolution="resolution"
-      :scale="scale"
-      :tint="tint"
-      :color="color"
-      :depthWrite="depthWrite"
-      :rotationX="rotationX"
-      :position-y="0.0001"
-    />
+        :width="width"
+        :height="height"
+        :blur="blur"
+        :far="far"
+        :smooth="smooth"
+        :opacity="opacity"
+        :resolution="resolution"
+        :scale="scale"
+        :tint="tint"
+        :color="color"
+        :depthWrite="depthWrite"
+        :rotationX="rotationX"
+        :position-y="0.0001"
+      />
       <!-- <TresMesh :rotation-x="-Math.PI / 2" :scale="10">
         <TresPlaneGeometry />
         <TresMeshBasicMaterial color="gray" />

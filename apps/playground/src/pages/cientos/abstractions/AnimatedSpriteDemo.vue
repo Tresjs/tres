@@ -119,7 +119,6 @@ const centerDemoImgData = (() => {
   canvas.parentElement?.removeChild(canvas)
   return imgData
 })()
-
 </script>
 
 <template>

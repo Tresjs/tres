@@ -1,3 +1,42 @@
+## 5.7.0 (2026-03-30)
+
+### 🩹 Fixes
+
+- **cientos:** ContactShadows not rendering after Three.js r183 ([#32805](https://github.com/Tresjs/tres/issues/32805), [#1392](https://github.com/Tresjs/tres/issues/1392))
+- Add function to extract color and texture from user defaults in Lensflare ([acaece00](https://github.com/Tresjs/tres/commit/acaece00))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.8.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Claude Opus 4.6 (1M context)
+
+## 5.6.0 (2026-03-10)
+
+### 🚀 Features
+
+- add backward compatibility for three.js <r179 (`Timer` fallback to `Clock`) ([13c20dc8](https://github.com/Tresjs/tres/commit/13c20dc8))
+
+### 🩹 Fixes
+
+- simplify time retrieval ([1eb6a805](https://github.com/Tresjs/tres/commit/1eb6a805))
+
+### 🔥 Performance
+
+- Optimize the Ocean component. Use static initialization parameters to prevent abnormal crashes caused by rebuilding the water object when updating its properties. At the same time, support dynamic adjustment of parameters to quickly adjust the water effect. ([9bf02f0e](https://github.com/Tresjs/tres/commit/9bf02f0e))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.7.0
+
+### ❤️ Thank You
+
+- Jungzl
+- 王明华
+
 ## 5.5.0 (2026-03-05)
 
 ### 🩹 Fixes

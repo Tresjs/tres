@@ -35,11 +35,10 @@ const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useContr
       { text: 'Basic', value: BasicShadowMap },
       { text: 'PCF', value: PCFShadowMap },
       { text: 'PCF Soft', value: PCFSoftShadowMap },
-      { text: 'VSM', value: VSMShadowMap }
+      { text: 'VSM', value: VSMShadowMap },
     ],
   },
 }, { uuid })
-
 
 const formattedToneMapping = computed(() => {
   return Number(toneMapping.value) as ToneMapping
@@ -52,9 +51,8 @@ const formattedShadowMapType = computed(() => {
 const cubeRef = ref()
 
 function onLoop() {
-  cubeRef.value.rotation.y += 0.01 * - Math.PI /3
+  cubeRef.value.rotation.y += 0.01 * -Math.PI / 3
 }
-
 </script>
 
 <template>

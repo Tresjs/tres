@@ -6,7 +6,7 @@ import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'staging-accumulative-shadows'
 
-const { frames, once, accumulate, limit, isLimitInfinite, blend, alphaTest, colorBlend, opacity, resolution, scale, toneMapped, isOrange, enabled } = useControls({
+const { frames, once, accumulate, limit, _isLimitInfinite, blend, alphaTest, colorBlend, opacity, resolution, scale, toneMapped, isOrange, enabled } = useControls({
   frames: { value: 100, min: 2, max: 200, step: 1 },
   once: true,
   accumulate: true,

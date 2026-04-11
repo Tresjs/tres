@@ -10,7 +10,7 @@ useControls('fpsgraph', { uuid })
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas clear-color="#333" render-mode="on-demand">
+  <TresCanvas clear-color="#333">
     <Experiment />
   </TresCanvas>
 </template>

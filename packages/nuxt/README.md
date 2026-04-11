@@ -140,8 +140,8 @@ pnpm run release
 
 <!-- Badges -->
 
-[npm-version-src]: https://img.shields.io/npm/v/@tresjs/nuxt/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-version-href]: https://npmjs.com/package/@tresjs/nuxt
+[npm-version-src]: https://npmx.dev/api/registry/badge/version/@tresjs/nuxt
+[npm-version-href]: https://npmx.dev/package/@tresjs/nuxt
 [npm-downloads-src]: https://img.shields.io/npm/dm/@tresjs/nuxt.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-downloads-href]: https://npmjs.com/package/@tresjs/nuxt
 [license-src]: https://img.shields.io/npm/l/@tresjs/nuxt.svg?style=flat&colorA=18181B&colorB=28CF8D

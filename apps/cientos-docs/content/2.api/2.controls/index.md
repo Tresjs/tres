@@ -1,6 +1,6 @@
 ---
 title: Controls
-description: All controls
+description: All currently supported controls
 ---
 
 ::ApiList{listName="control-list"}

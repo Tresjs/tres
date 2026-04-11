@@ -38,25 +38,32 @@ const { height: windowHeight } = useWindowSize()
 const isInitialized = ref(false)
 const isResizing = ref(false)
 
-const DEFAULT_WIDTH = 320
+const DEFAULT_WIDTH = 280
 const COLLAPSED_SIZE = 36
-const MIN_HEIGHT = 148 // Minimum height for the panel
-const MAX_HEIGHT = 600 // Maximum height for the panel
-const CONTROL_HEIGHT = 44 // Approximate height per control
-const FPS_GRAPH_EXTRA_HEIGHT = 26 // Extra padding needed for FPS graph
+const MIN_HEIGHT = 100
+const MAX_HEIGHT = 600
+const HEADER_HEIGHT = 32 // button(28px) + wrapper padding(4px)
+const CONTENT_PADDING = 32 // tl-py-4 = 16px top + 16px bottom
+const CONTROL_HEIGHT = 24 // 20px unit + 4px spacing
+const FPS_GRAPH_EXTRA_HEIGHT = 24
 
 const panelWidth = ref(DEFAULT_WIDTH)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
 
 // Controls
-const controls = useControlsProvider(uuid?.value)
+useControlsProvider(uuid?.value)
 const hasSlots = ref(false)
 const { store: controlsStore, triggers: controlsTriggers } = useControlsStore()
 
-defineExpose(controls)
+// Reactive getter — controlsStore[uuid] may not exist yet when TresLeches
+// mounts before child components register their controls via useControls()
+const controls = computed(() => controlsStore[uuid.value] || {})
+
+defineExpose({ controls })
 
 function onChange(key: string, value: string) {
-  const control = controls[key] as any
+  const control = controls.value[key] as any
+  if (!control) { return }
   // Update the ref (control.value is a ref)
   if (isRef(control.value)) {
     control.value.value = value
@@ -104,8 +111,7 @@ function calculateHeight() {
     }
   }
 
-  // Calculate height: header (32px) + controls + padding + extra for FPS if present
-  const calculatedHeight = 32 + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
+  const calculatedHeight = HEADER_HEIGHT + CONTENT_PADDING + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
   const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
   return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
 }
@@ -137,32 +143,58 @@ const panelStyle = computed(() => {
   }
 })
 
+const motionConfig = float.value
+  ? {
+      initial: {
+        opacity: 0,
+        y: 100,
+        width: COLLAPSED_SIZE,
+        height: COLLAPSED_SIZE,
+        right: '1rem',
+        left: 'auto',
+      },
+      enter: {
+        opacity: 1,
+        y: 0,
+        width: COLLAPSED_SIZE,
+        height: COLLAPSED_SIZE,
+        right: '1rem',
+        left: 'auto',
+      },
+      leave: {
+        opacity: 0,
+        y: 100,
+        width: COLLAPSED_SIZE,
+        height: COLLAPSED_SIZE,
+        right: '1rem',
+        left: 'auto',
+      },
+    }
+  : {
+      initial: { opacity: 1 },
+      enter: { opacity: 1 },
+    }
+
 const { apply } = useMotion(paneRef, {
-  initial: {
-    opacity: 0,
-    y: 100,
-    width: COLLAPSED_SIZE,
-    height: COLLAPSED_SIZE,
-    right: '1rem',
-    left: 'auto',
-  },
-  enter: {
-    opacity: 1,
-    y: 0,
-    width: COLLAPSED_SIZE,
-    height: COLLAPSED_SIZE,
-    right: '1rem',
-    left: 'auto',
-  },
-  leave: {
-    opacity: 0,
-    y: 100,
-    width: COLLAPSED_SIZE,
-    height: COLLAPSED_SIZE,
-    right: '1rem',
-    left: 'auto',
-  },
+  initial: motionConfig.initial,
+  enter: motionConfig.enter,
+  ...(motionConfig.leave ? { leave: motionConfig.leave } : {}),
 })
+
+// Recalculate height when controls are added/removed (e.g. child components mounting)
+watch(groupedControls, async () => {
+  const newHeight = calculateHeight()
+  if (newHeight === panelHeight.value) { return }
+  panelHeight.value = newHeight
+  if (!isCollapsed.value && float.value) {
+    await apply({
+      width: panelWidth.value,
+      height: newHeight,
+      right: '1rem',
+      left: 'auto',
+    })
+  }
+}, { flush: 'post' })
 
 const handleScroll = () => {
   if (!scrollContainer.value) { return }
@@ -184,6 +216,12 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
   const startHeight = panelHeight.value
   const startDragX = dragPosition.value.x
 
+  // Calculate the natural height where content fits without scrollbar
+  const scrollOverflow = scrollContainer.value
+    ? scrollContainer.value.scrollHeight - scrollContainer.value.clientHeight
+    : 0
+  const naturalHeight = startHeight + scrollOverflow
+
   function onMouseMove(e: MouseEvent) {
     if (!isResizing.value || !paneRef.value) { return }
 
@@ -201,8 +239,7 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
 
     if (resizeEdge.value === 'bottom' || resizeEdge.value === 'corner' || resizeEdge.value === 'corner-left') {
       const deltaY = e.clientY - startY
-      const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
-      panelHeight.value = Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
+      panelHeight.value = Math.min(naturalHeight, Math.max(MIN_HEIGHT, startHeight + deltaY))
 
       // Update gradients after resize
       handleScroll()
@@ -223,13 +260,13 @@ function startResize(edge: 'right' | 'left' | 'bottom' | 'corner' | 'corner-left
 }
 
 watch(panelHeight, (value) => {
-  if (value && paneRef.value) {
+  if (value && paneRef.value && float.value) {
     paneRef.value.style.maxHeight = `${value}px`
   }
 })
 
 watch(panelWidth, (value) => {
-  if (value && paneRef.value) {
+  if (value && paneRef.value && float.value) {
     paneRef.value.style.maxWidth = `${value}px`
   }
 })
@@ -242,13 +279,26 @@ function toggleCollapsed() {
 
 // Update animation when panel state changes
 watch(isCollapsed, async (value) => {
+  if (!float.value) {
+    // Non-float mode: clear motion inline styles so CSS layout takes over
+    await nextTick()
+    if (paneRef.value) {
+      paneRef.value.style.width = ''
+      paneRef.value.style.height = ''
+      paneRef.value.style.right = ''
+      paneRef.value.style.left = ''
+      paneRef.value.style.opacity = '1'
+      paneRef.value.style.transform = ''
+    }
+    return
+  }
   if (!value) {
     await nextTick() // Wait for slot to be visible
     await apply({
-      width: float.value ? panelWidth.value : 'none',
-      height: float.value ? panelHeight.value : 'none',
-      right: float.value ? '1rem' : 'auto',
-      left: float.value ? 'auto' : '0',
+      width: panelWidth.value,
+      height: panelHeight.value,
+      right: '1rem',
+      left: 'auto',
     })
     return
   }
@@ -256,7 +306,7 @@ watch(isCollapsed, async (value) => {
 }, { immediate: true })
 
 function onFolderOpen(value: boolean) {
-  panelHeight.value = panelHeight.value + (44 * (value ? 1 : -1))
+  panelHeight.value = panelHeight.value + (CONTROL_HEIGHT * (value ? 1 : -1))
 }
 
 const slotsRef = ref()
@@ -288,21 +338,24 @@ onUnmounted(() => {
     <div
       :id="`tres-leches-pane-${uuid}`"
       ref="paneRef"
-      class="tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-p-1 tl-font-sans tl-text-xs tl-flex tl-flex-col tl-rounded-lg"
+      class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden"
       :class="[
         $attrs.class,
         float ? 'tl-absolute tl-top-4' : 'tl-relative',
       ]"
       :style="panelStyle"
     >
-      <header class="tl-flex tl-justify-between tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-text-xs">
+      <header
+        class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600"
+        :class="[!isCollapsed && float ? 'tl-justify-between' : 'tl-justify-center']"
+      >
         <div v-if="!isCollapsed && float" class="w-1/3"></div>
         <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing w-1/3">
           <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
             class="i-ic-baseline-drag-indicator"
           ></i>
         </div>
-        <div class="tl-flex tl-justify-end">
+        <div class="tl-flex tl-p-0.5" :class="[!isCollapsed && float ? 'tl-justify-end' : 'tl-justify-center']">
           <button
             class="tl-rounded-full
               tl-inline-flex tl-justify-center tl-items-center
@@ -337,19 +390,11 @@ onUnmounted(() => {
         ></div>
         <div
           ref="scrollContainer"
-          class="tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400"
+          class="tl-scroll-container tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400"
           @scroll="handleScroll"
         >
-          <template
-            v-for="(group, folderName) of groupedControls"
-            :key="folderName"
-          >
-            <Folder
-              v-if="folderName !== 'default'"
-              :label="folderName"
-              :controls="group"
-              @open="onFolderOpen"
-            />
+          <template v-for="(group, folderName) of groupedControls" :key="folderName">
+            <Folder v-if="folderName !== 'default'" :label="folderName" :controls="group" @open="onFolderOpen" />
             <template v-if="folderName === 'default'">
               <ControlInput
                 v-for="control in group"
@@ -360,7 +405,7 @@ onUnmounted(() => {
             </template>
           </template>
 
-          <div v-if="hasSlots" ref="slotsRef" class="tl-px-4">
+          <div v-if="hasSlots" ref="slotsRef" style="padding: 0 var(--tl-h-padding);">
             <slot></slot>
           </div>
         </div>
@@ -394,3 +439,31 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
+
+<style>
+.tl-leches {
+  --tl-unit-size: 20px;
+  --tl-unit-spacing: 4px;
+  --tl-h-padding: 4px;
+  --tl-v-padding: 4px;
+  --tl-blade-radius: 2px;
+  --tl-font-size: 11px;
+  --tl-panel-width: 280px;
+  --tl-input-padding: 0 4px;
+  font-size: var(--tl-font-size);
+  font-weight: 500;
+}
+
+.tl-leches .tl-scroll-container {
+  scrollbar-gutter: stable;
+}
+
+.tl-leches input,
+.tl-leches select {
+  height: var(--tl-unit-size);
+  line-height: var(--tl-unit-size);
+  padding: var(--tl-input-padding);
+  border-radius: var(--tl-blade-radius);
+  font-size: var(--tl-font-size);
+}
+</style>

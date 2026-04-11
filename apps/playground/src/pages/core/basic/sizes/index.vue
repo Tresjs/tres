@@ -3,7 +3,8 @@ import { TresLeches } from '@tresjs/leches'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import Child from './Child.vue'
-const uuid = 'core-basic-sizes'
+
+const _uuid = 'core-basic-sizes'
 const state = reactive({
   width: 0,
   height: 0,
@@ -11,8 +12,8 @@ const state = reactive({
   pixelRatio: 0,
 })
 provide('state-sizes', state)
-
 </script>
+
 <template>
   <TresLeches uuid="uuid">
     <p>Width: {{ state.width }}</p>

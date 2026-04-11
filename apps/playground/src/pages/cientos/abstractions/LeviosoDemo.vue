@@ -3,7 +3,7 @@ import { Levioso, OrbitControls, TorusKnot } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { shallowReactive, shallowRef } from 'vue'
+import { shallowReactive } from 'vue'
 
 const uuid = 'abstractions-levioso'
 
@@ -42,7 +42,6 @@ watch([speed, rotationFactor, floatFactor], ([speed, rotationFactor, floatFactor
     <TresPerspectiveCamera :position="[11, 11, 11]" />
     <OrbitControls />
     <Levioso
-      ref="groupRef"
       v-bind="leviosoState"
     >
       <TorusKnot :position="[0, 4, 0]">
