@@ -185,7 +185,12 @@ const unmountCanvas = () => {
     (scene.value as TresScene).__tres.isUnmounting = true
   }
 
-  // Render null to let Vue unmount every node via nodeOps.remove, which disposes them.
+  // `root.renderer` is Vue's custom renderer, NOT the WebGLRenderer.
+  // WebGL teardown is owned by `useRendererManager`, which registered its
+  // own `onUnmounted` earlier in setup and therefore fires first.
+  // By the time we're here, `render(null)` just walks the vnode tree and
+  // calls `nodeOps.remove` on every child — which runs user `:dispose`
+  // handlers and releases CPU-side three.js state.
   root.renderer.render(null, scene.value as unknown as TresObject)
   dispose(context.value)
   deleteRoot(props.canvas)
