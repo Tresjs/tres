@@ -19,7 +19,7 @@ const props = defineProps<{
    */
   manager?: LoadingManager
 
-  extensions?: (res: T)=> void
+  extensions?: (res: T) => void
 }>()
 
 const emit = defineEmits<{
