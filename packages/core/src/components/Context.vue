@@ -152,8 +152,20 @@ const mountCustomRenderer = (context: TresContext) => {
   setRoot(canvas, { renderer, internalComponent, hmrTick, context })
 }
 
-const dispose = (context: TresContext) => {
+// `force=false` (internal unmount path) only walks the scene graph — WebGL teardown
+// is owned by useRendererManager's own onUnmounted, which fires alongside ours.
+// `force=true` (manual TresCanvasInstance.dispose() call) additionally tears down the
+// WebGLRenderer explicitly, because the manual call path is NOT backed by Vue's
+// unmount lifecycle and useRendererManager won't fire on its own.
+const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
+  if (force) {
+    context.renderer.instance.dispose()
+    if (context.renderer.instance instanceof WebGLRenderer) {
+      context.renderer.instance.renderLists.dispose()
+      context.renderer.instance.forceContextLoss()
+    }
+  }
   ;(scene.value as TresScene).__tres = {
     root: context,
     objects: [],
@@ -168,7 +180,7 @@ const context = shallowRef<TresContext>(useTresContextProvider({
   rendererOptions: props,
 }))
 
-defineExpose({ context, dispose: () => dispose(context.value) })
+defineExpose({ context, dispose: () => dispose(context.value, true) })
 
 // HMR: bump the tick so the internal component re-renders and Vue diffs the slot content
 const handleHMR = () => {
