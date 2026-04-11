@@ -1,4 +1,4 @@
-import { h, nextTick, ref } from 'vue'
+import { h, nextTick } from 'vue'
 import * as THREE from 'three'
 import { beforeAll, describe, expect, it } from 'vitest'
 import { initializeSceneCreator } from './util'
@@ -32,25 +32,29 @@ describe('hMR', () => {
     sceneWrapper.unmount()
   })
 
-  it('diffs slot content cleanly between HMR ticks', async () => {
+  it('diffs slot content cleanly when HMR tick fires', async () => {
     const { createScene, getRoot } = await initializeSceneCreator()
 
-    const useSphere = ref(false)
-    const slotContent = () => (useSphere.value
+    // Non-reactive flag — mutating it does NOT trigger Vue's reactivity.
+    // The slot vnode tree only changes when the slot fn is re-invoked,
+    // which only happens when the internal component's render effect re-runs.
+    // This isolates the hmrTick bump as the load-bearing trigger.
+    let useSphere = false
+    const slotContent = () => (useSphere
       ? [h('TresMesh', null, [h('TresSphereGeometry'), h('TresMeshBasicMaterial')])]
       : [h('TresMesh', null, [h('TresBoxGeometry'), h('TresMeshBasicMaterial')])])
 
     const { context, sceneWrapper } = await createScene(slotContent)
 
-    const firstChild = context.scene.value.children[0]
-    expect(firstChild).toBeDefined()
-    expect((firstChild as any).geometry.type).toBe('BoxGeometry')
+    expect((context.scene.value.children[0] as any).geometry.type).toBe('BoxGeometry')
 
-    // Swap slot content (simulates template HMR replacing Box with Sphere)
-    useSphere.value = true
+    // Flip the flag. With no reactivity involved, no rerender happens.
+    useSphere = true
     await nextTick()
+    expect((context.scene.value.children[0] as any).geometry.type).toBe('BoxGeometry')
 
-    // Bump HMR tick to force internal component re-render
+    // Bump the HMR tick — this is the ONLY trigger that can cause the internal
+    // component's render fn to re-run and pick up the new slot vnodes.
     const canvas = sceneWrapper.find('canvas').element as HTMLCanvasElement
     getRoot(canvas)!.hmrTick.value++
     await nextTick()
