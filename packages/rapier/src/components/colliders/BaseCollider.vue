@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
   solverGroups: undefined,
   sensor: false,
   activeContactForce: false,
-  contactForceEventThreshold: 0,
+  contactForceEventThreshold: 5.0,
 })
 
 const { world } = useRapierContext()
