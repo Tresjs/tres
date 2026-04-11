@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
+import { PerspectiveCamera, Scene } from 'three'
 import type { App, Ref } from 'vue'
 import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
@@ -9,6 +9,7 @@ import {
   Fragment,
   getCurrentInstance,
   h,
+  onBeforeUnmount,
   onMounted,
   onUnmounted,
   provide,
@@ -23,7 +24,7 @@ import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresCo
 import { extend } from '../core/catalogue'
 import type { TresCustomRendererOptions } from '../core/nodeOps'
 import { nodeOps } from '../core/nodeOps'
-import { getRoot, setRoot } from '../core/roots'
+import { deleteRoot, getRoot, setRoot } from '../core/roots'
 import { isScene } from '../utils/is'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
@@ -151,16 +152,9 @@ const mountCustomRenderer = (context: TresContext) => {
   setRoot(canvas, { renderer, internalComponent, hmrTick, context })
 }
 
-const dispose = (context: TresContext, force = false) => {
+const dispose = (context: TresContext) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
-  if (force) {
-    context.renderer.instance.dispose()
-    if (context.renderer.instance instanceof WebGLRenderer) {
-      context.renderer.instance.renderLists.dispose()
-      context.renderer.instance.forceContextLoss()
-    }
-  }
-  (scene.value as TresScene).__tres = {
+  ;(scene.value as TresScene).__tres = {
     root: context,
     objects: [],
     isUnmounting: true,
@@ -174,7 +168,7 @@ const context = shallowRef<TresContext>(useTresContextProvider({
   rendererOptions: props,
 }))
 
-defineExpose({ context, dispose: () => dispose(context.value, true) })
+defineExpose({ context, dispose: () => dispose(context.value) })
 
 // HMR: bump the tick so the internal component re-renders and Vue diffs the slot content
 const handleHMR = () => {
@@ -183,16 +177,18 @@ const handleHMR = () => {
 }
 
 const unmountCanvas = () => {
-  // Render empty first to let Vue properly unmount via nodeOps.remove(),
-  // which handles text nodes and disposes THREE objects. Then dispose remaining resources.
-  const isTresScene = (value: unknown): value is TresScene => isScene(value) && '__tres' in value
+  const root = getRoot(props.canvas)
+  if (!root) { return }
 
+  const isTresScene = (value: unknown): value is TresScene => isScene(value) && '__tres' in value
   if (isTresScene(scene.value)) {
     (scene.value as TresScene).__tres.isUnmounting = true
   }
 
-  mountCustomRenderer(context.value)
+  // Render null to let Vue unmount every node via nodeOps.remove, which disposes them.
+  root.renderer.render(null, scene.value as unknown as TresObject)
   dispose(context.value)
+  deleteRoot(props.canvas)
 }
 
 const { camera, renderer } = context.value
@@ -272,7 +268,13 @@ renderer.onError((error) => {
 })
 
 // HMR support
-if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', () => handleHMR()) }
+if (import.meta.hot) {
+  const hmrHandler = () => handleHMR()
+  import.meta.hot.on('vite:afterUpdate', hmrHandler)
+  onBeforeUnmount(() => {
+    import.meta.hot?.off?.('vite:afterUpdate', hmrHandler)
+  })
+}
 
 // warn if the canvas has no area
 onMounted(async () => {

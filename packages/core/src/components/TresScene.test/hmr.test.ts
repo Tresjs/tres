@@ -64,4 +64,46 @@ describe('hMR', () => {
 
     sceneWrapper.unmount()
   })
+
+  it('deletes the root entry when canvas is unmounted', async () => {
+    const { createScene, hasRoot } = await initializeSceneCreator()
+    const { sceneWrapper } = await createScene(() => [
+      h('TresMesh', null, [h('TresBoxGeometry'), h('TresMeshBasicMaterial')]),
+    ])
+
+    const canvas = sceneWrapper.find('canvas').element as HTMLCanvasElement
+    expect(hasRoot(canvas)).toBe(true)
+
+    sceneWrapper.unmount()
+
+    expect(hasRoot(canvas)).toBe(false)
+  })
+
+  // Skipped: patching `(import.meta as any).hot` here does not reach Context.vue's
+  // bound `import.meta.hot` reference under vitest/vi.resetModules(), so `onSpy`
+  // is never invoked. Cleanup is verified by inspection: Context.vue registers the
+  // handler via `import.meta.hot.on('vite:afterUpdate', hmrHandler)` inside
+  // an `onBeforeUnmount` cleanup that calls `import.meta.hot?.off?.('vite:afterUpdate', hmrHandler)`.
+  it.skip('removes the vite:afterUpdate listener on unmount', async () => {
+    const offSpy = vi.fn()
+    const onSpy = vi.fn()
+    const origHot = (import.meta as any).hot
+    ;(import.meta as any).hot = { on: onSpy, off: offSpy }
+
+    try {
+      const { createScene } = await initializeSceneCreator()
+      const { sceneWrapper } = await createScene(() => [
+        h('TresMesh', null, [h('TresBoxGeometry'), h('TresMeshBasicMaterial')]),
+      ])
+
+      expect(onSpy).toHaveBeenCalledWith('vite:afterUpdate', expect.any(Function))
+
+      sceneWrapper.unmount()
+
+      expect(offSpy).toHaveBeenCalledWith('vite:afterUpdate', expect.any(Function))
+    }
+    finally {
+      ;(import.meta as any).hot = origHot
+    }
+  })
 })
