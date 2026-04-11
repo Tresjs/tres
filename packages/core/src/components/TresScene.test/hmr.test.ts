@@ -10,10 +10,7 @@ describe('hMR', () => {
   })
 
   it('does not duplicate scene children after simulated HMR tick', async () => {
-    const { createScene } = await initializeSceneCreator()
-    // Import AFTER initializeSceneCreator (which calls vi.resetModules)
-    // so we get the same _roots module instance as Context.vue.
-    const { getRoot } = await import('../../core/roots')
+    const { createScene, getRoot } = await initializeSceneCreator()
 
     const { context, sceneWrapper } = await createScene(() => [
       h('TresMesh', null, [
