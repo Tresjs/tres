@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PerspectiveCamera, Scene } from 'three'
+import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import type { App, Ref } from 'vue'
 import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
