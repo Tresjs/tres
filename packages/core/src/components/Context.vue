@@ -176,12 +176,10 @@ const context = shallowRef<TresContext>(useTresContextProvider({
 
 defineExpose({ context, dispose: () => dispose(context.value, true) })
 
-const handleHMR = (context: TresContext) => {
-  // Don't call dispose during HMR - Vue's render will diff and
-  // unmount old nodes via nodeOps.remove(), which properly disposes them.
-  // Calling dispose first would delete __tres from objects that Vue
-  // still needs to access during unmount, breaking sibling tracking.
-  mountCustomRenderer(context)
+// HMR: bump the tick so the internal component re-renders and Vue diffs the slot content
+const handleHMR = () => {
+  const root = getRoot(props.canvas)
+  if (root) { root.hmrTick.value++ }
 }
 
 const unmountCanvas = () => {
@@ -274,7 +272,7 @@ renderer.onError((error) => {
 })
 
 // HMR support
-if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
+if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', () => handleHMR()) }
 
 // warn if the canvas has no area
 onMounted(async () => {
