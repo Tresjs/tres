@@ -3,16 +3,8 @@ import { handleSeedDocs } from './admin/seed-docs'
 import { handleCommentCreated } from './github/handlers/comments'
 import { handleIssueOpened } from './github/handlers/issues'
 import { verifyWebhookSignature } from './github/verify'
+import type { Env } from './env'
 import type { CommentPayload, IssuePayload } from './types'
-
-interface Env {
-  DB: D1Database
-  AI: Ai
-  GITHUB_APP_ID: string
-  GITHUB_PRIVATE_KEY: string
-  GITHUB_WEBHOOK_SECRET: string
-  ANTHROPIC_API_KEY: string
-}
 
 const app = new Hono<{ Bindings: Env }>()
 

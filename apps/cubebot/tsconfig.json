@@ -4,12 +4,12 @@
     "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "types": ["@cloudflare/workers-types"],
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "skipLibCheck": true,
-    "types": ["@cloudflare/workers-types"]
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts"]
 }

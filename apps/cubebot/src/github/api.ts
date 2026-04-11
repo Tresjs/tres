@@ -40,7 +40,7 @@ export async function addLabels(
   issueNumber: number,
   labels: string[],
 ): Promise<void> {
-  if (labels.length === 0) return
+  if (labels.length === 0) { return }
 
   await octokit.rest.issues.addLabels({
     owner,

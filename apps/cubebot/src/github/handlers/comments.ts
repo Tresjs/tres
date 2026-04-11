@@ -1,4 +1,5 @@
 import type { Context } from 'hono'
+import type { Env } from '../../env'
 import type { CommentPayload } from '../../types'
 import { analyzeFeasibility } from '../../ai/claude'
 import { searchDocs } from '../../ai/rag'
@@ -6,15 +7,6 @@ import { detectPackage } from '../../triage/detect'
 import { addComment } from '../api'
 import { getInstallationOctokit } from '../auth'
 import { fetchRelevantCode } from '../code'
-
-interface Env {
-  DB: D1Database
-  AI: Ai
-  GITHUB_APP_ID: string
-  GITHUB_PRIVATE_KEY: string
-  GITHUB_WEBHOOK_SECRET: string
-  ANTHROPIC_API_KEY: string
-}
 
 const BOT_MENTION_PATTERN = /@tresjs-cubebot/i
 

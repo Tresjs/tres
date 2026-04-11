@@ -19,7 +19,7 @@ export async function generateEmbeddingsBatch(
   ai: Ai,
   texts: string[],
 ): Promise<number[][]> {
-  if (texts.length === 0) return []
+  if (texts.length === 0) { return [] }
 
   // Workers AI supports batching - process up to 100 at once
   const batchSize = 100
@@ -73,7 +73,7 @@ export async function searchDocs(
 }
 
 function cosineSimilarity(a: number[], b: number[]): number {
-  if (a.length !== b.length) return 0
+  if (a.length !== b.length) { return 0 }
 
   let dotProduct = 0
   let normA = 0
