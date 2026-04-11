@@ -46,7 +46,8 @@
       "better-sqlite3"
     ],
     "overrides": {
-      "ipx": "3.0.2"
+      "ipx": "3.0.2",
+      "undici": "^7.24.7"
     }
   }
 }
