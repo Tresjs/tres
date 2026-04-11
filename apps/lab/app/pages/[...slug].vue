@@ -50,7 +50,7 @@ useHead({
     {
       hid: 'og:image',
       property: 'og:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.png`,
+      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.webp`,
     },
     {
       hid: 'og:image:alt',
@@ -73,7 +73,7 @@ useHead({
     {
       hid: 'twitter:image',
       name: 'twitter:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.png`,
+      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.webp`,
     },
     {
       hid: 'twitter:image:alt',
