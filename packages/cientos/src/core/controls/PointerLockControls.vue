@@ -68,37 +68,46 @@ let triggerSelector: HTMLElement | undefined
 
 extend({ PointerLockControls })
 
-const isLockEmitter = (event: boolean) => {
-  emit('isLock', event)
-}
+const onLock = () => emit('isLock', true)
+const onUnlock = () => emit('isLock', false)
+const onChange = () => invalidate()
 
-watch(controlsRef, (value) => {
-  if (value && props.makeDefault) {
+watch(controlsRef, (value, oldValue) => {
+  if (oldValue) {
+    oldValue.removeEventListener('lock', onLock)
+    oldValue.removeEventListener('unlock', onUnlock)
+    oldValue.removeEventListener('change', onChange)
+  }
+
+  if (!value) {
+    controls.value = null
+    return
+  }
+
+  if (props.makeDefault) {
     controls.value = value
   }
-  else {
-    controls.value = null
-  }
+
+  value.addEventListener('lock', onLock)
+  value.addEventListener('unlock', onUnlock)
+  value.addEventListener('change', onChange)
+
   const selector = document.getElementById(props.selector || '')
   triggerSelector = selector || renderer.domElement
 
   useEventListener(triggerSelector, 'click', () => {
-    if (controlsRef.value) {
-      controlsRef.value.lock()
-      controlsRef.value.addEventListener('lock', () => isLockEmitter(true))
-      controlsRef.value.addEventListener('unlock', () => isLockEmitter(false))
-      controlsRef.value.addEventListener('change', () => invalidate())
-      invalidate()
-    }
+    value.lock()
+    invalidate()
   })
 })
 
 onUnmounted(() => {
-  const controls = controlsRef.value
-  if (controls) {
-    controls.removeEventListener('lock', () => isLockEmitter(true))
-    controls.removeEventListener('unlock', () => isLockEmitter(false))
-    controls.dispose()
+  const instance = controlsRef.value
+  if (instance) {
+    instance.removeEventListener('lock', onLock)
+    instance.removeEventListener('unlock', onUnlock)
+    instance.removeEventListener('change', onChange)
+    instance.dispose()
   }
 })
 
