@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
-import type { App } from 'vue'
+import type { App, Ref } from 'vue'
 import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
 import {
@@ -23,6 +23,7 @@ import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresCo
 import { extend } from '../core/catalogue'
 import type { TresCustomRendererOptions } from '../core/nodeOps'
 import { nodeOps } from '../core/nodeOps'
+import { getRoot, setRoot } from '../core/roots'
 import { isScene } from '../utils/is'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
@@ -90,7 +91,7 @@ const scene = shallowRef<TresScene | Scene>(new Scene())
 const instance = getCurrentInstance()
 extend(THREE)
 
-const createInternalComponent = (context: TresContext, empty = false) =>
+const createInternalComponent = (context: TresContext, hmrTick: Ref<number>) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
@@ -127,14 +128,27 @@ const createInternalComponent = (context: TresContext, empty = false) =>
       if (typeof window !== 'undefined' && ctx?.app) {
         registerTresDevtools(ctx?.app, context)
       }
-      return () => h(Fragment, null, !empty ? slots.default() : [])
+
+      return () => {
+        // Reactive dep: bumping hmrTick in the root forces this render fn to re-run,
+        // which re-reads slots.default() and lets Vue diff the vnode tree.
+        // eslint-disable-next-line ts/no-unused-expressions
+        hmrTick.value
+        return h(Fragment, null, slots.default?.() ?? [])
+      }
     },
   })
 
-const mountCustomRenderer = (context: TresContext, empty = false) => {
-  const InternalComponent = createInternalComponent(context, empty)
-  const { render } = createRenderer(nodeOps({ context, options: props.customRendererOptions }))
-  render(h(InternalComponent), scene.value as unknown as TresObject)
+const mountCustomRenderer = (context: TresContext) => {
+  const canvas = props.canvas
+  if (getRoot(canvas)) { return }
+
+  const hmrTick = shallowRef(0)
+  const internalComponent = createInternalComponent(context, hmrTick)
+  const renderer = createRenderer(nodeOps({ context, options: props.customRendererOptions }))
+  renderer.render(h(internalComponent), scene.value as unknown as TresObject)
+
+  setRoot(canvas, { renderer, internalComponent, hmrTick, context })
 }
 
 const dispose = (context: TresContext, force = false) => {
@@ -179,7 +193,7 @@ const unmountCanvas = () => {
     (scene.value as TresScene).__tres.isUnmounting = true
   }
 
-  mountCustomRenderer(context.value, true)
+  mountCustomRenderer(context.value)
   dispose(context.value)
 }
 
@@ -246,7 +260,7 @@ renderer.loop.onBeforeLoop((loopContext) => {
 
 renderer.onReady(() => {
   // Now that renderer is initialized, mount the actual scene with slots
-  mountCustomRenderer(context.value, false)
+  mountCustomRenderer(context.value)
   emit('ready', context.value)
 
   if (!activeCamera.value) {
