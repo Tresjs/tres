@@ -11,7 +11,7 @@ defineProps<{
     py-6
     border
     border-solid
-    border-gray-200
+    border-neutral-200
     rounded
     my-4"
   >
@@ -20,8 +20,8 @@ defineProps<{
       bg-white
       text-xs
       dark:bg-[#151515]
-      dark:text-gray-400
-      text-gray-500
+      dark:text-neutral-400
+      text-neutral-500
       px-2
       rounded
       -top-2

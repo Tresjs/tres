@@ -24,6 +24,7 @@
     "@tresjs/core": "workspace:^",
     "@tresjs/leches": "workspace:^",
     "@unhead/vue": "^2.0.17",
+    "@vueuse/core": "catalog:utils",
     "better-sqlite3": "^12.4.1",
     "nuxt": "catalog:nuxt",
     "nuxt-llms": "0.1.3",

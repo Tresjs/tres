@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
+import { TresCanvas, TresRendererError, type TresRendererSetupContext } from '@tresjs/core'
 import { WebGPURenderer } from 'three/webgpu'
 import type { ShadowMapType, ToneMapping } from 'three'
-import type { TresRendererSetupContext } from '@tresjs/core'
 import { ACESFilmicToneMapping, AgXToneMapping, BasicShadowMap, CineonToneMapping, LinearToneMapping, NeutralToneMapping, NoToneMapping, PCFShadowMap, PCFSoftShadowMap, ReinhardToneMapping, VSMShadowMap } from 'three'
 import { OrbitControls } from '@tresjs/cientos'
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -11,15 +10,13 @@ import HologramCube from './HologramCube.vue'
 
 const uuid = 'core-advanced-webgpu'
 
-const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
-  const renderer = new WebGPURenderer({
+const createWebGPURenderer = (ctx: TresRendererSetupContext) =>
+  new WebGPURenderer({
     canvas: toValue(ctx.canvas),
     // WebGPU specific configuration
     alpha: true,
     antialias: true,
   })
-  return renderer
-}
 
 const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useControls({
   clearColor: '#000000',
@@ -61,12 +58,24 @@ const formattedToneMapping = computed(() => {
 const formattedShadowMapType = computed(() => {
   return Number(shadowMapType.value) as ShadowMapType
 })
+
+// Handle renderer initialization errors (e.g., WebGPU not supported)
+const handleRendererError = (error: Error) => {
+  if (error instanceof TresRendererError) {
+    console.error('Failed to initialize WebGPU renderer:', error.message)
+    // You can show a user-friendly error message here
+    // For example, display a fallback message or use WebGLRenderer instead
+  }
+  else {
+    console.error('Something went wrong:', error)
+  }
+}
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
 
-  <TresCanvas :renderer="createWebGPURenderer" :clear-color="clearColor" :clear-alpha="clearAlpha" :tone-mapping="formattedToneMapping" :shadows="shadows" :shadow-map-type="formattedShadowMapType">
+  <TresCanvas :renderer="createWebGPURenderer" :clear-color="clearColor" :clear-alpha="clearAlpha" :tone-mapping="formattedToneMapping" :shadows="shadows" :shadow-map-type="formattedShadowMapType" @error="handleRendererError">
     <TresPerspectiveCamera
       :position="[3, 3, 3]"
       :look-at="[0, 0, 0]"

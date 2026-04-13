@@ -1,6 +1,6 @@
 # @tresjs/nuxt
 
-Official Nuxt module for TresJS - enables 3D scene development in Nuxt applications.
+Official Nuxt module for TresJS.
 
 ## Key Features
 

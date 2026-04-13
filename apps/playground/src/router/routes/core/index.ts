@@ -20,9 +20,9 @@ const coreRoutes = [
 
 export {
   advancedRoutes,
-  coreRoutes,
   basicRoutes,
   cameraRoutes,
+  coreRoutes,
   eventsRoutes,
   issuesRoutes,
   loaderRoutes,

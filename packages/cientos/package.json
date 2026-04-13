@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "5.2.0",
+  "version": "5.7.0",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -40,12 +40,13 @@
   "scripts": {
     "dev": "cd playground/vue && pnpm dev",
     "build": "tsdown",
+    "build:analyze": "ANALYZE=true tsdown",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.2.0",
+    "@tresjs/core": "5.8.0",
     "three": ">=0.133",
     "vue": ">=3.5.17"
   },
@@ -55,12 +56,13 @@
     "stats-gl": "^2.0.1",
     "stats.js": "^0.17.0",
     "three-custom-shader-material": "catalog:three",
+    "three-mesh-bvh": "^0.9.8",
     "three-stdlib": "catalog:three"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
-    "@types/node": "^24.3.0",
+    "@types/node": "catalog:node",
     "@types/three": "catalog:three",
     "@typescript-eslint/eslint-plugin": "catalog:eslint",
     "@typescript-eslint/parser": "catalog:eslint",

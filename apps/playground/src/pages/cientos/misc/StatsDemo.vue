@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { CameraControls, Stats } from '@tresjs/cientos'
+import { CameraControls, Stars, Stats } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef, watch } from 'vue'
-import TestStars from '@/components/StarsForTest.vue'
 
 const gl = {
   clearColor: '#000',
@@ -25,7 +24,7 @@ watch(statsGLRef, (value) => {
   >
     <TresPerspectiveCamera :position="[0, 2, 5]" />
     <Stats ref="statsGLRef" />
-    <TestStars />
+    <Stars />
     <CameraControls :distance="500" />
   </TresCanvas>
 </template>

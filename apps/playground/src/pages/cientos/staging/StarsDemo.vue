@@ -53,8 +53,6 @@ const {
   },
   'size attenuation': options.sizeAttenuation,
 }, { uuid })
-
-
 </script>
 
 <template>

@@ -2,9 +2,10 @@
 title: Phone with HTML inside
 author: alvarosabu
 description: Using HTML abstraction to render a page inside a model
-thumbnail: /experiments/html-phone.png
+thumbnail: /experiments/html-phone.webp
 tags: ['html', 'gltf']
 date: 2023-12-08
+lastUpdated: 2023-12-08
 ---
 
 This experiment demonstrates **HTML content integration** within 3D models, showcasing how to embed live web pages directly into 3D objects. Experience the "iTres" phone featuring a real iframe displaying the TresJS website within a realistic iPhone X model.

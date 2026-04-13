@@ -1,3 +1,78 @@
+## 5.6.0 (2026-03-30)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.8.0
+
+## 5.5.0 (2026-03-10)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.7.0
+
+## 5.4.0 (2026-03-05)
+
+### 🩹 Fixes
+
+- revert devtools icon to absolute URL, add dark variants to badge components ([17bb2eaa](https://github.com/Tresjs/tres/commit/17bb2eaa))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.6.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Claude Opus 4.6
+
+## 5.3.0 (2026-02-16)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.5.0
+
+## 5.2.1 (2026-02-09)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.4.1
+
+## 5.2.0 (2026-02-02)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.4.0
+
+## 5.1.7 (2026-01-26)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.3
+
+## 5.1.6 (2026-01-22)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.2
+
+## 5.1.5 (2026-01-15)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.1
+
+## 5.1.4 (2026-01-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.0
+
+## 5.1.3 (2025-12-26)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.1
+
 ## 5.1.2 (2025-12-10)
 
 ### 🧱 Updated Dependencies

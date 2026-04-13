@@ -1,3 +1,92 @@
+## 3.7.1 (2026-04-02)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/leches to 1.2.0
+
+## 3.7.0 (2026-03-30)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.8.0
+
+## 3.6.0 (2026-03-10)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.7.0
+
+## 3.5.0 (2026-03-05)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.6.0
+
+## 3.4.0 (2026-02-16)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.5.0
+
+## 3.3.1 (2026-02-09)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.4.1
+
+## 3.3.0 (2026-02-02)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.4.0
+
+## 3.2.5 (2026-01-26)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.3
+
+## 3.2.4 (2026-01-22)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.2
+
+## 3.2.3 (2026-01-15)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.1
+
+## 3.2.2 (2026-01-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/leches to 1.1.4
+
+## 3.2.1 (2026-01-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.3.0
+- Updated @tresjs/leches to 1.1.3
+
+## 3.2.0 (2025-12-26)
+
+### 🚀 Features
+
+- **playground:** integrate post-processing playground ([cef81b0f](https://github.com/Tresjs/tres/commit/cef81b0f))
+- **EffectComposer:** add renderTarget prop to EffectComposer for customizable rendering ([6a193f54](https://github.com/Tresjs/tres/commit/6a193f54))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.2.1
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Tino Koch @tinoooo
+
 ## 3.1.2 (2025-12-10)
 
 ### 🩹 Fixes

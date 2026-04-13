@@ -85,9 +85,13 @@ defineExpose({
   instance: controls,
 })
 
-const isActive = (isLock: boolean) => emit('isLock', isLock)
+const isActive = (isLock: boolean) => {
+  emit('isLock', isLock)
+}
 
-const hasChange = (state: any) => emit('change', state)
+const hasChange = (state: any) => {
+  emit('change', state)
+}
 
 const moveVector = new Vector3()
 const rotationVector = new Vector3()
@@ -101,18 +105,18 @@ const moveForward = (delta: number, movementSpeed: number) => {
 
   tmpQuaternion.set(rotationVector.x * rotMult, rotationVector.y * rotMult, rotationVector.z * rotMult, 1).normalize()
   camera?.quaternion.multiply(tmpQuaternion)
-  if (sidewardMove.value || forwardMove.value) { emit('change', controls.value) }
+  if (sidewardMove.value || forwardMove.value) {
+    invalidate()
+    emit('change', controls.value)
+  }
 }
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ delta /* invalidate */ }) => {
+onBeforeRender(({ delta }) => {
   if (controls.value instanceof PointerLockControlsType && controls.value?.isLocked) {
     moveForward(delta, forwardMove.value)
     controls.value.moveRight(sidewardMove.value)
-
-    // TODO: comment this until invalidate is back in the loop callback on v5
-    // invalidate()
   }
 })
 </script>

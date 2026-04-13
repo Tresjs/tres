@@ -38,7 +38,7 @@ apps/docs-boilerplate/
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 24+
 - pnpm package manager
 
 ### Installation
@@ -46,7 +46,7 @@ apps/docs-boilerplate/
 Install dependencies:
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 ```
 
 ### Development

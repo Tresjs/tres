@@ -1,0 +1,73 @@
+export const rapierRoutes = [
+  {
+    path: '/rapier/rigid-body',
+    name: 'Rigid Body',
+    component: () => import('@/pages/rapier/RigidBody.vue'),
+  },
+  {
+    path: '/rapier/automatic-colliders',
+    name: 'Automatic Colliders',
+    component: () => import('@/pages/rapier/AutomaticColliders.vue'),
+  },
+  {
+    path: '/rapier/custom-colliders',
+    name: 'Custom Colliders',
+    component: () => import('@/pages/rapier/CustomColliders.vue'),
+  },
+  {
+    path: '/rapier/instanced-rigid-body',
+    name: 'Instanced Rigid Body',
+    component: () => import('@/pages/rapier/InstancedRigidBody.vue'),
+  },
+  {
+    path: '/rapier/applying-forces',
+    name: 'Applying Forces',
+    component: () => import('@/pages/rapier/ApplyingForcesDemo.vue'),
+  },
+  {
+    path: '/rapier/gravity',
+    name: 'Gravity',
+    component: () => import('@/pages/rapier/GravityDemo.vue'),
+  },
+
+  {
+    path: '/rapier/collision',
+    name: 'Collision',
+    component: () => import('@/pages/rapier/CollisionDemo.vue'),
+  },
+  {
+    path: '/rapier/sensor',
+    name: 'Sensor',
+    component: () => import('@/pages/rapier/SensorDemo.vue'),
+  },
+  {
+    path: '/rapier/joints',
+    name: 'Joints',
+    component: () => import('@/pages/rapier/JointsDemo.vue'),
+  },
+  {
+    path: '/rapier/joints-advanced',
+    name: 'Advanced Joints',
+    component: () => import('@/pages/rapier/JointsAdvancedDemo.vue'),
+  },
+  {
+    path: '/rapier/expose',
+    name: 'Expose',
+    component: () => import('@/pages/rapier/ExposeDemo.vue'),
+  },
+  {
+    path: '/rapier/collision-groups',
+    name: 'Collision Groups',
+    component: () => import('@/pages/rapier/CollisionGroupsDemo.vue'),
+  },
+  {
+    path: '/rapier/solver-groups',
+    name: 'Solver Groups',
+    component: () => import('@/pages/rapier/SolverGroupsDemo.vue'),
+  },
+  {
+    path: '/rapier/ragdoll',
+    name: 'Basic Ragdoll',
+    component: () => import('@/pages/rapier/RagdollDemo.vue'),
+  },
+]

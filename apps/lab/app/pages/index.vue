@@ -54,10 +54,10 @@ const { data: formattedExperiments } = await useAsyncData('formatted-experiments
       // Featured experiments first
       if (a.featured && !b.featured) return -1
       if (!a.featured && b.featured) return 1
-      
+
       // Then sort by date (newest first)
-      const dateA = new Date(a.date || 0)
-      const dateB = new Date(b.date || 0)
+      const dateA = new Date(a.lastUpdated || 0)
+      const dateB = new Date(b.lastUpdated || 0)
       return dateB.getTime() - dateA.getTime()
     })
   },
@@ -91,11 +91,11 @@ function capitalize(word: string): string {
 }
 
 function getThumbnailFromExperiment(experiment: ExperimentItem): string {
-  return experiment.thumbnail ?? `/${getSlugFromExperiment(experiment)}.png`
+  return experiment.thumbnail ?? `/${getSlugFromExperiment(experiment)}.webp`
 }
 
 function getRepoPathFromExperiment(experiment: ExperimentItem): string {
-  return `https://github.com/Tresjs/lab/tree/main/components/content/${getSlugFromExperiment(experiment)}`
+  return `https://github.com/Tresjs/tres/tree/main/apps/lab/app/components/${getSlugFromExperiment(experiment)}`
 }
 
 function getRepoTitleFromExperiment(experiment: ExperimentItem): string {

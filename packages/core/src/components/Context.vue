@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import type { App } from 'vue'
-import type { TresObject, TresScene } from '../types'
+import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
 import {
   createRenderer,
@@ -17,19 +17,64 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import type { TresContext } from '../composables'
+import type { RendererOptions, TresContext } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresContextProvider'
 import { extend } from '../core/catalogue'
+import type { TresCustomRendererOptions } from '../core/nodeOps'
 import { nodeOps } from '../core/nodeOps'
+import { isScene } from '../utils/is'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { promiseTimeout } from '@vueuse/core'
-import type { TresCanvasEmits, TresCanvasProps } from './TresCanvas.vue'
+import type { TresPointerEventName } from '../utils/pointerEvents'
 
-const props = defineProps<TresCanvasProps & { canvas: HTMLCanvasElement }>()
+export interface ContextProps extends RendererOptions {
+  /**
+   * Custom camera instance to use as main camera
+   * If not provided, a default PerspectiveCamera will be created
+   */
+  camera?: TresCamera
+  /**
+   * Whether the canvas should be sized to the window
+   * When true, canvas will be fixed positioned and full viewport size
+   * @default false
+   */
+  windowSize?: boolean
 
-const emit = defineEmits<TresCanvasEmits>()
+  /**
+   * The maximum number of frames per second to render
+   * @default undefined
+   */
+  fpsLimit?: number
+  /**
+   * Whether to enable the provide/inject bridge between Vue and TresJS
+   * When true, Vue's provide/inject will work across the TresJS boundary
+   * @default true
+   */
+  enableProvideBridge?: boolean
+  /**
+   * Options for the TresJS custom renderer
+   *
+   */
+  customRendererOptions?: TresCustomRendererOptions
+}
+
+export type ContextEmits = {
+  ready: [context: TresContext]
+  error: [error: Error]
+  pointermissed: [event: TresPointerEvent]
+  render: [context: TresContext]
+  beforeLoop: [context: TresContextWithClock]
+  loop: [context: TresContextWithClock]
+} & {
+  // all pointer events are supported because they bubble up
+  [key in TresPointerEventName]: [event: TresPointerEvent]
+}
+
+const props = defineProps<ContextProps & { canvas: HTMLCanvasElement }>()
+
+const emit = defineEmits<ContextEmits>()
 
 const slots = defineSlots<{
   default: () => any
@@ -88,7 +133,7 @@ const createInternalComponent = (context: TresContext, empty = false) =>
 
 const mountCustomRenderer = (context: TresContext, empty = false) => {
   const InternalComponent = createInternalComponent(context, empty)
-  const { render } = createRenderer(nodeOps(context))
+  const { render } = createRenderer(nodeOps({ context, options: props.customRendererOptions }))
   render(h(InternalComponent), scene.value as unknown as TresObject)
 }
 
@@ -103,12 +148,14 @@ const dispose = (context: TresContext, force = false) => {
   }
   (scene.value as TresScene).__tres = {
     root: context,
+    objects: [],
+    isUnmounting: true,
   }
 }
-
 const context = shallowRef<TresContext>(useTresContextProvider({
   scene: scene.value as TresScene,
   canvas: props.canvas,
+  fpsLimit: () => props.fpsLimit ?? Infinity,
   windowSize: props.windowSize ?? false,
   rendererOptions: props,
 }))
@@ -116,19 +163,28 @@ const context = shallowRef<TresContext>(useTresContextProvider({
 defineExpose({ context, dispose: () => dispose(context.value, true) })
 
 const handleHMR = (context: TresContext) => {
-  dispose(context)
+  // Don't call dispose during HMR - Vue's render will diff and
+  // unmount old nodes via nodeOps.remove(), which properly disposes them.
+  // Calling dispose first would delete __tres from objects that Vue
+  // still needs to access during unmount, breaking sibling tracking.
   mountCustomRenderer(context)
 }
 
 const unmountCanvas = () => {
-  dispose(context.value)
+  // Render empty first to let Vue properly unmount via nodeOps.remove(),
+  // which handles text nodes and disposes THREE objects. Then dispose remaining resources.
+  const isTresScene = (value: unknown): value is TresScene => isScene(value) && '__tres' in value
+
+  if (isTresScene(scene.value)) {
+    (scene.value as TresScene).__tres.isUnmounting = true
+  }
+
   mountCustomRenderer(context.value, true)
+  dispose(context.value)
 }
 
 const { camera, renderer } = context.value
 const { registerCamera, cameras, activeCamera, deregisterCamera } = camera
-
-mountCustomRenderer(context.value)
 
 const addDefaultCamera = () => {
   const camera = new PerspectiveCamera(
@@ -170,10 +226,6 @@ watch(
   },
 )
 
-if (!activeCamera.value) {
-  addDefaultCamera()
-}
-
 renderer.onRender(() => {
   if (context.value) {
     emit('render', context.value)
@@ -193,7 +245,18 @@ renderer.loop.onBeforeLoop((loopContext) => {
 })
 
 renderer.onReady(() => {
+  // Now that renderer is initialized, mount the actual scene with slots
+  mountCustomRenderer(context.value, false)
   emit('ready', context.value)
+
+  if (!activeCamera.value) {
+    addDefaultCamera()
+  }
+})
+
+renderer.onError((error) => {
+  // Emit renderer initialization errors to parent components
+  emit('error', error)
 })
 
 // HMR support
@@ -204,7 +267,7 @@ onMounted(async () => {
   await promiseTimeout(3000)
 
   if (!context.value.sizes.width || !context.value.sizes.height.value) {
-    const windowSizePropName: keyof Pick<TresCanvasProps, 'windowSize'> = 'windowSize'
+    const windowSizePropName: keyof Pick<ContextProps, 'windowSize'> = 'windowSize'
     console.warn(`TresCanvas: The canvas has no area, so nothing can be rendered. Set it manually on the parent element or use the prop ${windowSizePropName}.`)
   }
 })

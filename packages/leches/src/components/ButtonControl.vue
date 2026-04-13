@@ -30,25 +30,36 @@ const classes = computed(() => {
 
 <style>
 .leches-btn {
-  @apply tl-rounded-md tl-cursor-pointer tl-border-none tl-flex tl-items-center;
+  @apply tl-cursor-pointer tl-border-none tl-flex tl-items-center;
   @apply tl-font-bold;
   @apply tl-transition-all tl-duration-200;
+  border-radius: var(--tl-blade-radius);
+  font-size: var(--tl-font-size);
 }
 
 .leches-btn-sm {
-  @apply tl-text-xs tl-px-2.5 tl-py-2;
+  height: var(--tl-unit-size);
+  line-height: var(--tl-unit-size);
+  padding: 0 6px;
 }
 
 .leches-btn-md {
-  @apply tl-text-sm tl-px-3 tl-py-2;
+  height: calc(var(--tl-unit-size) + 4px);
+  line-height: calc(var(--tl-unit-size) + 4px);
+  padding: 0 10px;
 }
 
 .leches-btn-lg {
-  @apply tl-text-base tl-px-4 tl-py-2;
+  height: calc(var(--tl-unit-size) + 8px);
+  line-height: calc(var(--tl-unit-size) + 8px);
+  padding: 0 14px;
 }
 
 .leches-btn-block {
-  @apply tl-px-4 tl-py-2 tl-text-sm tl-w-full tl-justify-center;
+  height: var(--tl-unit-size);
+  line-height: var(--tl-unit-size);
+  padding: 0 14px;
+  @apply tl-w-full tl-justify-center;
 }
 
 .leches-btn-primary {

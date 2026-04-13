@@ -5,11 +5,10 @@ import type { TresContext } from '../useTresContextProvider'
 import {
   createEventHook,
   unrefElement,
-  useDevicePixelRatio,
   useTimeout,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
+import { computed, type MaybeRef, type MaybeRefOrGetter, nextTick, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
 import type { Renderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
@@ -21,6 +20,7 @@ import type { UseCameraReturn } from '../useCamera'
 import type { TresScene } from '../../types'
 import { isFunction, isObject } from '../../utils/is'
 import { useCreateRafLoop } from '../useCreateRafLoop'
+import { TresRendererError } from '../../utils/error'
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -196,6 +196,7 @@ export interface UseRendererOptions {
   scene: ShallowRef<TresScene>
   canvas: MaybeRef<HTMLCanvasElement>
   options: Reactive<RendererOptions>
+  fpsLimit?: MaybeRefOrGetter<number>
   contextParts: Pick<TresContext, 'sizes' | 'camera'>
 }
 
@@ -204,6 +205,7 @@ export function useRendererManager(
     scene,
     canvas,
     options,
+    fpsLimit,
     contextParts: { sizes, camera },
   }: UseRendererOptions,
 ) {
@@ -271,12 +273,47 @@ export function useRendererManager(
     isObject(value) && 'isRenderer' in value && Boolean(value.isRenderer)
 
   const readyEventHook = createEventHook<TresRenderer>()
+  const errorEventHook = createEventHook<TresRendererError>()
   let hasTriggeredReady = false
 
-  if (isRenderer(renderer)) {
-    // Initialize the WebGPU context
-    renderer.init()
-    readyEventHook.trigger(renderer)
+  // Track whether the renderer has been initialized (important for WebGPU)
+  const isInitialized = ref(false)
+  const error = ref<TresRendererError | null>(null)
+
+  // Initialize renderer asynchronously (required for WebGPU in Three.js r181+)
+  const initializeRenderer = async () => {
+    try {
+      if (isRenderer(renderer)) {
+        // WebGPU renderer requires awaiting init() before any operations
+        await renderer.init()
+      }
+      // WebGLRenderer is ready immediately (no async init needed)
+
+      isInitialized.value = true
+    }
+    catch (e) {
+      // Handle initialization errors (e.g., WebGPU not supported, GPU initialization failure)
+      const rendererError = new TresRendererError(
+        e instanceof Error ? e.message : 'Unknown error',
+        'INITIALIZATION_FAILED',
+        { cause: e instanceof Error ? e : undefined },
+      )
+
+      error.value = rendererError
+
+      // Log detailed error message to help users diagnose the issue
+      console.error(
+        '[TresJS] Renderer initialization failed. This may occur if:\n'
+        + '  - WebGPU is not supported by your browser\n'
+        + '  - GPU is not available or lacks required features\n'
+        + '  - GPU drivers are outdated\n'
+        + `Error details: ${rendererError.message}`,
+        rendererError,
+      )
+
+      // Trigger error event hook for user-defined error handlers
+      errorEventHook.trigger(rendererError)
+    }
   }
 
   const renderEventHook = createEventHook<TresRenderer>()
@@ -304,17 +341,33 @@ export function useRendererManager(
     if (frames.value) {
       renderFunction(notifyFrameRendered)
     }
+  }, {
+    fpsLimit,
   })
 
-  readyEventHook.on(loop.start)
+  // Only start the render loop after renderer initialization is complete
+  readyEventHook.on(() => {
+    if (isInitialized.value) {
+      loop.start()
+    }
+  })
 
   // Watch the sizes and invalidate the renderer when they change
-  watch([sizes.width, sizes.height], () => {
+  // Also watch isRendererInitialized to ensure size is set once renderer is ready
+  watch([sizes.width, sizes.height, isInitialized], () => {
+    // Wait for renderer initialization before setting size (required for WebGPU)
+    if (!isInitialized.value) { return }
+
     renderer.setSize(sizes.width.value, sizes.height.value)
 
     if (!hasTriggeredReady && renderer.domElement.width && renderer.domElement.height) {
-      readyEventHook.trigger(renderer)
+      // Defer trigger to ensure listeners are registered (especially Context.vue's onReady)
+      // With window-size, this watch runs immediately with non-zero sizes,
+      // which can fire before Context.vue registers its listener
       hasTriggeredReady = true
+      nextTick(() => {
+        readyEventHook.trigger(renderer)
+      })
     }
 
     invalidateOnDemand()
@@ -322,11 +375,13 @@ export function useRendererManager(
     immediate: true,
   })
 
-  const { pixelRatio } = useDevicePixelRatio()
-
   watchEffect(() => {
-    setPixelRatio(renderer, pixelRatio.value, toValue(options.dpr))
+    if (!isInitialized.value) { return }
+    setPixelRatio(renderer, sizes.pixelRatio.value, toValue(options.dpr))
   })
+
+  // Start initialization process
+  initializeRenderer()
 
   if (toValue(options.renderMode) === 'on-demand') {
     // Invalidate for the first time
@@ -364,13 +419,16 @@ export function useRendererManager(
   })
 
   // Watchers for updatable renderer options at runtime
+  // All watchers must wait for renderer initialization (especially for WebGPU)
   watchEffect(() => {
+    if (!isInitialized.value) { return }
     const value = clearColorAndAlpha.value
     if (value.color === undefined || value.alpha === undefined) { return }
     renderer.setClearColor(value.color, value.alpha)
   })
 
   watchEffect(() => {
+    if (!isInitialized.value) { return }
     const value = options.toneMapping
     if (value) {
       renderer.toneMapping = value
@@ -378,6 +436,7 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
+    if (!isInitialized.value) { return }
     const value = options.toneMappingExposure
     if (value) {
       renderer.toneMappingExposure = value
@@ -385,6 +444,7 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
+    if (!isInitialized.value) { return }
     const value = options.outputColorSpace
     if (value) {
       renderer.outputColorSpace = value
@@ -392,6 +452,7 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
+    if (!isInitialized.value) { return }
     const value = options.shadows
     if (value === undefined) { return }
     renderer.shadowMap.enabled = value
@@ -399,6 +460,7 @@ export function useRendererManager(
   })
 
   watchEffect(() => {
+    if (!isInitialized.value) { return }
     const value = options.shadowMapType
     if (value === undefined) { return }
     renderer.shadowMap.type = value
@@ -418,10 +480,13 @@ export function useRendererManager(
     advance,
     onReady: readyEventHook.on,
     onRender: renderEventHook.on,
+    onError: errorEventHook.on,
     invalidate,
     canBeInvalidated,
     mode: toValue(options.renderMode),
     replaceRenderFunction,
+    isInitialized,
+    error,
   }
 }
 

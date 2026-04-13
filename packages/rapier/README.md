@@ -1,0 +1,73 @@
+![repository-banner.png](public/repo-banner.png)
+
+<p align="center">
+  <a href="https://npmx.dev/package/@tresjs/rapier"><img src="https://npmx.dev/api/registry/badge/version/@tresjs/rapier" alt="version"></a>
+
+<a href="https://discord.gg/UCr96AQmWn"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
+
+</p>
+<br/>
+
+# Rapier
+
+> Making Physics fun again
+
+- 💡 Build your effects with Vue components only.
+- ⚡️ Powered by Vite
+- 🦾 Fully Typed
+
+## Installation
+
+```bash
+pnpm i @tresjs/rapier
+```
+
+## Docs
+
+Checkout the [docs](https://rapier.tresjs.org/)
+
+### Build
+
+To build the package run:
+
+```bash
+pnpm run build
+```
+
+### Playground
+
+To run the playground run, its a great way to test the components and helpers locally:
+
+First install dependencies
+
+```
+pnpm i
+```
+
+And then to run the development server on http://localhost:5173
+
+```bash
+pnpm run playground
+```
+
+### Test
+
+TODO...
+
+### Docs
+
+To run the docs in dev mode
+
+```bash
+pnpm run docs:dev
+```
+
+To build them
+
+```bash
+pnpm run docs:build
+```
+
+## License
+
+[MIT](/LICENSE)

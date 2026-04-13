@@ -80,7 +80,7 @@ const props = withDefaults(defineProps<ImageProps>(), {
 
 const imageRef = shallowRef()
 const texture = shallowRef<Texture | null>(props.texture ?? null)
-const size = useTres().sizes
+const { sizes: size, renderer } = useTres()
 const planeBounds = computed(() =>
   Array.isArray(props.scale)
     ? [props.scale[0], props.scale[1]]
@@ -100,6 +100,7 @@ watchEffect(() => {
   }
   if (!isLoading.value) {
     texture.value = state.value
+    texture.value.colorSpace = renderer.outputColorSpace
   }
 })
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import vertexShader from './shaders/vertex.glsl';
 import fragmentShader from './shaders/fragment.glsl';
-import { Uniform, Vector2, AdditiveBlending, SphereGeometry, Float32BufferAttribute, BufferAttribute, Color } from 'three';
+import type { SphereGeometry } from 'three';
+import { Uniform, Vector2, AdditiveBlending, Float32BufferAttribute, BufferAttribute, Color } from 'three';
 import { useDevicePixelRatio } from '@vueuse/core';
 import gsap from 'gsap';
-import { BlendFunction } from 'postprocessing';
 
 const { pixelRatio } = useDevicePixelRatio()
 const uniforms = {
@@ -37,7 +37,7 @@ const { progress, colorA, colorB } = useControls({
     size: 'block',
     icon: 'i-carbon-play',
     onClick: () => {
-      if(uniforms.uProgress.value === 0.0) {
+      if (uniforms.uProgress.value === 0.0) {
         gsap.to(uniforms.uProgress, {
           value: 1.0,
           duration: 1.0,
@@ -115,22 +115,22 @@ watch(() => [blenderCube.value, pumpkinsaur.value], ([blenderCube, pumpkinsaur])
       pumpkinsaur.geometry.attributes.position as never,
     ]
     particles.maxCount = Math.max(blenderCube.geometry.attributes.position.count, pumpkinsaur.geometry.attributes.position.count)
-    
+
     //Random sizes
     const sizesArray = new Float32Array(particles.maxCount)
-    for(let i = 0; i < particles.maxCount; i++) {
+    for (let i = 0; i < particles.maxCount; i++) {
       sizesArray[i] = Math.random()
     }
     particles.sizes = new BufferAttribute(sizesArray, 1)
 
     // We harmonize the positions by the max count
-    for(const position of positions) {
+    for (const position of positions) {
       const originalArray = position.array
       const newArray = new Float32Array(particles.maxCount * 3)
-      for(let i = 0; i < particles.maxCount; i++) {
+      for (let i = 0; i < particles.maxCount; i++) {
         const i3 = i * 3
 
-        if(i3 < originalArray.length) {
+        if (i3 < originalArray.length) {
           newArray[i3] = originalArray[i3] as number
           newArray[i3 + 1] = originalArray[i3 + 1] as number
           newArray[i3 + 2] = originalArray[i3 + 2] as number
@@ -155,17 +155,10 @@ onBeforeRender(({ elapsed }) => {
 </script>
 <template>
   <TresPoints ref="modelParticlesPointsRef">
-    <TresBufferGeometry v-if="particles.positions.length > 0" 
-      :position="[particles.positions[0].array, 3]" 
-      :a-position-target="[particles.positions[1].array, 3]"
-      :a-size="[particles.sizes.array, 1]"
-    />
-    <TresShaderMaterial 
-    :vertex-shader="vertexShader" 
-    :fragment-shader="fragmentShader" 
-    :uniforms="uniforms" 
-    :transparent="true"
-    :blending="AdditiveBlending" :depth-write="false"></TresShaderMaterial>
+    <TresBufferGeometry v-if="particles.positions.length > 0" :position="[particles.positions[0].array, 3]"
+      :a-position-target="[particles.positions[1].array, 3]" :a-size="[particles.sizes.array, 1]" />
+    <TresShaderMaterial :vertex-shader="vertexShader" :fragment-shader="fragmentShader" :uniforms="uniforms"
+      :transparent="true" :blending="AdditiveBlending" :depth-write="false" />
   </TresPoints>
 
-</template> 
+</template>

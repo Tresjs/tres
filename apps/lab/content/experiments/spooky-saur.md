@@ -2,9 +2,10 @@
 title: Halloween Spooky-saur 🎃
 author: alvarosabu
 description: Entry for the Bruno's Halloween challenge
-thumbnail: /experiments/spooky-saur.png
+thumbnail: /experiments/spooky-saur.webp
 tags: ['lights', 'fog', 'backdrop', 'unrealbloom', useGLTF]
 date: 2023-10-17
+lastUpdated: 2023-10-17
 ---
 
 This experiment features a **spooky Halloween Ivysaur** surrounded by atmospheric decorations and lighting effects. Created as an entry for [Bruno Simon's](https://threejs-journey.com/) Halloween challenge, this scene combines Pokémon aesthetics with Halloween atmosphere using advanced lighting and post-processing techniques.

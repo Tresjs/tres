@@ -2,9 +2,10 @@
 title: Particles Morphing
 author: alvarosabu
 description: GPU-accelerated particle system that smoothly morphs between 3D model geometries using custom shaders
-thumbnail: /experiments/particles-morphing.png
+thumbnail: /experiments/particles-morphing.webp
 tags: [particles, animation, shaders]
 date: 2025-12-20
+lastUpdated: 2025-12-22
 ---
 
 # Particles Morphing

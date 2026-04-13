@@ -110,6 +110,10 @@ For detailed technical information about prop reactivity, see [GitHub Issue #982
   **🔒 WebGL Context Option** - Whether the renderer creation will fail upon low performance detection. See WebGL spec for details.
   ::::
 
+  ::::field{name="fpsLimit" type="number"}
+  **⚡ Reactive** - Default: `undefined` (unlimited) - Caps the render loop frequency in FPS. Useful for reducing CPU/GPU usage or matching a target update rate.
+  ::::
+
   ::::field{name="logarithmicDepthBuffer" type="boolean"}
   **🔒 WebGL Context Option** - Whether to use a logarithmic depth buffer. May be necessary for huge differences in scale. Can cause performance decrease.
   ::::
@@ -173,6 +177,36 @@ For detailed technical information about prop reactivity, see [GitHub Issue #982
 
   ::::field{name="windowSize" type="boolean"}
   **⚡ Reactive** - Whether the canvas should be sized to the window. When true, canvas will be fixed positioned and full viewport size.
+  ::::
+
+  ::::field{name="customRendererOptions" type="TresCustomRendererOptions"}
+  Configuration options for the TresJS custom renderer:
+  - `primitivePrefix` - Custom prefix for the primitive component name (default: `""`). For example, setting this to `"my"` allows you to use `<myprimitive>` instead of `<primitive>`.
+
+  ::code-group
+  ```vue [Custom Prefix]
+  <script setup lang="ts">
+  const customRendererOptions = {
+    primitivePrefix: 'my', // Use <myprimitive> instead of <primitive>
+  }
+  </script>
+
+  <template>
+    <TresCanvas :custom-renderer-options="customRendererOptions">
+      <myprimitive :object="myThreeObject" />
+    </TresCanvas>
+  </template>
+  ```
+
+  ```vue [Default (No Prefix)]
+  <template>
+    <TresCanvas>
+      <!-- Default primitive component -->
+      <primitive :object="myThreeObject" />
+    </TresCanvas>
+  </template>
+  ```
+  ::
   ::::
 :::
 

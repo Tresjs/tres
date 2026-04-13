@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.8",
-    "@types/node": "^22.15.18",
+    "@types/node": "catalog:node",
     "typescript": "5.8.3"
   }
 }

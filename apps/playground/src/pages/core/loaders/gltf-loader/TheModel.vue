@@ -73,5 +73,5 @@ onBeforeRender(({ elapsed }) => {
 </script>
 
 <template>
-  <primitive v-if="model?.scene" ref="modelRef" :position="[0, 2, 0]" :object="model.scene" />
+  <myprimitive v-if="model?.scene" ref="modelRef" :position="[0, 2, 0]" :object="model.scene" />
 </template>

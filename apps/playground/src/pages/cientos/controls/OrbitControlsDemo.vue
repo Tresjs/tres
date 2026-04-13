@@ -137,6 +137,7 @@ watch([
   AnglesMinPolarAngleValue,
   AnglesMaxAzimuthAngleValue,
   AnglesMinAzimuthAngleValue,
+  _keyPanSpeedValue,
 ]) => {
   controlsState.maxPolarAngle = AnglesMaxPolarAngleValue
   controlsState.minPolarAngle = AnglesMinPolarAngleValue

@@ -1,5 +1,6 @@
 import { defineConfig } from 'tsdown'
 import { createRequire } from 'node:module'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 const require = createRequire(import.meta.url)
 
@@ -21,6 +22,9 @@ export default defineConfig([
     platform: 'neutral',
     fromVite: true,
     banner,
+    plugins: [
+      process.env.ANALYZE && visualizer({ open: true, gzipSize: true, filename: 'dist/stats.html' }),
+    ].filter(Boolean),
     dts: {
       vue: true,
     },

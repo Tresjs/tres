@@ -278,15 +278,19 @@ function init(p: typeof props) {
 };
 
 function setSize(ps: typeof props, pool: ReturnType<typeof init>) {
-  const shadowCamera = pool.shadowCamera
-  shadowCamera.left = -ps.width / 2
-  shadowCamera.right = ps.width / 2
-  shadowCamera.top = ps.height / 2
-  shadowCamera.bottom = -ps.height / 2
-  shadowCamera.far = ps.far
-
   const w = ps.width * (Array.isArray(ps.scale) ? ps.scale[0] : (ps.scale || 1))
   const h = ps.height * (Array.isArray(ps.scale) ? ps.scale[1] : (ps.scale || 1))
+
+  // NOTE: Three.js r183+ strips parent scale from the camera view matrix,
+  // so we must set the frustum to world-space dimensions directly
+  const shadowCamera = pool.shadowCamera
+  shadowCamera.left = -w / 2
+  shadowCamera.right = w / 2
+  shadowCamera.top = h / 2
+  shadowCamera.bottom = -h / 2
+  shadowCamera.far = ps.far
+  shadowCamera.updateProjectionMatrix()
+
   pool.shadowGroup.scale.set(w, ps.far, h)
 }
 
