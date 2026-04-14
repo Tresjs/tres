@@ -38,15 +38,6 @@ const { lock, enabled, dragLimitsMin, dragLimitsMax } = useControls({
   },
 })
 
-watch(
-  () => controlsRef.value?.instance,
-  (newVal) => {
-    if (newVal) {
-      console.log('instance', newVal)
-    }
-  },
-)
-
 function onDragStart(e: ThreeDragControls) {
   console.log('dragstart', e)
 }
