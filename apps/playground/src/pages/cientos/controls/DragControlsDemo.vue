@@ -1,8 +1,10 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { shallowRef, watch } from 'vue'
 import { DragControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
+import type { DragControls as ThreeDragControls } from 'three/examples/jsm/Addons.js'
 import { TresLeches, useControls } from '@tresjs/leches'
 
 const gl = {
@@ -40,30 +42,33 @@ watch(
   () => controlsRef.value?.instance,
   (newVal) => {
     if (newVal) {
-      // eslint-disable-next-line no-console
       console.log('instance', newVal)
     }
   },
 )
 
-function onDragStart(_: any) {
-  // console.log('hover', event)
+function onDragStart(e: ThreeDragControls) {
+  console.log('dragstart', e)
 }
 
-function onDrag(_: any) {
-  // console.log('drag', event)
+function onDrag(_e: ThreeDragControls) {
+  if (!boxRef.value) { return }
+  const snap = 0.5
+  const pos = boxRef.value.position
+  pos.x = Math.round(pos.x / snap) * snap
+  pos.z = Math.round(pos.z / snap) * snap
 }
 
-function onDragEnd(_: any) {
-  // console.log('dragend', event)
+function onDragEnd(e: ThreeDragControls) {
+  console.log('dragend', e)
 }
 
-function onHoverOn(_: any) {
-  // console.log('hoveron', event)
+function onHoverOn(e: ThreeDragControls) {
+  console.log('hoveron', e)
 }
 
-function onHoverOff(_: any) {
-  // console.log('hoveroff', event)
+function onHoverOff(e: ThreeDragControls) {
+  console.log('hoveroff', e)
 }
 </script>
 
@@ -71,26 +76,34 @@ function onHoverOff(_: any) {
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 7.5, 7.5]" :look-at="[0, 0, 0]" />
-    <TresMesh ref="boxRef">
+    <TresMesh ref="boxRef" :position="[0.5, 0.5, 0.5]">
       <TresBoxGeometry />
-      <TresMeshBasicMaterial />
+      <TresMeshStandardMaterial />
     </TresMesh>
     <TresMesh ref="sphereRef" :position="[4, 0, 0]">
       <TresSphereGeometry />
-      <TresMeshBasicMaterial />
+      <TresMeshStandardMaterial />
     </TresMesh>
+    <TresDirectionalLight :position="[0, 10, 0]" :intensity="1.5" />
+    <TresAmbientLight :intensity="0.25" />
     <DragControls
       ref="controlsRef"
-      :objects="[boxRef, sphereRef]"
+      :objects="[sphereRef]"
       :lock="lock"
       :enabled="enabled"
       :dragLimits="[[dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax]]"
       @dragstart="onDragStart"
-      @drag="onDrag"
       @dragend="onDragEnd"
       @hoveron="onHoverOn"
       @hoveroff="onHoverOff"
     />
-    <TresGridHelper :args="[10, 10]" />
+    <DragControls
+      ref="controlsRef"
+      :objects="[boxRef]"
+      :drag-limits="[[-4.5, 4.5], undefined, [-4.5, 4.5]]"
+      lock="y"
+      @drag="onDrag"
+    />
+    <TresGridHelper :args="[10, 20]" />
   </TresCanvas>
 </template>

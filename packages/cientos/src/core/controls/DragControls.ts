@@ -1,8 +1,7 @@
 import { defineComponent, onUnmounted, shallowRef, watch } from 'vue'
 import type { Camera, Object3D, Vector3 } from 'three'
 import { useTres } from '@tresjs/core'
-import { useEventListener } from '@vueuse/core'
-import { DragControls as TypesDragControls } from 'three-stdlib'
+import { DragControls as ThreeDragControls } from 'three-stdlib'
 
 export interface DragControlsProps {
   objects: Object3D[]
@@ -45,85 +44,72 @@ export const DragControls = defineComponent<DragControlsProps>({
   setup(props, { expose, emit }) {
     const { camera: activeCamera, renderer } = useTres()
 
-    const controlsRef = shallowRef<TypesDragControls | null>(null)
+    const controlsRef = shallowRef<ThreeDragControls | null>(null)
     const initialPositions = new WeakMap<Object3D, Vector3>()
 
     watch(
       () => props.objects,
-      () => {
-        controlsRef.value = new TypesDragControls(
-          props.objects,
+      (objects) => {
+        const validObjects = (objects ?? []).filter(Boolean)
+        if (!validObjects.length) { return }
+
+        if (controlsRef.value) {
+          controlsRef.value.dispose()
+        }
+
+        controlsRef.value = new ThreeDragControls(
+          validObjects,
           props.camera || activeCamera.value!,
           props.domElement || renderer.domElement,
         )
-        // Apply initial enabled state if provided
-        if (props.enabled !== undefined && controlsRef.value) {
-          (controlsRef.value as any).enabled = props.enabled
+
+        if (props.enabled !== undefined) {
+          controlsRef.value.enabled = props.enabled
         }
-        addEventListeners()
+
+        addEventListeners(controlsRef.value)
       },
       { immediate: true },
     )
 
-    function addEventListeners() {
-      useEventListener(controlsRef.value as any, 'dragstart', (e: any) => {
-        const obj = e?.object as Object3D | undefined
-        if (obj) {
-          initialPositions.set(obj, obj.position.clone())
-        }
-        emit('dragstart', controlsRef.value)
+    function addEventListeners(controls: ThreeDragControls) {
+      controls.addEventListener('dragstart', (e) => {
+        initialPositions.set(e.object, e.object.position.clone())
+        emit('dragstart', controls)
       })
 
-      useEventListener(controlsRef.value as any, 'drag', (e: any) => {
-        const obj = e?.object as Object3D | undefined
-        if (props.enabled === false && obj) {
+      controls.addEventListener('drag', (e) => {
+        const obj = e.object
+        if (props.enabled === false) {
           const origin = initialPositions.get(obj)
-          if (origin && obj) {
+          if (origin) {
             obj.position.set(origin.x, origin.y, origin.z)
           }
         }
-        if (obj && props.lock && props.lock !== 'none') {
+        if (props.lock && props.lock !== 'none') {
           const origin = initialPositions.get(obj)
           if (origin) {
-            if (props.lock === 'x') {
-              obj.position.x = origin.x
-            }
-            else if (props.lock === 'y') {
-              obj.position.y = origin.y
-            }
-            else if (props.lock === 'z') {
-              obj.position.z = origin.z
-            }
+            if (props.lock === 'x') { obj.position.x = origin.x }
+            else if (props.lock === 'y') { obj.position.y = origin.y }
+            else if (props.lock === 'z') { obj.position.z = origin.z }
           }
         }
-
-        if (obj && props.dragLimits) {
+        if (props.dragLimits) {
           const [xLim, yLim, zLim] = props.dragLimits
-          if (xLim) {
-            obj.position.x = Math.max(Math.min(obj.position.x, xLim[1]), xLim[0])
-          }
-          if (yLim) {
-            obj.position.y = Math.max(Math.min(obj.position.y, yLim[1]), yLim[0])
-          }
-          if (zLim) {
-            obj.position.z = Math.max(Math.min(obj.position.z, zLim[1]), zLim[0])
-          }
+          if (xLim) { obj.position.x = Math.max(Math.min(obj.position.x, xLim[1]), xLim[0]) }
+          if (yLim) { obj.position.y = Math.max(Math.min(obj.position.y, yLim[1]), yLim[0]) }
+          if (zLim) { obj.position.z = Math.max(Math.min(obj.position.z, zLim[1]), zLim[0]) }
         }
-        emit('drag', controlsRef.value)
+        emit('drag', controls)
       })
 
-      useEventListener(controlsRef.value as any, 'dragend', (e: any) => {
-        const obj = e?.object as Object3D | undefined
-        if (obj) {
-          initialPositions.delete(obj)
-        }
-        emit('dragend', controlsRef.value)
+      controls.addEventListener('dragend', (e) => {
+        initialPositions.delete(e.object)
+        emit('dragend', controls)
       })
 
-      useEventListener(controlsRef.value as any, 'hoveron', () =>
-        emit('hoveron', controlsRef.value))
-      useEventListener(controlsRef.value as any, 'hoveroff', () =>
-        emit('hoveroff', controlsRef.value))
+      controls.addEventListener('hoveron', () => emit('hoveron', controls))
+      controls.addEventListener('hoveroff', () => emit('hoveroff', controls))
     }
 
     onUnmounted(() => {
@@ -134,4 +120,5 @@ export const DragControls = defineComponent<DragControlsProps>({
 
     expose({ instance: controlsRef })
   },
+  render() { return null },
 })
