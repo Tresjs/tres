@@ -5,7 +5,7 @@ import { DragControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import type { DragControls as ThreeDragControls } from 'three/examples/jsm/Addons.js'
-import { TresLeches, useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
 
 const gl = {
   clearColor: '#82DBC5',
@@ -14,9 +14,9 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
+const uuid = inject(`uuid`)
 const boxRef = shallowRef()
 const sphereRef = shallowRef()
-const controlsRef = shallowRef<InstanceType<typeof DragControls> | null>(null)
 
 const { lock, enabled, dragLimitsMin, dragLimitsMax } = useControls({
   lock: {
@@ -25,31 +25,18 @@ const { lock, enabled, dragLimitsMin, dragLimitsMax } = useControls({
   },
   enabled: true,
   dragLimitsMax: {
-    value: 3,
+    value: 5,
     min: 1,
-    max: 5,
+    max: 7,
     step: 1,
   },
   dragLimitsMin: {
-    value: -3,
-    min: -5,
+    value: -5,
+    min: -7,
     max: -1,
     step: 1,
   },
-})
-
-watch(
-  () => controlsRef.value?.instance,
-  (newVal) => {
-    if (newVal) {
-      console.log('instance', newVal)
-    }
-  },
-)
-
-function onDragStart(e: ThreeDragControls) {
-  console.log('dragstart', e)
-}
+}, { uuid })
 
 function onDrag(_e: ThreeDragControls) {
   if (!boxRef.value) { return }
@@ -58,22 +45,9 @@ function onDrag(_e: ThreeDragControls) {
   pos.x = Math.round(pos.x / snap) * snap
   pos.z = Math.round(pos.z / snap) * snap
 }
-
-function onDragEnd(e: ThreeDragControls) {
-  console.log('dragend', e)
-}
-
-function onHoverOn(e: ThreeDragControls) {
-  console.log('hoveron', e)
-}
-
-function onHoverOff(e: ThreeDragControls) {
-  console.log('hoveroff', e)
-}
 </script>
 
 <template>
-  <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 7.5, 7.5]" :look-at="[0, 0, 0]" />
     <TresMesh ref="boxRef" :position="[0.5, 0.5, 0.5]">
@@ -87,15 +61,10 @@ function onHoverOff(e: ThreeDragControls) {
     <TresDirectionalLight :position="[0, 10, 0]" :intensity="1.5" />
     <TresAmbientLight :intensity="0.25" />
     <DragControls
-      ref="controlsRef"
       :objects="[sphereRef]"
       :lock="lock"
       :enabled="enabled"
       :dragLimits="[[dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax]]"
-      @dragstart="onDragStart"
-      @dragend="onDragEnd"
-      @hoveron="onHoverOn"
-      @hoveroff="onHoverOff"
     />
     <DragControls
       :objects="[boxRef]"
