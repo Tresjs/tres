@@ -71,6 +71,11 @@ export const rapierRoutes = [
     component: () => import('@/pages/rapier/SolverGroupsDemo.vue'),
   },
   {
+    path: '/rapier/heightfield',
+    name: 'Heightfield',
+    component: () => import('@/pages/rapier/HeightfieldDemo.vue'),
+  },
+  {
     path: '/rapier/ragdoll',
     name: 'Basic Ragdoll',
     component: () => import('@/pages/rapier/RagdollDemo.vue'),

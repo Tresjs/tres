@@ -11,11 +11,11 @@ import {
   collisionTrigger,
   contactForceTrigger,
   emitIntersection,
-  getCollisionObjectFromSource,
   getCollisionSourceFromColliderHandle,
+  getNodeObjectsFromCollisionSource,
 } from '../utils'
 import Debug from './Debug.vue'
-import type { PhysicsProps } from '../types'
+import type { PhysicsProps, SourceTarget } from '../types'
 
 const props = withDefaults(
   defineProps<Partial<PhysicsProps>>(),
@@ -64,20 +64,24 @@ onBeforeRender(() => {
   eventQueue.drainCollisionEvents((handle1, handle2, started) => {
     const source1 = getCollisionSourceFromColliderHandle(world.value, handle1)
     const source2 = getCollisionSourceFromColliderHandle(world.value, handle2)
-    const object1 = getCollisionObjectFromSource(source1, scene)
-    const object2 = getCollisionObjectFromSource(source2, scene)
+    const [groupObject1, currentObject1] = getNodeObjectsFromCollisionSource(source1, scene)
+    const [groupObject2, currentObject2] = getNodeObjectsFromCollisionSource(source2, scene)
 
-    if (!object1 || !object2) { return }
+    if (!groupObject1 || !currentObject1 || !groupObject2 || !currentObject2) { return }
 
-    collisionTrigger(
-      { objects: object1, context: source1 },
-      { objects: object2, context: source2 },
-      started,
-    )
+    const sourceTarget1: SourceTarget = {
+      objects: [groupObject1, currentObject1],
+      context: source1,
+    }
+    const sourceTarget2: SourceTarget = {
+      objects: [groupObject2, currentObject2],
+      context: source2,
+    }
 
+    collisionTrigger(sourceTarget1, sourceTarget2, started)
     emitIntersection(
-      { objects: object2, context: source2 },
-      { objects: object1, context: source1 },
+      sourceTarget2,
+      sourceTarget1,
       started && world.value.intersectionPair(source1.collider, source2.collider),
     )
   })
