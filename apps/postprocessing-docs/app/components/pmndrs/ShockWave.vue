@@ -5,8 +5,7 @@ import { useControls } from '@tresjs/leches'
 import { DepthPickingPassPmndrs, EffectComposerPmndrs, ShockWavePmndrs } from '@tresjs/post-processing'
 import { useElementBounding, useMouse } from '@vueuse/core'
 import type { DepthPickingPass, EffectPass, ShockWaveEffect } from 'postprocessing'
-import { Shape, Vector3 } from 'three'
-import { NoToneMapping } from 'three'
+import { NoToneMapping, Shape, Vector3 } from 'three'
 import { computed, reactive, ref, shallowRef } from 'vue'
 
 const uuid = inject<string>('uuid')

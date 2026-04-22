@@ -15,9 +15,8 @@ The `LensDistortion` effect applies a lens distortion effect to your scene, prov
 ```vue
 <script setup lang="ts">
 import { EffectComposerPmndrs, LensDistortionPmndrs } from '@tresjs/post-processing'
-import { Vector2 } from 'three'
+import { NoToneMapping, Vector2 } from 'three'
 import { TresCanvas } from '@tresjs/core'
-import { NoToneMapping } from 'three'
 
 const gl = {
   toneMapping: NoToneMapping,

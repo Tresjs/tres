@@ -14,7 +14,7 @@ Noise is an effect that adds Gaussian noise to the scene. This can be used to si
 
 ```vue
 <script setup lang="ts">
-import { NoisePmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
+import { EffectComposerPmndrs, NoisePmndrs } from '@tresjs/post-processing'
 import { BlendFunction } from 'postprocessing'
 </script>
 

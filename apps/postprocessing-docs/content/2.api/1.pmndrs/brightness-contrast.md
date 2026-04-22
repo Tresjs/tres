@@ -17,7 +17,7 @@ The `<BrightnessContrastPmndrs>` component is easy to use and provides customiza
 
 ```vue
 <script setup lang="ts">
-import { EffectComposerPmndrs, BrightnessContrastPmndrs } from '@tresjs/post-processing'
+import { BrightnessContrastPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 
 const gl = {
   toneMapping: NoToneMapping,

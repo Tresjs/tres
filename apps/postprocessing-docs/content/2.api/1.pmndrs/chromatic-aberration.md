@@ -16,9 +16,8 @@ The `<ChromaticAberrationPmndrs>` component is easy to use and provides customiz
 
 ```vue
 <script setup lang="ts">
-import { EffectComposerPmndrs, ChromaticAberrationPmndrs } from '@tresjs/post-processing'
-import { Vector2 } from 'three'
-import { NoToneMapping } from 'three'
+import { ChromaticAberrationPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
+import { NoToneMapping, Vector2 } from 'three'
 
 const gl = {
   toneMapping: NoToneMapping,

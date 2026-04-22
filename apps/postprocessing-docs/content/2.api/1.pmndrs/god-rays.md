@@ -27,8 +27,8 @@ const gl = {
 const sphereMeshRef = ref(null)
 
 const effectProps = {
-  opacity: .8,
-  exposure: .8,
+  opacity: 0.8,
+  exposure: 0.8,
   resolutionScale: 0.65,
 }
 </script>
