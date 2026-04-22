@@ -2,9 +2,7 @@
 import { TresCanvas } from '@tresjs/core'
 import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { useControls } from '@tresjs/leches'
-import { BlendFunction } from 'postprocessing'
 import { Color } from 'three'
-import { reactive } from 'vue'
 
 const uuid = inject<string>('uuid')
 
@@ -14,20 +12,14 @@ const gl = {
   alpha: false,
 }
 
-const bloomParams = reactive({
-  luminanceThreshold: 0.1,
-  luminanceSmoothing: 0.3,
-  mipmapBlur: true,
-  intensity: 8,
-  radius: 0.5,
-  blendFunction: BlendFunction.ADD,
-})
+const emissiveColor = new Color('hotpink')
 
-useControls({
-  luminanceThreshold: { value: bloomParams.luminanceThreshold, min: 0, max: 1, step: 0.01 },
-  luminanceSmoothing: { value: bloomParams.luminanceSmoothing, min: 0, max: 1, step: 0.01 },
-  intensity: { value: bloomParams.intensity, min: 0, max: 20, step: 0.1 },
-  radius: { value: bloomParams.radius, min: 0, max: 1, step: 0.01 },
+const { luminanceThreshold, luminanceSmoothing, intensity, radius, mipmapBlur } = useControls({
+  luminanceThreshold: { value: 0.1, min: 0, max: 1, step: 0.01 },
+  luminanceSmoothing: { value: 0.3, min: 0, max: 1, step: 0.01 },
+  intensity: { value: 8, min: 0, max: 20, step: 0.1 },
+  radius: { value: 0.5, min: 0, max: 1, step: 0.01 },
+  mipmapBlur: true,
 }, { uuid })
 </script>
 
@@ -41,7 +33,7 @@ useControls({
       <TresSphereGeometry :args="[2, 32, 32]" />
       <TresMeshStandardMaterial
         color="hotpink"
-        :emissive="new Color('hotpink')"
+        :emissive="emissiveColor"
         :emissive-intensity="1.2"
       />
     </TresMesh>
@@ -53,7 +45,13 @@ useControls({
     />
     <Suspense>
       <EffectComposerPmndrs>
-        <BloomPmndrs v-bind="bloomParams" />
+        <BloomPmndrs
+          :luminance-threshold="luminanceThreshold"
+          :luminance-smoothing="luminanceSmoothing"
+          :intensity="intensity"
+          :radius="radius"
+          :mipmap-blur="mipmapBlur"
+        />
       </EffectComposerPmndrs>
     </Suspense>
   </TresCanvas>
