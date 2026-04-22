@@ -3,7 +3,7 @@ title: Glitch
 description: Simulate digital glitches with chaotic distortion and flickering effects.
 ---
 
-::DocsDemo
+::DocsDemo{:controls="false"}
   ::PmndrsGlitch
   ::
 ::

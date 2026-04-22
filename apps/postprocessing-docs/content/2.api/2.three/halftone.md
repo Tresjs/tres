@@ -3,7 +3,7 @@ title: Halftone
 description: Simulate halftone printing with dots for a comic book look.
 ---
 
-::DocsDemo
+::DocsDemo{:controls="false"}
   ::ThreeHalftone
   ::
 ::

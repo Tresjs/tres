@@ -3,7 +3,7 @@ title: Pixelation
 description: Pixelate the scene for a retro pixel art look.
 ---
 
-::DocsDemo
+::DocsDemo{:controls="false"}
   ::ThreePixelation
   ::
 ::

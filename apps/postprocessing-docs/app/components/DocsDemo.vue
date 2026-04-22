@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { TresLeches } from '@tresjs/leches'
 
+const { controls = true } = defineProps<{
+  controls?: boolean
+}>()
+
 const route = useRoute()
 const uuid = `leches-${route.path.split('/').pop() || 'demo'}`
 
@@ -16,6 +20,7 @@ provide('uuid', uuid)
         </Suspense>
       </div>
       <TresLeches
+        v-if="controls"
         :uuid="uuid"
         :float="false"
         class="!rounded-none"

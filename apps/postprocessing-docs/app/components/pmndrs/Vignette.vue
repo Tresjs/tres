@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { OrbitControls, useGLTF } from '@tresjs/cientos'
+import { GLTFModel, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { EffectComposerPmndrs, VignettePmndrs } from '@tresjs/post-processing'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
-import { computed, shallowRef } from 'vue'
 
 const gl = {
   clearColor: '#4f4f4f',
@@ -13,14 +12,6 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 }
-
-const { nodes } = await useGLTF(
-  'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb',
-  { draco: true },
-)
-
-const modelRef = shallowRef(null)
-const model = computed(() => nodes.value?.BlenderCube)
 </script>
 
 <template>
@@ -28,7 +19,12 @@ const model = computed(() => nodes.value?.BlenderCube)
     <TresPerspectiveCamera :position="[3, 3, 3]" />
     <OrbitControls />
 
-    <primitive v-if="model" ref="modelRef" :object="model" />
+    <Suspense>
+      <GLTFModel
+        path="https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb"
+        draco
+      />
+    </Suspense>
 
     <TresAmbientLight :intensity="1" />
 
