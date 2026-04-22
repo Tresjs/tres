@@ -28,14 +28,14 @@ useHead({
 })
 
 useSeoMeta({
-  titleTemplate: title => title ? `${title} · Docs Boilerplate` : 'Docs Boilerplate',
+  titleTemplate: title => title ? `${title} · Post-processing` : 'TresJS Post-processing',
   ogSiteName: seo?.siteName,
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
   twitterImage: '/og-image.png',
   ogUrl: 'https://example.com',
-  twitterTitle: 'Docs Boilerplate',
-  twitterDescription: 'A documentation boilerplate built with Nuxt v4 and Nuxt UI v4.',
+  twitterTitle: 'TresJS Post-processing',
+  twitterDescription: 'Effect composer library for TresJS — bloom, glitch, depth of field, and more.',
 })
 
 provide(navigationInjectionKey, navigation)
