@@ -1,42 +1,25 @@
 ---
 seo:
-  title: TresJS - Bring Three to the Vue ecosystem
-  description: Create awesome 3D experiences with the framework you love.
+  title: Post-processing — Effect composer library for TresJS
+  description: Apply beautiful visual effects to your 3D scenes with Vue components.
 ---
 
 ::u-page-hero
 
-<!-- #headline
-:::nuxt-link
----
-to: /getting-started
----
-
-:::u-badge
----
-variant: subtle
-size: lg
-icon: i-lucide-arrow-right
----
-Tres v5 announcement
-:::
-:::
- -->
-
 #title
 
-<span class="text-primary-300">TresJS</span> \
-Bring Three to the Vue ecosystem
+<span class="text-primary-300">Post-processing</span> \
+Effect composer library for TresJS
 
 #description
-Create awesome Three-based experiences with the framework you love.
+Enhance the rendering flow with passes and effects — bloom, depth of field, glitch, god rays and more.
 
 #links
   :::u-button
   ---
   size: lg
   color: neutral
-  to: https://github.com/tresjs/tres
+  to: /getting-started
   trailing-icon: i-lucide-arrow-right
   ---
   Get started
@@ -48,7 +31,7 @@ Create awesome Three-based experiences with the framework you love.
   icon: i-simple-icons-github
   size: lg
   target: _blank
-  to: https://github.com/tresjs/tres
+  to: https://github.com/tresjs/post-processing
   variant: subtle
   ---
   Star on GitHub
@@ -57,57 +40,43 @@ Create awesome Three-based experiences with the framework you love.
 
 ::u-page-section
 #title
-Features you will love
-
-#links
-  :::u-button
-  ---
-  color: neutral
-  size: lg
-  target: _blank
-  to: https://lab.tresjs.org/
-  trailingIcon: i-lucide:flask-conical
-  variant: subtle
-  ---
-  Explore the lab
-  :::
+Why Post-processing?
 
 #features
+
   :::u-page-feature
   ---
-  icon: i-lucide-lightbulb
-  target: _blank
+  icon: i-lucide-wand-sparkles
   ---
   #title
-  Declarative
+  Declarative & Simple
 
   #description
-  Build 3D scenes with familiar Vue components and composables.
+  Add post-processing passes and effects with Vue components.
   :::
 
   :::u-page-feature
   ---
-  icon: i-simple-icons-threedotjs
+  icon: i-lucide-rocket
   target: _blank
-  to: https://threejs.org
+  to: https://github.com/pmndrs/postprocessing
   ---
   #title
-  Up to date with Three.js
+  Performant
 
   #description
-  Enjoy the latest features right away.
+  Powered by `pmndrs/postprocessing` under the hood for maximum performance.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-smile
-  target: _blank
-  to: https://ui.nuxt.com
+  icon: i-lucide-sparkles
   ---
   #title
-  DX focused
+  Visually Awesome
+
   #description
-  Inspect your 3D scenes like never before with official devtools.
+  Bloom, chromatic aberration, glitch, depth of field — it just looks super cool.
   :::
 
   :::u-page-feature
@@ -121,31 +90,5 @@ Features you will love
 
   #description
   A fully typed development experience.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-simple-icons-nuxtdotjs
-  target: _blank
-  to: https://nuxt.com/modules/tresjs
-  ---
-  #title
-  Nuxt module
-
-  #description
-  Enjoy the best of both worlds with a fully integrated experience.
-  :::
-
-  :::u-page-feature
-  ---
-  icon: i-lucide:tree-deciduous
-  target: _blank
-
-  ---
-  #title
-  Ecosystem
-
-  #description
-  Extend the core functionality with packages such as cientos and postprocessing or add your own custom packages.
   :::
 ::
