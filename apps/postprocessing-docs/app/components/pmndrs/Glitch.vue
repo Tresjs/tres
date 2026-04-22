@@ -4,8 +4,6 @@ import { TresCanvas } from '@tresjs/core'
 import { EffectComposerPmndrs, GlitchPmndrs } from '@tresjs/post-processing'
 import { Color } from 'three'
 
-const uuid = inject<string>('uuid')
-
 const gl = {
   clearColor: '#121212',
   shadows: true,

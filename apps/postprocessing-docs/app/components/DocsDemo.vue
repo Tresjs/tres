@@ -12,7 +12,7 @@ provide('uuid', uuid)
     <ClientOnly>
       <div class="aspect-video">
         <Suspense>
-          <slot />
+          <slot></slot>
         </Suspense>
       </div>
       <TresLeches

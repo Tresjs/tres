@@ -5,7 +5,7 @@ import { useControls } from '@tresjs/leches'
 import { EffectComposerPmndrs, SMAAPmndrs } from '@tresjs/post-processing'
 import { BlendFunction, EdgeDetectionMode, PredicationMode, SMAAPreset } from 'postprocessing'
 import { NoToneMapping } from 'three'
-import type { PerspectiveCamera } from 'three'
+import type { Camera, PerspectiveCamera } from 'three'
 import { ref } from 'vue'
 
 const uuid = inject<string>('uuid')
@@ -72,14 +72,14 @@ const { blendFunction, debug, autoRotateSpeed, opacity, preset, wireframe, boxCo
 const wrapperRef = ref<HTMLElement | undefined>(undefined)
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const onChange = (controls: any) => {
+const onChange = (controls: { object: Camera }) => {
   if (!cameraRef.value) { return }
 
-  cameraRef.value.position.copy(controls.object.position)
-  cameraRef.value.rotation.copy(controls.object.rotation)
-  cameraRef.value.zoom = controls.object.zoom
-  cameraRef.value.quaternion.copy(controls.object.quaternion)
+  const source = controls.object as PerspectiveCamera
+  cameraRef.value.position.copy(source.position)
+  cameraRef.value.rotation.copy(source.rotation)
+  cameraRef.value.zoom = source.zoom
+  cameraRef.value.quaternion.copy(source.quaternion)
 }
 </script>
 
@@ -98,7 +98,7 @@ const onChange = (controls: any) => {
       </TresMesh>
     </TresCanvas>
 
-    <div class="doc-smaa-divider" />
+    <div class="doc-smaa-divider"></div>
 
     <TresCanvas
       v-bind="gl"

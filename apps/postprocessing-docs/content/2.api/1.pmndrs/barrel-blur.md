@@ -17,7 +17,7 @@ The `<BarrelBlurPmndrs>` component is straightforward to use and provides custom
 ```vue
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { EffectComposerPmndrs, BarrelBlurPmndrs } from '@tresjs/post-processing'
+import { BarrelBlurPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { NoToneMapping } from 'three'
 
 const gl = {

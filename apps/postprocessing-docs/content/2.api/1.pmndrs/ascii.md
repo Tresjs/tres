@@ -17,7 +17,7 @@ The `<ASCIIPmndrs>` component is straightforward to integrate and offers a varie
 
 ```vue
 <script setup lang="ts">
-import { EffectComposerPmndrs, ASCIIPmndrs } from '@tresjs/post-processing'
+import { ASCIIPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 
 const gl = {
   toneMapping: NoToneMapping,
