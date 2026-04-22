@@ -1,10 +1,10 @@
-# Docs Boilerplate - CLAUDE.md
+# Post-processing docs - CLAUDE.md
 
-This is a documentation boilerplate app built with Nuxt v4 and Nuxt UI v4. It serves as a reference implementation for creating new documentation sites in the TresJS ecosystem.
+This is the documentation site for `@tresjs/post-processing` built with Nuxt v4 and Nuxt UI v4.
 
 ## Overview
 
-This boilerplate provides a complete setup for creating documentation sites with:
+This app provides docs for TresJS post-processing effects (pmndrs + three native) with:
 
 - Nuxt v4 with compatibility mode enabled
 - Nuxt UI v4 for beautiful, accessible components
@@ -42,9 +42,11 @@ Content is organized in numbered directories for ordering:
 ```
 content/
 ├── index.md                # Landing page content
-├── 1.getting-started/      # Getting started section
-├── 2.guide/                # Guide section
-└── 3.api/                  # API reference section
+├── 1.getting-started/      # Introduction + installation
+├── 2.api/
+│   ├── 1.pmndrs/           # 29 pmndrs effect pages
+│   └── 2.three/            # 6 three native effect pages
+└── 3.advanced/             # Advanced guide
 ```
 
 ## Key Features
@@ -53,7 +55,7 @@ content/
 
 - Uses Nuxt UI v4 components (`UApp`, `UPage`, `UMain`, etc.)
 - Custom theme configuration in `app.config.ts`
-- Teal color scheme as primary
+- Pink (`#FF7BAC`) color scheme as primary, anchored at `-300` shade
 - Custom CSS variables for patterns and gradients
 
 ### Nuxt Content
@@ -85,8 +87,8 @@ Edit `app/app.config.ts` to customize:
 ```ts
 ui: {
   colors: {
-    primary: 'teal',      // Change primary color
-    neutral: 'zinc',      // Change neutral color
+    primary: 'pink',      // Post-processing brand palette
+    neutral: 'zinc',
   },
 }
 ```
@@ -164,8 +166,8 @@ pnpm typecheck
 
 Two custom color palettes are defined:
 
-- **Teal** (50-950) - Primary brand color
-- **Yellow/Brown** (50-950) - Accent color
+- **Pink** (50-950) - Primary brand color, anchor `#FF7BAC` at `-300`
+- **Teal** (50-950) - Accent color for landing / highlights
 
 ### Dark Mode
 
@@ -244,7 +246,7 @@ Create `.env` file for environment-specific configuration (use `.env.example` as
 
 1. Create new directory in `content/`
 2. Add index page with navigation
-3. Update `useNavigation.ts` if needed
+3. Update `useNavigation.ts` if needed (Get Started, API, Advanced)
 4. Update `llms` configuration in `nuxt.config.ts`
 
 ### Custom Components
