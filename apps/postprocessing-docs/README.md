@@ -1,6 +1,6 @@
-# Docs Boilerplate
+# Post-processing docs
 
-A modern documentation boilerplate built with Nuxt v4 and Nuxt UI v4.
+Documentation site for `@tresjs/post-processing` built with Nuxt v4 and Nuxt UI v4.
 
 ## Features
 
@@ -16,7 +16,7 @@ A modern documentation boilerplate built with Nuxt v4 and Nuxt UI v4.
 ## Project Structure
 
 ```
-apps/docs-boilerplate/
+apps/postprocessing-docs/
 ├── app/                      # Nuxt app directory
 │   ├── assets/               # Styles and static assets
 │   ├── components/           # Vue components
