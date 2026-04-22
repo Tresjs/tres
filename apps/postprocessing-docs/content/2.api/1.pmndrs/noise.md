@@ -3,7 +3,7 @@ title: Noise
 description: Add Gaussian noise to simulate film grain or TV static.
 ---
 
-::DocsDemo
+::DocsDemo{:controls="false"}
   ::PmndrsNoise
   ::
 ::

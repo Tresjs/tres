@@ -3,7 +3,7 @@ title: Glitch
 description: Simulate digital glitches with random shifts and flickers.
 ---
 
-::DocsDemo
+::DocsDemo{:controls="false"}
   ::ThreeGlitch
   ::
 ::

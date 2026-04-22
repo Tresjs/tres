@@ -3,7 +3,7 @@ title: SMAA
 description: Subpixel Morphological Antialiasing for smooth edges.
 ---
 
-::DocsDemo
+::DocsDemo{:controls="false"}
   ::ThreeSmaa
   ::
 ::

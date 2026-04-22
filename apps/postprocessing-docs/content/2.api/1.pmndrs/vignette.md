@@ -3,7 +3,7 @@ title: Vignette
 description: Darken the edges of the scene to make the center pop.
 ---
 
-::DocsDemo
+::DocsDemo{:controls="false"}
   ::PmndrsVignette
   ::
 ::

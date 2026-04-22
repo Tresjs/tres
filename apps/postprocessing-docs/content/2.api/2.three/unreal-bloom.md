@@ -3,7 +3,7 @@ title: Unreal Bloom
 description: Bloom effect with glow around bright areas, similar to Unreal Engine.
 ---
 
-::DocsDemo
+::DocsDemo{:controls="false"}
   ::ThreeUnrealBloom
   ::
 ::

@@ -3,7 +3,7 @@ title: Outline
 description: Apply an outline to selected objects in your scene.
 ---
 
-::DocsDemo
+::DocsDemo{:controls="false"}
   ::PmndrsOutline
   ::
 ::
