@@ -5,10 +5,11 @@ import { defineComponent, nextTick } from 'vue'
 import { dispose } from '/@/composables/useControls'
 
 describe('number Control', async () => {
-  let wrapper
-  let component
+  let wrapper: ReturnType<typeof mount>
+  let component: ReturnType<typeof defineComponent>
+  const vm = () => wrapper.vm as unknown as { numberValue: number }
 
-  const mountComponent = (setup) => {
+  const mountComponent = (setup: () => Record<string, unknown> | void) => {
     component = defineComponent({
       template: `<TresLeches />`,
       components: { TresLeches },
@@ -43,7 +44,47 @@ describe('number Control', async () => {
     await input.trigger('blur')
     await nextTick()
     await nextTick()
-    expect(wrapper.vm.numberValue).toBe(20)
+    expect(vm().numberValue).toBe(20)
+  })
+
+  it('should apply a fixed step on PageUp/PageDown', async () => {
+    dispose()
+    mountComponent(() => {
+      const { numberValue } = useControls({ numberValue: 5 })
+      return {
+        numberValue,
+      }
+    })
+
+    const input = wrapper.find('input[type="text"]')
+    await input.trigger('focus')
+    await input.trigger('keydown', { key: 'PageUp' })
+    await nextTick()
+    expect(vm().numberValue).toBe(6)
+
+    await input.trigger('keydown', { key: 'PageDown' })
+    await nextTick()
+    expect(vm().numberValue).toBe(5)
+  })
+
+  it('should ignore modifiers for PageUp/PageDown', async () => {
+    dispose()
+    mountComponent(() => {
+      const { numberValue } = useControls({ numberValue: 5 })
+      return {
+        numberValue,
+      }
+    })
+
+    const input = wrapper.find('input[type="text"]')
+    await input.trigger('focus')
+    await input.trigger('keydown', { key: 'PageUp', shiftKey: true })
+    await nextTick()
+    expect(vm().numberValue).toBe(6)
+
+    await input.trigger('keydown', { key: 'PageDown', altKey: true })
+    await nextTick()
+    expect(vm().numberValue).toBe(5)
   })
 
   it('should show the control by default', async () => {

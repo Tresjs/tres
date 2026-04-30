@@ -89,11 +89,25 @@ function onKeyDown(e: KeyboardEvent, index: number) {
     e.preventDefault()
     const newVal = clampValue(current + step.value * modifier, props.control.min, props.control.max)
     emitAxisChange(index, newVal)
+    displayValues.value[index] = formatter.value(newVal)
   }
   if (e.key === 'ArrowDown') {
     e.preventDefault()
     const newVal = clampValue(current - step.value * modifier, props.control.min, props.control.max)
     emitAxisChange(index, newVal)
+    displayValues.value[index] = formatter.value(newVal)
+  }
+  if (e.key === 'PageUp') {
+    e.preventDefault()
+    const newVal = clampValue(current + step.value * 10, props.control.min, props.control.max)
+    emitAxisChange(index, newVal)
+    displayValues.value[index] = formatter.value(newVal)
+  }
+  if (e.key === 'PageDown') {
+    e.preventDefault()
+    const newVal = clampValue(current - step.value * 10, props.control.min, props.control.max)
+    emitAxisChange(index, newVal)
+    displayValues.value[index] = formatter.value(newVal)
   }
 }
 </script>
