@@ -2,7 +2,7 @@
 title: Glass/Plastic Material
 author: jaime-bboyjt
 description: A realistic glass/plastic effect, play with it!
-thumbnail: /experiments/glass-material.png
+thumbnail: /experiments/glass-material.webp
 tags: ['materials']
 date: 2023-04-10
 lastUpdated: 2023-04-10

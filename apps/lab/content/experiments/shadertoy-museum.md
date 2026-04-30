@@ -2,7 +2,7 @@
 title: Shadertoy Museum
 author: [andretchen0, alvarosabu]
 description: A gallery of ShaderToy examples, inspired by cineshader.com
-thumbnail: /experiments/shadertoy-museum.png
+thumbnail: /experiments/shadertoy-museum.webp
 tags: ['shader', 'post-processing']
 date: 2025-12-26
 lastUpdated: 2025-12-26

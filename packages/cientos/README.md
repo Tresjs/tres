@@ -1,7 +1,7 @@
-![repository-banner.png](/public/repo-banner.png)
+![repository-banner.png](public/repo-banner.png)
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/@tresjs/cientos"><img src="https://img.shields.io/npm/v/@tresjs/cientos/latest?color=FBB03B" alt="npm package"></a>
+  <a href="https://npmx.dev/package/@tresjs/cientos"><img src="https://npmx.dev/api/registry/badge/version/@tresjs/cientos" alt="version"></a>
   <a href="https://www.npmjs.com/package/@tresjs/cientos"><img src="https://img.shields.io/npm/dm/@tresjs/cientos?color=FBB03B" alt="npm downloads"></a>
   <a href="https://tresjs.org/discord"><img src="https://img.shields.io/badge/chat-discord-purple?style=flat&logo=discord" alt="discord chat"></a>
 </p>
@@ -20,7 +20,9 @@ Cientos (the Spanish word for "hundreds", pronounced /θjentos/ ) is a collectio
 
 The cientos package uses `three-stdlib` module under the hood instead of the three/examples/jsm module. This means that you don't need to extend the catalog of components using the extend method from the `core`, cientos does it for you.
 
-It just works. 💯
+## Docs
+
+Checkout the [docs](https://cientos.tresjs.org/)
 
 ## Installation
 

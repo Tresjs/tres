@@ -2,7 +2,7 @@
 title: Cult of the lamb 🐑
 author: alvarosabu
 description: Best video game ever scene to showcase Postprocessing effects
-thumbnail: /experiments/cult-of-the-lamb.png
+thumbnail: /experiments/cult-of-the-lamb.webp
 tags: ['post-processing', 'bloom']
 date: 2024-02-05
 lastUpdated: 2024-02-05

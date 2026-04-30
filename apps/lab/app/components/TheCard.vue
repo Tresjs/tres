@@ -34,7 +34,7 @@ const formattedDate = computed(() =>
   <NuxtLink :to="`${experiment.stem}`">
     <UCard class="relative transition-all duration-300 hover:shadow-lg hover:scale-102 hover:-translate-y-1">
       <div class="relative aspect-video overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-md">
-        <img :src="`/${experiment.stem}.png`" :alt="experiment.title"
+        <img :src="`/${experiment.stem}.webp`" :alt="experiment.title"
           class="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105">
 
       </div>

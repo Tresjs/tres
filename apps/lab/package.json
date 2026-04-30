@@ -12,11 +12,13 @@
   "dependencies": {
     "@nuxt/eslint": "^1.9.0",
     "@nuxt/ui": "catalog:nuxt",
-    "@tresjs/post-processing": "workspace:*",
     "@tresjs/nuxt": "workspace:*",
+    "@tresjs/post-processing": "workspace:*",
+    "@tresjs/rapier": "workspace:*",
     "@vueuse/nuxt": "^13.9.0",
     "better-sqlite3": "^12.2.0",
     "mdast-util-to-string": "^4.0.0",
+    "n8ao": "^1.10.1",
     "three": "catalog:three",
     "three-custom-shader-material": "catalog:three",
     "vue": "catalog:vue"

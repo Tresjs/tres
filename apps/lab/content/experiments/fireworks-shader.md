@@ -2,7 +2,7 @@
 title: Fireworks Shader
 author: alvarosabu
 description: Fireworks shader with particles and shaders
-thumbnail: /experiments/fireworks-shader.png
+thumbnail: /experiments/fireworks-shader.webp
 tags: ['shaders', 'glsl', 'particles']
 date: 2025-11-21
 lastUpdated: 2025-12-17

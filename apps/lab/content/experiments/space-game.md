@@ -2,7 +2,7 @@
 title: Space Game
 author: andretchen0
 description: Port of 0xca0a's R3F game prototype
-thumbnail: /experiments/space-game.png
+thumbnail: /experiments/space-game.webp
 date: 2024-10-21
 lastUpdated: 2024-10-21
 featured: true

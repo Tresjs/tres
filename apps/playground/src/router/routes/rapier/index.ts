@@ -56,6 +56,16 @@ export const rapierRoutes = [
     component: () => import('@/pages/rapier/ExposeDemo.vue'),
   },
   {
+    path: '/rapier/collision-groups',
+    name: 'Collision Groups',
+    component: () => import('@/pages/rapier/CollisionGroupsDemo.vue'),
+  },
+  {
+    path: '/rapier/solver-groups',
+    name: 'Solver Groups',
+    component: () => import('@/pages/rapier/SolverGroupsDemo.vue'),
+  },
+  {
     path: '/rapier/ragdoll',
     name: 'Basic Ragdoll',
     component: () => import('@/pages/rapier/RagdollDemo.vue'),
