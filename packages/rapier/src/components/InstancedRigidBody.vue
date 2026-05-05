@@ -25,6 +25,7 @@ const bodiesContexts = shallowRef<RigidBodyContext[]>([])
 
 defineExpose({
   contexts: bodiesContexts,
+  group: bodyGroup,
 })
 
 watch(bodyGroup, (group) => {
