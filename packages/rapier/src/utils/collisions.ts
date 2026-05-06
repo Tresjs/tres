@@ -1,7 +1,7 @@
 import type { ColliderHandle, World } from '@dimforge/rapier3d-compat'
 import type { Scene } from 'three'
 import type { Ref } from 'vue'
-import type { CollisionSource, CollisionType, RigidBodyUserData, SourceTarget, TresVNodeObject } from '../types'
+import type { CollisionSource, CollisionType, ContactForcePayload, RigidBodyUserData, SourceTarget, TresVNodeObject } from '../types'
 
 export const getCollisionSourceFromColliderHandle = (world: World, handle: ColliderHandle) => {
   const collider = world.getCollider(handle)
@@ -43,4 +43,16 @@ export const collisionTrigger = (
 
   rigidBodyObject?.__vnode?.ctx?.emit?.(`collision-${CollisionType}`, { source, target })
   colliderObject?.__vnode?.ctx?.emit?.(`collision-${CollisionType}`, { source, target })
+}
+
+export const contactForceTrigger = (
+  source: SourceTarget,
+  target: SourceTarget,
+  payload: Omit<ContactForcePayload, 'source' | 'target'>,
+) => {
+  const [rigidBodyObject, colliderObject] = source.objects
+  const eventPayload: ContactForcePayload = { source, target, ...payload }
+
+  rigidBodyObject?.__vnode?.ctx?.emit?.('contact-force', eventPayload)
+  colliderObject?.__vnode?.ctx?.emit?.('contact-force', eventPayload)
 }
