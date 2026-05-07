@@ -36,6 +36,8 @@ export interface RigidBodyProps extends Pick<
   | 'collisionGroups'
   | 'solverGroups'
   | 'sensor'
+  | 'activeContactForce'
+  | 'contactForceEventThreshold'
 > {
   /** @description Set the `RigidBody` type. */
   type: RigidBodyType

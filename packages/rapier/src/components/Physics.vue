@@ -9,6 +9,7 @@ import { GRAVITY } from '../constants'
 
 import {
   collisionTrigger,
+  contactForceTrigger,
   emitIntersection,
   getCollisionObjectFromSource,
   getCollisionSourceFromColliderHandle,
@@ -79,6 +80,25 @@ onBeforeRender(() => {
       { objects: object1, context: source1 },
       started && world.value.intersectionPair(source1.collider, source2.collider),
     )
+  })
+
+  eventQueue.drainContactForceEvents((event) => {
+    const source1 = getCollisionSourceFromColliderHandle(world.value, event.collider1())
+    const source2 = getCollisionSourceFromColliderHandle(world.value, event.collider2())
+    const object1 = getCollisionObjectFromSource(source1, scene)
+    const object2 = getCollisionObjectFromSource(source2, scene)
+
+    if (!object1 || !object2) { return }
+
+    const forcePayload = {
+      totalForce: event.totalForce(),
+      totalForceMagnitude: event.totalForceMagnitude(),
+      maxForceDirection: event.maxForceDirection(),
+      maxForceMagnitude: event.maxForceMagnitude(),
+    }
+
+    contactForceTrigger({ objects: object1, context: source1 }, { objects: object2, context: source2 }, forcePayload)
+    contactForceTrigger({ objects: object2, context: source2 }, { objects: object1, context: source1 }, forcePayload)
   })
 })
 </script>

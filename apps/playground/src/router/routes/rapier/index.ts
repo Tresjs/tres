@@ -36,6 +36,11 @@ export const rapierRoutes = [
     component: () => import('@/pages/rapier/CollisionDemo.vue'),
   },
   {
+    path: '/rapier/contact-force',
+    name: 'Contact Force',
+    component: () => import('@/pages/rapier/ContactForceDemo.vue'),
+  },
+  {
     path: '/rapier/sensor',
     name: 'Sensor',
     component: () => import('@/pages/rapier/SensorDemo.vue'),

@@ -107,6 +107,16 @@ export interface ColliderProps {
    * @default undefined
    */
   sensor?: boolean
+  /**
+   * @description Enables contact force events on this collider.
+   * @default false
+   */
+  activeContactForce?: boolean
+  /**
+   * @description Only emit contact force events if the total force magnitude exceeds this threshold.
+   * @default 0
+   */
+  contactForceEventThreshold?: number
 }
 
 export interface ExposedCollider {
