@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ActiveCollisionTypes } from '@dimforge/rapier3d-compat'
-import { type TresObject3D, useLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
 import {
   nextTick,
@@ -13,7 +13,7 @@ import {
 } from 'vue'
 
 import { useRapierContext } from '../composables'
-import { createColliderPropsFromObject, createRigidBody } from '../core'
+import { createRigidBody, createRigidBodyAutoColliderPropsFromObject } from '../core'
 import { hasValidColliderGeometry } from '../utils'
 import { makePropsWatcherRB } from '../utils/props'
 import { Collider } from './colliders'
@@ -95,9 +95,10 @@ watch(bodyGroup, async (group) => {
       // Skip children without valid geometry (e.g., collider wrappers, empty Object3Ds)
       if (!hasValidColliderGeometry(child as Object3D)) { continue }
 
-      const createdProps = createColliderPropsFromObject(
-        child as TresObject3D,
+      const createdProps = createRigidBodyAutoColliderPropsFromObject(
+        child,
         props.collider,
+        newPhysicsState.rigidBody,
       )
       collidersProps.push({ ...props, ...createdProps })
     }
