@@ -8,7 +8,7 @@ import type {
 import type { TresObject3D, TresVector3, VectorCoordinates } from '@tresjs/core'
 import type { Ref } from 'vue'
 
-import type { ColliderProps, ColliderShape } from './collider'
+import type { ColliderProps } from './collider'
 
 export interface RigidBodyUserData {
   [key: string]: any
@@ -23,6 +23,18 @@ export type RigidBodyType =
   | 'kinematic'
   | 'kinematicVelocity'
   | 'fixed'
+
+/** @description `RigidBody` auto generated colliders shape. */
+export type RigidBodyCollidersShape = keyof Pick<
+typeof ColliderDesc,
+| 'cuboid'
+| 'ball'
+| 'capsule'
+| 'cone'
+| 'cylinder'
+| 'convexHull'
+| 'trimesh'
+>
 
 export interface RigidBodyProps extends Pick<
   ColliderProps,
@@ -42,10 +54,10 @@ export interface RigidBodyProps extends Pick<
   /** @description Set the `RigidBody` type. */
   type: RigidBodyType
   /**
-   * @description Set the `RigidBody` collider shape.
+   * @description `RigidBody` auto generated colliders shape.
    * @note Pass `false` to disable the auto generated colliders.
    */
-  collider?: ColliderShape | false
+  collider?: RigidBodyCollidersShape | false
   /**
    * @description Set the gravity of the`RigidBody`.
    * @default 1
@@ -123,8 +135,8 @@ export interface ExposedRigidBody {
 }
 
 export interface InstancedRigidBodyProps extends RigidBodyProps {
-  /**  @description Set the `RigidBody` collider shape. */
-  collider: ColliderShape
+  /**  @description Set the `RigidBody` colliders shape. */
+  collider?: RigidBodyCollidersShape
 }
 
 export interface RigidBodyColliderContext {
@@ -157,7 +169,9 @@ export interface CreateRigidBodyDescProps {
    * @description The rigid-body based object. (@link TresObject3D}.
    */
   object: TresObject3D
-  /** @description The `rigidBody` type. {@link RigidBodyType}. */
+  /**
+   * @description The `rigidBody` type. {@link RigidBodyType}.
+   */
   rigidBodyType: RigidBodyType
   /**
    * @description The Rapier {@link World} context.

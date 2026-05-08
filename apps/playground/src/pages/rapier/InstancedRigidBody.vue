@@ -44,7 +44,7 @@ watch(torusInstancedMesh, (mesh) => {
 
     <Suspense>
       <Physics debug>
-        <InstancedRigidBody collider="hull">
+        <InstancedRigidBody collider="convexHull">
           <TresInstancedMesh ref="torusInstancedMesh" :args="[torusKnots, torusKnotsMaterial, 3]" />
         </InstancedRigidBody>
 
