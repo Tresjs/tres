@@ -2,7 +2,7 @@
 title: Vue Fes Japan 2025
 author: alvarosabu
 description: Port of the Vue Fes Japan 2025 main visual — a suminagashi (Japanese ink-marbling) hero with a V silhouette and a Hinomaru circle.
-thumbnail: /experiments/vuefes-japan-2025.png
+thumbnail: /experiments/vuefes-japan-2025.webp
 tags: ['vuefes', 'shaders', 'glsl', 'suminagashi', 'marbling', 'fbm', 'flow-field']
 date: 2026-05-06
 lastUpdated: 2026-05-06
