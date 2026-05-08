@@ -1,30 +1,37 @@
 import { abstractionsRoutes } from './abstractions'
 import { controlsRoutes } from './controls'
+import { debugPerformanceRoutes } from './debug-performance'
+import { lightShadowRoutes } from './light-shadow'
 import { loadersRoutes } from './loaders'
 import { materialsRoutes } from './materials'
-import { miscRoutes } from './misc'
+import { miscellaneousRoutes } from './miscellaneous'
+import { objectsRoutes } from './objects'
 import { shapesRoutes } from './shapes'
 import { stagingRoutes } from './staging'
-import { performanceRoutes } from './performance'
 
 const cientosRoutes = [
   ...abstractionsRoutes,
   ...controlsRoutes,
+  ...debugPerformanceRoutes,
+  ...lightShadowRoutes,
   ...loadersRoutes,
   ...materialsRoutes,
-  ...miscRoutes,
+  ...miscellaneousRoutes,
+  ...objectsRoutes,
   ...shapesRoutes,
   ...stagingRoutes,
-  ...performanceRoutes,
 ]
+
 export {
   abstractionsRoutes,
   cientosRoutes,
   controlsRoutes,
+  debugPerformanceRoutes,
+  lightShadowRoutes,
   loadersRoutes,
   materialsRoutes,
-  miscRoutes,
-  performanceRoutes,
+  miscellaneousRoutes,
+  objectsRoutes,
   shapesRoutes,
   stagingRoutes,
 }
