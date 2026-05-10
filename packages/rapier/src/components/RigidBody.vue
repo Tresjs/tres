@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ActiveCollisionTypes } from '@dimforge/rapier3d-compat'
-import { type TresObject3D, useLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
 import {
   nextTick,
@@ -13,7 +13,7 @@ import {
 } from 'vue'
 
 import { useRapierContext } from '../composables'
-import { createColliderPropsFromObject, createRigidBody } from '../core'
+import { createRigidBody, createRigidBodyAutoColliderPropsFromObject } from '../core'
 import { hasValidColliderGeometry } from '../utils'
 import { makePropsWatcherRB } from '../utils/props'
 import { Collider } from './colliders'
@@ -41,6 +41,8 @@ const props = withDefaults(defineProps<Partial<RigidBodyProps>>(), {
   enabledTranslations: () => [true, true, true],
 
   // Auto-generated colliders props
+  activeContactForce: false,
+  contactForceEventThreshold: 0,
   friction: 0.5,
   mass: 1,
   restitution: 0,
@@ -93,9 +95,10 @@ watch(bodyGroup, async (group) => {
       // Skip children without valid geometry (e.g., collider wrappers, empty Object3Ds)
       if (!hasValidColliderGeometry(child as Object3D)) { continue }
 
-      const createdProps = createColliderPropsFromObject(
-        child as TresObject3D,
+      const createdProps = createRigidBodyAutoColliderPropsFromObject(
+        child,
         props.collider,
+        newPhysicsState.rigidBody,
       )
       collidersProps.push({ ...props, ...createdProps })
     }
@@ -138,6 +141,9 @@ watch(() => props.activeCollisionTypes, value => setAutoColliderProp('activeColl
 watch(() => props.collisionGroups, value => setAutoColliderProp('collisionGroups', value))
 watch(() => props.solverGroups, value => setAutoColliderProp('solverGroups', value))
 watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
+watch(() => props.activeContactForce, value => setAutoColliderProp('activeContactForce', value))
+watch(() => props.contactForceEventThreshold, value => setAutoColliderProp('contactForceEventThreshold', value))
+
 
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }
@@ -197,6 +203,8 @@ onUnmounted(() => {
       :collisionGroups="_props.collisionGroups"
       :solverGroups="_props.solverGroups"
       :sensor="_props.sensor"
+      :activeContactForce="_props.activeContactForce"
+      :contactForceEventThreshold="_props.contactForceEventThreshold"
     />
     <slot></slot>
   </TresGroup>
