@@ -1,18 +1,9 @@
-import { ColliderDesc } from '@dimforge/rapier3d-compat'
-import {
-  BufferGeometry,
-  IcosahedronGeometry,
-  Mesh,
-  SphereGeometry,
-} from 'three'
-import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
-import type { TresObject3D } from '@tresjs/core'
-import type { QuaternionLike, Vector3Like } from 'three'
+import { ColliderDesc, type Quaternion, type Vector3 } from '@dimforge/rapier3d-compat'
+import { Vector3 as ThreeVector3 } from 'three'
 
 import { QUATERNION_ZERO, VECTOR_ZERO } from '../constants'
 import { getColliderSizingsFromObject } from '../utils'
 import type {
-  ColliderProps,
   ColliderShape,
   CreateColliderDescProps,
   CreateColliderProps,
@@ -20,15 +11,53 @@ import type {
 } from '../types/collider'
 import { parsePosition, parseRotation } from '../utils/common'
 
+/** @internal */
+const _scaleVertices = (vertices: ArrayLike<number>, scale: Vector3) => {
+  const scaledVertices = Array.from(vertices)
+
+  for (let i = 0; i < vertices.length / 3; i++) {
+    scaledVertices[i * 3] *= scale.x
+    scaledVertices[i * 3 + 1] *= scale.y
+    scaledVertices[i * 3 + 2] *= scale.z
+  }
+
+  return scaledVertices
+}
+
+/** @internal */
+const _scaleColliderArgs = (
+  shape: ColliderShape,
+  args: (number | ArrayLike<number> | { x: number, y: number, z: number })[],
+  scale: Vector3,
+) => {
+  const newArgs = args.slice()
+
+  if (shape === 'heightfield') {
+    const s = newArgs[3] as { x: number, y: number, z: number }
+    s.x *= scale.x
+    s.x *= scale.y
+    s.x *= scale.z
+
+    return newArgs
+  }
+
+  if (shape === 'trimesh' || shape === 'convexHull') {
+    newArgs[0] = _scaleVertices(newArgs[0] as ArrayLike<number>, scale)
+    return newArgs
+  }
+
+  const scaleArray = [scale.x, scale.y, scale.z, scale.x, scale.x]
+  return newArgs.map((arg, index) => scaleArray[index] * (arg as number))
+}
+
 /**
  * @description
  *
- * Create a {@link ColliderDesc} shape based on the given properties.
+ * Create a {@link ColliderDesc} based on the received properties.
  *
- * If the shape or sizes are not specified,
- * it will try to create a shape based on the object's geometry or the bounding-box.
- *
- * Will create a {@link ColliderDesc.cuboid Cuboid} by default.
+ * If the shape is not specified,
+ * it will fallback to a {@link ColliderDesc.cuboid Cuboid} shape,
+ * using the object geometry bounding-box.
  *
  * @param props {@link CreateColliderDescProps}
  *
@@ -36,76 +65,67 @@ import { parsePosition, parseRotation } from '../utils/common'
  * @see https://rapier.rs/docs/user_guides/javascript/colliders
  */
 export const createColliderDesc = (props: CreateColliderDescProps) => {
-  const { object, args, shape, scale, rigidBody } = props
-  const position: Vector3Like
-    = (props.position && parsePosition(props.position))
-      ?? (object?.position && parsePosition(object?.position))
-      ?? rigidBody.translation()
-      ?? VECTOR_ZERO
-  const rotation: QuaternionLike
-  = (props.rotation && parseRotation(props.rotation))
+  const { shape, object, args, position, rotation, rigidBody, scale } = props
+  const { halfWidth, halfHeight, halfDepth } = getColliderSizingsFromObject(object)
+  const colliderDescMethod = ColliderDesc[shape || 'cuboid']
+  const safeScale = new ThreeVector3(
+    scale?.[0] ?? 1,
+    scale?.[1] ?? 1,
+    scale?.[2] ?? 1,
+  )
+  const safeArgs = [
+    args?.[0] ?? 1,
+    args?.[1] ?? 1,
+    args?.[2] ?? 1,
+    args?.[3] ?? 1,
+    ...(args?.slice(4) ?? []),
+  ]
+  const scaledArgs = _scaleColliderArgs(shape || 'cuboid', safeArgs, safeScale) as Parameters<(typeof ColliderDesc)[
+    ColliderShape
+  ]>
+
+  let colliderDesc: ColliderDesc | null
+
+  const getSafeColliderDesc = () => {
+    return ColliderDesc.cuboid(halfWidth, halfHeight, halfDepth)
+  }
+
+  try {
+    if (!colliderDescMethod) {
+      throw new Error(`Invalid collider shape: ${shape}.`)
+    }
+
+    colliderDesc = colliderDescMethod?.(...scaledArgs as [any, any, any, any, any])
+
+    if (!colliderDesc) {
+      throw new Error(`Invalid collider shape: ${shape}. Switching to cuboid.`)
+    }
+  }
+  catch (error) {
+    console.warn(`Error creating collider: ${error instanceof Error ? error.message : 'Unknown error'}. Switching to cuboid.`)
+    colliderDesc = getSafeColliderDesc()
+  }
+
+  const newPosition: Vector3
+  = (position && parsePosition(position))
+    ?? (object?.position && parsePosition(object?.position))
+    ?? rigidBody.translation()
+    ?? VECTOR_ZERO
+  const newRotation: Quaternion
+  = (rotation && parseRotation(rotation))
     ?? (object?.quaternion && parseRotation(object?.quaternion))
     ?? rigidBody.rotation()
     ?? QUATERNION_ZERO.clone()
-  const sizes = getColliderSizingsFromObject(object as TresObject3D)
-  const halfWidth = (args?.[0] ?? sizes.halfWidth) * (scale?.[0] ?? 1)
-  const halfHeight = (args?.[1] ?? sizes.halfHeight) * (scale?.[1] ?? 1)
-  const halfDepth = (args?.[2] ?? sizes.halfDepth) * (scale?.[2] ?? 1)
-  const radius = (args?.[0] ?? sizes.radius) * (scale?.[0] ?? 1)
-
-  let colliderDesc = ColliderDesc.cuboid(
-    halfWidth ?? 1,
-    halfHeight ?? 1,
-    halfDepth ?? 1,
-  )
-
-  if (
-    shape === 'ball'
-    || (shape === undefined
-      && object instanceof Mesh
-      && (object.geometry instanceof SphereGeometry
-        || object.geometry instanceof IcosahedronGeometry))
-  ) {
-    colliderDesc = ColliderDesc.ball(radius ?? 1)
-  }
-  else if (shape === 'capsule') {
-    colliderDesc = ColliderDesc.capsule(halfWidth ?? 1, halfHeight ?? 1)
-  }
-  else if (shape === 'cone') {
-    colliderDesc = ColliderDesc.cone(halfWidth ?? 1, halfHeight ?? 1)
-  }
-  else if (shape === 'cylinder') {
-    colliderDesc = ColliderDesc.cylinder(halfWidth ?? 1, halfHeight ?? 1)
-  }
-  else if (object?.geometry instanceof BufferGeometry) {
-    if (shape === 'trimesh') {
-      const clonedGeometry = mergeVertices(object.geometry)
-      const triMeshMap = clonedGeometry.attributes.position
-        .array as Float32Array
-      const triMeshUnit = clonedGeometry.index?.array as Uint32Array
-
-      colliderDesc = ColliderDesc.trimesh(triMeshMap, triMeshUnit)
-    }
-    else if (shape === 'hull') {
-      const triMeshMap = mergeVertices(object.geometry).attributes.position.array as Float32Array
-
-      colliderDesc = ColliderDesc.convexHull(triMeshMap) ?? colliderDesc
-    }
-    // TODO: Unable to retrieve the subdivision number & the Matrix of the given object for #heightfield
-    // else if (shape === 'heightfield') {
-    //   colliderDesc = ColliderDesc.heightfield(object.geometry)
-    // }
-  }
 
   colliderDesc
-    .setTranslation(position.x, position.y, position.z)
-    .setRotation(rotation)
+    .setTranslation(newPosition.x, newPosition.y, newPosition.z)
+    .setRotation(newRotation)
 
   return colliderDesc
 }
 
 /**
- * @description Create a {@link Collider} shape based on the given
+ * @description Create a {@link Collider} shape based on the received
  * {@link CreateColliderProps}
  *
  * @param props {@link CreateColliderDescProps}
@@ -124,32 +144,5 @@ export const createCollider = (
     collider,
     colliderDesc,
     object,
-  }
-}
-
-/**
- * @description Create a {@link ColliderProps} from the given object.
- *
- * @param object {@link TresObject3D}
- * @param shape {@link ColliderShape}
- */
-export const createColliderPropsFromObject = (
-  object: TresObject3D,
-  shape: ColliderShape,
-): ColliderProps => {
-  const { position } = object
-  const rotation = object?.quaternion
-  const sizes = getColliderSizingsFromObject(object)
-
-  return {
-    shape,
-    object,
-    args:
-      shape === 'ball'
-        ? [sizes.radius]
-        : [sizes.halfWidth, sizes.halfHeight, sizes.halfDepth],
-    position: [position.x, position.y, position.z],
-    rotation: [rotation.x, rotation.y, rotation.z, rotation.w],
-    scale: [object.scale.x ?? 1, object.scale.y ?? 1, object.scale.z ?? 1],
   }
 }
