@@ -1,3 +1,18 @@
+## 5.7.1 (2026-05-11)
+
+### 🩹 Fixes
+
+- **cientos:** get StatsGl container from its `dom` property ([545ba8b2](https://github.com/Tresjs/tres/commit/545ba8b2))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.8.1
+- Updated @tresjs/eslint-config to 1.6.0
+
+### ❤️ Thank You
+
+- AntoninRousset
+
 ## 5.7.0 (2026-03-30)
 
 ### 🩹 Fixes
