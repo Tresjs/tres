@@ -144,7 +144,7 @@ const mountCustomRenderer = (context: TresContext) => {
   const canvas = props.canvas
   if (getRoot(canvas)) { return }
 
-  const hmrTick = shallowRef(0)
+  const hmrTick = ref(0)
   const internalComponent = createInternalComponent(context, hmrTick)
   const renderer = createRenderer(nodeOps({ context, options: props.customRendererOptions }))
   renderer.render(h(internalComponent), scene.value as unknown as TresObject)
@@ -166,7 +166,7 @@ const dispose = (context: TresContext, force = false) => {
       context.renderer.instance.forceContextLoss()
     }
   }
-  ;(scene.value as TresScene).__tres = {
+  ; (scene.value as TresScene).__tres = {
     root: context,
     objects: [],
     isUnmounting: true,
