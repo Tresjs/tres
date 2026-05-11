@@ -1,4 +1,4 @@
-import type { Collider, RigidBody } from '@dimforge/rapier3d-compat'
+import type { Collider, RigidBody, Vector } from '@dimforge/rapier3d-compat'
 import type { TresVNodeObject } from './object'
 
 export interface CollisionSource {
@@ -16,3 +16,12 @@ export interface SourceTarget {
 }
 
 export type CollisionType = 'enter' | 'exit'
+
+export interface ContactForcePayload {
+  source: SourceTarget
+  target: SourceTarget
+  totalForce: Vector
+  totalForceMagnitude: number
+  maxForceDirection: Vector
+  maxForceMagnitude: number
+}

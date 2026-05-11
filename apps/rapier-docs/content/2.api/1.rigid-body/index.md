@@ -156,9 +156,16 @@ More info at [Rigid-body type](https://rapier.rs/docs/user_guides/javascript/rig
   ::::field{name="collisionGroups" type="number | undefined"}
   Default: `undefined` - To specify collision groups. (automatic-collider).
   ::::
+
+  ::::field{name="activeCollision" type="boolean"}
+  Default: `false` - To set the collider receiver/emitter collision events (automatic-collider).
+  ::::
+  ::::field{name="activeContactForce" type="boolean"}
+  Default: `false` - Enables contact-force events. Required to use the `@contact-force` event. See [Contact Force](/api/rigid-body/contact-force).
+  ::::
 :::
 
-:::info
+:::prose-note
 
 The `rigidBody` instance has many other functions, please check the
 [official docs](https://rapier.rs/docs/api/javascript/JavaScript3D/) for a
@@ -184,6 +191,9 @@ use[Template ref](https://vuejs.org/guide/essentials/template-refs.html#template
 
   ::::field{name="intersection-exit" type="(payload: { source: SourceTarget, target: SourceTarget }) => void"}
   Triggered when a sensor collider stops intersecting another collider. Requires `activeCollision` and `sensor` props. See [Sensor](/api/rigid-body/sensor).
+  ::::
+  ::::field{name="contact-force" type="(payload: ContactForcePayload) => void"}
+  Triggered every simulation step while two colliders are in contact and the force exceeds the threshold.
   ::::
 :::
 
