@@ -68,24 +68,22 @@ const { size: textureSize, characters, font, fontSize, cellCount, enabled, blend
       <Environment background :blur="0.2" preset="snow" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <ASCIIPmndrs
-          :blend-function="enabled ? Number(blendFunction) : Number(BlendFunction.SKIP)"
-          :opacity="opacity"
-          :cell-size="cellSize"
-          :inverted="inverted"
-          :color="color"
-          :use-scene-color="useSceneColor"
-          :ascii-texture="{
-            characters,
-            font,
-            fontSize,
-            size: textureSize,
-            cellCount,
-          }"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <ASCIIPmndrs
+        :blend-function="enabled ? Number(blendFunction) : Number(BlendFunction.SKIP)"
+        :opacity="opacity"
+        :cell-size="cellSize"
+        :inverted="inverted"
+        :color="color"
+        :use-scene-color="useSceneColor"
+        :ascii-texture="{
+          characters,
+          font,
+          fontSize,
+          size: textureSize,
+          cellCount,
+        }"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>
