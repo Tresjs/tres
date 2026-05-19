@@ -26,9 +26,9 @@ const newLocal = {
     title: '',
     to: '/',
     logo: {
-      alt: 'TresJS Post-processing',
-      light: '/logo.svg',
-      dark: '/logo.svg',
+      alt: '',
+      light: '',
+      dark: '',
     },
     search: true,
     colorMode: true,
