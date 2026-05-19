@@ -1,3 +1,17 @@
+## 1.2.1 (2026-05-11)
+
+### 🩹 Fixes
+
+- **leches:** persist textfield values and support PgUp/PgDn keys ([aad02a3b](https://github.com/Tresjs/tres/commit/aad02a3b))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.6.0
+
+### ❤️ Thank You
+
+- Your Name
+
 ## 1.2.0 (2026-04-02)
 
 ### 🚀 Features

@@ -5,11 +5,7 @@ import type { CollisionSource, CollisionType, ContactForcePayload, RigidBodyUser
 
 export const getCollisionSourceFromColliderHandle = (world: World, handle: ColliderHandle) => {
   const collider = world.getCollider(handle)
-  const rigidBodyHandle = collider?.parent()?.handle
-  const rigidBody
-  = rigidBodyHandle !== undefined
-    ? world.getRigidBody(rigidBodyHandle)
-    : undefined
+  const rigidBody = collider?.parent() ?? undefined
   const source: CollisionSource = {
     collider,
     rigidBody,
@@ -18,17 +14,17 @@ export const getCollisionSourceFromColliderHandle = (world: World, handle: Colli
   return source
 }
 
-export const getCollisionObjectFromSource = (source: CollisionSource, scene: Ref<Scene>): SourceTarget['objects'] => {
+export const getNodeObjectsFromCollisionSource = (source: CollisionSource, scene: Ref<Scene>) => {
   const rigidBody = source.rigidBody
   const collider = source.collider
 
   const groupUserData = rigidBody?.userData as RigidBodyUserData | undefined
   const groupUuid = groupUserData?.uuid
-  const groupObject = scene.value.getObjectByProperty('uuid', groupUuid) as TresVNodeObject
+  const groupObject = scene.value.getObjectByProperty('uuid', groupUuid) as TresVNodeObject | undefined
 
   const currentUserData = collider.userData as RigidBodyUserData | undefined
   const currentUuid = currentUserData?.uuid
-  const currentObject = scene.value.getObjectByProperty('uuid', currentUuid) as TresVNodeObject
+  const currentObject = scene.value.getObjectByProperty('uuid', currentUuid) as TresVNodeObject | undefined
 
   return [groupObject, currentObject]
 }
