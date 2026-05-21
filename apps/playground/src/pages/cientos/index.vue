@@ -20,7 +20,7 @@ const sections = [
   { icon: '👔', title: 'Materials', routes: materialsRoutes },
   { icon: '🔷', title: 'Shapes', routes: shapesRoutes },
   { icon: '🧊', title: 'Objects', routes: objectsRoutes },
-  { icon: '💡', title: 'Light & Shadow', routes: lightShadowRoutes },
+  { icon: '💡', title: 'Lights & Shadows', routes: lightShadowRoutes },
   { icon: '🚀', title: 'Debug & Performance', routes: debugPerformanceRoutes },
   { icon: '🗂️', title: 'Miscellaneous', routes: miscellaneousRoutes },
 ]
