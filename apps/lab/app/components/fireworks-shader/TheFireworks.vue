@@ -140,4 +140,5 @@ onMounted(() => {
 </script>
 
 <template>
+  <slot />
 </template>

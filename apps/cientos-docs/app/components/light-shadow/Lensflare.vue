@@ -8,12 +8,11 @@ const uuid = inject(`uuid`)
 
 const [x, z] = [shallowRef(0), shallowRef(0)]
 
-const { scale, seed, color, distance, size } = useControls({
+const { scale, seed, color, distance } = useControls({
   scale: { value: 0.33, min: 0.1, max: 2, step: 0.1 },
   seed: { value: 1028, min: 1, max: 5000, step: 1 },
   color: '#ffffff',
   distance: { value: 0, min: -2, max: 2, step: 0.1 },
-  size: { value: 1, min: 0.1, max: 10, step: 0.5 },
 }, { uuid })
 
 function onLoop({ elapsed }: { elapsed: number }) {
@@ -31,7 +30,6 @@ function onLoop({ elapsed }: { elapsed: number }) {
         :scale="scale"
         :color="color"
         :distance="distance"
-        :size="size"
       />
     </TresPointLight>
     <Torus

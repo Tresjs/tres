@@ -39,6 +39,9 @@ With TresJS, components are available automatically:
 </template>
 ```
 
+::video-accordion{title="Watch this video from Alvarosabu about the TresJS core principles" video-id="XsXfF9-qe60" startTime=334}
+::
+
 ::tip
 Since TresJS components map directly to Three.js classes, you can use the [Three.js documentation](https://threejs.org/docs/) as your API reference for constructor arguments and properties.
 ::
@@ -63,6 +66,7 @@ Pass arguments to the Three.js constructor using the `args` prop:
 
 :read-more{to="/essentials/concepts/constructor-arguments" title="Learn more about constructor arguments"}
 
+
 ### Declarative Properties
 
 Set Three.js object properties using Vue props:
@@ -86,6 +90,26 @@ const scale = ref(2)
 ```
 
 :read-more{to="/essentials/concepts/declarative-properties" title="Learn more about declarative properties"}
+
+### Child Attachments
+
+Nesting components inside others is how you compose Three.js objects in TresJS. This is **not** Vue's slot system — TresJS's custom renderer intercepts children and attaches them as properties of the parent Three.js object:
+
+```vue
+<template>
+  <TresMesh>
+    <!-- Becomes: mesh.geometry = new THREE.BoxGeometry() -->
+    <TresBoxGeometry />
+
+    <!-- Becomes: mesh.material = new THREE.MeshBasicMaterial({ color: 'red' }) -->
+    <TresMeshBasicMaterial color="red" />
+  </TresMesh>
+</template>
+```
+
+`Object3D` children (meshes, lights, groups) are added via `.add()` and become part of the scene graph hierarchy.
+
+:read-more{to="/essentials/concepts/child-attachments" title="Learn more about child attachments"}
 
 ### Extending the Catalogue
 

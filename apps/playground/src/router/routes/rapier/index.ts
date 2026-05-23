@@ -5,9 +5,14 @@ export const rapierRoutes = [
     component: () => import('@/pages/rapier/RigidBody.vue'),
   },
   {
-    path: '/rapier/colliders',
-    name: 'Colliders',
-    component: () => import('@/pages/rapier/Colliders.vue'),
+    path: '/rapier/automatic-colliders',
+    name: 'Automatic Colliders',
+    component: () => import('@/pages/rapier/AutomaticColliders.vue'),
+  },
+  {
+    path: '/rapier/custom-colliders',
+    name: 'Custom Colliders',
+    component: () => import('@/pages/rapier/CustomColliders.vue'),
   },
   {
     path: '/rapier/instanced-rigid-body',
@@ -24,15 +29,16 @@ export const rapierRoutes = [
     name: 'Gravity',
     component: () => import('@/pages/rapier/GravityDemo.vue'),
   },
-  {
-    path: '/rapier/props',
-    name: 'Props',
-    component: () => import('@/pages/rapier/RigidBodyProps.vue'),
-  },
+
   {
     path: '/rapier/collision',
     name: 'Collision',
     component: () => import('@/pages/rapier/CollisionDemo.vue'),
+  },
+  {
+    path: '/rapier/contact-force',
+    name: 'Contact Force',
+    component: () => import('@/pages/rapier/ContactForceDemo.vue'),
   },
   {
     path: '/rapier/sensor',
@@ -48,5 +54,30 @@ export const rapierRoutes = [
     path: '/rapier/joints-advanced',
     name: 'Advanced Joints',
     component: () => import('@/pages/rapier/JointsAdvancedDemo.vue'),
+  },
+  {
+    path: '/rapier/expose',
+    name: 'Expose',
+    component: () => import('@/pages/rapier/ExposeDemo.vue'),
+  },
+  {
+    path: '/rapier/collision-groups',
+    name: 'Collision Groups',
+    component: () => import('@/pages/rapier/CollisionGroupsDemo.vue'),
+  },
+  {
+    path: '/rapier/solver-groups',
+    name: 'Solver Groups',
+    component: () => import('@/pages/rapier/SolverGroupsDemo.vue'),
+  },
+  {
+    path: '/rapier/heightfield',
+    name: 'Heightfield',
+    component: () => import('@/pages/rapier/HeightfieldDemo.vue'),
+  },
+  {
+    path: '/rapier/ragdoll',
+    name: 'Basic Ragdoll',
+    component: () => import('@/pages/rapier/RagdollDemo.vue'),
   },
 ]

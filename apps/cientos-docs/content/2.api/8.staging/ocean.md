@@ -3,9 +3,9 @@ title: Ocean
 description: Wrapper for the Three.js Water add-on with sky reflection support.
 ---
 
-::SceneWrapper
-  ::StagingOcean
-  ::
+::SceneControlsWrapper
+::StagingOcean
+::
 ::
 
 `<Ocean />` is a wrapper for the [Three.js `Water` add-on](https://threejs.org/examples/?q=ocean#webgl_shaders_ocean).
@@ -63,20 +63,21 @@ import { Ocean } from '@tresjs/cientos'
 
 ## Props
 
-::prose-warning
-All of the props of this component are not reactive.
+::prose-tip
+Props marked with ✅ support reactive changes at runtime. Props marked with ❌ are only read at construction time and cannot be changed after the component is mounted.
 ::
 
-| Prop                | Description                                  | Default                                                                                          |
-| :------------------ | :------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| **textureWidth**    | Width of the mirror texture                  | 512                                                                                              |
-| **textureHeight**   | Height of the mirror texture                 | 512                                                                                              |
-| **waterNormals**    | Normals of the water                         | https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg |
-| **sunDirection**    | Sun direction to be reflected on the water   | Vector3(0,0,0)                                                                                   |
-| **sunColor**        | Sun color to be reflected on the water       | 0xffffff                                                                                         |
-| **waterColor**      | Water Color                                  | 0x001e0f                                                                                         |
-| **distortionScale** | Distortion scale on reflected objects        | 3.7                                                                                              |
-| **size**            | Size of the water normals                    | 1                                                                                                |
-| **clipBias**        | To use the clipBias property                 | 0.0                                                                                              |
-| **alpha**           | To use the clipBias Alpha                    | 1.0                                                                                              |
-| **side**            | Which size of the mesh will render the water | FrontSide                                                                                        |
+| Prop                | Description                                                                                            | Default                                                                                                                  | Reactive |
+| :------------------ | :----------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | :------: |
+| **textureWidth**    | Width of the mirror texture                                                                            | `512`                                                                                                                    |    ❌    |
+| **textureHeight**   | Height of the mirror texture                                                                           | `512`                                                                                                                    |    ❌    |
+| **waterNormals**    | URL of the water normal texture                                                                        | [Water_1_M_Normal.jpg](https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg) |    ❌    |
+| **sunDirection**    | Sun direction to be reflected on the water                                                             | `Vector3(0,0,0)`                                                                                                         |    ❌    |
+| **sunColor**        | Sun color to be reflected on the water                                                                 | `0xffffff`                                                                                                               |    ✅    |
+| **waterColor**      | Water color                                                                                            | `0x001e0f`                                                                                                               |    ✅    |
+| **distortionScale** | Distortion scale on reflected objects                                                                  | `3.7`                                                                                                                    |    ✅    |
+| **size**            | Size of the water normals                                                                              | `1`                                                                                                                      |    ✅    |
+| **clipBias**        | Clip bias for the render target                                                                        | `0.0`                                                                                                                    |    ❌    |
+| **alpha**           | Alpha transparency of the water                                                                        | `1.0`                                                                                                                    |    ✅    |
+| **side**            | Which side of the mesh renders the water                                                               | `FrontSide`                                                                                                              |    ❌    |
+| **speed**           | Animation speed multiplier applied to the wave animation. Higher values make the water animate faster. | `1`                                                                                                                      |    ✅    |

@@ -30,7 +30,7 @@ watch(actions, (newActions) => {
 
 ### Manual Updates
 
-For more control over when the animation mixer updates, you can set `manualUpdate: true` and handle the updates yourself:
+To gain finer control over animation mixer updates, enable `manualUpdate: true` and manage the update cycle manually.
 
 ```ts{1,8-10,15}
 import { useAnimations, useGLTF } from '@tresjs/cientos'
@@ -60,4 +60,4 @@ watch(actions, (newActions) => {
 
 ## Options
 
-- `manualUpdate` (optional): When set to `true`, disables automatic animation mixer updates. You'll need to call `mixer.value.update(delta)` manually. Default is `false`.
+- `manualUpdate` (optional): Default is `false`. If set to `true`, disables automatic animation mixer updates. You'll need to call `mixer.value.update(delta)` manually.

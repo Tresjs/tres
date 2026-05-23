@@ -19,46 +19,63 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-gap-1 tl-items-center tl-mb-2">
+  <div class="tl-flex tl-gap-1 tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
     <ControlLabel :label="label" :control="control" />
-    <div class="tl-w-2/3 tl-flex tl-justify-between tl-items-center">
+    <label
+      :for="`${control.uniqueKey}-color`"
+      class="leches-color-container tl-leches-input tl-w-2/3"
+    >
       <input
-        :id="control.uniqueKey"
+        :id="`${control.uniqueKey}-color`"
         tabindex="0"
         :value="controlValue"
         :aria-label="label"
-        class="leches-color
-        focus:tl-outline-none
-        focus:tl-ring-2
-        focus:tl-ring-gray-100
-        "
-        :class="{ 'important-tl-outline-gray-200': controlValue === '#ffffff' }"
+        class="leches-color"
         type="color"
         @input="onChange"
       />
-      <input
-        :id="control.uniqueKey"
-        tabindex="0"
-        :aria-label="label"
-        :value="controlValue"
-        class="tl-leches-input tl-w-1/2"
-        type="text"
-        @input="onChange"
-      />
-    </div>
+      <span class="leches-color-hex">{{ controlValue }}</span>
+    </label>
   </div>
 </template>
 
-<style focus>
+<style>
+.leches-color-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  height: var(--tl-unit-size);
+  line-height: var(--tl-unit-size);
+  padding: var(--tl-input-padding);
+  border-radius: var(--tl-blade-radius);
+  font-size: var(--tl-font-size);
+}
+
 .leches-color {
-  @apply tl-appearance-none tl-p-0 tl-bg-transparent tl-rounded-sm tl-outline-none tl-border-none tl-box-border tl-cursor-pointer;
+  @apply tl-appearance-none tl-bg-transparent tl-outline-none tl-border-none tl-box-border tl-cursor-pointer;
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px;
+  padding: 0 !important;
 }
 
 .leches-color::-webkit-color-swatch-wrapper {
   @apply tl-p-0 tl-border-none;
+  width: 14px;
+  height: 14px;
 }
 
 .leches-color::-webkit-color-swatch {
-  @apply tl-p-0 tl-h-30px -tl-mt-0.5 tl-w-30px tl-rounded-sm tl-border-none;
+  @apply tl-p-0 tl-border-none;
+  border-radius: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.leches-color-hex {
+  @apply tl-uppercase;
+  font-size: var(--tl-font-size);
+  line-height: 1;
 }
 </style>

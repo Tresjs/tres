@@ -44,4 +44,9 @@ export const controlsRoutes = [
     name: 'Graph Control',
     component: () => import('@/pages/leches/controls/GraphDemo.vue'),
   },
+  {
+    path: '/leches/controls/number',
+    name: 'Number Control',
+    component: () => import('@/pages/leches/controls/NumberControlDemo.vue'),
+  },
 ]

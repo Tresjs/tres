@@ -1,12 +1,13 @@
 import {
   AdditiveBlending,
-  Clock,
   Color,
   FrontSide,
   ShaderMaterial,
   Uniform,
 } from 'three'
 import type { Blending, Side } from 'three'
+import { createTimer } from '@tresjs/core'
+import type { TresTimer } from '@tresjs/core'
 
 interface HolographicMaterialParameters {
   time?: number
@@ -24,7 +25,7 @@ interface HolographicMaterialParameters {
   depthTest?: boolean
 }
 class HolographicMaterial extends ShaderMaterial {
-  clock: Clock
+  clock: TresTimer
   /**
    * Create a HolographicMaterial.
    *
@@ -253,7 +254,8 @@ class HolographicMaterial extends ShaderMaterial {
       hologramOpacity: new Uniform(parameters.hologramOpacity !== undefined ? parameters.hologramOpacity : 1),
     }
 
-    this.clock = new Clock()
+    this.clock = createTimer()
+    this.clock.start()
     this.setValues(parameters)
     this.depthTest = parameters.depthTest !== undefined ? parameters.depthTest : false
     this.blending = parameters.blendMode !== undefined ? parameters.blendMode : AdditiveBlending
@@ -262,7 +264,8 @@ class HolographicMaterial extends ShaderMaterial {
   }
 
   update() {
-    this.uniforms.time.value = this.clock.getElapsedTime()
+    this.clock.update()
+    this.uniforms.time.value = this.clock.getElapsed()
   }
 }
 export default HolographicMaterial

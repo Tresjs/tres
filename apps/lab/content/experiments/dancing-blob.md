@@ -1,5 +1,5 @@
 ---
-thumbnail: /dancing-blob.png
+thumbnail: /experiments/dancing-blob.webp
 title: Dancing blob
 slug: dancing-blob
 author: [luckystriike, alvarosabu]

@@ -10,7 +10,7 @@ description: A simple to use holographic material for TresJS with vibrant colors
 
 ## A simple to use holographic material for TresJS
 
-Dive into a world of mesmerizing holographic wonders with the HolographicMaterial for vanilla three.js. This enchanting three.js material brings your virtual reality experiences to life, infusing them with a burst of vibrant colors, dynamic scanlines, and a touch of futuristic brilliance.
+Dive into a world of mesmerizing holographic wonders with the HolographicMaterial for vanilla Three.js. This enchanting Three.js material brings your virtual reality experiences to life, infusing them with a burst of vibrant colors, dynamic scanlines, and a touch of futuristic brilliance.
 
 While this material operates independently of any post-processing, it achieves an enhanced visual appeal when coupled with bloom effects. The utilization of bloom proves particularly effective in rendering a captivating glow effect, especially in areas where overexposure is prevalent.
 

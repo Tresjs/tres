@@ -1,3 +1,93 @@
+## 5.8.1 (2026-05-11)
+
+### 🚀 Features
+
+- **core:** add ref import to Context.vue for improved reactivity ([9992480a](https://github.com/Tresjs/tres/commit/9992480a))
+- **core:** update hmrTick to use ref and adjust spacing in Context.vue ([d3683526](https://github.com/Tresjs/tres/commit/d3683526))
+- **core:** add _roots map for per-canvas renderer state ([f0123dea](https://github.com/Tresjs/tres/commit/f0123dea))
+
+### 🩹 Fixes
+
+- **core:** add WebGLRenderer import to Context.vue ([cde12d5e](https://github.com/Tresjs/tres/commit/cde12d5e))
+- **core:** restore TresCanvasInstance.dispose WebGL teardown ([2a9f9866](https://github.com/Tresjs/tres/commit/2a9f9866))
+- **core:** clean up _roots entry and vite hmr listener on unmount ([a516f30e](https://github.com/Tresjs/tres/commit/a516f30e))
+- **core:** bump hmrTick on vite:afterUpdate to trigger slot diff ([d4d78313](https://github.com/Tresjs/tres/commit/d4d78313))
+- **core:** reuse custom renderer per canvas via _roots map ([128907cc](https://github.com/Tresjs/tres/commit/128907cc))
+- **useLoader:** correct formatting of the extensions prop type definition ([d077cd67](https://github.com/Tresjs/tres/commit/d077cd67))
+- The useLoader component has added the "extensions" parameter. ([12d325ec](https://github.com/Tresjs/tres/commit/12d325ec))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.6.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- dalei @daLeiStrive
+
+## 5.8.0 (2026-03-30)
+
+### 🚀 Features
+
+- add fpsLimit prop to Context and related composables ([e1e0c37a](https://github.com/Tresjs/tres/commit/e1e0c37a))
+
+### ❤️ Thank You
+
+- Tino Koch @tinoooo
+
+## 5.7.0 (2026-03-10)
+
+### 🚀 Features
+
+- add backward compatibility for three.js <r179 (`Timer` fallback to `Clock`) ([13c20dc8](https://github.com/Tresjs/tres/commit/13c20dc8))
+
+### 🩹 Fixes
+
+- simplify time retrieval ([1eb6a805](https://github.com/Tresjs/tres/commit/1eb6a805))
+
+### ❤️ Thank You
+
+- Jungzl
+
+## 5.6.0 (2026-03-05)
+
+### 🚀 Features
+
+- **tests:** add console warning mock to suppress specific messages during tests ([e359e4ba](https://github.com/Tresjs/tres/commit/e359e4ba))
+- added basic hierarchy tests ([52c03609](https://github.com/Tresjs/tres/commit/52c03609))
+- added first test and mocking fns ([cc1ede79](https://github.com/Tresjs/tres/commit/cc1ede79))
+
+### 🩹 Fixes
+
+- **core:** update delta calculation in useCreateRafLoop to prevent incorrect values ([#1323](https://github.com/Tresjs/tres/issues/1323))
+- **core:** migrate Clock to Timer for three.js r183 compatibility ([73a1fa43](https://github.com/Tresjs/tres/commit/73a1fa43))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Claude Sonnet 4.6
+- Tino Koch @tinoooo
+
+## 5.5.0 (2026-02-16)
+
+### 🚀 Features
+
+- **core:** export `Context` component ([5919f887](https://github.com/Tresjs/tres/commit/5919f887))
+
+### ❤️ Thank You
+
+- Jungzl
+
+## 5.4.1 (2026-02-09)
+
+### 🩹 Fixes
+
+- **core:** fixed clock delta bug ([21a813ae](https://github.com/Tresjs/tres/commit/21a813ae))
+
+### ❤️ Thank You
+
+- Tino Koch @tinoooo
+
 ## 5.4.0 (2026-02-02)
 
 ### 🚀 Features

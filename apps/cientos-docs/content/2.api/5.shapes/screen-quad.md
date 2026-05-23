@@ -31,4 +31,4 @@ import { ScreenQuad } from '@tresjs/cientos'
 ## References
 
 * [Why a triangle?](https://www.cginternals.com/en/blog/2018-01-10-screen-aligned-quads-and-triangles.html)
-* [Simple postprocessing in THREE.js](https://luruke.medium.com/simple-postprocessing-in-three-js-91936ecadfb7)
+* [Simple postprocessing in Three.js](https://luruke.medium.com/simple-postprocessing-in-three-js-91936ecadfb7)

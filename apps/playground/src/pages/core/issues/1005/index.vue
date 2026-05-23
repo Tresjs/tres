@@ -19,10 +19,11 @@ const { visible } = useControls({
     type: 'button',
     label: 'Remove Item',
     size: 'block',
-    onClick: () => { if (totalItems.value > 0) totalItems.value-- },
+    onClick: () => {
+      if (totalItems.value > 0) { totalItems.value-- }
+    },
   },
 }, { uuid })
-
 </script>
 
 <template>

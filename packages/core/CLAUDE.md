@@ -28,4 +28,4 @@ compilerOptions: {
 
 ## Testing
 
-Tests use Vitest with jsdom environment. Core renderer tests extensively cover nodeOps operations in [src/core/nodeOps.test.ts](src/core/nodeOps.test.ts).
+Tests use Vitest with jsdom environment.

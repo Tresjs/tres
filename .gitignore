@@ -26,6 +26,7 @@ coverage
 **/.vitepress/dist/
 **/.vitepress/cache/
 **/.nuxt
+**/.output
 
 .env
 .env.local
@@ -37,3 +38,4 @@ coverage
 .nx/workspace-data
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+**/contents.sqlite

@@ -6,47 +6,64 @@ import type {
   World,
 } from '@dimforge/rapier3d-compat'
 import type { TresObject3D } from '@tresjs/core'
+import type { InstancedMesh } from 'three'
+import type { Ref } from 'vue'
 
 import type { RigidBodyColliderContext } from './rigid-body'
 
+export type TresInstancedMesh = InstancedMesh & TresObject3D
+
 /** @description Tres Rapier supported Collider shapes. */
-export type ColliderShape =
-  | 'cuboid'
+export type ColliderShape = keyof Pick<
+  typeof ColliderDesc,
   | 'ball'
   | 'capsule'
   | 'cone'
+  | 'convexHull'
+  | 'convexMesh'
+  | 'cuboid'
   | 'cylinder'
-  | 'hull'
-  | 'trimesh'
   | 'heightfield'
+  | 'polyline'
+  | 'roundCone'
+  | 'roundConvexHull'
+  | 'roundConvexMesh'
+  | 'roundCuboid'
+  | 'roundCylinder'
+  | 'trimesh'
+>
 
 export interface ColliderProps {
-  /** @description Set the {@link Collider} shape. */
+  /**
+   * @description Set the {@link Collider} shape.
+   * @default undefined
+   */
   shape?: ColliderShape
-
   /**
    * @description Shape based {@link TresObject3D}.
-   *
-   * Required for certain shapes like `trimesh`, `hull`, `heightfield`.
+   * @important Required for certain shapes like `trimesh`, `hull`, `heightfield`.
+   * @default undefined
    */
   object?: TresObject3D
-
   /**
-   * @description The half-sizes of the collider shapes.
-   *
-   * Only radius is required for `ball` shape.
+   * @description The arguments for the collider shape.
+   * @default undefined
    */
-  args?:
-    | [halfWidth: number, halfHeight: number, HalfDepth: number]
-    | [radius: number]
-  /** @description {@link Collider} position */
-
+  args?: Array<any>
+  /**
+   * @description {@link Collider} position.
+   * @default [x: 0, y: 0, z: 0]
+   */
   position?: [x: number, y: number, z: number]
-  /** @description {@link Collider} position */
-
+  /**
+   * @description {@link Collider} position.
+   * @default [x: 0, y: 0, z: 0, w: 1]
+   */
   rotation?: [x: number, y: number, z: number, w?: number]
-
-  /** @description {@link Collider} scale */
+  /**
+   * @description {@link Collider} scale.
+   * @default [x: 1, y: 1, z: 1]
+   */
   scale?: [x: number, y: number, z: number] | [radiusScale: number]
   /**
    * @description The friction coefficient of this collider.
@@ -84,17 +101,36 @@ export interface ColliderProps {
    */
   collisionGroups?: undefined | number
   /**
+   * @description To set the solver group.
+   * @default undefined
+   */
+  solverGroups?: undefined | number
+  /**
    * @description Whether this collider is a sensor.
    * @default undefined
    */
   sensor?: boolean
+  /**
+   * @description Enables contact force events on this collider.
+   * @default false
+   */
+  activeContactForce?: boolean
+  /**
+   * @description Only emit contact force events if the total force magnitude exceeds this threshold.
+   * @default 0
+   */
+  contactForceEventThreshold?: number
 }
 
 export interface ExposedCollider {
   /**  @description Context {@link RigidBodyDesc}. */
   instance: RigidBodyColliderContext['collider']
+
   /**  @description Context {@link RigidBody}. */
   colliderDesc: RigidBodyColliderContext['colliderDesc']
+
+  /** @description Object representation of the `Collider`. */
+  object: RigidBodyColliderContext['object']
 }
 
 export interface CreateColliderDescProps extends ColliderProps {
@@ -105,19 +141,17 @@ export interface CreateColliderDescProps extends ColliderProps {
 }
 
 export interface CreateColliderProps extends CreateColliderDescProps {
-
   /**
    * @description The Rapier {@link World} context.
    *
    * @see https://rapier.rs/javascript3d/classes/World.html
    */
-  world: World
+  world: Ref<World>
 }
 
 export interface CreateCollidersFromChildrenProps extends CreateColliderProps {}
 
-export interface CreateCollidersFromInstancedProps
-  extends CreateColliderProps {}
+export interface CreateCollidersFromInstancedProps extends CreateColliderProps {}
 
 export interface CreateColliderReturnType {
   /**
@@ -125,7 +159,11 @@ export interface CreateColliderReturnType {
    *
    * @see https://rapier.rs/javascript3d/classes/Collider.html
    */
-  collider: Collider
+  collider: Collider & {
+    userData?: {
+      uuid?: string
+    }
+  }
   /**
    * {@link ColliderDesc}
    *

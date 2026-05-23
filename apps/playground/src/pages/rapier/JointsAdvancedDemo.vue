@@ -18,7 +18,7 @@ const yRotation = shallowRef(0)
 const bodyRefs = shallowRef<ShallowRef[]>(
   Array.from({ length: 10 }).map(() => shallowRef<ExposedRigidBody>()),
 )
-const currentInterval = shallowRef<NodeJS.Timeout | undefined>(undefined)
+const currentInterval = shallowRef<number | undefined>(undefined)
 
 onMounted(() => {
   currentInterval.value = setInterval(() => {
@@ -37,7 +37,7 @@ onUnmounted(() =>
 </script>
 
 <template>
-  <TresCanvas v-bind="gl" >
+  <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 0, 30]" :look-at="[0, 0, 0]" />
     <OrbitControls />
 

@@ -16,16 +16,23 @@ export const emitIntersection = (
   started: boolean,
 ) => {
   const CollisionType: CollisionType = started ? 'enter' : 'exit'
-  const colliderNode = source.object?.__vnode?.children?.[1]?.children?.find(child => child?.component?.exposed?.instance?.value === source.context.collider)
+  const [rigidBodyObject] = source.objects
+  const colliderNode = rigidBodyObject?.__vnode?.children?.[1]?.children?.find(
+    child =>
+      child?.component?.exposed?.instance?.value === source.context.collider,
+  )
 
   if (
-    (source.object?.__vnode?.ctx as unknown as ComponentInternalInstance)?.props?.sensor
+    (rigidBodyObject?.__vnode?.ctx as unknown as ComponentInternalInstance)?.props?.sensor
     && colliderNode?.component === undefined
   ) {
-    source.object?.__vnode?.ctx?.emit?.(
-      `intersection-${CollisionType}`,
-      { source, target },
-    )
+    rigidBodyObject?.__vnode?.ctx?.emit?.(`intersection-${CollisionType}`, {
+      source,
+      target,
+    })
   }
-  colliderNode?.component?.emit?.(`intersection-${CollisionType}`, { source, target })
+  colliderNode?.component?.emit?.(`intersection-${CollisionType}`, {
+    source,
+    target,
+  })
 }

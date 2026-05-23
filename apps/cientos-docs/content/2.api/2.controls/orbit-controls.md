@@ -62,6 +62,7 @@ Is really important that the Perspective camera is set first in the canvas. Othe
 | **zoomSpeed**       | How fast to zoom in and out. Default is 1.                                                                                                                                       | `1`                                                                              |
 | **enableRotate**    | Whether to enable rotating.                                                                                                                                                      | `true`                                                                           |
 | **rotateSpeed**     | How fast to rotate around the target. Default is 1.                                                                                                                              | `1`                                                                              |
+| **screenSpacePanning** | Defines how the camera's position is translated when panning. If `true`, the camera pans in screen space. Otherwise, the camera pans in the plane orthogonal to the camera's up direction. | `true`                                                                           |
 
 ## Events
 
