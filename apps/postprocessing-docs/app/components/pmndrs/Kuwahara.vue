@@ -72,14 +72,12 @@ const blendFunction = computed(() =>
       <Environment :blur="0.2" preset="snow" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <KuwaharaPmndrs
-          :blend-function="blendFunction"
-          :radius="radius"
-          :sector-count="sectorCount"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <KuwaharaPmndrs
+        :blend-function="blendFunction"
+        :radius="radius"
+        :sector-count="sectorCount"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

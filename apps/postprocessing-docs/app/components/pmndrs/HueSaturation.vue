@@ -50,14 +50,12 @@ const { saturation, hue, blendFunction } = useControls({
       />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <HueSaturationPmndrs
-          :blend-function="Number(blendFunction)"
-          :hue="hue"
-          :saturation="saturation"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <HueSaturationPmndrs
+        :blend-function="Number(blendFunction)"
+        :hue="hue"
+        :saturation="saturation"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

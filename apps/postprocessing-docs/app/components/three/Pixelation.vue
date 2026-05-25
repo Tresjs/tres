@@ -33,10 +33,8 @@ const gl = {
       :intensity="1"
     />
 
-    <Suspense>
-      <EffectComposer>
-        <Pixelation :pixel-size="8" />
-      </EffectComposer>
-    </Suspense>
+    <EffectComposer>
+      <Pixelation :pixel-size="8" />
+    </EffectComposer>
   </TresCanvas>
 </template>

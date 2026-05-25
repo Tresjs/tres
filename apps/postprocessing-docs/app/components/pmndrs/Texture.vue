@@ -107,16 +107,14 @@ if (rotation) {
       <Environment background :blur="0.1" preset="dawn" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <TexturePmndrs
-          ref="textureEffectRef"
-          :blend-function="Number(blendFunction)"
-          :texture="texture"
-          :opacity="opacity"
-        />
-        <ToneMappingPmndrs :mode="ToneMappingMode.AGX" />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <TexturePmndrs
+        ref="textureEffectRef"
+        :blend-function="Number(blendFunction)"
+        :texture="texture"
+        :opacity="opacity"
+      />
+      <ToneMappingPmndrs :mode="ToneMappingMode.AGX" />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

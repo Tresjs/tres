@@ -65,10 +65,8 @@ onUnmounted(() => {
       :position-y="-3.25"
     />
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <ToneMappingPmndrs :mode="Number(mode)" />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <ToneMappingPmndrs :mode="Number(mode)" />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

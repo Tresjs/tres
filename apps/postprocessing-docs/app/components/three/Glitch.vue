@@ -39,10 +39,8 @@ const emissiveColor = new Color('hotpink')
       :position="[3, 3, 3]"
       :intensity="1"
     />
-    <Suspense>
-      <EffectComposer>
-        <Glitch />
-      </EffectComposer>
-    </Suspense>
+    <EffectComposer>
+      <Glitch />
+    </EffectComposer>
   </TresCanvas>
 </template>

@@ -56,16 +56,14 @@ const center = computed<[number, number]>(() => [centerX?.value ?? 0.5, centerY?
       :blur="1"
     />
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <LinocutPmndrs
-          :scale="scale"
-          :noise-scale="noiseScale"
-          :center="center"
-          :rotation="rotation"
-          :blend-function="Number(blendFunction)"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <LinocutPmndrs
+        :scale="scale"
+        :noise-scale="noiseScale"
+        :center="center"
+        :rotation="rotation"
+        :blend-function="Number(blendFunction)"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

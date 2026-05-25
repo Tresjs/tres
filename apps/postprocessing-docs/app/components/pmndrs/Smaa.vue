@@ -111,18 +111,16 @@ const onChange = (controls: { object: Camera }) => {
         <TresMeshBasicMaterial :color="boxColor" :wireframe="wireframe" />
       </TresMesh>
 
-      <Suspense>
-        <EffectComposerPmndrs>
-          <SMAAPmndrs
-            :debug="(Number(debug) as 0 | 1 | 2)"
-            :blend-function="blendFunction"
-            :opacity="opacity"
-            :preset="preset"
-            :predication-mode="predicationMode"
-            :edge-detection-mode="edgeDetectionMode"
-          />
-        </EffectComposerPmndrs>
-      </Suspense>
+      <EffectComposerPmndrs>
+        <SMAAPmndrs
+          :debug="(Number(debug) as 0 | 1 | 2)"
+          :blend-function="blendFunction"
+          :opacity="opacity"
+          :preset="preset"
+          :predication-mode="predicationMode"
+          :edge-detection-mode="edgeDetectionMode"
+        />
+      </EffectComposerPmndrs>
     </TresCanvas>
 
     <p class="doc-smaa-info doc-smaa-info-left text-xs font-semibold">No SMAA</p>

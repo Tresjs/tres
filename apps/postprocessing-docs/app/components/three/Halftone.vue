@@ -33,10 +33,8 @@ const gl = {
       :intensity="2"
     />
 
-    <Suspense>
-      <EffectComposer>
-        <Halftone :shape="1" :radius="4" :rotate-r="Math.PI / 12" :rotate-g="Math.PI / 3" :rotate-b="Math.PI / 6" :scatter="0" :blending="1" :greyscale="false" />
-      </EffectComposer>
-    </Suspense>
+    <EffectComposer>
+      <Halftone :shape="1" :radius="4" :rotate-r="Math.PI / 12" :rotate-g="Math.PI / 3" :rotate-b="Math.PI / 6" :scatter="0" :blending="1" :greyscale="false" />
+    </EffectComposer>
   </TresCanvas>
 </template>

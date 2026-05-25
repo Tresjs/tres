@@ -62,15 +62,13 @@ watch(map, (newMap) => {
       <Environment background :blur=".25" preset="snow" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <LensDistortionPmndrs
-          :distortion="distortion"
-          :principal-point="principalPoint"
-          :focal-length="focalLength"
-          :skew="skew"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <LensDistortionPmndrs
+        :distortion="distortion"
+        :principal-point="principalPoint"
+        :focal-length="focalLength"
+        :skew="skew"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>
