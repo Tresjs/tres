@@ -30,9 +30,9 @@ const gl = {
       </Suspense>
       <TheScreenshot />
     </TresCanvas>
-    <div class="absolute bottom-20 left-20">
-      <img src="/logos/tres_logo_white.svg" alt="TresJS Logo" class="h-8" >
-      <p class="text-white text-sm mt-2 font-mono">Ported from R3F's original <NuxtLink href="https://codesandbox.io/p/sandbox/lwo219" target="_blank" class="underline">sandbox</NuxtLink> by <NuxtLink href="https://x.com/0xca0a" target="_blank" class="underline">0xca0a</NuxtLink></p>
+    <div class="absolute bottom-20 left-6 right-6 sm:bottom-20 sm:left-20 sm:right-auto sm:max-w-md">
+      <img src="/logos/tres_logo_white.svg" alt="TresJS Logo" class="h-6 sm:h-8" >
+      <p class="text-white text-xs sm:text-sm mt-2 font-mono">Ported from R3F's original <NuxtLink href="https://codesandbox.io/p/sandbox/lwo219" target="_blank" class="underline">sandbox</NuxtLink> by <NuxtLink href="https://x.com/0xca0a" target="_blank" class="underline">0xca0a</NuxtLink></p>
     </div>
   </div>
 </template>
