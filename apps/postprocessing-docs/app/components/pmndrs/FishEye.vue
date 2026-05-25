@@ -88,15 +88,13 @@ const lensF = computed<[number, number]>(() => [
       :count="2500"
     />
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <FishEyePmndrs
-          :blend-function="blendFunction"
-          :lens-s="lensS"
-          :lens-f="lensF"
-          :scale="scale"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <FishEyePmndrs
+        :blend-function="blendFunction"
+        :lens-s="lensS"
+        :lens-f="lensF"
+        :scale="scale"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

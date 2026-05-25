@@ -48,17 +48,15 @@ const { blendFunction, wireframe, boxColor, opacity, samples, minEdgeThreshold, 
       />
     </TresMesh>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <FXAAPmndrs
-          :blend-function="Number(blendFunction)"
-          :opacity="opacity"
-          :samples="samples"
-          :max-edge-threshold="maxEdgeThreshold"
-          :min-edge-threshold="minEdgeThreshold"
-          :subpixel-quality="subpixelQuality"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <FXAAPmndrs
+        :blend-function="Number(blendFunction)"
+        :opacity="opacity"
+        :samples="samples"
+        :max-edge-threshold="maxEdgeThreshold"
+        :min-edge-threshold="minEdgeThreshold"
+        :subpixel-quality="subpixelQuality"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

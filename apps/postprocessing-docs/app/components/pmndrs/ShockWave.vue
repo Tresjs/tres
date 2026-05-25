@@ -125,19 +125,17 @@ function triggerShockWave() {
         <Environment preset="night" />
       </Suspense>
 
-      <Suspense>
-        <EffectComposerPmndrs v-bind="glComposer">
-          <DepthPickingPassPmndrs ref="depthPickingPassRef" />
-          <ShockWavePmndrs
-            ref="shockWaveEffectRef"
-            :position="mousePosition"
-            :amplitude="amplitude"
-            :wave-size="waveSize"
-            :speed="speed"
-            :max-radius="maxRadius"
-          />
-        </EffectComposerPmndrs>
-      </Suspense>
+      <EffectComposerPmndrs v-bind="glComposer">
+        <DepthPickingPassPmndrs ref="depthPickingPassRef" />
+        <ShockWavePmndrs
+          ref="shockWaveEffectRef"
+          :position="mousePosition"
+          :amplitude="amplitude"
+          :wave-size="waveSize"
+          :speed="speed"
+          :max-radius="maxRadius"
+        />
+      </EffectComposerPmndrs>
     </TresCanvas>
     <p class="doc-shock-wave-instructions text-xs font-semibold">Click on the heart to distribute love</p>
   </div>

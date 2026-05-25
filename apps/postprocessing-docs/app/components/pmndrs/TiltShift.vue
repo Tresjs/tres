@@ -63,17 +63,15 @@ const { blendFunction, offset, rotation, focusArea, feather } = useControls({
       <Environment background :blur=".35" preset="snow" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <TiltShiftPmndrs
-          :blend-function="Number(blendFunction)"
-          :offset="offset"
-          :rotation="rotation"
-          :focus-area="focusArea"
-          :feather="feather"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <TiltShiftPmndrs
+        :blend-function="Number(blendFunction)"
+        :offset="offset"
+        :rotation="rotation"
+        :focus-area="focusArea"
+        :feather="feather"
+      />
+    </EffectComposerPmndrs>
 
     <TresGridHelper :position="[0, -3.5, 0]" :args="[30, 15]" />
   </TresCanvas>

@@ -32,10 +32,8 @@ const gl = {
       :intensity="1"
     />
 
-    <Suspense>
-      <EffectComposer>
-        <SMAA />
-      </EffectComposer>
-    </Suspense>
+    <EffectComposer>
+      <SMAA />
+    </EffectComposer>
   </TresCanvas>
 </template>

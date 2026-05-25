@@ -67,14 +67,12 @@ const offset = computed(() => new Vector2(
       <Environment :intensity="2" :blur="0" preset="snow" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <ChromaticAberrationPmndrs
-          :offset="offset"
-          :radial-modulation="radialModulation"
-          :modulation-offset="modulationOffset"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <ChromaticAberrationPmndrs
+        :offset="offset"
+        :radial-modulation="radialModulation"
+        :modulation-offset="modulationOffset"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

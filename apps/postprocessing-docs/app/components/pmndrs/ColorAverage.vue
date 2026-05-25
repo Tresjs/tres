@@ -50,13 +50,11 @@ const { blendFunction, opacity } = useControls({
       <Environment background preset="shangai" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <ColorAveragePmndrs
-          :blend-function="Number(blendFunction)"
-          :opacity="opacity"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <ColorAveragePmndrs
+        :blend-function="Number(blendFunction)"
+        :opacity="opacity"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

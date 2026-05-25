@@ -28,10 +28,8 @@ const gl = {
 
     <TresAmbientLight :intensity="1" />
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <VignettePmndrs :darkness="0.9" :offset="0.3" />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <VignettePmndrs :darkness="0.9" :offset="0.3" />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

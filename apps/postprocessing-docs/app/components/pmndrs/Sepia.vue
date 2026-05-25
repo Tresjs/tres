@@ -51,13 +51,11 @@ const { intensity, blendFunction } = useControls({
       <Environment background :blur=".5" preset="snow" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <SepiaPmndrs
-          :intensity="intensity"
-          :blend-function="Number(blendFunction)"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <SepiaPmndrs
+        :intensity="intensity"
+        :blend-function="Number(blendFunction)"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

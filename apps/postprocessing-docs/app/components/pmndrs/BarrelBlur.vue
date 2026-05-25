@@ -53,14 +53,12 @@ const { amount, offsetX, offsetY, blendFunction } = useControls({
       />
     </RoundedBox>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <BarrelBlurPmndrs
-          :amount="amount"
-          :offset="[offsetX, offsetY]"
-          :blend-function="Number(blendFunction)"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <BarrelBlurPmndrs
+        :amount="amount"
+        :offset="[offsetX, offsetY]"
+        :blend-function="Number(blendFunction)"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

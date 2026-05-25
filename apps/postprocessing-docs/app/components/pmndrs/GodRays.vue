@@ -107,23 +107,21 @@ onBeforeRender(({ delta }) => {
       <Environment preset="shangai" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <GodRaysPmndrs
-          :opacity="opacity"
-          :light-source="sphereMeshRef"
-          :blend-function="Number(blendFunction)"
-          :density="density"
-          :decay="decay"
-          :weight="weight"
-          :exposure="exposure"
-          :samples="samples"
-          :clamp-max="clampMax"
-          :resolution-scale="resolutionScale"
-          :kernel-size="kernelSize"
-          :blur="blur"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <GodRaysPmndrs
+        :opacity="opacity"
+        :light-source="sphereMeshRef"
+        :blend-function="Number(blendFunction)"
+        :density="density"
+        :decay="decay"
+        :weight="weight"
+        :exposure="exposure"
+        :samples="samples"
+        :clamp-max="clampMax"
+        :resolution-scale="resolutionScale"
+        :kernel-size="kernelSize"
+        :blur="blur"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

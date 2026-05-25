@@ -52,14 +52,12 @@ const { blendFunction, scale, lineWidth } = useControls({
       />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <GridPmndrs
-          :blend-function="Number(blendFunction)"
-          :scale="scale"
-          :line-width="lineWidth"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <GridPmndrs
+        :blend-function="Number(blendFunction)"
+        :scale="scale"
+        :line-width="lineWidth"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

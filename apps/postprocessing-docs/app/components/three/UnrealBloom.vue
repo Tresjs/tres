@@ -33,10 +33,8 @@ const emissiveColor = new Color('hotpink')
       :position="[3, 3, 3]"
       :intensity="1"
     />
-    <Suspense>
-      <EffectComposer>
-        <UnrealBloom :radius="0.5" :strength="0.9" :threshold="0.5" />
-      </EffectComposer>
-    </Suspense>
+    <EffectComposer>
+      <UnrealBloom :radius="0.5" :strength="0.9" :threshold="0.5" />
+    </EffectComposer>
   </TresCanvas>
 </template>

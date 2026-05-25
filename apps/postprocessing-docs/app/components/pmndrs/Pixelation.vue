@@ -33,10 +33,8 @@ const gl = {
       :intensity="1"
     />
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <PixelationPmndrs :granularity="8" />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <PixelationPmndrs :granularity="8" />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

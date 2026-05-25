@@ -59,14 +59,12 @@ const { state } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/
       <Environment preset="modern" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <DotScreenPmndrs
-          :blend-function="Number(blendFunction)"
-          :angle="angle"
-          :scale="scale"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <DotScreenPmndrs
+        :blend-function="Number(blendFunction)"
+        :angle="angle"
+        :scale="scale"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

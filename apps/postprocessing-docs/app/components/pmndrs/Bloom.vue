@@ -43,16 +43,14 @@ const { luminanceThreshold, luminanceSmoothing, intensity, radius, mipmapBlur } 
       :position="[3, 3, 3]"
       :intensity="1"
     />
-    <Suspense>
-      <EffectComposerPmndrs>
-        <BloomPmndrs
-          :luminance-threshold="luminanceThreshold"
-          :luminance-smoothing="luminanceSmoothing"
-          :intensity="intensity"
-          :radius="radius"
-          :mipmap-blur="mipmapBlur"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <BloomPmndrs
+        :luminance-threshold="luminanceThreshold"
+        :luminance-smoothing="luminanceSmoothing"
+        :intensity="intensity"
+        :radius="radius"
+        :mipmap-blur="mipmapBlur"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

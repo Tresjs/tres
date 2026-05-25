@@ -52,14 +52,12 @@ const meshes: { position: [number, number, number], color: string }[] = [
       <Environment background preset="umbrellas" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <ColorDepthPmndrs
-          :blend-function="Number(blendFunction)"
-          :bits="bits"
-          :opacity="opacity"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <ColorDepthPmndrs
+        :blend-function="Number(blendFunction)"
+        :bits="bits"
+        :opacity="opacity"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

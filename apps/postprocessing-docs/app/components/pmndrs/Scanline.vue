@@ -70,15 +70,13 @@ const { blendFunction, opacity, density, scrollSpeed } = useControls({
 
     <Stars />
 
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <ScanlinePmndrs
-          :density="density"
-          :opacity="opacity"
-          :scroll-speed="scrollSpeed"
-          :blend-function="Number(blendFunction)"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <ScanlinePmndrs
+        :density="density"
+        :opacity="opacity"
+        :scroll-speed="scrollSpeed"
+        :blend-function="Number(blendFunction)"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

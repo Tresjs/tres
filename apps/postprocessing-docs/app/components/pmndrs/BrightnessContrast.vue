@@ -45,14 +45,12 @@ const { brightness, contrast, blendFunction } = useControls({
       <Environment background preset="sunset" />
     </Suspense>
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <BrightnessContrastPmndrs
-          :brightness="brightness"
-          :contrast="contrast"
-          :blend-function="Number(blendFunction)"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <BrightnessContrastPmndrs
+        :brightness="brightness"
+        :contrast="contrast"
+        :blend-function="Number(blendFunction)"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

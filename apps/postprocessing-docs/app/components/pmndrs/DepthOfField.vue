@@ -80,14 +80,12 @@ const { focusDistance, bokehScale, focusRange } = useControls({
       cast-shadow
     />
 
-    <Suspense>
-      <EffectComposerPmndrs>
-        <DepthOfFieldPmndrs
-          :bokeh-scale="bokehScale"
-          :focus-distance="focusDistance"
-          :focus-range="focusRange"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <DepthOfFieldPmndrs
+        :bokeh-scale="bokehScale"
+        :focus-distance="focusDistance"
+        :focus-range="focusRange"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

@@ -21,13 +21,11 @@ const gl = {
     <OrbitControls />
     <TresGridHelper />
     <TresAmbientLight :intensity="1" />
-    <Suspense>
-      <EffectComposerPmndrs>
-        <NoisePmndrs
-          premultiply
-          :blend-function="BlendFunction.SCREEN"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs>
+      <NoisePmndrs
+        premultiply
+        :blend-function="BlendFunction.SCREEN"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>

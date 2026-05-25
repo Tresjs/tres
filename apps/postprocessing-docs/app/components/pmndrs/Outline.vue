@@ -53,16 +53,14 @@ const toggleMeshSelectionState = ({ object }: Intersection) => {
       :position="[0, 1, 0]"
       :intensity="1"
     />
-    <Suspense>
-      <EffectComposerPmndrs v-bind="glComposer">
-        <OutlinePmndrs
-          :outlined-objects="outlinedObjects"
-          :edge-strength="200000"
-          :pulse-speed="2"
-          visible-edge-color="#ffff00"
-          :kernel-size="3"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposerPmndrs v-bind="glComposer">
+      <OutlinePmndrs
+        :outlined-objects="outlinedObjects"
+        :edge-strength="200000"
+        :pulse-speed="2"
+        visible-edge-color="#ffff00"
+        :kernel-size="3"
+      />
+    </EffectComposerPmndrs>
   </TresCanvas>
 </template>
