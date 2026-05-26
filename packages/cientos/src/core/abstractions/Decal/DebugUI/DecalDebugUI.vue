@@ -231,4 +231,3 @@ useEventListener(window, 'keydown', (event) => {
     <LayerList />
   </div>
 </template>
-
