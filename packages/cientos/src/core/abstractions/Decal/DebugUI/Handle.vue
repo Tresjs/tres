@@ -11,7 +11,7 @@ import { DECAL_DEBUG_KEY } from './context'
 
 const ctx = inject(DECAL_DEBUG_KEY)
 if (!ctx) { throw new Error('[DecalDebugUI] Handle.vue requires the DecalDebugUI context.') }
-const { session, isSnapEnabled, snapAngleDeg, rootRef, commit, cancel } = ctx
+const { session, isSnapEnabled, snapAngleDeg, rootRef, cancel } = ctx
 
 const MIN_SCALE = 0.25
 const MAX_SCALE = 3.5
@@ -27,8 +27,6 @@ const isSliderDragging = ref(false)
 const dragCenter = reactive({ x: 0, y: 0, radius: 0 })
 
 const isEditing = computed(() => !!session.value?.editingEntry.value)
-const editingMode = computed(() => session.value?.editingMode.value ?? null)
-const isUpdating = computed(() => editingMode.value === 'update')
 const isDraggingTexture = computed(() => session.value?.dragTextureIndex.value !== null)
 const editingZIndex = computed(() => session.value?.editingEntry.value?.zIndex ?? null)
 
@@ -57,11 +55,10 @@ const { x: xDrag, y: yDrag } = useDraggable(dragRef, {
     const s = session.value
     if (!s) { return }
     s.setUiDragging(false)
-    // Released off-mesh: commit if updating, cancel if creating.
-    if (!s.isCursorOnTarget.value) {
-      if (isUpdating.value) { commit() }
-      else { cancel() }
-    }
+    // Off-mesh release has no valid raycast point — cancel in both modes
+    // so the decal doesn't land at a garbage position the user can't see.
+    // (Update reverts to backup, create drops the pending placement.)
+    if (!s.isCursorOnTarget.value) { cancel() }
   },
 })
 
