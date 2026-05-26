@@ -49,6 +49,10 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
       ...(process.env.NODE_ENV === 'development'
         ? {
+            // Keep this above the bare '@tresjs/cientos' alias — Vite resolves
+            // aliases by insertion order and the broader one would otherwise
+            // rewrite the subpath into a non-existent file.
+            '@tresjs/cientos/styles.css': resolve(__dirname, '../../packages/cientos/src/core/abstractions/Decal/DebugUI/styles.css'),
             '@tresjs/core': resolve(__dirname, '../../packages/core/src/index.ts'),
             '@tresjs/cientos': resolve(__dirname, '../../packages/cientos/src/index.ts'),
             '@tresjs/post-processing': resolve(__dirname, '../../packages/postprocessing/src/index.ts'),

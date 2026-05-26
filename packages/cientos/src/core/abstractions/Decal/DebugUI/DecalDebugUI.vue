@@ -17,9 +17,9 @@ import { ensureTextureNames } from '../DecalGeometry'
 import Handle from './Handle.vue'
 import Dock from './Dock.vue'
 import LayerList from './LayerList.vue'
-import { DECAL_DEBUG_UI_STYLES } from './styles'
 import type { DecalLayout } from './context'
 import { DECAL_DEBUG_KEY, downloadDecalLayout } from './context'
+import './styles.css'
 
 const props = withDefaults(defineProps<{
   session?: DecalEditorSession | null
@@ -63,17 +63,6 @@ const emit = defineEmits<{
    */
   (e: 'import', layout: DecalLayout): void
 }>()
-// Inject sync during setup (before any child render) so the overlay's
-// `opacity: 0` defaults apply on the first paint — otherwise the handle
-// flashes for one frame at its initial position. Self-contained: no
-// `import 'pkg/style.css'` boilerplate, no exports-map plumbing.
-const STYLE_ID = 'cientos-decal-ui-styles'
-if (typeof document !== 'undefined' && !document.getElementById(STYLE_ID)) {
-  const tag = document.createElement('style')
-  tag.id = STYLE_ID
-  tag.textContent = DECAL_DEBUG_UI_STYLES
-  document.head.appendChild(tag)
-}
 
 const rootRef = useTemplateRef<HTMLDivElement>('rootRef')
 
@@ -242,3 +231,4 @@ useEventListener(window, 'keydown', (event) => {
     <LayerList />
   </div>
 </template>
+

@@ -142,6 +142,24 @@ Add the `editable` prop to mount the interactive editor, then pair it
 with `<DecalDebugUI>` — a full in-canvas editor that ships as a drop-in
 HTML overlay sitting **outside** `<TresCanvas>`.
 
+::prose-warning
+`<DecalDebugUI>` needs its stylesheet — import it **once** at your app
+entry. `<Decal>` itself is style-less, so this is only needed when you
+mount `<DecalDebugUI>`.
+
+```ts
+// Vite / Vue — in main.ts
+import '@tresjs/cientos/styles.css'
+```
+
+```ts
+// Nuxt — in nuxt.config.ts
+export default defineNuxtConfig({
+  css: ['@tresjs/cientos/styles.css'],
+})
+```
+::
+
 ::SceneWrapper
   ::AbstractionsDecalEditable
   ::

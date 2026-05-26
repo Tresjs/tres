@@ -1,4 +1,3 @@
-export const DECAL_DEBUG_UI_STYLES = String.raw`
 .cientos-decal-ui,
 .cientos-decal-ui * {
   box-sizing: border-box;
@@ -890,9 +889,17 @@ export const DECAL_DEBUG_UI_STYLES = String.raw`
   cursor: pointer;
   overflow: hidden;
 }
-.cientos-decal-ui .tint-color-input::-webkit-color-swatch-wrapper { padding: 0; }
-.cientos-decal-ui .tint-color-input::-webkit-color-swatch { border: none; border-radius: 6px; }
-.cientos-decal-ui .tint-color-input::-moz-color-swatch { border: none; border-radius: 6px; }
+.cientos-decal-ui .tint-color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.cientos-decal-ui .tint-color-input::-webkit-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+.cientos-decal-ui .tint-color-input::-moz-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
 
 .cientos-decal-ui .tint-range {
   flex: 1;
@@ -972,4 +979,3 @@ export const DECAL_DEBUG_UI_STYLES = String.raw`
   opacity: 0;
   transform: translateY(8px);
 }
-`
