@@ -1,6 +1,6 @@
 import type Rapier from '@dimforge/rapier3d-compat'
 import type { World } from '@dimforge/rapier3d-compat'
-import { Ref, ShallowRef } from 'vue'
+import type { Ref, ShallowRef } from 'vue'
 
 export interface RapierContext {
   /**

@@ -2,7 +2,7 @@
 title: Magical Marbles
 author: damienmontastier
 description: Magical Marbles Sphere
-thumbnail: /experiments/magical-marbles.png
+thumbnail: /experiments/magical-marbles.webp
 tags: ['magical', 'marbles', 'sphere', 'shaders', 'glsl', 'contact shadow']
 date: 2024-02-28
 lastUpdated: 2025-06-29

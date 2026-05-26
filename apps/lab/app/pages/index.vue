@@ -91,7 +91,7 @@ function capitalize(word: string): string {
 }
 
 function getThumbnailFromExperiment(experiment: ExperimentItem): string {
-  return experiment.thumbnail ?? `/${getSlugFromExperiment(experiment)}.png`
+  return experiment.thumbnail ?? `/${getSlugFromExperiment(experiment)}.webp`
 }
 
 function getRepoPathFromExperiment(experiment: ExperimentItem): string {

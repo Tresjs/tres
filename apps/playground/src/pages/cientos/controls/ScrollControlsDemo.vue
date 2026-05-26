@@ -47,14 +47,12 @@ const onLoop = () => {
     <TresGridHelper :args="[10, 10]" />
 
     <ScrollControls
-      ref="scRef"
       v-model="progress"
       :distance="10"
       :smooth-scroll="0.1"
       html-scroll
     >
       <Sphere
-        ref="sphereRef"
         :scale="0.1"
         :position="[1, 2, 0]"
       />

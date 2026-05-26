@@ -36,6 +36,7 @@ export interface LechesNumberControl extends Omit<LechesControl<number>, 'type'>
   min?: number
   max?: number
   step?: number
+  format?: (value: number) => string
 }
 
 export interface LechesStringControl extends Omit<LechesControl<string>, 'type'> {
@@ -57,6 +58,10 @@ export interface LechesButtonControl extends Omit<LechesControl<LechesSelectCont
 export interface LechesVectorControl extends Omit<LechesControl<any>, 'type'> {
   type: 'vector'
   value: any // Vector2, Vector3, etc.
+  step?: number
+  min?: number
+  max?: number
+  format?: (value: number) => string
 }
 
 export interface LechesGraphControl extends Omit<LechesControl<any>, 'type'> {

@@ -2,7 +2,7 @@
 title: Galaxy Generator 🪐
 author: alvarosabu
 description: Animated galaxy from ThreeJS Journey done with TresJS
-thumbnail: /experiments/galaxy-generator.png
+thumbnail: /experiments/galaxy-generator.webp
 tags: ['particles', 'shaders']
 date: 2023-04-25
 lastUpdated: 2023-04-25

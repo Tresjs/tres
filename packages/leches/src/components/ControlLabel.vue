@@ -11,12 +11,10 @@ defineProps<{
   <label
     :for="control.uniqueKey"
     :title="label"
-    class="tl-text-gray-500 dark:tl-text-gray-400 tl-w-1/3 tl-truncate"
+    class="tl-text-gray-400 dark:tl-text-gray-500 tl-w-1/3 tl-truncate"
+    style="padding-left: var(--tl-h-padding);"
   >
-    <i
-      v-if="control.icon"
-      :class="control.icon"
-    ></i>
+    <i v-if="control.icon" :class="control.icon"></i>
     <template v-else>{{ label }}</template>
   </label>
 </template>

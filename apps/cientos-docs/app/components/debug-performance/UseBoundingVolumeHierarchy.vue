@@ -27,13 +27,12 @@ useBVH(
 
 <template>
   <TresCanvas clear-color="#111111">
-    <TresPerspectiveCamera :position="[3, 3, 5]" :look-at="[0,1,0]" />
-    <OrbitControls :target="[0,1,0]" />
+    <TresPerspectiveCamera :position="[3, 3, 5]" :look-at="[0, 1, 0]" />
+    <OrbitControls :target="[0, 1, 0]" />
 
     <primitive v-if="model" :object="model.scene" />
 
     <TresAmbientLight :intensity="0.5" />
     <TresDirectionalLight :position="[-5, 5, 5]" :intensity="1" />
-
   </TresCanvas>
 </template>

@@ -1,3 +1,34 @@
+## 5.7.1 (2026-05-11)
+
+### 🩹 Fixes
+
+- **cientos:** get StatsGl container from its `dom` property ([545ba8b2](https://github.com/Tresjs/tres/commit/545ba8b2))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.8.1
+- Updated @tresjs/eslint-config to 1.6.0
+
+### ❤️ Thank You
+
+- AntoninRousset
+
+## 5.7.0 (2026-03-30)
+
+### 🩹 Fixes
+
+- **cientos:** ContactShadows not rendering after Three.js r183 ([#32805](https://github.com/Tresjs/tres/issues/32805), [#1392](https://github.com/Tresjs/tres/issues/1392))
+- Add function to extract color and texture from user defaults in Lensflare ([acaece00](https://github.com/Tresjs/tres/commit/acaece00))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.8.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Claude Opus 4.6 (1M context)
+
 ## 5.6.0 (2026-03-10)
 
 ### 🚀 Features

@@ -31,12 +31,11 @@ const { samples } = useControls({
     <OrbitControls />
 
     <Sampler :count="samples">
-      <TresMesh ref="torusRef">
+      <TresMesh>
         <TresTorusGeometry />
       </TresMesh>
 
       <TresInstancedMesh
-        ref="instancesRef"
         :args="[null!, null!, 1000]"
       >
         <TresBoxGeometry
