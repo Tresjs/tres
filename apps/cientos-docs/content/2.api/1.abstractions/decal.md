@@ -265,17 +265,21 @@ names are dropped with a warning) and routed back through each
 
 ## Targeting a loaded model (`.glb`)
 
-A `<Decal>` can be a **direct child of `<primitive>`** — it parents into
-the loaded object's scene graph like any other child and auto-resolves
-that object as its target mesh. This is the simplest option when you want
-to decal the whole loaded mesh as-is:
+A `<Decal>` can be a **direct child of `<primitive>`**. Auto-resolution
+walks one step up the scene graph and only accepts a `Mesh` — so the
+behaviour depends on what the `<primitive>` wraps.
+
+### When `:object` is a `Mesh`
+
+The decal auto-resolves the wrapped mesh as its target. This is the
+simplest option for a single-mesh asset:
 
 ```vue
 <script setup lang="ts">
-import { useGLTF } from '@tresjs/cientos'
-import { Decal } from '@tresjs/cientos'
+import { Decal, useGLTF } from '@tresjs/cientos'
 
 const { nodes } = useGLTF('/models/helmet.glb', { draco: true })
+// nodes.Helmet is a Mesh in this asset.
 </script>
 
 <template>
@@ -291,6 +295,35 @@ the raw object. This is transparent in practice — geometry, `matrixWorld`
 and raycasting all forward to the wrapped object — so the decal projects
 and follows transforms correctly.
 ::
+
+### When `:object` is a `Group`
+
+A named node in a `.glb` is often a `Group` containing several child
+meshes (e.g. a ceramic body + a metallic interior). Auto-resolution
+returns `null` in that case and the decal silently does nothing — pass
+the actual target child via `:mesh`:
+
+```vue
+<script setup lang="ts">
+import { Decal, useGLTF } from '@tresjs/cientos'
+import { computed } from 'vue'
+import type { Mesh } from 'three'
+
+const { nodes } = useGLTF('/models/mug.glb', { draco: true })
+// nodes.Mug is a Group — pick the child you want to decal.
+const body = computed<Mesh | null>(
+  () => (nodes.value?.Mug?.getObjectByName('Body') as Mesh) ?? null,
+)
+</script>
+
+<template>
+  <primitive v-if="nodes?.Mug" :object="nodes.Mug">
+    <Decal v-model:data="layout.mug" :map="textures" :mesh="body" editable />
+  </primitive>
+</template>
+```
+
+### Targeting an extracted sub-mesh
 
 Alternatively, **wrap a `<TresMesh>` around an extracted sub-mesh**. Reach
 for this when you need to target one named sub-mesh of a larger model (and
