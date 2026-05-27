@@ -74,6 +74,13 @@ function editById(id: string) {
   session.value?.beginEditById(id)
 }
 
+// Mirror pointer-hover on a list row to the 3D edges helper, so the user
+// can scrub the list and see which decal is which. Composes with 3D
+// pointer hover through the session's `enteredEntries` set.
+function hoverById(id: string, on: boolean) {
+  session.value?.setHoveredById(id, on)
+}
+
 function toggleVisibility(event: Event, entry: DecalJsonEntry) {
   event.stopPropagation()
   if (!session.value) { return }
@@ -189,6 +196,8 @@ function reset() {
           ]"
           :draggable="true"
           @click="editById(entry.id)"
+          @mouseenter="hoverById(entry.id, true)"
+          @mouseleave="hoverById(entry.id, false)"
           @dragstart="(e) => onDragStart(e, entry, group.meshName)"
           @dragover="(e) => onDragOver(e, entry, group.meshName)"
           @dragleave="onDragLeave(entry)"

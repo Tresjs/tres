@@ -440,6 +440,12 @@ watch(stampedEntries, (entries) => {
       setZIndex: newZ => setZIndexForId(id, newZ),
       setVisibility: visible => setVisibilityForId(id, visible),
       remove: () => removeForId(id),
+      setHovered: (on) => {
+        const fresh = stampedEntries.value.find(e => e.id === id)
+        if (!fresh) { return }
+        if (on) { session.setHoveredEntry(fresh) }
+        else { session.clearHoveredEntry(fresh) }
+      },
     })
     registeredIds.add(id)
   }

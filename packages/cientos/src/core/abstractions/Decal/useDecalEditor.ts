@@ -85,6 +85,7 @@ export interface DecalEntryActions {
   setZIndex: (newZ: number) => void
   setVisibility: (visible: boolean) => void
   remove: () => void
+  setHovered: (on: boolean) => void
 }
 
 interface HistoryEntry {
@@ -175,6 +176,12 @@ export interface DecalEditorSession {
   setVisibilityById: (id: string, visible: boolean) => boolean
   /** Remove a decal by id without entering edit mode. Returns `true` if a decal was removed. */
   removeById: (id: string) => boolean
+  /**
+   * Drive the 3D-side hover state from a non-3D surface (layer panel,
+   * thumbnail strip, …). Composes with pointer-driven hover via the same
+   * `enteredEntries` set, so external + 3D hover don't fight each other.
+   */
+  setHoveredById: (id: string, on: boolean) => boolean
 
   /**
    * Register a JSON-array setter for one Decal's mesh. Required for
@@ -624,6 +631,13 @@ function createSession(): DecalEditorSession {
     return true
   }
 
+  function setHoveredById(id: string, on: boolean): boolean {
+    const actions = getEntryActions(id, 'setHoveredById')
+    if (!actions) { return false }
+    actions.setHovered(on)
+    return true
+  }
+
   const meshNameByUuid = new Map<string, string>()
   function registerDecalData(meshUuid: string, meshName: string | null, setter: DecalDataSetter) {
     dataSetterRegistry.set(meshUuid, setter)
@@ -779,6 +793,7 @@ function createSession(): DecalEditorSession {
     setZIndexById,
     setVisibilityById,
     removeById,
+    setHoveredById,
 
     registerDecalData,
     unregisterDecalData,
