@@ -2,11 +2,10 @@
 import { useLoop } from '@tresjs/core'
 import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
 import { CylinderGeometry, type DirectionalLight, Euler, InstancedMesh, Matrix4, MeshStandardMaterial, Quaternion, Vector3 } from 'three'
-import type { ShallowRef } from 'vue'
 import { RoundedBox } from '@tresjs/cientos'
 
-const poleRef: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
-const ballRef: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
+const poleRef = shallowRef<ExposedRigidBody | null>(null)
+const ballRef = shallowRef<ExposedRigidBody | null>(null)
 
 const CHAIN_LINKS = 12
 
@@ -31,17 +30,21 @@ const GRID_PRESETS = [
   { text: '5×6', value: '5x6' },
   { text: '8×8', value: '8x8' },
   { text: '10×10', value: '10x10' },
+  { text: '12×14', value: '12x14' },
+  { text: '16×18', value: '16x18' },
+  { text: '20×24', value: '20x24' },
 ]
 
 const wallKey = ref(0)
 
-const { mass, ballSize, gridSize, boxMass } = useControls({
+const { mass, ballSize, gridSize, boxMass, ballSpeed } = useControls({
   gridSize: {
     label: 'Grid Size',
     value: '5x6',
     options: GRID_PRESETS,
   },
-  ballSize: { value: 1, min: 0.5, max: 5, step: 0.1, label: 'Ball Size' },
+  ballSpeed: { value: 1, min: 0.1, max: 5, step: 0.1, label: 'Ball Speed' },
+  ballSize: { value: 1, min: 0.5, max: 3.5, step: 0.1, label: 'Ball Size' },
   mass: { value: 50, min: 1, max: 200, step: 1, label: 'Mass' },
   boxMass: { value: 1, min: 0.1, max: 50, step: 0.1, label: 'Box Mass' },
   resetWall: {
@@ -54,13 +57,14 @@ const { mass, ballSize, gridSize, boxMass } = useControls({
 }, { uuid: 'rapier-wrecking-ball' })
 
 const parsedGrid = computed(() => {
-  const [c, r] = (gridSize.value as string).split('x').map(Number)
+  const [c, r] = (gridSize!.value as string).split('x').map(Number)
   return { cols: c!, rows: r! }
 })
 
-watch(gridSize, () => { wallKey.value++ })
+watch(gridSize!, () => { wallKey.value++ })
 
-const boxSize = computed(() => WALL_HEIGHT / parsedGrid.value.rows)
+const brickHeight = computed(() => WALL_HEIGHT / parsedGrid.value.rows)
+const brickWidth = computed(() => brickHeight.value * 2)
 
 const boxes = computed(() =>
   Array.from({ length: parsedGrid.value.cols * parsedGrid.value.rows }, (_, i) => ({
@@ -121,7 +125,7 @@ onBeforeRender(() => {
         </TresMesh>
       </RigidBody>
 
-      <RigidBody :key="ballSize" ref="ballRef" type="dynamic" :position="[-8, 4, 0]" collider="ball" :mass="mass">
+      <RigidBody :key="ballSize" ref="ballRef" type="dynamic" :position="[-8, 4, 0]" collider="ball" :mass="mass" :gravity-scale="ballSpeed">
         <TresMesh cast-shadow>
           <TresSphereGeometry :args="[ballSize, 32, 32]" />
           <TresMeshStandardMaterial color="#1a1a1a" :metalness="0.95" :roughness="0.1" />
@@ -136,7 +140,6 @@ onBeforeRender(() => {
         ]"
       />
 
-      <!-- Destructible wall at x=5, columns along Z, rows along Y -->
       <RigidBody
         v-for="(box, i) in boxes"
         :key="`${wallKey}-${parsedGrid.cols}-${parsedGrid.rows}-${i}`"
@@ -144,13 +147,13 @@ onBeforeRender(() => {
         :mass="boxMass"
         :position="[
           3,
-          boxSize / 2 + box.row * boxSize,
-          -((parsedGrid.cols - 1) / 2) * boxSize + box.col * boxSize,
+          brickHeight / 2 + box.row * brickHeight,
+          -((parsedGrid.cols - 1) / 2) * brickWidth + box.col * brickWidth + (box.row % 2 === 1 ? brickWidth / 2 : 0),
         ]"
         collider="cuboid"
       >
-        <RoundedBox :args="[boxSize, boxSize, boxSize, 1, boxSize * 0.08]" cast-shadow receive-shadow>
-          <TresMeshStandardMaterial :color="CEMENT_SHADES[box.row % CEMENT_SHADES.length]" :roughness="0.95" :metalness="0.0" />
+        <RoundedBox :args="[brickHeight, brickHeight, brickWidth, 1, brickHeight * 0.05]" cast-shadow receive-shadow>
+          <TresMeshStandardMaterial :color="CEMENT_SHADES[box.row % CEMENT_SHADES.length]" :roughness="0.95" :metalness="0" />
         </RoundedBox>
       </RigidBody>
 
