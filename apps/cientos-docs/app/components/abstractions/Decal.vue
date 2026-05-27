@@ -2,14 +2,14 @@
 import {
   ContactShadows,
   Decal,
+  DecalDebugUI,
   Environment,
   OrbitControls,
-  DecalDebugUI,
   useGLTF,
   useTextures,
 } from '@tresjs/cientos'
 import type { DecalEditorSession, DecalJsonEntry } from '@tresjs/cientos'
-import { TresCanvas, useGraph, useLoader } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
 import { computed, reactive, watch } from 'vue'
 import { SRGBColorSpace } from 'three'
 import type { Mesh, Object3D } from 'three'
@@ -27,7 +27,7 @@ watch(textures, (list) => {
   }
 }, { immediate: true })
 
-const { state: model, nodes } = useGLTF(
+const { nodes } = useGLTF(
   '/models/Mug.glb',
   {
     draco: true,
@@ -56,73 +56,69 @@ const mugMesh = computed<Mesh | null>(() => {
 })
 
 const layout = reactive<Record<string, DecalJsonEntry[]>>({
-  "mug": [
+  mug: [
     {
-      "id": "0db9fb2d-156b-4a09-9bcf-06f5b9be414f",
-      "position": [
+      id: '0db9fb2d-156b-4a09-9bcf-06f5b9be414f',
+      position: [
         -0.8954501666345478,
         2.045293983841609,
-        0.42795255054918213
+        0.42795255054918213,
       ],
-      "orientation": [
+      orientation: [
         0,
         -1.1292619472765466,
-        0.007132597282973663
+        0.007132597282973663,
       ],
-      "size": [
+      size: [
         0.89432140295958,
         0.20421512351045526,
-        1
+        1,
       ],
-      "zIndex": 0,
-      "map": "tresjs-dark.png"
+      zIndex: 0,
+      map: 'tresjs-dark.png',
     },
     {
-      "id": "61ce9dd7-e821-4445-9e82-b23a132a5b65",
-      "position": [
+      id: '61ce9dd7-e821-4445-9e82-b23a132a5b65',
+      position: [
         0.44907470640757663,
         1.8774883416773522,
-        0.8854636656395165
+        0.8854636656395165,
       ],
-      "orientation": [
+      orientation: [
         0,
         0.44153437951835,
-        -0.18955754747596165
+        -0.18955754747596165,
       ],
-      "size": [
+      size: [
         0.6882457276077091,
         0.6882457276077091,
-        1
+        1,
       ],
-      "zIndex": 1,
-      "map": "vue.png"
+      zIndex: 1,
+      map: 'vue.png',
     },
     {
-      "id": "953475fc-1864-466d-9bc9-2a0371a2903a",
-      "position": [
+      id: '953475fc-1864-466d-9bc9-2a0371a2903a',
+      position: [
         -0.28197464991032084,
         2.2293687089996417,
-        -0.9524137096313172
+        -0.9524137096313172,
       ],
-      "orientation": [
+      orientation: [
         -3.141592653589793,
         -0.24455009528111096,
-        -2.872728117206046
+        -2.872728117206046,
       ],
-      "size": [
+      size: [
         0.6212901676939242,
         0.6212901676939242,
-        1
+        1,
       ],
-      "zIndex": 2,
-      "map": "threejs.png"
-    }
-  ]
+      zIndex: 2,
+      map: 'threejs.png',
+    },
+  ],
 })
-
-watch(layout, (layout) => {
-  console.log('Layout changed:', layout)
-}, { deep: true, immediate: true })
 
 const decalRef = shallowRef<{ editor: DecalEditorSession } | null>(null)
 const session = computed(() => decalRef.value?.editor ?? null)
@@ -137,8 +133,14 @@ const session = computed(() => decalRef.value?.editor ?? null)
 
       <TresGroup v-if="mug" :position="[0, 1, 0]">
         <primitive :object="mug">
-          <Decal ref="decalRef" v-model:data="layout.mug" :map="textures" :mesh="mugMesh" :cull-threshold="0.7"
-            editable />
+          <Decal
+            ref="decalRef"
+            v-model:data="layout.mug"
+            :map="textures"
+            :mesh="mugMesh"
+            :cull-threshold="0.7"
+            editable
+          />
         </primitive>
       </TresGroup>
 
