@@ -1,5 +1,4 @@
 import CameraControls, { BaseCameraControls } from './CameraControls.vue'
-import Helper from './Helper/component.vue'
 import KeyboardControls from './KeyboardControls.vue'
 import MapControls from './MapControls.vue'
 import OrbitControls from './OrbitControls.vue'
@@ -12,7 +11,6 @@ export {
   BaseCameraControls,
   CameraControls,
   DragControls,
-  Helper,
   KeyboardControls,
   MapControls,
   OrbitControls,
