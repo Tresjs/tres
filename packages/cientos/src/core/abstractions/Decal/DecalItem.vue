@@ -13,7 +13,7 @@ import { invalidateDecalGeometry, updateDecalGeometry } from './DecalGeometry'
 import { useDecalEditor } from './useDecalEditor'
 import type { DecalEntry } from './useDecalEditor'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   parent: Mesh
   entry: DecalEntry
   editable: boolean
@@ -23,7 +23,11 @@ const props = defineProps<{
   layerGap?: number
   /** Forwarded to {@link updateDecalGeometry}'s `cullThreshold` option. */
   cullThreshold?: number
-}>()
+  /** Color of the hover edges outline. */
+  edgeColor?: string
+}>(), {
+  edgeColor: '#0000ff',
+})
 
 const emit = defineEmits<{
   (e: 'click', payload: { entry: DecalEntry, event: MouseEvent }): void
@@ -248,7 +252,7 @@ defineExpose({ instance: meshRef })
       :name="`decal-${entry.id}-edges`"
     >
       <TresLineBasicMaterial
-        color="#0000ff"
+        :color="edgeColor"
         :depth-test="false"
         :transparent="true"
       />

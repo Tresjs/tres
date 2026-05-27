@@ -415,6 +415,7 @@ type DecalLayout = Record<string, DecalJsonEntry[]>
 | **baseOffset**    | Distance along the surface normal (parent units) to avoid z-fighting between the decal and the host mesh.                                                                | `0.01`   |
 | **layerGap**      | Extra offset added per `zIndex` step on top of `baseOffset`. Increase if stacked decals still flicker.                                                                   | `0.001`  |
 | **cullThreshold** | Drops projected triangles whose face normal makes an angle steeper than `acos(threshold)` with the projector. Mitigates [#21187](https://github.com/mrdoob/three.js/issues/21187). Pass `0` to disable. | `0.2`    |
+| **edgeColor**     | Color of the edge outline drawn around a decal while it is hovered (pointer or layer panel) in editable mode.                                                            | `#0000ff` |
 
 ## `<Decal>` events
 

@@ -106,6 +106,11 @@ const props = withDefaults(defineProps<{
    * Default `0.2` (≈78°). Pass `0` or negative to disable culling.
    */
   cullThreshold?: number
+  /**
+   * Color of the edge outline drawn around a decal while it is hovered
+   * (pointer or layer panel) in editable mode. Default `#0000ff`.
+   */
+  edgeColor?: string
 }>(), {
   data: () => [],
   map: null,
@@ -115,6 +120,7 @@ const props = withDefaults(defineProps<{
   baseOffset: 0.01,
   layerGap: 0.001,
   cullThreshold: 0.2,
+  edgeColor: '#0000ff',
 })
 
 const emit = defineEmits<{
@@ -489,6 +495,7 @@ defineExpose<DecalImperativeApi>({
       :base-offset="baseOffset"
       :layer-gap="layerGap"
       :cull-threshold="cullThreshold"
+      :edge-color="edgeColor"
       @click="onItemClick"
     >
       <slot></slot>
