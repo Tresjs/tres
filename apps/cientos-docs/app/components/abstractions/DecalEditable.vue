@@ -51,13 +51,8 @@ const session = computed(() => decalRef.value?.editor ?? null)
 </script>
 
 <template>
-  <div class="decal-stage">
-    <DecalDebugUI
-      contained
-      :session="session"
-      :textures="textures ?? []"
-      :data="layout"
-    />
+  <div class="relative w-full h-full overflow-hidden">
+    <DecalDebugUI contained :session="session" :textures="textures ?? []" :data="layout" />
 
     <TresCanvas clear-color="#fbb03b">
       <TresPerspectiveCamera :position="[2.5, 1.5, 4]" />
@@ -66,12 +61,7 @@ const session = computed(() => decalRef.value?.editor ?? null)
       <TresMesh name="cube" :position="[-1.2, 0, 0]">
         <TresBoxGeometry />
         <TresMeshStandardMaterial color="#888888" />
-        <Decal
-          ref="decalRef"
-          v-model:data="layout.cube"
-          :map="textures"
-          editable
-        />
+        <Decal ref="decalRef" v-model:data="layout.cube" :map="textures" editable />
       </TresMesh>
 
       <TresMesh name="sphere" :position="[1.2, 0, 0]">
@@ -85,12 +75,3 @@ const session = computed(() => decalRef.value?.editor ?? null)
     </TresCanvas>
   </div>
 </template>
-
-<style scoped>
-.decal-stage {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-</style>

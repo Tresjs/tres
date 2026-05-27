@@ -1,15 +1,10 @@
 <script setup lang="ts">
-import { TresCanvas, useGraph, useLoader } from '@tresjs/core'
-import { Decal, DecalDebugUI, Environment, Levioso, OrbitControls, useTextures } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { Decal, DecalDebugUI, Environment, OrbitControls, useGLTF, useTextures } from '@tresjs/cientos'
 import type { DecalEditorSession, DecalJsonEntry } from '@tresjs/cientos'
 import { SRGBColorSpace } from 'three'
 
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { computed, reactive, shallowRef, watch } from 'vue'
-
-const dracoLoader = new DRACOLoader()
-dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/')
 
 const gl = { clearColor: '#F6B03B' }
 
@@ -20,22 +15,15 @@ const texturePaths = [
   '/decal/nuxt-icon-logo-green.png',
 ]
 
-const { state: model } = useLoader(
-  GLTFLoader,
+const { nodes } = useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/suzanne/suzanne.glb',
   {
-    extensions: (loader) => {
-      if (loader instanceof GLTFLoader) { loader.setDRACOLoader(dracoLoader) }
-    },
+    draco: true,
   },
 )
 
 const { textures } = useTextures(texturePaths)
 const torusRef = shallowRef(null)
-
-const scene = computed(() => model.value?.scene)
-const graph = useGraph(scene)
-const nodes = computed(() => graph.value?.nodes)
 
 watch(textures, (val) => {
   if (Array.isArray(val)) {
@@ -93,11 +81,7 @@ const session = computed(() => decalRef.value?.editor ?? null)
 </script>
 
 <template>
-  <DecalDebugUI
-    :session="session"
-    :textures="textures ?? []"
-    :data="layout"
-  />
+  <DecalDebugUI :session="session" :textures="textures ?? []" :data="layout" />
 
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 2, 8]" />
@@ -113,38 +97,28 @@ const session = computed(() => decalRef.value?.editor ?? null)
     <TresMesh name="sphere" :position="[-4, 0, 0]">
       <TresSphereGeometry />
       <TresMeshStandardMaterial color="#f6f6f6" />
-      <Decal
-        ref="decalRef"
-        v-model:data="layout.sphere"
-        :map="textures"
-        editable
-      />
+      <Decal ref="decalRef" v-model:data="layout.sphere" :map="textures" editable />
     </TresMesh>
 
-    <Levioso :speed="1.5" :float-factor="2" :range="[-0.3, 0.3]">
-      <TresMesh
-        v-if="nodes?.Suzanne.geometry"
-        name="suzanne"
-        :geometry="nodes?.Suzanne.geometry"
-        :position="[3, 0, 0]"
-        :rotation="[0, Math.PI, 0]"
-      >
-        <primitive :object="nodes?.Suzanne.material" attach="material" />
-        <Decal v-model:data="layout.suzanne" :map="textures" editable />
-      </TresMesh>
-    </Levioso>
+    <!-- A <Decal> works as a direct child of <primitive>. A saved decal
+         stores a world-space position, so it only round-trips against a
+         parent whose transform is deterministic at load time — keep this
+         static (no Levioso) so layout.suzanne lands on the surface. -->
+    <primitive
+      v-if="nodes?.Suzanne"
+      :object="nodes.Suzanne"
+      :position="[3, 0, 0]"
+      :rotation="[0, Math.PI, 0]"
+    >
+      <Decal v-model:data="layout.suzanne" :map="textures" editable />
+    </primitive>
 
     <TresMesh ref="torusRef" name="torus" :position="[-2, 0, -2.5]">
       <TresTorusGeometry :args="[1, 0.4, 16, 100]" />
       <TresMeshStandardMaterial color="#f6f6f6" />
     </TresMesh>
 
-    <Decal
-      v-model:data="layout.torus"
-      :map="textures"
-      :mesh="torusRef"
-      editable
-    />
+    <Decal v-model:data="layout.torus" :map="textures" :mesh="torusRef" editable />
 
     <TresMesh name="box" :scale="2">
       <TresBoxGeometry />

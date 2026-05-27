@@ -265,12 +265,39 @@ names are dropped with a warning) and routed back through each
 
 ## Targeting a loaded model (`.glb`)
 
-`<primitive>` can't accept Vue children that need to be parented to it
-in the scene graph, so a `<Decal>` can't be a direct child of
-`<primitive :object="loadedMesh">`. The idiomatic pattern is to use
+A `<Decal>` can be a **direct child of `<primitive>`** — it parents into
+the loaded object's scene graph like any other child and auto-resolves
+that object as its target mesh. This is the simplest option when you want
+to decal the whole loaded mesh as-is:
+
+```vue
+<script setup lang="ts">
+import { useGLTF } from '@tresjs/cientos'
+import { Decal } from '@tresjs/cientos'
+
+const { nodes } = useGLTF('/models/helmet.glb', { draco: true })
+</script>
+
+<template>
+  <primitive v-if="nodes?.Helmet" :object="nodes.Helmet">
+    <Decal v-model:data="layout.helmet" :map="textures" editable />
+  </primitive>
+</template>
+```
+
+::prose-note
+The resolved parent is the `<primitive>`'s retargeting proxy rather than
+the raw object. This is transparent in practice — geometry, `matrixWorld`
+and raycasting all forward to the wrapped object — so the decal projects
+and follows transforms correctly.
+::
+
+Alternatively, **wrap a `<TresMesh>` around an extracted sub-mesh**. Reach
+for this when you need to target one named sub-mesh of a larger model (and
+keep its material): use
 [`useGraph`](https://docs.tresjs.org/api/composables.html#usegraph) to
-extract the named sub-mesh, then wrap a fresh `<TresMesh>` around its
-`:geometry` and attach the `<Decal>` there:
+pull the sub-mesh, then build a regular `<TresMesh>` around its
+`:geometry`:
 
 ```vue
 <script setup lang="ts">
@@ -298,8 +325,20 @@ const nodes = computed(() => graph.value?.nodes)
 ```
 
 The mesh's `geometry` and `material` come from the loaded model; the
-`<Decal>` lives inside a regular `<TresMesh>` and gets a clean scene-graph
-parent it can attach to.
+`<Decal>` lives inside a regular `<TresMesh>` with a clean scene-graph
+parent.
+
+::prose-warning
+A saved decal's `position` is stored in **world space**, so it is
+re-projected onto the parent using the parent's transform **at load
+time**. A persisted layout therefore only round-trips if the parent sits
+at the same transform it had when the decal was authored. Parents under a
+continuously- or randomly-animated wrapper (e.g. `<Levioso>`, which starts
+at a random phase each reload) move out from under the saved point, so the
+projection clips to nothing and the decal vanishes. Author and persist
+decals on parents whose transform is deterministic at load time, or apply
+the animation only after the layout has mounted.
+::
 
 ## JSON schema
 

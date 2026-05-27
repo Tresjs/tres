@@ -102,7 +102,11 @@ export function updateDecalGeometry(
 
   const { baseOffset = 0.01, layerGap = 0.001, cullThreshold = 0.2 } = options
 
-  parent.updateMatrixWorld(true)
+  // `updateWorldMatrix(true, …)` refreshes the ancestor chain first —
+  // `updateMatrixWorld` only walks down, so a parent nested under
+  // not-yet-resolved ancestors (e.g. a loaded model under an offset
+  // group) would bake against a stale world matrix on first mount.
+  parent.updateWorldMatrix(true, false)
   target.geometry?.dispose()
 
   // If `useBVH` is wired on the parent, pre-filter triangles intersecting
