@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "5.7.1",
+  "version": "5.7.2",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -22,7 +22,9 @@
     "Alvaro Saburido (https://github.com/alvarosabu/)",
     "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
-  "sideEffects": ["**/*.css"],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": "./dist/trescientos.js",
     "./styles.css": "./dist/trescientos.css",
