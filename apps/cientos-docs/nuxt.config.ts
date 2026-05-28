@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '@tresjs/cientos/styles.css'],
 
   vue: {
     compilerOptions: templateCompilerOptions.template.compilerOptions,
