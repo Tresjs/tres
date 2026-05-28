@@ -22,9 +22,10 @@
     "Alvaro Saburido (https://github.com/alvarosabu/)",
     "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
-  "sideEffects": false,
+  "sideEffects": ["**/*.css"],
   "exports": {
     ".": "./dist/trescientos.js",
+    "./styles.css": "./dist/trescientos.css",
     "./package.json": "./package.json"
   },
   "main": "./dist/trescientos.js",
