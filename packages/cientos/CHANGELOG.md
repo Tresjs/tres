@@ -1,3 +1,27 @@
+## 5.7.2 (2026-05-28)
+
+### 🚀 Features
+
+- **cientos:** layer-hover edges + edgeColor prop on <Decal> ([54cc9649](https://github.com/Tresjs/tres/commit/54cc9649))
+- **cientos:** mirror DecalDebugUI layer hover to 3D edges ([25cad672](https://github.com/Tresjs/tres/commit/25cad672))
+- **cientos-docs:** enhance Decal component with improved mesh targeting and layout management ([5b28fb05](https://github.com/Tresjs/tres/commit/5b28fb05))
+- **cientos:** add <Decal> abstraction with interactive editor UI ([248a807b](https://github.com/Tresjs/tres/commit/248a807b))
+- **cientos:** continue experimental improvements and refine component testing ([a2a01531](https://github.com/Tresjs/tres/commit/a2a01531))
+- **cientos:** continue experimental improvements and refine component testing ([d0605d70](https://github.com/Tresjs/tres/commit/d0605d70))
+- **cientos:** continue experimental work and refine component behavior during testing ([fe39293e](https://github.com/Tresjs/tres/commit/fe39293e))
+- **cientos:** extend test component with texture support, zIndex handling, and import/export ([97152383](https://github.com/Tresjs/tres/commit/97152383))
+- **cientos:** initial test implementation of the new component with debug setup ([cf2aa5d9](https://github.com/Tresjs/tres/commit/cf2aa5d9))
+
+### 🩹 Fixes
+
+- **cientos:** cancel decal edit when handle is released off-mesh ([81333f03](https://github.com/Tresjs/tres/commit/81333f03))
+- **cientos:** correct click event handling during testing phase ([a661ce06](https://github.com/Tresjs/tres/commit/a661ce06))
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- Damien Montastier @damienmontastier
+
 ## 5.7.1 (2026-05-11)
 
 ### 🩹 Fixes
