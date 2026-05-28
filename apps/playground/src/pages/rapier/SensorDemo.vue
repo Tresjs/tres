@@ -70,10 +70,7 @@ const { debug } = useControls({
           </TresMesh>
         </RigidBody>
         <RigidBody ref="customColliderRef" collider="ball">
-          <BallCollider
-            :args="[1, 1, 1]"
-            :position="[8, 8, 0]"
-          />
+          <BallCollider :args="[1]" :position="[8, 8, 0]" />
         </RigidBody>
         <RigidBody
           type="fixed"

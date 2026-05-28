@@ -1,5 +1,8 @@
-import { ColliderDesc } from '@dimforge/rapier3d-compat'
-import type { Quaternion, Vector3 } from '@dimforge/rapier3d-compat'
+import {
+  ColliderDesc,
+  type Quaternion,
+  type Vector3,
+} from '@dimforge/rapier3d-compat'
 import { Vector3 as ThreeVector3 } from 'three'
 
 import { QUATERNION_ZERO, VECTOR_ZERO } from '../constants'
@@ -28,13 +31,13 @@ const _scaleVertices = (vertices: ArrayLike<number>, scale: Vector3) => {
 /** @internal */
 const _scaleColliderArgs = (
   shape: ColliderShape,
-  args: (number | ArrayLike<number> | { x: number, y: number, z: number })[],
+  args: (number | ArrayLike<number> | { x: number; y: number; z: number })[],
   scale: Vector3,
 ) => {
   const newArgs = args.slice()
 
   if (shape === 'heightfield') {
-    const s = newArgs[3] as { x: number, y: number, z: number }
+    const s = newArgs[3] as { x: number; y: number; z: number }
     s.x *= scale.x
     s.x *= scale.y
     s.x *= scale.z
@@ -67,7 +70,8 @@ const _scaleColliderArgs = (
  */
 export const createColliderDesc = (props: CreateColliderDescProps) => {
   const { shape, object, args, position, rotation, rigidBody, scale } = props
-  const { halfWidth, halfHeight, halfDepth } = getColliderSizingsFromObject(object)
+  const { halfWidth, halfHeight, halfDepth } =
+    getColliderSizingsFromObject(object)
   const colliderDescMethod = ColliderDesc[shape || 'cuboid']
   const safeScale = new ThreeVector3(
     scale?.[0] ?? 1,
@@ -81,9 +85,11 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
     args?.[3] ?? 1,
     ...(args?.slice(4) ?? []),
   ]
-  const scaledArgs = _scaleColliderArgs(shape || 'cuboid', safeArgs, safeScale) as Parameters<(typeof ColliderDesc)[
-    ColliderShape
-  ]>
+  const scaledArgs = _scaleColliderArgs(
+    shape || 'cuboid',
+    safeArgs,
+    safeScale,
+  ) as Parameters<(typeof ColliderDesc)[ColliderShape]>
 
   let colliderDesc: ColliderDesc | null
 
@@ -96,27 +102,30 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
       throw new Error(`Invalid collider shape: ${shape}.`)
     }
 
-    colliderDesc = colliderDescMethod?.(...scaledArgs as [any, any, any, any, any])
+    colliderDesc = colliderDescMethod?.(
+      ...(scaledArgs as [any, any, any, any, any]),
+    )
 
     if (!colliderDesc) {
       throw new Error(`Invalid collider shape: ${shape}. Switching to cuboid.`)
     }
-  }
-  catch (error) {
-    console.warn(`Error creating collider: ${error instanceof Error ? error.message : 'Unknown error'}. Switching to cuboid.`)
+  } catch (error) {
+    console.warn(
+      `Error creating collider: ${error instanceof Error ? error.message : 'Unknown error'}. Switching to cuboid.`,
+    )
     colliderDesc = getSafeColliderDesc()
   }
 
-  const newPosition: Vector3
-    = (position && parsePosition(position))
-      ?? (object?.position && parsePosition(object?.position))
-      ?? rigidBody.translation()
-      ?? VECTOR_ZERO
-  const newRotation: Quaternion
-    = (rotation && parseRotation(rotation))
-      ?? (object?.quaternion && parseRotation(object?.quaternion))
-      ?? rigidBody.rotation()
-      ?? QUATERNION_ZERO.clone()
+  const newPosition: Vector3 =
+    (position && parsePosition(position)) ??
+    (object?.position && parsePosition(object?.position)) ??
+    rigidBody.translation() ??
+    VECTOR_ZERO
+  const newRotation: Quaternion =
+    (rotation && parseRotation(rotation)) ??
+    (object?.quaternion && parseRotation(object?.quaternion)) ??
+    rigidBody.rotation() ??
+    QUATERNION_ZERO.clone()
 
   colliderDesc
     .setTranslation(newPosition.x, newPosition.y, newPosition.z)
