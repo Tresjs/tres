@@ -9,8 +9,11 @@ export const initializeSceneCreator = async () => {
   vi.resetModules()
   await setupMocks()
 
-  // Dynamic imports AFTER mocks are set up
+  // Dynamic imports AFTER mocks are set up — these share the same module graph
+  // as the code under test, so the `_roots` Map they reference is the SAME
+  // instance that Context.vue writes to.
   const TresCanvas = (await import('../TresCanvas.vue')).default
+  const { getRoot, hasRoot, deleteRoot } = await import('../../core/roots')
 
   const createScene = async (slotContent: () => VNodeChild) => {
     let resolveReady: (ctx: TresContext) => void
@@ -36,5 +39,5 @@ export const initializeSceneCreator = async () => {
     return { sceneWrapper, context }
   }
 
-  return { createScene }
+  return { createScene, getRoot, hasRoot, deleteRoot }
 }

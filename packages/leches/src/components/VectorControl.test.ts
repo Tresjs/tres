@@ -72,6 +72,53 @@ describe('vector Control', async () => {
     expect(wrapper.vm.position.y).toBe(-20)
     expect(wrapper.vm.position.z).toBe(-1)
   })
+
+  it('should apply a fixed 10x step on PageUp/PageDown', async () => {
+    dispose()
+    mountComponent(() => {
+      const { position, visible } = useControls({
+        position: {
+          value: new Vector3(0, 2, 4),
+          step: 1,
+        },
+      })
+      return { position, visible }
+    })
+
+    const inputs = wrapper.findAll('input[type="text"]')
+    await inputs[0].trigger('focus')
+    await inputs[0].trigger('keydown', { key: 'PageUp' })
+    await nextTick()
+    expect(wrapper.vm.position.x).toBe(10)
+
+    await inputs[0].trigger('keydown', { key: 'PageDown' })
+    await nextTick()
+    expect(wrapper.vm.position.x).toBe(0)
+  })
+
+  it('should ignore modifiers for PageUp/PageDown', async () => {
+    dispose()
+    mountComponent(() => {
+      const { position, visible } = useControls({
+        position: {
+          value: new Vector3(0, 2, 4),
+          step: 1,
+        },
+      })
+      return { position, visible }
+    })
+
+    const inputs = wrapper.findAll('input[type="text"]')
+    await inputs[0].trigger('focus')
+    await inputs[0].trigger('keydown', { key: 'PageUp', shiftKey: true })
+    await nextTick()
+    expect(wrapper.vm.position.x).toBe(10)
+
+    await inputs[0].trigger('keydown', { key: 'PageDown', altKey: true })
+    await nextTick()
+    expect(wrapper.vm.position.x).toBe(0)
+  })
+
   // TODO: mouseDown
   it('should render an icon instead of a label', () => {
     dispose()

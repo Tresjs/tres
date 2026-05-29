@@ -44,4 +44,9 @@ export const shapesRoutes = [
     name: 'on-demand Shapes',
     component: () => import('@/pages/cientos/shapes/OnDemandShapesDemo.vue'),
   },
+  {
+    path: '/cientos/shapes/grid',
+    name: 'Grid',
+    component: () => import('@/pages/cientos/shapes/GridDemo.vue'),
+  },
 ]
