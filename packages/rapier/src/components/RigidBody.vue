@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { ActiveCollisionTypes } from '@dimforge/rapier3d-compat'
+import {
+  ActiveCollisionTypes,
+  RigidBodyType as RapierRigidBodyType
+} from '@dimforge/rapier3d-compat'
 import { useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
 import {
@@ -132,19 +135,19 @@ const setAutoColliderProp = <K extends keyof ColliderProps>(prop: K, value: Coll
   })
 }
 
-// Automatic collider props watchers
-watch(() => props.friction, value => setAutoColliderProp('friction', value))
-watch(() => props.mass, value => setAutoColliderProp('mass', value))
-watch(() => props.restitution, value => setAutoColliderProp('restitution', value))
-watch(() => props.density, value => setAutoColliderProp('density', value))
-watch(() => props.activeCollision, value => setAutoColliderProp('activeCollision', value))
-watch(() => props.activeCollisionTypes, value => setAutoColliderProp('activeCollisionTypes', value))
-watch(() => props.collisionGroups, value => setAutoColliderProp('collisionGroups', value))
-watch(() => props.solverGroups, value => setAutoColliderProp('solverGroups', value))
-watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
-watch(() => props.activeContactForce, value => setAutoColliderProp('activeContactForce', value))
-watch(() => props.contactForceEventThreshold, value => setAutoColliderProp('contactForceEventThreshold', value))
+// Props watchers
+watch(() => props.type, value => {
+  const capitalizeString = <T extends string = string>(str: T): Capitalize<T> => {
+    return str.charAt(0).toUpperCase() + str.slice(1) as Capitalize<T>
+  }
 
+  if (!instance.value) { return }
+  instance.value.setBodyType(RapierRigidBodyType[
+    value === 'kinematic'
+      ? 'KinematicPositionBased' : value === 'kinematicVelocity' ?
+        'KinematicVelocityBased' : capitalizeString(value)
+  ], true)
+})
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }
   instance.value.lockTranslations(_lockTranslations, true)
@@ -157,6 +160,26 @@ watch([() => props.enableCcd, instance], ([_enableCcd, _]) => {
   if (!instance.value) { return }
   instance.value.enableCcd(_enableCcd)
 })
+
+// Automatic collider props watchers
+watch(() => props.collider, value => {
+  if (value === false) {
+    autoColliderProps.value = []
+    return
+  }
+  setAutoColliderProp('shape', value)
+})
+watch(() => props.friction, value => setAutoColliderProp('friction', value))
+watch(() => props.mass, value => setAutoColliderProp('mass', value))
+watch(() => props.restitution, value => setAutoColliderProp('restitution', value))
+watch(() => props.density, value => setAutoColliderProp('density', value))
+watch(() => props.activeCollision, value => setAutoColliderProp('activeCollision', value))
+watch(() => props.activeCollisionTypes, value => setAutoColliderProp('activeCollisionTypes', value))
+watch(() => props.collisionGroups, value => setAutoColliderProp('collisionGroups', value))
+watch(() => props.solverGroups, value => setAutoColliderProp('solverGroups', value))
+watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
+watch(() => props.activeContactForce, value => setAutoColliderProp('activeContactForce', value))
+watch(() => props.contactForceEventThreshold, value => setAutoColliderProp('contactForceEventThreshold', value))
 
 onBeforeRender(() => {
   const context = bodyContext.value
