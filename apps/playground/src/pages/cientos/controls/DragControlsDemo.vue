@@ -1,7 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
-import { DragControls } from '@tresjs/cientos'
+import { shallowRef } from 'vue'
+import { DragControls, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import type { DragControls as ThreeDragControls } from 'three/examples/jsm/Addons.js'
@@ -67,6 +67,7 @@ function onHoverOff(e: ThreeDragControls) {
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 7.5, 7.5]" :look-at="[0, 0, 0]" />
+    <OrbitControls make-default />
     <TresMesh ref="boxRef" :position="[0.5, 0.5, 0.5]">
       <TresBoxGeometry />
       <TresMeshStandardMaterial />

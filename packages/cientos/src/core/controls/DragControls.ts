@@ -42,7 +42,7 @@ export const DragControls = defineComponent<DragControlsProps>({
     'domElement',
   ] as unknown as undefined,
   setup(props, { expose, emit }) {
-    const { camera: activeCamera, renderer } = useTres()
+    const { camera: activeCamera, renderer, controls: defaultControls } = useTres()
 
     const controlsRef = shallowRef<ThreeDragControls | null>(null)
     const initialPositions = new WeakMap<Object3D, Vector3>()
@@ -72,13 +72,14 @@ export const DragControls = defineComponent<DragControlsProps>({
       { immediate: true },
     )
 
-    function addEventListeners(controls: ThreeDragControls) {
-      controls.addEventListener('dragstart', (e) => {
+    function addEventListeners(dragControls: ThreeDragControls) {
+      dragControls.addEventListener('dragstart', (e) => {
+        if (defaultControls.value) { defaultControls.value.enabled = false }
         initialPositions.set(e.object, e.object.position.clone())
-        emit('dragstart', controls)
+        emit('dragstart', dragControls)
       })
 
-      controls.addEventListener('drag', (e) => {
+      dragControls.addEventListener('drag', (e) => {
         const obj = e.object
         if (props.enabled === false) {
           const origin = initialPositions.get(obj)
@@ -100,16 +101,17 @@ export const DragControls = defineComponent<DragControlsProps>({
           if (yLim) { obj.position.y = Math.max(Math.min(obj.position.y, yLim[1]), yLim[0]) }
           if (zLim) { obj.position.z = Math.max(Math.min(obj.position.z, zLim[1]), zLim[0]) }
         }
-        emit('drag', controls)
+        emit('drag', dragControls)
       })
 
-      controls.addEventListener('dragend', (e) => {
+      dragControls.addEventListener('dragend', (e) => {
         initialPositions.delete(e.object)
-        emit('dragend', controls)
+        if (defaultControls.value) { defaultControls.value.enabled = true }
+        emit('dragend', dragControls)
       })
 
-      controls.addEventListener('hoveron', () => emit('hoveron', controls))
-      controls.addEventListener('hoveroff', () => emit('hoveroff', controls))
+      dragControls.addEventListener('hoveron', () => emit('hoveron', dragControls))
+      dragControls.addEventListener('hoveroff', () => emit('hoveroff', dragControls))
     }
 
     onUnmounted(() => {
