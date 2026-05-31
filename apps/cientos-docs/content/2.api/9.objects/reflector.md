@@ -52,22 +52,69 @@ All the props except the `color`, are not reactive
 
 ## Custom mirror effect
 
-For more complex effect you can provide your own shaders, you could do this creating an object and pass the uniforms, vertexShaders or fragmentShaders:
+You can provide your own shader by passing a full shader object with `uniforms`, `vertexShader`, and `fragmentShader`. The example below adds animated circular ripples emanating from the center of the surface, while preserving the color tint:
 
 ```vue
 <script setup lang="ts">
-import vertexShader from 'MyCustomVertexShader.glsl'
+import { Reflector } from '@tresjs/cientos'
+import { useLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
+
+const reflectorRef = shallowRef()
 
 const customShader = {
-  vertexShader
+  uniforms: {
+    color: { value: null },
+    tDiffuse: { value: null },
+    textureMatrix: { value: null },
+    time: { value: 0 },
+  },
+  vertexShader: /* glsl */`
+    uniform mat4 textureMatrix;
+    varying vec4 vUv;
+    varying vec2 vPos;
+    void main() {
+      vUv = textureMatrix * vec4(position, 1.0);
+      vPos = position.xy;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }`,
+  fragmentShader: /* glsl */`
+    uniform vec3 color;
+    uniform sampler2D tDiffuse;
+    uniform float time;
+    varying vec4 vUv;
+    varying vec2 vPos;
+    float blendOverlay(float base, float blend) {
+      return(base < 0.5 ? (2.0 * base * blend) : (1.0 - 2.0 * (1.0 - base) * (1.0 - blend)));
+    }
+    vec3 blendOverlay(vec3 base, vec3 blend) {
+      return vec3(blendOverlay(base.r, blend.r), blendOverlay(base.g, blend.g), blendOverlay(base.b, blend.b));
+    }
+    void main() {
+      float dist = length(vPos);
+      float wave = sin(dist * 6.0 - time * 4.0) * 0.02;
+      vec2 dir = dist > 0.001 ? normalize(vPos) : vec2(0.0);
+      vec4 distortedUv = vUv + vec4(dir * wave, 0.0, 0.0);
+      vec4 base = texture2DProj(tDiffuse, distortedUv);
+      gl_FragColor = vec4(blendOverlay(base.rgb, color), 1.0);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }`,
 }
+
+const { onBeforeRender } = useLoop()
+onBeforeRender(({ elapsed }) => {
+  const uniforms = reflectorRef.value?.instance?.material?.uniforms
+  if (uniforms?.time) uniforms.time.value = elapsed
+})
 </script>
 
 <template>
-  <TresCanvas shadows alpha>
-    <TresPerspectiveCamera :position="[0, 0, 3]" />
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[3, 2, 6]" />
     ...
     <Reflector
+      ref="reflectorRef"
       :rotation="[-Math.PI * 0.5, 0, 0]"
       :position-y="-2"
       color="#fff"
