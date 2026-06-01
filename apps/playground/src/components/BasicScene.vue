@@ -3,13 +3,17 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { EffectComposer } from '@tresjs/post-processing'
 
-defineProps<{
+withDefaults(defineProps<{
   wireframe?: boolean
-}>()
+  renderMode?: 'always' | 'on-demand' | 'manual'
+}>(), {
+  wireframe: false,
+  renderMode: 'on-demand',
+})
 </script>
 
 <template>
-  <TresCanvas render-mode="on-demand">
+  <TresCanvas :render-mode="renderMode">
     <TresPerspectiveCamera
       :position="[5, 5, 5]"
       :look-at="[0, 0, 0]"

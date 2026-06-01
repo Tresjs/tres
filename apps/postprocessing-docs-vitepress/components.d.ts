@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AfterimageThreeDemo: typeof import('./.vitepress/theme/components/three/AfterimageThreeDemo.vue')['default']
     ASCIIDemo: typeof import('./.vitepress/theme/components/pmdrs/ASCIIDemo.vue')['default']
     BarrelBlurDemo: typeof import('./.vitepress/theme/components/pmdrs/BarrelBlurDemo.vue')['default']
     BlenderCube: typeof import('./.vitepress/theme/components/BlenderCube.vue')['default']
@@ -21,6 +22,7 @@ declare module 'vue' {
     DocsDemoGUI: typeof import('./.vitepress/theme/components/DocsDemoGUI.vue')['default']
     DotScreenDemo: typeof import('./.vitepress/theme/components/pmdrs/DotScreenDemo.vue')['default']
     Ducky: typeof import('./.vitepress/theme/components/Ducky.vue')['default']
+    FilmThreeDemo: typeof import('./.vitepress/theme/components/three/FilmThreeDemo.vue')['default']
     FishEyeDemo: typeof import('./.vitepress/theme/components/pmdrs/FishEyeDemo.vue')['default']
     FXAADemo: typeof import('./.vitepress/theme/components/pmdrs/FXAADemo.vue')['default']
     GlitchDemo: typeof import('./.vitepress/theme/components/pmdrs/GlitchDemo.vue')['default']
@@ -39,6 +41,7 @@ declare module 'vue' {
     PixelationThreeDemo: typeof import('./.vitepress/theme/components/three/PixelationThreeDemo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SAOThreeDemo: typeof import('./.vitepress/theme/components/three/SAOThreeDemo.vue')['default']
     ScanlineDemo: typeof import('./.vitepress/theme/components/pmdrs/ScanlineDemo.vue')['default']
     SepiaDemo: typeof import('./.vitepress/theme/components/pmdrs/SepiaDemo.vue')['default']
     ShockWaveDemo: typeof import('./.vitepress/theme/components/pmdrs/ShockWaveDemo.vue')['default']

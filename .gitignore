@@ -30,7 +30,6 @@ coverage
 
 .env
 .env.local
-.claude
 .worktrees
 
 .nx/*
@@ -38,4 +37,7 @@ coverage
 .nx/workspace-data
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
+
+.claude/*
+!.claude/agents/
 **/contents.sqlite
