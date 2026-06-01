@@ -21,22 +21,37 @@ This classification determines the folder structure and documentation patterns.
 
 ### Step 1: Create Markdown Documentation
 
-**File Location:**
-- pmndrs effects: `../../apps/postprocessing-docs-vitepress/guide/pmndrs/`
-- Three.js effects: `../../apps/postprocessing-docs-vitepress/guide/three/`
+The docs site is a **Nuxt + Nuxt UI + Nuxt Content** app at `../../apps/postprocessing-docs/`. Pages are Markdown with **MDC** (Markdown Components) syntax — NOT VitePress.
+
+**File Location** (kebab-case filename, e.g. `chromatic-aberration.md`):
+- pmndrs effects: `../../apps/postprocessing-docs/content/2.api/1.pmndrs/`
+- Three.js effects: `../../apps/postprocessing-docs/content/2.api/2.three/`
 
 **Required Sections:**
 
-1. **Title and Introduction**: Brief description of what the effect does
-
-2. **Demo**: Embed the demo component you'll create in Step 2
+0. **Frontmatter** (required — drives the page title, SEO, and search):
    ```md
-   <DocsDemo>
-     <ComponentNameDemo />
-   </DocsDemo>
+   ---
+   title: Effect Name
+   description: One-line summary of what the effect does.
+   ---
    ```
 
-3. **Usage**: Concise code snippet showing component usage
+1. **Introduction**: Brief description of what the effect does (after the demo)
+
+2. **Demo**: Embed the demo component you'll create in Step 2 using MDC syntax. The
+   component is auto-imported by directory prefix: `app/components/pmndrs/Bloom.vue`
+   → `::PmndrsBloom`, `app/components/three/Smaa.vue` → `::ThreeSmaa`.
+   ```md
+   ::DocsDemo
+     ::PmndrsBloom
+     ::
+   ::
+   ```
+   - If the demo has **no** Leches controls, disable the panel: `::DocsDemo{:controls="false"}`
+   - If the demo **has** Leches controls (the common case for pmndrs), omit the prop (defaults to `true`).
+
+3. **Usage**: Concise code snippet showing component usage, wrapped in `<TresCanvas>` + `<Suspense>`
    - For pmndrs effects: Use `EffectComposerPmndrs` wrapper
    - For Three.js effects: Use `EffectComposer` wrapper
    - Include necessary imports and basic props
@@ -49,13 +64,38 @@ This classification determines the folder structure and documentation patterns.
    - pmndrs: Link to pmndrs/postprocessing docs
    - Three.js: Link to Three.js examples/documentation
 
-**Reference existing documentation files in the same folder for style and structure consistency.**
+**Reference existing pages in the same folder (e.g. `bloom.md`, `smaa.md`) for style and structure consistency.**
 
 ### Step 2: Create Demo Component
 
-**File Location:**
-- pmndrs effects: `../../apps/postprocessing-docs-vitepress/.vitepress/theme/components/pmndrs/`
-- Three.js effects: `../../apps/postprocessing-docs-vitepress/.vitepress/theme/components/three/`
+**File Location** (PascalCase filename matching the effect name — NO `Demo` suffix, e.g. `ChromaticAberration.vue`):
+- pmndrs effects: `../../apps/postprocessing-docs/app/components/pmndrs/`
+- Three.js effects: `../../apps/postprocessing-docs/app/components/three/`
+
+Components are auto-imported by Nuxt with their directory as prefix, so `pmndrs/Bloom.vue`
+is referenced in Markdown as `::PmndrsBloom` and `three/Smaa.vue` as `::ThreeSmaa`.
+
+**Nuxt conventions (differ from the old VitePress demos):**
+- Do **NOT** use `useRouteDisposal` or a `ref="effectComposer"` — Nuxt unmounts components
+  cleanly on route change, so no manual composer disposal is needed.
+- Do **NOT** wrap the scene in `<Suspense>` or `<ClientOnly>` — the shared `DocsDemo.vue`
+  wrapper already provides both plus the `aspect-video` container.
+- Use a `const gl = { clearColor: '#121212', shadows: true, alpha: false }` object bound via
+  `<TresCanvas v-bind="gl">`, matching existing demos.
+- **Leches controls** (so users can tweak props live): `inject<string>('uuid')` the uuid
+  provided by `DocsDemo`, build refs with `useControls(..., { uuid })`, then bind each ref to
+  the effect **per-prop** (`:intensity="intensity"`) — never `v-bind="reactiveObject"`.
+  ```vue
+  <script setup lang="ts">
+  import { useControls } from '@tresjs/leches'
+
+  const uuid = inject<string>('uuid')
+  const { intensity, radius } = useControls({
+    intensity: { value: 8, min: 0, max: 20, step: 0.1 },
+    radius: { value: 0.5, min: 0, max: 1, step: 0.01 },
+  }, { uuid })
+  </script>
+  ```
 
 **Process:**
 
@@ -79,15 +119,15 @@ This classification determines the folder structure and documentation patterns.
    - Include proper TresCanvas setup
    - Apply consistent styling with existing demos
 
-### Step 3: Register in Sidebar Config
+### Step 3: Sidebar Navigation (no manual edit)
 
-**File:** `../../apps/postprocessing-docs-vitepress/.vitepress/config.ts`
+The sidebar is **auto-generated** from the content directory by Nuxt Content — there is no
+`config.ts` sidebar array to edit. Simply placing the Markdown file in the correct
+`content/2.api/{1.pmndrs|2.three}/` folder is enough; the page appears automatically.
 
-Add the new documentation entry to the correct sidebar section:
-- **pmndrs effects**: Add to the `Pmndrs` sidebar group's `items` array
-- **Three.js effects**: Add to the `Three` sidebar group's `items` array
-
-Entry format: `{ text: 'Effect Name', link: '/guide/{pmndrs|three}/kebab-case-name' }`
+Pages within a folder are ordered alphabetically by filename. If a specific order is needed,
+prefix the filename with a number (e.g. `1.bloom.md`) following the pattern of the parent
+numbered directories.
 
 
 ## Quality Standards
