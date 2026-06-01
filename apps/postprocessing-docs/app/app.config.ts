@@ -79,7 +79,7 @@ const newLocal = {
       }, {
         icon: 'i-lucide-star',
         label: 'Star on GitHub',
-        to: 'https://github.com/tresjs/post-processing',
+        to: 'https://github.com/Tresjs/tres/tree/main/packages/postprocessing',
         target: '_blank',
       }],
     },
