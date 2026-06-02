@@ -67,7 +67,7 @@ export const ImageMaterialImpl = /* @__PURE__ */ shaderMaterial(
       vec2 res = vec2(scale * resolution);
       vec2 halfRes = 0.5 * res;
       float b = udRoundBox(vUv.xy * res - halfRes, halfRes, resolution * radius);
-        vec3 a = mix(vec3(1.0,0.0,0.0), vec3(0.0,0.0,0.0), smoothstep(0.0, 1.0, b));
+      float a = 1.0 - smoothstep(0.0, 1.0, b);
       gl_FragColor = toGrayscale(texture2D(map, zUv) * vec4(color, opacity * a), grayscale);
 
       #include <tonemapping_fragment>
