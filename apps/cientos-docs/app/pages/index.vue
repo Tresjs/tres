@@ -17,7 +17,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
   twitterImage: '/og-image.png',
-  ogUrl: 'https://example.com',
+  ogUrl: 'https://cientos.tresjs.org',
   twitterTitle: title,
   twitterDescription: description,
 })
