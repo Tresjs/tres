@@ -33,7 +33,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
   twitterImage: '/og-image.png',
-  ogUrl: 'https://example.com',
+  ogUrl: 'https://post-processing.tresjs.org',
   twitterTitle: 'TresJS Post-processing',
   twitterDescription: 'Effect composer library for TresJS — bloom, glitch, depth of field, and more.',
 })
