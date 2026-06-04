@@ -41,7 +41,7 @@ function parseDocsIntoChunks(source: string, baseUrl: string, text: string): Doc
   for (const section of sections) {
     if (section.trim().length < 50) { continue }
 
-    const titleMatch = section.match(/^#{1,2}\s+(.+)$/m)
+    const titleMatch = section.match(/^#{1,2}[ \t]+(\S.*)$/m)
     const title = titleMatch?.[1] ?? 'Untitled'
 
     // Extract URL if present in the section

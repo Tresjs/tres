@@ -3,7 +3,7 @@ import type { IssuePayload } from '../types'
 const PACKAGE_PATTERNS: Record<string, RegExp[]> = {
   core: [/@tresjs\/core/i, /\bTresCanvas\b/, /\buseTres\b/],
   cientos: [/@tresjs\/cientos/i, /\bOrbitControls\b/, /\buseGLTF\b/, /\buseFBX\b/],
-  nuxt: [/@tresjs\/nuxt/i, /\bnuxt\b.*tres/i],
+  nuxt: [/@tresjs\/nuxt/i, /\bnuxt\b.+tres/i],
   postprocessing: [/@tresjs\/post-processing/i, /\bEffectComposer\b/, /\bBloom\b/],
   leches: [/@tresjs\/leches/i, /\bTresLeches\b/],
 }

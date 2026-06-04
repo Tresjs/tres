@@ -48,7 +48,7 @@ export async function analyzeIssue(
 
   // Extract JSON from response (handle potential markdown code blocks)
   let jsonStr = content.text
-  const jsonMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/)
+  const jsonMatch = jsonStr.match(/```(?:json)?([\s\S]*?)```/)
   if (jsonMatch) {
     jsonStr = jsonMatch[1]
   }
@@ -89,7 +89,7 @@ export async function analyzeFeasibility(
   }
 
   let jsonStr = content.text
-  const jsonMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/)
+  const jsonMatch = jsonStr.match(/```(?:json)?([\s\S]*?)```/)
   if (jsonMatch) {
     jsonStr = jsonMatch[1]
   }
