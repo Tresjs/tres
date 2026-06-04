@@ -59,6 +59,10 @@ pnpm wrangler secret put GITHUB_WEBHOOK_SECRET
 
 # From console.anthropic.com
 pnpm wrangler secret put ANTHROPIC_API_KEY
+
+# Generate with: openssl rand -hex 32
+# Bearer token guarding the /admin/* endpoints
+pnpm wrangler secret put ADMIN_SECRET
 ```
 
 ### 5. Configure GitHub App Webhook
