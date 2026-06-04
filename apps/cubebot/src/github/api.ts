@@ -13,8 +13,14 @@ export async function isOrgMember(
     })
     return true
   }
-  catch {
-    return false
+  catch (error) {
+    // 404 means the user is definitively not an org member. Any other error
+    // (rate limit, network failure, 5xx) is inconclusive — re-throw so we don't
+    // misclassify a maintainer as an outsider and act on them during an API blip.
+    if ((error as { status?: number }).status === 404) {
+      return false
+    }
+    throw error
   }
 }
 

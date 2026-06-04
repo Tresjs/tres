@@ -45,8 +45,11 @@ app.post('/webhook', async (c) => {
     return c.json({ received: true, event, action: body.action })
   }
   catch (error) {
+    // Return 200, not 500: GitHub retries webhook deliveries on 5xx, but the
+    // handler may have already posted comments or added labels before failing.
+    // A retry would duplicate those side effects, so we acknowledge and log.
     console.error('Error handling webhook:', error)
-    return c.json({ error: 'Internal error' }, 500)
+    return c.json({ received: true, error: 'Internal error' }, 200)
   }
 })
 

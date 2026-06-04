@@ -21,6 +21,29 @@ interface FeasibilityResponse {
   suggestedDocs: Array<{ title: string, url: string, reason: string }>
 }
 
+/**
+ * Parse Claude's text response as JSON, tolerating markdown code fences.
+ * Throws a descriptive error (with a snippet of the raw output) on malformed
+ * JSON so callers/observability can see what the model actually returned,
+ * rather than a bare SyntaxError.
+ */
+function parseClaudeJson<T>(text: string, context: string): T {
+  let jsonStr = text
+  const jsonMatch = jsonStr.match(/```(?:json)?([\s\S]*?)```/)
+  if (jsonMatch) {
+    jsonStr = jsonMatch[1]
+  }
+
+  try {
+    return JSON.parse(jsonStr.trim()) as T
+  }
+  catch (error) {
+    throw new Error(
+      `Failed to parse Claude ${context} response as JSON: ${(error as Error).message}. Raw output: ${text.slice(0, 500)}`,
+    )
+  }
+}
+
 export async function analyzeIssue(
   apiKey: string,
   issueTitle: string,
@@ -46,14 +69,7 @@ export async function analyzeIssue(
     throw new Error('Unexpected response type')
   }
 
-  // Extract JSON from response (handle potential markdown code blocks)
-  let jsonStr = content.text
-  const jsonMatch = jsonStr.match(/```(?:json)?([\s\S]*?)```/)
-  if (jsonMatch) {
-    jsonStr = jsonMatch[1]
-  }
-
-  return JSON.parse(jsonStr.trim()) as AnalysisResponse
+  return parseClaudeJson<AnalysisResponse>(content.text, 'analysis')
 }
 
 export async function analyzeFeasibility(
@@ -88,11 +104,5 @@ export async function analyzeFeasibility(
     throw new Error('Unexpected response type')
   }
 
-  let jsonStr = content.text
-  const jsonMatch = jsonStr.match(/```(?:json)?([\s\S]*?)```/)
-  if (jsonMatch) {
-    jsonStr = jsonMatch[1]
-  }
-
-  return JSON.parse(jsonStr.trim()) as FeasibilityResponse
+  return parseClaudeJson<FeasibilityResponse>(content.text, 'feasibility')
 }
