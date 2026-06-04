@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<EnvironmentOptions>(), {
   files: () => [],
   path: '',
   preset: undefined,
+  quality: '1k',
   resolution: 256,
   near: 1,
   far: 1000,
