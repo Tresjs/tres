@@ -15,6 +15,11 @@ export const abstractionsRoutes = [
     component: () => import('@/pages/cientos/abstractions/EdgesDemo.vue'),
   },
   {
+    path: '/cientos/abstractions/decal',
+    name: 'Decal',
+    component: () => import('@/pages/cientos/abstractions/DecalDemo.vue'),
+  },
+  {
     path: '/cientos/abstractions/mask',
     name: 'Mask',
     component: () => import('@/pages/cientos/abstractions/MaskDemo.vue'),
