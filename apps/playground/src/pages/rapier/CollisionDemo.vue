@@ -71,7 +71,7 @@ const onCollisionExit = (event: any) => {
           @collision-enter="onCollisionEnterBall"
         >
           <BallCollider
-            :args="[1, 1, 1]"
+            :args="[1]"
             activeCollision
             @collision-enter="onCollisionEnterBall_2"
           />

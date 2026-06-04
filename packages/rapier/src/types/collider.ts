@@ -14,39 +14,42 @@ import type { RigidBodyColliderContext } from './rigid-body'
 export type TresInstancedMesh = InstancedMesh & TresObject3D
 
 /** @description Tres Rapier supported Collider shapes. */
-export type ColliderShape =
-  | 'cuboid'
+export type ColliderShape = keyof Pick<
+  typeof ColliderDesc,
   | 'ball'
   | 'capsule'
   | 'cone'
+  | 'convexHull'
+  | 'convexMesh'
+  | 'cuboid'
   | 'cylinder'
-  | 'hull'
-  | 'trimesh'
   | 'heightfield'
+  | 'polyline'
+  | 'roundCone'
+  | 'roundConvexHull'
+  | 'roundConvexMesh'
+  | 'roundCuboid'
+  | 'roundCylinder'
+  | 'trimesh'
+>
 
 export interface ColliderProps {
   /**
    * @description Set the {@link Collider} shape.
-   *
    * @default undefined
    */
   shape?: ColliderShape
   /**
    * @description Shape based {@link TresObject3D}.
-   *
    * @important Required for certain shapes like `trimesh`, `hull`, `heightfield`.
-   *
    * @default undefined
    */
   object?: TresObject3D
   /**
-   * @description The half-sizes of the collider shapes.
-   * @important Only radius is required for `ball` shape.
-   * @default [x: 1, y: 1, z: 1]
+   * @description The arguments for the collider shape.
+   * @default undefined
    */
-  args?:
-    | [halfWidth: number, halfHeight: number, HalfDepth: number]
-    | [radius: number]
+  args?: Array<any>
   /**
    * @description {@link Collider} position.
    * @default [x: 0, y: 0, z: 0]
@@ -107,6 +110,16 @@ export interface ColliderProps {
    * @default undefined
    */
   sensor?: boolean
+  /**
+   * @description Enables contact force events on this collider.
+   * @default false
+   */
+  activeContactForce?: boolean
+  /**
+   * @description Only emit contact force events if the total force magnitude exceeds this threshold.
+   * @default 0
+   */
+  contactForceEventThreshold?: number
 }
 
 export interface ExposedCollider {

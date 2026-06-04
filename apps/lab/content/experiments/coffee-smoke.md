@@ -2,7 +2,7 @@
 title: Coffee Smoke
 author: alvarosabu
 description: Realistic smoke simulation rising from a coffee mug using custom GLSL shaders and Perlin noise.
-thumbnail: /experiments/coffee-smoke.png
+thumbnail: /experiments/coffee-smoke.webp
 tags: [particles, shader, smoke]
 date: 2025-11-27
 lastUpdated: 2025-12-03

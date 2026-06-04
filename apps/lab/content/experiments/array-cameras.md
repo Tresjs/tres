@@ -2,7 +2,7 @@
 title: Array of cameras
 author: jaime-bboyjt
 description: An advance technique using ArrayCamera with a model animation
-thumbnail: /experiments/array-cameras.png
+thumbnail: /experiments/array-cameras.webp
 tags: ['models']
 date: 2023-04-21
 lastUpdated: 2023-04-21

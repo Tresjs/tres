@@ -24,7 +24,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
   twitterImage: '/og-image.png',
-  ogUrl: 'https://example.com',
+  ogUrl: 'https://cientos.tresjs.org',
   twitterTitle: 'Cientos docs',
   twitterDescription: 'A documentation site for cientos package ready-made abstractions for TresJS.',
 })
