@@ -134,6 +134,7 @@ catalogs:
 overrides:
   ipx: 3.0.2
   undici: ^7.24.7
+  ws: ^8.20.1
 
 importers:
 
@@ -918,7 +919,7 @@ importers:
         version: 4.5.4(@types/node@25.9.1)(rollup@4.54.0)(typescript@5.8.3)(vite@7.3.0(@types/node@25.9.1)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.48.0)(tsx@4.21.0)(yaml@2.8.2))
       vite-plugin-inspect:
         specifier: ^11.3.3
-        version: 11.3.3(@nuxt/kit@3.20.2(magicast@0.3.5))(vite@7.3.0(@types/node@25.9.1)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.48.0)(tsx@4.21.0)(yaml@2.8.2))
+        version: 11.3.3(@nuxt/kit@4.3.1(magicast@0.5.1))(vite@7.3.0(@types/node@25.9.1)(jiti@2.6.1)(lightningcss@1.31.1)(terser@5.48.0)(tsx@4.21.0)(yaml@2.8.2))
       vitest:
         specifier: catalog:testing
         version: 3.2.4(@types/debug@4.1.12)(@types/node@25.9.1)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.31.1)(terser@5.48.0)(tsx@4.21.0)(yaml@2.8.2)
@@ -12295,20 +12296,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@8.18.0:
-    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
-  ws@8.18.3:
-    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
+  ws@8.21.0:
+    resolution: {integrity: sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -20446,7 +20435,7 @@ snapshots:
       '@socket.io/component-emitter': 3.1.2
       debug: 4.4.3
       engine.io-parser: 5.2.3
-      ws: 8.18.3
+      ws: 8.21.0
       xmlhttprequest-ssl: 2.1.2
     transitivePeerDependencies:
       - bufferutil
@@ -22970,7 +22959,7 @@ snapshots:
       sharp: 0.34.5
       undici: 7.24.7
       workerd: 1.20260305.0
-      ws: 8.18.0
+      ws: 8.21.0
       youch: 4.1.0-beta.10
     transitivePeerDependencies:
       - bufferutil
@@ -27307,9 +27296,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  ws@8.18.0: {}
-
-  ws@8.18.3: {}
+  ws@8.21.0: {}
 
   ws@8.21.0: {}
 
