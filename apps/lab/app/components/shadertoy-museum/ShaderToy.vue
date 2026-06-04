@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import fragmentShader from './shaders/fragment.glsl'
 import type { ShaderToyMuseumState } from './const';
-import { Uniform, Vector2, MeshNormalMaterial, ShaderMaterial, DoubleSide } from 'three';
+import { Uniform, Vector2, ShaderMaterial, DoubleSide } from 'three';
 
 const state: ShaderToyMuseumState = inject('state')!
 

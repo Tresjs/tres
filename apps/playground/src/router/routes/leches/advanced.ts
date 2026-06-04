@@ -19,4 +19,9 @@ export const advancedRoutes = [
     name: 'Slot Content',
     component: () => import('@/pages/leches/advanced/SlotContentDemo.vue'),
   },
+  {
+    path: '/leches/advanced/folders-parent-child',
+    name: 'Folders Parent Child',
+    component: () => import('@/pages/leches/advanced/folders-parent-child/ParentChildDemo.vue'),
+  },
 ]

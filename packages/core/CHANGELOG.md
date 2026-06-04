@@ -1,3 +1,40 @@
+## 5.8.1 (2026-05-11)
+
+### 🚀 Features
+
+- **core:** add ref import to Context.vue for improved reactivity ([9992480a](https://github.com/Tresjs/tres/commit/9992480a))
+- **core:** update hmrTick to use ref and adjust spacing in Context.vue ([d3683526](https://github.com/Tresjs/tres/commit/d3683526))
+- **core:** add _roots map for per-canvas renderer state ([f0123dea](https://github.com/Tresjs/tres/commit/f0123dea))
+
+### 🩹 Fixes
+
+- **core:** add WebGLRenderer import to Context.vue ([cde12d5e](https://github.com/Tresjs/tres/commit/cde12d5e))
+- **core:** restore TresCanvasInstance.dispose WebGL teardown ([2a9f9866](https://github.com/Tresjs/tres/commit/2a9f9866))
+- **core:** clean up _roots entry and vite hmr listener on unmount ([a516f30e](https://github.com/Tresjs/tres/commit/a516f30e))
+- **core:** bump hmrTick on vite:afterUpdate to trigger slot diff ([d4d78313](https://github.com/Tresjs/tres/commit/d4d78313))
+- **core:** reuse custom renderer per canvas via _roots map ([128907cc](https://github.com/Tresjs/tres/commit/128907cc))
+- **useLoader:** correct formatting of the extensions prop type definition ([d077cd67](https://github.com/Tresjs/tres/commit/d077cd67))
+- The useLoader component has added the "extensions" parameter. ([12d325ec](https://github.com/Tresjs/tres/commit/12d325ec))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.6.0
+
+### ❤️ Thank You
+
+- alvarosabu @alvarosabu
+- dalei @daLeiStrive
+
+## 5.8.0 (2026-03-30)
+
+### 🚀 Features
+
+- add fpsLimit prop to Context and related composables ([e1e0c37a](https://github.com/Tresjs/tres/commit/e1e0c37a))
+
+### ❤️ Thank You
+
+- Tino Koch @tinoooo
+
 ## 5.7.0 (2026-03-10)
 
 ### 🚀 Features

@@ -36,6 +36,11 @@ export const rapierRoutes = [
     component: () => import('@/pages/rapier/CollisionDemo.vue'),
   },
   {
+    path: '/rapier/contact-force',
+    name: 'Contact Force',
+    component: () => import('@/pages/rapier/ContactForceDemo.vue'),
+  },
+  {
     path: '/rapier/sensor',
     name: 'Sensor',
     component: () => import('@/pages/rapier/SensorDemo.vue'),
@@ -54,5 +59,25 @@ export const rapierRoutes = [
     path: '/rapier/expose',
     name: 'Expose',
     component: () => import('@/pages/rapier/ExposeDemo.vue'),
+  },
+  {
+    path: '/rapier/collision-groups',
+    name: 'Collision Groups',
+    component: () => import('@/pages/rapier/CollisionGroupsDemo.vue'),
+  },
+  {
+    path: '/rapier/solver-groups',
+    name: 'Solver Groups',
+    component: () => import('@/pages/rapier/SolverGroupsDemo.vue'),
+  },
+  {
+    path: '/rapier/heightfield',
+    name: 'Heightfield',
+    component: () => import('@/pages/rapier/HeightfieldDemo.vue'),
+  },
+  {
+    path: '/rapier/ragdoll',
+    name: 'Basic Ragdoll',
+    component: () => import('@/pages/rapier/RagdollDemo.vue'),
   },
 ]

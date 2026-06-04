@@ -3,7 +3,7 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
-import { onErrorCaptured, ref, shallowRef } from 'vue'
+import { onErrorCaptured, shallowRef } from 'vue'
 import type { ShallowRef } from 'vue'
 
 onErrorCaptured((err) => {

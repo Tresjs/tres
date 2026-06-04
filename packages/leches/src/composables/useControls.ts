@@ -104,9 +104,10 @@ const createControl = (key: string, value: any, type: LechesControlUnion['type']
       return {
         ...baseControl,
         type,
-        min: options?.min || 0,
-        max: options?.max || 1,
-        step: options?.step || 0.1,
+        min: options?.min,
+        max: options?.max,
+        step: options?.step ?? 0.1,
+        format: options?.format,
       } as LechesNumberControl
     case 'text':
     case 'color':
@@ -134,7 +135,14 @@ const createControl = (key: string, value: any, type: LechesControlUnion['type']
     case 'button':
       return { ...baseControl, type: 'button' } as LechesButtonControl
     case 'vector':
-      return { ...baseControl, type: 'vector' } as LechesVectorControl
+      return {
+        ...baseControl,
+        type: 'vector',
+        step: options?.step,
+        min: options?.min,
+        max: options?.max,
+        format: options?.format,
+      } as LechesVectorControl
     case 'graph':
     case 'fpsgraph':
       return { ...baseControl, type } as LechesGraphControl

@@ -72,7 +72,8 @@ function onChange(value: string) {
     />
     <div
       v-else-if="control.type === 'button'"
-      class="tl-py-2 tl-px-4 tl-flex tl-justify-end"
+      class="tl-flex tl-justify-end"
+      style="padding: var(--tl-v-padding) var(--tl-h-padding);"
     >
       <ButtonControl
         :label="control.label"

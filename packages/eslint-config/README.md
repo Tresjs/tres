@@ -135,8 +135,8 @@ For more settings, check the "VS Code support" section in [antfu/eslint-config](
 [MIT](https://github.com/tresjs/eslint-config/blob/main/LICENSE)
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/@tresjs/eslint-config/latest.svg?style=flat&colorA=18181B&colorB=88E5C3
-[npm-version-href]: https://npmjs.com/package/@tresjs/eslint-config
+[npm-version-src]: https://npmx.dev/api/registry/badge/version/@tresjs/eslint-config
+[npm-version-href]: https://npmx.dev/package/@tresjs/eslint-config
 
 [npm-downloads-src]: https://img.shields.io/npm/dm/@tresjs/eslint-config.svg?style=flat&colorA=18181B&colorB=88E5C3
 [npm-downloads-href]: https://npmjs.com/package/@tresjs/eslint-config

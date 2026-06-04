@@ -2,7 +2,7 @@
 title: Halloween Spooky-saur 🎃
 author: alvarosabu
 description: Entry for the Bruno's Halloween challenge
-thumbnail: /experiments/spooky-saur.png
+thumbnail: /experiments/spooky-saur.webp
 tags: ['lights', 'fog', 'backdrop', 'unrealbloom', useGLTF]
 date: 2023-10-17
 lastUpdated: 2023-10-17
