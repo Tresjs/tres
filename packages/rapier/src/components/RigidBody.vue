@@ -115,18 +115,6 @@ watch(bodyGroup, async (group) => {
   bodyContext.value = newPhysicsState
 }, { once: true })
 
-makePropsWatcherRB(props, [
-  'gravityScale',
-  'additionalMass',
-  'linearDamping',
-  'angularDamping',
-  'dominanceGroup',
-  'linvel',
-  'angvel',
-  'enabledRotations',
-  'enabledTranslations',
-], instance)
-
 // reactively set autoColliderProps
 const setAutoColliderProp = <K extends keyof ColliderProps>(prop: K, value: ColliderProps[K]) => {
   if (autoColliderProps.value.length === 0 || props.collider === false) { return }
@@ -160,6 +148,17 @@ watch([() => props.enableCcd, instance], ([_enableCcd, _]) => {
   if (!instance.value) { return }
   instance.value.enableCcd(_enableCcd)
 })
+makePropsWatcherRB(props, [
+  'gravityScale',
+  'additionalMass',
+  'linearDamping',
+  'angularDamping',
+  'dominanceGroup',
+  'linvel',
+  'angvel',
+  'enabledRotations',
+  'enabledTranslations',
+], instance)
 
 // Automatic collider props watchers
 watch(() => props.collider, value => {
@@ -180,6 +179,7 @@ watch(() => props.solverGroups, value => setAutoColliderProp('solverGroups', val
 watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
 watch(() => props.activeContactForce, value => setAutoColliderProp('activeContactForce', value))
 watch(() => props.contactForceEventThreshold, value => setAutoColliderProp('contactForceEventThreshold', value))
+// TODO: Create a `makeAutoColliderPropsWatchers` function.
 
 onBeforeRender(() => {
   const context = bodyContext.value
