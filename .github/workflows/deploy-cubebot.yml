@@ -22,6 +22,13 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
+      # eslint.config.js imports the built @tresjs/eslint-config
+      - name: Build lint config
+        run: pnpm --filter @tresjs/eslint-config run build
+
+      - name: Lint
+        run: pnpm --filter cubebot run lint
+
       - name: Typecheck
         run: pnpm --filter cubebot run typecheck
 
