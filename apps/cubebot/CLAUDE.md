@@ -31,3 +31,4 @@ pnpm dev
 - `GITHUB_PRIVATE_KEY`
 - `GITHUB_WEBHOOK_SECRET`
 - `ANTHROPIC_API_KEY`
+- `ADMIN_SECRET` (Bearer token for `/admin/*` endpoints)

@@ -22,7 +22,12 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
+      - name: Typecheck
+        run: pnpm --filter cubebot run typecheck
+
+      # Only deploy on push to main, never on pull requests
       - name: Deploy
+        if: github.event_name == 'push'
         run: pnpm --filter cubebot run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
