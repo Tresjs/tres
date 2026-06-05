@@ -39,6 +39,7 @@
   ],
   "devDependencies": {
     "@nx/js": "^22.4.4",
+    "@shikijs/engine-javascript": "^3.20.0",
     "nx": "22.4.4"
   },
   "pnpm": {
