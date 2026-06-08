@@ -27,7 +27,7 @@
     "typecheck": "nx run-many --target=typecheck",
     "test": "nx run-many --target=test",
     "monocubo": "node tools/monocubo/dist/index.js",
-    "sponsorkit": "npx sponsorkit",
+    "sponsorkit": "sponsorkit",
     "release": "nx release --skip-publish --group=core",
     "release:version": "nx release version",
     "release:dry-run": "nx release --dry-run --skip-publish --group=core"
@@ -39,7 +39,9 @@
   ],
   "devDependencies": {
     "@nx/js": "^22.4.4",
-    "nx": "22.4.4"
+    "@shikijs/engine-javascript": "^3.20.0",
+    "nx": "22.4.4",
+    "sponsorkit": "^17.1.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
