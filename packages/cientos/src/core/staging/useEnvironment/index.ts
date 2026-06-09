@@ -16,24 +16,10 @@ import type {
   WebGLCubeRenderTarget,
 } from 'three'
 import type { Ref } from 'vue'
-import { environmentPresetQualities, environmentPresets } from './const'
+import { environmentPresets } from './const'
 import type { EnvironmentOptions, EnvironmentPresetQuality } from './const'
 
 const PRESET_ROOT = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/hdr/'
-
-/**
- * Validates the requested preset quality, falling back to `'1k'` with a warning
- * if an unsupported tier is provided.
- * @param value - The requested quality tier
- * @returns A valid `EnvironmentPresetQuality`
- */
-function resolvePresetQuality(value: unknown): EnvironmentPresetQuality {
-  if (typeof value === 'string' && environmentPresetQualities.includes(value as EnvironmentPresetQuality)) {
-    return value as EnvironmentPresetQuality
-  }
-  console.warn(`[useEnvironment] Unsupported preset quality "${value}". Falling back to "1k". Available: ${environmentPresetQualities.join(', ')}.`)
-  return '1k'
-}
 
 /**
  * Converts various rotation formats to an Euler instance
@@ -98,7 +84,7 @@ export async function useEnvironment(
 
   const {
     preset,
-    quality = ref('1k'),
+    quality = ref<EnvironmentPresetQuality>('1k'),
     blur,
     files = ref([]),
     path = ref(''),
@@ -249,7 +235,7 @@ export async function useEnvironment(
   watch([() => preset?.value, () => quality?.value], async ([value]) => {
     if (value && value in environmentPresets) {
       const _path = PRESET_ROOT
-      const _quality = resolvePresetQuality(quality?.value)
+      const _quality = quality?.value
       const _base = environmentPresets[value as unknown as keyof typeof environmentPresets]
       const _files = `${_base}_${_quality}.hdr`
 
