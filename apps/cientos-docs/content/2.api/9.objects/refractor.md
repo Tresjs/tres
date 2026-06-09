@@ -107,29 +107,22 @@ const customShader = {
 const { onBeforeRender } = useLoop()
 onBeforeRender(({ elapsed }) => {
   const uniforms = refractorRef.value?.instance?.material?.uniforms
-  if (uniforms?.time) uniforms.time.value = elapsed
+  if (uniforms?.time) { uniforms.time.value = elapsed }
 })
 </script>
 
 <template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 2, 8]" />
-    ...
-    <Refractor
-      ref="refractorRef"
-      color="#9ec8d4"
-      :shader="customShader"
-    >
-      <TresPlaneGeometry :args="[8, 5]" />
-    </Refractor>
-    ...
-  </TresCanvas>
+  <Refractor
+    ref="refractorRef"
+    color="#9ec8d4"
+    :shader="customShader"
+  >
+    <TresPlaneGeometry :args="[8, 5]" />
+  </Refractor>
 </template>
 ```
 
 The Refractor shader uses the following configuration by default:
-
-You can extend, modify or just play with them
 
 ### Default shader
 

@@ -105,25 +105,20 @@ const customShader = {
 const { onBeforeRender } = useLoop()
 onBeforeRender(({ elapsed }) => {
   const uniforms = reflectorRef.value?.instance?.material?.uniforms
-  if (uniforms?.time) uniforms.time.value = elapsed
+  if (uniforms?.time) { uniforms.time.value = elapsed }
 })
 </script>
 
 <template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[3, 2, 6]" />
-    ...
-    <Reflector
-      ref="reflectorRef"
-      :rotation="[-Math.PI * 0.5, 0, 0]"
-      :position-y="-2"
-      color="#fff"
-      :shader="customShader"
-    >
-      <TresCircleGeometry :args="[10, 10]" />
-    </Reflector>
-    ...
-  </TresCanvas>
+  <Reflector
+    ref="reflectorRef"
+    :rotation="[-Math.PI * 0.5, 0, 0]"
+    :position-y="-2"
+    color="#fff"
+    :shader="customShader"
+  >
+    <TresCircleGeometry :args="[10, 10]" />
+  </Reflector>
 </template>
 ```
 

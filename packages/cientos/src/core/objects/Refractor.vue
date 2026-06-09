@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useTres } from '@tresjs/core'
 import { Refractor } from 'three-stdlib'
-import { computed, shallowRef, toRefs, watch } from 'vue'
+import { computed, onBeforeUnmount, shallowRef, toRefs, watch } from 'vue'
 import { Color } from 'three'
 import type { ColorRepresentation } from 'three'
 import type { TresColor } from '@tresjs/core'
@@ -88,6 +88,10 @@ const colorValue = computed(() => new Color(color.value as ColorRepresentation))
 
 watch(props, () => {
   invalidate()
+})
+
+onBeforeUnmount(() => {
+  refractorRef.value?.dispose()
 })
 
 defineExpose({

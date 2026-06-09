@@ -2,7 +2,7 @@
 import { MeshWobbleMaterial, OrbitControls, Refractor, Stars } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
-import { onUnmounted, ref, shallowRef, watch } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
 
 const uuid = inject('uuid')
 
@@ -62,24 +62,16 @@ watch([clipBias, textureSize, useCustomShader], ([, , customShaderEnabled]) => {
   refractorKey.value++
 })
 
-let rafId = 0
-const startTime = performance.now()
-
-function tick() {
-  const elapsed = (performance.now() - startTime) / 1000
+const onLoop = ({ elapsed }: { elapsed: number }) => {
   const uniforms = refractorRef.value?.instance?.material?.uniforms
   if (uniforms?.time) {
     uniforms.time.value = elapsed
   }
-  rafId = requestAnimationFrame(tick)
 }
-rafId = requestAnimationFrame(tick)
-
-onUnmounted(() => cancelAnimationFrame(rafId))
 </script>
 
 <template>
-  <TresCanvas clear-color="#111">
+  <TresCanvas clear-color="#111" @loop="onLoop">
     <TresPerspectiveCamera :position="[0, 2, 8]" />
     <Stars />
     <TresMesh :position="[-2, 0, -2]">
