@@ -1,0 +1,11 @@
+version: 2
+updates:
+  # Keep SHA-pinned GitHub Actions up to date (bumps the pin and its # vX comment together)
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"
