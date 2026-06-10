@@ -97,7 +97,7 @@ const _s = new Vector3(1, 1, 1)
 // the solver over-constrains and the chain whips violently. With a dynamic ball the
 // joints can push back on it, motion stays smooth, and release inherits the drag
 // velocity for a natural throw.
-const { controls, camera } = useTres()
+const { camera } = useTres()
 const isDragging = shallowRef(false)
 const dragTarget = new Vector3()
 const _tmpVec = new Vector3()
@@ -177,7 +177,6 @@ function onBallPointerDown(event: any) {
   updateDragTargetFromTilt()
   isDragging.value = true
   document.body.style.cursor = 'grabbing'
-  if (controls.value) { (controls.value as any).enabled = false }
 }
 
 function onBallPointerMove(event: any) {
@@ -199,7 +198,6 @@ function onBallPointerUp(event: any) {
   isDragging.value = false
     ; (event.object as any).releasePointerCapture?.(event.pointerId)
   document.body.style.cursor = ''
-  if (controls.value) { (controls.value as any).enabled = true }
 }
 
 function onBallPointerOver() {
