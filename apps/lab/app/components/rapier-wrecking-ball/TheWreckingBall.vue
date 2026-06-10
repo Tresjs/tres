@@ -1,19 +1,28 @@
 <script setup lang="ts">
 import { useLoop, useTres } from '@tresjs/core'
 import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
-import { type DirectionalLight, InstancedMesh, Matrix4, MeshStandardMaterial, Quaternion, TorusGeometry, Vector3 } from 'three'
+import { DataTexture, type DirectionalLight, InstancedMesh, Matrix4, type Mesh, MeshStandardMaterial, Quaternion, RepeatWrapping, TorusGeometry, Vector3 } from 'three'
 import { RoundedBox } from '@tresjs/cientos'
 
 const poleRef = shallowRef<ExposedRigidBody | null>(null)
 const ballRef = shallowRef<ExposedRigidBody | null>(null)
 
+// Connection lug between chain and ball. Raycast must be disabled imperatively:
+// passing `:raycast` as a template prop makes Tres call Mesh.raycast as a setter
+// method (with the function as the raycaster argument) and crashes on mount.
+const lugRef = shallowRef<Mesh | null>(null)
+watchEffect(() => {
+  if (lugRef.value) { lugRef.value.raycast = () => { } }
+})
+
 const PHYSICS_LINKS = 6
 const VISUALS_PER_SEGMENT = 6
 const VISUAL_LINKS = PHYSICS_LINKS * VISUALS_PER_SEGMENT
+const BALL_SIZE = 2
 
 // Chain geometry. Pick chain length + release angle, derive ball start so all joints are satisfied at t=0.
 const POLE_POS = new Vector3(0, 13.5, 0)
-const CHAIN_LENGTH = 10
+const CHAIN_LENGTH = 8
 const RELEASE_ANGLE = 0 // ball hangs straight down at rest; user drags to release
 const SEG_LEN = CHAIN_LENGTH / PHYSICS_LINKS
 const CHAIN_DIR = new Vector3(Math.sin(RELEASE_ANGLE), -Math.cos(RELEASE_ANGLE), 0)
@@ -41,7 +50,7 @@ function setLinkRef(el: unknown, i: number) {
 
 // Rapier's default 4 solver iterations let long joint chains stretch visibly (rubber-band
 // feel). Extra iterations on the chain's bodies make the links hold their length, reads
-// as a heavy steel chain. Re-applied whenever bodies are recreated (ballSize changes).
+// as a heavy steel chain. Re-applied whenever bodies are recreated (ball reset).
 watchEffect(() => {
   for (const link of linkRefs.value) {
     link?.instance?.setAdditionalSolverIterations(8)
@@ -82,8 +91,8 @@ const _s = new Vector3(1, 1, 1)
 // toward the viewer — with the current camera that's also away from the wall). The
 // drag target sits at full chain extension on the sphere around the pole, like
 // grabbing a real hanging ball.
-// The ball STAYS dynamic and is steered toward the target by setting its linear
-// velocity each frame (velocity ∝ distance, clamped). A kinematic ball would pin the
+// The ball STAYS dynamic and is steered toward the target by a fixed-strength
+// spring-damper impulse each frame. A kinematic ball would pin the
 // chain between two immovable bodies (fixed pole + kinematic ball) — near full reach
 // the solver over-constrains and the chain whips violently. With a dynamic ball the
 // joints can push back on it, motion stays smooth, and release inherits the drag
@@ -92,12 +101,18 @@ const { controls, camera } = useTres()
 const isDragging = shallowRef(false)
 const dragTarget = new Vector3()
 const _tmpVec = new Vector3()
-// PD steering: a spring-damper force (scaled by ball mass) pulls the ball toward the
-// drag target, so it accelerates and lags like a heavy load instead of snapping to
-// the cursor. Slightly underdamped (critical ≈ 2·√stiffness ≈ 12.6) for a weighty sway.
+// PD steering: a spring-damper force pulls the ball toward the drag target, so it
+// accelerates and lags like a heavy load instead of snapping to the cursor.
+// Slightly underdamped (critical ≈ 2·√stiffness ≈ 12.6) for a weighty sway.
 const DRAG_STIFFNESS = 40 // 1/s²
 const DRAG_DAMPING = 9 // 1/s
 const MAX_DRAG_ACCEL = 80 // caps the yank transmitted into the chain on fast flicks
+// The "hand" has fixed strength: the PD force is sized for this mass, not the ball's.
+// Balls heavier than this accelerate proportionally less under the same pull, so a
+// 500-mass ball drags sluggishly while a light one snaps to the cursor. Balls lighter
+// than this still use their own mass (full PD accel) — scaling UP the force on a tiny
+// ball would blow past the stable accel range and jitter the chain.
+const DRAG_HAND_MASS = 80
 // Tilt response per NDC unit of mouse travel (full screen width = 2 NDC units),
 // expressed in sine-space of the tilt angle (1.0 ≈ 90° of tilt).
 const TILT_GAIN = 1.1
@@ -127,7 +142,7 @@ function updateDragTargetFromTilt() {
     z *= s
   }
   const y = -Math.sqrt(1 - x * x - z * z)
-  const reach = CHAIN_LENGTH + (ballSize!.value as number) - 0.05
+  const reach = CHAIN_LENGTH + BALL_SIZE - 0.05
   dragTarget.set(POLE_POS.x + x * reach, POLE_POS.y + y * reach, POLE_POS.z + z * reach)
 }
 
@@ -196,6 +211,66 @@ function onBallPointerOut() {
 }
 // --------------------------------------------------------------------------------
 
+// --- Procedural ball roughness ----------------------------------------------------
+// Battered-steel look without image assets: tileable fBm value noise baked into a
+// DataTexture, used as roughnessMap (shiny smooth spots, dull scuffed patches) and
+// reused as a subtle bumpMap so the scuffs also dent the reflections.
+function makeBallNoiseTexture(size = 256) {
+  const data = new Uint8Array(size * size * 4)
+  // Deterministic lattice hash → same texture every load (no reseed on HMR)
+  const hash = (x: number, y: number) => {
+    let h = Math.imul(x, 374761393) + Math.imul(y, 668265263)
+    h = Math.imul(h ^ (h >>> 13), 1274126177)
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967296
+  }
+  const smooth = (t: number) => t * t * (3 - 2 * t)
+  // Value noise on a lattice wrapped at `freq` → seamless tiling, so no visible
+  // seam where the sphere's UVs wrap around
+  const noise = (u: number, v: number, freq: number) => {
+    const x = u * freq
+    const y = v * freq
+    const xi = Math.floor(x)
+    const yi = Math.floor(y)
+    const x0 = xi % freq
+    const y0 = yi % freq
+    const x1 = (x0 + 1) % freq
+    const y1 = (y0 + 1) % freq
+    const tx = smooth(x - xi)
+    const ty = smooth(y - yi)
+    const a = hash(x0, y0)
+    const b = hash(x1, y0)
+    const c = hash(x0, y1)
+    const d = hash(x1, y1)
+    return a + (b - a) * tx + (c - a) * ty + (a - b - c + d) * tx * ty
+  }
+  for (let i = 0; i < size * size; i++) {
+    const u = (i % size) / size
+    const v = Math.floor(i / size) / size
+    // 4-octave fBm: big worn patches with fine grain on top
+    let n = 0
+    let amp = 0.5
+    for (let o = 0; o < 4; o++) {
+      n += noise(u, v, 8 << o) * amp
+      amp *= 0.5
+    }
+    // Push contrast around the fBm mean (~0.48): mostly polished steel, with
+    // patches that go nearly full rough
+    const rough = clamp(0.35 + (n - 0.45) * 1.8, 0.12, 1)
+    const byte = Math.round(rough * 255)
+    data[i * 4] = byte
+    data[i * 4 + 1] = byte // roughnessMap samples the green channel
+    data[i * 4 + 2] = byte
+    data[i * 4 + 3] = 255
+  }
+  const texture = new DataTexture(data, size, size)
+  texture.wrapS = RepeatWrapping
+  texture.wrapT = RepeatWrapping
+  texture.needsUpdate = true
+  return texture
+}
+const ballNoiseTexture = makeBallNoiseTexture()
+// --------------------------------------------------------------------------------
+
 const WALL_HEIGHT = 6
 const CEMENT_SHADES = ['#7a7a78', '#6e6e6c', '#828280', '#767674', '#6a6a68', '#7e7e7c']
 
@@ -211,20 +286,30 @@ const GRID_PRESETS = [
 
 const wallKey = ref(0)
 
-const { mass, ballSize, gridSize, boxMass, ballSpeed, linkMass } = useControls({
+// Bumped to respawn ball + chain at the rest pose. Both must reset together: a ball
+// respawned at the initial chain-end position while the chain is mid-swing is a huge
+// constraint violation → explosion.
+const ballKey = ref(0)
+
+const { mass, gridSize, boxMass, linkMass } = useControls({
   gridSize: {
     label: 'Grid Size',
     value: '5x6',
     options: GRID_PRESETS,
   },
-  ballSpeed: { value: 1, min: 0.1, max: 5, step: 0.1, label: 'Ball Speed' },
-  ballSize: { value: 1, min: 0.5, max: 3.5, step: 0.1, label: 'Ball Size' },
   // Heavy relative to the links: a ball that outweighs its chain keeps it
   // taut (less elastic feel) and carries real momentum into the wall
-  mass: { value: 150, min: 1, max: 500, step: 1, label: 'Mass' },
+  mass: { value: 250, min: 1, max: 500, step: 1, label: 'Mass' },
   // Keep ball:link ratio under ~50:1 or the joints start to stretch (solver limit)
   linkMass: { value: 10, min: 1, max: 50, step: 1, label: 'Link Mass' },
   boxMass: { value: 1, min: 0.1, max: 50, step: 0.1, label: 'Box Mass' },
+  resetBall: {
+    type: 'button',
+    label: 'Reset Ball',
+    size: 'block',
+    icon: 'i-carbon-reset',
+    onClick: () => { ballKey.value++ },
+  },
   resetWall: {
     type: 'button',
     label: 'Reset Wall',
@@ -234,16 +319,12 @@ const { mass, ballSize, gridSize, boxMass, ballSpeed, linkMass } = useControls({
   },
 }, { uuid: 'rapier-wrecking-ball' })
 
-// Ball start: anchor (top of ball) coincides with chain end → joint satisfied at t=0 for any ballSize
-const BALL_START = computed<[number, number, number]>(() => [
+// Ball start: anchor (top of ball) coincides with chain end → joint satisfied at t=0
+const BALL_START: [number, number, number] = [
   CHAIN_END.x,
-  CHAIN_END.y - (ballSize!.value as number),
+  CHAIN_END.y - BALL_SIZE,
   CHAIN_END.z,
-])
-
-// Bumped on ballSize change to reset the chain alongside the ball (otherwise the new ball spawns at the
-// initial chain-end position while the chain is mid-swing → huge constraint violation → explosion)
-const simKey = computed(() => `${ballSize!.value}`)
+]
 
 const parsedGrid = computed(() => {
   const [c, r] = (gridSize!.value as string).split('x').map(Number)
@@ -293,8 +374,10 @@ onBeforeRender(({ delta }) => {
       if (accel > MAX_DRAG_ACCEL) {
         _tmpVec.multiplyScalar(MAX_DRAG_ACCEL / accel)
       }
-      // impulse = m·a·dt (dt capped so a long stalled frame can't kick the ball)
-      _tmpVec.multiplyScalar(ball.mass() * Math.min(delta, 1 / 30))
+      // impulse = F·dt with F sized for the hand, not the ball: heavier balls get the
+      // same pull but less acceleration → mass-dependent drag resistance.
+      // (dt capped so a long stalled frame can't kick the ball)
+      _tmpVec.multiplyScalar(Math.min(ball.mass(), DRAG_HAND_MASS) * Math.min(delta, 1 / 30))
       ball.applyImpulse({ x: _tmpVec.x, y: _tmpVec.y, z: _tmpVec.z }, true)
     }
   }
@@ -325,7 +408,7 @@ onBeforeRender(({ delta }) => {
 </script>
 
 <template>
-  <Environment preset="city" background />
+  <Environment preset="city" background quality="4k" />
   <TresDirectionalLight ref="dirLightRef" :position="[5, 15, 10]" :intensity="1.5" cast-shadow />
   <primitive :object="chainMesh" />
 
@@ -339,7 +422,7 @@ onBeforeRender(({ delta }) => {
       </RigidBody>
 
       <!-- Chain physics links — small invisible ball colliders, visuals come from the InstancedMesh -->
-      <RigidBody v-for="i in PHYSICS_LINKS" :key="`link-${simKey}-${i}`" :ref="(el) => setLinkRef(el, i - 1)"
+      <RigidBody v-for="i in PHYSICS_LINKS" :key="`link-${ballKey}-${i}`" :ref="(el) => setLinkRef(el, i - 1)"
         type="dynamic" collider="ball" :mass="linkMass" :linear-damping="0.1" :angular-damping="1.0" :enable-ccd="true"
         :collision-groups="CHAIN_GROUPS" :solver-groups="CHAIN_GROUPS" :position="linkInitialPos(i - 1)"
         :rotation="[0, 0, CHAIN_ROT_Z]">
@@ -348,12 +431,22 @@ onBeforeRender(({ delta }) => {
         </TresMesh>
       </RigidBody>
 
-      <RigidBody :key="ballSize" ref="ballRef" type="dynamic" :position="BALL_START" collider="ball" :mass="mass"
-        :gravity-scale="ballSpeed" :enable-ccd="true">
+      <RigidBody :key="ballKey" ref="ballRef" type="dynamic" :position="BALL_START" collider="ball" :mass="mass"
+        :enable-ccd="true">
         <TresMesh cast-shadow @pointerdown="onBallPointerDown" @pointermove="onBallPointerMove"
           @pointerup="onBallPointerUp" @pointerover="onBallPointerOver" @pointerout="onBallPointerOut">
-          <TresSphereGeometry :args="[ballSize, 32, 32]" />
-          <TresMeshStandardMaterial color="#1a1a1a" :metalness="0.95" :roughness="0.1" />
+          <TresSphereGeometry :args="[BALL_SIZE, 32, 32]" />
+          <!-- roughness acts as a multiplier on the map, so keep it at 1 -->
+          <TresMeshStandardMaterial color="#1a1a1a" :metalness="0.95" :roughness="1"
+            :roughness-map="ballNoiseTexture" :bump-map="ballNoiseTexture" :bump-scale="0.04" />
+          <!-- Connection lug at the joint anchor (local [0, BALL_SIZE, 0]). Nested inside the
+               sphere mesh because auto-colliders are generated from the body's DIRECT children
+               only — as a direct child it would get its own collider. Raycast is disabled via
+               the lugRef watcher (a :raycast template prop would make Tres CALL Mesh.raycast). -->
+          <TresMesh ref="lugRef" :position="[0, BALL_SIZE, 0]" cast-shadow>
+            <TresCylinderGeometry :args="[0.2, 0.35, 0.8, 8]" />
+            <TresMeshStandardMaterial color="#888" :metalness="0.9" :roughness="0.3" flat-shading />
+          </TresMesh>
         </TresMesh>
       </RigidBody>
 
@@ -368,7 +461,7 @@ onBeforeRender(({ delta }) => {
       <!-- last link → ball -->
       <!-- @vue-expect-error duplicate rapier3d-compat type instances cause a benign RigidBody mismatch -->
       <SphericalJoint :bodies="[linkRefs[PHYSICS_LINKS - 1]?.instance, ballRef?.instance]"
-        :params="[[0, -SEG_LEN / 2, 0], [0, ballSize, 0]]" />
+        :params="[[0, -SEG_LEN / 2, 0], [0, BALL_SIZE, 0]]" />
 
       <RigidBody v-for="(box, i) in boxes" :key="`${wallKey}-${parsedGrid.cols}-${parsedGrid.rows}-${i}`" type="dynamic"
         :mass="boxMass" :position="[
