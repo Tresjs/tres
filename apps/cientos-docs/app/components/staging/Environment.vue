@@ -9,10 +9,11 @@ const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg',
 
 const { progress, hasFinishLoading } = await useProgress()
 
-const { background, blur, preset, backgroundIntensity, environmentIntensity, backgroundRotationY, syncMaterials, environmentRotationY } = useControls({
+const { background, blur, preset, quality, backgroundIntensity, environmentIntensity, backgroundRotationY, syncMaterials, environmentRotationY } = useControls({
   background: true,
   blur: { value: 0, min: 0, max: 1, step: 0.01 },
-  preset: { value: 'sunset', options: ['sunset', 'dawn', 'night', 'warehouse', 'forest', 'apartment', 'studio', 'city', 'park', 'lobby'] },
+  preset: { value: 'sunset', options: ['sunset', 'studio', 'city', 'umbrellas', 'night', 'forest', 'snow', 'dawn', 'hangar', 'urban', 'modern', 'shangai'] },
+  quality: { value: '1k', options: ['1k', '2k', '4k'] },
   backgroundIntensity: { value: 1, min: 0, max: 2, step: 0.01 },
   environmentIntensity: { value: 1, min: 0, max: 2, step: 0.01 },
   backgroundRotationY: { value: 0, min: 0, max: Math.PI * 2, step: 0.01 },
@@ -46,6 +47,7 @@ const { background, blur, preset, backgroundIntensity, environmentIntensity, bac
         :files="environmentFiles"
         :blur="blur"
         :preset="preset"
+        :quality="quality"
         :background-intensity="backgroundIntensity"
         :environment-intensity="environmentIntensity"
         :background-rotation="[0, backgroundRotationY, 0]"

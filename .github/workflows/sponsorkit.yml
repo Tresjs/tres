@@ -5,22 +5,18 @@ on:
   schedule:
     - cron: '0 0 * * *'
   push:
-    branches: [master]
+    branches: [main]
+
+permissions:
+  contents: write
 
 jobs:
   update-sponsors:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-
-      - name: Set node
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      - run: corepack enable && pnpm i
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: ./.github/actions/setup-node
 
       - name: Update sponsors
         run: pnpm run sponsorkit
@@ -29,7 +25,7 @@ jobs:
           SPONSORKIT_GITHUB_LOGIN: alvarosabu
 
       - name: Commit
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5 # v9.1.4
         with:
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
