@@ -36,6 +36,18 @@ export interface EnvironmentOptions {
    */
   preset?: EnvironmentPresetsType
   /**
+   * The resolution variant of the preset HDR to load.
+   *
+   * Only applies when `preset` is set — ignored when loading via `files` / `path`.
+   *
+   * Higher tiers are sharper but significantly larger
+   * (4K ≈ 30–60MB vs ≈1–3MB at 1K). Prefer `'1k'` unless you need the fidelity.
+   *
+   * @type {EnvironmentPresetQuality}
+   * @default '1k'
+   */
+  quality?: EnvironmentPresetQuality
+  /**
    * The resolution of the WebGLCubeRenderTarget.
    *
    * @type {number}
@@ -101,19 +113,33 @@ export interface EnvironmentOptions {
   syncMaterials?: boolean
 }
 
+/**
+ * The available resolution variants for preset HDRs.
+ */
+export type EnvironmentPresetQuality = '1k' | '2k' | '4k'
+
+/**
+ * The available preset HDR quality variants, in ascending order.
+ */
+export const environmentPresetQualities: EnvironmentPresetQuality[] = ['1k', '2k', '4k']
+
+/**
+ * Base paths (without resolution suffix) for the preset HDRs hosted in `Tresjs/assets`.
+ * The loader appends `_${quality}.hdr` to resolve the final file.
+ */
 export const environmentPresets = {
-  sunset: 'venice/venice_sunset_1k.hdr',
-  studio: 'studio/poly_haven_studio_1k.hdr',
-  city: 'city/canary_wharf_1k.hdr',
-  umbrellas: 'outdoor/outdoor_umbrellas_1k.hdr',
-  night: 'outdoor/satara_night_1k.hdr',
-  forest: 'outood/mossy_forest_1k.hdr',
-  snow: 'outdoor/snowy_forest_path_01_1k.hdr',
-  dawn: 'kiara/kiara_1_dawn_1k.hdr',
-  hangar: 'indoor/small_hangar_01_1k.hdr',
-  urban: 'indoor/abandoned_games_room_02_1k.hdr',
-  modern: 'city/modern_buildings_2_1k.hdr',
-  shangai: 'city/shanghai_bund_1k.hdr',
+  sunset: 'venice/venice_sunset',
+  studio: 'studio/poly_haven_studio',
+  city: 'city/canary_wharf',
+  umbrellas: 'outdoor/outdoor_umbrellas',
+  night: 'outdoor/satara_night',
+  forest: 'outdoor/mossy_forest',
+  snow: 'outdoor/snowy_forest_path_01',
+  dawn: 'kiara/kiara_1_dawn',
+  hangar: 'indoor/small_hangar_01',
+  urban: 'indoor/abandoned_games_room_02',
+  modern: 'city/modern_buildings_2',
+  shangai: 'city/shanghai_bund',
 }
 
 export type EnvironmentPresetsType = keyof typeof environmentPresets
