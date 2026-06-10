@@ -1,90 +1,73 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { Image, OrbitControls } from '@tresjs/cientos'
+import { Image, OrbitControls, useTexture } from '@tresjs/cientos'
 import { Color, DoubleSide, FrontSide, NoToneMapping } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'abstractions-image'
 
+const { state: birdsTexture } = useTexture('https://upload.wikimedia.org/wikipedia/commons/1/13/20220713-great-tit.jpg')
+
 const URLS = [
+  'https://upload.wikimedia.org/wikipedia/commons/d/d4/Mars_2009_Plouaret.jpg',
   'https://upload.wikimedia.org/wikipedia/commons/1/13/20220713-great-tit.jpg',
   'https://upload.wikimedia.org/wikipedia/commons/0/00/Friendly_Robin.jpg',
 ]
 
-const c = useControls({
-  url: 'https://upload.wikimedia.org/wikipedia/commons/d/d4/Mars_2009_Plouaret.jpg',
-  segments: { value: 1, min: 1, max: 10, step: 1 },
-  scaleX: { value: 1, min: 0, max: 3, step: 0.01 },
-  scaleY: { value: 1, min: 0, max: 3, step: 0.01 },
-  isRed: false,
-  zoom: { value: 1, min: 0, max: 3, step: 0.01 },
-  radius: { value: 0, min: 0, max: 1, step: 0.01 },
-  grayscale: { value: 0, min: 0, max: 1, step: 0.01 },
-  toneMapped: false,
-  transparent: true,
-  opacity: { value: 1, min: 0, max: 1, step: 0.01 },
-  isDoubleSided: true,
-  enabled: true,
-}, { uuid })
-
-const opacity = shallowRef(1)
-const url = shallowRef(URLS[0])
-const sx = shallowRef(1)
-
-let elapsed = 0
-setInterval(() => {
-  elapsed += 0.01
-  opacity.value = Math.abs(Math.sin(elapsed))
-  url.value = Math.sin(elapsed) > 0 ? URLS[0] : URLS[1]
-  sx.value = (Math.cos(elapsed) * 0.5 + 0.5)
-}, 1000 / 30)
+const {
+  url,
+  segments,
+  scaleX,
+  scaleY,
+  isRed,
+  zoom,
+  radius,
+  grayscale,
+  toneMapped,
+  transparent,
+  opacity,
+  isDoubleSided,
+} = useControls(
+  {
+    url: { value: URLS[0], options: URLS },
+    segments: { value: 1, min: 1, max: 10, step: 1 },
+    scaleX: { value: 1, min: 0, max: 3, step: 0.01 },
+    scaleY: { value: 1, min: 0, max: 3, step: 0.01 },
+    isRed: false,
+    zoom: { value: 1, min: 0, max: 3, step: 0.01 },
+    radius: { value: 0, min: 0, max: 1, step: 0.01 },
+    grayscale: { value: 0, min: 0, max: 1, step: 0.01 },
+    toneMapped: false,
+    transparent: true,
+    opacity: { value: 1, min: 0, max: 1, step: 0.01 },
+    isDoubleSided: true,
+  },
+  { uuid },
+)
 </script>
 
 <template>
   <TresLeches :uuid="uuid" />
   <TresCanvas :tone-mapping="NoToneMapping">
-    <TresPerspectiveCamera />
+    <TresPerspectiveCamera :position="[0, 3, 5]" />
     <OrbitControls />
-    <Image
-      :position-y="2"
-      :url="url"
-      :radius="opacity"
-      :color="new Color('white')"
-    >
-      <TresBoxGeometry />
-    </Image>
-    <Image
-      v-if="c.enabled.value.value"
-      :url="c.url.value.value"
-      :segments="c.segments.value.value"
-      :scale="[c.scaleX.value.value, c.scaleY.value.value]"
-      :color="c.isRed.value.value ? '#F00' : '#FFF'"
-      :zoom="c.zoom.value.value"
-      :radius="c.radius.value.value"
-      :grayscale="c.grayscale.value.value"
-      :tone-mapped="c.toneMapped.value.value"
-      :transparent="c.transparent.value.value"
-      :opacity="c.opacity.value.value"
-      :side="c.isDoubleSided.value.value ? DoubleSide : FrontSide"
-    />
-    <Image
-      :position-x="2"
-      :scale="[sx, 1]"
-      :url="url"
-    />
-    <Image
-      :position-y="-2"
-      :scale="sx"
-      :url="url"
-    >
+    <Image :url="url" :position="[2, 0, 0]">
       <TresCircleGeometry />
     </Image>
-
     <Image
-      :position-x="-2"
       :url="url"
-      :radius="opacity"
-      :transparent="true"
+      :segments="segments"
+      :scale="[scaleX, scaleY]"
+      :color="isRed ? '#F00' : '#FFF'"
+      :zoom="zoom"
+      :radius="radius"
+      :grayscale="grayscale"
+      :tone-mapped="toneMapped"
+      :transparent="transparent"
+      :opacity="opacity"
+      :side="isDoubleSided ? DoubleSide : FrontSide"
     />
+    <Image :texture="birdsTexture" :position="[-2, 0, 0]" />
+    <TresGridHelper />
   </TresCanvas>
 </template>

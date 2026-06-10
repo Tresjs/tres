@@ -86,19 +86,19 @@ const planeBounds = computed(() =>
     ? [props.scale[0], props.scale[1]]
     : [props.scale, props.scale],
 )
-const imageBounds = computed(() => [
-  texture.value?.image?.width ?? 0,
-  texture.value?.image?.height ?? 0,
-])
+const imageBounds = computed(() => {
+  const image = texture.value?.image as { width?: number, height?: number } | null
+  return [image?.width ?? 1, image?.height ?? 1]
+})
 const resolution = computed(() => Math.max(size.width.value, size.height.value))
 
-const { state, isLoading } = useTexture(props.url!)
+const { state, isLoading } = useTexture(computed(() => props.url!))
 
 watchEffect(() => {
   if (props.texture) {
     texture.value = props.texture
   }
-  if (!isLoading.value) {
+  else if (!isLoading.value) {
     texture.value = state.value
     texture.value.colorSpace = renderer.outputColorSpace
   }
