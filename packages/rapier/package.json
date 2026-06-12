@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/rapier",
   "type": "module",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "description": "TresJs physics support, powered by rapier",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -26,14 +26,16 @@
     "Jaime Torrealba (https://github.com/JaimeTorrealba)"
   ],
   "exports": {
-    ".": "./dist/tresrapier.js",
+    ".": {
+      "types": "./dist/tresrapier.d.ts",
+      "default": "./dist/tresrapier.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/tresrapier.js",
   "module": "./dist/tresrapier.js",
   "types": "./dist/tresrapier.d.ts",
   "files": [
-    "*.d.ts",
     "dist"
   ],
   "publishConfig": {
