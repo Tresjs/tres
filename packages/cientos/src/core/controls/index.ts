@@ -5,10 +5,12 @@ import OrbitControls from './OrbitControls.vue'
 import PointerLockControls from './PointerLockControls.vue'
 import ScrollControls from './ScrollControls.vue'
 import TransformControls from './TransformControls.vue'
+import { DragControls } from './DragControls.ts'
 
 export {
   BaseCameraControls,
   CameraControls,
+  DragControls,
   KeyboardControls,
   MapControls,
   OrbitControls,
