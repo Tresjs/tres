@@ -1,18 +1,13 @@
 <script setup lang="ts">
-import {
-  MeshWobbleMaterial,
-  OrbitControls,
-  Reflector,
-  Stars,
-} from '@tresjs/cientos'
+import { MeshWobbleMaterial, OrbitControls, Refractor, Stars } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
 import { ref, shallowRef, watch } from 'vue'
 
-const uuid = inject(`uuid`)
+const uuid = inject('uuid')
 
 const { color, clipBias, textureSize, useCustomShader } = useControls({
-  color: '#f7f7f7',
+  color: '#9ec8d4',
   clipBias: { value: 0, min: 0, max: 0.01, step: 0.0001 },
   textureSize: { value: 512, options: [256, 512, 1024] },
   useCustomShader: false,
@@ -59,16 +54,16 @@ const customShader = {
 }
 
 const shaderPicked = ref<object | undefined>(undefined)
-const reflectorKey = ref(0)
-const reflectorRef = shallowRef()
+const refractorKey = ref(0)
+const refractorRef = shallowRef()
 
 watch([clipBias, textureSize, useCustomShader], ([, , customShaderEnabled]) => {
   shaderPicked.value = customShaderEnabled ? customShader : undefined
-  reflectorKey.value++
+  refractorKey.value++
 })
 
 const onLoop = ({ elapsed }: { elapsed: number }) => {
-  const uniforms = reflectorRef.value?.instance?.material?.uniforms
+  const uniforms = refractorRef.value?.instance?.material?.uniforms
   if (uniforms?.time) {
     uniforms.time.value = elapsed
   }
@@ -77,26 +72,29 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
 
 <template>
   <TresCanvas clear-color="#111" @loop="onLoop">
-    <TresPerspectiveCamera :position="[3, 2, 6]" />
+    <TresPerspectiveCamera :position="[0, 2, 8]" />
     <Stars />
-    <TresMesh>
-      <TresTorusGeometry />
-      <MeshWobbleMaterial color="orange" :speed="1" :factor="2" />
+    <TresMesh :position="[-2, 0, -2]">
+      <TresTorusKnotGeometry :args="[0.8, 0.3, 100, 16]" />
+      <MeshWobbleMaterial color="hotpink" :speed="1.5" :factor="0.4" />
     </TresMesh>
-    <Reflector
-      ref="reflectorRef"
-      :key="reflectorKey"
-      :rotation="[-Math.PI * 0.5, 0, 0]"
-      :position="[0, -2, 0]"
+    <TresMesh :position="[2, 0, -2]">
+      <TresSphereGeometry :args="[1, 32, 32]" />
+      <MeshWobbleMaterial color="orange" :speed="1" :factor="0.3" />
+    </TresMesh>
+    <Refractor
+      ref="refractorRef"
+      :key="refractorKey"
       :color="color"
       :clip-bias="clipBias"
       :texture-width="textureSize"
       :texture-height="textureSize"
       :shader="shaderPicked"
     >
-      <TresCircleGeometry :args="[10, 32]" />
-    </Reflector>
+      <TresCircleGeometry :args="[5, 32]" />
+    </Refractor>
     <TresAmbientLight :intensity="1" />
+    <TresDirectionalLight :position="[5, 5, 5]" :intensity="2" />
     <OrbitControls />
   </TresCanvas>
 </template>
