@@ -60,6 +60,11 @@ watch(number, (value) => {
   // eslint-disable-next-line no-console
   console.log('number', value)
 })
+
+watch(paletteControls, (value) => {
+  // eslint-disable-next-line no-console
+  console.log('paletteControls', value)
+})
 </script>
 
 <template>
@@ -68,7 +73,7 @@ watch(number, (value) => {
   <TresAmbientLight :intensity="0.5" color="red" />
   <TresMesh ref="boxRef" :position="[0, 2, 0]">
     <TresBoxGeometry :args="[1, 1, 1]" />
-    <TresMeshNormalMaterial :wireframe="wireframe" />
+    <TresMeshBasicMaterial :wireframe="wireframe" :color="germanMaterialColor" />
   </TresMesh>
   <TresDirectionalLight :position="[0, 2, 4]" :intensity="1" cast-shadow />
   <TresAxesHelper />
