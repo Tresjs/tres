@@ -2,7 +2,7 @@
 thumbnail: /rapier-wrecking-ball.webp
 title: Rapier Wrecking Ball
 slug: rapier-wrecking-ball
-author: [jaime-bboyjt]
+author: [jaime-bboyjt, alvarosabu]
 status: draft
 date: 2026-05-22
 featured: false
