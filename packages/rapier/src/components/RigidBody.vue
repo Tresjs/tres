@@ -144,7 +144,6 @@ watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
 watch(() => props.activeContactForce, value => setAutoColliderProp('activeContactForce', value))
 watch(() => props.contactForceEventThreshold, value => setAutoColliderProp('contactForceEventThreshold', value))
 
-
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }
   instance.value.lockTranslations(_lockTranslations, true)
