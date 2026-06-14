@@ -118,8 +118,16 @@ const tresProps = computed(() => {
     buffer: _buf,
     ...rest
   } = props
+
+  // Drop undefined values so we don't overwrite the material's internal
+  // uniform defaults (e.g. attenuationColor, set to white in the constructor)
+  // with undefined — doing so crashes THREE's vec3 uniform upload.
+  const defined = Object.fromEntries(
+    Object.entries(rest).filter(([, value]) => value !== undefined),
+  )
+
   return {
-    ...rest,
+    ...defined,
     _transmission: transmission,
     transmission: 0,
   }
