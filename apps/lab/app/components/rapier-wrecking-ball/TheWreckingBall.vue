@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useLoop, useTres } from '@tresjs/core'
 import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
-import { DataTexture, type DirectionalLight, InstancedMesh, Matrix4, type Mesh, MeshStandardMaterial, Quaternion, RepeatWrapping, TorusGeometry, Vector3 } from 'three'
+import { DataTexture, InstancedMesh, Matrix4, type Mesh, MeshStandardMaterial, Quaternion, RepeatWrapping, TorusGeometry, Vector3 } from 'three'
 import { RoundedBox } from '@tresjs/cientos'
 
 const poleRef = shallowRef<ExposedRigidBody | null>(null)
@@ -341,19 +341,6 @@ const boxes = computed(() =>
   })),
 )
 
-const dirLightRef = shallowRef<DirectionalLight | null>(null)
-watch(dirLightRef, (light) => {
-  if (!light) { return }
-  light.shadow.mapSize.set(2048, 2048)
-  light.shadow.camera.left = -30
-  light.shadow.camera.right = 30
-  light.shadow.camera.top = 15
-  light.shadow.camera.bottom = -15
-  light.shadow.camera.near = 0.1
-  light.shadow.camera.far = 80
-  light.shadow.camera.updateProjectionMatrix()
-})
-
 const { onBeforeRender } = useLoop()
 onBeforeRender(({ delta }) => {
   if (isDragging.value) {
@@ -406,8 +393,6 @@ onBeforeRender(({ delta }) => {
 </script>
 
 <template>
-  <Environment preset="city" background quality="4k" />
-  <TresDirectionalLight ref="dirLightRef" :position="[5, 15, 10]" :intensity="1.5" cast-shadow />
   <primitive :object="chainMesh" />
 
   <Suspense>
