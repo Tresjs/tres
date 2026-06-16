@@ -1,5 +1,5 @@
 {
-  "name": "lab",
+  "name": "tresjs-lab",
   "type": "module",
   "private": true,
   "scripts": {
