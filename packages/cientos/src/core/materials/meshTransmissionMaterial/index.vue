@@ -169,15 +169,13 @@ onBeforeRender(({ renderer, scene, camera, elapsed }) => {
   if (!mat) { return }
 
   if ('isWebGPURenderer' in renderer && (renderer as { isWebGPURenderer?: boolean }).isWebGPURenderer === true) {
-    console.warn('MeshTransmissionMaterial: WebGPURenderer is not supported yet')
+    logWarning('MeshTransmissionMaterial: WebGPURenderer is not supported yet')
     return
   }
   if (!(renderer instanceof WebGLRenderer)) { return }
 
-  const parent = mat.__tres?.parent
+  const parent = mat?.__tres?.parent
   if (!parent) { return }
-
-  invalidate()
 
   // Advance shader time for temporal distortion
   mat.time = elapsed
@@ -191,6 +189,8 @@ onBeforeRender(({ renderer, scene, camera, elapsed }) => {
     mat.buffer = props.buffer
     return
   }
+
+  invalidate()
 
   // Save state
   const oldBg = toValue(scene).background
