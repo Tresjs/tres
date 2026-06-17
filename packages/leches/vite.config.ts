@@ -79,7 +79,7 @@ export default defineConfig({
       formats: ['es'],
     },
     cssCodeSplit: false, // <--- important!
-    rollupOptions: {
+    rolldownOptions: {
       plugins: [
       /*   analyze(),
         visualizer({
