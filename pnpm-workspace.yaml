@@ -7,6 +7,9 @@ packages:
 
 minimumReleaseAge: 7200 # 5 days
 
+# pnpm 11 no longer reads `shamefully-hoist` from .npmrc; it must live here.
+shamefullyHoist: true
+
 overrides:
   ipx: 3.0.2
   undici: ^8.4.1
