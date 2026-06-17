@@ -1,5 +1,5 @@
 [build]
-command = "pnpm install && pnpm nx run tresjs-lab:generate"
+command = "pnpm install && pnpm nx run lab:generate"
 publish = "apps/lab/dist"
 
 [build.environment]
