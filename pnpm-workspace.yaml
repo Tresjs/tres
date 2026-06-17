@@ -13,6 +13,7 @@ shamefullyHoist: true
 overrides:
   ipx: 3.0.2
   ws: ^8.21.0
+  tmp: ^0.2.7 # GHSA-7c78-jf6q-g5cm: path traversal via non-string template in <=0.2.6
 
 catalogs:
   build:
