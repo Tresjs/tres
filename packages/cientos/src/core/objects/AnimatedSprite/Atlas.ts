@@ -27,10 +27,11 @@ export async function getTextureAndAtlasAsync(
 
   return Promise.all([texturePromise, atlasishPromise]).then(
     ([texture, atlasish]) => {
+      const image = texture.image as { width: number, height: number }
       const atlas = getAtlas(
         atlasish,
-        texture.image.width,
-        texture.image.height,
+        image.width,
+        image.height,
       )
       return [texture, atlas]
     },

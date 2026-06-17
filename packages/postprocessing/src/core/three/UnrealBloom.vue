@@ -32,14 +32,14 @@ defineExpose({ pass })
 
 watchEffect(() => {
   pass.value.radius = props.radius
-    ?? pass.value.getCompositeMaterial().uniforms.bloomRadius?.value
+    ?? pass.value.compositeMaterial.uniforms.bloomRadius?.value
     ?? 0.1
 })
 
 watchEffect(() => {
   pass.value.strength
   = props.strength
-    ?? pass.value.getCompositeMaterial().uniforms.bloomStrength?.value
+    ?? pass.value.compositeMaterial.uniforms.bloomStrength?.value
     ?? 1
 })
 
