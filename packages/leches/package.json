@@ -52,24 +52,24 @@
   },
   "dependencies": {
     "@unocss/core": "66.3.2",
-    "@vueuse/components": "^13.0.0",
+    "@vueuse/components": "^14.3.0",
     "@vueuse/motion": "^3.0.3",
-    "unocss-preset-scrollbar": "^3.2.0"
+    "unocss-preset-scrollbar": "^4.0.0"
   },
   "devDependencies": {
-    "@iconify-json/ic": "^1.2.2",
-    "@iconify/json": "^2.2.320",
+    "@iconify-json/ic": "^1.2.4",
+    "@iconify/json": "^2.2.485",
     "@tresjs/eslint-config": "workspace:*",
     "@typescript-eslint/eslint-plugin": "catalog:eslint",
     "@typescript-eslint/parser": "catalog:eslint",
     "@vitejs/plugin-vue": "catalog:vite",
-    "@vitest/browser": "^3.0.9",
+    "@vitest/browser": "^4.1.8",
     "@vitest/ui": "catalog:testing",
     "@vue/test-utils": "catalog:testing",
     "@vueuse/core": "catalog:utils",
-    "@vueuse/shared": "^13.0.0",
+    "@vueuse/shared": "^14.3.0",
     "eslint": "catalog:eslint",
-    "eslint-plugin-vitest-globals": "^1.5.0",
+    "eslint-plugin-vitest-globals": "^1.6.1",
     "eslint-plugin-vue": "catalog:eslint",
     "kolorist": "catalog:utils",
     "pathe": "catalog:utils",
@@ -77,16 +77,16 @@
     "rollup-plugin-visualizer": "catalog:build",
     "typescript": "catalog:typescript",
     "unocss": "catalog:utils",
-    "unplugin-vue-components": "^28.8.0",
+    "unplugin-vue-components": "^32.1.0",
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
-    "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vite-plugin-css-injected-by-js": "^5.0.1",
     "vite-plugin-dts": "catalog:vite",
-    "vite-plugin-inspect": "^11.3.0",
-    "vite-svg-loader": "^5.1.0",
+    "vite-plugin-inspect": "^11.4.1",
+    "vite-svg-loader": "^5.1.1",
     "vitest": "catalog:testing",
     "vue": "catalog:vue",
-    "webdriverio": "^9.12.1"
+    "webdriverio": "^9.28.0"
   },
   "nx": {
     "implicitDependencies": [

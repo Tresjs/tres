@@ -55,11 +55,11 @@
   },
   "dependencies": {
     "@vueuse/core": "catalog:utils",
-    "camera-controls": "^2.9.0",
-    "stats-gl": "^2.0.1",
+    "camera-controls": "^3.1.2",
+    "stats-gl": "^4.1.0",
     "stats.js": "^0.17.0",
     "three-custom-shader-material": "catalog:three",
-    "three-mesh-bvh": "^0.9.8",
+    "three-mesh-bvh": "^0.9.10",
     "three-stdlib": "catalog:three"
   },
   "devDependencies": {
@@ -82,8 +82,8 @@
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
-    "vite-plugin-glsl": "^1.5.1",
-    "vite-svg-loader": "^5.1.0",
+    "vite-plugin-glsl": "^1.6.0",
+    "vite-svg-loader": "^5.1.1",
     "vue-tsc": "catalog:typescript"
   },
   "nx": {

@@ -79,9 +79,6 @@ export default defineConfig({
       formats: ['es'],
     },
     cssCodeSplit: false, // <--- important!
-    watch: {
-      include: [resolve(__dirname, 'src')],
-    },
     rollupOptions: {
       plugins: [
       /*   analyze(),

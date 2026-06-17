@@ -56,10 +56,11 @@
     "vue": ">=3.4"
   },
   "dependencies": {
-    "@pmndrs/pointer-events": "^6.6.17",
-    "@vue/devtools-api": "^7.7.2",
+    "@pmndrs/pointer-events": "^6.6.30",
+    "@vue/devtools-api": "^8.1.2",
     "@vueuse/core": "catalog:utils",
-    "radashi": "^12.6.2"
+    "radashi": "^12.9.1",
+    "three-stdlib": "catalog:three"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
@@ -84,7 +85,7 @@
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
-    "vite-plugin-inspect": "^11.3.3",
+    "vite-plugin-inspect": "^11.4.1",
     "vitest": "catalog:testing",
     "vue": "catalog:vue",
     "vue-demi": "^0.14.10",

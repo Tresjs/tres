@@ -14,16 +14,16 @@
   },
   "dependencies": {
     "@types/license-checker": "^25.0.6",
-    "chalk": "^5.4.1",
-    "commander": "^13.1.0",
-    "execa": "^5.1.1",
-    "inquirer": "^8.2.5",
+    "chalk": "^5.6.2",
+    "commander": "^15.0.0",
+    "execa": "^9.6.1",
+    "inquirer": "^14.0.2",
     "license-checker": "^25.0.1",
-    "ora": "^5.4.1",
+    "ora": "^9.4.0",
     "tsdown": "catalog:build"
   },
   "devDependencies": {
-    "@types/inquirer": "^9.0.8",
+    "@types/inquirer": "^9.0.9",
     "@types/node": "catalog:node",
     "typescript": "5.8.3"
   }
