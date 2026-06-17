@@ -12,7 +12,6 @@ shamefullyHoist: true
 
 overrides:
   ipx: 3.0.2
-  undici: ^8.4.1
   ws: ^8.21.0
 
 catalogs:
