@@ -17,9 +17,9 @@ import type {
 
 type rgbaSuffixes = ['r', 'rg', 'rgb', 'rgba']
 type xyzwSuffixes = ['x', 'xy', 'xyz', 'xyzw']
-type ShaderSuffix =
-  | (rgbaSuffixes)[number]
-  | (xyzwSuffixes)[number]
+type ShaderSuffix
+  = | (rgbaSuffixes)[number]
+    | (xyzwSuffixes)[number]
 
 export default class ShaderDataBuilder {
   private entries: ShaderDataEntry<any>[]

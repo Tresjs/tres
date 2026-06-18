@@ -12,15 +12,15 @@
     "embed-docs": "npx tsx scripts/embed-docs.ts"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.78.0",
-    "@octokit/auth-app": "^8.2.0",
-    "hono": "^4.12.23",
-    "octokit": "^5.0.5"
+    "@anthropic-ai/sdk": "catalog:",
+    "@octokit/auth-app": "catalog:",
+    "hono": "catalog:",
+    "octokit": "catalog:"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260226.1",
+    "@cloudflare/workers-types": "catalog:",
     "@tresjs/eslint-config": "workspace:^",
     "typescript": "catalog:typescript",
-    "wrangler": "^4.69.0"
+    "wrangler": "catalog:"
   }
 }

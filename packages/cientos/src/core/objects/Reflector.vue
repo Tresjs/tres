@@ -82,7 +82,7 @@ extend({ Reflector })
 const { color, textureWidth, textureHeight, clipBias, multisample, shader }
   = toRefs(props)
 
-const colorValue = computed(() => new Color(color.value))
+const colorValue = computed(() => Array.isArray(color.value) ? new Color(...color.value) : new Color(color.value))
 
 watch(props, () => {
   invalidate()

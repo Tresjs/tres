@@ -4,7 +4,6 @@
     "target": "esnext",
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
-    "baseUrl": ".",
     "module": "esnext",
 
     /* Bundler mode */

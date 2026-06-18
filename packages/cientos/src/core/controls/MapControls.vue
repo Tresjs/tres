@@ -5,10 +5,10 @@ import { shallowRef } from 'vue'
 import { MOUSE, TOUCH } from 'three'
 import {
   ORBIT_LIKE_DEFAULTS,
-  type OrbitLikeControlsEmits,
-  type OrbitLikeControlsProps,
+
   useOrbitLikeControls,
 } from './useOrbitLikeControls'
+import type { OrbitLikeControlsEmits, OrbitLikeControlsProps } from './useOrbitLikeControls'
 
 export type MapControlsProps = OrbitLikeControlsProps
 

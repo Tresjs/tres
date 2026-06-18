@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type ImpulseJoint, type JointAxesMask, type JointData, Quaternion, Vector3 } from '@dimforge/rapier3d-compat'
+import { Quaternion, Vector3 } from '@dimforge/rapier3d-compat'
+import type { ImpulseJoint, JointAxesMask, JointData } from '@dimforge/rapier3d-compat'
 import { onUnmounted, onUpdated, shallowRef } from 'vue'
 
 import { useRapier } from '../../composables'

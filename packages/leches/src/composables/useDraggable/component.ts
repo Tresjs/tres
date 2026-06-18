@@ -1,7 +1,6 @@
-import { computed, defineComponent, h, reactive, ref } from 'vue'
+import { computed, defineComponent, h, reactive, ref, toValue } from 'vue'
 import type { UseDraggableOptions } from '@vueuse/core'
 import { isClient, useStorage } from '@vueuse/core'
-import { toValue } from '@vueuse/shared'
 import type { Position, RenderableComponent } from '.'
 import { useDraggable } from '.'
 

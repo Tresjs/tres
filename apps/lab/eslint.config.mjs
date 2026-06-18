@@ -9,4 +9,12 @@ export default withNuxt(
       'vue/first-attribute-linebreak': 'off',
     },
   },
+  {
+    // TSL (Three.js Shading Language) node proxies have no clean public types,
+    // so `any` on Fn() params is idiomatic.
+    files: ['**/tsl/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
 )

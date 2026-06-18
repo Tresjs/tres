@@ -3,7 +3,7 @@
   "type": "module",
   "private": true,
   "version": "0.1.0",
-  "packageManager": "pnpm@10.20.0",
+  "packageManager": "pnpm@11.6.0",
   "description": "Official monorepo for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -38,19 +38,9 @@
     "apps/*"
   ],
   "devDependencies": {
-    "@nx/js": "^22.4.4",
-    "@shikijs/engine-javascript": "^3.20.0",
+    "@nx/js": "^22.7.5",
+    "@shikijs/engine-javascript": "^4.2.0",
     "nx": "22.4.4",
     "sponsorkit": "^17.1.1"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3"
-    ],
-    "overrides": {
-      "ipx": "3.0.2",
-      "undici": "^7.24.7",
-      "ws": "^8.20.1"
-    }
   }
 }

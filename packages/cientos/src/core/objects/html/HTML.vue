@@ -44,18 +44,18 @@ import {
   objectZIndex,
 } from './utils'
 
-type PointerEventsProperties =
-  | 'auto'
-  | 'none'
-  | 'visiblePainted'
-  | 'visibleFill'
-  | 'visibleStroke'
-  | 'visible'
-  | 'painted'
-  | 'fill'
-  | 'stroke'
-  | 'all'
-  | 'inherit'
+type PointerEventsProperties
+  = | 'auto'
+    | 'none'
+    | 'visiblePainted'
+    | 'visibleFill'
+    | 'visibleStroke'
+    | 'visible'
+    | 'painted'
+    | 'fill'
+    | 'stroke'
+    | 'all'
+    | 'inherit'
 
 export interface HTMLProps {
   geometry?: any

@@ -1,6 +1,7 @@
 import { useLoop, useTres } from '@tresjs/core'
 import { whenever } from '@vueuse/core'
-import { onUnmounted, type ShallowRef, watch } from 'vue'
+import { onUnmounted, watch } from 'vue'
+import type { ShallowRef } from 'vue'
 import type { TresVector3 } from '@tresjs/core'
 import type { Camera } from 'three'
 import type { OrbitControls } from 'three-stdlib'

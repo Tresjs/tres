@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { TresPointerEvent } from '@tresjs/core'
 import { useLoop, useTres } from '@tresjs/core'
 import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
 import { DataTexture, InstancedMesh, Matrix4, type Mesh, MeshStandardMaterial, Quaternion, RepeatWrapping, TorusGeometry, Vector3 } from 'three'
@@ -146,11 +147,11 @@ function updateDragTargetFromTilt() {
   dragTarget.set(POLE_POS.x + x * reach, POLE_POS.y + y * reach, POLE_POS.z + z * reach)
 }
 
-function onBallPointerDown(event: any) {
+function onBallPointerDown(event: TresPointerEvent) {
   const ball = ballRef.value?.instance
   if (!ball) { return }
   event.stopPropagation()
-    ; (event.object as any).setPointerCapture?.(event.pointerId)
+    ; (event.object as unknown as { setPointerCapture?: (id: number) => void }).setPointerCapture?.(event.pointerId)
   // Start the tilt from the chain's current direction so the grab is seamless
   const t = ball.translation()
   _tmpVec.set(t.x - POLE_POS.x, t.y - POLE_POS.y, t.z - POLE_POS.z).normalize()
@@ -179,7 +180,7 @@ function onBallPointerDown(event: any) {
   document.body.style.cursor = 'grabbing'
 }
 
-function onBallPointerMove(event: any) {
+function onBallPointerMove(event: TresPointerEvent) {
   if (!isDragging.value) { return }
   const sp = event.details?.screenPoint
   if (!sp) { return }
@@ -192,11 +193,11 @@ function onBallPointerMove(event: any) {
   updateDragTargetFromTilt()
 }
 
-function onBallPointerUp(event: any) {
+function onBallPointerUp(event: TresPointerEvent) {
   if (!isDragging.value) { return }
   // Ball keeps its current drag velocity → natural throw/swing on release
   isDragging.value = false
-    ; (event.object as any).releasePointerCapture?.(event.pointerId)
+    ; (event.object as unknown as { releasePointerCapture?: (id: number) => void }).releasePointerCapture?.(event.pointerId)
   document.body.style.cursor = ''
 }
 

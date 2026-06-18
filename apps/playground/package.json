@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:^",
-    "@tweakpane/plugin-essentials": "^0.2.1",
+    "@tweakpane/plugin-essentials": "catalog:",
     "@vitejs/plugin-vue": "catalog:vite",
     "unplugin-auto-import": "catalog:utils",
     "vite-plugin-glsl": "catalog:vite",

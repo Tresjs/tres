@@ -7,10 +7,11 @@ import {
   ConeCollider,
   CuboidCollider,
   CylinderCollider,
-  type ExposedRigidBody,
+
   Physics,
   RigidBody,
 } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 

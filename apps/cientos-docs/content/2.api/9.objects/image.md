@@ -60,6 +60,7 @@ By default, images loaded via the `url` prop use the renderer’s output color s
 <script setup>
 import { useTexture } from '@tresjs/cientos'
 import { SRGBColorSpace } from 'three'
+
 const { state } = useTexture(URL)
 watch(state, (texture) => {
   texture.colorSpace = SRGBColorSpace // assign a custom color space

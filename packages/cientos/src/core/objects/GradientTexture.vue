@@ -67,9 +67,9 @@ function update(canvas: HTMLCanvasElement) {
     const canvasCenterX = canvas.width / 2
     const canvasCenterY = canvas.height / 2
     const radius
-        = props.outerCircleRadius !== 'auto'
-          ? Math.abs(Number(props.outerCircleRadius))
-          : Math.sqrt(canvasCenterX ** 2 + canvasCenterY ** 2)
+      = props.outerCircleRadius !== 'auto'
+        ? Math.abs(Number(props.outerCircleRadius))
+        : Math.sqrt(canvasCenterX ** 2 + canvasCenterY ** 2)
     gradient = context.createRadialGradient(
       canvasCenterX,
       canvasCenterY,

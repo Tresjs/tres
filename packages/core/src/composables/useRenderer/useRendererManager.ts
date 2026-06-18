@@ -8,7 +8,8 @@ import {
   useTimeout,
 } from '@vueuse/core'
 import { Material, Mesh, WebGLRenderer } from 'three'
-import { computed, type MaybeRef, type MaybeRefOrGetter, nextTick, onUnmounted, type Reactive, ref, type ShallowRef, toValue, watch, watchEffect } from 'vue'
+import { computed, nextTick, onUnmounted, ref, toValue, watch, watchEffect } from 'vue'
+import type { MaybeRef, MaybeRefOrGetter, Reactive, ShallowRef } from 'vue'
 import type { Renderer } from 'three/webgpu'
 
 // Solution taken from Thretle that actually support different versions https://github.com/threlte/threlte/blob/5fa541179460f0dadc7dc17ae5e6854d1689379e/packages/core/src/lib/lib/useRenderer.ts
