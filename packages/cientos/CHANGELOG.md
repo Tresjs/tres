@@ -1,3 +1,27 @@
+## 5.8.0 (2026-06-18)
+
+### 🚀 Features
+
+- **cientos:** add MeshTransmissionMaterial ([#1436](https://github.com/Tresjs/tres/pull/1436))
+- **cientos:** add quality prop to serve 2k/4k preset HDRs ([#1418](https://github.com/Tresjs/tres/issues/1418))
+
+### 🩹 Fixes
+
+- **cientos:** closes #1407 - Fix the demo img (on playground), - Fix reactivity for the url prop - Improve the docs demo ([#1407](https://github.com/Tresjs/tres/issues/1407))
+- **PointerLockControls:** refactor event listeners logic ([fff6fb31](https://github.com/Tresjs/tres/commit/fff6fb31))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.8.2
+
+### ❤️ Thank You
+
+- Alfarish Fizikri
+- Alvaro Saburido @alvarosabu
+- alvarosabu @alvarosabu
+- Claude Opus 4.8
+- Jaime Torrealba
+
 ## 5.7.2 (2026-05-28)
 
 ### 🚀 Features
