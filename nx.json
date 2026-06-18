@@ -55,6 +55,9 @@
         ]
       }
     },
+    "conventionalCommits": {
+      "useCommitScope": false
+    },
     "version": {
       "conventionalCommits": true,
       "fallbackCurrentVersionResolver": "disk",
