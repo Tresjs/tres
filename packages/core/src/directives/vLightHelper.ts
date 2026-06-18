@@ -8,7 +8,7 @@ import {
   PointLightHelper,
   SpotLightHelper,
 } from 'three'
-import { RectAreaLightHelper } from 'three-stdlib'
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js'
 import { logWarning } from '../utils/logger'
 import { isLight } from '../utils/is'
 

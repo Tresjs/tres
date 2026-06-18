@@ -59,8 +59,7 @@
     "@pmndrs/pointer-events": "catalog:",
     "@vue/devtools-api": "catalog:",
     "@vueuse/core": "catalog:utils",
-    "radashi": "catalog:",
-    "three-stdlib": "catalog:three"
+    "radashi": "catalog:"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",

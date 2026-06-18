@@ -963,9 +963,6 @@ importers:
       radashi:
         specifier: 'catalog:'
         version: 12.9.1
-      three-stdlib:
-        specifier: catalog:three
-        version: 2.36.1(three@0.184.0)
     devDependencies:
       '@tresjs/eslint-config':
         specifier: workspace:*
