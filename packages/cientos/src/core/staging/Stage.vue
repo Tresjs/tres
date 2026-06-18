@@ -34,9 +34,9 @@ interface StageProps {
   align?: Partial<AlignProps>
 }
 
-type StageShadows = Partial<AccumulativeShadowsProps> &
-  Partial<RandomizedLightsProps> &
-  Partial<ContactShadowsProps> & {
+type StageShadows = Partial<AccumulativeShadowsProps>
+  & Partial<RandomizedLightsProps>
+  & Partial<ContactShadowsProps> & {
     type: 'contact' | 'accumulative'
     /** Shadow plane offset, default: 0 */
     offset?: number

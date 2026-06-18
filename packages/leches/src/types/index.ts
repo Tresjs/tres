@@ -70,14 +70,14 @@ export interface LechesGraphControl extends Omit<LechesControl<any>, 'type'> {
 }
 
 // Union type for all control types
-export type LechesControlUnion =
-  | LechesBooleanControl
-  | LechesNumberControl
-  | LechesStringControl
-  | LechesSelectControl
-  | LechesButtonControl
-  | LechesVectorControl
-  | LechesGraphControl
+export type LechesControlUnion
+  = | LechesBooleanControl
+    | LechesNumberControl
+    | LechesStringControl
+    | LechesSelectControl
+    | LechesButtonControl
+    | LechesVectorControl
+    | LechesGraphControl
 
 // Type guards for runtime type checking
 export function isBooleanControl(control: LechesControlUnion): control is LechesBooleanControl {

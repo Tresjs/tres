@@ -17,7 +17,7 @@ import pkg from './package.json' with { type: 'json' }
 import { presetScrollbar } from 'unocss-preset-scrollbar'
 
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
-// eslint-disable-next-line no-console
+
 console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`)
 
 // https://vitejs.dev/config/

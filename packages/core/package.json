@@ -56,10 +56,10 @@
     "vue": ">=3.4"
   },
   "dependencies": {
-    "@pmndrs/pointer-events": "^6.6.30",
-    "@vue/devtools-api": "^8.1.2",
+    "@pmndrs/pointer-events": "catalog:",
+    "@vue/devtools-api": "catalog:",
     "@vueuse/core": "catalog:utils",
-    "radashi": "^12.9.1",
+    "radashi": "catalog:",
     "three-stdlib": "catalog:three"
   },
   "devDependencies": {
@@ -78,7 +78,7 @@
     "kolorist": "catalog:utils",
     "pathe": "catalog:utils",
     "rollup-plugin-analyzer": "catalog:build",
-    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-copy": "catalog:",
     "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
     "tsdown": "catalog:build",
@@ -86,10 +86,10 @@
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
-    "vite-plugin-inspect": "^11.4.1",
+    "vite-plugin-inspect": "catalog:",
     "vitest": "catalog:testing",
     "vue": "catalog:vue",
-    "vue-demi": "^0.14.10",
+    "vue-demi": "catalog:",
     "vue-tsc": "catalog:typescript"
   },
   "nx": {

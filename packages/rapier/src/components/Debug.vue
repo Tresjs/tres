@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useLoop } from '@tresjs/core'
-import { BufferAttribute, type LineSegments } from 'three'
+import { BufferAttribute } from 'three'
+import type { LineSegments } from 'three'
 import { ref } from 'vue'
 
 import { useRapierContext } from '../composables/useRapier'

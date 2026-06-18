@@ -182,7 +182,7 @@ defineExpose({
 })
 
 scene.value.traverse((child) => {
-  if (Object.prototype.hasOwnProperty.call(child, 'isSky')) {
+  if (Object.hasOwn(child, 'isSky')) {
     sunRef.value = child as Sky
   }
 })

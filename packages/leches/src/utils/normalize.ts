@@ -2,12 +2,12 @@ import { isVector2, isVector3 } from '.'
 
 export interface Vector3Prop { x: number, y: number, z: number }
 export interface Vector2Prop { x: number, y: number }
-export type SizeFlexibleParams =
-  | number[]
-  | {
-    width: number
-    height: number
-  }
+export type SizeFlexibleParams
+  = | number[]
+    | {
+      width: number
+      height: number
+    }
 
 export interface Vector2PropInterface {
   x?: number

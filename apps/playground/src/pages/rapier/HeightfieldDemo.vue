@@ -5,12 +5,13 @@ import { TresLeches, useControls } from '@tresjs/leches'
 import { HeightfieldCollider, InstancedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
 import {
   ACESFilmicToneMapping,
-  type InstancedMesh,
+
   MeshNormalMaterial,
   PlaneGeometry,
   SphereGeometry,
   SRGBColorSpace,
 } from 'three'
+import type { InstancedMesh } from 'three'
 
 const gl = {
   clearColor: '#82DBC5',

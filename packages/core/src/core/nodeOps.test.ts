@@ -5,7 +5,8 @@ import * as THREE from 'three'
 import { Mesh, Scene } from 'three'
 import { shallowRef } from 'vue'
 import { extend } from './catalogue'
-import { nodeOps as getNodeOps, type TextNode } from './nodeOps'
+import { nodeOps as getNodeOps } from './nodeOps'
+import type { TextNode } from './nodeOps'
 
 let nodeOps = getNodeOps({ context: mockTresContext() })
 const pool = []

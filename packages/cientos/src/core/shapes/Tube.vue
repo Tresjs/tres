@@ -1,6 +1,7 @@
 <!-- eslint-disable max-len -->
 <script setup lang="ts">
-import { type TresColor, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
 import { QuadraticBezierCurve3, Vector3 } from 'three'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { TubeGeometry } from 'three'

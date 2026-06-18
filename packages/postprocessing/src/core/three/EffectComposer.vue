@@ -4,7 +4,8 @@ import { useDevicePixelRatio } from '@vueuse/core'
 import type { WebGLRenderTarget } from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { type InjectionKey, onUnmounted, provide, type ShallowRef, shallowRef, watchEffect } from 'vue'
+import { onUnmounted, provide, shallowRef, watchEffect } from 'vue'
+import type { InjectionKey, ShallowRef } from 'vue'
 
 export const effectComposerInjectionKey: InjectionKey<ShallowRef<EffectComposer | null>> = Symbol('effectComposerThree')
 

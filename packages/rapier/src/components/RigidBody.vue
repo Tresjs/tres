@@ -8,9 +8,10 @@ import {
   onUpdated,
   provide,
   shallowRef,
-  type ShallowRef,
+
   watch,
 } from 'vue'
+import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createRigidBody, createRigidBodyAutoColliderPropsFromObject } from '../core'

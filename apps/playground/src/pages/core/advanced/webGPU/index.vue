@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { TresCanvas, TresRendererError, type TresRendererSetupContext } from '@tresjs/core'
+import { TresCanvas, TresRendererError } from '@tresjs/core'
+import type { TresRendererSetupContext } from '@tresjs/core'
 import { WebGPURenderer } from 'three/webgpu'
 import type { ShadowMapType, ToneMapping } from 'three'
 import { ACESFilmicToneMapping, AgXToneMapping, BasicShadowMap, CineonToneMapping, LinearToneMapping, NeutralToneMapping, NoToneMapping, PCFShadowMap, PCFSoftShadowMap, ReinhardToneMapping, VSMShadowMap } from 'three'

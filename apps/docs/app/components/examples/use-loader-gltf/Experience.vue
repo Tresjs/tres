@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGraph, useLoader } from '@tresjs/core'
-import { type GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import { computed } from 'vue'
 import { OrbitControls } from '@tresjs/cientos'

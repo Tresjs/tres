@@ -5,7 +5,6 @@ import { resolve } from 'pathe'
 import { defineConfig } from 'vite'
 import pkg from './package.json' with { type: 'json' }
 
-// eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('𝗫')} ${bold('Tres/post-processing')} v${pkg.version}`)
 
 // https://vitejs.dev/config/

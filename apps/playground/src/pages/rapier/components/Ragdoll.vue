@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import {
   CuboidCollider,
-  type ExposedRigidBody,
+
   RigidBody,
   SphericalJoint,
-  type VectorArray,
+
 } from '@tresjs/rapier'
-import { onMounted, onUnmounted, shallowRef, type ShallowRef } from 'vue'
+import type { ExposedRigidBody, VectorArray } from '@tresjs/rapier'
+import { onMounted, onUnmounted, shallowRef } from 'vue'
+import type { ShallowRef } from 'vue'
 
 const headRef: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 const torsoRef: ShallowRef<ExposedRigidBody | null> = shallowRef(null)

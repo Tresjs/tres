@@ -21,12 +21,19 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "files": [
     "dist"
   ],
@@ -43,12 +50,12 @@
     "eslint": ">=8.40.0"
   },
   "dependencies": {
-    "@antfu/eslint-config": "~9.0.0",
-    "eslint-plugin-format": "^2.0.1"
+    "@antfu/eslint-config": "catalog:",
+    "eslint-plugin-format": "catalog:"
   },
   "devDependencies": {
     "eslint": "catalog:eslint",
-    "eslint-flat-config-viewer": "^0.1.20",
-    "tsdown": "^0.22.2"
+    "eslint-flat-config-viewer": "catalog:",
+    "tsdown": "catalog:build"
   }
 }

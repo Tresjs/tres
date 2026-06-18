@@ -1,5 +1,6 @@
 import { logError } from '@tresjs/core'
-import { type Texture, TextureLoader } from 'three'
+import { TextureLoader } from 'three'
+import type { Texture } from 'three'
 import { expand } from './AtlasAnimationDefinitionParser'
 import { getNumbersFromEnd, stripUnderscoresNumbersFromEnd } from './StringOps'
 
@@ -106,9 +107,9 @@ export function getNullAtlasFrame(): AtlasFrame {
   }
 }
 
-export type AtlasData =
-  | TexturePackerFrameDataArray
-  | TexturePackerFrameDataObject
+export type AtlasData
+  = | TexturePackerFrameDataArray
+    | TexturePackerFrameDataObject
 export type Atlasish = AtlasData | [number, number] | number
 
 interface TexturePackerFrameData {
@@ -296,7 +297,7 @@ function groupAtlasFramesByKey(
   for (const frame of frames) {
     if (getNumbersFromEnd(frame.name) !== null) {
       const key = stripUnderscoresNumbersFromEnd(frame.name)
-      if (Object.prototype.hasOwnProperty.call(result, key)) {
+      if (Object.hasOwn(result, key)) {
         result[key].push(frame)
       }
       else {

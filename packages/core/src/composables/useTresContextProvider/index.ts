@@ -9,7 +9,8 @@ import type { UseCameraReturn } from '../useCamera'
 
 import { useCameraManager } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
-import useSizes, { type SizesType } from '../useSizes'
+import useSizes from '../useSizes'
+import type { SizesType } from '../useSizes'
 import { useEventManager } from '../useEventManager'
 import { createInjectionState } from '@vueuse/core'
 

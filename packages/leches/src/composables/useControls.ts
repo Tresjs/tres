@@ -1,4 +1,5 @@
-import { capitalize, isReactive, isRef, provide, reactive, ref, type Ref, toRefs } from 'vue'
+import { capitalize, isReactive, isRef, provide, reactive, ref, toRefs } from 'vue'
+import type { Ref } from 'vue'
 import { createSharedComposable } from '@vueuse/core'
 import type {
   LechesBooleanControl,
@@ -55,14 +56,14 @@ const inferType = (value: any): LechesControlUnion['type'] => {
     || value.value.isVector3
     || value.value.isVector2
     || value.value.isEuler
-    || Array.isArray(value.value.value)
-  ) {
+    || Array.isArray(value.value.value)) {
     return 'vector'
   }
   if (value.min !== undefined || value.max !== undefined || value.step !== undefined) { return 'range' }
   if (
     value.options
-    && Array.isArray(value.options)) {
+    && Array.isArray(value.options)
+  ) {
     return 'select'
   }
   if (value.type === 'graph') {

@@ -23,12 +23,12 @@ Tres v5 announcement
 :::
  -->
 
-#title
+# title
 
 <span class="text-primary-300">TresJS</span> \
 Bring Three to the Vue ecosystem
 
-#description
+# description
 Create awesome Three-based experiences with the framework you love.
 
 #links
@@ -56,7 +56,7 @@ Create awesome Three-based experiences with the framework you love.
 ::
 
 ::u-page-section
-#title
+# title
 Features you will love
 
 #links
@@ -78,10 +78,10 @@ Features you will love
   icon: i-lucide-lightbulb
   target: _blank
   ---
-  #title
+  # title
   Declarative
 
-  #description
+  # description
   Build 3D scenes with familiar Vue components and composables.
   :::
 
@@ -91,10 +91,10 @@ Features you will love
   target: _blank
   to: https://threejs.org
   ---
-  #title
+  # title
   Up to date with Three.js
 
-  #description
+  # description
   Enjoy the latest features right away.
   :::
 
@@ -104,7 +104,7 @@ Features you will love
   target: _blank
   to: https://ui.nuxt.com
   ---
-  #title
+  # title
   DX focused
   #description
   Inspect your 3D scenes like never before with official devtools.
@@ -116,10 +116,10 @@ Features you will love
   target: _blank
   to: https://www.typescriptlang.org
   ---
-  #title
+  # title
   TypeScript
 
-  #description
+  # description
   A fully typed development experience.
   :::
 
@@ -129,10 +129,10 @@ Features you will love
   target: _blank
   to: https://nuxt.com/modules/tresjs
   ---
-  #title
+  # title
   Nuxt module
 
-  #description
+  # description
   Enjoy the best of both worlds with a fully integrated experience.
   :::
 
@@ -142,10 +142,10 @@ Features you will love
   target: _blank
 
   ---
-  #title
+  # title
   Ecosystem
 
-  #description
+  # description
   Extend the core functionality with packages such as cientos and postprocessing or add your own custom packages.
   :::
 ::

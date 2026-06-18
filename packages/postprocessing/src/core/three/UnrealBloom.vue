@@ -38,15 +38,15 @@ watchEffect(() => {
 
 watchEffect(() => {
   pass.value.strength
-  = props.strength
-    ?? pass.value.compositeMaterial.uniforms.bloomStrength?.value
-    ?? 1
+    = props.strength
+      ?? pass.value.compositeMaterial.uniforms.bloomStrength?.value
+      ?? 1
 })
 
 watchEffect(() => {
   pass.value.threshold
-  = props.threshold
-    ?? LuminosityHighPassShader.uniforms.luminosityThreshold?.value
-    ?? 1
+    = props.threshold
+      ?? LuminosityHighPassShader.uniforms.luminosityThreshold?.value
+      ?? 1
 })
 </script>

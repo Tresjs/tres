@@ -1,6 +1,7 @@
 import { shallowRef } from 'vue'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { deleteRoot, getRoot, hasRoot, setRoot, type TresRoot } from './roots'
+import { deleteRoot, getRoot, hasRoot, setRoot } from './roots'
+import type { TresRoot } from './roots'
 
 const makeFakeRoot = (): TresRoot => ({
   renderer: {} as any,

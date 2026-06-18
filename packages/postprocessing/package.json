@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@vueuse/core": "catalog:utils",
-    "postprocessing": "^6.39.1"
+    "postprocessing": "catalog:"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:*",
