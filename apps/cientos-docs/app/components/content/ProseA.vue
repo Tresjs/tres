@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const props = defineProps<
   {
-    href: string
-    target: '_blank' | '_parent' | '_self' | '_top' | (string & object) | null | undefined
+    href?: string
+    target?: '_blank' | '_parent' | '_self' | '_top' | (string & object) | null | undefined
   }
 >()
 
 const type = computed(() => {
-  if (props.href.startsWith('https://github.com/')) {
+  if (props.href?.startsWith('https://github.com/')) {
     return 'github-at'
   }
   return 'link'
