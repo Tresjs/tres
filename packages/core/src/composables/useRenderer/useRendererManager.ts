@@ -19,7 +19,7 @@ import { logWarning } from '../../utils/logger'
 import type { SizesType } from '../useSizes'
 import type { UseCameraReturn } from '../useCamera'
 import type { TresScene } from '../../types'
-import { isFunction, isObject } from '../../utils/is'
+import { isFunction, isWebGPURenderer } from '../../utils/is'
 import { useCreateRafLoop } from '../useCreateRafLoop'
 import { TresRendererError } from '../../utils/error'
 
@@ -269,10 +269,6 @@ export function useRendererManager(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
-  // be aware that the WebGLRenderer does not extend from Renderer
-  const isRenderer = (value: unknown): value is Renderer =>
-    isObject(value) && 'isRenderer' in value && Boolean(value.isRenderer)
-
   const readyEventHook = createEventHook<TresRenderer>()
   const errorEventHook = createEventHook<TresRendererError>()
   let hasTriggeredReady = false
@@ -284,7 +280,7 @@ export function useRendererManager(
   // Initialize renderer asynchronously (required for WebGPU in Three.js r181+)
   const initializeRenderer = async () => {
     try {
-      if (isRenderer(renderer)) {
+      if (isWebGPURenderer(renderer)) {
         // WebGPU renderer requires awaiting init() before any operations
         await renderer.init()
       }
