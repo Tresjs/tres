@@ -30,18 +30,11 @@ const { focused, blend } = useControls({
     <Environment preset="studio" :background="true" :blur="0.5" />
   </Suspense>
 
-  <TresMesh
-    v-for="(f, i) in frames"
-    :key="f.preset"
-    :position="[f.x, 0, 0]"
-  >
+  <TresMesh v-for="(f, i) in frames" :key="f.preset" :position="[f.x, 0, 0]">
     <TresPlaneGeometry :args="[2, 3]" />
     <!-- Only the focused portal reacts to the blend slider (the blend takeover is
          full-screen, so blending more than one at a time would conflict). -->
-    <MeshPortalMaterial
-      :blend="focused === i ? blend : 0"
-      :resolution="1024"
-    >
+    <MeshPortalMaterial :blend="focused === i ? blend : 0" :resolution="2048">
       <PortalScene :preset="f.preset" :color="f.color" />
     </MeshPortalMaterial>
   </TresMesh>
