@@ -6,33 +6,43 @@ import PortalScene from './PortalScene.vue'
 const uuid = 'materials-mesh-portal'
 useControls('fpsgraph', { uuid })
 
-const { blend, resolution, worldUnits } = useControls({
+// Three portals, each a self-contained scene with its OWN environment preset.
+// Distinct backgrounds across portals = proof the per-portal scene context works.
+const frames = [
+  { x: -2.3, preset: 'dawn', color: '#fbb03b' },
+  { x: 0, preset: 'night', color: '#7db4ff' },
+  { x: 2.3, preset: 'sunset', color: '#ff6b9d' },
+]
+
+const { focused, blend } = useControls({
+  focused: { value: 1, min: 0, max: 2, step: 1 },
   blend: { value: 0, min: 0, max: 1, step: 0.01 },
-  resolution: { value: 1024, min: 64, max: 2048, step: 64 },
-  worldUnits: false,
 }, { uuid })
 </script>
 
 <template>
-  <TresPerspectiveCamera :position="[0, 0, 6]" :fov="50" :look-at="[0, 0, 0]" />
+  <TresPerspectiveCamera :position="[0, 0, 7]" :fov="50" :look-at="[0, 0, 0]" />
   <OrbitControls />
 
-  <!-- Host portal surface -->
-  <TresMesh>
-    <TresPlaneGeometry :args="[3, 4]" />
-    <MeshPortalMaterial :blend="blend" :resolution="resolution" :world-units="worldUnits">
-      <!-- Portal scene: rendered off-main, shown through the surface -->
-      <PortalScene />
+  <!-- The WORLD has its own environment (studio), clearly different from every
+       portal. Orbit the camera to see each portal's contents track world-space. -->
+  <Suspense>
+    <Environment preset="studio" :background="true" :blur="0.5" />
+  </Suspense>
+
+  <TresMesh
+    v-for="(f, i) in frames"
+    :key="f.preset"
+    :position="[f.x, 0, 0]"
+  >
+    <TresPlaneGeometry :args="[2, 3]" />
+    <!-- Only the focused portal reacts to the blend slider (the blend takeover is
+         full-screen, so blending more than one at a time would conflict). -->
+    <MeshPortalMaterial
+      :blend="focused === i ? blend : 0"
+      :resolution="1024"
+    >
+      <PortalScene :preset="f.preset" :color="f.color" />
     </MeshPortalMaterial>
   </TresMesh>
-
-  <!-- World object to contrast against the portal -->
-  <TresMesh :position="[-3.5, 0, 0]">
-    <TresSphereGeometry :args="[0.7, 32, 32]" />
-    <TresMeshNormalMaterial />
-  </TresMesh>
-  <TresAmbientLight :intensity="0.8" />
-  <Suspense>
-    <Environment :blur="0.9" preset="sunset" :background="true" />
-  </Suspense>
 </template>

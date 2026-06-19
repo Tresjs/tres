@@ -2,35 +2,39 @@
 import { Environment } from '@tresjs/cientos'
 import { useLoop } from '@tresjs/core'
 
-const torusKnot = ref()
+const props = withDefaults(defineProps<{ preset?: string, color?: string }>(), {
+  preset: 'dawn',
+  color: '#ffffff',
+})
 
+const obj = ref()
 const { onBeforeRender } = useLoop()
 onBeforeRender(({ delta }) => {
-  if (torusKnot.value) {
-    torusKnot.value.rotation.x += delta
-    torusKnot.value.rotation.y += delta
+  if (obj.value) {
+    obj.value.rotation.x += delta * 0.6
+    obj.value.rotation.y += delta * 0.4
   }
 })
 </script>
 
 <template>
-  <!-- <Environment> here configures the PORTAL scene, not the main scene:
-       MeshPortalMaterial overrides the injected scene context for its children.
-       Distinct preset from the world's sunset to make the separation obvious. -->
+  <!-- Each portal's <Environment> configures ITS OWN scene, thanks to the context
+       override in MeshPortalMaterial. If the override were broken, every portal
+       would instead show the world's environment. -->
   <Suspense>
-    <Environment preset="dawn" :background="true" />
+    <Environment :preset="(props.preset as any)" :background="true" />
   </Suspense>
 
-  <TresAmbientLight :intensity="0.3" />
-  <TresDirectionalLight :position="[2, 4, 3]" :intensity="1.2" />
+  <TresAmbientLight :intensity="0.25" />
 
-  <TresMesh ref="torusKnot" :position="[0, 0, -1]">
-    <TresTorusKnotGeometry :args="[0.6, 0.25, 128, 32]" />
-    <TresMeshStandardMaterial color="#fbb03b" :metalness="0.6" :roughness="0.2" />
+  <!-- Metallic surface so the portal's own IBL is visible as reflections -->
+  <TresMesh ref="obj" :position="[0, 0.1, -1]">
+    <TresTorusKnotGeometry :args="[0.5, 0.2, 128, 32]" />
+    <TresMeshStandardMaterial :color="props.color" :metalness="0.8" :roughness="0.12" />
   </TresMesh>
 
-  <TresMesh :position="[0, -1.5, 0]" :rotation="[-Math.PI / 2, 0, 0]">
-    <TresPlaneGeometry :args="[10, 10]" />
-    <TresMeshStandardMaterial color="#1a3a5a" />
+  <TresMesh :position="[0, -1.2, 0]" :rotation="[-Math.PI / 2, 0, 0]">
+    <TresPlaneGeometry :args="[12, 12]" />
+    <TresMeshStandardMaterial color="#1a1a20" :roughness="0.4" :metalness="0.2" />
   </TresMesh>
 </template>
