@@ -60,24 +60,33 @@ import { MeshPortalMaterial, OrbitControls } from '@tresjs/cientos'
 
 ## Setting the portal's background or environment
 
-Use declarative `attach` on a child of `<MeshPortalMaterial>` — it resolves to the
-**portal** scene (it is attached structurally, not via injected context), so the
-portal gets its own background/environment independent of the world:
+`<MeshPortalMaterial>` overrides the injected scene context for its children, so
+helpers that target "the scene" affect the **portal** scene, not the world. Both of
+these give the portal its own look, independent of the main scene:
 
 ```vue
 <MeshPortalMaterial :blend="blend">
-  <!-- portal-only background color -->
+  <!-- Imperative helper — works because the injected scene is the portal scene -->
+  <Suspense>
+    <Environment preset="dawn" :background="true" />
+  </Suspense>
+
+  <!-- Or declarative attach (also lands on the portal scene) -->
   <TresColor attach="background" :args="[0.1, 0.1, 0.18]" />
-  <!-- portal-only IBL: attach a loaded texture -->
-  <primitive v-if="envTexture" :object="envTexture" attach="environment" />
+
   <!-- ...portal scene contents... -->
 </MeshPortalMaterial>
 ```
 
 ::prose-note
+**How it works:** the component `provide()`s a context whose `scene` points at the
+private portal scene. Vue's `provide`/`inject` follows the mounted tree (it reaches
+slot content through the internal `<TresPortal>`/`<Teleport>`), so both imperative
+helpers (`useTres().scene`, e.g. `<Environment>`) and declarative `attach` configure
+the portal scene. Only the `scene` is swapped — renderer, camera and sizes are shared.
+::
+
+::prose-note
 **Limitations (MVP):** `blur` (edge fade) and pointer-event forwarding into the
-portal scene are not yet implemented. The cientos `<Environment>` **component** is
-imperative (it reads `useTres().scene`) so, declared inside the portal, it affects
-the **main** scene — use the declarative `attach` approach above for a portal-only
-background/environment instead. WebGPU is not yet supported.
+portal scene are not yet implemented. WebGPU is not yet supported.
 ::

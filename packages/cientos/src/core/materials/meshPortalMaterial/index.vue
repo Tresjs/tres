@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { logWarning, TresPortal, useLoop, useTres } from '@tresjs/core'
+import { INJECTION_KEY, logWarning, TresPortal, useLoop, useTres, useTresContext } from '@tresjs/core'
 import {
   HalfFloatType,
   LinearFilter,
@@ -12,7 +12,7 @@ import {
   WebGLRenderer,
   WebGLRenderTarget,
 } from 'three'
-import { onBeforeUnmount, shallowRef, watch } from 'vue'
+import { onBeforeUnmount, provide, shallowRef, watch } from 'vue'
 import { PortalMaterialImpl } from './PortalMaterialImpl'
 
 export interface MeshPortalMaterialProps {
@@ -41,6 +41,14 @@ const materialRef = shallowRef()
 // Private portal scene. Children are reparented here via <TresPortal>.
 const portalScene = new Scene()
 portalScene.matrixAutoUpdate = false
+
+// Override the injected scene context for the portal children so that imperative
+// helpers (e.g. cientos <Environment>) that read `useTres().scene` configure the
+// PORTAL scene, not the main scene. provide() reaches slot content through the
+// <TresPortal>/<Teleport> (it follows the mounted tree, not authorship); only the
+// `scene` ref is swapped — renderer, camera, sizes, etc. are inherited unchanged.
+const ctx = useTresContext()
+provide(INJECTION_KEY, { ...ctx, scene: shallowRef(portalScene) })
 
 // FBOs
 const rtOptions = { minFilter: LinearFilter, magFilter: LinearFilter, type: HalfFloatType }

@@ -42,7 +42,7 @@ const target = new Scene()
 | `disabled` | `boolean` | `false` | When `true`, children render in place (main scene). |
 
 ::note
-Reparenting is **structural** only — children are added to the target via `nodeOps`, and the target is also where `attach` resolves. So declarative `attach` lands on the target scene: `<TresColor attach="background" />` or `<primitive :object="tex" attach="environment" />` inside a portal correctly set the **target** scene's background/environment.
+`<TresPortal>` only handles **structural** reparenting — children are added to the target via `nodeOps`, and the target is also where `attach` resolves. So `<TresColor attach="background" />` or `<primitive :object="tex" attach="environment" />` inside a portal set the **target** scene's properties.
 
-What does **not** transfer is the injected context: children's `useTres().scene` still resolves to the main scene (Vue slot ownership), so imperative helpers that read it — like the cientos `<Environment>` component — affect the main scene, not the target. Rendering the target scene (e.g. to a texture) is the consumer's responsibility — `MeshPortalMaterial` does this via an FBO.
+By itself it does **not** override the injected scene context: children's `useTres().scene` still returns the main scene, so imperative helpers like the cientos `<Environment>` component would target the main scene. A consumer can add this by `provide()`-ing a context whose `scene` is the target — `provide`/`inject` follows the mounted tree, so it reaches the portal's slot children through the `<Teleport>`. `MeshPortalMaterial` does exactly this, which is why `<Environment>` works inside it. Rendering the target scene (e.g. to a texture) is also the consumer's responsibility — `MeshPortalMaterial` does that via an FBO.
 ::
