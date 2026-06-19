@@ -71,14 +71,20 @@ const quadMaterial = new ShaderMaterial({
     void main() { gl_FragColor = mix(texture2D(b, vUv), texture2D(a, vUv), blend); }
   `,
 })
-quadScene.add(new Mesh(new PlaneGeometry(2, 2), quadMaterial))
+const quadGeometry = new PlaneGeometry(2, 2)
+quadScene.add(new Mesh(quadGeometry, quadMaterial))
 
 const { onBeforeRender, onRender } = useLoop()
 const drawSize = new Vector2()
 
+let hasWarnedWebGPU = false
+
 function isWebGL(r: unknown): r is WebGLRenderer {
   if ((r as { isWebGPURenderer?: boolean })?.isWebGPURenderer) {
-    logWarning('MeshPortalMaterial: WebGPURenderer is not supported yet')
+    if (!hasWarnedWebGPU) {
+      logWarning('MeshPortalMaterial: WebGPURenderer is not supported yet')
+      hasWarnedWebGPU = true
+    }
     return false
   }
   return r instanceof WebGLRenderer
@@ -159,6 +165,7 @@ onBeforeUnmount(() => {
   fboMap.dispose()
   buffer1.dispose()
   buffer2.dispose()
+  quadGeometry.dispose()
   quadMaterial.dispose()
 })
 
