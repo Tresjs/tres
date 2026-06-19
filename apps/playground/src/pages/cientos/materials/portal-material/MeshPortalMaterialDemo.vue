@@ -33,6 +33,6 @@ const { blend, resolution, worldUnits } = useControls({
   </TresMesh>
   <TresAmbientLight :intensity="0.8" />
   <Suspense>
-    <Environment :blur="0.25" preset="sunset" :background="true" />
+    <Environment :blur="0.9" preset="sunset" :background="true" />
   </Suspense>
 </template>
