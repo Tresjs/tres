@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { MeshPortalMaterial, OrbitControls } from '@tresjs/cientos'
+import { Environment, MeshPortalMaterial, OrbitControls } from '@tresjs/cientos'
 import { useControls } from '@tresjs/leches'
 import PortalScene from './PortalScene.vue'
 
@@ -32,4 +32,7 @@ const { blend, resolution, worldUnits } = useControls({
     <TresMeshNormalMaterial />
   </TresMesh>
   <TresAmbientLight :intensity="0.8" />
+  <Suspense>
+    <Environment :blur="0.25" preset="sunset" :background="true" />
+  </Suspense>
 </template>

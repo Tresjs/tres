@@ -13,6 +13,10 @@ onBeforeRender(({ delta }) => {
 </script>
 
 <template>
+  <!-- Distinct portal background: attach lands on the private portalScene,
+       NOT the main scene (it resolves against the <TresPortal> target). -->
+  <TresColor attach="background" :args="[0.1, 0.1, 0.18]" />
+
   <TresAmbientLight :intensity="0.5" />
   <TresDirectionalLight :position="[2, 4, 3]" :intensity="1.5" />
 

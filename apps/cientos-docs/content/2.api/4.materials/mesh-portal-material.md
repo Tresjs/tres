@@ -58,9 +58,26 @@ import { MeshPortalMaterial, OrbitControls } from '@tresjs/cientos'
 | `worldUnits` | `boolean` | `false` | Keep portal contents in world units instead of host-relative. |
 | `renderPriority` | `number` | `0` | Render-loop priority for the blend takeover. Applied at mount — changing it later requires a remount. |
 
+## Setting the portal's background or environment
+
+Use declarative `attach` on a child of `<MeshPortalMaterial>` — it resolves to the
+**portal** scene (it is attached structurally, not via injected context), so the
+portal gets its own background/environment independent of the world:
+
+```vue
+<MeshPortalMaterial :blend="blend">
+  <!-- portal-only background color -->
+  <TresColor attach="background" :args="[0.1, 0.1, 0.18]" />
+  <!-- portal-only IBL: attach a loaded texture -->
+  <primitive v-if="envTexture" :object="envTexture" attach="environment" />
+  <!-- ...portal scene contents... -->
+</MeshPortalMaterial>
+```
+
 ::prose-note
 **Limitations (MVP):** `blur` (edge fade) and pointer-event forwarding into the
-portal scene are not yet implemented. Scene-context helpers such as `Environment`
-declared inside the portal currently affect the main scene, not the portal scene.
-WebGPU is not yet supported.
+portal scene are not yet implemented. The cientos `<Environment>` **component** is
+imperative (it reads `useTres().scene`) so, declared inside the portal, it affects
+the **main** scene — use the declarative `attach` approach above for a portal-only
+background/environment instead. WebGPU is not yet supported.
 ::

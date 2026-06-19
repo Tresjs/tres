@@ -42,5 +42,7 @@ const target = new Scene()
 | `disabled` | `boolean` | `false` | When `true`, children render in place (main scene). |
 
 ::note
-Reparenting is **structural** only. Children's `useTres().scene` still resolves to the main scene (Vue slot ownership), so scene-context helpers like `Environment` declared inside a portal affect the main scene. Rendering the target scene (e.g. to a texture) is the consumer's responsibility — `MeshPortalMaterial` does this via an FBO.
+Reparenting is **structural** only — children are added to the target via `nodeOps`, and the target is also where `attach` resolves. So declarative `attach` lands on the target scene: `<TresColor attach="background" />` or `<primitive :object="tex" attach="environment" />` inside a portal correctly set the **target** scene's background/environment.
+
+What does **not** transfer is the injected context: children's `useTres().scene` still resolves to the main scene (Vue slot ownership), so imperative helpers that read it — like the cientos `<Environment>` component — affect the main scene, not the target. Rendering the target scene (e.g. to a texture) is the consumer's responsibility — `MeshPortalMaterial` does this via an FBO.
 ::
