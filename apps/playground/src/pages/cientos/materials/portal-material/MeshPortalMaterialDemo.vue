@@ -8,10 +8,12 @@ useControls('fpsgraph', { uuid })
 
 // Three portals, each a self-contained scene with its OWN environment preset.
 // Distinct backgrounds across portals = proof the per-portal scene context works.
+// Side panels are angled inward and shifted forward in z (z = sin θ), with a gap
+// from the central plane: inner edge at x = ±(1 + gap), so x = ±(1 + gap + cos θ).
 const frames = [
-  { x: -2.3, preset: 'dawn', color: '#fbb03b' },
-  { x: 0, preset: 'night', color: '#7db4ff' },
-  { x: 2.3, preset: 'sunset', color: '#ff6b9d' },
+  { x: -2.321, z: 0.389, rotationY: 0.4, preset: 'dawn', color: '#fbb03b' },
+  { x: 0, z: 0, rotationY: 0, preset: 'night', color: '#7db4ff' },
+  { x: 2.321, z: 0.389, rotationY: -0.4, preset: 'sunset', color: '#ff6b9d' },
 ]
 
 const { focused, blend } = useControls({
@@ -30,7 +32,7 @@ const { focused, blend } = useControls({
     <Environment preset="studio" :background="true" :blur="0.5" />
   </Suspense>
 
-  <TresMesh v-for="(f, i) in frames" :key="f.preset" :position="[f.x, 0, 0]">
+  <TresMesh v-for="(f, i) in frames" :key="f.preset" :position="[f.x, 0, f.z]" :rotation="[0, f.rotationY, 0]">
     <TresPlaneGeometry :args="[2, 3]" />
     <!-- Only the focused portal reacts to the blend slider (the blend takeover is
          full-screen, so blending more than one at a time would conflict). -->
