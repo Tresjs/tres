@@ -56,7 +56,7 @@ import { MeshPortalMaterial, OrbitControls } from '@tresjs/cientos'
 | `blend` | `number` | `0` | `0` = world only, `1` = portal only; cross-fades between. |
 | `resolution` | `number` | `512` | Frame buffer resolution for the portal render. |
 | `worldUnits` | `boolean` | `false` | Keep portal contents in world units instead of host-relative. |
-| `renderPriority` | `number` | `0` | Render-loop priority for the blend takeover. |
+| `renderPriority` | `number` | `0` | Render-loop priority for the blend takeover. Applied at mount — changing it later requires a remount. |
 
 ::prose-note
 **Limitations (MVP):** `blur` (edge fade) and pointer-event forwarding into the

@@ -7,7 +7,7 @@ description: Reparent declarative children into any Object3D or Scene target.
 
 `<TresPortal>` reparents its declarative children into a target `Object3D` (often a separate `Scene`) instead of the surrounding scene graph. It is a thin wrapper over Vue's built-in `<Teleport>`, so children remain fully reactive — adding, removing, or updating them works as usual.
 
-It is the building block behind [`MeshPortalMaterial`](https://cientos.tresjs.org) in `@tresjs/cientos`.
+It is the building block behind [`MeshPortalMaterial`](https://cientos.tresjs.org/api/materials/mesh-portal-material) in `@tresjs/cientos`.
 
 ::examples-portal
 ::

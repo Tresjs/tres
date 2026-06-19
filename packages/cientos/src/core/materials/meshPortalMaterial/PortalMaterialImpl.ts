@@ -27,6 +27,7 @@ export class PortalMaterialImpl extends ShaderMaterial {
         uniform sampler2D map;
         uniform float blend;
         uniform vec2 resolution;
+        // vUv + packing reserved for upcoming blur/SDF edge-fade
         varying vec2 vUv;
         #include <packing>
         void main() {

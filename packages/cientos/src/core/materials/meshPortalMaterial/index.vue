@@ -109,6 +109,8 @@ onBeforeRender(({ renderer, camera }) => {
     portalScene.matrixWorld.copy(host.matrixWorld)
   }
 
+  // Keep rendering each frame: the window FBO must track animated portal contents,
+  // and the blend>=1 takeover depends on the main pass clearing the framebuffer first.
   invalidate()
 
   renderer.getDrawingBufferSize(drawSize)
@@ -149,6 +151,9 @@ onRender(({ renderer, scene, camera }) => {
   }
   quadMaterial.uniforms.blend.value = blend
 
+  const prevAlpha = renderer.getClearAlpha()
+  renderer.setClearAlpha(1)
+
   renderer.setRenderTarget(buffer1)
   renderer.clear()
   renderer.render(portalScene, cam)
@@ -159,6 +164,8 @@ onRender(({ renderer, scene, camera }) => {
 
   renderer.setRenderTarget(null)
   renderer.render(quadScene, quadCamera)
+
+  renderer.setClearAlpha(prevAlpha)
 }, props.renderPriority)
 
 onBeforeUnmount(() => {
