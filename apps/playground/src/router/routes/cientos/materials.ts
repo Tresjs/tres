@@ -42,6 +42,6 @@ export const materialsRoutes = [
   {
     path: '/cientos/materials/portals',
     name: 'MeshPortalMaterial',
-    component: () => import('@/pages/cientos/materials/MeshPortalMaterialDemo.vue'),
+    component: () => import('@/pages/cientos/materials/portal-material/index.vue'),
   },
 ]
