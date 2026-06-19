@@ -1,6 +1,6 @@
 import type { Camera, Light, Material, Object3D } from 'three'
 import { AmbientLight, BufferGeometry, DirectionalLight, Fog, Group, Mesh, MeshBasicMaterial, MeshNormalMaterial, OrthographicCamera, PerspectiveCamera, PointLight, Scene } from 'three'
-import { isBufferGeometry, isCamera, isFog, isLight, isMaterial, isObject3D, isScene, isTresObject } from '../is/index'
+import { isBufferGeometry, isCamera, isFog, isLight, isMaterial, isObject3D, isScene, isTresObject, isWebGLRenderer, isWebGPURenderer } from '../is/index'
 
 // TODO move file
 const NUMBERS: Record<string, number> = {
@@ -88,7 +88,18 @@ const BUFFER_GEOMETRIES: Record<string, BufferGeometry> = {
   bufferGeometry: new BufferGeometry(),
 }
 
-const OBJECTS = Object.assign({}, { '{}': {}, '{ a: "a" }': { a: 'a' } }, FOGS, MATERIALS, OBJECT3DS, BUFFER_GEOMETRIES)
+// WebGPU `Renderer` sets `isRenderer = true`; `WebGLRenderer` sets `isWebGLRenderer = true`.
+// jsdom has no GPU/GL context to instantiate real renderers, so we stand in with the
+// marker flags the guards actually check (mirrors how the suite mocks WebGLRenderer).
+const WEBGPU_RENDERERS: Record<string, any> = {
+  webGPURenderer: { isRenderer: true },
+}
+
+const WEBGL_RENDERERS: Record<string, any> = {
+  webGLRenderer: { isWebGLRenderer: true },
+}
+
+const OBJECTS = Object.assign({}, { '{}': {}, '{ a: "a" }': { a: 'a' } }, FOGS, MATERIALS, OBJECT3DS, BUFFER_GEOMETRIES, WEBGPU_RENDERERS, WEBGL_RENDERERS)
 
 const TRES_OBJECTS = Object.assign({}, MATERIALS, OBJECT3DS, BUFFER_GEOMETRIES, FOGS)
 
@@ -103,6 +114,8 @@ describe('is', () => {
   describe('isFog(a: any)', () => { test(isFog, FOGS) })
   describe('isScene(a: any)', () => { test(isScene, SCENES) })
   describe('isTresObject(a: any)', () => { test(isTresObject, TRES_OBJECTS) })
+  describe('isWebGPURenderer(a: any)', () => { test(isWebGPURenderer, WEBGPU_RENDERERS) })
+  describe('isWebGLRenderer(a: any)', () => { test(isWebGLRenderer, WEBGL_RENDERERS) })
 })
 
 /**
