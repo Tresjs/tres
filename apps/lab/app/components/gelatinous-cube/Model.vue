@@ -3,10 +3,18 @@ import { MeshTransmissionMaterial, useGLTF } from '@tresjs/cientos'
 import { Color } from 'three'
 import { computed } from 'vue'
 
-const { nodes } = await useGLTF(
+// Reactive handle (no await) — the established lab pattern for per-node access.
+const { nodes } = useGLTF(
   '/models/gelatinous-cube/gelatinous_cube-transformed.glb',
   { draco: true },
 )
+
+const cube1 = computed(() => nodes.value.cube1)
+const cube2 = computed(() => nodes.value.cube2)
+const bubbles = computed(() => nodes.value.bubbles)
+const arrows = computed(() => nodes.value.arrows)
+const skeleton1 = computed(() => nodes.value.skeleton_1)
+const skeleton2 = computed(() => nodes.value.skeleton_2)
 
 const config = useControls({
   transmission: { value: 1, min: 0, max: 1, step: 0.01 },
@@ -33,8 +41,8 @@ const backgroundColor = computed(() => new Color(config.bg.value))
 </script>
 
 <template>
-  <TresGroup>
-    <TresMesh :geometry="nodes.cube1.geometry" :position="[-0.56, 0.38, -0.11]">
+  <TresGroup v-if="cube1?.geometry">
+    <TresMesh :geometry="cube1.geometry" :position="[-0.56, 0.38, -0.11]">
       <MeshTransmissionMaterial
         :transmission="config.transmission.value"
         :roughness="config.roughness.value"
@@ -56,23 +64,25 @@ const backgroundColor = computed(() => new Color(config.bg.value))
     </TresMesh>
 
     <TresMesh
-      :geometry="nodes.cube2.geometry"
-      :material="nodes.cube2.material"
+      v-if="cube2?.geometry"
+      :geometry="cube2.geometry"
+      :material="cube2.material"
       :position="[-0.56, 0.38, -0.11]"
       :render-order="-100"
       cast-shadow
     />
 
     <TresMesh
-      :geometry="nodes.bubbles.geometry"
-      :material="nodes.bubbles.material"
+      v-if="bubbles?.geometry"
+      :geometry="bubbles.geometry"
+      :material="bubbles.material"
       :position="[-0.56, 0.38, -0.11]"
     />
 
     <TresGroup :position="[-0.56, 0.38, -0.41]">
-      <TresMesh :geometry="nodes.arrows.geometry" :material="nodes.arrows.material" />
-      <TresMesh :geometry="nodes.skeleton.geometry" :material="nodes.skeleton.material" />
-      <TresMesh :geometry="nodes['skeleton.001'].geometry" :material="nodes['skeleton.001'].material" />
+      <TresMesh v-if="arrows?.geometry" :geometry="arrows.geometry" :material="arrows.material" />
+      <TresMesh v-if="skeleton1?.geometry" :geometry="skeleton1.geometry" :material="skeleton1.material" />
+      <TresMesh v-if="skeleton2?.geometry" :geometry="skeleton2.geometry" :material="skeleton2.material" />
     </TresGroup>
   </TresGroup>
 </template>
