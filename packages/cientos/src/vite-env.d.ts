@@ -9,3 +9,14 @@ declare module '*.vue' {
 
 declare module '*.glsl' {}
 declare module '*.json' {}
+
+declare module 'troika-three-text' {
+  import type { Mesh } from 'three'
+
+  export class Text extends Mesh {
+    text: string
+    sync: (callback?: () => void) => void
+    dispose: () => void
+    [key: string]: any
+  }
+}

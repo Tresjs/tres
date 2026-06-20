@@ -45,6 +45,11 @@ export const objectsRoutes = [
     component: () => import('@/pages/cientos/objects/ReflectorMeshDemo.vue'),
   },
   {
+    path: '/cientos/objects/text',
+    name: 'Text',
+    component: () => import('@/pages/cientos/objects/TextDemo.vue'),
+  },
+  {
     path: '/cientos/objects/text-3d',
     name: 'Text3D',
     component: () => import('@/pages/cientos/objects/Text3DDemo.vue'),

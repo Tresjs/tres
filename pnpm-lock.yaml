@@ -213,6 +213,9 @@ catalogs:
     three-stdlib:
       specifier: ^2.36.1
       version: 2.36.1
+    troika-three-text:
+      specifier: ^0.52.4
+      version: 0.52.4
   typescript:
     typescript:
       specifier: ^6.0.3
@@ -878,6 +881,9 @@ importers:
       three-stdlib:
         specifier: catalog:three
         version: 2.36.1(three@0.184.0)
+      troika-three-text:
+        specifier: catalog:three
+        version: 0.52.4(three@0.184.0)
       vue:
         specifier: '>=3.5.17'
         version: 3.5.26(typescript@6.0.3)
@@ -12256,6 +12262,19 @@ packages:
   trim-trailing-lines@2.1.0:
     resolution: {integrity: sha512-5UR5Biq4VlVOtzqkm2AZlgvSlDJtME46uV0br0gENbwN4l5+mMKT4b9gJKqWtuL2zAIqajGJGuvbCbcAJUZqBg==}
 
+  troika-three-text@0.52.4:
+    resolution: {integrity: sha512-V50EwcYGruV5rUZ9F4aNsrytGdKcXKALjEtQXIOBfhVoZU9VAqZNIoGQ3TMiooVqFAbR1w15T+f+8gkzoFzawg==}
+    peerDependencies:
+      three: '>=0.125.0'
+
+  troika-three-utils@0.52.4:
+    resolution: {integrity: sha512-NORAStSVa/BDiG52Mfudk4j1FG4jC4ILutB3foPnfGbOeIs9+G5vZLa0pnmnaftZUGm4UwSoqEpWdqvC7zms3A==}
+    peerDependencies:
+      three: '>=0.125.0'
+
+  troika-worker-utils@0.52.0:
+    resolution: {integrity: sha512-W1CpvTHykaPH5brv5VHLfQo9D1OYuo0cSBEUQFFT/nBUzM8iD6Lq2/tgG/f1OelbAS1WtaTPQzE5uM49egnngw==}
+
   trough@2.2.0:
     resolution: {integrity: sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw==}
 
@@ -13265,6 +13284,9 @@ packages:
     peerDependenciesMeta:
       puppeteer-core:
         optional: true
+
+  webgl-sdf-generator@1.1.1:
+    resolution: {integrity: sha512-9Z0JcMTFxeE+b2x1LJTdnaT8rT8aEp7MVxkNwoycNmJWwPdzoXzMh0BjJSh/AEFP+KPYZUli814h8bJZFIZ2jA==}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -26629,6 +26651,20 @@ snapshots:
 
   trim-trailing-lines@2.1.0: {}
 
+  troika-three-text@0.52.4(three@0.184.0):
+    dependencies:
+      bidi-js: 1.0.3
+      three: 0.184.0
+      troika-three-utils: 0.52.4(three@0.184.0)
+      troika-worker-utils: 0.52.0
+      webgl-sdf-generator: 1.1.1
+
+  troika-three-utils@0.52.4(three@0.184.0):
+    dependencies:
+      three: 0.184.0
+
+  troika-worker-utils@0.52.0: {}
+
   trough@2.2.0: {}
 
   ts-algebra@2.0.0: {}
@@ -27856,6 +27892,8 @@ snapshots:
       - react-native-b4a
       - supports-color
       - utf-8-validate
+
+  webgl-sdf-generator@1.1.1: {}
 
   webidl-conversions@3.0.1: {}
 

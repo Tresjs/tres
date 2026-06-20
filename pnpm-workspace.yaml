@@ -45,6 +45,7 @@ catalogs:
     three: ^0.184.0
     three-custom-shader-material: ^6.4.0
     three-stdlib: ^2.36.1
+    troika-three-text: ^0.52.4
   typescript:
     typescript: ^6.0.3
     vue-tsc: ^3.3.4

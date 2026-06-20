@@ -60,7 +60,8 @@
     "stats.js": "catalog:",
     "three-custom-shader-material": "catalog:three",
     "three-mesh-bvh": "catalog:",
-    "three-stdlib": "catalog:three"
+    "three-stdlib": "catalog:three",
+    "troika-three-text": "catalog:three"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:*",

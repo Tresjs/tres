@@ -8,6 +8,7 @@ import MarchingCube from './MarchingCubes/MarchingCube.vue'
 import MarchingCubes from './MarchingCubes/MarchingCubes.vue'
 import MarchingPlane from './MarchingCubes/MarchingPlane.vue'
 import Reflector from './Reflector.vue'
+import Text from './Text.vue'
 import Text3D from './Text3D.vue'
 
 export * from './useFBO/'
@@ -22,5 +23,6 @@ export {
   MarchingCubes,
   MarchingPlane,
   Reflector,
+  Text,
   Text3D,
 }
