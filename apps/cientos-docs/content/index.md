@@ -23,12 +23,12 @@ Tres v5 announcement
 :::
  -->
 
-# title
+#title
 
 <span class="text-primary-300">Cientos</span> \
 Ready-made abstractions for TresJS
 
-# description
+#description
 Extending helpers and composables using Three.js addons.
 
 #links
@@ -56,7 +56,7 @@ Extending helpers and composables using Three.js addons.
 ::
 
 ::u-page-section
-# title
+#title
 Features you will love
 
 #links
@@ -72,7 +72,7 @@ Features you will love
   Explore the lab
   :::
 
-# features
+#features
 
   :::u-page-feature
   ---
@@ -80,7 +80,7 @@ Features you will love
   target: _blank
   to: https://github.com/pmndrs/three-stdlib
   ---
-  # title
+  #title
   three-stdlib
 
   #description
@@ -92,10 +92,10 @@ Features you will love
   target: _blank
   to: https://threejs.org
   ---
-  # title
+  #title
   Extendable
 
-  # description
+  #description
   You want to create a fancy shader material component? Submit a PR 🤗.
   :::
 
@@ -105,7 +105,7 @@ Features you will love
   target: _blank
   to: https://ui.nuxt.com
   ---
-  # title
+  #title
   Community-Driven
   #description
   Benefits from the active and growing Vue TresJS community.
@@ -117,10 +117,10 @@ Features you will love
   target: _blank
   to: https://www.typescriptlang.org
   ---
-  # title
+  #title
   TypeScript
 
-  # description
+  #description
   A fully typed development experience.
   :::
 ::
