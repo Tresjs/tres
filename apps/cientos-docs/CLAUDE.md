@@ -202,10 +202,10 @@ cta:
   - /getting-started
 ---
 
-# title
+#title
 Hero Title
 
-# description
+#description
 Hero description
 ::
 ```
