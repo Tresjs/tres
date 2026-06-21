@@ -6,12 +6,12 @@ seo:
 
 ::u-page-hero
 
-# title
+#title
 
 <span class="text-primary-300">Post-processing</span> \
 Effect composer library for TresJS
 
-# description
+#description
 Enhance the rendering flow with passes and effects — bloom, depth of field, glitch, god rays and more.
 
 #links
@@ -39,19 +39,19 @@ Enhance the rendering flow with passes and effects — bloom, depth of field, gl
 ::
 
 ::u-page-section
-# title
+#title
 Why Post-processing?
 
-# features
+#features
 
   :::u-page-feature
   ---
   icon: i-lucide-wand-sparkles
   ---
-  # title
+  #title
   Declarative & Simple
 
-  # description
+  #description
   Add post-processing passes and effects with Vue components.
   :::
 
@@ -61,10 +61,10 @@ Why Post-processing?
   target: _blank
   to: https://github.com/pmndrs/postprocessing
   ---
-  # title
+  #title
   Performant
 
-  # description
+  #description
   Powered by `pmndrs/postprocessing` under the hood for maximum performance.
   :::
 
@@ -72,10 +72,10 @@ Why Post-processing?
   ---
   icon: i-lucide-sparkles
   ---
-  # title
+  #title
   Visually Awesome
 
-  # description
+  #description
   Bloom, chromatic aberration, glitch, depth of field — it just looks super cool.
   :::
 
@@ -85,10 +85,10 @@ Why Post-processing?
   target: _blank
   to: https://www.typescriptlang.org
   ---
-  # title
+  #title
   TypeScript
 
-  # description
+  #description
   A fully typed development experience.
   :::
 ::
