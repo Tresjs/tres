@@ -1,3 +1,5 @@
+import type { WebGLRenderer } from 'three'
+import type { Renderer } from 'three/webgpu'
 import type { TresCamera, TresInstance, TresObject, TresPrimitive } from '../../types'
 import { isBufferGeometry, isCamera, isFog, isMaterial, isObject3D, isOrthographicCamera, isPerspectiveCamera } from './three'
 import { createTypeGuard } from './util'
@@ -75,3 +77,33 @@ export const isTresPrimitive = createTypeGuard<TresPrimitive>('isPrimitive')
  */
 export const isTresInstance = (value: unknown): value is TresInstance =>
   isTresObject(value) && '__tres' in value
+
+/**
+ * Type guard to check if a value is a Three.js WebGPU `Renderer`.
+ *
+ * Identifies the renderer *instance*, not the active backend: a `WebGPURenderer`
+ * can run on a WebGPU **or** a WebGL2 fallback backend, and this returns `true`
+ * for both. That is the right granularity for branching on capabilities —
+ * `NodeMaterial` works on either backend, while a GLSL `ShaderMaterial` works on
+ * neither under the WebGPU renderer.
+ * @param value - The value to check
+ * @returns True if the value is a WebGPU `Renderer` instance, false otherwise
+ * @example
+ * ```ts
+ * const { renderer } = useTresContext()
+ * if (isWebGPURenderer(renderer.instance)) {
+ *   // TypeScript knows renderer.instance is a WebGPU Renderer here
+ * }
+ * ```
+ */
+export const isWebGPURenderer = createTypeGuard<Renderer>('isRenderer')
+
+/**
+ * Type guard to check if a value is a Three.js `WebGLRenderer`.
+ * @param value - The value to check
+ * @returns True if the value is a `WebGLRenderer` instance, false otherwise
+ * @see {@link isWebGPURenderer}
+ */
+// `WebGLRenderer` sets `isWebGLRenderer = true` at runtime, but three's types omit
+// the flag — intersect it in so `createTypeGuard` accepts the key.
+export const isWebGLRenderer = createTypeGuard<WebGLRenderer & { isWebGLRenderer: true }>('isWebGLRenderer')
