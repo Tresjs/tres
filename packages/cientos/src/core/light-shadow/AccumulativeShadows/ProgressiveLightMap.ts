@@ -91,7 +91,14 @@ export class ProgressiveLightMap {
     this.renderer.clear()
     this.renderer.setRenderTarget(null)
     this.renderer.setClearColor(this.clearColor, this.clearAlpha)
+  }
 
+  prepare() {
+    // NOTE: Re-collect scene lights and meshes on every bake pass (not once up
+    // front), so meshes added after the bake started — e.g. async-loaded GLTF
+    // models — get their material swapped to `discardMat` too. Otherwise an
+    // un-collected mesh renders its real (unlit, black) geometry straight into
+    // the lightmap and gets mapped onto the shadow plane as a hard silhouette.
     this.lights = []
     this.meshes = []
     this.scene.traverse((object) => {
@@ -103,9 +110,7 @@ export class ProgressiveLightMap {
         this.lights.push({ object, intensity: object.intensity })
       }
     })
-  }
 
-  prepare() {
     this.lights.forEach(light => (light.object.intensity = 0))
     this.meshes.forEach(mesh => (mesh.object.material = this.discardMat))
   }
