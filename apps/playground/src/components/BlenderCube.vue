@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Mesh } from 'three'
 import { useGLTF } from '@tresjs/cientos'
 import { whenever } from '@vueuse/core'
 
@@ -10,6 +11,16 @@ const model = computed(() => nodes.value.BlenderCube)
 
 defineExpose({
   model,
+})
+
+watch(model, (model) => {
+  if (model) {
+    model.traverse((node) => {
+      if (node instanceof Mesh) {
+        node.castShadow = true
+      }
+    })
+  }
 })
 
 whenever(
