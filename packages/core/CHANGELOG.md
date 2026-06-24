@@ -1,3 +1,18 @@
+## 5.8.3 (2026-06-18)
+
+### 🩹 Fixes
+
+- **core:** drop three-stdlib dependency to cut install size ([#1439](https://github.com/Tresjs/tres/pull/1439))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- Claude Opus 4.8 (1M context)
+
+## 5.8.2 (2026-06-18)
+
+This was a version bump only for @tresjs/core to align it with other projects, there were no code changes.
+
 ## 5.8.1 (2026-05-11)
 
 ### 🚀 Features

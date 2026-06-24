@@ -18,11 +18,11 @@ export interface RigidBodyUserData {
 }
 
 /** @description Tres-Rapier supported `RigidBody` types. */
-export type RigidBodyType =
-  | 'dynamic'
-  | 'kinematic'
-  | 'kinematicVelocity'
-  | 'fixed'
+export type RigidBodyType
+  = | 'dynamic'
+    | 'kinematic'
+    | 'kinematicVelocity'
+    | 'fixed'
 
 /** @description `RigidBody` auto generated colliders shape. */
 export type RigidBodyCollidersShape = keyof Pick<

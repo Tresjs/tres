@@ -544,7 +544,7 @@ a `registerDecalEntry` hook for external entries. Helper utilities
 <details>
   <summary>Full API reference</summary>
 
-#### Reactive state
+### Reactive state
 
 ```ts
 session.editingEntry // ShallowRef<DecalEntry | null>
@@ -555,7 +555,7 @@ session.canUndo // Ref<boolean>
 session.canRedo // Ref<boolean>
 ```
 
-#### Mutating decals by id
+### Mutating decals by id
 
 ```ts
 session.beginEditById(id) // start editing a placed decal
@@ -568,7 +568,7 @@ When the targeted id matches the **currently editing** entry, mutations
 land on the in-flight buffer (committed on `Enter`, reverted on `Esc`).
 Otherwise they update `data` immediately and record history.
 
-#### Batched mesh updates
+### Batched mesh updates
 
 ```ts
 session.setMeshData(meshName, nextEntries, { recordHistory: true })
@@ -577,7 +577,7 @@ session.setMeshData(meshName, nextEntries, { recordHistory: true })
 A single emit avoids the stale-snapshot race that hits multiple
 back-to-back `setZIndexById` calls in the same tick.
 
-#### Listening to commits
+### Listening to commits
 
 ```ts
 const off = session.onCommit((entry, mode) => {
@@ -590,7 +590,7 @@ session.onCancel(() => { /* … */ })
 onBeforeUnmount(off)
 ```
 
-#### Undo / redo
+### Undo / redo
 
 ```ts
 session.canUndo.value // Ref<boolean>
@@ -600,7 +600,7 @@ session.redo()
 
 History is per-canvas, capped at 100 operations, disabled mid-edit.
 
-#### Power user — external entries
+### Power user — external entries
 
 Plug a decal-like object that lives outside a `<Decal>` (custom data
 source, server snapshot, fake entry for tests) by registering a
@@ -618,7 +618,7 @@ session.registerDecalEntry('decal-7', {
 onBeforeUnmount(() => session.unregisterDecalEntry('decal-7'))
 ```
 
-#### Helper utilities
+### Helper utilities
 
 | Helper                          | Use                                                                                |
 | ------------------------------- | ---------------------------------------------------------------------------------- |

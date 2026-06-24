@@ -91,7 +91,14 @@ export class ProgressiveLightMap {
     this.renderer.clear()
     this.renderer.setRenderTarget(null)
     this.renderer.setClearColor(this.clearColor, this.clearAlpha)
+  }
 
+  prepare() {
+    // NOTE: Re-collect scene lights and meshes on every bake pass (not once up
+    // front), so meshes added after the bake started — e.g. async-loaded GLTF
+    // models — get their material swapped to `discardMat` too. Otherwise an
+    // un-collected mesh renders its real (unlit, black) geometry straight into
+    // the lightmap and gets mapped onto the shadow plane as a hard silhouette.
     this.lights = []
     this.meshes = []
     this.scene.traverse((object) => {
@@ -103,9 +110,7 @@ export class ProgressiveLightMap {
         this.lights.push({ object, intensity: object.intensity })
       }
     })
-  }
 
-  prepare() {
     this.lights.forEach(light => (light.object.intensity = 0))
     this.meshes.forEach(mesh => (mesh.object.material = this.discardMat))
   }
@@ -128,14 +133,19 @@ export class ProgressiveLightMap {
     // NOTE: Ping-pong two surface buffers for reading/writing
     const activeMap = this.buffer1Active ? this.progressiveLightMap1 : this.progressiveLightMap2
     const inactiveMap = this.buffer1Active ? this.progressiveLightMap2 : this.progressiveLightMap1
-    // NOTE: Render the object's surface maps
+    // NOTE: Render the object's surface maps. Strip background AND environment:
+    // the shadow-catcher uses MeshLambertMaterial, which is lit by scene.environment,
+    // so an async-loaded envmap (e.g. <Environment>) would blow out the bake.
     const oldBg = this.scene.background
+    const oldEnv = this.scene.environment
     this.scene.background = null
+    this.scene.environment = null
     this.renderer.setRenderTarget(activeMap)
     this.previousShadowMap.value = inactiveMap.texture
     this.buffer1Active = !this.buffer1Active
     this.renderer.render(this.scene, camera)
     this.renderer.setRenderTarget(null)
     this.scene.background = oldBg
+    this.scene.environment = oldEnv
   }
 }

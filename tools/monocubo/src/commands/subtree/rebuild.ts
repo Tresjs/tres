@@ -29,7 +29,7 @@ export function rebuildCommand(program: Command): void {
         if (entries.length > 1) {
           if (!options?.yes) {
             const { selection } = await inquirer.prompt([{
-              type: 'list',
+              type: 'select',
               name: 'selection',
               message: 'Multiple packages match. Select the one to rebuild:',
               choices: entries.map(([name]) => name)

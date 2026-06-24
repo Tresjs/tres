@@ -5,10 +5,10 @@ import { OrbitControls } from 'three-stdlib'
 import { shallowRef } from 'vue'
 import {
   ORBIT_LIKE_DEFAULTS,
-  type OrbitLikeControlsEmits,
-  type OrbitLikeControlsProps,
+
   useOrbitLikeControls,
 } from './useOrbitLikeControls'
+import type { OrbitLikeControlsEmits, OrbitLikeControlsProps } from './useOrbitLikeControls'
 
 export interface OrbitControlsProps extends OrbitLikeControlsProps {
   /**

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Box, OrbitControls, Sphere } from '@tresjs/cientos'
-import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
+import type { TresPointerEvent } from '@tresjs/core'
 import { reactive } from 'vue'
 
 const hotspots = reactive([

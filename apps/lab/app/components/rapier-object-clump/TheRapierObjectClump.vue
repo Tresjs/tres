@@ -11,7 +11,7 @@ const composerRef = useTemplateRef<{ composer: { value: EffectComposer | null } 
 const composer = computed<EffectComposer | null>(() => {
   const exposed = composerRef.value
   if (!exposed) { return null }
-  const c = (exposed as any).composer
+  const c = exposed.composer
   return (c && 'value' in c) ? c.value : (c ?? null)
 })
 

@@ -161,14 +161,14 @@ function parse(definitionStr: string): AnimationDefinition[] {
   return result
 }
 
-type Transition =
-  | 'START_FRAME_IN'
-  | 'START_FRAME_OUT'
-  | 'END_FRAME_IN'
-  | 'END_FRAME_OUT'
-  | 'DURATION_IN'
-  | 'DURATION_OUT'
-  | 'NEXT_OR_DONE'
+type Transition
+  = | 'START_FRAME_IN'
+    | 'START_FRAME_OUT'
+    | 'END_FRAME_IN'
+    | 'END_FRAME_OUT'
+    | 'DURATION_IN'
+    | 'DURATION_OUT'
+    | 'NEXT_OR_DONE'
 
 type TokenName = 'COMMA' | 'HYPHEN' | 'OPEN_PAREN' | 'CLOSE_PAREN' | 'NUMBER'
 interface Token {

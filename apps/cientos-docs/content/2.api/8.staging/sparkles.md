@@ -105,7 +105,7 @@ All props beginning with `:mix-` allow you to specify how a particle "progresses
 * If the `:mix-` prop is `0.0`, 'progress' through the `:sequence-` is determined entirely by the light shining on the surface of the sparkling mesh.[<sup>1</sup>](#precisely)
 * If the `:mix-` prop is `1.0`, 'progress' through the `:sequence-` is determined entirely by the particle's lifetime.
 
- More precisely, the value is determined by the dot product of the `directionalLight`'s inverted normalized position and each of the sparkling mesh's vertex normals.
+<a id="precisely"></a> More precisely, the value is determined by the dot product of the `directionalLight`'s inverted normalized position and each of the sparkling mesh's vertex normals.
 
 ```vue{3,14-18}
 <script setup lang="ts">

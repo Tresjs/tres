@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "5.7.2",
+  "version": "5.8.1",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -49,17 +49,17 @@
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.8.1",
+    "@tresjs/core": "5.8.3",
     "three": ">=0.133",
     "vue": ">=3.5.17"
   },
   "dependencies": {
     "@vueuse/core": "catalog:utils",
-    "camera-controls": "^2.9.0",
-    "stats-gl": "^2.0.1",
-    "stats.js": "^0.17.0",
+    "camera-controls": "catalog:",
+    "stats-gl": "catalog:",
+    "stats.js": "catalog:",
     "three-custom-shader-material": "catalog:three",
-    "three-mesh-bvh": "^0.9.8",
+    "three-mesh-bvh": "catalog:",
     "three-stdlib": "catalog:three"
   },
   "devDependencies": {
@@ -82,8 +82,8 @@
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
-    "vite-plugin-glsl": "^1.5.1",
-    "vite-svg-loader": "^5.1.0",
+    "vite-plugin-glsl": "catalog:vite",
+    "vite-svg-loader": "catalog:",
     "vue-tsc": "catalog:typescript"
   },
   "nx": {

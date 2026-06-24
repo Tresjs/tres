@@ -1,4 +1,4 @@
-<picture><img src=".github/repo-banner.png" /></picture>
+<picture><img src=".github/repo-banner.png" alt="@tresjs/eslint-config" /></picture>
 
 <div align="center">
 
@@ -28,12 +28,12 @@ Some of the main features, inherited directly from `@antfu/eslint-config`:
 - Reasonable defaults, best practices, only one line of config
 - Designed to work with TypeScript, JSX, Vue out-of-box
 - Lints also for json, yaml, toml, markdown
-- Opinionated, but [very customizable](#customization)
+- Opinionated, but [very customizable](#setting-options-and-using-custom-rules)
 - [ESLint Flat config](https://eslint.org/docs/latest/use/configure/configuration-files-new), compose easily!
 - Using [ESLint Stylistic](https://github.com/eslint-stylistic/eslint-stylistic)
 - Respects `.gitignore` by default
-- Optional [React](#react), [Svelte](#svelte), [UnoCSS](#unocss), [Astro](#astro) support
-- Optional [formatters](#formatters) support for CSS, HTML, etc.
+- Optional [React, Svelte, UnoCSS, Astro support](https://github.com/antfu/eslint-config)
+- Optional [formatters](https://github.com/antfu/eslint-config) support for CSS, HTML, etc.
 - **Style principle**: Minimal for reading, stable for diff, consistent
 
 My own customizations and preferences:
@@ -137,15 +137,6 @@ For more settings, check the "VS Code support" section in [antfu/eslint-config](
 <!-- Badges -->
 [npm-version-src]: https://npmx.dev/api/registry/badge/version/@tresjs/eslint-config
 [npm-version-href]: https://npmx.dev/package/@tresjs/eslint-config
-
-[npm-downloads-src]: https://img.shields.io/npm/dm/@tresjs/eslint-config.svg?style=flat&colorA=18181B&colorB=88E5C3
-[npm-downloads-href]: https://npmjs.com/package/@tresjs/eslint-config
-
-[code-quality-src]: https://img.shields.io/codacy/grade/2089b728f6904916aff7a595c4197b09.svg?style=flat&colorA=18181B&colorB=88E5C3
-[code-quality-href]: https://app.codacy.com/gh/tresjs/eslint-config
-
-[bundle-size-src]: https://img.shields.io/bundlephobia/minzip/@tresjs/eslint-config.svg?style=flat&colorA=18181B&colorB=88E5C3
-[bundle-size-href]: https://bundlephobia.com/result?p=@tresjs/eslint-config
 
 [license-src]: https://img.shields.io/npm/l/@tresjs/eslint-config.svg?style=flat&colorA=18181B&colorB=88E5C3
 [license-href]: https://npmjs.com/package/@tresjs/eslint-config

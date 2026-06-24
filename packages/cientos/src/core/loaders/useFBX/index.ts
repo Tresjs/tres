@@ -1,7 +1,8 @@
 import type { TresObject } from '@tresjs/core'
 import { buildGraph, useLoader } from '@tresjs/core'
 
-import { computed, type ComputedRef, type MaybeRef, type Ref, watch } from 'vue'
+import { computed, watch } from 'vue'
+import type { ComputedRef, MaybeRef, Ref } from 'vue'
 import type { Group } from 'three'
 
 import { FBXLoader } from 'three-stdlib'

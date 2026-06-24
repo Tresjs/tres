@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { type TresObject3D, useLoop } from '@tresjs/core'
+import { useLoop } from '@tresjs/core'
+import type { TresObject3D } from '@tresjs/core'
 import { InstancedMesh, Object3D } from 'three'
 import { onUnmounted, onUpdated, shallowRef, watch } from 'vue'
 

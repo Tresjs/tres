@@ -3,6 +3,7 @@ import HolographicMaterial from './holographicMaterial/index.vue'
 import MeshDiscardMaterial from './meshDiscardMaterial/index.vue'
 import MeshGlassMaterial from './meshGlassMaterial/index.vue'
 import MeshReflectionMaterial from './meshReflectionMaterial/index.vue'
+import MeshTransmissionMaterial from './meshTransmissionMaterial/index.vue'
 import MeshWobbleMaterial from './meshWobbleMaterial/index.vue'
 import PointMaterial from './pointMaterial/component.vue'
 
@@ -12,6 +13,7 @@ export {
   MeshDiscardMaterial,
   MeshGlassMaterial,
   MeshReflectionMaterial,
+  MeshTransmissionMaterial,
   MeshWobbleMaterial,
   PointMaterial,
 }

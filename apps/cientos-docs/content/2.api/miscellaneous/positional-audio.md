@@ -50,7 +50,7 @@ If you are sure that there will be a user gesture before your `<PositionAudio>` 
 ::
 
 ## How does it work?
-<img class="mx-auto" src="/cientos/sketch.jpg" />
+<img class="mx-auto" src="/cientos/sketch.jpg" alt="Diagram explaining how positional audio works" />
 
 ## Props
 

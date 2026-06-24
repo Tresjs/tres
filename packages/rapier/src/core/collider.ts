@@ -1,4 +1,5 @@
-import { ColliderDesc, type Quaternion, type Vector3 } from '@dimforge/rapier3d-compat'
+import { ColliderDesc } from '@dimforge/rapier3d-compat'
+import type { Quaternion, Vector3 } from '@dimforge/rapier3d-compat'
 import { Vector3 as ThreeVector3 } from 'three'
 
 import { QUATERNION_ZERO, VECTOR_ZERO } from '../constants'
@@ -107,15 +108,15 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
   }
 
   const newPosition: Vector3
-  = (position && parsePosition(position))
-    ?? (object?.position && parsePosition(object?.position))
-    ?? rigidBody.translation()
-    ?? VECTOR_ZERO
+    = (position && parsePosition(position))
+      ?? (object?.position && parsePosition(object?.position))
+      ?? rigidBody.translation()
+      ?? VECTOR_ZERO
   const newRotation: Quaternion
-  = (rotation && parseRotation(rotation))
-    ?? (object?.quaternion && parseRotation(object?.quaternion))
-    ?? rigidBody.rotation()
-    ?? QUATERNION_ZERO.clone()
+    = (rotation && parseRotation(rotation))
+      ?? (object?.quaternion && parseRotation(object?.quaternion))
+      ?? rigidBody.rotation()
+      ?? QUATERNION_ZERO.clone()
 
   colliderDesc
     .setTranslation(newPosition.x, newPosition.y, newPosition.z)

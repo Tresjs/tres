@@ -23,7 +23,7 @@ class Vector3 {
     return this
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     yield this.x
     yield this.y
     yield this.z
