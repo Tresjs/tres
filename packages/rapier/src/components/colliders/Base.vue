@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { type TresObject3D } from '@tresjs/core'
+import type { TresObject3D } from '@tresjs/core'
 import {
   ActiveCollisionTypes,
   ActiveEvents,
   ColliderDesc,
-  HeightFieldFlags
+  HeightFieldFlags,
 } from '@dimforge/rapier3d-compat'
 import {
   inject,
   nextTick,
-  onUnmounted, type ShallowRef,
+  onUnmounted,
+  type ShallowRef,
   shallowRef,
-  watch
+  watch,
 } from 'vue'
 
 import { useRapierContext } from '../../composables'
@@ -51,26 +52,28 @@ const updateShapeArgs = (shape: Exclude<ColliderProps['shape'], undefined>, args
   if (!colliderInfos.value?.collider) { return }
 
   if (
-    shape === "convexHull" ||
-    shape === "convexMesh" ||
-    shape === "polyline" ||
-    shape === "trimesh"
+    shape === 'convexHull'
+    || shape === 'convexMesh'
+    || shape === 'polyline'
+    || shape === 'trimesh'
   ) {
     safeArgs.push(
       args?.[0] instanceof Float32Array ? args?.[0] : new Float32Array(),
       args?.[1] instanceof Uint32Array ? args?.[1] : new Uint32Array(),
     )
-  } else if (shape === "heightfield") {
+  }
+  else if (shape === 'heightfield') {
     safeArgs.push(
       typeof args?.[0] === 'number' ? args?.[0] : 1,
       typeof args?.[1] === 'number' ? args?.[1] : 1,
       args?.[2] instanceof Float32Array ? args?.[2] : new Float32Array(),
-      isVector3Like(args?.[3]) ? args?.[3] : { x: 0, y: 0, z: 0 }
+      isVector3Like(args?.[3]) ? args?.[3] : { x: 0, y: 0, z: 0 },
     )
     if (args?.[4] in HeightFieldFlags) {
       safeArgs.push(args?.[4])
     }
-  } else {
+  }
+  else {
     safeArgs.push(
       typeof args?.[0] === 'number' ? args?.[0] : 0.5,
       typeof args?.[1] === 'number' ? args?.[1] : 0.5,
@@ -80,7 +83,7 @@ const updateShapeArgs = (shape: Exclude<ColliderProps['shape'], undefined>, args
   }
 
   colliderInfos.value.collider.setShape(
-    (colliderDesc(...safeArgs as [any, any, any, any, any]))?.shape ?? ColliderDesc.cuboid(1, 1, 1).shape
+    (colliderDesc(...safeArgs as [any, any, any, any, any]))?.shape ?? ColliderDesc.cuboid(1, 1, 1).shape,
   )
 }
 
@@ -122,13 +125,13 @@ watch(bodyContext, async (state) => {
 }, { immediate: true })
 
 // Props watchers
-watch(() => props.shape, value => {
+watch(() => props.shape, (value) => {
   updateShapeArgs(value, props.args)
 })
-watch(() => props.args, value => {
+watch(() => props.args, (value) => {
   updateShapeArgs(props.shape, value)
 })
-watch(() => props.position, value => {
+watch(() => props.position, (value) => {
   if (!colliderInfos.value?.collider) { return }
   colliderInfos.value.collider.setTranslation({
     x: typeof value?.[0] === 'number' ? value?.[0] : 0,
@@ -136,7 +139,7 @@ watch(() => props.position, value => {
     z: typeof value?.[2] === 'number' ? value?.[2] : 0,
   })
 })
-watch(() => props.rotation, value => {
+watch(() => props.rotation, (value) => {
   if (!colliderInfos.value?.collider) { return }
   colliderInfos.value.collider.setRotation({
     x: typeof value?.[0] === 'number' ? value?.[0] : 0,
@@ -152,7 +155,8 @@ watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
 })
 watch([
   () => props.activeCollision,
-  () => props.activeContactForce, colliderInfos
+  () => props.activeContactForce,
+  colliderInfos,
 ], ([activeCollision, activeContactForce]) => {
   if (!colliderInfos.value?.collider) { return }
 

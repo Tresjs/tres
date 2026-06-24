@@ -31,13 +31,13 @@ const _scaleVertices = (vertices: ArrayLike<number>, scale: Vector3) => {
 /** @internal */
 const _scaleColliderArgs = (
   shape: ColliderShape,
-  args: (number | ArrayLike<number> | { x: number; y: number; z: number })[],
+  args: (number | ArrayLike<number> | { x: number, y: number, z: number })[],
   scale: Vector3,
 ) => {
   const newArgs = args.slice()
 
   if (shape === 'heightfield') {
-    const s = newArgs[3] as { x: number; y: number; z: number }
+    const s = newArgs[3] as { x: number, y: number, z: number }
     s.x *= scale.x
     s.x *= scale.y
     s.x *= scale.z
@@ -70,8 +70,8 @@ const _scaleColliderArgs = (
  */
 export const createColliderDesc = (props: CreateColliderDescProps) => {
   const { shape, object, args, position, rotation, rigidBody, scale } = props
-  const { halfWidth, halfHeight, halfDepth } =
-    getColliderSizingsFromObject(object)
+  const { halfWidth, halfHeight, halfDepth }
+    = getColliderSizingsFromObject(object)
   const colliderDescMethod = ColliderDesc[shape || 'cuboid']
   const safeScale = new ThreeVector3(
     scale?.[0] ?? 1,
@@ -109,23 +109,24 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
     if (!colliderDesc) {
       throw new Error(`Invalid collider shape: ${shape}. Switching to cuboid.`)
     }
-  } catch (error) {
+  }
+  catch (error) {
     console.warn(
       `Error creating collider: ${error instanceof Error ? error.message : 'Unknown error'}. Switching to cuboid.`,
     )
     colliderDesc = getSafeColliderDesc()
   }
 
-  const newPosition: Vector3 =
-    (position && parsePosition(position)) ??
-    (object?.position && parsePosition(object?.position)) ??
-    rigidBody.translation() ??
-    VECTOR_ZERO
-  const newRotation: Quaternion =
-    (rotation && parseRotation(rotation)) ??
-    (object?.quaternion && parseRotation(object?.quaternion)) ??
-    rigidBody.rotation() ??
-    QUATERNION_ZERO.clone()
+  const newPosition: Vector3
+    = (position && parsePosition(position))
+      ?? (object?.position && parsePosition(object?.position))
+      ?? rigidBody.translation()
+      ?? VECTOR_ZERO
+  const newRotation: Quaternion
+    = (rotation && parseRotation(rotation))
+      ?? (object?.quaternion && parseRotation(object?.quaternion))
+      ?? rigidBody.rotation()
+      ?? QUATERNION_ZERO.clone()
 
   colliderDesc
     .setTranslation(newPosition.x, newPosition.y, newPosition.z)
