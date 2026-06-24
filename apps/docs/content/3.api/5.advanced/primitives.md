@@ -466,6 +466,20 @@ textMesh.color = 0xFF6600
 </template>
 ```
 
+::note
+For SDF text you usually don't need the manual `<primitive>` wiring above. The [`<Text>`](https://cientos.tresjs.org/api/objects/text) component from `@tresjs/cientos` wraps `troika-three-text` for you — it calls `.sync()` on prop changes and disposes of the instance automatically:
+
+```vue
+<script setup lang="ts">
+import { Text } from '@tresjs/cientos'
+</script>
+
+<template>
+  <Text text="Hello TresJS!" :font-size="0.5" color="#FF6600" />
+</template>
+```
+::
+
 ### 2. Custom Geometries
 ```vue
 <script setup lang="ts">
