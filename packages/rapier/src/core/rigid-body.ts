@@ -1,4 +1,5 @@
-import { type RigidBody, RigidBodyDesc } from '@dimforge/rapier3d-compat'
+import { RigidBodyDesc } from '@dimforge/rapier3d-compat'
+import type { RigidBody } from '@dimforge/rapier3d-compat'
 
 import type {
   ColliderProps,

@@ -8,9 +8,10 @@ import {
   onUpdated,
   provide,
   shallowRef,
-  type ShallowRef,
+
   watch,
 } from 'vue'
+import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../composables'
 import { createRigidBody, createRigidBodyAutoColliderPropsFromObject } from '../core'
@@ -143,7 +144,6 @@ watch(() => props.solverGroups, value => setAutoColliderProp('solverGroups', val
 watch(() => props.sensor, value => setAutoColliderProp('sensor', value))
 watch(() => props.activeContactForce, value => setAutoColliderProp('activeContactForce', value))
 watch(() => props.contactForceEventThreshold, value => setAutoColliderProp('contactForceEventThreshold', value))
-
 
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
   if (!instance.value) { return }

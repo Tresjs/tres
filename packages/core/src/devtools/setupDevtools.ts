@@ -72,7 +72,7 @@ export function setupTresDevtools(ctx: TresContext) {
 
         if (performanceState.memory.accumulator.length > 0) {
           performanceState.memory.currentMem
-        = performanceState.memory.accumulator.reduce((a, b) => a + b, 0) / performanceState.memory.accumulator.length
+            = performanceState.memory.accumulator.reduce((a, b) => a + b, 0) / performanceState.memory.accumulator.length
         }
       }
     }

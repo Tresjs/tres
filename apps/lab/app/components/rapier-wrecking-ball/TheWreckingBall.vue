@@ -1,0 +1,470 @@
+<script setup lang="ts">
+import type { TresPointerEvent } from '@tresjs/core'
+import { useLoop, useTres } from '@tresjs/core'
+import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
+import { DataTexture, InstancedMesh, Matrix4, type Mesh, MeshStandardMaterial, Quaternion, RepeatWrapping, TorusGeometry, Vector3 } from 'three'
+import { RoundedBox } from '@tresjs/cientos'
+
+const poleRef = shallowRef<ExposedRigidBody | null>(null)
+const ballRef = shallowRef<ExposedRigidBody | null>(null)
+
+// Connection lug between chain and ball. Raycast must be disabled imperatively:
+// passing `:raycast` as a template prop makes Tres call Mesh.raycast as a setter
+// method (with the function as the raycaster argument) and crashes on mount.
+const lugRef = shallowRef<Mesh | null>(null)
+watchEffect(() => {
+  if (lugRef.value) { lugRef.value.raycast = () => { } }
+})
+
+const PHYSICS_LINKS = 6
+const VISUALS_PER_SEGMENT = 6
+const VISUAL_LINKS = PHYSICS_LINKS * VISUALS_PER_SEGMENT
+const BALL_SIZE = 2
+
+// Chain geometry. Pick chain length + release angle, derive ball start so all joints are satisfied at t=0.
+const POLE_POS = new Vector3(0, 13.5, 0)
+const CHAIN_LENGTH = 8
+const RELEASE_ANGLE = 0 // ball hangs straight down at rest; user drags to release
+const SEG_LEN = CHAIN_LENGTH / PHYSICS_LINKS
+const CHAIN_DIR = new Vector3(Math.sin(RELEASE_ANGLE), -Math.cos(RELEASE_ANGLE), 0)
+// Chain end (world position the last link's bottom anchor reaches when pre-aligned)
+const CHAIN_END = new Vector3(
+  POLE_POS.x + CHAIN_DIR.x * CHAIN_LENGTH,
+  POLE_POS.y + CHAIN_DIR.y * CHAIN_LENGTH,
+  POLE_POS.z + CHAIN_DIR.z * CHAIN_LENGTH,
+)
+// Rotation around world Z that aligns a link's local +Y (top anchor) to point back toward the pole
+const CHAIN_ROT_Z = Math.atan2(CHAIN_DIR.x, -CHAIN_DIR.y)
+
+function linkInitialPos(i: number): [number, number, number] {
+  const d = SEG_LEN / 2 + i * SEG_LEN
+  return [POLE_POS.x + CHAIN_DIR.x * d, POLE_POS.y + CHAIN_DIR.y * d, POLE_POS.z + CHAIN_DIR.z * d]
+}
+
+// Chain interaction groups: membership=bit2, filter=everything except bit2 → links don't collide with each other
+const CHAIN_GROUPS = 0x0002FFFD
+
+const linkRefs = ref<(ExposedRigidBody | null)[]>(Array.from({ length: PHYSICS_LINKS }, () => null))
+function setLinkRef(el: unknown, i: number) {
+  linkRefs.value[i] = (el as ExposedRigidBody | null) ?? null
+}
+
+// Rapier's default 4 solver iterations let long joint chains stretch visibly (rubber-band
+// feel). Extra iterations on the chain's bodies make the links hold their length, reads
+// as a heavy steel chain. Re-applied whenever bodies are recreated (ball reset).
+watchEffect(() => {
+  for (const link of linkRefs.value) {
+    link?.instance?.setAdditionalSolverIterations(8)
+  }
+  ballRef.value?.instance?.setAdditionalSolverIterations(8)
+})
+
+const TORUS_R = 0.18
+const TORUS_TUBE = 0.04
+
+const chainMesh = new InstancedMesh(
+  new TorusGeometry(TORUS_R, TORUS_TUBE, 8, 16),
+  new MeshStandardMaterial({ color: '#888', metalness: 0.9, roughness: 0.3 }),
+  VISUAL_LINKS,
+)
+chainMesh.castShadow = true
+// Don't let chain visuals swallow pointer hits aimed at the ball
+chainMesh.raycast = () => { }
+
+const _m = new Matrix4()
+const _p = new Vector3()
+const _q = new Quaternion()
+const _linkQ = new Quaternion()
+// Default TorusGeometry has its hole axis along +Z. Rotating π/2 around local Y moves the hole axis to -X.
+// Alternating this rotation between adjacent visual links makes consecutive rings perpendicular → reads as interlocked chain.
+const _alternateQ = new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), Math.PI / 2)
+const _identityQ = new Quaternion()
+const _localOffset = new Vector3()
+const _s = new Vector3(1, 1, 1)
+
+// --- Click-and-drag (pmndrs/pointer-events) -------------------------------------
+// Pointer-down on the ball captures the pointer so all subsequent move/up events
+// route through the ball mesh regardless of cursor position. Mouse movement in screen
+// space (NDC from event.details.screenPoint) drives two pendulum tilts around the
+// pole, mapped through the CAMERA's ground-projected basis so they match what's on
+// screen at any camera yaw: horizontal mouse tilts along screen-right, vertical mouse
+// tilts along the depth axis (drag toward the bottom of the screen = ball comes
+// toward the viewer — with the current camera that's also away from the wall). The
+// drag target sits at full chain extension on the sphere around the pole, like
+// grabbing a real hanging ball.
+// The ball STAYS dynamic and is steered toward the target by a fixed-strength
+// spring-damper impulse each frame. A kinematic ball would pin the
+// chain between two immovable bodies (fixed pole + kinematic ball) — near full reach
+// the solver over-constrains and the chain whips violently. With a dynamic ball the
+// joints can push back on it, motion stays smooth, and release inherits the drag
+// velocity for a natural throw.
+const { camera } = useTres()
+const isDragging = shallowRef(false)
+const dragTarget = new Vector3()
+const _tmpVec = new Vector3()
+// PD steering: a spring-damper force pulls the ball toward the drag target, so it
+// accelerates and lags like a heavy load instead of snapping to the cursor.
+// Slightly underdamped (critical ≈ 2·√stiffness ≈ 12.6) for a weighty sway.
+const DRAG_STIFFNESS = 40 // 1/s²
+const DRAG_DAMPING = 9 // 1/s
+const MAX_DRAG_ACCEL = 80 // caps the yank transmitted into the chain on fast flicks
+// The "hand" has fixed strength: the PD force is sized for this mass, not the ball's.
+// Balls heavier than this accelerate proportionally less under the same pull, so a
+// 500-mass ball drags sluggishly while a light one snaps to the cursor. Balls lighter
+// than this still use their own mass (full PD accel) — scaling UP the force on a tiny
+// ball would blow past the stable accel range and jitter the chain.
+const DRAG_HAND_MASS = 80
+// Tilt response per NDC unit of mouse travel (full screen width = 2 NDC units),
+// expressed in sine-space of the tilt angle (1.0 ≈ 90° of tilt).
+const TILT_GAIN = 1.1
+const MAX_TILT_SIN2 = 0.96 // keep a downward component so the chain stays below the pole
+const _dragStartScreen = { x: 0, y: 0 }
+// Camera basis projected on the ground plane, captured at grab: which world direction
+// is "screen right" and which is "toward the viewer"
+const _camRight = { x: 1, z: 0 }
+const _camToViewer = { x: 0, z: 1 }
+// Pendulum direction horizontal components (sine of tilt), at grab and current
+let _sinX0 = 0
+let _sinZ0 = 0
+let _sinX = 0
+let _sinZ = 0
+
+const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v))
+
+// Place the drag target on the sphere of full chain reach around the pole, from the
+// horizontal direction components: dir = (x, -sqrt(1 - x² - z²), z)
+function updateDragTargetFromTilt() {
+  let x = _sinX
+  let z = _sinZ
+  const d2 = x * x + z * z
+  if (d2 > MAX_TILT_SIN2) {
+    const s = Math.sqrt(MAX_TILT_SIN2 / d2)
+    x *= s
+    z *= s
+  }
+  const y = -Math.sqrt(1 - x * x - z * z)
+  const reach = CHAIN_LENGTH + BALL_SIZE - 0.05
+  dragTarget.set(POLE_POS.x + x * reach, POLE_POS.y + y * reach, POLE_POS.z + z * reach)
+}
+
+function onBallPointerDown(event: TresPointerEvent) {
+  const ball = ballRef.value?.instance
+  if (!ball) { return }
+  event.stopPropagation()
+    ; (event.object as unknown as { setPointerCapture?: (id: number) => void }).setPointerCapture?.(event.pointerId)
+  // Start the tilt from the chain's current direction so the grab is seamless
+  const t = ball.translation()
+  _tmpVec.set(t.x - POLE_POS.x, t.y - POLE_POS.y, t.z - POLE_POS.z).normalize()
+  _sinX0 = clamp(_tmpVec.x, -1, 1)
+  _sinZ0 = clamp(_tmpVec.z, -1, 1)
+  _sinX = _sinX0
+  _sinZ = _sinZ0
+  // Capture the camera's ground-projected basis so mouse axes match the view
+  const cam = camera.value
+  if (cam) {
+    cam.getWorldDirection(_tmpVec)
+    _tmpVec.y = 0
+    if (_tmpVec.lengthSq() > 1e-6) {
+      _tmpVec.normalize()
+      _camRight.x = -_tmpVec.z // cross(forward, up) on the ground plane
+      _camRight.z = _tmpVec.x
+      _camToViewer.x = -_tmpVec.x
+      _camToViewer.z = -_tmpVec.z
+    }
+  }
+  const sp = event.details?.screenPoint
+  _dragStartScreen.x = sp?.x ?? 0
+  _dragStartScreen.y = sp?.y ?? 0
+  updateDragTargetFromTilt()
+  isDragging.value = true
+  document.body.style.cursor = 'grabbing'
+}
+
+function onBallPointerMove(event: TresPointerEvent) {
+  if (!isDragging.value) { return }
+  const sp = event.details?.screenPoint
+  if (!sp) { return }
+  // Map mouse deltas through the camera basis: horizontal → screen-right tilt,
+  // vertical → depth tilt (drag toward the bottom of the screen = toward the viewer)
+  const dRight = (sp.x - _dragStartScreen.x) * TILT_GAIN
+  const dDown = (_dragStartScreen.y - sp.y) * TILT_GAIN
+  _sinX = clamp(_sinX0 + dRight * _camRight.x + dDown * _camToViewer.x, -1, 1)
+  _sinZ = clamp(_sinZ0 + dRight * _camRight.z + dDown * _camToViewer.z, -1, 1)
+  updateDragTargetFromTilt()
+}
+
+function onBallPointerUp(event: TresPointerEvent) {
+  if (!isDragging.value) { return }
+  // Ball keeps its current drag velocity → natural throw/swing on release
+  isDragging.value = false
+    ; (event.object as unknown as { releasePointerCapture?: (id: number) => void }).releasePointerCapture?.(event.pointerId)
+  document.body.style.cursor = ''
+}
+
+function onBallPointerOver() {
+  if (!isDragging.value) { document.body.style.cursor = 'grab' }
+}
+
+function onBallPointerOut() {
+  if (!isDragging.value) { document.body.style.cursor = '' }
+}
+// --------------------------------------------------------------------------------
+
+// --- Procedural ball roughness ----------------------------------------------------
+// Battered-steel look without image assets: tileable fBm value noise baked into a
+// DataTexture, used as roughnessMap (shiny smooth spots, dull scuffed patches) and
+// reused as a subtle bumpMap so the scuffs also dent the reflections.
+function makeBallNoiseTexture(size = 256) {
+  const data = new Uint8Array(size * size * 4)
+  // Deterministic lattice hash → same texture every load (no reseed on HMR)
+  const hash = (x: number, y: number) => {
+    let h = Math.imul(x, 374761393) + Math.imul(y, 668265263)
+    h = Math.imul(h ^ (h >>> 13), 1274126177)
+    return ((h ^ (h >>> 16)) >>> 0) / 4294967296
+  }
+  const smooth = (t: number) => t * t * (3 - 2 * t)
+  // Value noise on a lattice wrapped at `freq` → seamless tiling, so no visible
+  // seam where the sphere's UVs wrap around
+  const noise = (u: number, v: number, freq: number) => {
+    const x = u * freq
+    const y = v * freq
+    const xi = Math.floor(x)
+    const yi = Math.floor(y)
+    const x0 = xi % freq
+    const y0 = yi % freq
+    const x1 = (x0 + 1) % freq
+    const y1 = (y0 + 1) % freq
+    const tx = smooth(x - xi)
+    const ty = smooth(y - yi)
+    const a = hash(x0, y0)
+    const b = hash(x1, y0)
+    const c = hash(x0, y1)
+    const d = hash(x1, y1)
+    return a + (b - a) * tx + (c - a) * ty + (a - b - c + d) * tx * ty
+  }
+  for (let i = 0; i < size * size; i++) {
+    const u = (i % size) / size
+    const v = Math.floor(i / size) / size
+    // 4-octave fBm: big worn patches with fine grain on top
+    let n = 0
+    let amp = 0.5
+    for (let o = 0; o < 4; o++) {
+      n += noise(u, v, 8 << o) * amp
+      amp *= 0.5
+    }
+    // Push contrast around the fBm mean (~0.48): mostly polished steel, with
+    // patches that go nearly full rough
+    const rough = clamp(0.35 + (n - 0.45) * 1.8, 0.12, 1)
+    const byte = Math.round(rough * 255)
+    data[i * 4] = byte
+    data[i * 4 + 1] = byte // roughnessMap samples the green channel
+    data[i * 4 + 2] = byte
+    data[i * 4 + 3] = 255
+  }
+  const texture = new DataTexture(data, size, size)
+  texture.wrapS = RepeatWrapping
+  texture.wrapT = RepeatWrapping
+  texture.needsUpdate = true
+  return texture
+}
+const ballNoiseTexture = makeBallNoiseTexture()
+// --------------------------------------------------------------------------------
+
+const WALL_HEIGHT = 6
+const CEMENT_SHADES = ['#7a7a78', '#6e6e6c', '#828280', '#767674', '#6a6a68', '#7e7e7c']
+
+const GRID_PRESETS = [
+  { text: '3×4', value: '3x4' },
+  { text: '5×6', value: '5x6' },
+  { text: '8×8', value: '8x8' },
+  { text: '10×10', value: '10x10' },
+  { text: '12×14', value: '12x14' },
+  { text: '16×18', value: '16x18' },
+  { text: '20×24', value: '20x24' },
+]
+
+const wallKey = ref(0)
+
+// Bumped to respawn ball + chain at the rest pose. Both must reset together: a ball
+// respawned at the initial chain-end position while the chain is mid-swing is a huge
+// constraint violation → explosion.
+const ballKey = ref(0)
+
+const { mass, gridSize, boxMass, linkMass } = useControls({
+  gridSize: {
+    label: 'Grid Size',
+    value: '5x6',
+    options: GRID_PRESETS,
+  },
+  // Heavy relative to the links: a ball that outweighs its chain keeps it
+  // taut (less elastic feel) and carries real momentum into the wall
+  mass: { value: 250, min: 1, max: 500, step: 1, label: 'Mass' },
+  // Keep ball:link ratio under ~50:1 or the joints start to stretch (solver limit)
+  linkMass: { value: 10, min: 1, max: 50, step: 1, label: 'Link Mass' },
+  boxMass: { value: 1, min: 0.1, max: 50, step: 0.1, label: 'Box Mass' },
+  resetBall: {
+    type: 'button',
+    label: 'Reset Ball',
+    size: 'block',
+    icon: 'i-carbon-reset',
+    onClick: () => { ballKey.value++ },
+  },
+  resetWall: {
+    type: 'button',
+    label: 'Reset Wall',
+    size: 'block',
+    icon: 'i-carbon-reset',
+    onClick: () => { wallKey.value++ },
+  },
+}, { uuid: 'rapier-wrecking-ball' })
+
+// Ball start: anchor (top of ball) coincides with chain end → joint satisfied at t=0
+const BALL_START: [number, number, number] = [
+  CHAIN_END.x,
+  CHAIN_END.y - BALL_SIZE,
+  CHAIN_END.z,
+]
+
+const parsedGrid = computed(() => {
+  const [c, r] = (gridSize!.value as string).split('x').map(Number)
+  return { cols: c!, rows: r! }
+})
+
+watch(gridSize!, () => { wallKey.value++ })
+
+const brickHeight = computed(() => WALL_HEIGHT / parsedGrid.value.rows)
+const brickWidth = computed(() => brickHeight.value * 2)
+
+const boxes = computed(() =>
+  Array.from({ length: parsedGrid.value.cols * parsedGrid.value.rows }, (_, i) => ({
+    col: i % parsedGrid.value.cols,
+    row: Math.floor(i / parsedGrid.value.cols),
+  })),
+)
+
+const { onBeforeRender } = useLoop()
+onBeforeRender(({ delta }) => {
+  if (isDragging.value) {
+    const ball = ballRef.value?.instance
+    if (ball) {
+      // Steer the (still dynamic) ball with a spring-damper impulse toward the drag
+      // target: acceleration = stiffness·Δ − damping·v, capped. The ball builds up and
+      // sheds momentum like a real mass, and the joint solver can still push back on it.
+      const t = ball.translation()
+      const v = ball.linvel()
+      _tmpVec.set(dragTarget.x - t.x, dragTarget.y - t.y, dragTarget.z - t.z).multiplyScalar(DRAG_STIFFNESS)
+      _tmpVec.x -= v.x * DRAG_DAMPING
+      _tmpVec.y -= v.y * DRAG_DAMPING
+      _tmpVec.z -= v.z * DRAG_DAMPING
+      const accel = _tmpVec.length()
+      if (accel > MAX_DRAG_ACCEL) {
+        _tmpVec.multiplyScalar(MAX_DRAG_ACCEL / accel)
+      }
+      // impulse = F·dt with F sized for the hand, not the ball: heavier balls get the
+      // same pull but less acceleration → mass-dependent drag resistance.
+      // (dt capped so a long stalled frame can't kick the ball)
+      _tmpVec.multiplyScalar(Math.min(ball.mass(), DRAG_HAND_MASS) * Math.min(delta, 1 / 30))
+      ball.applyImpulse({ x: _tmpVec.x, y: _tmpVec.y, z: _tmpVec.z }, true)
+    }
+  }
+
+  for (let i = 0; i < PHYSICS_LINKS; i++) {
+    const link = linkRefs.value[i]?.instance
+    if (!link) { return }
+    const t = link.translation()
+    const r = link.rotation()
+    _linkQ.set(r.x, r.y, r.z, r.w)
+
+    // Distribute VISUALS_PER_SEGMENT toruses evenly along the link's local Y axis
+    for (let j = 0; j < VISUALS_PER_SEGMENT; j++) {
+      const visualIndex = i * VISUALS_PER_SEGMENT + j
+      const yLocal = SEG_LEN / 2 - (j + 0.5) * (SEG_LEN / VISUALS_PER_SEGMENT)
+      _localOffset.set(0, yLocal, 0)
+      _p.copy(_localOffset).applyQuaternion(_linkQ)
+      _p.x += t.x
+      _p.y += t.y
+      _p.z += t.z
+      _q.copy(_linkQ).multiply(visualIndex % 2 === 0 ? _alternateQ : _identityQ)
+      _m.compose(_p, _q, _s)
+      chainMesh.setMatrixAt(visualIndex, _m)
+    }
+  }
+  chainMesh.instanceMatrix.needsUpdate = true
+})
+</script>
+
+<template>
+  <primitive :object="chainMesh" />
+
+  <Suspense>
+    <Physics :timestep="1 / 120">
+      <RigidBody ref="poleRef" type="fixed" :position="[0, 13.5, 0]" collider="ball">
+        <TresMesh>
+          <TresSphereGeometry :args="[0.15, 16, 16]" />
+          <TresMeshStandardMaterial color="#888" :metalness="0.9" :roughness="0.2" />
+        </TresMesh>
+      </RigidBody>
+
+      <!-- Chain physics links — small invisible ball colliders, visuals come from the InstancedMesh -->
+      <RigidBody v-for="i in PHYSICS_LINKS" :key="`link-${ballKey}-${i}`" :ref="(el) => setLinkRef(el, i - 1)"
+        type="dynamic" collider="ball" :mass="linkMass" :linear-damping="0.1" :angular-damping="1.0" :enable-ccd="true"
+        :collision-groups="CHAIN_GROUPS" :solver-groups="CHAIN_GROUPS" :position="linkInitialPos(i - 1)"
+        :rotation="[0, 0, CHAIN_ROT_Z]">
+        <TresMesh :visible="false">
+          <TresSphereGeometry :args="[0.06, 4, 4]" />
+        </TresMesh>
+      </RigidBody>
+
+      <RigidBody :key="ballKey" ref="ballRef" type="dynamic" :position="BALL_START" collider="ball" :mass="mass"
+        :enable-ccd="true">
+        <TresMesh cast-shadow @pointerdown="onBallPointerDown" @pointermove="onBallPointerMove"
+          @pointerup="onBallPointerUp" @pointerover="onBallPointerOver" @pointerout="onBallPointerOut">
+          <TresSphereGeometry :args="[BALL_SIZE, 32, 32]" />
+          <!-- roughness acts as a multiplier on the map, so keep it at 1 -->
+          <TresMeshStandardMaterial color="#1a1a1a" :metalness="0.95" :roughness="1"
+            :roughness-map="ballNoiseTexture" :bump-map="ballNoiseTexture" :bump-scale="0.04" />
+          <!-- Connection lug at the joint anchor (local [0, BALL_SIZE, 0]). Nested inside the
+               sphere mesh because auto-colliders are generated from the body's DIRECT children
+               only — as a direct child it would get its own collider. Raycast is disabled via
+               the lugRef watcher (a :raycast template prop would make Tres CALL Mesh.raycast). -->
+          <TresMesh ref="lugRef" :position="[0, BALL_SIZE, 0]" cast-shadow>
+            <TresCylinderGeometry :args="[0.2, 0.35, 0.8, 8]" />
+            <TresMeshStandardMaterial color="#888" :metalness="0.9" :roughness="0.3" flat-shading />
+          </TresMesh>
+        </TresMesh>
+      </RigidBody>
+
+      <!-- pole → link 0 -->
+      <!-- @vue-expect-error duplicate rapier3d-compat type instances cause a benign RigidBody mismatch -->
+      <SphericalJoint :bodies="[poleRef?.instance, linkRefs[0]?.instance]" :params="[[0, 0, 0], [0, SEG_LEN / 2, 0]]" />
+      <!-- link i → link i+1 -->
+      <!-- @vue-expect-error duplicate rapier3d-compat type instances cause a benign RigidBody mismatch -->
+      <SphericalJoint v-for="i in PHYSICS_LINKS - 1" :key="`joint-${i}`"
+        :bodies="[linkRefs[i - 1]?.instance, linkRefs[i]?.instance]"
+        :params="[[0, -SEG_LEN / 2, 0], [0, SEG_LEN / 2, 0]]" />
+      <!-- last link → ball -->
+      <!-- @vue-expect-error duplicate rapier3d-compat type instances cause a benign RigidBody mismatch -->
+      <SphericalJoint :bodies="[linkRefs[PHYSICS_LINKS - 1]?.instance, ballRef?.instance]"
+        :params="[[0, -SEG_LEN / 2, 0], [0, BALL_SIZE, 0]]" />
+
+      <RigidBody v-for="(box, i) in boxes" :key="`${wallKey}-${parsedGrid.cols}-${parsedGrid.rows}-${i}`" type="dynamic"
+        :mass="boxMass" :position="[
+          3,
+          brickHeight / 2 + box.row * brickHeight,
+          -((parsedGrid.cols - 1) / 2) * brickWidth + box.col * brickWidth + (box.row % 2 === 1 ? brickWidth / 2 : 0),
+        ]" collider="cuboid">
+        <RoundedBox :args="[brickHeight, brickHeight, brickWidth, 1, brickHeight * 0.05]" cast-shadow receive-shadow>
+          <TresMeshStandardMaterial :color="CEMENT_SHADES[box.row % CEMENT_SHADES.length]" :roughness="0.95"
+            :metalness="0" />
+        </RoundedBox>
+      </RigidBody>
+
+      <RigidBody type="fixed" :position="[0, -0.5, 0]">
+        <TresMesh receive-shadow>
+          <TresBoxGeometry :args="[50, 1, 20]" />
+          <TresMeshStandardMaterial color="#1e1e26" :roughness="1" />
+        </TresMesh>
+      </RigidBody>
+    </Physics>
+  </Suspense>
+</template>

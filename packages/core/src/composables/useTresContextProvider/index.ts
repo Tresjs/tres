@@ -1,15 +1,17 @@
-import type { MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
+import type { ComputedRef, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 
 import type { TresControl, TresScene } from '../../types'
 import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
-import { ref, shallowRef } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
+import { isWebGPURenderer } from '../../utils/is'
 
 import type { UseCameraReturn } from '../useCamera'
 
 import { useCameraManager } from '../useCamera'
 import { useRendererManager } from '../useRenderer/useRendererManager'
-import useSizes, { type SizesType } from '../useSizes'
+import useSizes from '../useSizes'
+import type { SizesType } from '../useSizes'
 import { useEventManager } from '../useEventManager'
 import { createInjectionState } from '@vueuse/core'
 
@@ -20,6 +22,15 @@ export interface TresContext {
   camera: UseCameraReturn
   controls: Ref<TresControl | null>
   renderer: UseRendererManagerReturn
+  /**
+   * Whether the active renderer is a Three.js WebGPU `Renderer` (as opposed to a
+   * `WebGLRenderer`). Reactive so downstream components can branch on it without
+   * re-deriving it from `renderer.instance`.
+   *
+   * Note: this reflects the renderer instance, not the active backend — a
+   * `WebGPURenderer` running on its WebGL2 fallback still reports `true`.
+   */
+  isWebGPU: ComputedRef<boolean>
   events: ReturnType<typeof useEventManager>
 }
 
@@ -63,6 +74,7 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
     scene: localScene,
     camera,
     renderer,
+    isWebGPU: computed(() => isWebGPURenderer(renderer.instance)),
     controls: ref(null),
     extend,
     events,

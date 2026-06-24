@@ -1,8 +1,10 @@
 /* eslint-disable no-console */
-import { type MaybeRefOrGetter, onUnmounted, toValue, watch } from 'vue'
+import { onUnmounted, toValue, watch } from 'vue'
+import type { MaybeRefOrGetter } from 'vue'
 import { whenever } from '@vueuse/core'
 import { acceleratedRaycast, BVHHelper, MeshBVH } from 'three-mesh-bvh'
-import { type BufferGeometry, Group, Mesh, type Object3D, SkinnedMesh } from 'three'
+import { Group, Mesh, SkinnedMesh } from 'three'
+import type { BufferGeometry, Object3D } from 'three'
 import { isObject3D } from '@tresjs/core'
 /**
  * BVH construction options (static - set once at creation, changing requires rebuild)

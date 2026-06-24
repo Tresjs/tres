@@ -44,14 +44,14 @@ export interface OnLookAtCallbackArg {
   object: Box3 | Object3D | undefined
 }
 
-type CachedFitArgs =
-  [ Vector3 | null, Vector3, Vector3 ]
-  | [ Vector3 | null, Vector3]
-  | [ Vector3 | null]
-  | [ Object3D ]
-  | [ Object3D, Vector3 ]
-  | [ Box3 ]
-  | [ Box3, Vector3 ]
+type CachedFitArgs
+  = [ Vector3 | null, Vector3, Vector3 ]
+    | [ Vector3 | null, Vector3]
+    | [ Vector3 | null]
+    | [ Object3D ]
+    | [ Object3D, Vector3 ]
+    | [ Box3 ]
+    | [ Box3, Vector3 ]
 
 enum AnimationState {
   NONE = 0,

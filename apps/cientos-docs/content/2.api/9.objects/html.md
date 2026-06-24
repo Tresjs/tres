@@ -323,7 +323,7 @@ In the **demo above ⬆️** *(middle yellow example)*, a [`CircleGeometry`](htt
 - You can provide any [`BufferGeometry`](https://threejs.org/docs/#api/en/core/BufferGeometry), for example to simulate **CSS-like styles** such as `border-radius` using a rounded rectangle or squircle geometry (see [`RoundedRectangle / Squircle geometry`](https://discourse.threejs.org/t/roundedrectangle-squircle/28645) for example).
 ::
 
-#### Custom Material
+### Custom Material
 
 You can also assign material properties to the HTML content using the `material` prop.
 In the **demo above ⬆️** *(right red example)*, a **custom material** is used with shadow.

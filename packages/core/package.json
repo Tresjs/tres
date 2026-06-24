@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "5.8.1",
+  "version": "5.8.3",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -56,18 +56,19 @@
     "vue": ">=3.4"
   },
   "dependencies": {
-    "@pmndrs/pointer-events": "^6.6.17",
-    "@vue/devtools-api": "^7.7.2",
+    "@pmndrs/pointer-events": "catalog:",
+    "@vue/devtools-api": "catalog:",
     "@vueuse/core": "catalog:utils",
-    "radashi": "^12.6.2"
+    "radashi": "catalog:"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
+    "@types/node": "catalog:node",
     "@types/three": "catalog:three",
     "@typescript-eslint/eslint-plugin": "catalog:eslint",
     "@typescript-eslint/parser": "catalog:eslint",
     "@vitejs/plugin-vue": "catalog:vite",
-    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/coverage-v8": "catalog:testing",
     "@vitest/ui": "catalog:testing",
     "@vue/test-utils": "catalog:testing",
     "eslint": "catalog:eslint",
@@ -76,7 +77,7 @@
     "kolorist": "catalog:utils",
     "pathe": "catalog:utils",
     "rollup-plugin-analyzer": "catalog:build",
-    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-copy": "catalog:",
     "rollup-plugin-visualizer": "catalog:build",
     "three": "catalog:three",
     "tsdown": "catalog:build",
@@ -84,10 +85,10 @@
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
-    "vite-plugin-inspect": "^11.3.3",
+    "vite-plugin-inspect": "catalog:",
     "vitest": "catalog:testing",
     "vue": "catalog:vue",
-    "vue-demi": "^0.14.10",
+    "vue-demi": "catalog:",
     "vue-tsc": "catalog:typescript"
   },
   "nx": {

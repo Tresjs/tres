@@ -1,6 +1,7 @@
 import type { TresLoaderOptions } from '@tresjs/core'
 import { useLoader } from '@tresjs/core'
-import { computed, type ComputedRef, type MaybeRef, type Ref } from 'vue'
+import { computed } from 'vue'
+import type { ComputedRef, MaybeRef, Ref } from 'vue'
 import { DoubleSide, ShapeGeometry, Vector2 } from 'three'
 import { SVGLoader } from 'three-stdlib'
 import type { BufferGeometry, MeshBasicMaterialParameters } from 'three'

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { TresObject3D } from '@tresjs/core'
 import { ActiveCollisionTypes, ActiveEvents } from '@dimforge/rapier3d-compat'
-import { inject, nextTick, onUnmounted, type ShallowRef, shallowRef, watch } from 'vue'
+import { inject, nextTick, onUnmounted, shallowRef, watch } from 'vue'
+import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../../composables'
 import { createCollider } from '../../core/collider'

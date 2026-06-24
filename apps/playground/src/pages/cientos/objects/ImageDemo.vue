@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { Image, OrbitControls, useTexture } from '@tresjs/cientos'
-import { Color, DoubleSide, FrontSide, NoToneMapping } from 'three'
+import { DoubleSide, FrontSide, NoToneMapping } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'abstractions-image'

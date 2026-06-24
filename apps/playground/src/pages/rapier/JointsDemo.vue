@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
+import { Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { onErrorCaptured, shallowRef } from 'vue'
 import type { ShallowRef } from 'vue'
