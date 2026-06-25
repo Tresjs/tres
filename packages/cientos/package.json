@@ -65,6 +65,7 @@
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
+    "@tsdown/css": "catalog:build",
     "@types/node": "catalog:node",
     "@types/three": "catalog:three",
     "@typescript-eslint/eslint-plugin": "catalog:eslint",

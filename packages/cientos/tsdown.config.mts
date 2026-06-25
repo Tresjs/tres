@@ -22,6 +22,11 @@ export default defineConfig([
     platform: 'neutral',
     fromVite: true,
     banner,
+    // @tsdown/css defaults to 'style.css'; keep the published name to match the
+    // "./styles.css" export -> "./dist/trescientos.css"
+    css: {
+      fileName: 'trescientos.css',
+    },
     plugins: [
       process.env.ANALYZE && visualizer({ open: true, gzipSize: true, filename: 'dist/stats.html' }),
     ].filter(Boolean),
