@@ -10,7 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <Teleport :to="(to as any)" :disabled="disabled">
+  <Teleport :to="to" :disabled="disabled">
     <slot></slot>
   </Teleport>
 </template>

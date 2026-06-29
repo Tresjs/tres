@@ -106,8 +106,6 @@ onBeforeRender(({ renderer, camera }) => {
   const cam = camera.value
   if (!host || !cam) { return }
 
-  mat.blend = props.blend
-
   // Position portal scene relative to the host surface (or world-absolute).
   if (props.worldUnits) {
     portalScene.matrixWorld.identity()

@@ -86,6 +86,14 @@ helpers (`useTres().scene`, e.g. `<Environment>`) and declarative `attach` confi
 the portal scene. Only the `scene` is swapped — renderer, camera and sizes are shared.
 ::
 
+::prose-warning
+**On-demand rendering:** the portal renders its scene to a frame buffer on every
+frame so the window keeps tracking animated contents and the `blend` takeover stays
+in sync. To do this it calls `invalidate()` each frame, which keeps the render loop
+running continuously — a mesh using `<MeshPortalMaterial>` effectively opts out of
+[on-demand rendering](https://docs.tresjs.org/api/advanced/performance#mode-on-demand){target="_blank"} while mounted.
+::
+
 ::prose-note
 **Limitations (MVP):** `blur` (edge fade) and pointer-event forwarding into the
 portal scene are not yet implemented. WebGPU is not yet supported.
