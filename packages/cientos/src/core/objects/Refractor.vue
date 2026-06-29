@@ -1,36 +1,36 @@
 <script lang="ts" setup>
 import { useTres } from '@tresjs/core'
-import { Reflector } from 'three-stdlib'
+import { Refractor } from 'three-stdlib'
 import { computed, onBeforeUnmount, shallowRef, toRefs, watch } from 'vue'
 import { Color } from 'three'
 import type { ColorRepresentation } from 'three'
 import type { TresColor } from '@tresjs/core'
 
-export interface ReflectorProps {
+export interface RefractorProps {
   /**
-   * The color of the reflector.
+   * The color tint of the refractor.
    *
-   * @default '#333'
+   * @default '#7f7f7f'
    * @type {TresColor}
-   * @memberof ReflectorProps
+   * @memberof RefractorProps
    *
    */
   color?: TresColor
   /**
    * The textureWidth of the internal WebGLRenderTarget.
    *
-   * @default window.innerWidth
+   * @default 512
    * @type {number}
-   * @memberof ReflectorProps
+   * @memberof RefractorProps
    *
    */
   textureWidth?: number
   /**
    * The textureHeight of the internal WebGLRenderTarget.
    *
-   * @default window.innerHeight
+   * @default 512
    * @type {number}
-   * @memberof ReflectorProps
+   * @memberof RefractorProps
    *
    */
   textureHeight?: number
@@ -39,7 +39,7 @@ export interface ReflectorProps {
    *
    * @default 0
    * @type {number}
-   * @memberof ReflectorProps
+   * @memberof RefractorProps
    *
    */
   clipBias?: number
@@ -48,37 +48,37 @@ export interface ReflectorProps {
    *
    * @default 4
    * @type {number}
-   * @memberof ReflectorProps
+   * @memberof RefractorProps
    *
    */
   multisample?: number
   /**
    * Custom shader.
    *
-   * @default Reflector.ReflectorShader
+   * @default Refractor.RefractorShader
    * @type {object}
-   * @memberof ReflectorProps
+   * @memberof RefractorProps
    *
    */
   shader?: object
 }
 
-const props = withDefaults(defineProps<ReflectorProps>(), {
-  color: '#333',
+const props = withDefaults(defineProps<RefractorProps>(), {
+  color: '#7f7f7f',
   textureWidth: 512,
   textureHeight: 512,
   clipBias: 0,
   multisample: 4,
-  // @ts-expect-error: `ReflectorShader` is not present in imported type but is present here:
-  // https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Reflector.js#L32
-  shader: Reflector.ReflectorShader,
+  // @ts-expect-error: `RefractorShader` is not present in imported type but is present here:
+  // https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Refractor.js
+  shader: Refractor.RefractorShader,
 })
 
 const { extend, invalidate } = useTres()
 
-const reflectorRef = shallowRef<Reflector>()
+const refractorRef = shallowRef<Refractor>()
 
-extend({ Reflector })
+extend({ Refractor })
 
 const { color, textureWidth, textureHeight, clipBias, multisample, shader } = toRefs(
   props,
@@ -91,17 +91,17 @@ watch(props, () => {
 })
 
 onBeforeUnmount(() => {
-  reflectorRef.value?.dispose()
+  refractorRef.value?.dispose()
 })
 
 defineExpose({
-  instance: reflectorRef,
+  instance: refractorRef,
 })
 </script>
 
 <template>
-  <TresReflector
-    ref="reflectorRef"
+  <TresRefractor
+    ref="refractorRef"
     :args="[undefined, { textureWidth,
                          textureHeight,
                          clipBias,
@@ -112,5 +112,5 @@ defineExpose({
     <slot>
       <TresPlaneGeometry :args="[5, 5]" />
     </slot>
-  </TresReflector>
+  </TresRefractor>
 </template>
