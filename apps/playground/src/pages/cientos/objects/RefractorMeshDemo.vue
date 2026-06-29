@@ -2,7 +2,7 @@
 import {
   MeshWobbleMaterial,
   OrbitControls,
-  Reflector,
+  Refractor,
   Stars,
 } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
@@ -19,26 +19,26 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const reflectorRef = shallowRef()
+const refractorRef = shallowRef()
 
-watch(reflectorRef, (value) => {
+watch(refractorRef, (value) => {
   // eslint-disable-next-line no-console
   console.log(value)
 })
 
 // Reactive — updates color prop directly without remounting
-const color = ref('#f7f7f7')
+const color = ref('#9ec8d4')
 
 // Non-reactive init props — changing these remounts the component via `key`
 const clipBias = ref(0)
 const textureSize = ref(1024)
-const reflectorKey = ref(0)
+const refractorKey = ref(0)
 
 function reinitialize() {
-  reflectorKey.value++
+  refractorKey.value++
 }
 
-const pane = new Pane({ title: 'Reflector' })
+const pane = new Pane({ title: 'Refractor' })
 
 pane
   .addBinding({ value: color.value }, 'value', { label: 'color', view: 'color' })
@@ -70,29 +70,41 @@ pane
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera
-      :position="[3, 3, 6]"
+      :position="[0, 2, 8]"
       :look-at="[0, 0, 0]"
     />
     <Stars />
-    <TresMesh>
-      <TresTorusGeometry />
+    <TresMesh :position="[-2, 0, -2]">
+      <TresTorusKnotGeometry :args="[0.8, 0.3, 100, 16]" />
+      <MeshWobbleMaterial
+        color="hotpink"
+        :speed="1.5"
+        :factor="0.4"
+      />
+    </TresMesh>
+    <TresMesh :position="[2, 0, -2]">
+      <TresSphereGeometry :args="[1, 32, 32]" />
       <MeshWobbleMaterial
         color="orange"
         :speed="1"
-        :factor="2"
+        :factor="0.3"
       />
     </TresMesh>
-    <Reflector
-      :key="reflectorKey"
-      ref="reflectorRef"
-      :rotation="[-Math.PI * 0.5, 0, 0]"
-      :position="[0, -2, 0]"
+    <Refractor
+      :key="refractorKey"
+      ref="refractorRef"
       :color="color"
       :clip-bias="clipBias"
       :texture-width="textureSize"
       :texture-height="textureSize"
-    />
+    >
+      <TresPlaneGeometry :args="[8, 5]" />
+    </Refractor>
     <TresAmbientLight :intensity="1" />
+    <TresDirectionalLight
+      :position="[5, 5, 5]"
+      :intensity="2"
+    />
     <OrbitControls />
   </TresCanvas>
 </template>
