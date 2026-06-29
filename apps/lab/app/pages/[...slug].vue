@@ -19,7 +19,7 @@ const formattedPage = computed(() => {
 })
 
 useHead({
-  title: `${page?.value?.title}`,
+  title: () => page.value?.title,
   meta: [
     {
       hid: 'description',
@@ -40,7 +40,7 @@ useHead({
     {
       hid: 'og:title',
       property: 'og:title',
-      content: `${page?.value?.title} made with TresJS by @${page?.value?.author}`,
+      content: () => page.value?.title ? `${page.value.title} made with TresJS by @${page.value.author}` : 'TresJS Lab',
     },
     {
       hid: 'og:type',
@@ -63,7 +63,7 @@ useHead({
     {
       hid: 'twitter:title',
       property: 'twitter:title',
-      content: `${page?.value?.title} - Tres`,
+      content: () => page.value?.title ? `${page.value.title} - Tres` : 'TresJS Lab',
     },
     {
       hid: 'twitter:description',
