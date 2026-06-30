@@ -1,0 +1,100 @@
+---
+title: Mesh Portal Material
+description: Render a separate child scene into a portal surface, perspective-correct and masked by the mesh. Ported from drei.
+---
+
+::SceneControlsWrapper
+  ::MaterialsMeshPortalMaterial
+  ::
+::
+
+The `cientos` package provides a `<MeshPortalMaterial />` component that renders its
+declarative children into a private off-main scene and projects that scene onto the
+host mesh as a perspective-correct window.
+
+Children declared inside the component render into the **portal scene**, not the main
+scene. The portal scene is rendered to a frame buffer each frame using the active
+camera, so contents sit in world-space (move the camera and you get parallax through
+the surface, not a flat decal). The mesh geometry masks the result, and `blend`
+cross-fades between the world (`0`) and the portal (`1`).
+
+::prose-note
+This component is a port of the [drei MeshPortalMaterial](https://drei.docs.pmnd.rs/portals/mesh-portal-material){target="_blank"}. All credit goes to the original authors.
+::
+
+## Usage
+
+```vue
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core'
+import { MeshPortalMaterial, OrbitControls } from '@tresjs/cientos'
+</script>
+
+<template>
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[0, 0, 6]" />
+    <OrbitControls />
+    <TresMesh>
+      <TresPlaneGeometry :args="[3, 4]" />
+      <MeshPortalMaterial :blend="0">
+        <!-- children render INTO the portal scene -->
+        <TresAmbientLight :intensity="0.5" />
+        <TresMesh :position="[0, 0, -1]">
+          <TresTorusKnotGeometry :args="[0.6, 0.25, 128, 32]" />
+          <TresMeshStandardMaterial color="#fbb03b" />
+        </TresMesh>
+      </MeshPortalMaterial>
+    </TresMesh>
+  </TresCanvas>
+</template>
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `blend` | `number` | `0` | `0` = world only, `1` = portal only; cross-fades between. |
+| `resolution` | `number` | `512` | Frame buffer resolution for the portal render. |
+| `worldUnits` | `boolean` | `false` | Keep portal contents in world units instead of host-relative. |
+| `renderPriority` | `number` | `0` | Render-loop priority for the blend takeover. Applied at mount — changing it later requires a remount. |
+
+## Setting the portal's background or environment
+
+`<MeshPortalMaterial>` overrides the injected scene context for its children, so
+helpers that target "the scene" affect the **portal** scene, not the world. Both of
+these give the portal its own look, independent of the main scene:
+
+```vue
+<MeshPortalMaterial :blend="blend">
+  <!-- Imperative helper — works because the injected scene is the portal scene -->
+  <Suspense>
+    <Environment preset="dawn" :background="true" />
+  </Suspense>
+
+  <!-- Or declarative attach (also lands on the portal scene) -->
+  <TresColor attach="background" :args="[0.1, 0.1, 0.18]" />
+
+  <!-- ...portal scene contents... -->
+</MeshPortalMaterial>
+```
+
+::prose-note
+**How it works:** the component `provide()`s a context whose `scene` points at the
+private portal scene. Vue's `provide`/`inject` follows the mounted tree (it reaches
+slot content through the internal `<TresPortal>`/`<Teleport>`), so both imperative
+helpers (`useTres().scene`, e.g. `<Environment>`) and declarative `attach` configure
+the portal scene. Only the `scene` is swapped — renderer, camera and sizes are shared.
+::
+
+::prose-warning
+**On-demand rendering:** the portal renders its scene to a frame buffer on every
+frame so the window keeps tracking animated contents and the `blend` takeover stays
+in sync. To do this it calls `invalidate()` each frame, which keeps the render loop
+running continuously — a mesh using `<MeshPortalMaterial>` effectively opts out of
+[on-demand rendering](https://docs.tresjs.org/api/advanced/performance#mode-on-demand){target="_blank"} while mounted.
+::
+
+::prose-note
+**Limitations (MVP):** `blur` (edge fade) and pointer-event forwarding into the
+portal scene are not yet implemented. WebGPU is not yet supported.
+::
