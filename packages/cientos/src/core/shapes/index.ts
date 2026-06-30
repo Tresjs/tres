@@ -13,6 +13,7 @@ import Plane from './Plane.vue'
 import QuadraticBezierLine from './QuadraticBezierLine.vue'
 import Ring from './Ring.vue'
 import RoundedBox from './RoundedBox.vue'
+import RoundedPlane from './RoundedPlane.vue'
 import ScreenQuad from './ScreenQuad.vue'
 import Sphere from './Sphere.vue'
 import Superformula from './Superformula.vue'
@@ -37,6 +38,7 @@ export {
   QuadraticBezierLine,
   Ring,
   RoundedBox,
+  RoundedPlane,
   ScreenQuad,
   Sphere,
   Superformula,
