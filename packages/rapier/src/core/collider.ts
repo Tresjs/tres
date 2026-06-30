@@ -1,8 +1,8 @@
 import {
   ColliderDesc,
-  type Quaternion,
-  type Vector3,
+
 } from '@dimforge/rapier3d-compat'
+import type { Quaternion, Vector3 } from '@dimforge/rapier3d-compat'
 import { Vector3 as ThreeVector3 } from 'three'
 
 import { QUATERNION_ZERO, VECTOR_ZERO } from '../constants'

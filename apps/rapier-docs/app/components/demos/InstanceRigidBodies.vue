@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { TresCanvas } from "@tresjs/core";
-import { OrbitControls } from "@tresjs/cientos";
-import { Physics, InstancedRigidBody } from "@tresjs/rapier";
-import { useControls } from "@tresjs/leches";
-import LittleBoxForDemos from "./LittleBoxForDemos.vue";
-import { SphereGeometry, MeshStandardMaterial, DynamicDrawUsage, Matrix4 } from "three";
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls } from '@tresjs/cientos'
+import { InstancedRigidBody, Physics } from '@tresjs/rapier'
+import { useControls } from '@tresjs/leches'
+import LittleBoxForDemos from './LittleBoxForDemos.vue'
+import { DynamicDrawUsage, Matrix4, MeshStandardMaterial, SphereGeometry } from 'three'
 
 const { debug } = useControls(
   {
     debug: false,
   },
-  { uuid: inject(`uuid`) }
-);
+  { uuid: inject(`uuid`) },
+)
 
 const instanceRef = shallowRef()
 const sphereKnots = new SphereGeometry(0.25, 32, 32)

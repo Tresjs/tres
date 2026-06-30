@@ -65,17 +65,25 @@ const {
     <TresDirectionalLight :position="[1, 2, 3]" :intensity="1.5" />
 
     <Suspense>
-      <Physics ref="physicsRef" :debug>
-        <RigidBody ref="rigidTorusRef" :gravityScale :additionalMass :lockTranslations :lockRotations :linvel="{
-          x: linvelX,
-          y: linvelY,
-          z: linvelZ
-        }" :angvel="{
-                      x: angvelX,
-                      y: angvelY,
-                      z: angvelZ
-                    }"
-          :enabledTranslations="[enabledTranslationX, enabledTranslationY, enabledTranslationZ]">
+      <Physics :debug>
+        <RigidBody
+          ref="rigidTorusRef"
+          :gravityScale
+          :additionalMass
+          :lockTranslations
+          :lockRotations
+          :linvel="{
+            x: linvelX,
+            y: linvelY,
+            z: linvelZ,
+          }"
+          :angvel="{
+            x: angvelX,
+            y: angvelY,
+            z: angvelZ,
+          }"
+          :enabledTranslations="[enabledTranslationX, enabledTranslationY, enabledTranslationZ]"
+        >
           <TresMesh :position="[0, 8, 0]">
             <TresTorusGeometry />
             <TresMeshStandardMaterial color="#5672cd" />

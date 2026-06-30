@@ -10,10 +10,11 @@ import {
   inject,
   nextTick,
   onUnmounted,
-  type ShallowRef,
+
   shallowRef,
   watch,
 } from 'vue'
+import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../../composables'
 import { createCollider } from '../../core/collider'

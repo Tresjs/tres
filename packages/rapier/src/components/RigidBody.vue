@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {
   ActiveCollisionTypes,
-  RigidBodyType as RapierRigidBodyType
+  RigidBodyType as RapierRigidBodyType,
 } from '@dimforge/rapier3d-compat'
 import { useLoop } from '@tresjs/core'
 import { Object3D } from 'three'
@@ -124,7 +124,7 @@ const setAutoColliderProp = <K extends keyof ColliderProps>(prop: K, value: Coll
 }
 
 // Props watchers
-watch(() => props.type, value => {
+watch(() => props.type, (value) => {
   const capitalizeString = <T extends string = string>(str: T): Capitalize<T> => {
     return str.charAt(0).toUpperCase() + str.slice(1) as Capitalize<T>
   }
@@ -132,8 +132,10 @@ watch(() => props.type, value => {
   if (!instance.value) { return }
   instance.value.setBodyType(RapierRigidBodyType[
     value === 'kinematic'
-      ? 'KinematicPositionBased' : value === 'kinematicVelocity' ?
-        'KinematicVelocityBased' : capitalizeString(value)
+      ? 'KinematicPositionBased'
+      : value === 'kinematicVelocity'
+        ? 'KinematicVelocityBased'
+        : capitalizeString(value)
   ], true)
 })
 watch([() => props.lockTranslations, instance], ([_lockTranslations, _]) => {
@@ -161,7 +163,7 @@ makePropsWatcherRB(props, [
 ], instance)
 
 // Automatic collider props watchers
-watch(() => props.collider, value => {
+watch(() => props.collider, (value) => {
   if (value === false) {
     autoColliderProps.value = []
     return
