@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { Physics, RigidBody, ConeCollider, CylinderCollider } from '@tresjs/rapier'
+import { ConeCollider, CylinderCollider, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
-import {  useControls } from '@tresjs/leches'
+import { useControls } from '@tresjs/leches'
 import type { ExposedRigidBody } from '@tresjs/rapier'
 
 const gl = {
@@ -49,18 +49,26 @@ const { debug, friction, mass, restitution, density } = useControls({
           :restitution
           :density
         >
-        <ConeCollider :args="[1, 1, 1]" :position="[1, 14, 0]"            :friction
-          :mass
-          :restitution
-          :density />
-          <TresMesh @click="jump" :position="[0, 15, 0]">
+          <ConeCollider
+            :args="[1, 1, 1]"
+            :position="[1, 14, 0]"
+            :friction
+            :mass
+            :restitution
+            :density
+          />
+          <TresMesh :position="[0, 15, 0]" @click="jump">
             <TresSphereGeometry />
             <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
-          <CylinderCollider :args="[0.5, 0.5, 1]" :position="[-1, 16, 0]"           :friction
-          :mass
-          :restitution
-          :density />
+          <CylinderCollider
+            :args="[0.5, 0.5, 1]"
+            :position="[-1, 16, 0]"
+            :friction
+            :mass
+            :restitution
+            :density
+          />
         </RigidBody>
 
         <RigidBody type="fixed">
@@ -74,6 +82,7 @@ const { debug, friction, mass, restitution, density } = useControls({
     <TresDirectionalLight :position="[1, 2, 3]" :intensity="1.5" />
   </TresCanvas>
 </template>
+
 <style scoped>
 .floating {
   position: absolute;
