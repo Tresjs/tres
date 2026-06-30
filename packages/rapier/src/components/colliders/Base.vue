@@ -63,6 +63,19 @@ const updateShapeArgs = (shape: Exclude<ColliderProps['shape'], undefined>, args
       args?.[1] instanceof Uint32Array ? args?.[1] : new Uint32Array(),
     )
   }
+  else if (shape === 'roundConvexHull') {
+    safeArgs.push(
+      args?.[0] instanceof Float32Array ? args?.[0] : new Float32Array(),
+      typeof args?.[1] === 'number' ? args?.[1] : 0.1,
+    )
+  }
+  else if (shape === 'roundConvexMesh') {
+    safeArgs.push(
+      args?.[0] instanceof Float32Array ? args?.[0] : new Float32Array(),
+      args?.[1] instanceof Uint32Array ? args?.[1] : new Uint32Array(),
+      typeof args?.[2] === 'number' ? args?.[2] : 0.1,
+    )
+  }
   else if (shape === 'heightfield') {
     safeArgs.push(
       typeof args?.[0] === 'number' ? args?.[0] : 1,
