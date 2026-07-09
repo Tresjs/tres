@@ -50,18 +50,18 @@ const { debug, friction, mass, restitution, density } = useControls({
       <Physics :debug>
         <RigidBody :position="[-2, 0, 0]" :collider="false">
           <BallCollider
-            :args="[1, 1, 1]"
+            :args="[1]"
             :position="[3, 10, -0.5]"
           />
-          <CapsuleCollider :args="[1, 1, 1]" :position="[-2, 10, 0]" />
-          <ConeCollider :args="[1, 1, 1]" :position="[0, 10, 2]" />
+          <CapsuleCollider :args="[1, 1]" :position="[-2, 10, 0]" />
+          <ConeCollider :args="[1, 1]" :position="[0, 10, 2]" />
           <CuboidCollider :args="[1, 1, 1]" :position="[0, 10, -2]" />
-          <CylinderCollider :args="[1, 1, 1]" :position="[2, 10, 2]" />
+          <CylinderCollider :args="[1, 1]" :position="[2, 10, 2]" />
         </RigidBody>
 
         <RigidBody ref="colliderRef" :collider="false" :position="[-1, 10, 0]">
           <BallCollider
-            :args="[1, 1, 1]"
+            :args="[1]"
             :friction
             :mass
             :restitution

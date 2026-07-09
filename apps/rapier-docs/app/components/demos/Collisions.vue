@@ -1,40 +1,40 @@
 <script setup lang="ts">
-import { OrbitControls } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
-import { Physics, RigidBody } from "@tresjs/rapier";
-import { ACESFilmicToneMapping, SRGBColorSpace } from "three";
-import { useControls } from "@tresjs/leches";
-import type { ExposedRigidBody } from "@tresjs/rapier";
-import LittleBoxForDemos from "./LittleBoxForDemos.vue";
+import { OrbitControls } from '@tresjs/cientos'
+import { TresCanvas } from '@tresjs/core'
+import { Physics, RigidBody } from '@tresjs/rapier'
+import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
+import { useControls } from '@tresjs/leches'
+import type { ExposedRigidBody } from '@tresjs/rapier'
+import LittleBoxForDemos from './LittleBoxForDemos.vue'
 
 const gl = {
-  clearColor: "#82DBC5",
+  clearColor: '#82DBC5',
   shadows: true,
   alpha: false,
   outputColorSpace: SRGBColorSpace,
   toneMapping: ACESFilmicToneMapping,
-};
+}
 
-const uuid = inject(`uuid`);
-const torusRef = shallowRef<ExposedRigidBody>();
-const collisionEvent = ref("");
+const uuid = inject(`uuid`)
+const torusRef = shallowRef<ExposedRigidBody>()
+const collisionEvent = ref('')
 
 const jump = () => {
   if (!torusRef.value) {
-    return;
+    return
   }
-  torusRef.value.instance.applyImpulse({ x: 0, y: 5, z: 0 }, true);
-};
+  torusRef.value.instance.applyImpulse({ x: 0, y: 5, z: 0 }, true)
+}
 
 const onCollisionEnter = (event: any) => {
-  collisionEvent.value = "Enter";
-  console.log("jaime ~ onCollisionEnter ~ event:", event);
-};
+  collisionEvent.value = 'Enter'
+  console.log('onCollisionEnter ~ event:', event)
+}
 
 const onCollisionExit = (event: any) => {
-  collisionEvent.value = "Exit";
-  console.log("jaime ~ onCollisionExit ~ event:", event);
-};
+  collisionEvent.value = 'Exit'
+  console.log('onCollisionExit ~ event:', event)
+}
 
 const { debug, activeCollision, enableCcd } = useControls(
   {
@@ -42,8 +42,8 @@ const { debug, activeCollision, enableCcd } = useControls(
     activeCollision: true,
     enableCcd: true,
   },
-  { uuid }
-);
+  { uuid },
+)
 </script>
 
 <template>
@@ -63,24 +63,24 @@ const { debug, activeCollision, enableCcd } = useControls(
         <RigidBody
           ref="torusRef"
           collider="hull"
-          enableCcd
+          :enableCcd
           :activeCollision
           @collision-enter="onCollisionEnter"
           @collision-exit="onCollisionExit"
         >
-          <TresMesh @click="jump" :position="[0, 15, 0]">
+          <TresMesh :position="[0, 15, 0]" @click="jump">
             <TresTorusGeometry />
             <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
         </RigidBody>
 
-         <LittleBoxForDemos />
-
+        <LittleBoxForDemos />
       </Physics>
     </Suspense>
     <TresDirectionalLight :position="[1, 2, 3]" :intensity="1.5" />
   </TresCanvas>
 </template>
+
 <style scoped>
 .floating {
   position: absolute;
@@ -95,9 +95,9 @@ const { debug, activeCollision, enableCcd } = useControls(
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  button{
-     cursor: pointer;
-     text-align: left;
+  button {
+    cursor: pointer;
+    text-align: left;
   }
 }
 </style>

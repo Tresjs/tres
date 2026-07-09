@@ -1,4 +1,7 @@
-import { ColliderDesc } from '@dimforge/rapier3d-compat'
+import {
+  ColliderDesc,
+
+} from '@dimforge/rapier3d-compat'
 import type { Quaternion, Vector3 } from '@dimforge/rapier3d-compat'
 import { Vector3 as ThreeVector3 } from 'three'
 
@@ -67,7 +70,8 @@ const _scaleColliderArgs = (
  */
 export const createColliderDesc = (props: CreateColliderDescProps) => {
   const { shape, object, args, position, rotation, rigidBody, scale } = props
-  const { halfWidth, halfHeight, halfDepth } = getColliderSizingsFromObject(object)
+  const { halfWidth, halfHeight, halfDepth }
+    = getColliderSizingsFromObject(object)
   const colliderDescMethod = ColliderDesc[shape || 'cuboid']
   const safeScale = new ThreeVector3(
     scale?.[0] ?? 1,
@@ -81,9 +85,11 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
     args?.[3] ?? 1,
     ...(args?.slice(4) ?? []),
   ]
-  const scaledArgs = _scaleColliderArgs(shape || 'cuboid', safeArgs, safeScale) as Parameters<(typeof ColliderDesc)[
-    ColliderShape
-  ]>
+  const scaledArgs = _scaleColliderArgs(
+    shape || 'cuboid',
+    safeArgs,
+    safeScale,
+  ) as Parameters<(typeof ColliderDesc)[ColliderShape]>
 
   let colliderDesc: ColliderDesc | null
 
@@ -96,14 +102,18 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
       throw new Error(`Invalid collider shape: ${shape}.`)
     }
 
-    colliderDesc = colliderDescMethod?.(...scaledArgs as [any, any, any, any, any])
+    colliderDesc = colliderDescMethod?.(
+      ...(scaledArgs as [any, any, any, any, any]),
+    )
 
     if (!colliderDesc) {
       throw new Error(`Invalid collider shape: ${shape}. Switching to cuboid.`)
     }
   }
   catch (error) {
-    console.warn(`Error creating collider: ${error instanceof Error ? error.message : 'Unknown error'}. Switching to cuboid.`)
+    console.warn(
+      `Error creating collider: ${error instanceof Error ? error.message : 'Unknown error'}. Switching to cuboid.`,
+    )
     colliderDesc = getSafeColliderDesc()
   }
 

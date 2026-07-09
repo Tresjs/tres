@@ -44,10 +44,10 @@ export const createRigidBodyAutoColliderArgs: (props: {
       && (geometry instanceof SphereGeometry
         || geometry instanceof IcosahedronGeometry))
   ) {
-    args = [(radius ?? 1)]
+    args = [radius ?? 1]
   }
   else if (shape === 'capsule' || shape === 'cone' || shape === 'cylinder') {
-    args = [halfWidth, halfHeight]
+    args = [halfHeight, halfWidth]
   }
   else if (geometry instanceof BufferGeometry) {
     if (shape === 'trimesh') {

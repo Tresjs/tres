@@ -10,8 +10,14 @@ description: WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
 
 `<KeyboardControls />` is a simple keyboard controller for the camera. The camera's movements are bound to:
 
-* WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
-* Arrow keys
+| Keyboard | Action |
+| :------- | :----- |
+| `W` / `↑` | Move forward |
+| `S` / `↓` | Move backward |
+| `A` / `←` | Move left |
+| `D` / `→` | Move right |
+| `E` | Move up |
+| `Q` | Move down |
 
 ::prose-note
 `KeyboardControls` uses `PointerLockControls` under the hood. You can use [PointerLockControls props and events](pointer-lock-controls#props).

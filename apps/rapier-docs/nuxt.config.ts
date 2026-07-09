@@ -75,7 +75,7 @@ export default defineNuxtConfig({
   },
 
   llms: {
-    domain: 'https://example.com/',
+    domain: 'https://rapier.tresjs.org/',
     title: 'Tres Rapier Docs',
     description: 'A documentation for tres-rapier built with Nuxt v4 and Nuxt UI v4.',
     full: {

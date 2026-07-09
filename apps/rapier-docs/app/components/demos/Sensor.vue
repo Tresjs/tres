@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { type ExposedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
+import { Physics, RigidBody } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace, Vector3 } from 'three'
 import { shallowRef } from 'vue'
 import { useControls } from '@tresjs/leches'
@@ -34,27 +35,27 @@ const moveCube = (impulse: Vector3) => {
 
 const uuid = inject(`uuid`)
 
-const { debug } =useControls({
-   debug: true,
+const { debug } = useControls({
+  debug: true,
   zpos: {
     label: 'Z+',
     type: 'button',
-    onClick: () => moveCube( new Vector3(0, 0, 5) )
+    onClick: () => moveCube(new Vector3(0, 0, 5)),
   },
   zneg: {
     label: 'Z-',
     type: 'button',
-    onClick: () => moveCube( new Vector3(0, 0, -5) )
+    onClick: () => moveCube(new Vector3(0, 0, -5)),
   },
   xpos: {
     label: 'X+',
     type: 'button',
-    onClick: () => moveCube( new Vector3(5, 0, 0) )
+    onClick: () => moveCube(new Vector3(5, 0, 0)),
   },
   xneg: {
     label: 'X-',
     type: 'button',
-    onClick: () => moveCube( new Vector3(-5, 0, 0) )
+    onClick: () => moveCube(new Vector3(-5, 0, 0)),
   },
 }, { uuid })
 </script>
@@ -111,6 +112,7 @@ const { debug } =useControls({
     <TresDirectionalLight :position="[1, 2, 3]" :intensity="1.5" />
   </TresCanvas>
 </template>
+
 <style scoped>
 .floating {
   position: absolute;
