@@ -27,7 +27,7 @@ const { gravityY, gravityX, gravityZ, debug } = useControls({
     <TresPerspectiveCamera :position="[0, 0, 35]" :look-at="[0, 0, 0]" />
     <Suspense>
       <Physics :debug :gravity="[gravityX, gravityY, gravityZ]">
-        <RigidBody ref="ballRef" collider="ball" :position="[0, 0, 0]">
+        <RigidBody collider="ball" :position="[0, 0, 0]">
           <TresMesh :position="[0, 0, 0]">
             <TresSphereGeometry />
             <TresMeshStandardMaterial color="#5672cd" />

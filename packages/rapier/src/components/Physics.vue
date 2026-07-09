@@ -89,10 +89,10 @@ onBeforeRender(() => {
   eventQueue.drainContactForceEvents((event) => {
     const source1 = getCollisionSourceFromColliderHandle(world.value, event.collider1())
     const source2 = getCollisionSourceFromColliderHandle(world.value, event.collider2())
-    const object1 = getCollisionObjectFromSource(source1, scene)
-    const object2 = getCollisionObjectFromSource(source2, scene)
+    const [groupObject1, currentObject1] = getNodeObjectsFromCollisionSource(source1, scene)
+    const [groupObject2, currentObject2] = getNodeObjectsFromCollisionSource(source2, scene)
 
-    if (!object1 || !object2) { return }
+    if (!groupObject1 || !currentObject1 || !groupObject2 || !currentObject2) { return }
 
     const forcePayload = {
       totalForce: event.totalForce(),
@@ -101,8 +101,16 @@ onBeforeRender(() => {
       maxForceMagnitude: event.maxForceMagnitude(),
     }
 
-    contactForceTrigger({ objects: object1, context: source1 }, { objects: object2, context: source2 }, forcePayload)
-    contactForceTrigger({ objects: object2, context: source2 }, { objects: object1, context: source1 }, forcePayload)
+    contactForceTrigger(
+      { objects: [groupObject1, currentObject1], context: source1 },
+      { objects: [groupObject2, currentObject2], context: source2 },
+      forcePayload,
+    )
+    contactForceTrigger(
+      { objects: [groupObject2, currentObject2], context: source2 },
+      { objects: [groupObject1, currentObject1], context: source1 },
+      forcePayload,
+    )
   })
 })
 </script>
