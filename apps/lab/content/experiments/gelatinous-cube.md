@@ -5,7 +5,7 @@ description: A translucent gelatinous cube rendered with MeshTransmissionMateria
 thumbnail: /experiments/gelatinous-cube.webp
 tags: ['materials']
 date: 2026-06-19
-lastUpdated: 2026-06-19
+lastUpdated: 2026-07-09
 ---
 
 This experiment ports pmndrs/drei's classic **Gelatinous Cube** to TresJS, using cientos' `MeshTransmissionMaterial` to render a believable translucent, gel-like cube with a skeleton and weapons frozen inside.
@@ -27,4 +27,4 @@ This experiment ports pmndrs/drei's classic **Gelatinous Cube** to TresJS, using
 
 ### Credits
 
-Ported from drcmda's original [react-three-fiber demo](https://github.com/drcmda/meshtransmissionmaterial). Model "Gelatinous Cube" by [glenatron](https://sketchfab.com/3d-models/gelatinous-cube-e08385238f4d4b59b012233a9fbdca21), licensed under CC-BY-NC-4.0.
+Ported from drcmda's original [react-three-fiber demo](https://github.com/drcmda/meshtransmissionmaterial). Inspired by the original "Gelatinous Cube" model by [glenatron](https://sketchfab.com/3d-models/gelatinous-cube-e08385238f4d4b59b012233a9fbdca21), re-imagined using [KayKit Skeletons](https://kaylousberg.itch.io/kaykit-skeletons) characters by Kay Lousberg.
