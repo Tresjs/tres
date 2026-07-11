@@ -16,9 +16,11 @@
     "@tresjs/post-processing": "workspace:*",
     "@tresjs/rapier": "workspace:*",
     "@vueuse/nuxt": "^14.3.0",
+    "alea": "^1.0.1",
     "better-sqlite3": "^12.10.0",
     "mdast-util-to-string": "^4.0.0",
     "n8ao": "^1.10.2",
+    "simplex-noise": "^4.0.3",
     "three": "catalog:three",
     "three-custom-shader-material": "catalog:three",
     "vue": "catalog:vue"
