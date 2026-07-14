@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ComputedRef } from 'vue'
 import type { AnimationAction } from 'three'
 import { useLoop, useTres } from '@tresjs/core'
 import { OrbitControls, useGLTF, useAnimations } from '@tresjs/cientos'
@@ -51,8 +50,13 @@ const changeAnimation = (action: AnimationAction | undefined) => {
 }
 
 // KEYS
-// keys are typed through an index signature, so narrow to the four we use
-const { w, s, a, d } = useMagicKeys() as Readonly<Record<'w' | 's' | 'a' | 'd', ComputedRef<boolean>>>
+// useMagicKeys types its keys through an index signature, so each one comes back
+// as possibly undefined under noUncheckedIndexedAccess
+const keys = useMagicKeys()
+const w = keys.w!
+const s = keys.s!
+const a = keys.a!
+const d = keys.d!
 const hasPressed = computed(() => w.value || s.value || a.value || d.value)
 watch(hasPressed, (pressed) => {
   changeAnimation(pressed ? actions.SwordAndShieldRun : actions.Idle)

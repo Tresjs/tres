@@ -29,7 +29,7 @@ export function createHeightSampler(img: HTMLImageElement, resolution = 512): He
   const half = TERRAIN_SIZE / 2
   const last = resolution - 1
 
-  const texel = (col: number, row: number) => data[(row * resolution + col) * 4] / 255
+  const texel = (col: number, row: number) => data[(row * resolution + col) * 4]! / 255
 
   const heightAt = (x: number, z: number) => {
     const col = Math.min(Math.max(((x + half) / TERRAIN_SIZE) * last, 0), last)

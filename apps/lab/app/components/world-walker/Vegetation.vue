@@ -27,7 +27,9 @@ const lightDir = new Vector3(0, 20, 40).normalize()
 const sunColor = new Color(0xFFFFFF).multiplyScalar(1.05)
 const ambientColor = new Color(0xFFFFFF).multiplyScalar(0.45)
 
-interface WindUniforms {
+// a type alias, not an interface: TresShaderMaterial's `uniforms` prop wants an
+// index-signature record, and only aliases get an implicit one
+type WindUniforms = {
   uTime: { value: number }
   uWindStrength: { value: number }
   uWindSpeed: { value: number }
