@@ -1,12 +1,24 @@
 import { createNoise2D } from 'simplex-noise'
 import alea from 'alea'
-import type { Vector3 } from 'three'
-import { BufferAttribute, BufferGeometry } from 'three'
+import {
+  BufferAttribute,
+  InstancedBufferAttribute,
+  InstancedBufferGeometry,
+  Sphere,
+  Vector3,
+} from 'three'
 import type { HeightSampler } from './heightmap'
 import { CHUNK_GRID, TERRAIN_SIZE } from './constants'
 
 const CELL_SIZE = 2.5
 const HALF = TERRAIN_SIZE / 2
+
+// the one quad every plant instances: x is the horizontal corner, y is 0 at the root and 1 at the tip
+const QUAD_CORNERS = [-0.5, 0, 0, 0.5, 0, 0, -0.5, 1, 0, 0.5, 1, 0]
+const QUAD_INDICES = [0, 1, 2, 2, 1, 3]
+
+// billboards expand and sway in the vertex shader, so pad the culling sphere past the roots
+const SWAY_MARGIN = 0.5
 
 const tintNoise = createNoise2D(alea('world-walker-tint'))
 
@@ -34,10 +46,13 @@ interface LayerOptions {
 }
 
 export interface VegetationChunk {
-  geometry: BufferGeometry
+  geometry: InstancedBufferGeometry
   center: Vector3
   radius: number
 }
+
+// scratch vector for the chunk bounds, reused across every plant
+const tmp = new Vector3()
 
 function pickRegion(regions: Region[], rand: () => number) {
   const r = rand()
@@ -52,26 +67,30 @@ function pickRegion(regions: Region[], rand: () => number) {
 const HEALTHY_TINT = [1.0, 1.0, 1.0]
 const DRY_TINT = [1.05, 0.9, 0.55]
 
+// one instance per plant: the quad itself lives in the shared base geometry, everything
+// that used to be duplicated across the four corners is now a per-instance attribute
 function buildChunkGeometry(
   sampler: HeightSampler,
   options: LayerOptions,
   originX: number,
   originZ: number,
   chunkSize: number,
-) {
+): VegetationChunk | null {
   const { seed, regions, density, baseWidth, baseHeight, minNormalY, stiffnessMin, stiffnessMax } = options
   const rand = alea(`${seed}:${originX}:${originZ}`)
 
-  const positions: number[] = []
-  const corners: number[] = []
-  const uvs: number[] = []
+  const roots: number[] = []
   const normals: number[] = []
   const tints: number[] = []
   const data: number[] = []
-  const indices: number[] = []
+  const uvRects: number[] = []
 
   const cells = Math.round(chunkSize / CELL_SIZE)
   const plantsPerCell = Math.max(1, Math.round(density * CELL_SIZE * CELL_SIZE))
+
+  const min = new Vector3(Infinity, Infinity, Infinity)
+  const max = new Vector3(-Infinity, -Infinity, -Infinity)
+  let maxExtent = 0
 
   for (let cx = 0; cx < cells; cx++) {
     for (let cz = 0; cz < cells; cz++) {
@@ -85,53 +104,53 @@ function buildChunkGeometry(
 
         const t = tintNoise(x * 0.03, z * 0.03) * 0.5 + 0.5
         const brightness = 0.9 + rand() * 0.2
-        const tint = [
-          (HEALTHY_TINT[0]! + (DRY_TINT[0]! - HEALTHY_TINT[0]!) * t) * brightness,
-          (HEALTHY_TINT[1]! + (DRY_TINT[1]! - HEALTHY_TINT[1]!) * t) * brightness,
-          (HEALTHY_TINT[2]! + (DRY_TINT[2]! - HEALTHY_TINT[2]!) * t) * brightness,
-        ]
 
         const region = pickRegion(regions, rand)
         const flip = rand() > 0.5
-        const u0 = flip ? region.u1 : region.u0
-        const u1 = flip ? region.u0 : region.u1
 
         const width = baseWidth * (0.8 + rand() * 0.4)
         const height = baseHeight * (0.8 + rand() * 0.4)
         const stiffness = stiffnessMin + rand() * (stiffnessMax - stiffnessMin)
         const phase = rand() * Math.PI * 2
 
-        const base = positions.length / 3
-        for (const [cu, cv] of [
-          [-0.5, 0],
-          [0.5, 0],
-          [-0.5, 1],
-          [0.5, 1],
-        ] as const) {
-          positions.push(x, y, z)
-          corners.push(cu, cv)
-          uvs.push(cu < 0 ? u0 : u1, cv === 0 ? region.v0 : region.v1)
-          normals.push(normal.x, normal.y, normal.z)
-          tints.push(...tint)
-          data.push(width, height, stiffness, phase)
-        }
-        indices.push(base, base + 1, base + 2, base + 2, base + 1, base + 3)
+        roots.push(x, y, z)
+        normals.push(normal.x, normal.y, normal.z)
+        tints.push(
+          (HEALTHY_TINT[0]! + (DRY_TINT[0]! - HEALTHY_TINT[0]!) * t) * brightness,
+          (HEALTHY_TINT[1]! + (DRY_TINT[1]! - HEALTHY_TINT[1]!) * t) * brightness,
+          (HEALTHY_TINT[2]! + (DRY_TINT[2]! - HEALTHY_TINT[2]!) * t) * brightness,
+        )
+        data.push(width, height, stiffness, phase)
+        // the horizontal flip is baked in by swapping the atlas u bounds
+        uvRects.push(flip ? region.u1 : region.u0, flip ? region.u0 : region.u1, region.v0, region.v1)
+
+        min.min(tmp.set(x, y, z))
+        max.max(tmp)
+        maxExtent = Math.max(maxExtent, width * 0.5, height)
       }
     }
   }
 
-  if (!indices.length) return null
+  const count = roots.length / 3
+  if (!count) return null
 
-  const geometry = new BufferGeometry()
-  geometry.setAttribute('position', new BufferAttribute(new Float32Array(positions), 3))
-  geometry.setAttribute('aCorner', new BufferAttribute(new Float32Array(corners), 2))
-  geometry.setAttribute('aUv', new BufferAttribute(new Float32Array(uvs), 2))
-  geometry.setAttribute('normal', new BufferAttribute(new Float32Array(normals), 3))
-  geometry.setAttribute('aTint', new BufferAttribute(new Float32Array(tints), 3))
-  geometry.setAttribute('aData', new BufferAttribute(new Float32Array(data), 4))
-  geometry.setIndex(new BufferAttribute(new Uint32Array(indices), 1))
-  geometry.computeBoundingSphere()
-  return geometry
+  const geometry = new InstancedBufferGeometry()
+  geometry.setAttribute('position', new BufferAttribute(new Float32Array(QUAD_CORNERS), 3))
+  geometry.setIndex(QUAD_INDICES)
+  geometry.setAttribute('iRoot', new InstancedBufferAttribute(new Float32Array(roots), 3))
+  geometry.setAttribute('iNormal', new InstancedBufferAttribute(new Float32Array(normals), 3))
+  geometry.setAttribute('iTint', new InstancedBufferAttribute(new Float32Array(tints), 3))
+  geometry.setAttribute('iData', new InstancedBufferAttribute(new Float32Array(data), 4))
+  geometry.setAttribute('iUvRect', new InstancedBufferAttribute(new Float32Array(uvRects), 4))
+  geometry.instanceCount = count
+
+  // three derives the bounding sphere from `position` alone, which here is just the unit quad —
+  // so build it from the roots and pad it by the billboard extent the vertex shader adds
+  const center = min.clone().add(max).multiplyScalar(0.5)
+  const radius = max.distanceTo(min) * 0.5 + maxExtent + SWAY_MARGIN
+  geometry.boundingSphere = new Sphere(center, radius)
+
+  return { geometry, center, radius }
 }
 
 export function buildLayerChunks(sampler: HeightSampler, options: LayerOptions): VegetationChunk[] {
@@ -142,13 +161,8 @@ export function buildLayerChunks(sampler: HeightSampler, options: LayerOptions):
     for (let gz = 0; gz < CHUNK_GRID; gz++) {
       const originX = -HALF + gx * chunkSize
       const originZ = -HALF + gz * chunkSize
-      const geometry = buildChunkGeometry(sampler, options, originX, originZ, chunkSize)
-      if (!geometry) continue
-      chunks.push({
-        geometry,
-        center: geometry.boundingSphere!.center.clone(),
-        radius: geometry.boundingSphere!.radius,
-      })
+      const chunk = buildChunkGeometry(sampler, options, originX, originZ, chunkSize)
+      if (chunk) chunks.push(chunk)
     }
   }
 

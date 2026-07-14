@@ -4,7 +4,7 @@ import vertex from './vertex.glsl'
 import fragment from './fragment.glsl'
 import { useLoop } from '@tresjs/core'
 import { useTextures } from '@tresjs/cientos'
-import { Color, DoubleSide, RepeatWrapping, Vector2, Vector3 } from 'three'
+import { Color, DoubleSide, NoColorSpace, RepeatWrapping, SRGBColorSpace, Vector2, Vector3 } from 'three'
 import { createHeightSampler, loadHeightImage } from './heightmap'
 import type { VegetationChunk } from './planting'
 import { buildClutterChunks, buildGrassChunks } from './planting'
@@ -22,7 +22,6 @@ const { textures } = useTextures([
   '/textures/botany/noise-fbm.png',
 ])
 
-// same directional/ambient lights as the scene in index.global.vue
 const lightDir = new Vector3(0, 20, 40).normalize()
 const sunColor = new Color(0xFFFFFF).multiplyScalar(1.05)
 const ambientColor = new Color(0xFFFFFF).multiplyScalar(0.45)
@@ -80,6 +79,11 @@ const clutterShader = {
 watchEffect(() => {
   const [atlasTex, noiseTex] = textures.value
   if (!atlasTex || !noiseTex) { return }
+  // the atlas is authored art, so it needs decoding to linear before lighting;
+  // the noise is data and must stay raw
+  atlasTex.colorSpace = SRGBColorSpace
+  atlasTex.needsUpdate = true
+  noiseTex.colorSpace = NoColorSpace
   noiseTex.wrapS = RepeatWrapping
   noiseTex.wrapT = RepeatWrapping
   noiseTex.needsUpdate = true

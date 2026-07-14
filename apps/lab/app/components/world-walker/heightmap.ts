@@ -6,19 +6,30 @@ export interface HeightSampler {
   normalAt: (x: number, z: number) => Vector3
 }
 
+const images = new Map<string, Promise<HTMLImageElement>>()
+
 // plain onload instead of img.decode(): decode() can reject with EncodingError
 // when another component decodes the same resource concurrently
 export function loadHeightImage(src = '/textures/world-walker/height.jpg') {
-  return new Promise<HTMLImageElement>((resolve, reject) => {
+  const cached = images.get(src)
+  if (cached) return cached
+
+  const pending = new Promise<HTMLImageElement>((resolve, reject) => {
     const img = new Image()
     img.onload = () => resolve(img)
     img.onerror = reject
     img.src = src
+  }).catch((error) => {
+    images.delete(src)
+    throw error
   })
+
+  images.set(src, pending)
+  return pending
 }
 
-// CPU-side sampler matching the displaced plane: image row 0 ↔ world z = -half, col 0 ↔ x = -half
-export function createHeightSampler(img: HTMLImageElement, resolution = 512): HeightSampler {
+// red channel of the height map, downsampled to `resolution` and normalized to 0..1 (row-major)
+export function readHeightData(img: HTMLImageElement, resolution: number) {
   const canvas = document.createElement('canvas')
   canvas.width = resolution
   canvas.height = resolution
@@ -26,10 +37,21 @@ export function createHeightSampler(img: HTMLImageElement, resolution = 512): He
   ctx.drawImage(img, 0, 0, resolution, resolution)
   const { data } = ctx.getImageData(0, 0, resolution, resolution)
 
+  const heights = new Float32Array(resolution * resolution)
+  for (let i = 0; i < heights.length; i++) {
+    heights[i] = data[i * 4]! / 255
+  }
+  return heights
+}
+
+// CPU-side sampler matching the displaced plane: image row 0 ↔ world z = -half, col 0 ↔ x = -half
+export function createHeightSampler(img: HTMLImageElement, resolution = 512): HeightSampler {
+  const heights = readHeightData(img, resolution)
+
   const half = TERRAIN_SIZE / 2
   const last = resolution - 1
 
-  const texel = (col: number, row: number) => data[(row * resolution + col) * 4]! / 255
+  const texel = (col: number, row: number) => heights[row * resolution + col]!
 
   const heightAt = (x: number, z: number) => {
     const col = Math.min(Math.max(((x + half) / TERRAIN_SIZE) * last, 0), last)

@@ -15,4 +15,9 @@ void main() {
   if (tex.a * (1.0 - vFade * (0.5 + noise)) < uAlphaCut) discard;
 
   gl_FragColor = vec4(tex.rgb * vLight, 1.0);
+
+  // land in the same space as the rest of the scene: the renderer's tone mapping,
+  // then the sRGB encode it applies to every other material
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
 }

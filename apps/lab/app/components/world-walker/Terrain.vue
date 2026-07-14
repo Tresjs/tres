@@ -2,13 +2,14 @@
 import { useTextures } from '@tresjs/cientos'
 import { RigidBody, HeightfieldCollider } from '@tresjs/rapier'
 import { RepeatWrapping } from 'three'
+import { loadHeightImage, readHeightData } from './heightmap'
 import { TERRAIN_SIZE, HEIGHT_SCALE, HEIGHTFIELD_ROWS } from './constants'
 
 const { textures } = useTextures([
   '/textures/world-walker/height.jpg',
   '/textures/world-walker/color.jpg',
-  '/textures/world-walker/normal.png',
-  '/textures/world-walker/ao.png',
+  '/textures/world-walker/normal.jpg',
+  '/textures/world-walker/ao.jpg',
 ])
 
 // tile color/normal/ao (skip the displacement map at index 0)
@@ -22,23 +23,16 @@ watchEffect(() => {
   }
 })
 
-const img = new Image()
-img.src = '/textures/world-walker/height.jpg'
-await img.decode()
-
-// downsample the displacement map into a heights matrix (column-major, row = z, col = x)
+// same displacement map the vegetation plants against, downsampled to the collider resolution
 const size = HEIGHTFIELD_ROWS + 1
-const canvas = document.createElement('canvas')
-canvas.width = size
-canvas.height = size
-const ctx = canvas.getContext('2d')!
-ctx.drawImage(img, 0, 0, size, size)
-const { data } = ctx.getImageData(0, 0, size, size)
+const img = await loadHeightImage()
+const rowMajor = readHeightData(img, size)
 
+// rapier wants the heights matrix column-major (row = z, col = x)
 const heights = new Float32Array(size * size)
 for (let row = 0; row < size; row++) {
   for (let col = 0; col < size; col++) {
-    heights[col * size + row] = data[(row * size + col) * 4]! / 255
+    heights[col * size + row] = rowMajor[row * size + col]!
   }
 }
 </script>
