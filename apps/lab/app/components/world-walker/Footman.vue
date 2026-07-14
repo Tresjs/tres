@@ -1,10 +1,16 @@
-<script setup>
+<script setup lang="ts">
+import type { ComputedRef } from 'vue'
+import type { AnimationAction } from 'three'
 import { useLoop, useTres } from '@tresjs/core'
 import { OrbitControls, useGLTF, useAnimations } from '@tresjs/cientos'
 import { RigidBody, CapsuleCollider } from '@tresjs/rapier'
 import { useMagicKeys, watchOnce } from '@vueuse/core'
 import { Quaternion, Vector3 } from 'three'
 import { HEIGHT_SCALE } from './constants'
+
+type Body = NonNullable<InstanceType<typeof RigidBody>['instance']>
+type BodyPosition = ReturnType<Body['translation']>
+type Controls = NonNullable<InstanceType<typeof OrbitControls>['instance']>
 
 const { state, isLoading } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/warcraft-3-alliance-footmanfanmade/source/Footman_RIG.glb')
 
@@ -32,11 +38,12 @@ let hasPrevPosition = false
 
 // template ref
 const { camera } = useTres()
-const orbitControlsRef = shallowRef()
-const bodyRef = shallowRef()
-const currentAction = ref()
+type Camera = NonNullable<typeof camera.value>
+const orbitControlsRef = shallowRef<InstanceType<typeof OrbitControls> | null>(null)
+const bodyRef = shallowRef<InstanceType<typeof RigidBody> | null>(null)
+const currentAction = ref<AnimationAction>()
 
-const changeAnimation = (action) => {
+const changeAnimation = (action: AnimationAction | undefined) => {
   if (!action || !currentAction.value || currentAction.value === action) return
   currentAction.value.fadeOut(fadeDuration)
   action.reset().fadeIn(fadeDuration).play()
@@ -44,26 +51,27 @@ const changeAnimation = (action) => {
 }
 
 // KEYS
-const { w, s, a, d } = useMagicKeys()
+// keys are typed through an index signature, so narrow to the four we use
+const { w, s, a, d } = useMagicKeys() as Readonly<Record<'w' | 's' | 'a' | 'd', ComputedRef<boolean>>>
 const hasPressed = computed(() => w.value || s.value || a.value || d.value)
 watch(hasPressed, (pressed) => {
   changeAnimation(pressed ? actions.SwordAndShieldRun : actions.Idle)
 })
 
-const moveBody = (body, position) => {
+const moveBody = (body: Body, position: BodyPosition, camera: Camera) => {
   const angleYCameraDirection = Math.atan2(
-    camera.value.position.x - position.x,
-    camera.value.position.z - position.z,
+    camera.position.x - position.x,
+    camera.position.z - position.z,
   )
   const directionOffset = getOffset()
   const directionOffsetModel = getInvertOffset() // correct rotation model coordinates
 
   // rotate model
   rotateQuarternion.setFromAxisAngle(rotateAngle, angleYCameraDirection + directionOffsetModel)
-  model.value.quaternion.rotateTowards(rotateQuarternion, 0.2)
+  model.value?.quaternion.rotateTowards(rotateQuarternion, 0.2)
 
   // calculate direction
-  camera.value.getWorldDirection(walkDirection)
+  camera.getWorldDirection(walkDirection)
   walkDirection.y = 0
   walkDirection.normalize()
   walkDirection.applyAxisAngle(rotateAngle, directionOffset)
@@ -123,14 +131,14 @@ const getInvertOffset = () => {
 
   return directionOffset
 }
-const updateCameraTarget = (position) => {
+const updateCameraTarget = (position: BodyPosition, camera: Camera, controls: Controls) => {
   // move camera by the actual physics displacement
-  camera.value.position.x += position.x - prevPosition.x
-  camera.value.position.z += position.z - prevPosition.z
+  camera.position.x += position.x - prevPosition.x
+  camera.position.z += position.z - prevPosition.z
 
   // update camera target
   cameraTarget.set(position.x, position.y + 1, position.z)
-  orbitControlsRef.value.instance.target = cameraTarget
+  controls.target = cameraTarget
 }
 const { onBeforeRender } = useLoop()
 
@@ -138,7 +146,9 @@ onBeforeRender(() => {
   if (isLoading.value) return
 
   const body = bodyRef.value?.instance
-  if (!body || !camera.value || !orbitControlsRef.value) return
+  const controls = orbitControlsRef.value?.instance
+  const activeCamera = camera.value
+  if (!body || !activeCamera || !controls) return
 
   const position = body.translation()
   if (!hasPrevPosition) {
@@ -147,14 +157,14 @@ onBeforeRender(() => {
   }
 
   if (hasPressed.value) {
-    moveBody(body, position)
+    moveBody(body, position, activeCamera)
   } else {
     body.setLinvel({ x: 0, y: body.linvel().y, z: 0 }, true)
   }
 
-  updateCameraTarget(position)
+  updateCameraTarget(position, activeCamera, controls)
   prevPosition.set(position.x, position.y, position.z)
-  orbitControlsRef.value.instance.update()
+  controls.update()
 })
 </script>
 

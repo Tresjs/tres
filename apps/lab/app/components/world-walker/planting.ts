@@ -1,6 +1,7 @@
 import { createNoise2D } from 'simplex-noise'
 import alea from 'alea'
-import { BufferAttribute, BufferGeometry, Vector3 } from 'three'
+import type { Vector3 } from 'three'
+import { BufferAttribute, BufferGeometry } from 'three'
 import type { HeightSampler } from './heightmap'
 import { CHUNK_GRID, TERRAIN_SIZE } from './constants'
 

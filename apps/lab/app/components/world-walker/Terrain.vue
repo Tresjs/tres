@@ -38,7 +38,7 @@ const { data } = ctx.getImageData(0, 0, size, size)
 const heights = new Float32Array(size * size)
 for (let row = 0; row < size; row++) {
   for (let col = 0; col < size; col++) {
-    heights[col * size + row] = data[(row * size + col) * 4] / 255
+    heights[col * size + row] = data[(row * size + col) * 4]! / 255
   }
 }
 </script>

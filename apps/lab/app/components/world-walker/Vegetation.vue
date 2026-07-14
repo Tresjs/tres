@@ -1,10 +1,12 @@
-<script setup>
+<script setup lang="ts">
+import type { Mesh, Texture } from 'three'
 import vertex from './vertex.glsl'
 import fragment from './fragment.glsl'
 import { useLoop } from '@tresjs/core'
 import { useTextures } from '@tresjs/cientos'
 import { Color, DoubleSide, RepeatWrapping, Vector2, Vector3 } from 'three'
 import { createHeightSampler, loadHeightImage } from './heightmap'
+import type { VegetationChunk } from './planting'
 import { buildClutterChunks, buildGrassChunks } from './planting'
 import {
   CLUTTER_DENSITY,
@@ -25,7 +27,22 @@ const lightDir = new Vector3(0, 20, 40).normalize()
 const sunColor = new Color(0xFFFFFF).multiplyScalar(1.05)
 const ambientColor = new Color(0xFFFFFF).multiplyScalar(0.45)
 
-const makeUniforms = fade => ({
+interface WindUniforms {
+  uTime: { value: number }
+  uWindStrength: { value: number }
+  uWindSpeed: { value: number }
+  uWindDir: { value: Vector2 }
+  uAtlas: { value: Texture | null }
+  uNoiseTex: { value: Texture | null }
+  uLightDir: { value: Vector3 }
+  uSunColor: { value: Color }
+  uAmbientColor: { value: Color }
+  uFadeStart: { value: number }
+  uFadeEnd: { value: number }
+  uAlphaCut: { value: number }
+}
+
+const makeUniforms = (fade: { start: number, end: number }): WindUniforms => ({
   uTime: { value: 0 },
   uWindStrength: { value: 0.12 },
   uWindSpeed: { value: 1.5 },
@@ -77,15 +94,24 @@ const sampler = createHeightSampler(img)
 const grassChunks = buildGrassChunks(sampler, GRASS_DENSITY, MIN_GRASS_NORMAL_Y)
 const clutterChunks = buildClutterChunks(sampler, CLUTTER_DENSITY, MIN_CLUTTER_NORMAL_Y)
 
-const grassMeshes = []
-const clutterMeshes = []
+const grassMeshes: (Mesh | null)[] = []
+const clutterMeshes: (Mesh | null)[] = []
+
+const setGrassMeshRef = (el: unknown, i: number) => { grassMeshes[i] = el as Mesh | null }
+const setClutterMeshRef = (el: unknown, i: number) => { clutterMeshes[i] = el as Mesh | null }
 
 // skip chunks entirely past the dissolve distance; frustum culling handles the rest
-const cullChunks = (meshes, chunks, fadeEnd, cameraPosition) => {
+const cullChunks = (
+  meshes: (Mesh | null)[],
+  chunks: VegetationChunk[],
+  fadeEnd: number,
+  cameraPosition: Vector3,
+) => {
   for (let i = 0; i < chunks.length; i++) {
     const mesh = meshes[i]
-    if (!mesh) { continue }
-    mesh.visible = cameraPosition.distanceTo(chunks[i].center) < fadeEnd + chunks[i].radius
+    const chunk = chunks[i]
+    if (!mesh || !chunk) { continue }
+    mesh.visible = cameraPosition.distanceTo(chunk.center) < fadeEnd + chunk.radius
   }
 }
 
@@ -103,7 +129,7 @@ onBeforeRender(({ elapsed, camera }) => {
   <TresMesh
     v-for="(chunk, i) in grassChunks"
     :key="`grass-${i}`"
-    :ref="el => (grassMeshes[i] = el)"
+    :ref="el => setGrassMeshRef(el, i)"
     :geometry="chunk.geometry"
   >
     <TresShaderMaterial v-bind="grassShader" />
@@ -112,7 +138,7 @@ onBeforeRender(({ elapsed, camera }) => {
   <TresMesh
     v-for="(chunk, i) in clutterChunks"
     :key="`clutter-${i}`"
-    :ref="el => (clutterMeshes[i] = el)"
+    :ref="el => setClutterMeshRef(el, i)"
     :geometry="chunk.geometry"
   >
     <TresShaderMaterial v-bind="clutterShader" />
