@@ -12,6 +12,7 @@ useControls('fpsgraph', {
 </script>
 
 <template>
+  <TheLoadingScreen background="#e4e4e4" text-color="#000000" />
   <ClientOnly>
     <TresLeches uuid="glass-material-experiment" />
   </ClientOnly>

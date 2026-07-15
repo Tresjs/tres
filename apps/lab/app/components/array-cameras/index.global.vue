@@ -52,6 +52,7 @@ const cameras = computed(() => {
 </script>
 
 <template>
+  <TheLoadingScreen background="#82DBC5" text-color="#000000" />
   <TresCanvas window-size clear-color="#82DBC5">
     <TresArrayCamera :args="[cameras]" :position="[0, 2, 5]" />
     <ArrayCamerasKnightRigged />

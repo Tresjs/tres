@@ -48,6 +48,7 @@ useControls('fpsgraph', {
 </script>
 
 <template>
+  <TheLoadingScreen background="#839681" />
   <ClientOnly>
     <TresLeches uuid="gelatinous-cube-experiment" />
   </ClientOnly>

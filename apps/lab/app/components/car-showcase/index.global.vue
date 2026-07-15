@@ -13,6 +13,7 @@ const gl = {
 </script>
 
 <template>
+  <TheLoadingScreen background="#000000" />
   <div class="relative w-full h-full">
     <TresCanvas v-bind="gl">
       <!-- <OrbitControls /> -->
