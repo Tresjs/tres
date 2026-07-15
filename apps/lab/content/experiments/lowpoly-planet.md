@@ -2,9 +2,10 @@
 title: Low Poly Planet
 author: alvarosabu
 description: Low Poly Planet exported from Blender
-thumbnail: /experiments/lowpoly-planet.png
+thumbnail: /experiments/lowpoly-planet.webp
 tags: ['models', 'cientos', 'useGLTF',]
 date: 2023-03-27
+lastUpdated: 2023-03-27
 ---
 
 This experiment features a **charming low-poly planet** complete with orbiting airplanes and floating clouds, creating a peaceful miniature world. The scene demonstrates model animation, atmospheric effects, and creative use of the Stars component for a cosmic backdrop.

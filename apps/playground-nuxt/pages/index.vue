@@ -2,6 +2,10 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
+definePageMeta({
+  layout: 'home',
+})
+
 interface RouteItem {
   label: string
   to: string
@@ -44,6 +48,7 @@ const iconMap = {
   basic: 'i-lucide-shapes',
   advanced: 'i-lucide-rocket',
   loaders: 'i-lucide-cat',
+  misc: 'i-lucide-shapes',
 }
 </script>
 

@@ -22,7 +22,7 @@ import type {
 
 export type CanvasGradientRenderer<T> = (
   g: CanvasGradient,
-  entry: ShaderDataEntry<T>
+  entry: ShaderDataEntry<T>,
 ) => void
 
 export class ShaderData {
@@ -56,7 +56,7 @@ export class ShaderDataEntry<T> {
     suffix: string,
     renderToCanvasGradient: (
       gradient: CanvasGradient,
-      data: ShaderDataEntry<T>
+      data: ShaderDataEntry<T>,
     ) => void,
   ) {
     this.data = isRef(data) ? data.value : data

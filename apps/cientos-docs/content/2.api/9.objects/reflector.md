@@ -1,0 +1,185 @@
+---
+title: Reflector
+description: Create real-time reflections of your scene.
+---
+
+::SceneControlsWrapper
+  ::ObjectsReflector
+  ::
+::
+
+The `cientos` package provides an abstraction of the [Reflector class](https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Reflector.js), which creates a Mesh showing a real-time reflection of your scene.  This Mesh extends from `Mesh` so all the default props can be passed as well:
+
+## Usage
+
+```vue
+<script setup lang="ts">
+import { Reflector } from '@tresjs/cientos'
+</script>
+
+<template>
+  <TresCanvas shadows alpha>
+    <TresPerspectiveCamera :position="[0, 0, 3]" />
+    <OrbitControls />
+
+    <Suspense>
+      <Reflector
+        :rotation="[-Math.PI * 0.5, 0, 0]"
+        :position-y="-2"
+        color="#fff"
+      >
+        <TresCircleGeometry :args="[10, 10]" />
+      </Reflector>
+    </Suspense>
+  </TresCanvas>
+</template>
+```
+
+## Props
+
+| Prop              | Description                                          | Default                   |
+| :---------------- | :--------------------------------------------------- | ------------------------- |
+| **color**         | The base color that's combine with the mirror effect | '#333'                 |
+| **textureWidth**  | the width of the texture to render on the mirror     | 512                       |
+| **textureHeight** | the height of the texture to render on the mirror    | 512                       |
+| **clipBias**      | to use the clipBias property                         | 0                         |
+| **multisample**   | how many samplers will be render                     | 4                         |
+| **shader**        | The texture of the smoke.                            | Reflector.ReflectorShader |
+
+::prose-warning
+All the props except the `color`, are not reactive
+::
+
+## Custom mirror effect
+
+You can provide your own shader by passing a full shader object with `uniforms`, `vertexShader`, and `fragmentShader`. The example below adds animated circular ripples emanating from the center of the surface, while preserving the color tint:
+
+```vue
+<script setup lang="ts">
+import { Reflector } from '@tresjs/cientos'
+import { useLoop } from '@tresjs/core'
+import { shallowRef } from 'vue'
+
+const reflectorRef = shallowRef()
+
+const customShader = {
+  uniforms: {
+    color: { value: null },
+    tDiffuse: { value: null },
+    textureMatrix: { value: null },
+    time: { value: 0 },
+  },
+  vertexShader: /* glsl */`
+    uniform mat4 textureMatrix;
+    varying vec4 vUv;
+    varying vec2 vPos;
+    void main() {
+      vUv = textureMatrix * vec4(position, 1.0);
+      vPos = position.xy;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }`,
+  fragmentShader: /* glsl */`
+    uniform vec3 color;
+    uniform sampler2D tDiffuse;
+    uniform float time;
+    varying vec4 vUv;
+    varying vec2 vPos;
+    float blendOverlay(float base, float blend) {
+      return(base < 0.5 ? (2.0 * base * blend) : (1.0 - 2.0 * (1.0 - base) * (1.0 - blend)));
+    }
+    vec3 blendOverlay(vec3 base, vec3 blend) {
+      return vec3(blendOverlay(base.r, blend.r), blendOverlay(base.g, blend.g), blendOverlay(base.b, blend.b));
+    }
+    void main() {
+      float dist = length(vPos);
+      float wave = sin(dist * 6.0 - time * 4.0) * 0.02;
+      vec2 dir = dist > 0.001 ? normalize(vPos) : vec2(0.0);
+      vec4 distortedUv = vUv + vec4(dir * wave, 0.0, 0.0);
+      vec4 base = texture2DProj(tDiffuse, distortedUv);
+      gl_FragColor = vec4(blendOverlay(base.rgb, color), 1.0);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }`,
+}
+
+const { onBeforeRender } = useLoop()
+onBeforeRender(({ elapsed }) => {
+  const uniforms = reflectorRef.value?.instance?.material?.uniforms
+  if (uniforms?.time) { uniforms.time.value = elapsed }
+})
+</script>
+
+<template>
+  <Reflector
+    ref="reflectorRef"
+    :rotation="[-Math.PI * 0.5, 0, 0]"
+    :position-y="-2"
+    color="#fff"
+    :shader="customShader"
+  >
+    <TresCircleGeometry :args="[10, 10]" />
+  </Reflector>
+</template>
+```
+
+The Reflector shader use the following configuration by default:
+
+You can extend, modify or just play with them
+
+### Default shader
+
+```js
+const shader = {
+  name: 'ReflectorShader',
+  uniforms: {
+    color: {
+      value: null
+    },
+    tDiffuse: {
+      value: null
+    },
+    textureMatrix: {
+      value: null
+    }
+  },
+  vertexShader: /* glsl */`
+  uniform mat4 textureMatrix;
+  varying vec4 vUv;
+
+  #include <common>
+  #include <logdepthbuf_pars_vertex>
+
+  void main() {
+    vUv = textureMatrix * vec4( position, 1.0 );
+    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+
+    #include <logdepthbuf_vertex>
+
+  }`,
+  fragmentShader: /* glsl */`
+  uniform vec3 color;
+  uniform sampler2D tDiffuse;
+  varying vec4 vUv;
+
+  #include <logdepthbuf_pars_fragment>
+
+  float blendOverlay( float base, float blend ) {
+    return( base < 0.5 ? ( 2.0 * base * blend ) : ( 1.0 - 2.0 * ( 1.0 - base ) * ( 1.0 - blend ) ) );
+  }
+
+  vec3 blendOverlay( vec3 base, vec3 blend ) {
+    return vec3( blendOverlay( base.r, blend.r ), blendOverlay( base.g, blend.g ), blendOverlay( base.b, blend.b ) );
+  }
+
+  void main() {
+    #include <logdepthbuf_fragment>
+
+    vec4 base = texture2DProj( tDiffuse, vUv );
+    gl_FragColor = vec4( blendOverlay( base.rgb, color ), 1.0 );
+
+    #include <tonemapping_fragment>
+    #include <colorspace_fragment>
+  }`
+
+}
+```

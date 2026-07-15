@@ -14,7 +14,7 @@ const isExpanded = ref(false)
 
 <template>
   <div
-    class="text-sm dark:text-gray-400 text-gray-500 font-mono"
+    class="text-sm dark:text-neutral-400 text-neutral-500 font-mono"
   >
     <div
       class="flex gap-2 items-end cursor-pointer pt2 mb2"
@@ -22,7 +22,7 @@ const isExpanded = ref(false)
     >
       <span
         v-if="depth > 0"
-        class="h-1 border-b dark:border-gray-400 border-gray-500 w-4"
+        class="h-1 border-b dark:border-neutral-400 border-neutral-500 w-4"
       />
       <div class="flex gap-2 items-center -mb2.5">
         <i :class="item.icon" />
@@ -38,8 +38,8 @@ const isExpanded = ref(false)
     <div
       v-if="isExpanded"
     >
-      <div class="p4 dark:text-gray-400 text-gray-500 text-xs font-mono">
-        <p class="text-xs font-bold dark:text-gray-300/80 text-gray-700/80 mb2 op-80">
+      <div class="p4 dark:text-neutral-400 text-neutral-500 text-xs font-mono">
+        <p class="text-xs font-bold dark:text-neutral-300/80 text-neutral-700/80 mb2 op-80">
           Uniforms
         </p>
         <div
@@ -47,7 +47,7 @@ const isExpanded = ref(false)
           :key="key"
         >
           {{ key }} <UBadge
-            color="gray"
+            color="neutral"
             variant="soft"
           >
             {{ value?.cache[value?.cache.length - 1] }}

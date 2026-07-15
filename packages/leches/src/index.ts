@@ -1,4 +1,5 @@
 // import 'virtual:uno.css'
+import './style.css'
 
 import TresLeches from './components/TresLeches.vue'
 import { useControls, useControlsProvider } from './composables/useControls'

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type TresColor, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { CircleGeometry } from 'three'
 
@@ -40,7 +41,6 @@ defineExpose({
 <template>
   <TresMesh
     ref="circleRef"
-    v-bind="$attrs"
   >
     <TresCircleGeometry :args="args" />
     <slot>

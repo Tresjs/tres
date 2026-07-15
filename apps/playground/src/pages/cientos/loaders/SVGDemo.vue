@@ -18,8 +18,6 @@ fill="none" xmlns="http://www.w3.org/2000/svg">
 
 const svgHeartURL = '/cientos.svg'
 
-function onLoop({ delta }: { delta: number }) {
-
 const skipFillsA = shallowRef(false)
 const skipFillsB = shallowRef(true)
 const skipFillsC = shallowRef(false)

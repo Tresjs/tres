@@ -39,7 +39,7 @@ describe(useLoop.name, () => {
     expect(loop.isActive.value).toBe(false)
     expect(requestAnimationFrameSpy).not.toHaveBeenCalled()
 
-    requestAnimationFrameSpy.mockReset()
+    requestAnimationFrameSpy.mockRestore()
   })
 
   it('should call registered callbacks in the right order', async () => {

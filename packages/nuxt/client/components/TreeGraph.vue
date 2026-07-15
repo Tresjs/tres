@@ -39,7 +39,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
     <!-- Current node -->
     <div
       :style="indentStyle"
-      class="flex items-center py-1 hover:bg-gray-50 group cursor-pointer"
+      class="flex items-center py-1 hover:bg-neutral-50 dark:hover:bg-neutral-800 group cursor-pointer"
       @click="handleSelect"
     >
       <!-- Expand/collapse icon -->
@@ -50,7 +50,7 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
       >
         <UIcon
           :name="isExpanded ? 'i-tabler:caret-down-filled' : 'i-tabler:caret-right-filled'"
-          class="w-3 h-3 text-gray-400"
+          class="w-3 h-3 text-neutral-400 dark:text-neutral-500"
         />
       </div>
       <div
@@ -63,11 +63,11 @@ const indentStyle = computed(() => ({ paddingLeft: `${props.level * 16}px` }))
         <!-- Icon -->
         <UIcon
           :name="item.icon"
-          class="w-4 h-4 text-gray-600 flex-shrink-0"
+          class="w-4 h-4 text-neutral-600 dark:text-neutral-400 flex-shrink-0"
         />
 
         <!-- Label -->
-        <span class="text-gray-700 font-medium">
+        <span class="text-neutral-700 dark:text-neutral-200 font-medium">
           {{ item.label }}
         </span>
 

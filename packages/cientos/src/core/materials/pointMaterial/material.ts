@@ -1,4 +1,5 @@
-import { PointsMaterial as PointsMaterialImpl, type PointsMaterialParameters } from 'three'
+import { PointsMaterial as PointsMaterialImpl } from 'three'
+import type { PointsMaterialParameters } from 'three'
 
 // NOTE: Source
 // https://github.com/pmndrs/drei/blob/master/src/core/PointMaterial.tsx

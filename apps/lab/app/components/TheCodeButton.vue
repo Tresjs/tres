@@ -6,7 +6,7 @@ function getSlugFromPath(path: string) {
 }
 
 function getRepoPathFromPath(path: string) {
-  return `https://github.com/Tresjs/lab/tree/main/components/content/${getSlugFromPath(path)}`
+  return `https://github.com/Tresjs/tres/tree/main/apps/lab/app/components/${getSlugFromPath(path)}`
 }
 
 function getRepoTitleFromPath(path: string) {

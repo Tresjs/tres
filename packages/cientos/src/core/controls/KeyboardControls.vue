@@ -69,8 +69,9 @@ watch(props, () => {
 
 const sidewardMove = ref(0)
 const forwardMove = ref(0)
+const verticalMove = ref(0)
 
-const { KeyW, KeyA, KeyS, KeyD, Up, Down, Left, Right } = useMagicKeys()
+const { KeyW, KeyA, KeyS, KeyD, Up, Down, Left, Right, KeyQ, KeyE } = useMagicKeys()
 
 watchEffect(() => {
   if (KeyA.value || Left.value) { sidewardMove.value = -moveSpeed.value }
@@ -79,15 +80,22 @@ watchEffect(() => {
   if (KeyW.value || Up.value) { forwardMove.value = moveSpeed.value }
   else if (KeyS.value || Down.value) { forwardMove.value = -moveSpeed.value }
   else { forwardMove.value = 0 }
+  if (KeyE.value) { verticalMove.value = moveSpeed.value }
+  else if (KeyQ.value) { verticalMove.value = -moveSpeed.value }
+  else { verticalMove.value = 0 }
 })
 
 defineExpose({
   instance: controls,
 })
 
-const isActive = (isLock: boolean) => emit('isLock', isLock)
+const isActive = (isLock: boolean) => {
+  emit('isLock', isLock)
+}
 
-const hasChange = (state: any) => emit('change', state)
+const hasChange = (state: any) => {
+  emit('change', state)
+}
 
 const moveVector = new Vector3()
 const rotationVector = new Vector3()
@@ -101,18 +109,28 @@ const moveForward = (delta: number, movementSpeed: number) => {
 
   tmpQuaternion.set(rotationVector.x * rotMult, rotationVector.y * rotMult, rotationVector.z * rotMult, 1).normalize()
   camera?.quaternion.multiply(tmpQuaternion)
-  if (sidewardMove.value || forwardMove.value) { emit('change', controls.value) }
+  if (sidewardMove.value || forwardMove.value) {
+    invalidate()
+    emit('change', controls.value)
+  }
+}
+
+const moveUp = (movementSpeed: number) => {
+  if (!activeCamera.value?.position) { return }
+  activeCamera.value.position.y += movementSpeed
+  if (verticalMove.value) {
+    invalidate()
+    emit('change', controls.value)
+  }
 }
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(({ delta /* invalidate */ }) => {
+onBeforeRender(({ delta }) => {
   if (controls.value instanceof PointerLockControlsType && controls.value?.isLocked) {
     moveForward(delta, forwardMove.value)
     controls.value.moveRight(sidewardMove.value)
-
-    // TODO: comment this until invalidate is back in the loop callback on v5
-    // invalidate()
+    moveUp(verticalMove.value)
   }
 })
 </script>
@@ -122,7 +140,7 @@ onBeforeRender(({ delta /* invalidate */ }) => {
     v-if="renderer"
     :selector="selector"
     :make-default="makeDefault"
-    :camera="camera || activeCamera"
+    :camera="camera || activeCamera?.value"
     :dom-element="domElement || renderer.domElement"
     @is-lock="isActive"
     @change="hasChange"

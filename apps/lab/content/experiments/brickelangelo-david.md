@@ -2,9 +2,10 @@
 title: Brickelangelo David
 author: alvarosabu
 description: Bricks ThreeJS Journey challenge
-thumbnail: /experiments/brickelangelo-david.png
+thumbnail: /experiments/brickelangelo-david.webp
 tags: ['cientos', 'MeshSurfaceSampler']
 date: 2023-08-21
+lastUpdated: 2023-08-21
 ---
 
 This experiment recreates the iconic **David sculpture by Michelangelo** using **75,000 LEGO brick instances**, demonstrating advanced surface sampling techniques and instanced rendering capabilities. Based on challenges from [Bruno Simon's Three.js Journey course](https://threejs-journey.com/), this artistic tribute combines classical art with modern procedural generation.

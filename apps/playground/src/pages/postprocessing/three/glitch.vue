@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Glitch } from '@tresjs/post-processing'
 import BasicScene from '@/components/BasicScene.vue'
-import { useControls, TresLeches } from '@tresjs/leches';
+import { TresLeches, useControls } from '@tresjs/leches'
 
 const { goWild } = useControls({
   goWild: false,

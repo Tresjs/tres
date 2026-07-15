@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+@source "../../../content/**/*";
+
+@theme static {
+  --font-display: 'Manrope', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --breakpoint-3xl: 1920px;
+  --ui-pattern-fg: color-mix(in oklab, var(--ui-text) 5%, transparent);
+  --ui-pattern-bg: repeating-linear-gradient(
+    315deg,
+    var(--ui-pattern-fg) 0,
+    var(--ui-pattern-fg) 1px,
+    transparent 0,
+    transparent 50%
+  );
+  --ui-pattern-dot-fg: color-mix(in oklab, oklch(0.18 0.04 266.75) 5%, transparent);
+  --ui-pattern-dot-bg: radial-gradient(var(--ui-pattern-dot-fg) 1px, transparent 0);
+  --ui-header-height: 3rem;
+  --ui-line-gap: 5px;
+  --ui-line-width: 1px;
+  --ui-line-offset: 172px;
+  --ui-line-color: var(--color-gray-200);
+
+  /* Pink / Postprocessing palette — anchor #FF7BAC at -300 */
+  --color-pink-50: #fff1f6;
+  --color-pink-100: #ffe3ed;
+  --color-pink-200: #ffc2d9;
+  --color-pink-300: #ff7bac;
+  --color-pink-400: #f95490;
+  --color-pink-500: #eb2e76;
+  --color-pink-600: #d11961;
+  --color-pink-700: #ae0f50;
+  --color-pink-800: #8d1045;
+  --color-pink-900: #73113c;
+  --color-pink-950: #42031e;
+
+  /* Teal palette kept for accent usage in landing / callouts */
+  --color-teal-50: #f2fbf8;
+  --color-teal-100: #d3f4ea;
+  --color-teal-200: #a6e9d6;
+  --color-teal-300: #82dbc5;
+  --color-teal-400: #44bda2;
+  --color-teal-500: #2ba189;
+  --color-teal-600: #20816f;
+  --color-teal-700: #1d685b;
+  --color-teal-800: #1c534b;
+  --color-teal-900: #1b463f;
+  --color-teal-950: #0a2925;
+}
+
+.dark {
+  --ui-line-color: var(--color-gray-800);
+  --ui-pattern-dot-fg: color-mix(in oklab, var(--color-gray-200) 5%, transparent);
+}
+
+.pattern-bg {
+  background-image: var(--ui-pattern-bg);
+  background-size: 10px 10px;
+  background-attachment: fixed;
+}
+
+.pattern-dot-bg {
+  background-image: var(--ui-pattern-dot-bg);
+  background-size: 10px 10px;
+  background-attachment: fixed;
+}

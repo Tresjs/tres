@@ -1,7 +1,8 @@
 import type { TresLoader, TresLoaderOptions, TresObject } from '@tresjs/core'
 import { buildGraph, useLoader } from '@tresjs/core'
 
-import { computed, type ComputedRef, type MaybeRef, type Ref, watch } from 'vue'
+import { computed, watch } from 'vue'
+import type { ComputedRef, MaybeRef, Ref } from 'vue'
 
 import type { GLTF } from 'three-stdlib'
 import { DRACOLoader, GLTFLoader } from 'three-stdlib'

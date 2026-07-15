@@ -5,11 +5,11 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'
 import { useControls } from '@tresjs/leches'
 
-const uuid = 'core-misc-text3d'
-
 const props = defineProps<{
   text: string
 }>()
+
+const uuid = 'core-misc-text3d'
 
 const text3DRef = shallowRef()
 

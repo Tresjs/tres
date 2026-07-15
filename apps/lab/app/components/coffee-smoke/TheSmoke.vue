@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DoubleSide, RepeatWrapping, TextureLoader, Uniform, type PlaneGeometry } from 'three';
+import { DoubleSide, RepeatWrapping, Uniform, type PlaneGeometry } from 'three';
 import fragmentShader from './shaders/fragment.glsl'
 import vertexShader from './shaders/vertex.glsl'
 
@@ -36,14 +36,7 @@ onBeforeRender(({ elapsed }) => {
 <template>
   <TresMesh v-if="!isLoading" :position="[0, MUG_HEIGHT, 0]">
     <TresPlaneGeometry ref="smokeGeometry" :args="[1, 1, 16, 64]" />
-    <TresShaderMaterial 
-      :vertex-shader="vertexShader" 
-      :fragment-shader="fragmentShader" 
-      :side="DoubleSide" 
-      :uniforms="uniforms"
-      :transparent="true"
-      :opacity="0.5"
-      :depth-write="false"
-    />
+    <TresShaderMaterial :vertex-shader="vertexShader" :fragment-shader="fragmentShader" :side="DoubleSide"
+      :uniforms="uniforms" :transparent="true" :opacity="0.5" :depth-write="false" />
   </TresMesh>
 </template>

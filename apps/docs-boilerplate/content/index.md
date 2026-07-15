@@ -6,10 +6,9 @@ seo:
 
 ::u-page-hero
 
-
-<!-- #headline 
+<!-- #headline
 :::nuxt-link
---- 
+---
 to: /getting-started
 ---
 

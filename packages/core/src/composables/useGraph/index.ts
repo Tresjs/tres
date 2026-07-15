@@ -1,4 +1,4 @@
-import type { MaybeRef } from '@vueuse/core'
+import type { MaybeRef } from 'vue'
 import { buildGraph } from '../../utils/graph'
 import { computed, toValue } from 'vue'
 import type { TresObject } from '../../types'

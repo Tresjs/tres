@@ -5,6 +5,7 @@ import Experiment from './CustomShaderMaterialDemo.vue'
 
 const uuid = 'materials-custom-shader'
 </script>
+
 <template>
   <TresLeches :uuid="uuid" />
   <TresCanvas clear-color="#82DBC5">

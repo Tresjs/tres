@@ -11,7 +11,6 @@ import { bold, gray, lightGreen, yellow } from 'kolorist'
 import glsl from 'vite-plugin-glsl'
 import pkg from './package.json' with { type: 'json' }
 
-// eslint-disable-next-line no-console
 console.log(`${lightGreen('▲')} ${gray('■')} ${yellow('♥')} ${bold('Tres/cientos')} v${pkg.version}`)
 // https://vitejs.dev/config/
 export default defineConfig({

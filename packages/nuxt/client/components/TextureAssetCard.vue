@@ -28,7 +28,7 @@ defineProps<{
       <!-- Texture Preview -->
       <div
         v-if="asset.preview"
-        class="w-full h-32 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden"
+        class="w-full h-32 bg-neutral-100 dark:bg-neutral-800 rounded-lg overflow-hidden"
       >
         <img
           :src="asset.preview"
@@ -40,11 +40,11 @@ defineProps<{
       <!-- Fallback for textures without preview -->
       <div
         v-else
-        class="w-full h-32 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center"
+        class="w-full h-32 bg-neutral-100 dark:bg-neutral-800 rounded-lg flex items-center justify-center"
       >
         <UIcon
           name="i-tabler:photo-off"
-          class="w-8 h-8 text-gray-400"
+          class="w-8 h-8 text-neutral-400"
         />
       </div>
 
@@ -53,7 +53,7 @@ defineProps<{
           v-if="asset.dimensions"
           class="flex justify-between"
         >
-          <span class="text-gray-600 dark:text-gray-400 font-semibold">Size</span>
+          <span class="text-neutral-600 dark:text-neutral-400 font-semibold">Size</span>
           <span class="font-mono">{{ asset.dimensions }} <UBadge
             v-if="asset.resolution"
             variant="soft"
@@ -65,7 +65,7 @@ defineProps<{
           v-if="asset.format"
           class="flex justify-between"
         >
-          <span class="text-gray-600 dark:text-gray-400 font-semibold">Format</span>
+          <span class="text-neutral-600 dark:text-neutral-400 font-semibold">Format</span>
           <span>{{ asset.format }}</span>
         </div>
 
@@ -73,7 +73,7 @@ defineProps<{
           v-if="asset.usage"
           class="flex justify-between"
         >
-          <span class="text-gray-600 dark:text-gray-400 font-semibold">Memory</span>
+          <span class="text-neutral-600 dark:text-neutral-400 font-semibold">Memory</span>
           <span class="font-mono">{{ formatMemorySize(asset.usage) }}</span>
         </div>
       </div>

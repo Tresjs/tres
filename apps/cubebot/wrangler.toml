@@ -1,0 +1,26 @@
+name = "tresjs-cubebot"
+main = "src/index.ts"
+compatibility_date = "2025-01-27"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cubebot-docs"
+database_id = "e6060231-ec0d-4c96-a673-30cbd2bbaa60"
+
+[ai]
+binding = "AI"
+
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = true
+persist = true
+head_sampling_rate = 1

@@ -7,7 +7,15 @@ import { Vector3 } from 'three'
 const uuid = 'shapes-quadratic-bezier-line'
 
 const {
-  startX, startY, startZ, endX, endY, endZ, moveMid, lineWidth, enabled
+  startX,
+  startY,
+  startZ,
+  endX,
+  endY,
+  endZ,
+  moveMid,
+  lineWidth,
+  enabled,
 } = useControls({
   startX: { value: 0, min: -10, max: 10 },
   startY: { value: 0, min: -10, max: 10 },

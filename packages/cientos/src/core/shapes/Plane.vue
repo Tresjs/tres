@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type TresColor, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { PlaneGeometry } from 'three'
 
@@ -41,7 +42,6 @@ defineExpose({
   <TresMesh
     ref="planeRef"
     :rotation="[-Math.PI / 2, 0, 0]"
-    v-bind="$attrs"
   >
     <TresPlaneGeometry :args="args" />
     <slot>

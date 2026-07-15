@@ -19,7 +19,6 @@ const {
   depthWrite: false,
   enabled: true,
 }, { uuid })
-
 </script>
 
 <template>

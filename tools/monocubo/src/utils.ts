@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import execa from 'execa';
+import { execa } from 'execa';
 import chalk from 'chalk';
 import ora from 'ora';
 

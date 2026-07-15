@@ -19,7 +19,7 @@ const formattedPage = computed(() => {
 })
 
 useHead({
-  title: `${page?.value?.title}`,
+  title: () => page.value?.title,
   meta: [
     {
       hid: 'description',
@@ -40,7 +40,7 @@ useHead({
     {
       hid: 'og:title',
       property: 'og:title',
-      content: `${page?.value?.title} made with TresJS by @${page?.value?.author}`,
+      content: () => page.value?.title ? `${page.value.title} made with TresJS by @${page.value.author}` : 'TresJS Lab',
     },
     {
       hid: 'og:type',
@@ -50,7 +50,7 @@ useHead({
     {
       hid: 'og:image',
       property: 'og:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.png`,
+      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.webp`,
     },
     {
       hid: 'og:image:alt',
@@ -63,7 +63,7 @@ useHead({
     {
       hid: 'twitter:title',
       property: 'twitter:title',
-      content: `${page?.value?.title} - Tres`,
+      content: () => page.value?.title ? `${page.value.title} - Tres` : 'TresJS Lab',
     },
     {
       hid: 'twitter:description',
@@ -73,7 +73,7 @@ useHead({
     {
       hid: 'twitter:image',
       name: 'twitter:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.png`,
+      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.webp`,
     },
     {
       hid: 'twitter:image:alt',

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type TresColor, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 
 import type { BoxGeometry } from 'three'
@@ -42,7 +43,6 @@ defineExpose({
 <template>
   <TresMesh
     ref="boxRef"
-    v-bind="$attrs"
   >
     <TresBoxGeometry :args="args" />
     <slot>

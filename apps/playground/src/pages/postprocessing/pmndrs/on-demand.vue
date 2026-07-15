@@ -3,7 +3,7 @@ import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { EffectComposerPmndrs, PixelationPmndrs } from '@tresjs/post-processing'
 import { ref } from 'vue'
-import { useControls, TresLeches } from '@tresjs/leches'
+import { TresLeches, useControls } from '@tresjs/leches'
 
 const uuid = 'on-demand-pmndrs'
 const canvas = ref<InstanceType<typeof TresCanvas>>()

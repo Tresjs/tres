@@ -2,9 +2,10 @@
 title: Particle Pumpkin Shader
 author: neoprint3d
 description: A animated 3d pumpkin that uses shaders, particles, and custom gltf model
-thumbnail: /experiments/particle-pumpkin.png
+thumbnail: /experiments/particle-pumpkin.webp
 tags: ["cientos", "useGLTF", "blender", "shaders"]
 date: 2023-11-03
+lastUpdated: 2023-11-03
 ---
 
 This experiment features a **spooky animated pumpkin** surrounded by magical particle effects and custom shaders. Perfect for Halloween themes, this scene combines 3D modeling, particle systems, and custom GLSL shaders to create an atmospheric and engaging experience.

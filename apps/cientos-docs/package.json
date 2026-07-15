@@ -1,0 +1,41 @@
+{
+  "name": "cientos-docs",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@11.6.0",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@iconify-json/lucide": "catalog:",
+    "@iconify-json/simple-icons": "catalog:",
+    "@iconify-json/vscode-icons": "catalog:",
+    "@nuxt/content": "catalog:nuxt",
+    "@nuxt/image": "catalog:nuxt",
+    "@nuxt/scripts": "catalog:",
+    "@nuxt/ui": "catalog:nuxt",
+    "@tresjs/cientos": "workspace:^",
+    "@tresjs/core": "workspace:^",
+    "@tresjs/leches": "workspace:^",
+    "@unhead/vue": "catalog:",
+    "better-sqlite3": "catalog:",
+    "nuxt": "catalog:nuxt",
+    "nuxt-llms": "catalog:",
+    "tweakpane": "catalog:",
+    "vue": "catalog:vue",
+    "vue-router": "catalog:vue"
+  },
+  "devDependencies": {
+    "@tresjs/eslint-config": "workspace:*",
+    "@tweakpane/core": "catalog:",
+    "eslint": "catalog:eslint",
+    "typescript": "catalog:typescript",
+    "vue-tsc": "catalog:typescript"
+  }
+}

@@ -11,7 +11,7 @@ defineProps<{
 
 const containerRef = ref<HTMLElement | null>(null)
 const width = ref(160)
-const height = ref(40)
+const height = ref(20)
 const strokeWidth = 2
 const updateInterval = 100 // Update interval in milliseconds
 const topOffset = 20 // Offset from the top
@@ -71,7 +71,7 @@ const isDark = useDark()
 </script>
 
 <template>
-  <div class="tl-flex tl-px-4 tl-gap-1 tl-items-center tl-mb-2">
+  <div class="tl-flex tl-gap-1 tl-items-center" style="padding: 0 var(--tl-h-padding); margin-bottom: var(--tl-unit-spacing);">
     <ControlLabel
       :label="label"
       :control="control"
@@ -82,9 +82,7 @@ const isDark = useDark()
         tl-relative
         tl-w-2/3
         tl-py-1
-        tl-rounded
         tl-text-right
-        tl-text-xs
         tl-text-gray-400
         tl-bg-gray-100
         dark:tl-bg-dark-300
@@ -93,8 +91,9 @@ const isDark = useDark()
         tl-border-none
         tl-font-sans
       "
+      style="border-radius: var(--tl-blade-radius);"
     >
-      <div class="tl-absolute tl-bottom-0.5 tl-right-0.5 tl-font-sans tl-text-xs">
+      <div class="tl-absolute tl-bottom-0.5 tl-right-0.5 tl-font-sans">
         {{ Math.round(fps) }} FPS
       </div>
       <svg

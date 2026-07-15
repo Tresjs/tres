@@ -2,9 +2,12 @@
 import {
   abstractionsRoutes,
   controlsRoutes,
+  debugPerformanceRoutes,
+  lightShadowRoutes,
   loadersRoutes,
   materialsRoutes,
-  miscRoutes,
+  miscellaneousRoutes,
+  objectsRoutes,
   shapesRoutes,
   stagingRoutes,
 } from '@/router/routes/cientos'
@@ -16,7 +19,10 @@ const sections = [
   { icon: '⏳', title: 'Loaders', routes: loadersRoutes },
   { icon: '👔', title: 'Materials', routes: materialsRoutes },
   { icon: '🔷', title: 'Shapes', routes: shapesRoutes },
-  { icon: '🛠️', title: 'Misc', routes: miscRoutes },
+  { icon: '🧊', title: 'Objects', routes: objectsRoutes },
+  { icon: '💡', title: 'Lights & Shadows', routes: lightShadowRoutes },
+  { icon: '🚀', title: 'Debug & Performance', routes: debugPerformanceRoutes },
+  { icon: '🗂️', title: 'Miscellaneous', routes: miscellaneousRoutes },
 ]
 </script>
 

@@ -41,6 +41,5 @@ defineExpose({ instance: materialRef })
   <TresMeshWobbleMaterial
     ref="materialRef"
     :factor="factor"
-    v-bind="$attrs"
   />
 </template>

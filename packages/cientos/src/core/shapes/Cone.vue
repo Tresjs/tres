@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type TresColor, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { ConeGeometry } from 'three'
 
@@ -43,7 +44,6 @@ defineExpose({
 <template>
   <TresMesh
     ref="coneRef"
-    v-bind="$attrs"
   >
     <TresConeGeometry :args="args" />
     <slot>

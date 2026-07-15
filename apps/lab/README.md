@@ -90,7 +90,7 @@ Every demo or experiment consist on two parts
 
 ```md
 ---
-thumbnail: /lowpoly-planet.png
+thumbnail: /experiments/lowpoly-planet.webp
 title: Low Poly Planet
 slug: lowpoly-planet
 author: alvarosabu
@@ -112,7 +112,7 @@ tags: ['basic', 'cientos', 'useGLTF', 'blender']
 
 ```md
 ---
-thumbnail: /lowpoly-planet.png
+thumbnail: /experiments/lowpoly-planet.webp
 title: Low Poly Planet
 slug: lowpoly-planet
 author: alvarosabu

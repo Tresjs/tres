@@ -1,7 +1,8 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
-import { TresCanvas, type TresPointerEvent } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core'
+import type { TresPointerEvent } from '@tresjs/core'
 import { TresLeches } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 

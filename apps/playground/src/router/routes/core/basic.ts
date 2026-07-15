@@ -44,4 +44,9 @@ export const basicRoutes = [
     name: 'Pierced Props',
     component: () => import('@/pages/core/basic/PiercedProps.vue'),
   },
+  {
+    path: '/core/basic/sizes',
+    name: 'Sizes',
+    component: () => import('@/pages/core/basic/sizes/index.vue'),
+  },
 ]

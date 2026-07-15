@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type TresColor, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
 import { BufferAttribute, BufferGeometry } from 'three'
 import { onUnmounted, shallowRef, watch } from 'vue'
 
@@ -160,7 +161,7 @@ defineExpose({
 <template>
   <TresMesh
     ref="superformulaRef"
-    v-bind="$attrs"
+
     :geometry="geometry"
   >
     <slot>

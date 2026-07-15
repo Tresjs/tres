@@ -1,9 +1,9 @@
 ---
-name: Alvaro Saburido
+name: alvarosabu
 slug: alvarosabu
 email: hola@alvarosaburido.dev
 twitter: alvarosabu
 github: alvarosabu
-website: https://alvarosaburido.dev
-avatar: /avatars/alvarosabu.jpg
+website: https://alvarosabu.dev
+avatar: /avatars/alvarosabu.jpeg
 ---

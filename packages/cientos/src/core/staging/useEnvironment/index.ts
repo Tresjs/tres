@@ -17,7 +17,7 @@ import type {
 } from 'three'
 import type { Ref } from 'vue'
 import { environmentPresets } from './const'
-import type { EnvironmentOptions } from './const'
+import type { EnvironmentOptions, EnvironmentPresetQuality } from './const'
 
 const PRESET_ROOT = 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/hdr/'
 
@@ -84,6 +84,7 @@ export async function useEnvironment(
 
   const {
     preset,
+    quality = ref<EnvironmentPresetQuality>('1k'),
     blur,
     files = ref([]),
     path = ref(''),
@@ -230,11 +231,13 @@ export async function useEnvironment(
     immediate: true,
   })
 
-  // Watch for preset changes
-  watch(() => preset?.value, async (value) => {
+  // Watch for preset / quality changes
+  watch([() => preset?.value, () => quality?.value], async ([value]) => {
     if (value && value in environmentPresets) {
       const _path = PRESET_ROOT
-      const _files = environmentPresets[value as unknown as keyof typeof environmentPresets]
+      const _quality = quality?.value
+      const _base = environmentPresets[value as unknown as keyof typeof environmentPresets]
+      const _files = `${_base}_${_quality}.hdr`
 
       try {
         // Load preset using RGBELoader directly

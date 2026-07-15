@@ -23,8 +23,8 @@ const props = withDefaults(defineProps<UnrealBloomProps>(), {
 const { sizes } = useTresContext()
 const { pass } = useEffect(() => new UnrealBloomPass(
   new Vector2(sizes.width.value, sizes.height.value),
-  props.radius,
   props.strength,
+  props.radius,
   props.threshold,
 ), props)
 
@@ -32,21 +32,21 @@ defineExpose({ pass })
 
 watchEffect(() => {
   pass.value.radius = props.radius
-    ?? pass.value.getCompositeMaterial().uniforms.bloomRadius?.value
+    ?? pass.value.compositeMaterial.uniforms.bloomRadius?.value
     ?? 0.1
 })
 
 watchEffect(() => {
   pass.value.strength
-  = props.strength
-    ?? pass.value.getCompositeMaterial().uniforms.bloomStrength?.value
-    ?? 1
+    = props.strength
+      ?? pass.value.compositeMaterial.uniforms.bloomStrength?.value
+      ?? 1
 })
 
 watchEffect(() => {
   pass.value.threshold
-  = props.threshold
-    ?? LuminosityHighPassShader.uniforms.luminosityThreshold?.value
-    ?? 1
+    = props.threshold
+      ?? LuminosityHighPassShader.uniforms.luminosityThreshold?.value
+      ?? 1
 })
 </script>

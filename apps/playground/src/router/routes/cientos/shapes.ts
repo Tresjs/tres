@@ -35,6 +35,11 @@ export const shapesRoutes = [
     component: () => import('@/pages/cientos/shapes/RoundedBoxDemo.vue'),
   },
   {
+    path: '/cientos/shapes/roundedplane',
+    name: 'RoundedPlane',
+    component: () => import('@/pages/cientos/shapes/RoundedPlaneDemo.vue'),
+  },
+  {
     path: '/cientos/shapes/screenQuad',
     name: 'ScreenQuad',
     component: () => import('@/pages/cientos/shapes/ScreenQuadDemo.vue'),
@@ -43,5 +48,10 @@ export const shapesRoutes = [
     path: '/cientos/shapes/on-demand-shapes',
     name: 'on-demand Shapes',
     component: () => import('@/pages/cientos/shapes/OnDemandShapesDemo.vue'),
+  },
+  {
+    path: '/cientos/shapes/grid',
+    name: 'Grid',
+    component: () => import('@/pages/cientos/shapes/GridDemo.vue'),
   },
 ]

@@ -1,0 +1,981 @@
+.cientos-decal-ui,
+.cientos-decal-ui * {
+  box-sizing: border-box;
+}
+
+.cientos-decal-ui {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000000;
+
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'SF Pro Text',
+    'Segoe UI',
+    Roboto,
+    system-ui,
+    sans-serif;
+  font-feature-settings: 'cv11', 'ss01', 'tnum';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.005em;
+  user-select: none;
+
+  --accent: #fbb03b;
+  --accent-glow: rgba(251, 176, 59, 0.45);
+  --accent-soft: rgba(251, 176, 59, 0.14);
+  --danger: #ef4444;
+  --danger-bg: rgba(239, 68, 68, 0.08);
+  --kbd-bg: rgba(255, 255, 255, 0.22);
+}
+.cientos-decal-ui.is-contained {
+  position: absolute;
+  z-index: 10;
+}
+
+.cientos-decal-ui.theme-light {
+  --dock-bg: rgba(255, 255, 255, 0.78);
+  --dock-border: rgba(255, 255, 255, 0.7);
+  --dock-inner-highlight: rgba(255, 255, 255, 0.8);
+  --dock-shadow: 0 24px 48px -16px rgba(15, 23, 42, 0.18), 0 8px 18px -6px rgba(15, 23, 42, 0.12);
+  --text-strong: rgb(24, 24, 27);
+  --text-muted: rgb(82, 82, 91);
+  --text-faint: rgb(161, 161, 170);
+  --divider: rgba(0, 0, 0, 0.08);
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --idle-bg: rgba(244, 244, 245, 0.6);
+  --idle-border: rgba(0, 0, 0, 0.06);
+  --thumb-bg-a: #fafafa;
+  --thumb-bg-b: #e5e5e5;
+  --thumb-ring: rgba(0, 0, 0, 0.08);
+  --thumb-ring-hover: rgba(251, 176, 59, 0.4);
+}
+
+.cientos-decal-ui.theme-dark {
+  --dock-bg: rgba(20, 22, 26, 0.78);
+  --dock-border: rgba(255, 255, 255, 0.08);
+  --dock-inner-highlight: rgba(255, 255, 255, 0.05);
+  --dock-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.6), 0 8px 18px -6px rgba(0, 0, 0, 0.4);
+  --text-strong: rgba(255, 255, 255, 0.96);
+  --text-muted: rgba(255, 255, 255, 0.65);
+  --text-faint: rgba(255, 255, 255, 0.35);
+  --divider: rgba(255, 255, 255, 0.08);
+  --hover-bg: rgba(255, 255, 255, 0.08);
+  --idle-bg: rgba(255, 255, 255, 0.03);
+  --idle-border: rgba(255, 255, 255, 0.06);
+  --thumb-bg-a: #1f2024;
+  --thumb-bg-b: #2a2b30;
+  --thumb-ring: rgba(255, 255, 255, 0.1);
+  --thumb-ring-hover: rgba(251, 176, 59, 0.5);
+}
+
+.cientos-decal-ui .handle-wrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cientos-decal-ui .handle-area {
+  position: fixed;
+  width: clamp(120px, 22vw, 240px);
+  aspect-ratio: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms;
+  touch-action: none;
+}
+.cientos-decal-ui .handle-area.is-active {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.cientos-decal-ui .handle-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+  transform-origin: center;
+  cursor: grab;
+}
+.cientos-decal-ui .handle-inner:active {
+  cursor: grabbing;
+}
+
+.cientos-decal-ui .circle-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: white;
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.3),
+    0 0 12px rgba(0, 0, 0, 0.45);
+}
+.cientos-decal-ui .circle-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 6px 24px -4px rgba(0, 0, 0, 0.25),
+    0 2px 6px -1px rgba(0, 0, 0, 0.12),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+.cientos-decal-ui.theme-dark .circle-ring {
+  border-color: rgba(255, 255, 255, 0.85);
+}
+
+.cientos-decal-ui .slider-anchor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+  z-index: 9999;
+  cursor: grab;
+  touch-action: none;
+}
+.cientos-decal-ui .slider-anchor:active {
+  cursor: grabbing;
+}
+.cientos-decal-ui .slider-handle {
+  width: 36px;
+  height: 10px;
+  border-radius: 999px;
+  background: white;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 2px 5px -1px rgba(0, 0, 0, 0.25);
+  transition:
+    background-color 150ms,
+    box-shadow 150ms,
+    transform 150ms;
+}
+.cientos-decal-ui .slider-handle:hover {
+  box-shadow:
+    0 0 0 1px rgba(251, 176, 59, 0.6),
+    0 3px 10px -2px var(--accent-glow);
+}
+.cientos-decal-ui .slider-handle.is-dragging {
+  background: var(--accent);
+  transform: scale(1.1);
+  box-shadow:
+    0 4px 12px -2px var(--accent-glow),
+    0 0 0 3px rgba(251, 176, 59, 0.18);
+}
+
+.cientos-decal-ui .snap-vignette {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  box-shadow: inset 0 0 12px 2px rgba(0, 0, 0, 0.28);
+}
+.cientos-decal-ui .snap-ticks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  filter: drop-shadow(0 0 0.6px rgba(0, 0, 0, 0.55));
+}
+
+.cientos-decal-ui .live-badge {
+  position: absolute;
+  top: -14px;
+  right: 0;
+  transform: translateX(33%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 15, 17, 0.9);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 10px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.cientos-decal-ui .live-badge__scale {
+  color: var(--accent);
+  font-weight: 600;
+}
+.cientos-decal-ui .live-badge__sep {
+  color: rgba(255, 255, 255, 0.25);
+}
+.cientos-decal-ui .live-badge__layer {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cientos-decal-ui .dock-stack {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition:
+    opacity 200ms,
+    transform 200ms;
+  pointer-events: none;
+}
+.cientos-decal-ui .dock-stack.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cientos-decal-ui .dock {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 16px;
+  background: var(--dock-bg);
+  border: 1px solid var(--dock-border);
+  box-shadow:
+    var(--dock-shadow),
+    inset 0 1px 0 var(--dock-inner-highlight);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.cientos-decal-ui .divider {
+  align-self: center;
+  width: 1px;
+  height: 18px;
+  background: var(--divider);
+  margin: 0 4px;
+}
+
+.cientos-decal-ui .mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  border-radius: 12px;
+  color: white;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 1px 2px rgba(0, 0, 0, 0.15);
+}
+.cientos-decal-ui .mode-badge.is-place {
+  background: linear-gradient(180deg, var(--accent) 0%, #d97706 100%);
+}
+.cientos-decal-ui .mode-badge.is-update {
+  background: linear-gradient(180deg, rgb(64, 64, 64) 0%, rgb(20, 20, 20) 100%);
+}
+.cientos-decal-ui.theme-dark .mode-badge.is-update {
+  background: linear-gradient(180deg, rgb(240, 240, 245) 0%, rgb(200, 200, 210) 100%);
+  color: rgb(20, 20, 25);
+}
+.cientos-decal-ui .mode-badge--idle {
+  background: var(--idle-bg);
+  color: var(--text-faint);
+  font-weight: 500;
+  font-size: 10px;
+  border: 1px solid var(--idle-border);
+  box-shadow: none;
+}
+.cientos-decal-ui .mode-badge__dot {
+  position: relative;
+  display: inline-flex;
+  width: 6px;
+  height: 6px;
+}
+.cientos-decal-ui .mode-badge__core {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.cientos-decal-ui .mode-badge.is-place .mode-badge__core,
+.cientos-decal-ui .mode-badge.is-update .mode-badge__core {
+  background: white;
+}
+.cientos-decal-ui.theme-dark .mode-badge.is-update .mode-badge__core {
+  background: rgb(40, 40, 45);
+}
+.cientos-decal-ui .mode-badge__ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: white;
+  opacity: 0.75;
+  animation: cientos-decal-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.cientos-decal-ui.theme-dark .mode-badge.is-update .mode-badge__ping {
+  background: rgb(40, 40, 45);
+}
+@keyframes cientos-decal-ping {
+  75%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.cientos-decal-ui .picker {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 52vw;
+  padding: 6px;
+  margin: -6px 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.22) transparent;
+}
+.cientos-decal-ui .picker::-webkit-scrollbar {
+  height: 6px;
+}
+.cientos-decal-ui .picker::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 0 6px;
+}
+.cientos-decal-ui .picker::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 999px;
+}
+.cientos-decal-ui .picker::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.32);
+}
+.cientos-decal-ui.theme-dark .picker::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.22);
+}
+.cientos-decal-ui.theme-dark .picker::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.cientos-decal-ui .thumb {
+  position: relative;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  cursor: grab;
+  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.cientos-decal-ui .thumb:active {
+  cursor: grabbing;
+}
+.cientos-decal-ui .thumb__frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
+  border-radius: 11px;
+  overflow: hidden;
+  background-color: var(--thumb-bg-a);
+  background-image:
+    linear-gradient(45deg, var(--thumb-bg-b) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--thumb-bg-b) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--thumb-bg-b) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--thumb-bg-b) 75%);
+  background-size: 10px 10px;
+  background-position:
+    0 0,
+    0 5px,
+    5px -5px,
+    -5px 0;
+  box-shadow:
+    0 0 0 1px var(--thumb-ring),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 180ms;
+}
+.cientos-decal-ui .thumb__img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+.cientos-decal-ui .thumb:hover {
+  transform: translateY(-2px);
+}
+.cientos-decal-ui .thumb:hover .thumb__frame {
+  box-shadow:
+    0 0 0 1px var(--thumb-ring-hover),
+    0 6px 14px -4px rgba(15, 23, 42, 0.15);
+}
+.cientos-decal-ui .thumb.is-active .thumb__frame {
+  box-shadow:
+    0 0 0 2px var(--accent),
+    0 6px 18px -4px var(--accent-glow);
+}
+.cientos-decal-ui .thumb.is-dragging {
+  opacity: 0.4;
+  transform: scale(0.92);
+}
+.cientos-decal-ui .thumb__check {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 0 2px var(--dock-bg),
+    0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.cientos-decal-ui .export-slot {
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+}
+
+.cientos-decal-ui .layer-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 9px;
+  background: var(--hover-bg);
+  color: var(--text-muted);
+}
+.cientos-decal-ui .layer-btn {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background-color 120ms,
+    color 120ms;
+}
+.cientos-decal-ui .layer-btn:hover {
+  background: var(--dock-bg);
+  color: var(--text-strong);
+}
+.cientos-decal-ui .layer-val {
+  min-width: 28px;
+  padding: 0 4px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-strong);
+  user-select: none;
+}
+
+.cientos-decal-ui .icon-btn {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 9px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background-color 120ms,
+    color 120ms;
+}
+.cientos-decal-ui .icon-btn:hover {
+  background: var(--hover-bg);
+  color: var(--text-strong);
+}
+.cientos-decal-ui .icon-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.cientos-decal-ui .icon-btn.is-active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px rgba(251, 176, 59, 0.25);
+}
+.cientos-decal-ui .icon-btn.is-danger {
+  color: var(--danger);
+}
+.cientos-decal-ui .icon-btn.is-danger:hover {
+  background: var(--danger-bg);
+  color: #dc2626;
+}
+
+.cientos-decal-ui .primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px 0 14px;
+  border-radius: 9px;
+  background: linear-gradient(180deg, var(--accent) 0%, #f59e0b 100%);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  border: none;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 1px 2px rgba(180, 83, 9, 0.3),
+    0 4px 10px -2px var(--accent-glow);
+  transition:
+    transform 120ms,
+    box-shadow 120ms;
+}
+.cientos-decal-ui .primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 2px 4px rgba(180, 83, 9, 0.35),
+    0 8px 18px -4px var(--accent-glow);
+}
+.cientos-decal-ui .primary-btn:active {
+  transform: translateY(0);
+}
+
+.cientos-decal-ui .kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  margin-left: 2px;
+  border-radius: 4px;
+  background: var(--kbd-bg);
+  color: rgba(255, 255, 255, 0.95);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.cientos-decal-ui .decal-list {
+  pointer-events: auto;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  flex-direction: column;
+  gap: 0;
+  padding: 8px;
+  border-radius: 16px;
+  max-height: 70vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  min-width: 132px;
+}
+.cientos-decal-ui.is-contained .decal-list {
+  max-height: calc(100% - 32px);
+}
+
+.cientos-decal-ui.is-contained .dock-stack {
+  bottom: 12px;
+  gap: 6px;
+}
+.cientos-decal-ui.is-contained .dock {
+  padding: 4px;
+  gap: 4px;
+  border-radius: 12px;
+}
+.cientos-decal-ui.is-contained .picker {
+  max-width: none;
+  flex: 1 1 0;
+  min-width: 0;
+  gap: 4px;
+}
+.cientos-decal-ui.is-contained .thumb {
+  width: 40px;
+  height: 40px;
+}
+.cientos-decal-ui.is-contained .thumb__frame {
+  padding: 4px;
+}
+.cientos-decal-ui.is-contained .icon-btn {
+  width: 28px;
+  height: 28px;
+}
+.cientos-decal-ui.is-contained .mode-badge {
+  padding: 0 10px;
+  font-size: 9.5px;
+}
+
+.cientos-decal-ui .list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 6px 8px;
+  border-bottom: 1px solid var(--divider);
+  margin-bottom: 6px;
+}
+.cientos-decal-ui .list-header__title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.cientos-decal-ui .list-header__count {
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-faint);
+  background: var(--hover-bg);
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+
+.cientos-decal-ui .list-group {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--divider);
+}
+.cientos-decal-ui .list-group:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.cientos-decal-ui .list-group__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px 2px;
+}
+.cientos-decal-ui .list-group__name {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+}
+.cientos-decal-ui .list-group__count {
+  font-size: 9.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-faint);
+}
+.cientos-decal-ui .list-group__items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 2px 0 4px;
+}
+
+.cientos-decal-ui .list-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 4px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  cursor: grab;
+  transition:
+    background-color 120ms,
+    border-color 120ms,
+    opacity 120ms;
+}
+.cientos-decal-ui .list-item:active {
+  cursor: grabbing;
+}
+.cientos-decal-ui .list-item:hover {
+  background: var(--hover-bg);
+  color: var(--text-strong);
+}
+.cientos-decal-ui .list-item.is-editing {
+  border-color: rgba(251, 176, 59, 0.45);
+  background: rgba(251, 176, 59, 0.1);
+  color: var(--text-strong);
+}
+.cientos-decal-ui .list-item.is-dragging {
+  opacity: 0.45;
+}
+.cientos-decal-ui .list-item.drop-before::before,
+.cientos-decal-ui .list-item.drop-after::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+  pointer-events: none;
+}
+.cientos-decal-ui .list-item.drop-before::before {
+  top: -2px;
+}
+.cientos-decal-ui .list-item.drop-after::after {
+  bottom: -2px;
+}
+
+.cientos-decal-ui .list-item.is-hidden {
+  opacity: 0.5;
+}
+.cientos-decal-ui .list-item.is-hidden .list-item__thumb,
+.cientos-decal-ui .list-item.is-hidden .list-item__layer {
+  filter: grayscale(0.6);
+}
+
+.cientos-decal-ui .list-item__eye,
+.cientos-decal-ui .list-item__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-faint);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color 120ms,
+    color 120ms;
+}
+.cientos-decal-ui .list-item__eye:hover,
+.cientos-decal-ui .list-item__remove:hover {
+  background: var(--hover-bg);
+  color: var(--text-strong);
+}
+.cientos-decal-ui .list-item__eye.is-off {
+  color: var(--accent);
+}
+.cientos-decal-ui .list-item__eye svg,
+.cientos-decal-ui .list-item__remove svg {
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+.cientos-decal-ui .list-item__remove:hover {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.cientos-decal-ui .list-empty {
+  padding: 12px 8px 6px;
+  font-size: 11px;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+.cientos-decal-ui .list-item__thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: var(--thumb-bg-a);
+  background-image:
+    linear-gradient(45deg, var(--thumb-bg-b) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--thumb-bg-b) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--thumb-bg-b) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--thumb-bg-b) 75%);
+  background-size: 8px 8px;
+  background-position:
+    0 0,
+    0 4px,
+    4px -4px,
+    -4px 0;
+  box-shadow: 0 0 0 1px var(--thumb-ring);
+}
+.cientos-decal-ui .list-item__img {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  padding: 3px;
+  pointer-events: none;
+}
+.cientos-decal-ui .list-item__layer {
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+
+.cientos-decal-ui .tint-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+.cientos-decal-ui .tint-swatch {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+.cientos-decal-ui .tint-popover {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  min-width: 200px;
+  border-radius: 12px;
+  background: var(--dock-bg);
+  border: 1px solid var(--dock-border);
+  box-shadow: var(--dock-shadow);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  z-index: 10;
+}
+.cientos-decal-ui .tint-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cientos-decal-ui .tint-row__label {
+  flex: 0 0 60px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.cientos-decal-ui .tint-color-input {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+}
+.cientos-decal-ui .tint-color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+.cientos-decal-ui .tint-color-input::-webkit-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+.cientos-decal-ui .tint-color-input::-moz-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+
+.cientos-decal-ui .tint-range {
+  flex: 1;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.cientos-decal-ui .tint-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--hover-bg);
+}
+.cientos-decal-ui .tint-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--hover-bg);
+}
+.cientos-decal-ui .tint-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+.cientos-decal-ui .tint-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.cientos-decal-ui .tint-value {
+  flex: 0 0 36px;
+  font-size: 10.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-strong);
+  text-align: right;
+}
+
+.cientos-decal-ui .tint-reset {
+  align-self: flex-end;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background-color 120ms,
+    color 120ms;
+}
+.cientos-decal-ui .tint-reset:hover {
+  background: var(--hover-bg);
+  color: var(--text-strong);
+}
+
+.edit-dock-enter-active,
+.edit-dock-leave-active {
+  transition: all 220ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.edit-dock-enter-from,
+.edit-dock-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}

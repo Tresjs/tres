@@ -28,13 +28,13 @@ const { transmission, thickness, roughness, envMapIntensity, useHDR } = useContr
     step: 0.1,
   },
   useHDR: true,
+},{
+  uuid: 'glass-material-experiment',
 })
 
 const { state: map } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/glass-effect/bg-texture.jpg')
 const { state: normalMap } = useTexture('https://raw.githubusercontent.com/Tresjs/assets/main/textures/glass-effect/normal-example.jpg')
 const { state: hdrEquirect } = useLoader(RGBELoader, 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/glass-effect/glass-effect.hdr')
-
-const planeRef = shallowRef(null)
 
 
 watch(hdrEquirect, (value) => {
@@ -52,13 +52,13 @@ const envMap = computed(() => {
   <TresPerspectiveCamera :position="[0, 0, 3]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
   <OrbitControls />
   <TresGridHelper :args="[30, 30]" :position="[0, -2.5, 0]" />
-  <TresMesh :position="[-0, 0, 0]">
+  <TresMesh>
     <TresIcosahedronGeometry :args="[1, 10]" />
     <TresMeshPhysicalMaterial v-if="normalMap" :transmission="transmission" :thickness="thickness"
       :roughness="roughness" :env-map="envMap" :env-map-intensity="envMapIntensity" :clearcoat-normal-map="normalMap" />
   </TresMesh>
   <Suspense>
-    <TresMesh ref="planeRef" :position="[0, 0, -1]">
+    <TresMesh :position="[0, 0, -1]">
       <TresPlaneGeometry :args="[5, 5]" />
       <TresMeshBasicMaterial v-if="map" :map="map" />
     </TresMesh>

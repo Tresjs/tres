@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type TresColor, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { TetrahedronGeometry } from 'three'
 
@@ -41,7 +42,6 @@ defineExpose({
   <TresMesh
     ref="tetrahedronRef"
     :rotation="[-Math.PI / 2, 0, 0]"
-    v-bind="$attrs"
   >
     <TresTetrahedronGeometry :args="args" />
     <slot>

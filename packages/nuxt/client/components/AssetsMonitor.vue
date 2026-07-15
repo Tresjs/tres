@@ -56,7 +56,7 @@ const getAssetColor = (type: string) => {
     case 'material':
       return 'orange'
     default:
-      return 'gray'
+      return 'neutral'
   }
 }
 </script>
@@ -67,7 +67,7 @@ const getAssetColor = (type: string) => {
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pb-4">
       <UCard>
         <div class="text-center">
-          <div class="font-bold text-gray-900 dark:text-white">
+          <div class="font-bold text-neutral-900 dark:text-white">
             {{ assetStats.total }}
           </div>
           <div class="text-sm">
@@ -121,7 +121,7 @@ const getAssetColor = (type: string) => {
               {{ formatMemorySize(assetStats.totalMemory) }}
             </div> -->
           </div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">
+          <div class="text-sm text-neutral-600 dark:text-neutral-400">
             Memory Used
           </div>
         </div>
@@ -218,7 +218,7 @@ const getAssetColor = (type: string) => {
                 v-if="asset.format"
                 class="flex justify-between"
               >
-                <span class="text-gray-600 dark:text-gray-400">Type:</span>
+                <span class="text-neutral-600 dark:text-neutral-400">Type:</span>
                 <span>{{ asset.format }}</span>
               </div>
             </div>
@@ -232,12 +232,12 @@ const getAssetColor = (type: string) => {
       <div class="text-center py-8">
         <UIcon
           name="i-tabler:file-x"
-          class="w-12 h-12 text-gray-400 mx-auto mb-4"
+          class="w-12 h-12 text-neutral-400 mx-auto mb-4"
         />
-        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+        <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mb-2">
           No Assets Found
         </h3>
-        <p class="text-gray-600 dark:text-gray-400">
+        <p class="text-neutral-600 dark:text-neutral-400">
           No textures, geometries, or materials detected in the current scene.
         </p>
       </div>

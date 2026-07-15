@@ -10,7 +10,7 @@ import type { PointerEventHandlers } from '../utils/pointerEvents'
 
 export type AttachFnType = (parent: any, self: TresInstance) => () => void
 export type AttachType = string | AttachFnType
-export type DisposeType = ((self: TresInstance) => void) | boolean | 'default'
+export type DisposeType = ((self: TresInstance) => void) | boolean | 'default' | null
 
 export type ConstructorRepresentation = new (...args: any[]) => any
 
@@ -75,33 +75,33 @@ export interface TresObject3D extends THREE.Object3D<THREE.Object3DEventMap> {
   material?: THREE.Material & TresBaseObject
 }
 
-export type TresObject =
-  TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
+export type TresObject
+  = TresBaseObject & (TresObject3D | THREE.BufferGeometry | THREE.Material | THREE.Fog) & { __tres?: LocalState }
 
 /**
  * Union type covering all common Three.js material types
  * This provides better TypeScript intellisense and type checking
  * when accessing specific material properties
  */
-export type TresMaterial =
-  | THREE.MeshBasicMaterial
-  | THREE.MeshStandardMaterial
-  | THREE.MeshPhysicalMaterial
-  | THREE.MeshLambertMaterial
-  | THREE.MeshPhongMaterial
-  | THREE.MeshToonMaterial
-  | THREE.MeshNormalMaterial
-  | THREE.MeshMatcapMaterial
-  | THREE.MeshDepthMaterial
-  | THREE.MeshDistanceMaterial
-  | THREE.LineBasicMaterial
-  | THREE.LineDashedMaterial
-  | THREE.PointsMaterial
-  | THREE.SpriteMaterial
-  | THREE.ShaderMaterial
-  | THREE.RawShaderMaterial
-  | THREE.ShadowMaterial
-  | THREE.Material // Fallback for any other materials
+export type TresMaterial
+  = | THREE.MeshBasicMaterial
+    | THREE.MeshStandardMaterial
+    | THREE.MeshPhysicalMaterial
+    | THREE.MeshLambertMaterial
+    | THREE.MeshPhongMaterial
+    | THREE.MeshToonMaterial
+    | THREE.MeshNormalMaterial
+    | THREE.MeshMatcapMaterial
+    | THREE.MeshDepthMaterial
+    | THREE.MeshDistanceMaterial
+    | THREE.LineBasicMaterial
+    | THREE.LineDashedMaterial
+    | THREE.PointsMaterial
+    | THREE.SpriteMaterial
+    | THREE.ShaderMaterial
+    | THREE.RawShaderMaterial
+    | THREE.ShadowMaterial
+    | THREE.Material // Fallback for any other materials
 export type TresInstance = TresObject & { __tres: LocalState }
 
 export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: true }
@@ -109,6 +109,8 @@ export type TresPrimitive = TresInstance & { object: TresInstance, isPrimitive: 
 export interface TresScene extends THREE.Scene {
   __tres: {
     root: TresContext
+    objects: TresObject[]
+    isUnmounting: boolean
   }
 }
 
@@ -130,11 +132,11 @@ export type MathType<T extends MathRepresentation | THREE.Euler> = T extends THR
 
   : T extends VectorRepresentation | THREE.Layers | THREE.Euler ? T | Parameters<T['set']> | number | VectorCoordinates : T | Parameters<T['set']>
 
-type VectorLike<VectorClass extends THREE.Vector2 | THREE.Vector3 | THREE.Vector4> =
-  | VectorClass
-  | Parameters<VectorClass['set']>
-  | Readonly<Parameters<VectorClass['set']>>
-  | Parameters<VectorClass['setScalar']>[0]
+type VectorLike<VectorClass extends THREE.Vector2 | THREE.Vector3 | THREE.Vector4>
+  = | VectorClass
+    | Parameters<VectorClass['set']>
+    | Readonly<Parameters<VectorClass['set']>>
+    | Parameters<VectorClass['setScalar']>[0]
 
 export type TresVector2 = VectorLike<THREE.Vector2>
 export type TresVector3 = VectorLike<THREE.Vector3>
@@ -180,12 +182,12 @@ export interface ThreeInstances extends ThreeInstancesImpl {
   primitive: Omit<ThreeElement<any>, 'args'> & { object: object }
 }
 
-type TresComponents = {
+export type TresComponents = {
   [K in keyof ThreeInstances as `Tres${Capitalize<string & K>}`]: DefineComponent<ThreeInstances[K]>
 }
 
 declare module 'vue' {
-  export interface GlobalComponents extends TresComponents {
+  interface GlobalComponents extends TresComponents {
     primitive: DefineComponent<TresPrimitive>
   }
 }

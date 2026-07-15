@@ -2,8 +2,9 @@
 title: Cube Boy Dancefloor
 description: A dancing cube character on an animated dancefloor
 author: alvarosabu
-thumbnail: /experiments/cube-boy-dancefloor.png
+thumbnail: /experiments/cube-boy-dancefloor.webp
 date: 2025-09-11
+lastUpdated: 2025-09-11
 tags:
   - animation
   - character

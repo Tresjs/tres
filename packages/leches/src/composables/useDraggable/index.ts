@@ -1,7 +1,7 @@
-import type { MaybeRefOrGetter } from '@vueuse/shared'
-import { isClient, toRefs, toValue } from '@vueuse/shared'
+import type { MaybeRefOrGetter } from 'vue'
+import { isClient, toRefs } from '@vueuse/shared'
 import { useEventListener, useWindowSize } from '@vueuse/core'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, toValue, watch } from 'vue'
 
 export const defaultWindow = /* #__PURE__ */ isClient ? window : undefined
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
-import type { App } from 'vue'
-import type { TresObject, TresScene } from '../types'
+import type { App, Ref } from 'vue'
+import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
 import * as THREE from 'three'
 import {
   createRenderer,
@@ -9,27 +9,75 @@ import {
   Fragment,
   getCurrentInstance,
   h,
+  onBeforeUnmount,
   onMounted,
   onUnmounted,
   provide,
+  ref,
   shallowRef,
   toValue,
   watch,
   watchEffect,
 } from 'vue'
-import type { TresContext } from '../composables'
+import type { RendererOptions, TresContext } from '../composables'
 import { useTresContextProvider } from '../composables'
 import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresContextProvider'
 import { extend } from '../core/catalogue'
+import type { TresCustomRendererOptions } from '../core/nodeOps'
 import { nodeOps } from '../core/nodeOps'
+import { deleteRoot, getRoot, setRoot } from '../core/roots'
+import { isScene } from '../utils/is'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { promiseTimeout } from '@vueuse/core'
-import type { TresCanvasEmits, TresCanvasProps } from './TresCanvas.vue'
+import type { TresPointerEventName } from '../utils/pointerEvents'
 
-const props = defineProps<TresCanvasProps & { canvas: HTMLCanvasElement }>()
+export interface ContextProps extends RendererOptions {
+  /**
+   * Custom camera instance to use as main camera
+   * If not provided, a default PerspectiveCamera will be created
+   */
+  camera?: TresCamera
+  /**
+   * Whether the canvas should be sized to the window
+   * When true, canvas will be fixed positioned and full viewport size
+   * @default false
+   */
+  windowSize?: boolean
 
-const emit = defineEmits<TresCanvasEmits>()
+  /**
+   * The maximum number of frames per second to render
+   * @default undefined
+   */
+  fpsLimit?: number
+  /**
+   * Whether to enable the provide/inject bridge between Vue and TresJS
+   * When true, Vue's provide/inject will work across the TresJS boundary
+   * @default true
+   */
+  enableProvideBridge?: boolean
+  /**
+   * Options for the TresJS custom renderer
+   *
+   */
+  customRendererOptions?: TresCustomRendererOptions
+}
+
+export type ContextEmits = {
+  ready: [context: TresContext]
+  error: [error: Error]
+  pointermissed: [event: TresPointerEvent]
+  render: [context: TresContext]
+  beforeLoop: [context: TresContextWithClock]
+  loop: [context: TresContextWithClock]
+} & {
+  // all pointer events are supported because they bubble up
+  [key in TresPointerEventName]: [event: TresPointerEvent]
+}
+
+const props = defineProps<ContextProps & { canvas: HTMLCanvasElement }>()
+
+const emit = defineEmits<ContextEmits>()
 
 const slots = defineSlots<{
   default: () => any
@@ -45,7 +93,7 @@ const scene = shallowRef<TresScene | Scene>(new Scene())
 const instance = getCurrentInstance()
 extend(THREE)
 
-const createInternalComponent = (context: TresContext, empty = false) =>
+const createInternalComponent = (context: TresContext, hmrTick: Ref<number>) =>
   defineComponent({
     setup() {
       const ctx = getCurrentInstance()?.appContext
@@ -82,16 +130,34 @@ const createInternalComponent = (context: TresContext, empty = false) =>
       if (typeof window !== 'undefined' && ctx?.app) {
         registerTresDevtools(ctx?.app, context)
       }
-      return () => h(Fragment, null, !empty ? slots.default() : [])
+
+      return () => {
+        // Reactive dep: bumping hmrTick in the root forces this render fn to re-run,
+        // which re-reads slots.default() and lets Vue diff the vnode tree.
+        // eslint-disable-next-line ts/no-unused-expressions
+        hmrTick.value
+        return h(Fragment, null, slots.default?.() ?? [])
+      }
     },
   })
 
-const mountCustomRenderer = (context: TresContext, empty = false) => {
-  const InternalComponent = createInternalComponent(context, empty)
-  const { render } = createRenderer(nodeOps(context))
-  render(h(InternalComponent), scene.value as unknown as TresObject)
+const mountCustomRenderer = (context: TresContext) => {
+  const canvas = props.canvas
+  if (getRoot(canvas)) { return }
+
+  const hmrTick = ref(0)
+  const internalComponent = createInternalComponent(context, hmrTick)
+  const renderer = createRenderer(nodeOps({ context, options: props.customRendererOptions }))
+  renderer.render(h(internalComponent), scene.value as unknown as TresObject)
+
+  setRoot(canvas, { renderer, internalComponent, hmrTick, context })
 }
 
+// `force=false` (internal unmount path) only walks the scene graph — WebGL teardown
+// is owned by useRendererManager's own onUnmounted, which fires alongside ours.
+// `force=true` (manual TresCanvasInstance.dispose() call) additionally tears down the
+// WebGLRenderer explicitly, because the manual call path is NOT backed by Vue's
+// unmount lifecycle and useRendererManager won't fire on its own.
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
@@ -101,34 +167,50 @@ const dispose = (context: TresContext, force = false) => {
       context.renderer.instance.forceContextLoss()
     }
   }
-  (scene.value as TresScene).__tres = {
+  ; (scene.value as TresScene).__tres = {
     root: context,
+    objects: [],
+    isUnmounting: true,
   }
 }
-
 const context = shallowRef<TresContext>(useTresContextProvider({
   scene: scene.value as TresScene,
   canvas: props.canvas,
+  fpsLimit: () => props.fpsLimit ?? Infinity,
   windowSize: props.windowSize ?? false,
   rendererOptions: props,
 }))
 
 defineExpose({ context, dispose: () => dispose(context.value, true) })
 
-const handleHMR = (context: TresContext) => {
-  dispose(context)
-  mountCustomRenderer(context)
+// HMR: bump the tick so the internal component re-renders and Vue diffs the slot content
+const handleHMR = () => {
+  const root = getRoot(props.canvas)
+  if (root) { root.hmrTick.value++ }
 }
 
 const unmountCanvas = () => {
+  const root = getRoot(props.canvas)
+  if (!root) { return }
+
+  const isTresScene = (value: unknown): value is TresScene => isScene(value) && '__tres' in value
+  if (isTresScene(scene.value)) {
+    (scene.value as TresScene).__tres.isUnmounting = true
+  }
+
+  // `root.renderer` is Vue's custom renderer, NOT the WebGLRenderer.
+  // WebGL teardown is owned by `useRendererManager`, which registered its
+  // own `onUnmounted` earlier in setup and therefore fires first.
+  // By the time we're here, `render(null)` just walks the vnode tree and
+  // calls `nodeOps.remove` on every child — which runs user `:dispose`
+  // handlers and releases CPU-side three.js state.
+  root.renderer.render(null, scene.value as unknown as TresObject)
   dispose(context.value)
-  mountCustomRenderer(context.value, true)
+  deleteRoot(props.canvas)
 }
 
 const { camera, renderer } = context.value
 const { registerCamera, cameras, activeCamera, deregisterCamera } = camera
-
-mountCustomRenderer(context.value)
 
 const addDefaultCamera = () => {
   const camera = new PerspectiveCamera(
@@ -170,10 +252,6 @@ watch(
   },
 )
 
-if (!activeCamera.value) {
-  addDefaultCamera()
-}
-
 renderer.onRender(() => {
   if (context.value) {
     emit('render', context.value)
@@ -193,18 +271,35 @@ renderer.loop.onBeforeLoop((loopContext) => {
 })
 
 renderer.onReady(() => {
+  // Now that renderer is initialized, mount the actual scene with slots
+  mountCustomRenderer(context.value)
   emit('ready', context.value)
+
+  if (!activeCamera.value) {
+    addDefaultCamera()
+  }
+})
+
+renderer.onError((error) => {
+  // Emit renderer initialization errors to parent components
+  emit('error', error)
 })
 
 // HMR support
-if (import.meta.hot) { import.meta.hot.on('vite:afterUpdate', () => handleHMR(context.value as TresContext)) }
+if (import.meta.hot) {
+  const hmrHandler = () => handleHMR()
+  import.meta.hot.on('vite:afterUpdate', hmrHandler)
+  onBeforeUnmount(() => {
+    import.meta.hot?.off?.('vite:afterUpdate', hmrHandler)
+  })
+}
 
 // warn if the canvas has no area
 onMounted(async () => {
   await promiseTimeout(3000)
 
   if (!context.value.sizes.width || !context.value.sizes.height.value) {
-    const windowSizePropName: keyof Pick<TresCanvasProps, 'windowSize'> = 'windowSize'
+    const windowSizePropName: keyof Pick<ContextProps, 'windowSize'> = 'windowSize'
     console.warn(`TresCanvas: The canvas has no area, so nothing can be rendered. Set it manually on the parent element or use the prop ${windowSizePropName}.`)
   }
 })

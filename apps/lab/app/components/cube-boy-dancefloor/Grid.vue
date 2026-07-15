@@ -6,10 +6,10 @@ import { extend, useLoop } from '@tresjs/core'
 import { shallowRef } from 'vue'
 
 /**
-       Based on
-      https://github.com/Fyrestar/THREE.InfiniteGridHelper by https://github.com/Fyrestar
-      and https://github.com/threlte/threlte/blob/main/packages/extras/src/lib/components/Grid/Grid.svelte
-      by https://github.com/grischaerbe and https://github.com/jerzakm
+   Based on
+  https://github.com/Fyrestar/THREE.InfiniteGridHelper by https://github.com/Fyrestar
+  and https://github.com/threlte/threlte/blob/main/packages/extras/src/lib/components/Grid/Grid.svelte
+  by https://github.com/grischaerbe and https://github.com/jerzakm
 */
 
 export interface GridMaterialType {
@@ -162,22 +162,11 @@ onBeforeRender((state) => {
 
 <template>
   <TresMesh ref="ref" :frustum-culled="false">
-    <TresGridMaterial
-      :transparent="true"
-      :extensions-derivatives="true"
-      :side="props.side"
-      :cell-size="props.cellSize"
-      :section-size="props.sectionSize"
-      :cell-color="props.cellColor"
-      :section-color="props.sectionColor"
-      :cell-thickness="props.cellThickness"
-      :section-thickness="props.sectionThickness"
-      :fade-distance="props.fadeDistance"
-      :fade-strength="props.fadeStrength"
-      :fade-from="props.fadeFrom"
-      :infinite-grid="props.infiniteGrid"
-      :follow-camera="props.followCamera"
-    />
+    <TresGridMaterial :transparent="true" :extensions-derivatives="true" :side="props.side" :cell-size="props.cellSize"
+      :section-size="props.sectionSize" :cell-color="props.cellColor" :section-color="props.sectionColor"
+      :cell-thickness="props.cellThickness" :section-thickness="props.sectionThickness"
+      :fade-distance="props.fadeDistance" :fade-strength="props.fadeStrength" :fade-from="props.fadeFrom"
+      :infinite-grid="props.infiniteGrid" :follow-camera="props.followCamera" />
     <TresPlaneGeometry :args="props.args" />
   </TresMesh>
 </template>

@@ -1,3 +1,116 @@
 .tl-bg-red {
   background-color: #f44336 !important;
 }
+
+/* Number drag knob — Tweakpane-style thin bar handle */
+.leches-knob {
+  cursor: ew-resize;
+  height: 100%;
+  left: 4px;
+  position: absolute;
+  top: 0;
+  width: 12px;
+  z-index: 1;
+}
+
+.leches-knob--inline {
+  position: relative;
+  left: auto;
+  top: auto;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.leches-knob::before {
+  background-color: currentColor;
+  border-radius: 1px;
+  bottom: 0;
+  content: '';
+  height: calc(100% - 4px);
+  left: 20%;
+  margin-bottom: auto;
+  margin-left: -1px;
+  margin-top: auto;
+  opacity: 0.1;
+  position: absolute;
+  top: 0;
+  transition:
+    border-radius 0.1s,
+    height 0.1s,
+    transform 0.1s,
+    width 0.1s,
+    opacity 0.1s;
+  width: 2px;
+}
+
+.leches-knob:hover::before,
+.leches-num--drg .leches-knob::before {
+  opacity: 0.6;
+}
+
+.leches-num--drg .leches-knob::before {
+  border-radius: 50%;
+  height: 4px;
+  width: 4px;
+  margin-left: -2px;
+}
+
+.leches-num--drg .leches-num_i {
+  opacity: 0.3;
+}
+
+/* SVG drag guide — arrow line from knob to drag position */
+.leches-guide {
+  bottom: 0;
+  display: block;
+  height: 8px;
+  left: 0;
+  margin: auto;
+  overflow: visible;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  width: 1px;
+}
+
+.leches-guide_b {
+  fill: none;
+  stroke: var(--tl-guide-color, #888);
+  stroke-dasharray: 1;
+  opacity: 0.5;
+}
+
+.leches-guide_h {
+  fill: none;
+  stroke: var(--tl-guide-color, #888);
+  opacity: 0.5;
+}
+
+/* Drag tooltip — shows delta value at arrow tip */
+.leches-tooltip {
+  background-color: var(--tl-tooltip-bg, #333);
+  border-radius: 3px;
+  color: var(--tl-tooltip-color, #e5e5e5);
+  font-family: monospace;
+  font-size: 10px;
+  padding: 1px 4px;
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, -100%);
+  top: -2px;
+  white-space: nowrap;
+}
+
+.leches-tooltip::before {
+  border-color: var(--tl-tooltip-bg, #333) transparent transparent transparent;
+  border-style: solid;
+  border-width: 2px;
+  box-sizing: border-box;
+  content: '';
+  height: 4px;
+  left: 50%;
+  margin-left: -2px;
+  position: absolute;
+  top: 100%;
+  width: 4px;
+}

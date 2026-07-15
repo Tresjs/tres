@@ -34,4 +34,14 @@ export const materialsRoutes = [
     name: 'MeshDiscardMaterial',
     component: () => import('@/pages/cientos/materials/MeshDiscardMaterialDemo.vue'),
   },
+  {
+    path: '/cientos/materials/transmission-material',
+    name: 'MeshTransmissionMaterial',
+    component: () => import('@/pages/cientos/materials/MeshTransmissionMaterialDemo.vue'),
+  },
+  {
+    path: '/cientos/materials/portals',
+    name: 'MeshPortalMaterial',
+    component: () => import('@/pages/cientos/materials/portal-material/index.vue'),
+  },
 ]

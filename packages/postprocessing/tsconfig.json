@@ -4,12 +4,8 @@
     "target": "esnext",
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
-    "baseUrl": ".",
     "module": "esnext",
-    "moduleResolution": "node",
-    "paths": {
-      "/@/*": ["src/*"]
-    },
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "types": ["vite/client"],
     "strict": true,

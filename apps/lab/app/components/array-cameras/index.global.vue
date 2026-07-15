@@ -49,9 +49,6 @@ const cameras = computed(() => {
     return currentCam
   })
 })
-
-// Remove debug controls for production
-// useControls('fpsgraph')
 </script>
 
 <template>
@@ -59,10 +56,9 @@ const cameras = computed(() => {
     <TresArrayCamera :args="[cameras]" :position="[0, 2, 5]" />
     <ArrayCamerasKnightRigged />
     <TresAmbientLight :color="0xffffff" :intensity="1" />
-    <TresSpotLight :color="0xffffff" :intensity="100" :position="[0, 0, 5]" />
-    <TresDirectionalLight :color="0xffffff" :intensity="5" />
+    <TresDirectionalLight :color="0xffffff" :intensity="3" />
     <TresHemisphereLight />
-    <TresGridHelper :size="10" :divisions="10" />
+    <TresAxesHelper :size="5" />
     <TheScreenshot />
   </TresCanvas>
 </template>

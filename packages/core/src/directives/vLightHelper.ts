@@ -8,7 +8,7 @@ import {
   PointLightHelper,
   SpotLightHelper,
 } from 'three'
-import { RectAreaLightHelper } from 'three-stdlib'
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js'
 import { logWarning } from '../utils/logger'
 import { isLight } from '../utils/is'
 
@@ -39,7 +39,7 @@ export const vLightHelper = {
     el.parent?.add(new CurrentHelper(el as never, 1, el.color.getHex()))
   },
   updated: (el: TresObject) => {
-    currentInstance = el.parent.children.find((child: TresObject) => child instanceof CurrentHelper)
+    currentInstance = el.parent?.children.find((child: TresObject) => child instanceof CurrentHelper)
     if (currentInstance instanceof RectAreaLightHelper) {
       return
     }
@@ -50,7 +50,7 @@ export const vLightHelper = {
       logWarning(`${el.type} is not a light`)
       return
     }
-    currentInstance = el.parent.children.find((child: TresObject) => child instanceof CurrentHelper)
+    currentInstance = el.parent?.children.find((child: TresObject) => child instanceof CurrentHelper)
 
     if (currentInstance && currentInstance.dispose) {
       currentInstance.dispose()

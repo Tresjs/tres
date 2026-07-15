@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { isMesh, type TresObject } from '@tresjs/core'
+import { isMesh } from '@tresjs/core'
+import type { TresObject } from '@tresjs/core'
 import { useGLTF } from '@tresjs/cientos'
 import { add, cameraProjectionMatrix, cameraViewMatrix, color, Fn, hash, mix, normalView, positionWorld, sin, time, uniform, varying, vec3, vec4 } from 'three/tsl'
 import { AdditiveBlending, DoubleSide, MeshBasicNodeMaterial } from 'three/webgpu'

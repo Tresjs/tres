@@ -11,12 +11,13 @@ import { resolve } from 'pathe'
 import UnoCSS from 'unocss/vite'
 import { presetIcons, presetUno, presetWebFonts, transformerDirectives } from 'unocss'
 import { bold, gray, lightGreen, magenta } from 'kolorist'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 import pkg from './package.json' with { type: 'json' }
 import { presetScrollbar } from 'unocss-preset-scrollbar'
 
 import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js'
-// eslint-disable-next-line no-console
+
 console.log(`${lightGreen('▲')} ${gray('■')} ${magenta('🍰')} ${bold('Tres/leches')} v${pkg.version}`)
 
 // https://vitejs.dev/config/
@@ -36,7 +37,7 @@ export default defineConfig({
       mode: 'vue-scoped',
       /* options */
       shortcuts: {
-        'tl-leches-input': 'tl-p-2 tl-rounded tl-text-left tl-text-xs tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none focus:tl-ring-2 focus:tl-border-gray-200 focus:tl-ring focus:tl-ring-gray-200 tl-font-sans',
+        'tl-leches-input': 'tl-text-left tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none focus:tl-ring-2 focus:tl-border-gray-200 focus:tl-ring focus:tl-ring-gray-200 tl-font-sans',
       },
       presets: [
         presetUno({
@@ -58,18 +59,18 @@ export default defineConfig({
         }),
         presetWebFonts({
           fonts: {
-            sans: 'Roboto Mono',
+            sans: {
+              name: 'Roboto Mono',
+              weights: [400, 500, 700],
+            },
           },
         }),
       ],
       transformers: [transformerDirectives()],
     }),
     cssInjectedByJsPlugin(),
-    /*  Inspect({
-      build: true,
-      outputDir: 'dist/inspect',
-    }), */
-  ],
+    process.env.ANALYZE && visualizer({ open: true, gzipSize: true, filename: 'dist/stats.html' }),
+  ].filter(Boolean),
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
@@ -78,10 +79,7 @@ export default defineConfig({
       formats: ['es'],
     },
     cssCodeSplit: false, // <--- important!
-    watch: {
-      include: [resolve(__dirname, 'src')],
-    },
-    rollupOptions: {
+    rolldownOptions: {
       plugins: [
       /*   analyze(),
         visualizer({

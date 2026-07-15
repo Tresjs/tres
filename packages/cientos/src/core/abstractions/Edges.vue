@@ -52,7 +52,6 @@ watch(
 <template>
   <TresLineSegments
     ref="lineSegmentsRef"
-    v-bind="$attrs"
   >
     <slot>
       <TresLineBasicMaterial :color="color" />

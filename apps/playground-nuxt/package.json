@@ -9,10 +9,10 @@
     "preview": "nuxi preview"
   },
   "dependencies": {
-    "@tresjs/nuxt": "workspace:*",
     "@nuxt/ui": "catalog:nuxt",
     "@tresjs/cientos": "workspace:^",
-    "@tresjs/leches": "workspace:^"
+    "@tresjs/leches": "workspace:^",
+    "@tresjs/nuxt": "workspace:*"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",

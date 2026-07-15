@@ -18,7 +18,7 @@ export type TresLoader<T> = Loader & Partial<LoaderMethods> & {
     url: string,
     onLoad: (result: T) => void,
     onProgress?: (event: ProgressEvent<EventTarget>) => void,
-    onError?: (err: unknown) => void
+    onError?: (err: unknown) => void,
   ) => void
   loadAsync: (url: string, onProgress?: (event: ProgressEvent) => void) => Promise<T>
 }

@@ -23,7 +23,7 @@ class Vector3 {
     return this
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     yield this.x
     yield this.y
     yield this.z
@@ -67,7 +67,7 @@ describe('folder Controls', () => {
     const lightInput = wrapper.find('input#default-lightPosition-x')
     expect(cameraInput.exists()).toBe(true)
     expect(lightInput.exists()).toBe(true)
-    expect(cameraInput.element.value).toBe('3.00')
-    expect(lightInput.element.value).toBe('4.00')
+    expect(cameraInput.element.value).toBe('3')
+    expect(lightInput.element.value).toBe('4')
   })
 })

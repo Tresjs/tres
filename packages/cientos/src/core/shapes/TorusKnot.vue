@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type TresColor, useTres } from '@tresjs/core'
+import { useTres } from '@tresjs/core'
+import type { TresColor } from '@tresjs/core'
 import { shallowRef, toRefs, watch } from 'vue'
 import type { TorusKnotGeometry } from 'three'
 
@@ -40,7 +41,6 @@ defineExpose({
 <template>
   <TresMesh
     ref="torusKnotRef"
-    v-bind="$attrs"
   >
     <TresTorusKnotGeometry :args="args" />
     <slot>

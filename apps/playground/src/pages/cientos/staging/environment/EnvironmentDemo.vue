@@ -1,8 +1,7 @@
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { Environment, Lightformer, OrbitControls, Sphere, useProgress } from '@tresjs/cientos'
+import { Environment, OrbitControls, Sphere, useProgress } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import Lightformers from './Lightformers.vue'
 import { TresLeches, useControls } from '@tresjs/leches'
 import { BasicShadowMap, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
 
@@ -19,7 +18,7 @@ const gl = {
   toneMapping: NoToneMapping,
 }
 
-const { background, blur, preset, backgroundIntensity, environmentIntensity, backgroundRotation, environmentRotation, syncMaterials } = useControls({
+const { background, blur, preset, quality, backgroundIntensity, environmentIntensity, backgroundRotation, environmentRotation, syncMaterials } = useControls({
   background: true,
   blur: {
     value: 0,
@@ -43,6 +42,10 @@ const { background, blur, preset, backgroundIntensity, environmentIntensity, bac
       'shangai',
     ],
     value: 'sunset',
+  },
+  quality: {
+    options: ['1k', '2k', '4k'],
+    value: '4k',
   },
   backgroundIntensity: {
     value: 1,
@@ -110,21 +113,14 @@ const { progress, hasFinishLoading } = await useProgress()
         :background="background"
         :blur="blur"
         :preset="preset"
+        :quality="quality"
         :frames="Infinity"
         :background-intensity="backgroundIntensity"
         :environment-intensity="environmentIntensity"
         :background-rotation="[backgroundRotation.x, backgroundRotation.y, backgroundRotation.z]"
         :environment-rotation="[environmentRotation.x, environmentRotation.y, environmentRotation.z]"
         :sync-materials="syncMaterials"
-      >
-        <Lightformer
-          :intensity="0.75"
-          :rotation-x="Math.PI / 2"
-          :position="[0, 5, -9]"
-          :scale="[10, 10, 1]"
-        />
-        <Lightformers />
-      </Environment>
+      />
     </Suspense>
     <Sphere>
       <TresMeshStandardMaterial

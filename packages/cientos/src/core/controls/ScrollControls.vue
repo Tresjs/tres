@@ -199,9 +199,6 @@ onBeforeRender(() => {
     if (wrapperRef.value.children.length > 0) {
       wrapperRef.value.position[direction] += delta
     }
-
-    // TODO: comment this until invalidate is back in the loop callback on v5
-    // invalidate()
   }
 })
 
