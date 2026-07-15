@@ -5,6 +5,7 @@
 </script>
 
 <template>
+  <TheLoadingScreen />
   <TresCanvas>
     <TresPerspectiveCamera :position="[0, 0, 10]" :look-at="[0, 0, 0]" />
     <!-- TODO: Add experiment scene objects -->

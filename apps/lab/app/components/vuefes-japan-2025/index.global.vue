@@ -17,6 +17,7 @@ const stageBase = computed(() => colorSets[activeColorSetIndex.value]?.color1.ge
 </script>
 
 <template>
+  <TheLoadingScreen background="#ffffff" text-color="#000000" />
   <div
     class="vuefes-stage"
     :style="{

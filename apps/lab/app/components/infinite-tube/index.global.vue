@@ -47,6 +47,7 @@ onLoop(({ delta }) => {
 </script>
 
 <template>
+  <TheLoadingScreen background="#000000" />
   <TresCanvas
     window-size
     clear-color="#000000"

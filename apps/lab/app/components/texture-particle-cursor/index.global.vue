@@ -6,6 +6,7 @@ useControls('fpsgraph', {
 </script>
 
 <template>
+  <TheLoadingScreen background="#181818" />
   <ClientOnly>
     <TresLeches uuid="texture-particle-cursor-experiment" />
   </ClientOnly>
