@@ -17,7 +17,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
   twitterImage: '/og-image.png',
-  ogUrl: 'https://leches.tresjs.org',
+  ogUrl: 'https://tresleches.tresjs.org',
   twitterTitle: title,
   twitterDescription: description,
 })

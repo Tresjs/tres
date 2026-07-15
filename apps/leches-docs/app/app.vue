@@ -33,7 +33,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
   twitterImage: '/og-image.png',
-  ogUrl: 'https://leches.tresjs.org',
+  ogUrl: 'https://tresleches.tresjs.org',
   twitterTitle: 'Tres Leches',
   twitterDescription: 'Tasty, reactive GUI controls for Vue.',
 })
