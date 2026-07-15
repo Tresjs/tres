@@ -146,16 +146,16 @@ const {
 } = toRefs(props)
 
 const geometryRef = shallowRef()
-let positionArray: [] | Float32Array = []
-let velocityArray: [] | Float32Array = []
+const positionArray = shallowRef<Float32Array>(new Float32Array())
+let velocityArray: Float32Array = new Float32Array()
 
 const setPosition = () => {
-  positionArray = new Float32Array(count.value * 3)
+  positionArray.value = new Float32Array(count.value * 3)
   for (let i = 0; i < count.value; i++) {
     const i3 = i * 3
-    positionArray[i3] = (Math.random() - 0.5) * area.value[0]
-    positionArray[i3 + 1] = (Math.random() - 0.5) * area.value[1]
-    positionArray[i3 + 2] = (Math.random() - 0.5) * area.value[2]
+    positionArray.value[i3] = (Math.random() - 0.5) * area.value[0]
+    positionArray.value[i3 + 1] = (Math.random() - 0.5) * area.value[1]
+    positionArray.value[i3 + 2] = (Math.random() - 0.5) * area.value[2]
   }
 }
 const setSpeed = () => {
@@ -168,13 +168,19 @@ const setSpeed = () => {
 setSpeed()
 setPosition()
 
-watch((speed), () => {
+watch(count, () => {
+  setPosition()
   setSpeed()
 })
 
-watchEffect(() => {
-  if (speed.value) { return }
-  setPosition()
+watch(area, (newVal, oldVal) => {
+  if (!oldVal || newVal[0] !== oldVal[0] || newVal[1] !== oldVal[1] || newVal[2] !== oldVal[2]) {
+    setPosition()
+  }
+}, { deep: true })
+
+watch([randomness, speed], () => {
+  setSpeed()
 })
 
 // Load textures if URLs are provided
@@ -241,7 +247,6 @@ defineExpose({ instance: pointsRef })
     <TresBufferGeometry
       ref="geometryRef"
       :position="[positionArray, 3]"
-      :velocity="[velocityArray]"
     />
   </TresPoints>
 </template>
