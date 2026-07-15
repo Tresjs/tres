@@ -68,9 +68,10 @@ const moveBody = (body: Body, position: BodyPosition, camera: Camera) => {
     camera.position.z - position.z,
   )
   const directionOffset = getOffset()
+  const directionOffsetModel = getInvertOffset() // correct rotation model coordinates
 
-  // the model faces away from the walk direction, so rotate it by half a turn
-  rotateQuarternion.setFromAxisAngle(rotateAngle, angleYCameraDirection + directionOffset + Math.PI)
+  // rotate model
+  rotateQuarternion.setFromAxisAngle(rotateAngle, angleYCameraDirection + directionOffsetModel)
   model.value?.quaternion.rotateTowards(rotateQuarternion, 0.2)
 
   // calculate direction
@@ -87,7 +88,7 @@ const moveBody = (body: Body, position: BodyPosition, camera: Camera) => {
 }
 
 const getOffset = () => {
-  let directionOffset = 0 // w or no input
+  let directionOffset = 0 // ww
   if (w.value) {
     if (a.value) {
       directionOffset = Math.PI / 4 // w+a
@@ -110,7 +111,31 @@ const getOffset = () => {
 
   return directionOffset
 }
-const updateCameraTarget =(position: BodyPosition, camera: Camera, controls: Controls) => {
+const getInvertOffset = () => {
+  let directionOffset = Math.PI // ww
+  if (w.value) {
+    if (a.value) {
+      directionOffset = -Math.PI / 4 - Math.PI / 2 // w+a
+    } else if (d.value) {
+      directionOffset = Math.PI / 4 + Math.PI / 2 // w+d
+    }
+  } else if (s.value) {
+    if (a.value) {
+      directionOffset = -Math.PI / 4 // s+a
+    } else if (d.value) {
+      directionOffset = Math.PI / 4 // s+d
+    } else {
+      directionOffset = 0 // s
+    }
+  } else if (a.value) {
+    directionOffset = -Math.PI / 2 // a
+  } else if (d.value) {
+    directionOffset = +Math.PI / 2 // d
+  }
+
+  return directionOffset
+}
+const updateCameraTarget = (position: BodyPosition, camera: Camera, controls: Controls) => {
   // move camera by the actual physics displacement
   camera.position.x += position.x - prevPosition.x
   camera.position.z += position.z - prevPosition.z
