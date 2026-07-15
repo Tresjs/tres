@@ -4,23 +4,19 @@ import { DoubleSide } from 'three'
 
 const cameraRef = ref<PerspectiveCamera | null>(null)
 const fontPath = '/fonts/jetbrains-mono.json'
-
-const { hasFinishLoading, progress } = await useProgress()
 </script>
 
 <template>
-  <Transition name="fade-overlay" enter-active-class="opacity-1 transition-opacity duration-200"
-    leave-active-class="opacity-0 transition-opacity duration-200">
-    <div v-show="!hasFinishLoading"
-      class="absolute bg-[#A590FF] t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono">
-      <div class="w-200px text-black text-center">
-        <p class="animate-tada">
+  <TheLoadingScreen background="#A590FF" text-color="#000000">
+    <template #default="{ progress }">
+      <div class="font-mono text-center">
+        <p class="animate-bounce">
           🎃🦇
         </p>
         Loading... {{ progress }} %
       </div>
-    </div>
-  </Transition>
+    </template>
+  </TheLoadingScreen>
   <TresCanvas clear-color="#A590FF">
     <TresPerspectiveCamera ref="cameraRef" :look-at="[0, 1, 0]" :position="[1, 2, 8]" />
     <OrbitControls :max-distance="10" :min-azimuth-angle="-Math.PI / 6" :max-azimuth-angle="Math.PI / 6"

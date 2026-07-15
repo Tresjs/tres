@@ -12,6 +12,7 @@ const gl = {
 </script>
 
 <template>
+  <TheLoadingScreen background="#262837" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[4, 2, 5]" />
     <TresFog :args="['#262837', 1, 15]" />

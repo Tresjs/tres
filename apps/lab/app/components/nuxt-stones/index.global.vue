@@ -13,6 +13,7 @@ const bloomParams = reactive({
 </script>
 
 <template>
+  <TheLoadingScreen background="#18181B" />
   <TresCanvas :clear-color="'#18181B'" shadows>
     <TresPerspectiveCamera :position="[-5.3, 8.3, 10.6]" :look-at="[0, 1, 0]" />
     <OrbitControls :target="[0, 1, 0]" enable-damping />
