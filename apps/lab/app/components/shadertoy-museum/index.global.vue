@@ -68,6 +68,7 @@ onMounted(
 </script>
 
 <template>
+  <TheLoadingScreen background="#000000" />
   <!--   <ClientOnly>
     <TresLeches :uuid="uuid" />
   </ClientOnly> -->

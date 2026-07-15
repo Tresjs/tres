@@ -9,6 +9,7 @@ const gl = {
 </script>
 
 <template>
+  <TheLoadingScreen background="#202020" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[5, 5, 5]" :fov="45" :aspect="1" :near="0.1" :far="1000" />
     <OrbitControls />

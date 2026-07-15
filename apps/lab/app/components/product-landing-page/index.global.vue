@@ -17,6 +17,7 @@ const state = reactive({
 </script>
 
 <template>
+  <TheLoadingScreen background="#903345" />
   <div class="landingpage-bg w-full inset-0 h-full" />
   <div class="absolute
     p-8

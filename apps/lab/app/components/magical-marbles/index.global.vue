@@ -156,6 +156,7 @@ const contactShadowColor = computed(() => {
 </script>
 
 <template>
+  <TheLoadingScreen />
   <TresLeches />
 
   <div ref="mainRef" class="magical-marbles">
