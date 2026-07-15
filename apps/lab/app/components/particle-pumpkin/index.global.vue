@@ -1,4 +1,5 @@
 <template>
+  <TheLoadingScreen background="#6e44ff" />
   <div>
     <TresCanvas window-size clear-color="#6e44ff">
       <TresPerspectiveCamera :position="[0, 0, 1.75]" />

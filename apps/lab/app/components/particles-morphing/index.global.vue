@@ -14,6 +14,7 @@ const { clearColor } = useControls({
 </script>
 
 <template>
+  <TheLoadingScreen background="#0c0b0f" />
   <ClientOnly>
     <TresLeches :uuid="uuid"/> 
   </ClientOnly>
