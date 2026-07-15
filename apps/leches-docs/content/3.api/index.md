@@ -1,22 +1,14 @@
 ---
 title: API Reference
-description: Explore the complete API reference
+description: Component props and composable signatures exported by @tresjs/leches.
+navigation:
+  icon: i-lucide-code-xml
 ---
 
 # API Reference
 
-Complete API documentation for all components and utilities.
+Tres Leches exports a small public API from `@tresjs/leches`:
 
-## Components
-
-Browse available components:
-
-- [UI Components](/api/components) - Reusable UI components
-
-## Utilities
-
-Helper functions and utilities:
-
-- TypeScript utilities
-- Composable functions
-- Helper methods
+- [`TresLeches`](/api/components) renders a control panel.
+- [`useControls`](/api/components#usecontrols) registers controls and returns their reactive values.
+- [`useControlsProvider`](/api/components#usecontrolsprovider) returns the internal controls record for a panel UUID.

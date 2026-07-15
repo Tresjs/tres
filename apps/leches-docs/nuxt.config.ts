@@ -1,18 +1,17 @@
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { templateCompilerOptions } from '@tresjs/core'
+import { defineNuxtConfig } from 'nuxt/config'
 
-// Try to read from node_modules first (works in production), fallback to monorepo path
-let corePackageJsonPath = resolve(__dirname, 'node_modules/@tresjs/core/package.json')
+let pkgPath = resolve(__dirname, 'node_modules/@tresjs/leches/package.json')
 try {
-  readFileSync(corePackageJsonPath, 'utf-8')
+  readFileSync(pkgPath, 'utf-8')
 }
 catch {
-  // In development, use the monorepo path
-  corePackageJsonPath = resolve(__dirname, '../../packages/core/package.json')
+  pkgPath = resolve(__dirname, '../../packages/leches/package.json')
 }
 
-const pkg = JSON.parse(readFileSync(corePackageJsonPath, 'utf-8'))
+const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -61,6 +60,7 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-07-11',
 
+  // @ts-expect-error Nuxt 4.1's generated config type omits the valid Nitro option.
   nitro: {
     prerender: {
       routes: [
@@ -75,12 +75,12 @@ export default defineNuxtConfig({
   },
 
   llms: {
-    domain: 'https://example.com/',
-    title: 'Boilerplate Docs',
-    description: 'A documentation boilerplate built with Nuxt v4 and Nuxt UI v4.',
+    domain: 'https://leches.tresjs.org/',
+    title: 'Tres Leches',
+    description: 'Tasty, reactive GUI controls for Vue.',
     full: {
-      title: 'Boilerplate - Full Documentation',
-      description: 'This is the full documentation written in markdown (MDC Syntax)',
+      title: 'Tres Leches — Full Documentation',
+      description: 'Complete documentation for installing, configuring, and using Tres Leches controls.',
     },
     sections: [
       {

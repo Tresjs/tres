@@ -6,7 +6,7 @@ if (!page.value) {
 
 const title = page.value.seo?.title || page.value.title
 const description = page.value.seo?.description || page.value.description
-const siteName = typeof page.value.seo?.siteName === 'string' ? page.value.seo.siteName : 'Docs Boilerplate'
+const siteName = typeof page.value.seo?.siteName === 'string' ? page.value.seo.siteName : 'Tres Leches'
 
 useSeoMeta({
   titleTemplate: title,
@@ -17,7 +17,7 @@ useSeoMeta({
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
   twitterImage: '/og-image.png',
-  ogUrl: 'https://example.com',
+  ogUrl: 'https://leches.tresjs.org',
   twitterTitle: title,
   twitterDescription: description,
 })

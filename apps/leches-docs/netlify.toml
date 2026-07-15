@@ -1,0 +1,13 @@
+[build]
+command = "pnpm install --frozen-lockfile && NODE_OPTIONS='--max-old-space-size=4096' pnpm nx run tresleches-docs:generate"
+publish = "apps/leches-docs/.output/public"
+
+[build.environment]
+COREPACK_INTEGRITY_KEYS = "0"
+NODE_VERSION = "24"
+NODE_OPTIONS = "--max-old-space-size=4096"
+
+[[redirects]]
+from = "/*"
+to = "/200.html"
+status = 200

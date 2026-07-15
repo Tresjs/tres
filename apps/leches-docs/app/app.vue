@@ -28,14 +28,14 @@ useHead({
 })
 
 useSeoMeta({
-  titleTemplate: title => title ? `${title} · Docs Boilerplate` : 'Docs Boilerplate',
+  titleTemplate: title => title ? `${title} · Tres Leches` : 'Tres Leches',
   ogSiteName: seo?.siteName,
   twitterCard: 'summary_large_image',
   ogImage: '/og-image.png',
   twitterImage: '/og-image.png',
-  ogUrl: 'https://example.com',
-  twitterTitle: 'Docs Boilerplate',
-  twitterDescription: 'A documentation boilerplate built with Nuxt v4 and Nuxt UI v4.',
+  ogUrl: 'https://leches.tresjs.org',
+  twitterTitle: 'Tres Leches',
+  twitterDescription: 'Tasty, reactive GUI controls for Vue.',
 })
 
 provide(navigationInjectionKey, navigation)

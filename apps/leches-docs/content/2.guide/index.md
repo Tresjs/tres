@@ -1,24 +1,30 @@
 ---
 title: Guide
-description: Learn the key concepts and best practices
+description: Configure controls, connect reactive state, and organize panels.
+navigation:
+  icon: i-lucide-book-open
 ---
 
 # Guide
 
-This section covers the key concepts and best practices.
+Tres Leches turns values into compact GUI controls while keeping the underlying Vue state reactive.
 
-## Overview
+::u-page-grid
+  :::u-page-card
+  ---
+  title: Controls
+  description: Value inference, configuration objects, labels, ranges, selects, buttons, vectors, and graphs.
+  icon: i-lucide-sliders-horizontal
+  to: /guide/basics
+  ---
+  :::
 
-Learn how to work effectively with this boilerplate:
-
-- Understanding the architecture
-- Configuration options
-- Best practices
-- Common patterns
-
-## Core Concepts
-
-Explore the fundamental concepts:
-
-- [Basics](/guide/basics) - Get familiar with the basics
-- [Advanced Topics](/guide/advanced) - Dive deeper into advanced features
+  :::u-page-card
+  ---
+  title: Panels and state
+  description: Refs, reactive objects, folders, independent panels, and panel presentation.
+  icon: i-lucide-panels-top-left
+  to: /guide/advanced
+  ---
+  :::
+::

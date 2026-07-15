@@ -1,36 +1,18 @@
 ---
 seo:
-  title: TresLeches 🍰
-  description: Tasty GUI for Vue controls
+  title: Tres Leches — Tasty GUI controls for Vue
+  description: Add a small, reactive control panel to any Vue application.
 ---
 
 ::u-page-hero
 
-
-<!-- #headline 
-:::nuxt-lint
---- 
-to: /getting-started
----
-
-:::u-badge
----
-variant: subtle
-size: lg
-icon: i-lucide-arrow-right
----
-Tres v5 announcement
-:::
-:::
- -->
-
 #title
 
-<span class="text-primary-300">TresLeches 🍰</span>
-
+<span class="text-primary-500">Tres Leches 🍰</span> \
+Tasty GUI controls for Vue
 
 #description
-Tasty GUI for Vue controls
+Create reactive controls from plain values, refs, and configuration objects. Tres Leches recognizes the right input for each value and keeps your Vue state in sync.
 
 #links
   :::u-button
@@ -49,27 +31,60 @@ Tasty GUI for Vue controls
   icon: i-simple-icons-github
   size: lg
   target: _blank
-  to: https://github.com/tresjs/tres
+  to: https://github.com/Tresjs/tres/tree/main/packages/leches
   variant: subtle
   ---
-  Star on GitHub
+  View on GitHub
   :::
 ::
 
 ::u-page-section
 #title
-Features you will love
+Controls without the ceremony
 
-#links
-  :::u-button
+#features
+
+  :::u-page-feature
   ---
-  color: neutral
-  size: lg
-  target: _blank
-  to: https://lab.tresjs.org/
-  trailingIcon: i-lucide:flask-conical
-  variant: subtle
+  icon: i-lucide-wand-sparkles
   ---
-  Explore the lab
+  #title
+  Smart defaults
+
+  #description
+  Booleans, numbers, colors, text, vectors, selects, buttons, and graphs are inferred from the values you provide.
   :::
 
+  :::u-page-feature
+  ---
+  icon: i-simple-icons-vuedotjs
+  ---
+  #title
+  Vue reactive
+
+  #description
+  Pass refs or reactive state and edits in the panel update the same source of truth.
+  :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-panels-top-left
+  ---
+  #title
+  Flexible panels
+
+  #description
+  Float, collapse, resize, group controls into folders, or use UUIDs to render independent panels.
+  :::
+
+  :::u-page-feature
+  ---
+  icon: i-simple-icons-typescript
+  ---
+  #title
+  TypeScript ready
+
+  #description
+  A typed Vue component and composable API with no plugin registration required.
+  :::
+::

@@ -3,7 +3,7 @@ import type { AppConfigInput } from 'nuxt/schema'
 const newLocal = {
   ui: {
     colors: {
-      primary: 'zinc',
+      primary: 'amber',
       neutral: 'zinc',
     },
     card: {
@@ -20,10 +20,10 @@ const newLocal = {
     },
   },
   seo: {
-    siteName: 'Docs Boilerplate',
+    siteName: 'Tres Leches',
   },
   header: {
-    title: 'Docs',
+    title: 'Tres Leches 🍰',
     to: '/',
     logo: {
       alt: '',
@@ -35,7 +35,7 @@ const newLocal = {
     links: [
       {
         icon: 'i-simple-icons-github',
-        to: 'https://github.com',
+        to: 'https://github.com/Tresjs/tres/tree/main/packages/leches',
         target: '_blank',
         ariaLabel: 'GitHub',
       },
@@ -46,7 +46,7 @@ const newLocal = {
     colorMode: false,
     links: [{
       'icon': 'i-simple-icons-github',
-      'to': 'https://github.com',
+      'to': 'https://github.com/Tresjs/tres/tree/main/packages/leches',
       'target': '_blank',
       'aria-label': 'GitHub',
     }],
@@ -55,11 +55,16 @@ const newLocal = {
     title: 'Table of Contents',
     bottom: {
       title: 'Community',
-      edit: 'https://github.com/edit/main/docs/content',
+      edit: 'https://github.com/Tresjs/tres/edit/main/apps/leches-docs/content',
       links: [{
+        icon: 'i-lucide-heart',
+        label: 'Become a sponsor',
+        to: 'https://github.com/sponsors/tresjs',
+        target: '_blank',
+      }, {
         icon: 'i-lucide-star',
-        label: 'Star on GitHub',
-        to: 'https://github.com',
+        label: 'View on GitHub',
+        to: 'https://github.com/Tresjs/tres/tree/main/packages/leches',
         target: '_blank',
       }],
     },
