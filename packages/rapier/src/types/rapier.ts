@@ -22,6 +22,14 @@ export interface RapierContext {
    */
   isDebug: Ref<boolean>
   /**
+   * @description Fixed timestep in seconds, or `'vary'` for variable stepping.
+   */
+  timeStep: Ref<number | 'vary'>
+  /**
+   * @description Simulation speed relative to real time.
+    */
+  timeScale: Ref<number>
+  /**
    * @description Initialize rapier WASM and create the physics world.
    */
   init: () => Promise<void>

@@ -5,7 +5,7 @@ import { Vector3 } from 'three'
 import { watch } from 'vue'
 import type { VectorCoordinates } from '@tresjs/core'
 import { useRapierContextProvider } from '../composables'
-import { GRAVITY } from '../constants'
+import { DEFAULT_TIMESTEP, GRAVITY, MAX_PHYSICS_DELTA } from '../constants'
 
 import {
   collisionTrigger,
@@ -22,45 +22,69 @@ const props = withDefaults(
   {
     gravity: () => new Vector3(GRAVITY.x, GRAVITY.y, GRAVITY.z),
     debug: false,
+    pause: false,
+    timeStep: DEFAULT_TIMESTEP,
+    timeScale: 1,
   },
 )
 
 const context = useRapierContextProvider()!
 defineExpose(context)
 await context.init()
-const { world, isPaused } = context
+const { world, isPaused, timeStep, timeScale } = context
 
-const setGravity = (gravity: PhysicsProps['gravity']) => {
-  // If gravity is something like [0, -9.8, 0]
+const resolveGravity = (gravity: PhysicsProps['gravity']): [number, number, number] => {
+  if (typeof gravity === 'number') {
+    return [gravity, gravity, gravity]
+  }
   if (Array.isArray(gravity)) {
-    world.value.gravity.x = gravity[0]
-    world.value.gravity.y = gravity[1]
-    world.value.gravity.z = gravity[2]
+    return [gravity[0], gravity[1], gravity[2]]
   }
-  else {
-    const coordinates = gravity as VectorCoordinates
-    world.value.gravity.x = coordinates.x
-    world.value.gravity.y = coordinates.y
-    world.value.gravity.z = coordinates.z
-  }
+  const coordinates = gravity as VectorCoordinates
+  return [coordinates.x, coordinates.y, coordinates.z]
 }
 
 const eventQueue = new EventQueue(true)
 const { scene } = useTresContext()
 
-watch(() => props.gravity, (gravity) => {
-  setGravity(gravity)
+/**
+ * Accumulates unused frame time so fixed timesteps stay in sync with real time
+ * across different refresh rates. @see https://gafferongames.com/post/fix_your_timestep/
+ */
+let accumulator = 0
+
+// Track components so array / Vector3 updates apply at runtime.
+watch(
+  () => resolveGravity(props.gravity),
+  ([x, y, z]) => {
+    world.value.gravity.x = x
+    world.value.gravity.y = y
+    world.value.gravity.z = z
+  },
+  { immediate: true },
+)
+
+watch(() => props.timeStep, (value) => {
+  timeStep.value = value
 }, { immediate: true })
 
-const { onBeforeRender } = useLoop()
+watch(() => props.timeScale, (value) => {
+  timeScale.value = value
+}, { immediate: true })
 
-onBeforeRender(() => {
-  if (!world.value || isPaused.value) { return }
-  if (typeof props.timestep === 'number') {
-    world.value.timestep = props.timestep
-  }
+watch(timeStep, () => {
+  accumulator = 0
+})
 
-  world.value.step(eventQueue)
+watch(() => props.debug, (value) => {
+  context.isDebug.value = value
+}, { immediate: true })
+
+watch(() => props.pause, (value) => {
+  isPaused.value = value
+}, { immediate: true })
+
+const drainEvents = () => {
   eventQueue.drainCollisionEvents((handle1, handle2, started) => {
     const source1 = getCollisionSourceFromColliderHandle(world.value, handle1)
     const source2 = getCollisionSourceFromColliderHandle(world.value, handle2)
@@ -112,6 +136,33 @@ onBeforeRender(() => {
       forcePayload,
     )
   })
+}
+
+const stepWorld = (dt: number) => {
+  world.value.timestep = dt
+  world.value.step(eventQueue)
+  drainEvents()
+}
+
+const { onBeforeRender } = useLoop()
+
+onBeforeRender(({ delta }) => {
+  if (!world.value || isPaused.value || timeScale.value <= 0) { return }
+
+  const clampedDelta = Math.min(Math.max(delta * timeScale.value, 0), MAX_PHYSICS_DELTA)
+
+  if (timeStep.value === 'vary') {
+    stepWorld(clampedDelta)
+    return
+  }
+
+  const fixedStep = typeof timeStep.value === 'number' ? timeStep.value : DEFAULT_TIMESTEP
+  accumulator += clampedDelta
+
+  while (accumulator >= fixedStep) {
+    stepWorld(fixedStep)
+    accumulator -= fixedStep
+  }
 })
 </script>
 
