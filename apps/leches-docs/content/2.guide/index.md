@@ -5,8 +5,6 @@ navigation:
   icon: i-lucide-book-open
 ---
 
-# Guide
-
 Tres Leches turns values into compact GUI controls while keeping the underlying Vue state reactive.
 
 ::u-page-grid

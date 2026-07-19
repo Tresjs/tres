@@ -20,6 +20,18 @@ function _useHeaderLinks() {
       icon: 'i-lucide-rocket',
       to: `${to}/getting-started`,
       active: route.path.startsWith(`${to}/getting-started`),
+    }, {
+      label: 'Guide',
+      description: 'Configure controls, connect state, and organize panels.',
+      icon: 'i-lucide-book-open',
+      to: `${to}/guide`,
+      active: route.path.startsWith(`${to}/guide`),
+    }, {
+      label: 'API',
+      description: 'Explore the API reference.',
+      icon: 'i-lucide-code-xml',
+      to: `${to}/api`,
+      active: route.path.startsWith(`${to}/api`),
     }]
   })
 
