@@ -25,7 +25,6 @@ const onViewClicked = () => {
   })
 }
 
-const { hasFinishLoading, progress } = await useProgress()
 </script>
 
 <template>
@@ -40,18 +39,16 @@ const { hasFinishLoading, progress } = await useProgress()
       Only $2999.99
     </p>
   </div>
-  <Transition name="fade-overlay" enter-active-class="opacity-1 transition-opacity duration-200"
-    leave-active-class="opacity-0 transition-opacity duration-200">
-    <div v-show="!hasFinishLoading"
-      class="absolute t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono">
-      <div class="w-200px text-black text-center">
-        <p class="animate-tada">
+  <TheLoadingScreen background="#f5f5f5" text-color="#000000">
+    <template #default="{ progress }">
+      <div class="font-mono text-center">
+        <p class="animate-bounce">
           🤳
         </p>
         Loading... {{ progress }} %
       </div>
-    </div>
-  </Transition>
+    </template>
+  </TheLoadingScreen>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera ref="cameraRef" :position="[4, 4, 4]" :look-at="[0, 2, 0]" />
     <HtmlPhoneIPhone @view-clicked="onViewClicked" />

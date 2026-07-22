@@ -24,6 +24,7 @@ const bloomParams = reactive({
 </script>
 
 <template>
+  <TheLoadingScreen background="#8D404A" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 1, 5]" :look-at="[0, 0.4, 0]" />
     <CultOfTheLambModel />

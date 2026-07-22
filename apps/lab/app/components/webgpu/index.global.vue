@@ -15,6 +15,7 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
 </script>
 
 <template>
+  <TheLoadingScreen />
   <TresCanvas :renderer="createWebGPURenderer">
     <TresPerspectiveCamera
       :position="[5, 2.2, 15]"
