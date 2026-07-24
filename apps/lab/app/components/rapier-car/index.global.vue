@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { Physics } from '@tresjs/rapier'
-import { ACESFilmicToneMapping, SRGBColorSpace, Vector3 } from 'three'
-import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
+import { ACESFilmicToneMapping, MathUtils, type PerspectiveCamera, SRGBColorSpace, Vector3 } from 'three'
 import { onUnmounted, shallowRef, watch } from 'vue'
 import CarComponent from './CarComponent.vue'
 import SceneLighting from './SceneLighting.vue'
@@ -19,27 +17,74 @@ const gl = {
 }
 
 const SIM_DT = 1 / 60
-const CAMERA_TARGET_OFFSET_Y = 1
+const CAMERA_DISTANCE = 12
+const CAMERA_HEIGHT = 5
+const LOOK_AT_HEIGHT = 1.2
+const CAMERA_LERP = 0.08
+const CAMERA_BOOST_BLEND = 0.06
+const CAMERA_FOV_BASE = 55
+const CAMERA_FOV_BOOST = 68
+const LOOK_AHEAD = 4
+const CAMERA_MIN_HEIGHT = 3
 
-const orbitControlsRef = shallowRef<{ instance: OrbitControlsImpl | null } | null>(null)
-const cameraTarget = new Vector3(0, 2, 0)
+const cameraRef = shallowRef<PerspectiveCamera | null>(null)
+const desiredPosition = new Vector3()
+const lookAtTarget = new Vector3()
+const smoothedLookAt = new Vector3()
+const lookAheadOffset = new Vector3()
+const flatForward = new Vector3()
+let boostBlend = 0
+let lookAtInitialized = false
 
 let unbindKeys: (() => void) | undefined
 
 function followCarCamera() {
   const chassisGroup = carRef.value?.chassisGroup?.()
-  const controlsInstance = orbitControlsRef.value?.instance
-  const controls = (
-    controlsInstance && 'value' in controlsInstance
-      ? controlsInstance.value
-      : controlsInstance
-  ) as OrbitControlsImpl | null
-  if (!chassisGroup || !controls) { return }
+  const camera = cameraRef.value
+  if (!chassisGroup || !camera) { return }
 
-  cameraTarget.copy(chassisGroup.position)
-  cameraTarget.y += CAMERA_TARGET_OFFSET_Y
-  controls.target.copy(cameraTarget)
-  controls.update()
+  const boosting = carRef.value?.boosting?.() ?? false
+  boostBlend = MathUtils.lerp(boostBlend, boosting ? 1 : 0, CAMERA_BOOST_BLEND)
+
+  // Yaw-only follow: project car forward onto XZ so flips don't put the camera underground
+  flatForward.set(0, 0, -1).applyQuaternion(chassisGroup.quaternion)
+  flatForward.y = 0
+  if (flatForward.lengthSq() < 1e-4) {
+    flatForward.set(0, 0, -1)
+  }
+  else {
+    flatForward.normalize()
+  }
+
+  // Behind the car on the ground plane, always world-up for height
+  desiredPosition.copy(chassisGroup.position)
+  desiredPosition.addScaledVector(flatForward, -CAMERA_DISTANCE)
+  desiredPosition.y = chassisGroup.position.y + CAMERA_HEIGHT
+  desiredPosition.y = Math.max(desiredPosition.y, CAMERA_MIN_HEIGHT)
+
+  camera.position.lerp(desiredPosition, CAMERA_LERP)
+  // Hard floor so a flipped chassis never drags the smoothed cam under the ground
+  camera.position.y = Math.max(camera.position.y, CAMERA_MIN_HEIGHT)
+
+  lookAheadOffset.copy(flatForward).multiplyScalar(LOOK_AHEAD * boostBlend)
+  lookAtTarget.copy(chassisGroup.position)
+  lookAtTarget.y = chassisGroup.position.y + LOOK_AT_HEIGHT
+  lookAtTarget.add(lookAheadOffset)
+
+  if (!lookAtInitialized) {
+    smoothedLookAt.copy(lookAtTarget)
+    lookAtInitialized = true
+  }
+  else {
+    smoothedLookAt.lerp(lookAtTarget, CAMERA_LERP)
+  }
+  camera.lookAt(smoothedLookAt)
+
+  const targetFov = MathUtils.lerp(CAMERA_FOV_BASE, CAMERA_FOV_BOOST, boostBlend)
+  if (Math.abs(camera.fov - targetFov) > 0.01) {
+    camera.fov = MathUtils.lerp(camera.fov, targetFov, CAMERA_BOOST_BLEND)
+    camera.updateProjectionMatrix()
+  }
 }
 
 function bindCarMovementKeys() {
@@ -49,36 +94,71 @@ function bindCarMovementKeys() {
   if (!movement) { return }
 
   const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'w' || event.key === 'ArrowUp') { movement.forward = -1 }
-    if (event.key === 's' || event.key === 'ArrowDown') { movement.forward = 1 }
-    if (event.key === 'a' || event.key === 'ArrowLeft') { movement.right = 1 }
-    if (event.key === 'd' || event.key === 'ArrowRight') { movement.right = -1 }
-    if (event.key === 'r') {
-      movement.reset = true
-      sceneWorldRef.value?.reset()
+    if (event.repeat && event.code === 'Space') { return }
+
+    // Use event.code so Shift+WASD still works while boosting
+    switch (event.code) {
+      case 'KeyW':
+      case 'ArrowUp':
+        movement.forward = -1
+        break
+      case 'KeyS':
+      case 'ArrowDown':
+        movement.forward = 1
+        break
+      case 'KeyA':
+      case 'ArrowLeft':
+        movement.right = 1
+        break
+      case 'KeyD':
+      case 'ArrowRight':
+        movement.right = -1
+        break
+      case 'ShiftLeft':
+      case 'ShiftRight':
+        movement.boost = 1
+        break
+      case 'ControlLeft':
+      case 'ControlRight':
+        movement.brake = 1
+        break
+      case 'Space':
+        event.preventDefault()
+        movement.jump = true
+        break
+      case 'KeyR':
+        movement.reset = true
+        sceneWorldRef.value?.reset?.()
+        break
     }
-    if (event.key === ' ') { movement.brake = 1 }
   }
 
   const onKeyUp = (event: KeyboardEvent) => {
-    if (
-      event.key === 'w'
-      || event.key === 's'
-      || event.key === 'ArrowUp'
-      || event.key === 'ArrowDown'
-    ) {
-      movement.forward = 0
+    switch (event.code) {
+      case 'KeyW':
+      case 'KeyS':
+      case 'ArrowUp':
+      case 'ArrowDown':
+        movement.forward = 0
+        break
+      case 'KeyA':
+      case 'KeyD':
+      case 'ArrowLeft':
+      case 'ArrowRight':
+        movement.right = 0
+        break
+      case 'ShiftLeft':
+      case 'ShiftRight':
+        movement.boost = 0
+        break
+      case 'ControlLeft':
+      case 'ControlRight':
+        movement.brake = 0
+        break
+      case 'KeyR':
+        movement.reset = false
+        break
     }
-    if (
-      event.key === 'a'
-      || event.key === 'd'
-      || event.key === 'ArrowLeft'
-      || event.key === 'ArrowRight'
-    ) {
-      movement.right = 0
-    }
-    if (event.key === 'r') { movement.reset = false }
-    if (event.key === ' ') { movement.brake = 0 }
   }
 
   window.addEventListener('keydown', onKeyDown)
@@ -106,18 +186,17 @@ onUnmounted(() => {
 
 <template>
   <div class="info">
-    <p>Rapier vehicle controller — WASD or arrow keys to move</p>
-    <p>Space to brake · R to reset</p>
+    <p>WASD / arrows drive · Shift boost · Ctrl brake</p>
+    <p>Space jump / double-jump · flip when upside-down · R reset</p>
   </div>
 
   <TresCanvas v-bind="gl" window-size @loop="followCarCamera">
-    <TresPerspectiveCamera :position="[0, 4, 10]" />
-    <OrbitControls ref="orbitControlsRef" :target="cameraTarget" />
+    <TresPerspectiveCamera ref="cameraRef" :position="[0, CAMERA_HEIGHT, CAMERA_DISTANCE]" :fov="CAMERA_FOV_BASE" />
 
     <SceneLighting />
 
     <Suspense>
-      <Physics :timestep="SIM_DT" :gravity="[0, -9.81, 0]" >
+      <Physics :timestep="SIM_DT" :gravity="[0, -9.81, 0]">
         <SceneWorld ref="sceneWorldRef" />
         <Suspense>
           <CarComponent ref="carRef" />

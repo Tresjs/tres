@@ -1,25 +1,23 @@
 <script setup lang="ts">
-import { Quaternion, Vector3 } from '@dimforge/rapier3d-compat'
-import { type ExposedRigidBody, RigidBody } from '@tresjs/rapier'
-import { BoxGeometry, Color, type InstancedMesh, MeshStandardMaterial, Object3D, SphereGeometry } from 'three'
-import { nextTick, shallowRef, watch } from 'vue'
+import { RigidBody } from '@tresjs/rapier'
+import {
+  BoxGeometry,
+  Color,
+  type InstancedMesh,
+  MeshStandardMaterial,
+  Object3D,
+  SphereGeometry
+} from 'three'
+import { shallowRef, watch } from 'vue'
+import BallComponent from './BallComponent.vue'
 
 type ArrayVec3 = [number, number, number]
 
-const ballRef = shallowRef<ExposedRigidBody | null>(null)
+const ballRef = shallowRef<InstanceType<typeof BallComponent> | null>(null)
 
-function reset() {
-  const body = ballRef.value?.instance
-  if (!body) { return }
-
-  body.setTranslation(new Vector3(0, 8, -4), true)
-  body.setRotation(new Quaternion(0, 0, 0, 1), true)
-  body.setLinvel(new Vector3(0, 0, 0), true)
-  body.setAngvel(new Vector3(0, 0, 0), true)
-  body.wakeUp()
-}
-
-defineExpose({ reset })
+defineExpose({
+  reset: () => ballRef.value?.reset?.(),
+})
 
 const GROUND_HALF = 50
 const GROUND_Y = -0.25
@@ -243,11 +241,6 @@ watch(cloudInstancedMeshRef, (mesh) => {
     updateCloudInstances(mesh)
   }
 })
-
-onMounted(async () => {
-  await nextTick()
-  reset()
-})
 </script>
 
 <template>
@@ -266,18 +259,7 @@ onMounted(async () => {
   </TresMesh>
 
   <!-- Ball -->
-  <RigidBody
-    ref="ballRef"
-    collider="ball"
-    :restitution="1"
-    :friction="0.55"
-    :mass="0.01"
-  >
-   <TresMesh cast-shadow>
-    <TresSphereGeometry :args="[3, 16, 16]" />
-    <TresMeshStandardMaterial color="#f8fafc" :roughness="0.2" :metalness="0.1" />
-   </TresMesh>
-  </RigidBody>
+  <BallComponent ref="ballRef" />
 
   <!-- Boxes -->
   <RigidBody

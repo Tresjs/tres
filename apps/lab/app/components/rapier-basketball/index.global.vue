@@ -74,7 +74,7 @@ const {
   powerStep,
   landingXStep,
 } = useControls({
-  debug: true,
+  debug: false,
   showTrajectory: { value: true, type: 'boolean', label: 'Trajectory arc' },
   launchAngle: { value: 0.85, min: 0.35, max: 1.25, step: 0.02, label: 'Launch angle (rad)' },
   speedScale: { value: 1.1, min: 0.4, max: 1.8, step: 0.05, label: 'Speed scale' },

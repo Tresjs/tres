@@ -13,12 +13,14 @@ import {
   type Object3D,
   Quaternion as ThreeQuaternion,
   Vector3 as ThreeVector3,
-  type Vector3Like
+  type Vector3Like,
 } from 'three'
 import { nextTick, onUnmounted, shallowRef, watch } from 'vue'
 
 const SIM_DT = 1 / 60
-const SUSPENSION_REST_LENGTH = 0.8
+const FALL_RESET_Y = -8
+const CAR_SPAWN = { x: 0, y: 1, z: 0 }
+const SUSPENSION_REST_LENGTH = 0.65
 const WHEEL_DIRECTION = { x: 0, y: -1, z: 0 }
 const WHEEL_AXLE = { x: -1, y: 0, z: 0 }
 const WHEEL_OFFSETS = [
@@ -27,6 +29,48 @@ const WHEEL_OFFSETS = [
   { x: -1, y: 0.45, z: 1.5, mirrorX: true, radius: 0.6 },
   { x: 1, y: 0.45, z: 1.5, mirrorX: false, radius: 0.6 },
 ] as const
+const FRICTION_SLIP = 1
+const SIDE_FRICTION_STIFFNESS = 3
+const SUSPENSION_STIFFNESS = 28
+const SUSPENSION_COMPRESSION = 10
+const SUSPENSION_RELAXATION = 2.7
+const MAX_SUSPENSION_FORCE = 150
+const STEERING_AMPLITUDE = 0.58
+const STEER_SPEED_FALLOFF = 55
+const STEER_MIN_SCALE = 0.5
+const STEER_RESPONSE = 0.55
+const ENGINE_FORCE_AMPLITUDE = 22
+const BOOST_MULTIPLIER = 2
+const TOP_SPEED = 16
+const TOP_SPEED_BOOST = 30
+const BRAKE_AMPLITUDE = 12
+const IDLE_BRAKE = 0.5
+const REVERSE_BRAKE = 3.5
+const FLIP_HOP = 2.4
+const RIGHTING_DURATION = 0.5
+const JUMP_FORCE = 9
+const AIR_JUMP_FORCE = 7.5
+const MAX_JUMPS = 2
+const UPSIDE_DOWN_THRESHOLD = 0.28
+const TIPPED_THRESHOLD = 0.18
+const AUTO_RIGHT_DELAY_MS = 3000
+const AIR_ANGULAR_DAMPING = 1.4
+const GROUND_ANGULAR_DAMPING = 0.4
+const LIGHT_GLOW_LERP = 0.18
+
+type LightKey = 'front' | 'back' | 'boost' | 'trails'
+
+const LIGHT_CONFIG: Record<LightKey, {
+  name: string
+  color: string
+  on: number
+  off: number
+}> = {
+  front: { name: 'front-lights', color: '#ffe9a8', on: 3.2, off: 0 },
+  back: { name: 'back-lights', color: '#ff1a1a', on: 4, off: 0 },
+  boost: { name: 'boost-lights', color: '#ff2a14', on: 5, off: 0 },
+  trails: { name: 'boost-trails', color: '#ff3b1f', on: 3.5, off: 0 },
+}
 
 const { world } = useRapier()
 const chassisRef = shallowRef<ExposedRigidBody | null>(null)
@@ -35,19 +79,22 @@ const vehicleController = shallowRef<DynamicRayCastVehicleController | null>(nul
 const movement = reactive({
   forward: 0,
   right: 0,
+  boost: 0,
   brake: 0,
+  jump: false,
   reset: false,
-  accelerateForce: { value: 0, min: -30, max: 30, step: 1 },
-  brakeForce: { value: 0, min: 0, max: 1, step: 0.05 },
 })
-
 
 defineExpose({
   movement,
+  boosting: () => movement.boost > 0,
   chassisGroup: () => chassisRef.value?.group ?? null,
 })
 
-const { nodes: carModelNodes } = useGLTF('/models/rapier-car/car.glb', { draco: true })
+const { nodes: carModelNodes } = useGLTF(
+  '/models/rapier-car/car.glb?v=tex-small-1',
+  { draco: true }
+)
 const carModel = computed<Group | null>(() => carModelNodes.value.Scene)
 
 const chassisModel = shallowRef<Group | null>(null)
@@ -58,6 +105,42 @@ const wheelVisuals: Object3D[] = []
 const wheelSpinAngles = [0, 0, 0, 0]
 const chassisQuat = new ThreeQuaternion()
 const chassisVelocity = new ThreeVector3()
+const localVelocity = new ThreeVector3()
+const sideward = new ThreeVector3()
+const upward = new ThreeVector3()
+const forward = new ThreeVector3()
+const worldUp = new ThreeVector3(0, 1, 0)
+const impulse = new ThreeVector3()
+const flatForward = new ThreeVector3()
+const targetUprightQuat = new ThreeQuaternion()
+const rightingQuat = new ThreeQuaternion()
+
+const upsideDown = reactive({
+  active: false,
+  ratio: 0,
+})
+
+const righting = {
+  active: false,
+  elapsed: 0,
+}
+
+let wheelsInContact = 0
+let autoRightTimer: ReturnType<typeof setTimeout> | null = null
+let forwardSpeed = 0
+let xzSpeed = 0
+let jumpsRemaining = MAX_JUMPS
+let wasGrounded = true
+let lightsReady = false
+
+const lightMaterials: Partial<Record<LightKey, MeshStandardMaterial>> = {}
+const lightMeshes: Partial<Record<LightKey, Object3D>> = {}
+const lightGlow: Record<LightKey, number> = {
+  front: 0,
+  back: 0,
+  boost: 0,
+  trails: 0,
+}
 
 function correctMaterials(object: Object3D) {
   object.traverse((child) => {
@@ -75,6 +158,80 @@ function correctMaterials(object: Object3D) {
   })
 }
 
+function setupCarLights(root: Object3D) {
+  const lightParts = Object.keys(LIGHT_CONFIG) as LightKey[]
+  lightParts.forEach((key) => {
+    const cfg = LIGHT_CONFIG[key]
+    const part = root.getObjectByName(cfg.name)
+    if (!part) { return }
+
+    lightMeshes[key] = part
+
+    part.traverse((child) => {
+      if (!(child instanceof Mesh)) { return }
+
+      child.castShadow = false
+      child.receiveShadow = false
+
+      // Fresh material so export colors / clearcoat never leak through
+      const mat = new MeshStandardMaterial({
+        color: cfg.color,
+        emissive: cfg.color,
+        emissiveIntensity: 0,
+        metalness: 0,
+        roughness: 0.35,
+        toneMapped: false,
+      })
+
+      if (key === 'trails') {
+        mat.transparent = true
+        mat.opacity = 0
+        mat.depthWrite = false
+        child.visible = false
+      }
+
+      child.material = mat
+      lightMaterials[key] = mat
+    })
+  })
+
+  lightsReady = Boolean(lightMaterials.front || lightMaterials.back || lightMaterials.boost)
+}
+
+function updateCarLights() {
+  if (!lightsReady) { return }
+
+  const driving = movement.forward < 0
+  const reversing = movement.forward > 0
+  const boosting = movement.boost > 0
+  const braking = movement.brake > 0
+
+  const targets: Record<LightKey, number> = {
+    front: driving || boosting ? LIGHT_CONFIG.front.on : LIGHT_CONFIG.front.off,
+    back: reversing || braking ? LIGHT_CONFIG.back.on : LIGHT_CONFIG.back.off,
+    boost: boosting ? LIGHT_CONFIG.boost.on : LIGHT_CONFIG.boost.off,
+    trails: boosting ? LIGHT_CONFIG.trails.on : LIGHT_CONFIG.trails.off,
+  }
+  const lightParts = Object.keys(targets) as LightKey[]
+
+  lightParts.forEach((key) => {
+    lightGlow[key] = MathUtils.lerp(lightGlow[key], targets[key], LIGHT_GLOW_LERP)
+    const mat = lightMaterials[key]
+    if (!mat) { return }
+
+    mat.emissiveIntensity = lightGlow[key]
+
+    if (key === 'trails') {
+      const strength = lightGlow.trails / LIGHT_CONFIG.trails.on
+      mat.opacity = MathUtils.clamp(strength * 0.85, 0, 0.85)
+      const trails = lightMeshes.trails
+      if (trails) {
+        trails.visible = lightGlow.trails > 0.05
+      }
+    }
+  })
+}
+
 function getWheelMounts() {
   if (wheelMounts.length > 0) { return wheelMounts }
 
@@ -83,12 +240,30 @@ function getWheelMounts() {
     .sort((a, b) => Number(a.name.split('-')[1]) - Number(b.name.split('-')[1]))
 }
 
+function clearAutoRightTimer() {
+  if (autoRightTimer) {
+    clearTimeout(autoRightTimer)
+    autoRightTimer = null
+  }
+}
+
+function scheduleAutoRight() {
+  clearAutoRightTimer()
+  autoRightTimer = setTimeout(() => {
+    autoRightTimer = null
+    if (upsideDown.active) {
+      startRighting()
+      scheduleAutoRight()
+    }
+  }, AUTO_RIGHT_DELAY_MS)
+}
+
 function addWheel(
   controller: DynamicRayCastVehicleController,
   index: number,
   pos: Vector3Like,
 ) {
-  const offset = WHEEL_OFFSETS[index];
+  const offset = WHEEL_OFFSETS[index]
 
   controller.addWheel(
     pos,
@@ -97,8 +272,12 @@ function addWheel(
     SUSPENSION_REST_LENGTH,
     offset ? offset.radius : 0.5,
   )
-  controller.setWheelSuspensionStiffness(index, 24)
-  controller.setWheelFrictionSlip(index, 1000)
+  controller.setWheelSuspensionStiffness(index, SUSPENSION_STIFFNESS)
+  controller.setWheelSuspensionCompression(index, SUSPENSION_COMPRESSION)
+  controller.setWheelSuspensionRelaxation(index, SUSPENSION_RELAXATION)
+  controller.setWheelMaxSuspensionForce(index, MAX_SUSPENSION_FORCE)
+  controller.setWheelFrictionSlip(index, FRICTION_SLIP)
+  controller.setWheelSideFrictionStiffness(index, SIDE_FRICTION_STIFFNESS)
 }
 
 async function initVehicle(chassis: ExposedRigidBody['instance']) {
@@ -106,7 +285,9 @@ async function initVehicle(chassis: ExposedRigidBody['instance']) {
 
   if (!chassis || vehicleController.value) { return }
 
-  chassis.setTranslation(new Vector3(0, 1, 0), true)
+  chassis.setTranslation(new Vector3(CAR_SPAWN.x, CAR_SPAWN.y, CAR_SPAWN.z), true)
+  chassis.setLinearDamping(0.15)
+  chassis.setAngularDamping(GROUND_ANGULAR_DAMPING)
 
   const controller = world.value.createVehicleController(chassis)
 
@@ -117,20 +298,152 @@ async function initVehicle(chassis: ExposedRigidBody['instance']) {
   updateWheels()
 }
 
+function updateChassisMeasures() {
+  const chassis = chassisRef.value?.instance
+  if (!chassis) { return }
+
+  const linvel = chassis.linvel()
+  const rotation = chassis.rotation()
+  chassisQuat.set(rotation.x, rotation.y, rotation.z, rotation.w)
+
+  chassisVelocity.set(linvel.x, linvel.y, linvel.z)
+  localVelocity.copy(chassisVelocity).applyQuaternion(chassisQuat.clone().invert())
+  // Car forward is -Z in model space
+  forwardSpeed = -localVelocity.z
+  xzSpeed = Math.hypot(linvel.x, linvel.z)
+
+  sideward.set(1, 0, 0).applyQuaternion(chassisQuat)
+  upward.set(0, 1, 0).applyQuaternion(chassisQuat)
+  forward.set(0, 0, -1).applyQuaternion(chassisQuat)
+
+  upsideDown.ratio = upward.dot(new ThreeVector3(0, -1, 0)) * 0.5 + 0.5
+  const wasUpsideDown = upsideDown.active
+  upsideDown.active = upsideDown.ratio > UPSIDE_DOWN_THRESHOLD
+
+  if (upsideDown.active && !wasUpsideDown) {
+    scheduleAutoRight()
+  }
+  else if (!upsideDown.active && wasUpsideDown) {
+    clearAutoRightTimer()
+  }
+
+  const controller = vehicleController.value
+  wheelsInContact = 0
+  if (controller) {
+    for (let i = 0; i < 4; i++) {
+      if (controller.wheelIsInContact(i)) {
+        wheelsInContact++
+      }
+    }
+  }
+
+  const grounded = wheelsInContact > 0
+  if (grounded && !wasGrounded) {
+    jumpsRemaining = MAX_JUMPS
+  }
+  wasGrounded = grounded
+  chassis.setAngularDamping(grounded ? GROUND_ANGULAR_DAMPING : AIR_ANGULAR_DAMPING)
+}
+
+/** Soft hop + smooth slerp to upright (keeps current yaw). */
+function startRighting() {
+  const chassis = chassisRef.value?.instance
+  if (!chassis || righting.active) { return }
+
+  const mass = chassis.mass()
+  chassis.wakeUp()
+  chassis.setAngvel(new Vector3(0, 0, 0), true)
+
+  // Small hop — not a launch
+  impulse.set(0, FLIP_HOP * mass, 0)
+  chassis.applyImpulse(impulse, true)
+
+  flatForward.copy(forward)
+  flatForward.y = 0
+  if (flatForward.lengthSq() < 1e-4) {
+    flatForward.set(0, 0, -1)
+  }
+  else {
+    flatForward.normalize()
+  }
+
+  const yaw = Math.atan2(flatForward.x, flatForward.z)
+  targetUprightQuat.setFromAxisAngle(worldUp, yaw)
+
+  righting.active = true
+  righting.elapsed = 0
+  clearAutoRightTimer()
+}
+
+function updateRighting(delta = SIM_DT) {
+  if (!righting.active) { return }
+
+  const chassis = chassisRef.value?.instance
+  if (!chassis) {
+    righting.active = false
+    return
+  }
+
+  righting.elapsed += delta
+  const t = Math.min(1, righting.elapsed / RIGHTING_DURATION)
+  const smooth = t * t * (3 - 2 * t)
+
+  const rotation = chassis.rotation()
+  rightingQuat.set(rotation.x, rotation.y, rotation.z, rotation.w)
+  rightingQuat.slerp(targetUprightQuat, 0.14 + smooth * 0.22)
+  chassis.setRotation(
+    new Quaternion(rightingQuat.x, rightingQuat.y, rightingQuat.z, rightingQuat.w),
+    true,
+  )
+
+  // Soften upward drift so the hop doesn't keep climbing
+  const linvel = chassis.linvel()
+  if (linvel.y > 1.5) {
+    chassis.setLinvel(new Vector3(linvel.x, linvel.y * 0.9, linvel.z), true)
+  }
+
+  const upDot = upward.set(0, 1, 0).applyQuaternion(rightingQuat).dot(worldUp)
+  if (t >= 1 || upDot > 0.92) {
+    righting.active = false
+    chassis.setAngvel(new Vector3(0, 0, 0), true)
+    if (upsideDown.active) {
+      scheduleAutoRight()
+    }
+  }
+}
+
+function hopJump(force = JUMP_FORCE) {
+  const chassis = chassisRef.value?.instance
+  if (!chassis) { return }
+
+  const mass = chassis.mass()
+  const linvel = chassis.linvel()
+  chassis.wakeUp()
+  // Reset downward velocity so mid-air jumps always feel punchy
+  chassis.setLinvel(new Vector3(linvel.x, Math.max(linvel.y, 0), linvel.z), true)
+  impulse.set(0, force * mass, 0)
+  chassis.applyImpulse(impulse, true)
+}
+
+function handleJumpRequest() {
+  if (!movement.jump) { return }
+  movement.jump = false
+
+  if (upsideDown.active || upsideDown.ratio > TIPPED_THRESHOLD) {
+    startRighting()
+    return
+  }
+
+  if (jumpsRemaining <= 0 || righting.active) { return }
+
+  const grounded = wheelsInContact >= 1
+  hopJump(grounded ? JUMP_FORCE : AIR_JUMP_FORCE)
+  jumpsRemaining -= 1
+}
+
 function updateWheels(delta = SIM_DT) {
   const controller = vehicleController.value
-  const chassis = chassisRef.value?.instance
   if (!controller) { return }
-
-  let forwardSpeed = 0
-  if (chassis) {
-    const linvel = chassis.linvel()
-    const rotation = chassis.rotation()
-    chassisQuat.set(rotation.x, rotation.y, rotation.z, rotation.w)
-    chassisVelocity.set(linvel.x, linvel.y, linvel.z)
-    chassisVelocity.applyQuaternion(chassisQuat.invert())
-    forwardSpeed = chassisVelocity.z
-  }
 
   const mounts = getWheelMounts()
 
@@ -153,80 +466,93 @@ function updateWheels(delta = SIM_DT) {
   })
 }
 
+function resetCar() {
+  const chassis = chassisRef.value?.instance
+  if (!chassis) { return }
+
+  chassis.setTranslation(new Vector3(CAR_SPAWN.x, CAR_SPAWN.y, CAR_SPAWN.z), true)
+  chassis.setRotation(new Quaternion(0, 0, 0, 1), true)
+  chassis.setLinvel(new Vector3(0, 0, 0), true)
+  chassis.setAngvel(new Vector3(0, 0, 0), true)
+  wheelSpinAngles.fill(0)
+  wheelVisuals.forEach((visual) => {
+    visual.rotation.x = 0
+  })
+  upsideDown.active = false
+  upsideDown.ratio = 0
+  righting.active = false
+  righting.elapsed = 0
+  jumpsRemaining = MAX_JUMPS
+  wasGrounded = true
+  clearAutoRightTimer()
+}
+
 function updateCarControl() {
   const controller = vehicleController.value
   const chassis = chassisRef.value?.instance
   if (!controller || !chassis) { return }
 
-  if (movement.reset) {
-    chassis.setTranslation(new Vector3(0, 1, 0), true)
-    chassis.setRotation(new Quaternion(0, 0, 0, 1), true)
-    chassis.setLinvel(new Vector3(0, 0, 0), true)
-    chassis.setAngvel(new Vector3(0, 0, 0), true)
-    movement.accelerateForce.value = 0
-    movement.brakeForce.value = 0
-    wheelSpinAngles.fill(0)
-    wheelVisuals.forEach((visual) => {
-      visual.rotation.x = 0
-    })
+  updateChassisMeasures()
+  handleJumpRequest()
+  updateRighting(SIM_DT)
+  updateCarLights()
+
+  if (movement.reset || chassis.translation().y < FALL_RESET_Y) {
+    resetCar()
     return
   }
 
-  let accelerateForce = movement.accelerateForce.value
+  // W => forward=-1 => throttle=+1 (car-forward / -Z)
+  const throttle = -movement.forward
+  const boosting = movement.boost
+  const goingForward = forwardSpeed > 0.5
+  const topSpeed = MathUtils.lerp(TOP_SPEED, TOP_SPEED_BOOST, boosting)
+  const overflowSpeed = Math.max(0, xzSpeed - topSpeed)
 
-  if (movement.forward < 0) {
-    accelerateForce -= movement.accelerateForce.step
-    if (accelerateForce < movement.accelerateForce.min) {
-      accelerateForce = movement.accelerateForce.min
-    }
-  }
-  else if (movement.forward > 0) {
-    accelerateForce += movement.accelerateForce.step
-    if (accelerateForce > movement.accelerateForce.max) {
-      accelerateForce = movement.accelerateForce.max
-    }
-  }
-  else {
-    const { step } = movement.accelerateForce
-    if (accelerateForce > 0) {
-      accelerateForce = Math.max(0, accelerateForce - step)
-    }
-    else if (accelerateForce < 0) {
-      accelerateForce = Math.min(0, accelerateForce + step)
-    }
-    if (chassis.isSleeping()) {
-      chassis.wakeUp()
-    }
+  let engineForce = (
+    throttle * (1 + boosting * BOOST_MULTIPLIER) * ENGINE_FORCE_AMPLITUDE
+  ) / (1 + overflowSpeed * 0.15)
+
+  let brake = movement.brake
+
+  if (!movement.brake && Math.abs(throttle) < 0.1) {
+    brake = IDLE_BRAKE
   }
 
-  movement.accelerateForce.value = accelerateForce
-
-  let brakeForce = movement.brakeForce.value
-  if (movement.brake > 0) {
-    brakeForce += movement.brakeForce.step
-    if (brakeForce > movement.brakeForce.max) {
-      brakeForce = movement.brakeForce.max
-    }
+  // Opposing throttle while moving → reverse-as-brake (Bruno)
+  if (
+    xzSpeed > 0.5
+    && (
+      (throttle > 0 && !goingForward)
+      || (throttle < 0 && goingForward)
+    )
+  ) {
+    brake = REVERSE_BRAKE
+    engineForce = 0
   }
-  else if (brakeForce > 0) {
-    brakeForce = Math.max(0, brakeForce - movement.brakeForce.step)
-  }
-  movement.brakeForce.value = brakeForce
 
-  const engineForce = accelerateForce
-  controller.setWheelEngineForce(0, engineForce)
-  controller.setWheelEngineForce(1, engineForce)
+  brake *= BRAKE_AMPLITUDE
 
+  // Speed-scaled steering — keep a floor so boost / high speed still turns
+  const steerScale = Math.max(
+    STEER_MIN_SCALE,
+    1 / (1 + Math.abs(forwardSpeed) / STEER_SPEED_FALLOFF),
+  )
+  const targetSteer = movement.right * STEERING_AMPLITUDE * steerScale
   const currentSteering = controller.wheelSteering(0) ?? 0
-  const steerAngle = Math.PI / 4
-  const steering = MathUtils.lerp(currentSteering, steerAngle * movement.right, 0.25)
+  const steering = MathUtils.lerp(currentSteering, targetSteer, STEER_RESPONSE)
 
   controller.setWheelSteering(0, steering)
   controller.setWheelSteering(1, steering)
 
-  const wheelBrake = movement.brake * brakeForce
   for (let i = 0; i < 4; i++) {
-    controller.setWheelBrake(i, wheelBrake)
+    // Engine force sign: positive force pushes +Z (reverse); negative pushes -Z (forward)
+    controller.setWheelEngineForce(i, -engineForce)
+    controller.setWheelBrake(i, brake)
+  }
+
+  if (chassis.isSleeping() && (Math.abs(throttle) > 0.1 || movement.brake || boosting)) {
+    chassis.wakeUp()
   }
 }
 
@@ -237,8 +563,20 @@ watch([() => carModel.value, () => chassisRef.value?.instance], ([car, chassis])
   const wheelGroup = car.getObjectByName('wheel-front-right') as Group | null
 
   if (!chassisModel.value && chassisGroup) {
+    const lightParts = Object.keys(LIGHT_CONFIG) as LightKey[]
+
     chassisGroup.position.set(0, 0.4, 0)
+
+    // Keep light parts glued to the chassis visual even if exported as siblings
+    lightParts.forEach((key) => {
+      const part = car.getObjectByName(LIGHT_CONFIG[key].name)
+      if (part && part.parent !== chassisGroup) {
+        chassisGroup.attach(part)
+      }
+    })
+
     correctMaterials(chassisGroup)
+    setupCarLights(chassisGroup)
     chassisModel.value = chassisGroup
   }
 
@@ -264,14 +602,13 @@ watch([() => carModel.value, () => chassisRef.value?.instance], ([car, chassis])
   }
 
   if (
-    chassisModel.value &&
-    wheelModels.value.length &&
-    chassisRef.value?.instance
+    chassisModel.value
+    && wheelModels.value.length
+    && chassisRef.value?.instance
   ) {
     initVehicle(chassisRef.value.instance)
   }
-
-}, { immediate: true, })
+}, { immediate: true })
 
 const { onBeforeRender } = useLoop()
 
@@ -286,6 +623,7 @@ onBeforeRender(({ delta }) => {
 }, 1)
 
 onUnmounted(() => {
+  clearAutoRightTimer()
   vehicleController.value?.free()
   vehicleController.value = null
 })
@@ -295,17 +633,19 @@ onUnmounted(() => {
   <RigidBody
     ref="chassisRef"
     :collider="false"
+    :linear-damping="0.15"
+    :angular-damping="0.4"
   >
+    <!-- Lowered collider keeps mass closer to the ground (arcade stability) -->
     <CuboidCollider
-      :args="[1, 0.7, 2.4]"
+      :args="[1, 0.55, 2.4]"
       :mass="10"
       :friction="0.5"
-      :restitution="0.4"
-      :position="[0, 0.35, 0]"
+      :restitution="0.2"
+      :position="[0, 0.15, 0]"
     />
 
     <primitive v-if="chassisModel" :object="chassisModel" />
-    <primitive  v-for="(wheel) in wheelModels" :key="wheel.name" :object="wheel" />
-
+    <primitive v-for="(wheel) in wheelModels" :key="wheel.name" :object="wheel" />
   </RigidBody>
 </template>
