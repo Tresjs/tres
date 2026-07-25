@@ -13,6 +13,8 @@ import {
   emitIntersection,
   getCollisionSourceFromColliderHandle,
   getNodeObjectsFromCollisionSource,
+  MAX_VARY_SOLVER_TIMESTEP,
+  resolveTimestep,
 } from '../utils'
 import Debug from './Debug.vue'
 import type { PhysicsProps, SourceTarget } from '../types'
@@ -22,13 +24,14 @@ const props = withDefaults(
   {
     gravity: () => new Vector3(GRAVITY.x, GRAVITY.y, GRAVITY.z),
     debug: false,
+    speed: 1,
   },
 )
 
 const context = useRapierContextProvider()!
 defineExpose(context)
 await context.init()
-const { world, isPaused } = context
+const { world, isPaused, beforeStepCallbacks } = context
 
 const setGravity = (gravity: PhysicsProps['gravity']) => {
   // If gravity is something like [0, -9.8, 0]
@@ -54,13 +57,22 @@ watch(() => props.gravity, (gravity) => {
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(() => {
+onBeforeRender(({ delta }) => {
   if (!world.value || isPaused.value) { return }
-  if (typeof props.timestep === 'number') {
-    world.value.timestep = props.timestep
-  }
+  const frameTime = resolveTimestep(props.timestep, delta, world.value.timestep, props.speed)
+  // 'vary' frames covering more sim time than a single solver step can handle
+  // (low fps, speed > 1) are solved in equal substeps — one oversized step
+  // destabilizes springs/suspensions and shows up as jitter
+  const substeps = props.timestep === 'vary'
+    ? Math.max(1, Math.ceil(frameTime / MAX_VARY_SOLVER_TIMESTEP))
+    : 1
 
-  world.value.step(eventQueue)
+  world.value.timestep = frameTime / substeps
+
+  for (let i = 0; i < substeps; i++) {
+    beforeStepCallbacks.forEach(callback => callback(world.value.timestep))
+    world.value.step(eventQueue)
+  }
   eventQueue.drainCollisionEvents((handle1, handle2, started) => {
     const source1 = getCollisionSourceFromColliderHandle(world.value, handle1)
     const source2 = getCollisionSourceFromColliderHandle(world.value, handle2)

@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import { RigidBody } from '@tresjs/rapier'
+import { CoefficientCombineRule } from '@dimforge/rapier3d-compat'
+import { type ExposedRigidBody, RigidBody } from '@tresjs/rapier'
 import {
   BoxGeometry,
-  Color,
   type InstancedMesh,
   MeshStandardMaterial,
   Object3D,
-  SphereGeometry
+  RepeatWrapping,
+  SRGBColorSpace,
 } from 'three'
 import { shallowRef, watch } from 'vue'
 import BallComponent from './BallComponent.vue'
+import GrassField from './GrassField.vue'
+import ReflectorTowers from './ReflectorTowers.vue'
+import type { TrampleMap } from './trample'
 
 type ArrayVec3 = [number, number, number]
+
+defineProps<{ trample?: TrampleMap | null }>()
 
 const ballRef = shallowRef<InstanceType<typeof BallComponent> | null>(null)
 
 defineExpose({
   reset: () => ballRef.value?.reset?.(),
+  ballPosition: () => ballRef.value?.position?.() ?? null,
 })
 
 const GROUND_HALF = 50
@@ -26,6 +33,9 @@ const ROAD_LENGTH = 80
 const WALL_HALF_HEIGHT = 2.5
 const WALL_HALF_WIDTH = 0.35
 const WALL_BOUNDARY = GROUND_HALF - WALL_HALF_WIDTH
+// High so the ball (Max combine rule) rebounds hard off walls; the walls
+// themselves use the Min rule so the car (0.2) keeps its soft wall feel
+const WALL_RESTITUTION = 0.9
 
 const TRACK_MARK = {
   y: 0.08,
@@ -39,7 +49,6 @@ const BOXES: {
   position: ArrayVec3
   size: ArrayVec3
   rotation?: ArrayVec3
-  color?: string
 }[] = [
     // Ramps
     {
@@ -85,29 +94,83 @@ const BOXES: {
       position: [-15, 3, 40],
       size: [8, 3, 8],
     },
-
-    // Walls
-    {
-      position: [0, WALL_HALF_HEIGHT, WALL_BOUNDARY] as ArrayVec3,
-      size: [WALL_BOUNDARY, WALL_HALF_HEIGHT, WALL_HALF_WIDTH] as ArrayVec3,
-      color: "#94a3b8",
-    },
-    {
-      position: [0, WALL_HALF_HEIGHT, -WALL_BOUNDARY] as ArrayVec3,
-      size: [WALL_BOUNDARY, WALL_HALF_HEIGHT, WALL_HALF_WIDTH] as ArrayVec3,
-      color: "#94a3b8",
-    },
-    {
-      position: [WALL_BOUNDARY, WALL_HALF_HEIGHT, 0] as ArrayVec3,
-      size: [WALL_HALF_WIDTH, WALL_HALF_HEIGHT, WALL_BOUNDARY] as ArrayVec3,
-      color: "#94a3b8",
-    },
-    {
-      position: [-WALL_BOUNDARY, WALL_HALF_HEIGHT, 0] as ArrayVec3,
-      size: [WALL_HALF_WIDTH, WALL_HALF_HEIGHT, WALL_BOUNDARY] as ArrayVec3,
-      color: "#94a3b8",
-    },
   ]
+
+const GRID_TILES_PER_UNIT = 0.5
+
+const { state: gridTexture } = useTexture('/textures/gridbox.png')
+
+// Scale each face's UVs to world units so the grid tiles uniformly
+// instead of stretching on elongated ramps
+function createGridBoxGeometry(width: number, height: number, depth: number) {
+  const geometry = new BoxGeometry(width, height, depth)
+  const uv = geometry.attributes.uv!
+  // BoxGeometry face order: +x, -x, +y, -y, +z, -z, 4 verts each
+  const faceDims: [number, number][] = [
+    [depth, height],
+    [depth, height],
+    [width, depth],
+    [width, depth],
+    [width, height],
+    [width, height],
+  ]
+  faceDims.forEach(([faceWidth, faceHeight], face) => {
+    for (let i = 0; i < 4; i++) {
+      const index = face * 4 + i
+      uv.setXY(
+        index,
+        uv.getX(index) * faceWidth * GRID_TILES_PER_UNIT,
+        uv.getY(index) * faceHeight * GRID_TILES_PER_UNIT,
+      )
+    }
+  })
+  return geometry
+}
+
+const boxGeometries = BOXES.map(box =>
+  createGridBoxGeometry(box.size[0] * 2, box.size[1] * 2, box.size[2] * 2))
+
+const boxMaterial = new MeshStandardMaterial({ roughness: 0.8 })
+
+watch(gridTexture, (texture) => {
+  if (!texture) { return }
+  texture.wrapS = RepeatWrapping
+  texture.wrapT = RepeatWrapping
+  texture.colorSpace = SRGBColorSpace
+  texture.anisotropy = 8
+  boxMaterial.map = texture
+  boxMaterial.needsUpdate = true
+}, { immediate: true })
+
+const WALLS: { position: ArrayVec3, size: ArrayVec3 }[] = [
+  {
+    position: [0, WALL_HALF_HEIGHT, WALL_BOUNDARY],
+    size: [WALL_BOUNDARY, WALL_HALF_HEIGHT, WALL_HALF_WIDTH],
+  },
+  {
+    position: [0, WALL_HALF_HEIGHT, -WALL_BOUNDARY],
+    size: [WALL_BOUNDARY, WALL_HALF_HEIGHT, WALL_HALF_WIDTH],
+  },
+  {
+    position: [WALL_BOUNDARY, WALL_HALF_HEIGHT, 0],
+    size: [WALL_HALF_WIDTH, WALL_HALF_HEIGHT, WALL_BOUNDARY],
+  },
+  {
+    position: [-WALL_BOUNDARY, WALL_HALF_HEIGHT, 0],
+    size: [WALL_HALF_WIDTH, WALL_HALF_HEIGHT, WALL_BOUNDARY],
+  },
+]
+
+const wallsRef = shallowRef<ExposedRigidBody | null>(null)
+
+// Min rule loses to the ball's Max rule but beats the car's default Average,
+// so only the ball gets the springy walls
+watch(() => wallsRef.value?.instance, (body) => {
+  if (!body) { return }
+  for (let i = 0; i < body.numColliders(); i++) {
+    body.collider(i).setRestitutionCombineRule(CoefficientCombineRule.Min)
+  }
+})
 
 const trackMarkCount = (TRACK_MARK.endZ - TRACK_MARK.startZ) / TRACK_MARK.step + 1
 
@@ -124,83 +187,6 @@ const trackMarkGeometry = new BoxGeometry(...TRACK_MARK.size)
 const trackMarkMaterial = new MeshStandardMaterial({ color: '#f8fafc' })
 const trackMarkInstancedMeshRef = shallowRef<InstancedMesh>()
 
-const clouds: {
-  position: ArrayVec3
-  scale?: number
-  puffs: {
-    position: ArrayVec3
-    radius: number
-    color: string
-  }[]
-}[] = [
-    {
-      position: [-18, 14, -25],
-      puffs: [
-        { position: [0, 0, 0], radius: 2.2, color: '#f8fafc' },
-        { position: [2, 0.2, 0.5], radius: 1.6, color: '#f1f5f9' },
-        { position: [-2, -0.1, 0], radius: 1.4, color: '#f1f5f9' },
-      ],
-    },
-    {
-      position: [22, 16, 10],
-      scale: 1.2,
-      puffs: [
-        { position: [0, 0, 0], radius: 2, color: '#f8fafc' },
-        { position: [1.8, 0.1, 0.3], radius: 1.5, color: '#f1f5f9' },
-      ],
-    },
-    {
-      position: [-30, 15, 18],
-      scale: 0.9,
-      puffs: [
-        { position: [0, 0, 0], radius: 1.8, color: '#f8fafc' },
-        { position: [-1.5, 0.15, 0.4], radius: 1.3, color: '#f1f5f9' },
-        { position: [1.2, -0.05, -0.3], radius: 1.1, color: '#e2e8f0' },
-      ],
-    },
-    {
-      position: [8, 13, -35],
-      scale: 1.1,
-      puffs: [
-        { position: [0, 0, 0], radius: 2.1, color: '#f8fafc' },
-        { position: [2.2, 0.1, 0.2], radius: 1.7, color: '#f1f5f9' },
-      ],
-    },
-    {
-      position: [35, 17, -12],
-      scale: 1.35,
-      puffs: [
-        { position: [0, 0, 0], radius: 2.4, color: '#f8fafc' },
-        { position: [-2, 0.2, 0.6], radius: 1.8, color: '#f1f5f9' },
-        { position: [1.6, -0.1, -0.5], radius: 1.5, color: '#f1f5f9' }
-      ],
-    }, {
-      position: [-2, 12, 35],
-      scale: 1.1,
-      puffs: [
-        { position: [0, 0, 0], radius: 2.1, color: '#f8fafc' },
-        { position: [2.2, 0.1, 0.2], radius: 1.7, color: '#f1f5f9' },
-      ],
-    },
-  ]
-
-const cloudPuffs = clouds.flatMap((cloud) => {
-  const cloudScale = cloud.scale ?? 1
-
-  return cloud.puffs.map(puff => ({
-    position: [
-      cloud.position[0] + puff.position[0] * cloudScale,
-      cloud.position[1] + puff.position[1] * cloudScale,
-      cloud.position[2] + puff.position[2] * cloudScale,
-    ] as ArrayVec3,
-    radius: puff.radius * cloudScale,
-    color: puff.color,
-  }))
-})
-
-const cloudGeometry = new SphereGeometry(1, 12, 10)
-const cloudMaterial = new MeshStandardMaterial({ roughness: 1, metalness: 0 })
-const cloudInstancedMeshRef = shallowRef<InstancedMesh>()
 const instanceDummy = new Object3D()
 
 function updateTrackMarkInstances(mesh: InstancedMesh) {
@@ -220,27 +206,6 @@ watch(trackMarkInstancedMeshRef, (mesh) => {
     updateTrackMarkInstances(mesh)
   }
 })
-
-function updateCloudInstances(mesh: InstancedMesh) {
-  cloudPuffs.forEach((puff, index) => {
-    instanceDummy.position.set(...puff.position)
-    instanceDummy.scale.setScalar(puff.radius)
-    instanceDummy.updateMatrix()
-    mesh.setMatrixAt(index, instanceDummy.matrix)
-    mesh.setColorAt(index, new Color(puff.color))
-  })
-
-  mesh.instanceMatrix.needsUpdate = true
-  if (mesh.instanceColor) {
-    mesh.instanceColor.needsUpdate = true
-  }
-}
-
-watch(cloudInstancedMeshRef, (mesh) => {
-  if (mesh) {
-    updateCloudInstances(mesh)
-  }
-})
 </script>
 
 <template>
@@ -252,6 +217,15 @@ watch(cloudInstancedMeshRef, (mesh) => {
     </TresMesh>
   </RigidBody>
 
+  <!-- Grass field (GLSL) covering the green ground, minus the road strip -->
+  <GrassField
+    :size="GROUND_HALF * 2"
+    :road-half-width="ROAD_HALF_WIDTH"
+    :road-length="ROAD_LENGTH"
+    :trample="trample"
+    tint="#55689b"
+  />
+
   <!-- Road surface -->
   <TresMesh receive-shadow :position="[0, 0.02, 0]">
     <TresBoxGeometry :args="[ROAD_HALF_WIDTH * 2, 0.04, ROAD_LENGTH]" />
@@ -260,6 +234,9 @@ watch(cloudInstancedMeshRef, (mesh) => {
 
   <!-- Ball -->
   <BallComponent ref="ballRef" />
+
+  <!-- Corner floodlights -->
+  <ReflectorTowers />
 
   <!-- Boxes -->
   <RigidBody
@@ -275,9 +252,28 @@ watch(cloudInstancedMeshRef, (mesh) => {
       receive-shadow
       :position="box.position"
       :rotation="box.rotation ?? [0, 0, 0]"
+      :geometry="boxGeometries[index]"
+      :material="boxMaterial"
+    />
+  </RigidBody>
+
+  <!-- Boundary walls: springy for the ball (see combine-rule watch above) -->
+  <RigidBody
+    ref="wallsRef"
+    type="fixed"
+    :friction="0.9"
+    :restitution="WALL_RESTITUTION"
+    collider="convexHull"
+  >
+    <TresMesh
+      v-for="(wall, index) in WALLS"
+      :key="`wall-${index}`"
+      cast-shadow
+      receive-shadow
+      :position="wall.position"
     >
-      <TresBoxGeometry :args="[box.size[0] * 2, box.size[1] * 2, box.size[2] * 2]" />
-      <TresMeshStandardMaterial :color="box.color" :roughness="0.8" />
+      <TresBoxGeometry :args="[wall.size[0] * 2, wall.size[1] * 2, wall.size[2] * 2]" />
+      <TresMeshStandardMaterial color="#94a3b8" :roughness="0.8" />
     </TresMesh>
   </RigidBody>
 
@@ -288,10 +284,4 @@ watch(cloudInstancedMeshRef, (mesh) => {
     receive-shadow
   />
 
-  <!-- Clouds -->
-  <TresInstancedMesh
-    ref="cloudInstancedMeshRef"
-    :args="[cloudGeometry, cloudMaterial, cloudPuffs.length]"
-    cast-shadow
-  />
 </template>

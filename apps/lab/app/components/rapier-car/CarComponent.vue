@@ -16,6 +16,8 @@ import {
   type Vector3Like,
 } from 'three'
 import { nextTick, onUnmounted, shallowRef, watch } from 'vue'
+import ExhaustVFX from './ExhaustVFX.vue'
+import { AIR_TUNING_DEFAULTS, createFlight } from './flight'
 
 const SIM_DT = 1 / 60
 const FALL_RESET_Y = -8
@@ -31,6 +33,8 @@ const WHEEL_OFFSETS = [
 ] as const
 const FRICTION_SLIP = 1
 const SIDE_FRICTION_STIFFNESS = 3
+// Powerslide: side grip drops so the rear kicks out while steering
+const SLIDE_SIDE_FRICTION_STIFFNESS = 0.8
 const SUSPENSION_STIFFNESS = 28
 const SUSPENSION_COMPRESSION = 10
 const SUSPENSION_RELAXATION = 2.7
@@ -39,8 +43,10 @@ const STEERING_AMPLITUDE = 0.58
 const STEER_SPEED_FALLOFF = 55
 const STEER_MIN_SCALE = 0.5
 const STEER_RESPONSE = 0.55
+// Original arcade tune. It assumes the sim runs ~2x real time (Physics :speed="2"),
+// which also scales effective gravity/acceleration back to the snappy feel the car
+// was tuned with on a high-refresh display.
 const ENGINE_FORCE_AMPLITUDE = 22
-const BOOST_MULTIPLIER = 2
 const TOP_SPEED = 16
 const TOP_SPEED_BOOST = 30
 const BRAKE_AMPLITUDE = 12
@@ -48,15 +54,14 @@ const IDLE_BRAKE = 0.5
 const REVERSE_BRAKE = 3.5
 const FLIP_HOP = 2.4
 const RIGHTING_DURATION = 0.5
-const JUMP_FORCE = 9
-const AIR_JUMP_FORCE = 7.5
-const MAX_JUMPS = 2
 const UPSIDE_DOWN_THRESHOLD = 0.28
 const TIPPED_THRESHOLD = 0.18
 const AUTO_RIGHT_DELAY_MS = 3000
 const AIR_ANGULAR_DAMPING = 1.4
 const GROUND_ANGULAR_DAMPING = 0.4
 const LIGHT_GLOW_LERP = 0.18
+// Exhaust glow at top (non-boost) speed, as a fraction of the full boost glow
+const EXHAUST_SPEED_GLOW = 0.6
 
 type LightKey = 'front' | 'back' | 'boost' | 'trails'
 
@@ -72,22 +77,38 @@ const LIGHT_CONFIG: Record<LightKey, {
   trails: { name: 'boost-trails', color: '#ff3b1f', on: 3.5, off: 0 },
 }
 
-const { world } = useRapier()
+const { world, onBeforeStep } = useRapier()
 const chassisRef = shallowRef<ExposedRigidBody | null>(null)
 const vehicleController = shallowRef<DynamicRayCastVehicleController | null>(null)
 
 const movement = reactive({
   forward: 0,
   right: 0,
+  roll: 0,
   boost: 0,
   brake: 0,
   jump: false,
+  jumpHeld: false,
+  slide: false,
   reset: false,
 })
+
+// Reactive mirror of flightCtx.grounded so input mapping can react to it
+const isGrounded = shallowRef(true)
+
+const { steerAmplitude, steerResponse, steerFalloff, pitchAccel, yawAccel, rollAccel } = useControls({
+  steerAmplitude: { value: STEERING_AMPLITUDE, min: 0.2, max: 1.2, step: 0.02, label: 'Steer amplitude' },
+  steerResponse: { value: STEER_RESPONSE, min: 0.1, max: 1, step: 0.05, label: 'Steer response' },
+  steerFalloff: { value: STEER_SPEED_FALLOFF, min: 10, max: 150, step: 5, label: 'Steer speed falloff' },
+  pitchAccel: { value: AIR_TUNING_DEFAULTS.pitchAccel, min: 1, max: 12, step: 0.5, label: 'Air pitch accel' },
+  yawAccel: { value: AIR_TUNING_DEFAULTS.yawAccel, min: 1, max: 12, step: 0.5, label: 'Air yaw accel' },
+  rollAccel: { value: AIR_TUNING_DEFAULTS.rollAccel, min: 2, max: 20, step: 0.5, label: 'Air roll accel' },
+}, { uuid: 'rapier-car' })
 
 defineExpose({
   movement,
   boosting: () => movement.boost > 0,
+  grounded: isGrounded,
   chassisGroup: () => chassisRef.value?.group ?? null,
 })
 
@@ -129,12 +150,29 @@ let wheelsInContact = 0
 let autoRightTimer: ReturnType<typeof setTimeout> | null = null
 let forwardSpeed = 0
 let xzSpeed = 0
-let jumpsRemaining = MAX_JUMPS
-let wasGrounded = true
 let lightsReady = false
+
+const flight = createFlight()
+// forward/sideward/upward are the world-space body axes above, refreshed each substep
+const flightCtx = {
+  chassis: null as ExposedRigidBody['instance'] | null,
+  grounded: false,
+  forward,
+  sideward,
+  upward,
+  movement,
+  tuning: {
+    get pitchAccel() { return pitchAccel.value },
+    get yawAccel() { return yawAccel.value },
+    get rollAccel() { return rollAccel.value },
+  },
+}
 
 const lightMaterials: Partial<Record<LightKey, MeshStandardMaterial>> = {}
 const lightMeshes: Partial<Record<LightKey, Object3D>> = {}
+// Exhaust VFX inputs: mesh ref for template binding, state read per-frame (not reactive)
+const exhaustMesh = shallowRef<Object3D | null>(null)
+const exhaustState = { level: 0, boost: 0 }
 const lightGlow: Record<LightKey, number> = {
   front: 0,
   back: 0,
@@ -196,6 +234,7 @@ function setupCarLights(root: Object3D) {
   })
 
   lightsReady = Boolean(lightMaterials.front || lightMaterials.back || lightMaterials.boost)
+  exhaustMesh.value = lightMeshes.boost ?? null
 }
 
 function updateCarLights() {
@@ -206,10 +245,17 @@ function updateCarLights() {
   const boosting = movement.boost > 0
   const braking = movement.brake > 0
 
+  // Exhaust heats up with speed, full blast while boosting
+  const speedRatio = MathUtils.clamp(Math.abs(forwardSpeed) / TOP_SPEED, 0, 1)
+  const exhaustLevel = Math.max(movement.boost, speedRatio * EXHAUST_SPEED_GLOW)
+  // Smoothed glow drives the particle spawn rate so VFX ramp with the lights
+  exhaustState.level = MathUtils.clamp(lightGlow.boost / LIGHT_CONFIG.boost.on, 0, 1)
+  exhaustState.boost = movement.boost
+
   const targets: Record<LightKey, number> = {
     front: driving || boosting ? LIGHT_CONFIG.front.on : LIGHT_CONFIG.front.off,
     back: reversing || braking ? LIGHT_CONFIG.back.on : LIGHT_CONFIG.back.off,
-    boost: boosting ? LIGHT_CONFIG.boost.on : LIGHT_CONFIG.boost.off,
+    boost: LIGHT_CONFIG.boost.on * exhaustLevel,
     trails: boosting ? LIGHT_CONFIG.trails.on : LIGHT_CONFIG.trails.off,
   }
   const lightParts = Object.keys(targets) as LightKey[]
@@ -252,7 +298,10 @@ function scheduleAutoRight() {
   autoRightTimer = setTimeout(() => {
     autoRightTimer = null
     if (upsideDown.active) {
-      startRighting()
+      // Only auto-right a car that's actually stuck, not one mid-aerial
+      if (isResting()) {
+        startRighting()
+      }
       scheduleAutoRight()
     }
   }, AUTO_RIGHT_DELAY_MS)
@@ -338,10 +387,9 @@ function updateChassisMeasures() {
   }
 
   const grounded = wheelsInContact > 0
-  if (grounded && !wasGrounded) {
-    jumpsRemaining = MAX_JUMPS
-  }
-  wasGrounded = grounded
+  flightCtx.chassis = chassis
+  flightCtx.grounded = grounded
+  isGrounded.value = grounded
   chassis.setAngularDamping(grounded ? GROUND_ANGULAR_DAMPING : AIR_ANGULAR_DAMPING)
 }
 
@@ -412,33 +460,24 @@ function updateRighting(delta = SIM_DT) {
   }
 }
 
-function hopJump(force = JUMP_FORCE) {
-  const chassis = chassisRef.value?.instance
-  if (!chassis) { return }
-
-  const mass = chassis.mass()
-  const linvel = chassis.linvel()
-  chassis.wakeUp()
-  // Reset downward velocity so mid-air jumps always feel punchy
-  chassis.setLinvel(new Vector3(linvel.x, Math.max(linvel.y, 0), linvel.z), true)
-  impulse.set(0, force * mass, 0)
-  chassis.applyImpulse(impulse, true)
+function isResting() {
+  return xzSpeed < 2 && Math.abs(chassisVelocity.y) < 1.5
 }
 
 function handleJumpRequest() {
   if (!movement.jump) { return }
   movement.jump = false
 
-  if (upsideDown.active || upsideDown.ratio > TIPPED_THRESHOLD) {
+  if (righting.active) { return }
+
+  // Right the car only when it's sitting tipped; mid-air you dodge/air-roll instead
+  const tipped = upsideDown.active || upsideDown.ratio > TIPPED_THRESHOLD
+  if (tipped && isResting()) {
     startRighting()
     return
   }
 
-  if (jumpsRemaining <= 0 || righting.active) { return }
-
-  const grounded = wheelsInContact >= 1
-  hopJump(grounded ? JUMP_FORCE : AIR_JUMP_FORCE)
-  jumpsRemaining -= 1
+  flight.onJumpPressed(flightCtx)
 }
 
 function updateWheels(delta = SIM_DT) {
@@ -482,19 +521,22 @@ function resetCar() {
   upsideDown.ratio = 0
   righting.active = false
   righting.elapsed = 0
-  jumpsRemaining = MAX_JUMPS
-  wasGrounded = true
+  flight.reset()
   clearAutoRightTimer()
 }
 
-function updateCarControl() {
+function updateCarControl(dt = SIM_DT) {
   const controller = vehicleController.value
   const chassis = chassisRef.value?.instance
   if (!controller || !chassis) { return }
 
   updateChassisMeasures()
   handleJumpRequest()
-  updateRighting(SIM_DT)
+  updateRighting(dt)
+  // Righting owns the rotation while active; flight torques would fight it
+  if (!righting.active) {
+    flight.update(flightCtx, dt)
+  }
   updateCarLights()
 
   if (movement.reset || chassis.translation().y < FALL_RESET_Y) {
@@ -502,16 +544,18 @@ function updateCarControl() {
     return
   }
 
-  // W => forward=-1 => throttle=+1 (car-forward / -Z)
-  const throttle = -movement.forward
+  // W => forward=-1 => throttle=+1 (car-forward / -Z).
+  // Boost acts as throttle on its own (RL), holding reverse cancels it out
   const boosting = movement.boost
+  const throttle = MathUtils.clamp(-movement.forward + boosting, -1, 1)
   const goingForward = forwardSpeed > 0.5
   const topSpeed = MathUtils.lerp(TOP_SPEED, TOP_SPEED_BOOST, boosting)
   const overflowSpeed = Math.max(0, xzSpeed - topSpeed)
 
-  let engineForce = (
-    throttle * (1 + boosting * BOOST_MULTIPLIER) * ENGINE_FORCE_AMPLITUDE
-  ) / (1 + overflowSpeed * 0.15)
+  // Boost thrust itself is a body force through the CoM (flight.ts) — wheel
+  // engine force stays at normal levels so the fronts keep grip for steering
+  // and the rear-applied force can't wheelie the nose up
+  let engineForce = (throttle * ENGINE_FORCE_AMPLITUDE) / (1 + overflowSpeed * 0.15)
 
   let brake = movement.brake
 
@@ -536,19 +580,27 @@ function updateCarControl() {
   // Speed-scaled steering — keep a floor so boost / high speed still turns
   const steerScale = Math.max(
     STEER_MIN_SCALE,
-    1 / (1 + Math.abs(forwardSpeed) / STEER_SPEED_FALLOFF),
+    1 / (1 + Math.abs(forwardSpeed) / steerFalloff.value),
   )
-  const targetSteer = movement.right * STEERING_AMPLITUDE * steerScale
+  const targetSteer = movement.right * steerAmplitude.value * steerScale
   const currentSteering = controller.wheelSteering(0) ?? 0
-  const steering = MathUtils.lerp(currentSteering, targetSteer, STEER_RESPONSE)
+  // Frame-rate-independent smoothing: steerResponse is the per-frame factor
+  // tuned at 1/60, re-based to real dt so steering feel is consistent at any fps
+  const steerT = 1 - (1 - steerResponse.value) ** (dt / SIM_DT)
+  const steering = MathUtils.lerp(currentSteering, targetSteer, steerT)
 
   controller.setWheelSteering(0, steering)
   controller.setWheelSteering(1, steering)
+
+  const sideFriction = movement.slide
+    ? SLIDE_SIDE_FRICTION_STIFFNESS
+    : SIDE_FRICTION_STIFFNESS
 
   for (let i = 0; i < 4; i++) {
     // Engine force sign: positive force pushes +Z (reverse); negative pushes -Z (forward)
     controller.setWheelEngineForce(i, -engineForce)
     controller.setWheelBrake(i, brake)
+    controller.setWheelSideFrictionStiffness(i, sideFriction)
   }
 
   if (chassis.isSleeping() && (Math.abs(throttle) > 0.1 || movement.brake || boosting)) {
@@ -612,14 +664,21 @@ watch([() => carModel.value, () => chassisRef.value?.instance], ([car, chassis])
 
 const { onBeforeRender } = useLoop()
 
-onBeforeRender(() => {
-  if (!vehicleController.value) { return }
-  updateCarControl()
-  vehicleController.value.updateVehicle(SIM_DT)
-}, -1)
+// Sim time covered this frame across substeps; wheel visuals spin by the total
+let frameSimTime = 0
 
-onBeforeRender(({ delta }) => {
-  updateWheels(delta)
+// Runs before every solver substep so suspension/steering forces are applied
+// at the same rate the world is solved (one big per-frame update jitters)
+onBeforeStep((dt) => {
+  if (!vehicleController.value) { return }
+  updateCarControl(dt)
+  vehicleController.value.updateVehicle(dt)
+  frameSimTime += dt
+})
+
+onBeforeRender(() => {
+  updateWheels(frameSimTime)
+  frameSimTime = 0
 }, 1)
 
 onUnmounted(() => {
@@ -648,4 +707,7 @@ onUnmounted(() => {
     <primitive v-if="chassisModel" :object="chassisModel" />
     <primitive v-for="(wheel) in wheelModels" :key="wheel.name" :object="wheel" />
   </RigidBody>
+
+  <!-- World-space flames/smoke trailing from the exhaust tips -->
+  <ExhaustVFX :source="exhaustMesh" :state="exhaustState" />
 </template>

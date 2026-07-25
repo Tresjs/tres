@@ -1,5 +1,37 @@
 import type { QuaternionLike, Vector3Like } from 'three'
 
+/** Largest real delta advanced per frame in `'vary'` mode; caps runaway sim time on frame hitches / tab-switch */
+export const MAX_VARY_TIMESTEP = 1 / 30
+
+/**
+ * Largest single solver step in `'vary'` mode. Frames covering more sim time
+ * (low fps, `speed` > 1) are solved in multiple equal substeps: large solver
+ * steps destabilize springs/joints and show up as jitter.
+ */
+export const MAX_VARY_SOLVER_TIMESTEP = 1 / 60
+
+/**
+ * Resolve the physics world timestep for a frame.
+ * - `'vary'`: real elapsed `delta`, clamped to `maxVary`, so simulation speed is
+ *   independent of frame rate (mirrors react-three-rapier's `timeStep="vary"`).
+ * - `number`: that fixed timestep.
+ * - `undefined`: leave the world's `current` timestep untouched.
+ *
+ * `speed` multiplies the resolved step, running the simulation faster or slower
+ * than real time (e.g. `2` for a snappier arcade feel).
+ */
+export const resolveTimestep = (
+  timestep: number | 'vary' | undefined,
+  delta: number,
+  current: number,
+  speed = 1,
+  maxVary = MAX_VARY_TIMESTEP,
+): number => {
+  if (timestep === 'vary') { return Math.min(delta, maxVary) * speed }
+  if (typeof timestep === 'number') { return timestep * speed }
+  return current
+}
+
 export const isVector3Like = (value: any): value is Vector3Like => {
   return (
     value !== null

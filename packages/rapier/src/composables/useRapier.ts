@@ -1,4 +1,4 @@
-import { createInjectionState } from '@vueuse/core'
+import { createInjectionState, tryOnScopeDispose } from '@vueuse/core'
 import { ref, shallowRef } from 'vue'
 import type { RapierContext } from '../types/rapier'
 import type { World } from '@dimforge/rapier3d-compat'
@@ -30,6 +30,15 @@ const [
     world.value.step()
   }
 
+  const beforeStepCallbacks = new Set<(timestep: number) => void>()
+
+  const onBeforeStep = (callback: (timestep: number) => void) => {
+    beforeStepCallbacks.add(callback)
+    const unregister = () => beforeStepCallbacks.delete(callback)
+    tryOnScopeDispose(unregister)
+    return unregister
+  }
+
   return {
     rapier,
     world,
@@ -38,6 +47,8 @@ const [
     init,
     setWorld,
     step,
+    onBeforeStep,
+    beforeStepCallbacks,
   }
 }, { injectionKey: 'useRapier' })
 

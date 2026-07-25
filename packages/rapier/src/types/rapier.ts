@@ -42,6 +42,19 @@ export interface RapierContext {
    * ```
    */
   step: (timestep?: number) => void
+  /**
+   * @description Register a callback invoked right before every world step
+   * (once per substep) with the timestep about to be solved. Useful for
+   * controllers that must apply forces in lockstep with the solver
+   * (e.g. `DynamicRayCastVehicleController.updateVehicle`).
+   * Auto-unregisters when the calling scope is disposed; also returns a
+   * manual unregister function.
+   */
+  onBeforeStep: (callback: (timestep: number) => void) => () => void
+  /**
+   * @internal
+   */
+  beforeStepCallbacks: Set<(timestep: number) => void>
 }
 
 export interface InjectableRapierContext {}
