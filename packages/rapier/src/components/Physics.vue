@@ -31,7 +31,7 @@ const props = withDefaults(
 const context = useRapierContextProvider()!
 defineExpose(context)
 await context.init()
-const { world, isPaused, timeStep, timeScale } = context
+const { world, isPaused, timeStep, timeScale, isDebug } = context
 
 const resolveGravity = (gravity: PhysicsProps['gravity']): [number, number, number] => {
   if (typeof gravity === 'number') {
@@ -77,7 +77,7 @@ watch(timeStep, () => {
 })
 
 watch(() => props.debug, (value) => {
-  context.isDebug.value = value
+  isDebug.value = value
 }, { immediate: true })
 
 watch(() => props.pause, (value) => {
@@ -157,6 +157,9 @@ onBeforeRender(({ delta }) => {
   }
 
   const fixedStep = typeof timeStep.value === 'number' ? timeStep.value : DEFAULT_TIMESTEP
+
+  if (!(fixedStep > 0)) { return }
+
   accumulator += clampedDelta
 
   while (accumulator >= fixedStep) {
