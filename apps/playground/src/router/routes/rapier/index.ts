@@ -1,5 +1,10 @@
 export const rapierRoutes = [
   {
+    path: '/rapier/physics',
+    name: 'Physics',
+    component: () => import('@/pages/rapier/PhysicsDemo.vue'),
+  },
+  {
     path: '/rapier/rigid-body',
     name: 'Rigid Body',
     component: () => import('@/pages/rapier/RigidBody.vue'),
@@ -24,12 +29,6 @@ export const rapierRoutes = [
     name: 'Applying Forces',
     component: () => import('@/pages/rapier/ApplyingForcesDemo.vue'),
   },
-  {
-    path: '/rapier/gravity',
-    name: 'Gravity',
-    component: () => import('@/pages/rapier/GravityDemo.vue'),
-  },
-
   {
     path: '/rapier/collision',
     name: 'Collision',
