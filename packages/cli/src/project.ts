@@ -19,6 +19,8 @@ interface PackageJsonShape {
 const LOCKFILE_MANAGERS: Array<[file: string, manager: NonNullable<ProjectInfo['packageManager']>]> = [
   ['pnpm-lock.yaml', 'pnpm'],
   ['yarn.lock', 'yarn'],
+  // `bun.lock` is the text lockfile Bun >=1.2 writes by default; `bun.lockb` is the legacy binary one.
+  ['bun.lock', 'bun'],
   ['bun.lockb', 'bun'],
   ['package-lock.json', 'npm'],
 ]

@@ -38,6 +38,7 @@ describe('detectProject', () => {
   it.each([
     ['pnpm-lock.yaml', 'pnpm'],
     ['yarn.lock', 'yarn'],
+    ['bun.lock', 'bun'],
     ['bun.lockb', 'bun'],
     ['package-lock.json', 'npm'],
   ] as const)('maps %s to packageManager %s', async (lockfile, manager) => {
@@ -61,7 +62,7 @@ describe('detectProject', () => {
     await writeFile(join(tempDir, 'package.json'), '{}')
     await writeFile(join(tempDir, 'pnpm-lock.yaml'), '')
     await writeFile(join(tempDir, 'yarn.lock'), '')
-    await writeFile(join(tempDir, 'bun.lockb'), '')
+    await writeFile(join(tempDir, 'bun.lock'), '')
     await writeFile(join(tempDir, 'package-lock.json'), '')
 
     expect((await detectProject(tempDir)).packageManager).toBe('pnpm')
@@ -72,7 +73,7 @@ describe('detectProject', () => {
     await rm(join(tempDir, 'yarn.lock'))
     expect((await detectProject(tempDir)).packageManager).toBe('bun')
 
-    await rm(join(tempDir, 'bun.lockb'))
+    await rm(join(tempDir, 'bun.lock'))
     expect((await detectProject(tempDir)).packageManager).toBe('npm')
   })
 
