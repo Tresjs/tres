@@ -5,7 +5,7 @@ import { MathUtils, Vector3 as ThreeVector3 } from 'three'
  * Rocket League style flight: local-up first jump with hold-to-extend,
  * timed flip window, directional dodge flips, air control and aerial boost.
  *
- * Same caveat as the car tune: the sim runs ~2x real time (Physics :speed="2"),
+ * Same caveat as the car tune: the sim runs ~2x real time (Physics :time-scale="2"),
  * so accelerations here are tuned against that effective gravity.
  */
 const JUMP_IMPULSE = 7

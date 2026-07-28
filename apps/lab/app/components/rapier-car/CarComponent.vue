@@ -43,7 +43,7 @@ const STEERING_AMPLITUDE = 0.58
 const STEER_SPEED_FALLOFF = 55
 const STEER_MIN_SCALE = 0.5
 const STEER_RESPONSE = 0.55
-// Original arcade tune. It assumes the sim runs ~2x real time (Physics :speed="2"),
+// Original arcade tune. It assumes the sim runs ~2x real time (Physics :time-scale="2"),
 // which also scales effective gravity/acceleration back to the snappy feel the car
 // was tuned with on a high-refresh display.
 const ENGINE_FORCE_AMPLITUDE = 22

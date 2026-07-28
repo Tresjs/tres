@@ -92,14 +92,14 @@ function followCarCamera({ delta }: { delta: number }) {
   const chassisGroup = carRef.value?.chassisGroup?.()
   const camera = cameraRef.value
 
-  // TEMP diagnostic: real loop delta vs the (clamped) timestep actually stepped
+  // TEMP diagnostic: real loop delta vs the fixed-step sim time actually stepped
   dbgAccum += delta
   dbgFrames++
-  if (delta > 1 / 30) { dbgClamped++ }
+  if (delta * SIM_SPEED > 0.5) { dbgClamped++ }
   if (dbgFrames >= 15) {
     const avg = dbgAccum / dbgFrames
-    const simTime = Math.min(avg, 1 / 30) * SIM_SPEED
-    const substeps = Math.max(1, Math.ceil(simTime / (1 / 60)))
+    const simTime = Math.min(avg * SIM_SPEED, 0.5)
+    const substeps = Math.max(1, Math.round(simTime / (1 / 60)))
     physDebug.value = `fps ${(1 / avg).toFixed(0)} · real Δ ${(avg * 1000).toFixed(1)}ms · sim ${(simTime * 1000).toFixed(1)}ms in ${substeps} step(s) · clamped ${dbgClamped}/${dbgFrames}`
     dbgFrames = 0
     dbgAccum = 0
@@ -521,7 +521,7 @@ onUnmounted(() => {
     </Suspense>
 
     <Suspense>
-      <Physics timestep="vary" :speed="SIM_SPEED" :gravity="[0, -9.81, 0]">
+      <Physics :time-scale="SIM_SPEED" :gravity="[0, -9.81, 0]">
         <SceneWorld ref="sceneWorldRef" :trample="trample" />
         <Suspense>
           <CarComponent ref="carRef" />

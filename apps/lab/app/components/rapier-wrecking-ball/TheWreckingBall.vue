@@ -397,7 +397,7 @@ onBeforeRender(({ delta }) => {
   <primitive :object="chainMesh" />
 
   <Suspense>
-    <Physics :timestep="1 / 120">
+    <Physics :time-step="1 / 120">
       <RigidBody ref="poleRef" type="fixed" :position="[0, 13.5, 0]" collider="ball">
         <TresMesh>
           <TresSphereGeometry :args="[0.15, 16, 16]" />
