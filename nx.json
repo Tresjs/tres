@@ -51,6 +51,7 @@
       },
       "tooling": {
         "projects": [
+          "@tresjs/cli",
           "@tresjs/eslint-config",
           "@tresjs/leches"
         ]

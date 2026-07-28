@@ -1,0 +1,52 @@
+{
+  "name": "@tresjs/cli",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "description": "CLI for TresJS projects",
+  "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tresjs/tres.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "vue",
+    "3d",
+    "threejs",
+    "tresjs",
+    "cli",
+    "gltf"
+  ],
+  "bin": {
+    "tres": "./dist/index.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "catalog:",
+    "kolorist": "catalog:utils"
+  },
+  "devDependencies": {
+    "@tresjs/eslint-config": "workspace:*",
+    "@types/node": "catalog:node",
+    "tsdown": "catalog:build",
+    "typescript": "catalog:typescript",
+    "vitest": "catalog:testing"
+  }
+}
