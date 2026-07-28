@@ -6,6 +6,7 @@ import { Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { computed } from 'vue'
 import PhysicsDemoPaddle from './PhysicsDemoPaddle.vue'
+
 const gl = {
   clearColor: '#82DBC5',
   shadows: true,
@@ -82,8 +83,13 @@ const walls: { position: [number, number, number], rotation: [number, number, nu
 
     <Suspense>
       <Physics :debug :pause :time-scale :time-step="resolvedTimeStep" :gravity="[gravityX, gravityY, gravityZ]">
-        <RigidBody v-for="(body, index) in bodies" :key="`body-${index}`" :collider="body.shape"
-          :position="body.position" :restitution="0.4">
+        <RigidBody
+          v-for="(body, index) in bodies"
+          :key="`body-${index}`"
+          :collider="body.shape"
+          :position="body.position"
+          :restitution="0.4"
+        >
           <TresMesh cast-shadow receive-shadow>
             <TresSphereGeometry v-if="body.shape === 'ball'" />
             <TresBoxGeometry v-else />
@@ -94,8 +100,13 @@ const walls: { position: [number, number, number], rotation: [number, number, nu
         <PhysicsDemoPaddle />
 
         <RigidBody type="fixed" :restitution="0.5">
-          <TresMesh v-for="(wall, index) in walls" :key="`wall-${index}`" :position="wall.position"
-            :rotation="wall.rotation" receive-shadow>
+          <TresMesh
+            v-for="(wall, index) in walls"
+            :key="`wall-${index}`"
+            :position="wall.position"
+            :rotation="wall.rotation"
+            receive-shadow
+          >
             <TresPlaneGeometry :args="[20, 20, 20]" />
             <TresMeshStandardMaterial color="#f4f4f4" />
           </TresMesh>
@@ -104,8 +115,18 @@ const walls: { position: [number, number, number], rotation: [number, number, nu
     </Suspense>
 
     <TresAmbientLight :intensity="0.5" />
-    <TresDirectionalLight :position="[12, 18, 10]" :intensity="1.2" cast-shadow :shadow-camera-near="0.5"
-      :shadow-camera-far="60" :shadow-camera-left="-18" :shadow-camera-right="18" :shadow-camera-top="18"
-      :shadow-camera-bottom="-18" :shadow-bias="-0.0001" :shadow-radius="3" />
+    <TresDirectionalLight
+      :position="[12, 18, 10]"
+      :intensity="1.2"
+      cast-shadow
+      :shadow-camera-near="0.5"
+      :shadow-camera-far="60"
+      :shadow-camera-left="-18"
+      :shadow-camera-right="18"
+      :shadow-camera-top="18"
+      :shadow-camera-bottom="-18"
+      :shadow-bias="-0.0001"
+      :shadow-radius="3"
+    />
   </TresCanvas>
 </template>
