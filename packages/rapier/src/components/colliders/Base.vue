@@ -17,6 +17,7 @@ import {
 import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../../composables'
+import { bodyContextInjectionKey } from '../../core'
 import { createCollider } from '../../core/collider'
 import { isVector3Like, makePropsWatcherCL } from '../../utils'
 import type { ColliderProps, CreateColliderReturnType, ExposedCollider, RigidBodyContext } from '../../types'
@@ -40,7 +41,7 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
 const { world } = useRapierContext()
 
 const colliderGroup = shallowRef<TresObject3D>()
-const bodyContext = inject<ShallowRef<RigidBodyContext>>('bodyContext') ?? shallowRef<RigidBodyContext>()
+const bodyContext = inject(bodyContextInjectionKey) ?? shallowRef<RigidBodyContext>()
 const colliderInfos = shallowRef<CreateColliderReturnType>()
 const instance = shallowRef<CreateColliderReturnType['collider']>()
 const colliderDesc = shallowRef<CreateColliderReturnType['colliderDesc']>()
@@ -139,22 +140,24 @@ watch(bodyContext, async (state) => {
 }, { immediate: true })
 
 // Props watchers
-watch(() => props.shape, (value) => {
+watch([() => props.shape, colliderInfos], ([value]) => {
+  if (!value || !colliderInfos.value?.collider) { return }
   updateShapeArgs(value, props.args)
 })
-watch(() => props.args, (value) => {
+watch([() => props.args, colliderInfos], ([value]) => {
+  if (!colliderInfos.value?.collider) { return }
   updateShapeArgs(props.shape, value)
 })
-watch(() => props.position, (value) => {
-  if (!colliderInfos.value?.collider) { return }
+watch([() => props.position, colliderInfos], ([value]) => {
+  if (!colliderInfos.value?.collider || value === undefined) { return }
   colliderInfos.value.collider.setTranslation({
     x: typeof value?.[0] === 'number' ? value?.[0] : 0,
     y: typeof value?.[1] === 'number' ? value?.[1] : 0,
     z: typeof value?.[2] === 'number' ? value?.[2] : 0,
   })
 })
-watch(() => props.rotation, (value) => {
-  if (!colliderInfos.value?.collider) { return }
+watch([() => props.rotation, colliderInfos], ([value]) => {
+  if (!colliderInfos.value?.collider || value === undefined) { return }
   colliderInfos.value.collider.setRotation({
     x: typeof value?.[0] === 'number' ? value?.[0] : 0,
     y: typeof value?.[1] === 'number' ? value?.[1] : 0,
@@ -162,8 +165,11 @@ watch(() => props.rotation, (value) => {
     w: typeof value?.[3] === 'number' ? value?.[3] : 1,
   })
 })
-watch(() => props.solverGroups, value => colliderInfos.value?.collider.setSolverGroups(value ?? 0))
-watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
+watch([() => props.solverGroups, colliderInfos], ([value]) => {
+  if (!colliderInfos.value?.collider || value === undefined) { return }
+  colliderInfos.value.collider.setSolverGroups(value)
+})
+watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups]) => {
   if (!colliderInfos.value?.collider || !_collisionGroups) { return }
   colliderInfos.value.collider.setCollisionGroups(_collisionGroups)
 })
@@ -196,10 +202,21 @@ makePropsWatcherCL(
   ],
   colliderInfos,
 )
-onUnmounted(() => {
-  if (!bodyContext.value || !colliderInfos.value?.collider) { return }
 
-  world.value.removeCollider(colliderInfos.value.collider, false)
+onUnmounted(() => {
+  const collider = colliderInfos.value?.collider
+  if (!collider) { return }
+
+  if (bodyContext.value) {
+    const idx = bodyContext.value.colliders.findIndex(c => c.collider === collider)
+    if (idx !== -1) {
+      bodyContext.value.colliders.splice(idx, 1)
+    }
+  }
+
+  if (collider.isValid()) {
+    world.value.removeCollider(collider, false)
+  }
 
   colliderInfos.value = undefined
 })
