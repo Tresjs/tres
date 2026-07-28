@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/rapier",
   "type": "module",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0",
   "description": "TresJs physics support, powered by rapier",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
