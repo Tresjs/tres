@@ -18,7 +18,7 @@ export const makePropWatcherRB = <
   instance: ShallowRef<RigidBodyContext['rigidBody'] | undefined>,
   onSet: `set${Capitalize<keyof RigidBodyProps>}`,
 ) => watch([() => props[toWatch], instance], ([newValue, _]) => {
-  if (!instance.value) { return }
+  if (!instance.value || newValue === undefined) { return }
   // TODO: we should give users the possibility to set the wakeUp parameter.
   ((instance.value[onSet as keyof Methods<RigidBody>]) as CallableProps<RigidBody>[keyof CallableProps<RigidBody>])?.(...(Array.isArray(newValue) ? (newValue as boolean[]) : [newValue]), true)
 })
@@ -45,7 +45,7 @@ export const makePropWatcherCL = <
   instance: ShallowRef<CreateColliderReturnType | undefined>,
   onSet: `set${Capitalize<keyof ColliderProps>}`,
 ) => watch([() => props[toWatch], instance], ([newValue, _]) => {
-  if (!instance.value) { return }
+  if (!instance.value || newValue === undefined) { return }
   (instance.value.collider[
     onSet as keyof typeof instance.value.collider
   ] as CallableProps<ColliderProps>[keyof CallableProps<ColliderProps>])?.(newValue)
