@@ -1,8 +1,8 @@
-import { createInjectionState } from '@vueuse/core'
+import { createInjectionState, tryOnScopeDispose } from '@vueuse/core'
 import { ref, shallowRef } from 'vue'
 import type { RapierContext } from '../types/rapier'
 import type { World } from '@dimforge/rapier3d-compat'
-import { GRAVITY } from '../constants/physics'
+import { DEFAULT_TIMESTEP, GRAVITY } from '../constants/physics'
 
 const [
   useRapierContextProvider,
@@ -12,6 +12,8 @@ const [
   const world = shallowRef()
   const isPaused = ref(false)
   const isDebug = ref(false)
+  const timeStep = ref<number | 'vary'>(DEFAULT_TIMESTEP)
+  const timeScale = ref(1)
 
   const init = async () => {
     const RAPIER = await import('@dimforge/rapier3d-compat')
@@ -24,10 +26,20 @@ const [
     world.value = w
   }
 
-  const step = (timestep?: number) => {
+  const beforeStepCallbacks = new Set<(timestep: number) => void>()
+
+  const step = (dt?: number) => {
     if (!world.value) { return }
-    if (typeof timestep === 'number') { world.value.timestep = timestep }
+    if (typeof dt === 'number') { world.value.timestep = dt }
+    beforeStepCallbacks.forEach(callback => callback(world.value.timestep))
     world.value.step()
+  }
+
+  const onBeforeStep = (callback: (timestep: number) => void) => {
+    beforeStepCallbacks.add(callback)
+    const unregister = () => beforeStepCallbacks.delete(callback)
+    tryOnScopeDispose(unregister)
+    return unregister
   }
 
   return {
@@ -35,9 +47,13 @@ const [
     world,
     isPaused,
     isDebug,
+    timeStep,
+    timeScale,
     init,
     setWorld,
     step,
+    onBeforeStep,
+    beforeStepCallbacks,
   }
 }, { injectionKey: 'useRapier' })
 
