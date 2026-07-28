@@ -45,7 +45,8 @@
           "@tresjs/core",
           "@tresjs/cientos",
           "@tresjs/post-processing",
-          "@tresjs/nuxt"
+          "@tresjs/nuxt",
+          "@tresjs/rapier"
         ]
       },
       "tooling": {
