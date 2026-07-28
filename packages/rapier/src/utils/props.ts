@@ -76,6 +76,7 @@ export const makeAutoColliderPropsWatchers = <
   setProp: <P extends K>(prop: P, value: ColliderProps[P]) => void,
 ) => watchers.forEach((key) => {
   watch(() => props[key], (value) => {
+    if (value === undefined) { return }
     setProp(key, value as ColliderProps[typeof key])
   })
 })
