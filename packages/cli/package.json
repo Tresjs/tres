@@ -40,13 +40,15 @@
   },
   "dependencies": {
     "commander": "catalog:",
-    "kolorist": "catalog:utils"
+    "kolorist": "catalog:utils",
+    "three": "catalog:three"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
     "@types/node": "catalog:node",
     "tsdown": "catalog:build",
     "typescript": "catalog:typescript",
-    "vitest": "catalog:testing"
+    "vitest": "catalog:testing",
+    "vue": "catalog:vue"
   }
 }
