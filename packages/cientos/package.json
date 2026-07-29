@@ -84,6 +84,7 @@
     "vite-plugin-dts": "catalog:vite",
     "vite-plugin-glsl": "catalog:vite",
     "vite-svg-loader": "catalog:",
+    "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
   },
   "nx": {

@@ -33,6 +33,12 @@ function _useHeaderLinks() {
       to: `${to}/api`,
       active: route.path.startsWith(`${to}/api`),
     }, {
+      label: 'CLI',
+      description: 'Generate Vue components from your 3D models with the tres command.',
+      icon: 'i-lucide-terminal',
+      to: `${to}/cli`,
+      active: route.path.startsWith(`${to}/cli`),
+    }, {
       label: 'Cookbook',
       description: 'Discover and explore official and community examples.',
       icon: 'i-lucide-cooking-pot',
