@@ -23,6 +23,10 @@ jobs:
       - name: Build publishable packages
         run: pnpm nx run-many -p="tag:npm:public" -t=build
 
+      - name: Verify packed manifests have no catalog:/workspace: specifiers
+        run: node tools/guards/check-tarball-specifiers.mjs
+        shell: bash
+
       - name: Print Environment Info
         run: pnpm nx report
         shell: bash
