@@ -23,11 +23,12 @@ npx @tresjs/cli --help
 ### `tres gltf <input>`
 
 Turns a `.glb`/`.gltf` into a Vue component. Writes `<Model>.gen.vue` next to the
-model by default.
+model, except for models under `public/` — that directory is copied verbatim and
+never compiled, so those land in `src/models/` (or `app/models/` on Nuxt).
 
 ```bash
 tres gltf public/models/robot.glb
-# ✔ public/models/Robot.gen.vue
+# ✔ src/models/Robot.gen.vue
 #   3 slots: Head, Body, Base
 ```
 
