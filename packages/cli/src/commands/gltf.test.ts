@@ -1,6 +1,6 @@
 import type { GLTFIR } from '../gltf/ir'
 import { Buffer } from 'node:buffer'
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
@@ -207,6 +207,49 @@ describe('gltf command', () => {
     await gltf.call({} as any, path, { dryRun: true })
 
     expect(output()).toContain('3 meshes')
+  })
+
+  it('optimizes to a separate -transformed.glb and generates against it', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'served/public/models')
+
+    await gltf.call({} as any, path, { transform: true, console: true })
+
+    await expect(stat(join(dir, 'served/public/models/robot-transformed.glb'))).resolves.toBeDefined()
+    await expect(stat(join(dir, 'served/public/models/robot.glb'))).resolves.toBeDefined()
+    expect(output()).toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/robot-transformed.glb'`)
+  })
+
+  it('reports the saving with both sizes', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'saving')
+
+    await gltf.call({} as any, path, { transform: true, console: true })
+
+    expect(output()).toMatch(/robot\.glb.*robot-transformed\.glb/s)
+  })
+
+  it('keeps the component named after the original model', async () => {
+    const path = await fixture('rover.glb', nestedGLB(), 'namecheck')
+
+    await gltf.call({} as any, path, { transform: true })
+
+    await expect(readFile(join(dir, 'namecheck/Rover.gen.vue'), 'utf-8')).resolves.toContain('useGLTF')
+    await expect(readFile(join(dir, 'namecheck/RoverTransformed.gen.vue'), 'utf-8')).rejects.toThrow()
+  })
+
+  it('enables the draco loader for the compressed output', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'dracocheck')
+
+    await gltf.call({} as any, path, { transform: true, console: true })
+
+    expect(output()).toContain('{ draco: true }')
+  })
+
+  it('does not transform under --dry-run', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'drytransform')
+
+    await gltf.call({} as any, path, { transform: true, dryRun: true })
+
+    await expect(stat(join(dir, 'drytransform/robot-transformed.glb'))).rejects.toThrow()
   })
 
   it('fails loudly when the file does not exist', async () => {

@@ -71,12 +71,37 @@ onMounted(() => robot.value?.actions.Idle?.play())
 | `-m, --meta` | emit glTF extras as `:user-data` |
 | `-c, --console` | print instead of writing |
 | `-f, --force` | overwrite a file this tool did not generate |
+| `-T, --transform` | optimize the model first (see below) |
+| `--resolution <px>` | max texture size when transforming (default 1024) |
+| `--format <fmt>` | texture format when transforming: `webp` (default), `jpeg`, `png`, `avif` |
+| `--simplify` | reduce geometry with meshoptimizer |
+| `--ratio <n>` | target fraction of vertices to keep with `--simplify` |
+| `--error <n>` | error ceiling with `--simplify`, as a fraction of mesh radius |
+| `--keepmeshes` | do not merge meshes when transforming |
+| `--keepmaterials` | do not batch materials when transforming |
 | `--dry-run` | report what the parser sees, generate nothing |
 | `--json` | dump the parsed model as JSON |
 
 `--slots named` skips exporter noise like `Object_12` and `Sketchfab_model`. On
 marketplace assets that can leave you with nothing to override, so it says so and
 points at `--slots all`.
+
+#### `--transform`
+
+Runs the model through [glTF-Transform](https://github.com/donmccurdy/glTF-Transform)
+(dedup, weld, texture compression, draco, and more) before generating. It writes a
+**separate** `<Model>-transformed.glb` beside the source, never touching the original,
+and points the generated `useGLTF()` at the optimized file. Typically 70–90% smaller:
+
+```bash
+tres gltf public/models/Robot.glb --transform
+# ⚙ Robot.glb [755KB] › Robot-transformed.glb [40KB] (-95%)
+#   the component targets the optimized file; useGLTF() now loads it
+# ✔ src/models/Robot.gen.vue
+```
+
+The optimized output is draco-compressed, so the generated component gets
+`useGLTF(url, { draco: true })` automatically.
 
 Draco-compressed and unpacked (`.gltf` + `.bin`) models both work. Draco models get
 `useGLTF(url, { draco: true })` automatically, since they render nothing without it.

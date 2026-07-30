@@ -1,11 +1,13 @@
 import type { CommandHandler } from '../registry'
+import type { TextureFormat } from '../gltf/transform'
 import { mkdir, readFile, stat, writeFile } from 'node:fs/promises'
 import { basename, dirname, extname, join, resolve } from 'node:path'
-import { bold, gray, green, yellow } from 'kolorist'
+import { bold, cyan, gray, green, yellow } from 'kolorist'
 import { emitSFC } from '../emit/sfc'
 import { findPublicRoot, inferAssetURL } from '../emit/url'
 import { buildIR } from '../gltf/build-ir'
 import { loadGLTFFile } from '../gltf/load'
+import { transformGLTF } from '../gltf/transform'
 import { detectProject } from '../project'
 
 export interface GLTFOptions {
@@ -24,6 +26,15 @@ export interface GLTFOptions {
   dryRun?: boolean
   /** Dump the intermediate representation. */
   json?: boolean
+  /** Optimize the model with glTF-Transform before generating against it. */
+  transform?: boolean
+  resolution?: number
+  format?: TextureFormat
+  simplify?: boolean
+  ratio?: number
+  error?: number
+  keepmeshes?: boolean
+  keepmaterials?: boolean
 }
 
 /** Marks output as ours, so regeneration never eats a hand-written file. */
@@ -35,6 +46,55 @@ async function isDirectory(path: string): Promise<boolean> {
 
 function plural(count: number, noun: string, suffix = 's'): string {
   return `${count} ${noun}${count === 1 ? '' : suffix}`
+}
+
+/** The optimized asset lives beside the source as `<name>-transformed.glb`. */
+function transformedPath(input: string): string {
+  return join(dirname(input), `${basename(input, extname(input))}-transformed.glb`)
+}
+
+/** `4200000` → `4.0MB`. Enough precision to make the saving obvious, not exact. */
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) {
+    return `${bytes}B`
+  }
+  const units = ['KB', 'MB', 'GB']
+  let value = bytes / 1024
+  let unit = 0
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024
+    unit++
+  }
+  return `${value < 10 ? value.toFixed(1) : Math.round(value)}${units[unit]}`
+}
+
+/**
+ * Optimize the source into a sibling `-transformed.glb` and return its path, so the
+ * rest of the pipeline generates against the optimized file. Loud on purpose: the
+ * user's `useGLTF()` url is about to change, and that should never be a surprise.
+ */
+async function optimize(input: string, options: GLTFOptions): Promise<string> {
+  const output = transformedPath(input)
+
+  const { before, after } = await transformGLTF(input, output, {
+    resolution: options.resolution,
+    format: options.format,
+    simplify: options.simplify,
+    ratio: options.ratio,
+    error: options.error,
+    keepMeshes: options.keepmeshes,
+    keepMaterials: options.keepmaterials,
+  }).catch(async (error) => {
+    throw await explainMissingFile(input, error)
+  })
+
+  const saved = before > 0 ? Math.round((1 - after / before) * 100) : 0
+  // eslint-disable-next-line no-console
+  console.log(`${cyan('⚙')} ${bold(basename(input))} ${gray(`[${formatBytes(before)}]`)} › ${bold(basename(output))} ${gray(`[${formatBytes(after)}]`)} ${green(`(-${saved}%)`)}`)
+  // eslint-disable-next-line no-console
+  console.log(gray('  the component targets the optimized file; useGLTF() now loads it'))
+
+  return output
 }
 
 /** `toy-rocket.glb` → `ToyRocket`, so the output is importable as a component. */
@@ -113,8 +173,13 @@ async function assertWritable(path: string, force: boolean): Promise<void> {
  * destroys the overrides a consumer wrote in their own file.
  */
 const gltf: CommandHandler = async function (input: string, options: GLTFOptions = {}) {
-  const ir = buildIR(await loadGLTFFile(input).catch(async (error) => {
-    throw await explainMissingFile(input, error)
+  // --json and --dry-run only inspect the source, so there is nothing to optimize for them.
+  const model = options.transform && !options.dryRun && !options.json
+    ? await optimize(input, options)
+    : input
+
+  const ir = buildIR(await loadGLTFFile(model).catch(async (error) => {
+    throw await explainMissingFile(model, error)
   }))
 
   for (const warning of ir.warnings) {
@@ -141,9 +206,9 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
     return
   }
 
-  const asset = options.url ? { url: options.url, inferred: true } : await inferAssetURL(input)
+  const asset = options.url ? { url: options.url, inferred: true } : await inferAssetURL(model)
   if (!asset.inferred) {
-    console.warn(`${yellow('!')} No public/ directory above ${input}, so the model url is a guess: ${asset.url}`)
+    console.warn(`${yellow('!')} No public/ directory above ${model}, so the model url is a guess: ${asset.url}`)
     console.warn(`  Pass --url to set it explicitly.`)
   }
 
