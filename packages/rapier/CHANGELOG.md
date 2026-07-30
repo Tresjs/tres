@@ -1,3 +1,9 @@
+## 1.0.1 (2026-07-29)
+
+### 🩹 Fixes
+
+- **rapier:** republish with resolved dependency versions. 1.0.0 was published with `npm publish`, which leaves pnpm `catalog:` specifiers untouched, so installing it failed with `"@dimforge/rapier3d-compat@catalog:" isn't supported by any available resolver`. No source changes.
+
 # 1.0.0 (2026-07-28)
 
 ### 🚀 Features

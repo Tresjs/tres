@@ -41,6 +41,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "dev": "cd playground/vue && pnpm dev",
     "build": "tsdown",
     "build:analyze": "ANALYZE=true tsdown",
@@ -84,6 +85,7 @@
     "vite-plugin-dts": "catalog:vite",
     "vite-plugin-glsl": "catalog:vite",
     "vite-svg-loader": "catalog:",
+    "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
   },
   "nx": {
