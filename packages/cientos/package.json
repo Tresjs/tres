@@ -41,6 +41,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "dev": "cd playground/vue && pnpm dev",
     "build": "tsdown",
     "build:analyze": "ANALYZE=true tsdown",
