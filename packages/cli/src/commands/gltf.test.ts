@@ -211,18 +211,28 @@ describe('gltf command', () => {
 
   it('optimizes to a separate -transformed.glb and generates against it', async () => {
     const path = await fixture('robot.glb', nestedGLB(), 'served/public/models')
+    const out = join(dir, 'served/Robot.gen.vue')
 
-    await gltf.call({} as any, path, { transform: true, console: true })
+    await gltf.call({} as any, path, { transform: true, output: out })
 
     await expect(stat(join(dir, 'served/public/models/robot-transformed.glb'))).resolves.toBeDefined()
     await expect(stat(join(dir, 'served/public/models/robot.glb'))).resolves.toBeDefined()
+    await expect(readFile(out, 'utf-8')).resolves.toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/robot-transformed.glb'`)
+  })
+
+  it('previews a transform with --console without writing the optimized file into the project', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'preview/public/models')
+
+    await gltf.call({} as any, path, { transform: true, console: true })
+
+    await expect(stat(join(dir, 'preview/public/models/robot-transformed.glb'))).rejects.toThrow()
     expect(output()).toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/robot-transformed.glb'`)
   })
 
   it('reports the saving with both sizes', async () => {
     const path = await fixture('robot.glb', nestedGLB(), 'saving')
 
-    await gltf.call({} as any, path, { transform: true, console: true })
+    await gltf.call({} as any, path, { transform: true, output: join(dir, 'saving/Robot.gen.vue') })
 
     expect(output()).toMatch(/robot\.glb.*robot-transformed\.glb/s)
   })

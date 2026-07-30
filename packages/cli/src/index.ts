@@ -1,11 +1,32 @@
 import type { CommandDefinition } from './registry'
 import { createRequire } from 'node:module'
-import { Command } from 'commander'
+import { Command, InvalidArgumentError } from 'commander'
 import { banner } from './banner'
 import { defineCommand, registerCommands } from './registry'
 
 const require = createRequire(import.meta.url)
 const pkg = require('../package.json') as { version: string }
+
+const TEXTURE_FORMATS = ['webp', 'jpeg', 'png', 'avif'] as const
+
+/** Reject formats sharp cannot encode before they reach textureCompress with a cryptic error. */
+function parseFormat(value: string): string {
+  if (!(TEXTURE_FORMATS as readonly string[]).includes(value)) {
+    throw new InvalidArgumentError(`must be one of ${TEXTURE_FORMATS.join(', ')}`)
+  }
+  return value
+}
+
+/** A NaN silently handed to MeshoptSimplifier is worse than a clear rejection up front. */
+function parseFraction(name: string, max: number) {
+  return (value: string): number => {
+    const n = Number.parseFloat(value)
+    if (Number.isNaN(n) || n < 0 || n > max) {
+      throw new InvalidArgumentError(`${name} must be a number between 0 and ${max}`)
+    }
+    return n
+  }
+}
 
 const commands: CommandDefinition[] = [
   defineCommand({
@@ -25,10 +46,10 @@ const commands: CommandDefinition[] = [
       .option('-f, --force', 'overwrite a file this tool did not generate')
       .option('-T, --transform', 'optimize the model into a separate -transformed.glb and generate against it')
       .option('--resolution <px>', 'max texture size when transforming', v => Number.parseInt(v, 10), 1024)
-      .option('--format <fmt>', 'texture format when transforming: webp | jpeg | png | avif', 'webp')
+      .option('--format <fmt>', 'texture format when transforming: webp | jpeg | png | avif', parseFormat, 'webp')
       .option('--simplify', 'reduce geometry with meshoptimizer when transforming')
-      .option('--ratio <n>', 'target fraction of vertices to keep with --simplify', v => Number.parseFloat(v))
-      .option('--error <n>', 'error ceiling with --simplify, as a fraction of mesh radius', v => Number.parseFloat(v))
+      .option('--ratio <n>', 'target fraction of vertices to keep with --simplify', parseFraction('--ratio', 1))
+      .option('--error <n>', 'error ceiling with --simplify, as a fraction of mesh radius', parseFraction('--error', 1))
       .option('--keepmeshes', 'do not merge meshes when transforming')
       .option('--keepmaterials', 'do not batch materials when transforming')
       .option('--dry-run', 'report what the parser sees without generating')
