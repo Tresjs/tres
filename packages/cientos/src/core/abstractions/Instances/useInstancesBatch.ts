@@ -23,6 +23,26 @@ function createColorAttribute(capacity: number) {
   return attribute
 }
 
+const scratchColor = [0, 0, 0]
+
+/**
+ * Writes `source` into `target` at `offset`, reporting whether anything actually moved.
+ *
+ * `Math.fround` is load-bearing: `target` narrows to float32 on write, so comparing raw
+ * doubles against it reports a change every frame for values float32 can't represent.
+ */
+function writeIfChanged(target: Float32Array, offset: number, source: ArrayLike<number>, length: number) {
+  let changed = false
+  for (let i = 0; i < length; i++) {
+    const value = Math.fround(source[i])
+    if (target[offset + i] !== value) {
+      target[offset + i] = value
+      changed = true
+    }
+  }
+  return changed
+}
+
 /**
  * Owns a single `InstancedMesh` and the placeholders registered against it.
  *
@@ -38,7 +58,6 @@ export function useInstancesBatch(source: () => InstancesBatchSource) {
 
   let capacity = 0
   let hasColors = false
-  let lastColors = new Float32Array(0)
 
   function disposeMesh() {
     const current = mesh.value
@@ -65,7 +84,6 @@ export function useInstancesBatch(source: () => InstancesBatchSource) {
 
     if (hasColors) { next.instanceColor = createColorAttribute(capacity) }
 
-    lastColors = new Float32Array(capacity * 3).fill(-1)
     mesh.value = next
   }
 
@@ -87,7 +105,7 @@ export function useInstancesBatch(source: () => InstancesBatchSource) {
       current.instanceColor = colorAttribute
     }
 
-    lastColors = new Float32Array(next * 3).fill(-1)
+    // Swapping the attribute object makes three drop the old GPU buffer and upload the copy in full
     capacity = next
 
     logWarning(`Instances: more instances registered than \`limit\` allows, reallocated for ${next}. Set \`:limit="${next}"\` to avoid reallocating at runtime.`)
@@ -119,7 +137,10 @@ export function useInstancesBatch(source: () => InstancesBatchSource) {
     parentInverse.copy(current.matrixWorld).invert()
 
     const colorAttribute = current.instanceColor
+    // Both attributes are allocated here as Float32Array, never handed in from outside
+    const matrices = current.instanceMatrix.array as Float32Array
     const colors = colorAttribute?.array as Float32Array | undefined
+    let matricesChanged = false
     let colorsChanged = false
     let visible = 0
 
@@ -128,24 +149,22 @@ export function useInstancesBatch(source: () => InstancesBatchSource) {
 
       node.updateWorldMatrix(true, false)
       instanceMatrix.multiplyMatrices(parentInverse, node.matrixWorld)
-      instanceMatrix.toArray(current.instanceMatrix.array, visible * 16)
+      // The buffers double as the previous frame's state: a static batch uploads nothing
+      matricesChanged = writeIfChanged(matrices, visible * 16, instanceMatrix.elements, 16) || matricesChanged
 
       if (colors) {
-        const offset = visible * 3
         const { r, g, b } = node.color
-        if (lastColors[offset] !== r || lastColors[offset + 1] !== g || lastColors[offset + 2] !== b) {
-          colors[offset] = lastColors[offset] = r
-          colors[offset + 1] = lastColors[offset + 1] = g
-          colors[offset + 2] = lastColors[offset + 2] = b
-          colorsChanged = true
-        }
+        scratchColor[0] = r
+        scratchColor[1] = g
+        scratchColor[2] = b
+        colorsChanged = writeIfChanged(colors, visible * 3, scratchColor, 3) || colorsChanged
       }
 
       visible++
     }
 
     current.count = visible
-    current.instanceMatrix.needsUpdate = true
+    if (matricesChanged) { current.instanceMatrix.needsUpdate = true }
     if (colorsChanged && colorAttribute) { colorAttribute.needsUpdate = true }
   }
 

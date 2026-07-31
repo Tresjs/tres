@@ -11,13 +11,14 @@ export interface MergedProps {
    */
   meshes: Record<string, Mesh>
   /**
-   * Initial buffer allocation per batch. Forwarded to every `<Instances>`.
-   * @default 1000
+   * Initial buffer allocation per batch. One batch per entry in `meshes`,
+   * so this is deliberately lower than `<Instances>`.
+   * @default 100
    */
   limit?: number
 }
 
-withDefaults(defineProps<MergedProps>(), { limit: 1000 })
+withDefaults(defineProps<MergedProps>(), { limit: 100 })
 
 const registry = shallowReactive<Record<string, InstancesApi>>({})
 

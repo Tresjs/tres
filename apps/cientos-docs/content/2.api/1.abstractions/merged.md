@@ -86,7 +86,7 @@ other node stays batched.
 | Prop     | Description                                                          | Default    |
 | :------- | :-------------------------------------------------------------------- | ---------- |
 | `meshes` | One batch per entry, keyed by the name `<Instance name="..." />` uses. | *required* |
-| `limit`  | Initial buffer allocation, forwarded to every batch.                  | `1000`     |
+| `limit`  | Initial buffer allocation per batch. One batch per entry in `meshes`, so it defaults lower than `<Instances />`. | `100`     |
 
 Exposes the named batch registry through `instances`.
 
