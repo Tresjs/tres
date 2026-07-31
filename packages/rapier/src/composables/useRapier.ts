@@ -19,7 +19,9 @@ const [
     const RAPIER = await import('@dimforge/rapier3d-compat')
     await RAPIER.init()
     rapier.value = RAPIER
-    world.value = new RAPIER.World(GRAVITY)
+    // Copy: World stores the vector by reference and Physics mutates it in place,
+    // so passing the shared constant would leak gravity across every world.
+    world.value = new RAPIER.World({ ...GRAVITY })
   }
 
   const setWorld = (w: World) => {
