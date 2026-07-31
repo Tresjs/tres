@@ -39,8 +39,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@gltf-transform/core": "catalog:",
+    "@gltf-transform/extensions": "catalog:",
+    "@gltf-transform/functions": "catalog:",
     "commander": "catalog:",
+    "draco3dgltf": "catalog:",
     "kolorist": "catalog:utils",
+    "meshoptimizer": "catalog:",
+    "sharp": "catalog:",
     "three": "catalog:three"
   },
   "devDependencies": {
