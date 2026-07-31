@@ -1,11 +1,14 @@
 import type { CommandHandler } from '../registry'
-import { mkdir, readFile, stat, writeFile } from 'node:fs/promises'
+import type { TextureFormat } from '../gltf/transform'
+import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
 import { basename, dirname, extname, join, resolve } from 'node:path'
-import { bold, gray, green, yellow } from 'kolorist'
+import { bold, cyan, gray, green, yellow } from 'kolorist'
 import { emitSFC } from '../emit/sfc'
 import { findPublicRoot, inferAssetURL } from '../emit/url'
 import { buildIR } from '../gltf/build-ir'
 import { loadGLTFFile } from '../gltf/load'
+import { transformGLTF } from '../gltf/transform'
 import { detectProject } from '../project'
 
 export interface GLTFOptions {
@@ -24,6 +27,15 @@ export interface GLTFOptions {
   dryRun?: boolean
   /** Dump the intermediate representation. */
   json?: boolean
+  /** Optimize the model with glTF-Transform before generating against it. */
+  transform?: boolean
+  resolution?: number
+  format?: TextureFormat
+  simplify?: boolean
+  ratio?: number
+  error?: number
+  keepmeshes?: boolean
+  keepmaterials?: boolean
 }
 
 /** Marks output as ours, so regeneration never eats a hand-written file. */
@@ -35,6 +47,55 @@ async function isDirectory(path: string): Promise<boolean> {
 
 function plural(count: number, noun: string, suffix = 's'): string {
   return `${count} ${noun}${count === 1 ? '' : suffix}`
+}
+
+/** The optimized asset lives beside the source as `<name>-transformed.glb`. */
+function transformedPath(input: string): string {
+  return join(dirname(input), `${basename(input, extname(input))}-transformed.glb`)
+}
+
+/** `4200000` → `4.0MB`. Enough precision to make the saving obvious, not exact. */
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) {
+    return `${bytes}B`
+  }
+  const units = ['KB', 'MB', 'GB']
+  let value = bytes / 1024
+  let unit = 0
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024
+    unit++
+  }
+  return `${value < 10 ? value.toFixed(1) : Math.round(value)}${units[unit]}`
+}
+
+/**
+ * Optimize the source into `output` with glTF-Transform. Loud on purpose: the user's
+ * `useGLTF()` url is about to change, and that should never be a surprise. `quiet`
+ * suppresses that in `--console` mode, where the optimized file is a throwaway.
+ */
+async function optimize(input: string, output: string, options: GLTFOptions, quiet = false): Promise<void> {
+  const { before, after } = await transformGLTF(input, output, {
+    resolution: options.resolution,
+    format: options.format,
+    simplify: options.simplify,
+    ratio: options.ratio,
+    error: options.error,
+    keepMeshes: options.keepmeshes,
+    keepMaterials: options.keepmaterials,
+  }).catch(async (error) => {
+    throw await explainMissingFile(input, error)
+  })
+
+  if (quiet) {
+    return
+  }
+
+  const saved = before > 0 ? Math.round((1 - after / before) * 100) : 0
+  // eslint-disable-next-line no-console
+  console.log(`${cyan('⚙')} ${bold(basename(input))} ${gray(`[${formatBytes(before)}]`)} › ${bold(basename(output))} ${gray(`[${formatBytes(after)}]`)} ${green(`(-${saved}%)`)}`)
+  // eslint-disable-next-line no-console
+  console.log(gray('  the component targets the optimized file; useGLTF() now loads it'))
 }
 
 /** `toy-rocket.glb` → `ToyRocket`, so the output is importable as a component. */
@@ -113,69 +174,102 @@ async function assertWritable(path: string, force: boolean): Promise<void> {
  * destroys the overrides a consumer wrote in their own file.
  */
 const gltf: CommandHandler = async function (input: string, options: GLTFOptions = {}) {
-  const ir = buildIR(await loadGLTFFile(input).catch(async (error) => {
-    throw await explainMissingFile(input, error)
-  }))
+  // --json and --dry-run only inspect the source, so there is nothing to optimize for them.
+  const wantsTransform = Boolean(options.transform) && !options.dryRun && !options.json
 
-  for (const warning of ir.warnings) {
-    console.warn(`${yellow('!')} ${warning.message}`)
+  // model: the file the IR is built from. assetSource: the path the url is inferred from.
+  // They only diverge in --console mode, where the optimized file is written to a temp dir
+  // (so a preview never litters the project) but its url must still point at where the
+  // asset would really live, beside the source.
+  let model = input
+  let assetSource = input
+  let tempDir: string | undefined
+
+  if (wantsTransform) {
+    if (options.console) {
+      tempDir = await mkdtemp(join(tmpdir(), 'tres-gltf-'))
+      const sibling = transformedPath(input)
+      model = join(tempDir, basename(sibling))
+      assetSource = sibling
+      await optimize(input, model, options, true)
+    }
+    else {
+      model = transformedPath(input)
+      assetSource = model
+      await optimize(input, model, options)
+    }
   }
 
-  if (options.json) {
+  try {
+    const ir = buildIR(await loadGLTFFile(model).catch(async (error) => {
+      throw await explainMissingFile(model, error)
+    }))
+
+    for (const warning of ir.warnings) {
+      console.warn(`${yellow('!')} ${warning.message}`)
+    }
+
+    if (options.json) {
+      // eslint-disable-next-line no-console
+      console.log(JSON.stringify(ir, null, 2))
+      return
+    }
+
+    if (options.dryRun) {
+      const meshes = Object.values(ir.nodes).filter(node => node.type.endsWith('Mesh')).length
+      // eslint-disable-next-line no-console
+      console.log([
+        bold(input),
+        `  ${plural(Object.keys(ir.nodes).length, 'named node')} (${plural(meshes, 'mesh', 'es')})`,
+        `  ${plural(Object.keys(ir.materials).length, 'material')}`,
+        `  ${plural(ir.animations.length, 'animation clip')}`,
+        ir.instances.length ? `  ${plural(ir.instances.length, 'instancing candidate')}` : '',
+        gray('  run without --dry-run to generate a component'),
+      ].filter(Boolean).join('\n'))
+      return
+    }
+
+    const asset = options.url ? { url: options.url, inferred: true } : await inferAssetURL(assetSource)
+    if (!asset.inferred) {
+      console.warn(`${yellow('!')} No public/ directory above ${assetSource}, so the model url is a guess: ${asset.url}`)
+      console.warn(`  Pass --url to set it explicitly.`)
+    }
+
+    const { code, slots, warnings } = emitSFC(ir, {
+      url: asset.url,
+      slots: options.slots,
+      shadows: options.shadows,
+      keepGroups: options.keepgroups,
+      keepNames: options.keepnames,
+      root: options.root,
+      precision: options.precision,
+      meta: options.meta,
+      command: `tres ${process.argv.slice(2).join(' ')}`,
+    })
+
+    for (const warning of warnings) {
+      console.warn(`${yellow('!')} ${warning}`)
+    }
+
+    if (options.console) {
+      // eslint-disable-next-line no-console
+      console.log(code)
+      return
+    }
+
+    const target = options.output ?? await defaultOutput(input)
+    await assertWritable(target, Boolean(options.force))
+    await mkdir(dirname(target), { recursive: true })
+    await writeFile(target, code, 'utf-8')
+
     // eslint-disable-next-line no-console
-    console.log(JSON.stringify(ir, null, 2))
-    return
+    console.log(`${green('✔')} ${bold(target)}\n  ${plural(slots.length, 'slot')}${slots.length ? gray(`: ${slots.join(', ')}`) : ''}`)
   }
-
-  if (options.dryRun) {
-    const meshes = Object.values(ir.nodes).filter(node => node.type.endsWith('Mesh')).length
-    // eslint-disable-next-line no-console
-    console.log([
-      bold(input),
-      `  ${plural(Object.keys(ir.nodes).length, 'named node')} (${plural(meshes, 'mesh', 'es')})`,
-      `  ${plural(Object.keys(ir.materials).length, 'material')}`,
-      `  ${plural(ir.animations.length, 'animation clip')}`,
-      ir.instances.length ? `  ${plural(ir.instances.length, 'instancing candidate')}` : '',
-      gray('  run without --dry-run to generate a component'),
-    ].filter(Boolean).join('\n'))
-    return
+  finally {
+    if (tempDir) {
+      await rm(tempDir, { recursive: true, force: true }).catch(() => {})
+    }
   }
-
-  const asset = options.url ? { url: options.url, inferred: true } : await inferAssetURL(input)
-  if (!asset.inferred) {
-    console.warn(`${yellow('!')} No public/ directory above ${input}, so the model url is a guess: ${asset.url}`)
-    console.warn(`  Pass --url to set it explicitly.`)
-  }
-
-  const { code, slots, warnings } = emitSFC(ir, {
-    url: asset.url,
-    slots: options.slots,
-    shadows: options.shadows,
-    keepGroups: options.keepgroups,
-    keepNames: options.keepnames,
-    root: options.root,
-    precision: options.precision,
-    meta: options.meta,
-    command: `tres ${process.argv.slice(2).join(' ')}`,
-  })
-
-  for (const warning of warnings) {
-    console.warn(`${yellow('!')} ${warning}`)
-  }
-
-  if (options.console) {
-    // eslint-disable-next-line no-console
-    console.log(code)
-    return
-  }
-
-  const target = options.output ?? await defaultOutput(input)
-  await assertWritable(target, Boolean(options.force))
-  await mkdir(dirname(target), { recursive: true })
-  await writeFile(target, code, 'utf-8')
-
-  // eslint-disable-next-line no-console
-  console.log(`${green('✔')} ${bold(target)}\n  ${plural(slots.length, 'slot')}${slots.length ? gray(`: ${slots.join(', ')}`) : ''}`)
 }
 
 export default gltf
