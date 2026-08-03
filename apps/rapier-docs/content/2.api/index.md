@@ -11,7 +11,6 @@ The `<Physics />` component is the main component, provider and source of all ph
 
 ::SceneWrapper
   ::DemosPhysic
-  ::
 ::
 
 ::prose-warning

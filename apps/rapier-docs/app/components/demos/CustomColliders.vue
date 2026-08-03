@@ -24,13 +24,31 @@ const jump = () => {
   ballRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
 }
 
-const { debug, friction, mass, restitution, density } = useControls({
+const controlDefaults = {
   debug: true,
-  friction: { value: 0.5, min: 0, max: 1, step: 0.1 },
-  mass: { value: 1, min: 0.1, max: 20, step: 0.1 },
-  restitution: { value: 0.5, min: 0, max: 2, step: 0.1 },
-  density: { value: 1, min: 0.1, max: 20, step: 0.1 },
+  friction: 0.5,
+  mass: 1,
+  restitution: 0.5,
+  density: 1,
+}
+
+const controls = useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      resetControls(controls, controlDefaults)
+      resetRigidBody(ballRef.value?.instance)
+    },
+  },
+  debug: controlDefaults.debug,
+  friction: { value: controlDefaults.friction, min: 0, max: 1, step: 0.1 },
+  mass: { value: controlDefaults.mass, min: 0.1, max: 20, step: 0.1 },
+  restitution: { value: controlDefaults.restitution, min: 0, max: 2, step: 0.1 },
+  density: { value: controlDefaults.density, min: 0.1, max: 20, step: 0.1 },
 }, { uuid })
+
+const { debug, friction, mass, restitution, density } = controls
 </script>
 
 <template>
@@ -50,7 +68,7 @@ const { debug, friction, mass, restitution, density } = useControls({
           :density
         >
           <ConeCollider
-            :args="[1, 1, 1]"
+            :args="[1, 1]"
             :position="[1, 14, 0]"
             :friction
             :mass
@@ -62,7 +80,7 @@ const { debug, friction, mass, restitution, density } = useControls({
             <TresMeshStandardMaterial color="#5672cd" />
           </TresMesh>
           <CylinderCollider
-            :args="[0.5, 0.5, 1]"
+            :args="[0.5, 0.5]"
             :position="[-1, 16, 0]"
             :friction
             :mass
