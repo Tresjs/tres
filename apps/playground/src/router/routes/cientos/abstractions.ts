@@ -60,6 +60,16 @@ export const abstractionsRoutes = [
     component: () => import('@/pages/cientos/abstractions/AlignDemo.vue'),
   },
   {
+    path: '/cientos/abstractions/instances',
+    name: 'Instances',
+    component: () => import('@/pages/cientos/abstractions/InstancesDemo.vue'),
+  },
+  {
+    path: '/cientos/abstractions/merged',
+    name: 'Merged',
+    component: () => import('@/pages/cientos/abstractions/merged/MergedDemo.vue'),
+  },
+  {
     path: '/cientos/abstractions/fit',
     name: 'Fit',
     component: () => import('@/pages/cientos/abstractions/fit/index.vue'),

@@ -23,6 +23,7 @@ export {
 } from './Decal/DecalGeometry'
 export type { DecalEditorSession, DecalEntry, DecalEntryActions, EditMode } from './Decal/useDecalEditor'
 export { useDecalEditor } from './Decal/useDecalEditor'
+export * from './Instances'
 export * from './useSurfaceSampler'
 export {
   Align,
