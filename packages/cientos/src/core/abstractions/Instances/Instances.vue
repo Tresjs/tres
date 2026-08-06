@@ -23,9 +23,17 @@ export interface InstancesProps {
    * Key this batch registers under with an ancestor `<Merged>`, so `<Instance name="...">` can find it.
    */
   name?: string
+  /**
+   * Shadows belong to the batch, not to an `<Instance>`: one `InstancedMesh` draws them all.
+   */
+  castShadow?: boolean
+  /**
+   * @see castShadow
+   */
+  receiveShadow?: boolean
 }
 
-const props = withDefaults(defineProps<InstancesProps>(), { limit: 1000 })
+const props = withDefaults(defineProps<InstancesProps>(), { limit: 1000, castShadow: false, receiveShadow: false })
 
 const { mesh, api, update } = useInstancesBatch(() => ({
   geometry: props.geometry,
@@ -57,6 +65,8 @@ defineExpose({ instance: mesh })
   <primitive
     v-if="mesh"
     :object="mesh"
+    :cast-shadow="castShadow"
+    :receive-shadow="receiveShadow"
   >
     <slot></slot>
   </primitive>

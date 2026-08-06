@@ -1,9 +1,14 @@
-import type { GLTFIR, IRNode, Vector3Tuple } from '../gltf/ir'
-import * as THREE from 'three'
+import type { GLTFIR, IRNode } from '../gltf/ir'
+import type { InstancePlan } from './instancing'
+import { contextKey, emitInstancesSFC } from './instances'
+import { NO_INSTANCING, planInstancing } from './instancing'
+import { access, declarer, header, importable, INDENT, modelTypes, round, tuple } from './shared'
 
 export interface EmitOptions {
   /** What the component passes to `useGLTF`. */
   url: string
+  /** Component name, used for the injection key and the error a stray model throws. */
+  name?: string
   /** `named` slots only author-given names, `all` slots everything, `none` slots nothing. */
   slots?: 'named' | 'all' | 'none'
   shadows?: boolean
@@ -17,12 +22,20 @@ export interface EmitOptions {
   precision?: number
   /** Emit glTF extras as `:user-data`. */
   meta?: boolean
+  /** Collapse meshes that share a geometry+material pair into an `InstancedMesh` batch. */
+  instance?: boolean
+  /** Batch every eligible mesh, including the ones that appear once. */
+  instanceAll?: boolean
+  /** Import specifier for the emitted provider, when instancing. */
+  instancesModule?: string
   /** Recorded in the header so regeneration is reproducible. */
   command?: string
 }
 
 export interface EmitResult {
   code: string
+  /** The provider half, when instancing produced one. Written beside `code`. */
+  instances?: string
   /** Slot names the parent can override. */
   slots: string[]
   warnings: string[]
@@ -42,43 +55,19 @@ const EXPORTER_NAME = new RegExp(
   'i',
 )
 
-const INDENT = '  '
+/** Tells a class worth importing from three apart from `number` or a tuple literal. */
+const THREE_CLASS = /^[A-Z]\w*$/
 
-function isVarName(key: string): boolean {
-  return /^[$A-Z_][\w$]*$/i.test(key)
+/** A `<slot>` binding and the type an override sees for it. */
+interface SlotBinding {
+  key: string
+  expr: string
+  type: string
 }
 
-/** `nodes.Foo` when it is a legal identifier, `nodes['Foo bar']` when it is not. */
-function access(base: string, key: string): string {
-  return isVarName(key) ? `${base}.${key}` : `${base}['${key.replace(/'/g, '\\\'')}']`
-}
-
-/**
- * Declares keys the way `quote-props: consistent-as-needed` wants them: bare, unless one
- * key in the block has to be quoted, in which case they all are. A generated file the
- * consumer's linter wants to rewrite is a generated file that fights them on every run.
- */
-function declarer(keys: string[]): (key: string) => string {
-  const quoteAll = keys.some(key => !isVarName(key))
-  return key => quoteAll ? `'${key.replace(/'/g, '\\\'')}'` : key
-}
-
-/**
- * `object.type` is whatever string three stamped on the instance, and not every one of
- * them is a class three exports — a name it does not export would make the generated
- * file fail to compile, so widen to the base class instead.
- */
-function importable(type: string, base: 'Object3D' | 'Material'): string {
-  return typeof (THREE as unknown as Record<string, unknown>)[type] === 'function' ? type : base
-}
-
-function round(value: number, precision: number): number {
-  const factor = 10 ** precision
-  return Math.round(value * factor) / factor
-}
-
-function tuple(values: Vector3Tuple, precision: number): string {
-  return `[${values.map(value => round(value, precision)).join(', ')}]`
+interface SlotSpec {
+  name: string
+  bindings: SlotBinding[]
 }
 
 function isLight(node: IRNode): boolean {
@@ -103,19 +92,48 @@ function isContainer(node: IRNode): boolean {
 }
 
 export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
-  const { url, slots: slotMode = 'named', shadows = false, keepGroups = false, keepNames = false, precision = 2, meta = false, command } = options
+  const {
+    url,
+    name = 'Model',
+    slots: slotMode = 'named',
+    shadows = false,
+    keepGroups = false,
+    keepNames = false,
+    precision = 2,
+    meta = false,
+    command,
+  } = options
 
   const warnings: string[] = []
   const slots: string[] = []
-  const slotProps: { name: string, node: string, material?: string }[] = []
+  const slotSpecs: SlotSpec[] = []
 
   const root = options.root ? findNode(ir.root, options.root) : ir.root
   if (!root) {
     throw new Error(`No node named "${options.root}" in this model.`)
   }
 
+  const wantsInstancing = Boolean(options.instance || options.instanceAll)
+  const plan: InstancePlan = wantsInstancing
+    ? planInstancing(ir, root, Boolean(options.instanceAll))
+    : NO_INSTANCING
+  const instanced = plan.batches.length > 0
+
+  if (wantsInstancing && !instanced) {
+    warnings.push(
+      `Nothing in this model can be batched: no two meshes share a geometry and material. Generated the plain component instead.`,
+    )
+  }
+
+  const instancesModule = options.instancesModule ?? `./${name}.instances.gen.vue`
+
   /** Only nodes that draw something make a slot worth having. */
   const renderable = { candidates: 0, slotted: 0 }
+
+  /** The key of the batch this node joins, which is the bucket's first node, not this one. */
+  function batchOf(node: IRNode): string | undefined {
+    return node.name ? plan.assignment.get(node.name) : undefined
+  }
 
   function isSlotted(node: IRNode): boolean {
     // A bone must stay the parsed object for skinning to work, so overriding one is
@@ -124,6 +142,29 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
       return false
     }
     return slotMode === 'all' || !EXPORTER_NAME.test(node.name)
+  }
+
+  /** `:position`, `:rotation`, `:scale` — the only attributes an `<Instance>` also takes. */
+  function transformAttrs(node: IRNode): { attr: string, binding: SlotBinding }[] {
+    const { position, rotation, scale } = node.transform ?? {}
+    const out: { attr: string, binding: SlotBinding }[] = []
+
+    if (position) {
+      const expr = tuple(position, precision)
+      out.push({ attr: `:position="${expr}"`, binding: { key: 'position', expr, type: '[number, number, number]' } })
+    }
+    if (rotation) {
+      const expr = tuple(rotation, precision)
+      out.push({ attr: `:rotation="${expr}"`, binding: { key: 'rotation', expr, type: '[number, number, number]' } })
+    }
+    if (scale) {
+      const [x, y, z] = scale
+      const uniform = x === y && y === z
+      const expr = uniform ? String(round(x, precision)) : tuple(scale, precision)
+      out.push({ attr: `:scale="${expr}"`, binding: { key: 'scale', expr, type: uniform ? 'number' : '[number, number, number]' } })
+    }
+
+    return out
   }
 
   function attributes(node: IRNode): string[] {
@@ -151,22 +192,25 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
       )
     }
 
-    const { position, rotation, scale } = node.transform ?? {}
-    if (position) {
-      attrs.push(`:position="${tuple(position, precision)}"`)
-    }
-    if (rotation) {
-      attrs.push(`:rotation="${tuple(rotation, precision)}"`)
-    }
-    if (scale) {
-      const [x, y, z] = scale
-      attrs.push(x === y && y === z ? `:scale="${round(x, precision)}"` : `:scale="${tuple(scale, precision)}"`)
-    }
+    attrs.push(...transformAttrs(node).map(({ attr }) => attr))
 
     if (meta && node.userData) {
       attrs.push(`:user-data="${JSON.stringify(node.userData).replace(/"/g, '\'')}"`)
     }
 
+    return attrs
+  }
+
+  /**
+   * A batched mesh keeps nothing but its placement: geometry, material and shadow flags
+   * belong to the `InstancedMesh` the provider owns, and `name` is the batch key, so
+   * `--keepnames` cannot have it.
+   */
+  function instanceAttributes(node: IRNode, key: string): string[] {
+    const attrs = [`name="${key}"`, ...transformAttrs(node).map(({ attr }) => attr)]
+    if (meta && node.userData) {
+      attrs.push(`:user-data="${JSON.stringify(node.userData).replace(/"/g, '\'')}"`)
+    }
     return attrs
   }
 
@@ -206,14 +250,51 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
       return []
     }
 
-    const attrs = attributes(node)
-    const open = [node.tag, ...attrs].join(' ')
+    const batch = batchOf(node)
+    const tag = batch ? 'Instance' : node.tag
+    const attrs = batch ? instanceAttributes(node, batch) : attributes(node)
+    const open = [tag, ...attrs].join(' ')
 
     const lines = children.length === 0
       ? [`${pad}<${open} />`]
-      : [`${pad}<${open}>`, ...children, `${pad}</${node.tag}>`]
+      : [`${pad}<${open}>`, ...children, `${pad}</${tag}>`]
 
     return wrap(node, lines, depth)
+  }
+
+  /**
+   * What an override is handed. A batched node has no geometry or material of its own to
+   * pass, so it gets the batch's instead, plus its placement — enough to opt out of the
+   * batch and draw itself.
+   *
+   * `batch` is the other half: an override that wants to stay batched renders its own
+   * `<Instance>`, and the key that batch registered under is `nodes[0]` of the bucket,
+   * not this node's name, so it cannot be guessed from the slot name. Named `batch` and
+   * not `name` because Vue reads a bound `name` on a `<slot>` as a dynamic slot name.
+   */
+  function slotBindings(node: IRNode): SlotBinding[] {
+    const material = node.material
+      ? {
+          key: 'material',
+          expr: access('materials', node.material),
+          type: importable(ir.materials[node.material]?.type ?? '', 'Material'),
+        }
+      : undefined
+
+    const batch = batchOf(node)
+    if (batch && node.name) {
+      return [
+        { key: 'batch', expr: `'${batch.replace(/'/g, '\\\'')}'`, type: 'string' },
+        { key: 'geometry', expr: `${access('nodes', node.name)}.geometry`, type: 'BufferGeometry' },
+        ...(material ? [material] : []),
+        ...transformAttrs(node).map(({ binding }) => binding),
+      ]
+    }
+
+    return [
+      { key: 'node', expr: access('nodes', node.name), type: importable(node.type, 'Object3D') },
+      ...(material ? [material] : []),
+    ]
   }
 
   /** Slots wrap an element with its generated markup as the fallback. */
@@ -230,17 +311,13 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     if (drawsSomething) {
       renderable.slotted++
     }
+
+    const bindings = slotBindings(node)
     slots.push(node.name)
-    slotProps.push({
-      name: node.name,
-      node: importable(node.type, 'Object3D'),
-      material: node.material ? importable(ir.materials[node.material]?.type ?? '', 'Material') : undefined,
-    })
+    slotSpecs.push({ name: node.name, bindings })
+
     const pad = INDENT.repeat(depth)
-    const props = [`:node="${access('nodes', node.name)}"`]
-    if (node.material) {
-      props.push(`:material="${access('materials', node.material)}"`)
-    }
+    const props = bindings.map(({ key, expr }) => `:${key}="${expr}"`)
 
     return [
       `${pad}<slot name="${node.name}" ${props.join(' ')}>`,
@@ -249,7 +326,7 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     ]
   }
 
-  const body = renderChildren(root.children, 3)
+  const body = renderChildren(root.children, instanced ? 2 : 3)
 
   if (slotMode === 'named' && renderable.slotted === 0 && renderable.candidates > 0) {
     warnings.push(
@@ -257,90 +334,102 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     )
   }
 
+  // A `<primitive>` binds the one parsed object, and an Object3D has one parent. The whole
+  // point of instancing is rendering the model more than once, so say what that costs.
+  const shared = instanced ? collect(root, node => isPassthrough(node) && node.type !== 'Bone') : []
+  if (shared.length > 0) {
+    const [one] = shared
+    warnings.push(
+      `${shared.map(node => node.name).join(', ')} ${shared.length === 1 ? 'is' : 'are'} passed through as the parsed object, `
+      + `so a second <${name}> steals ${shared.length === 1 ? 'it' : 'them'} from the first. `
+      + `Generate from a subtree without ${shared.length === 1 ? one.name : 'them'} with --root, or place ${shared.length === 1 ? 'it' : 'them'} yourself.`,
+    )
+  }
+
   const hasAnimations = ir.animations.length > 0
   const loaderArgs = ir.draco ? `'${url}', { draco: true }` : `'${url}'`
 
-  /**
-   * The keys `useGLTF` hands back at runtime, declared up front. They come straight
-   * from the parsed model, so the file describes this export and no other: a re-export
-   * that drops a mesh turns into a type error at the override that used it.
-   */
-  const declareNode = declarer(Object.keys(ir.nodes))
-  const declareMaterial = declarer(Object.keys(ir.materials))
+  const { lines: localTypes, threeTypes: modelThreeTypes } = modelTypes(ir)
 
-  const nodeShape = Object.entries(ir.nodes)
-    .map(([name, entry]) => `${INDENT}${declareNode(name)}: ${importable(entry.type, 'Object3D')}`)
-  const materialShape = Object.entries(ir.materials)
-    .map(([name, entry]) => `${INDENT}${declareMaterial(name)}: ${importable(entry.type, 'Material')}`)
-
-  const threeTypes = new Set<string>([
-    ...Object.values(ir.nodes).map(entry => importable(entry.type, 'Object3D')),
-    ...Object.values(ir.materials).map(entry => importable(entry.type, 'Material')),
-  ])
-  if (hasAnimations) {
-    threeTypes.add('AnimationClip')
-  }
-
-  const types = [
-    'interface ModelNodes {',
-    ...nodeShape,
-    '}',
-    '',
-    'interface ModelMaterials {',
-    ...materialShape,
-    '}',
-    // `=` leads its line and the members line up under it: `style/operator-linebreak`,
-    // the same shape core writes its own unions in.
-    ...(hasAnimations
-      ? [
-          '',
-          'type ActionName',
-          ...ir.animations.map((clip, index) =>
-            `${index === 0 ? `${INDENT}= ` : INDENT.repeat(2)}| '${clip.replace(/'/g, '\\\'')}'`),
-        ]
-      : []),
-    '',
-  ]
-
-  const declareSlot = declarer(slotProps.map(slot => slot.name))
-
-  const slotTypes = slotProps.length > 0
+  const declareSlot = declarer(slotSpecs.map(slot => slot.name))
+  const slotTypes = slotSpecs.length > 0
     ? [
         'defineSlots<{',
-        ...slotProps.map(({ name, node, material }) => {
-          const props = material ? `{ node: ${node}, material: ${material} }` : `{ node: ${node} }`
-          return `${INDENT}${declareSlot(name)}?: (props: ${props}) => any`
+        ...slotSpecs.map(({ name: slotName, bindings }) => {
+          const shape = bindings.map(({ key, type }) => `${key}: ${type}`).join(', ')
+          return `${INDENT}${declareSlot(slotName)}?: (props: { ${shape} }) => any`
         }),
         '}>()',
         '',
       ]
     : []
 
-  const imports = [
-    threeTypes.size > 0 ? `import type { ${[...threeTypes].sort().join(', ')} } from 'three'` : '',
-    hasAnimations
-      ? `import { useAnimations, useGLTF } from '@tresjs/cientos'`
-      : `import { useGLTF } from '@tresjs/cientos'`,
-    hasAnimations ? `import { computed, ref } from 'vue'` : '',
+  /**
+   * Instancing moves `ModelNodes` / `ModelMaterials` into the provider, so the consumer
+   * declares nothing and needs only the classes its slot props hand out. Importing the
+   * full set would leave unused names in a file the consumer's `noUnusedLocals` reads.
+   */
+  const threeTypes = instanced
+    ? new Set([
+        ...slotSpecs.flatMap(slot => slot.bindings.map(binding => binding.type)),
+        ...(hasAnimations ? ['AnimationClip'] : []),
+      ].filter(type => THREE_CLASS.test(type)))
+    : modelThreeTypes
+
+  const cientos = [
+    instanced ? 'Instance' : '',
+    hasAnimations ? 'useAnimations' : '',
+    instanced ? '' : 'useGLTF',
   ].filter(Boolean)
 
-  const loader = `useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`
+  const vue = [
+    // Instancing hands the clips over already wrapped, so only the standalone build computes them.
+    ...(hasAnimations && !instanced ? ['computed'] : []),
+    ...(instanced ? ['inject'] : []),
+    ...(hasAnimations ? ['ref'] : []),
+  ]
 
-  const setup = hasAnimations
+  // The provider declares the model's shapes, so this file imports them instead of
+  // repeating them. Types only: the injection key itself is a literal in both files.
+  const provided = [...(hasAnimations ? ['ActionName'] : []), 'ModelContext']
+
+  const imports = [
+    threeTypes.size > 0 ? `import type { ${[...threeTypes].sort().join(', ')} } from 'three'` : '',
+    instanced ? `import type { ${provided.join(', ')} } from '${instancesModule}'` : '',
+    `import { ${cientos.join(', ')} } from '@tresjs/cientos'`,
+    vue.length > 0 ? `import { ${vue.join(', ')} } from 'vue'` : '',
+  ].filter(Boolean)
+
+  const animationSetup = [
+    `const modelRef = ref()`,
+    `const { actions } = useAnimations<AnimationClip, ActionName>(animations, modelRef)`,
+    '',
+    `defineExpose({ nodes, materials, actions })`,
+  ]
+
+  const setup = instanced
     ? [
-        `const { state, nodes, materials, isLoading } = ${loader}`,
+        `const context = inject<ModelContext>('${contextKey(name)}')`,
+        'if (!context) {',
+        `${INDENT}throw new Error('<${name}> renders instanced meshes, so it only works inside <${name}Instances>.')`,
+        '}',
         '',
-        `const modelRef = ref()`,
-        `const animations = computed(() => state.value?.animations ?? [])`,
-        `const { actions } = useAnimations<AnimationClip, ActionName>(animations, modelRef)`,
+        `const { ${['nodes', 'materials', ...(hasAnimations ? ['animations'] : [])].join(', ')} } = context`,
         '',
-        `defineExpose({ nodes, materials, actions })`,
+        ...(hasAnimations ? animationSetup : [`defineExpose({ nodes, materials })`]),
       ]
-    : [
-        `const { nodes, materials, isLoading } = ${loader}`,
-        '',
-        `defineExpose({ nodes, materials })`,
-      ]
+    : hasAnimations
+      ? [
+          `const { state, nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
+          '',
+          `const animations = computed(() => state.value?.animations ?? [])`,
+          ...animationSetup,
+        ]
+      : [
+          `const { nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
+          '',
+          `defineExpose({ nodes, materials })`,
+        ]
 
   /**
    * The root group stays mounted and gates its children instead of itself: a `ref`
@@ -351,35 +440,69 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     ? ['ref="modelRef"', ':dispose="null"']
     : [':dispose="null"']
 
-  const header = [
-    '/*',
-    'Auto-generated by @tresjs/cli. Do not edit.',
-    command ? `Command: ${command}` : '',
-    'Override the named slots from the parent instead; regenerating keeps your overrides.',
-    '*/',
-  ].filter(Boolean)
+  // The provider already gates on `isLoading`, and the consumer renders inside its slot.
+  const template = instanced
+    ? [
+        `${INDENT}<TresGroup ${rootAttrs.join(' ')}>`,
+        ...body,
+        `${INDENT}</TresGroup>`,
+      ]
+    : [
+        `${INDENT}<TresGroup ${rootAttrs.join(' ')}>`,
+        `${INDENT.repeat(2)}<template v-if="!isLoading">`,
+        ...body,
+        `${INDENT.repeat(2)}</template>`,
+        `${INDENT}</TresGroup>`,
+      ]
+
+  /**
+   * The batched escape hatch is the one nobody guesses: it needs an import in the parent and
+   * the batch key, so the header spells both out against a slot this model actually has.
+   */
+  const batched = slotSpecs.find(slot => slot.bindings.some(binding => binding.key === 'batch'))
+  const batchedNote = batched
+    ? [
+        `A batched slot hands you \`batch\`, the key of the batch it joins (not always the slot name):`,
+        `<template #${batched.name}="{ batch }"><Instance :name="batch" color="red" /></template>`,
+        `with \`import { Instance } from '@tresjs/cientos'\` in the parent. Use the geometry and material`,
+        `it also hands you instead to leave the batch and draw that part yourself.`,
+      ]
+    : []
 
   const code = [
     '<script setup lang="ts">',
-    ...header,
+    ...header(
+      command,
+      'Override the named slots from the parent instead; regenerating keeps your overrides.',
+      instanced ? `Render inside <${name}Instances>, which owns the load and the batches.` : '',
+      ...batchedNote,
+    ),
     ...imports,
     '',
-    ...types,
+    ...(instanced ? [] : localTypes),
     ...slotTypes,
     ...setup,
     '</script>',
     '',
     '<template>',
-    `${INDENT}<TresGroup ${rootAttrs.join(' ')}>`,
-    `${INDENT.repeat(2)}<template v-if="!isLoading">`,
-    ...body,
-    `${INDENT.repeat(2)}</template>`,
-    `${INDENT}</TresGroup>`,
+    ...template,
     '</template>',
     '',
   ].join('\n')
 
-  return { code, slots, warnings }
+  return {
+    code,
+    instances: instanced
+      ? emitInstancesSFC(ir, { url, name, shadows, plan, command }).code
+      : undefined,
+    slots,
+    warnings,
+  }
+}
+
+function collect(node: IRNode, predicate: (node: IRNode) => boolean): IRNode[] {
+  const found = predicate(node) && node.name ? [node] : []
+  return [...found, ...node.children.flatMap(child => collect(child, predicate))]
 }
 
 function findNode(node: IRNode, name: string): IRNode | undefined {

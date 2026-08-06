@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest'
 import { compileScript, compileTemplate, parse } from 'vue/compiler-sfc'
 import { buildIR } from '../gltf/build-ir'
 import { loadGLTF } from '../gltf/load'
-import { lightAndCameraGLB, morphAndMetaGLB, nestedGLB, sketchfabGLB, skinnedGLB } from '../gltf/__fixtures__/scenes'
+import { lightAndCameraGLB, mixedInstancingGLB, morphAndMetaGLB, nestedGLB, sketchfabGLB, skinnedGLB } from '../gltf/__fixtures__/scenes'
 import { emitSFC } from './sfc'
 
 const CASES = {
@@ -52,6 +52,33 @@ describe('generated output compiles', () => {
 
     // `_renderSlot(` only: the bare name also appears in the compiler's import line.
     expect(template.code.match(/_renderSlot\(/g)?.length).toBe(slots.length)
+  })
+
+  it('compiles both halves of an instanced model', async () => {
+    const ir = buildIR(await loadGLTF(await mixedInstancingGLB()))
+    const { code, instances } = emitSFC(ir, { url: '/model.glb', name: 'Rocks', slots: 'all', instance: true, shadows: true })
+
+    for (const [id, source] of [['rocks', code], ['rocks-instances', instances!]] as const) {
+      const { parseErrors, templateErrors } = compile(source, id)
+
+      expect(parseErrors, id).toEqual([])
+      expect(templateErrors, id).toEqual([])
+    }
+  })
+
+  /**
+   * A bound `name` on a `<slot>` is a dynamic slot name to the compiler, not a slot prop, so
+   * handing the batch key over under that key would silently rename every batched slot.
+   */
+  it('keeps a batched slot name static while handing over the batch key', async () => {
+    const ir = buildIR(await loadGLTF(await mixedInstancingGLB()))
+    const { code } = emitSFC(ir, { url: '/model.glb', name: 'Rocks', slots: 'all', instance: true })
+
+    const { template, templateErrors } = compile(code, 'rocks')
+
+    expect(templateErrors).toEqual([])
+    expect(template.code).toContain('_renderSlot(_ctx.$slots, "Rock_1"')
+    expect(template.code).toContain(`batch: 'Rock_0'`)
   })
 
   it('keeps bracket-access keys intact through compilation', async () => {

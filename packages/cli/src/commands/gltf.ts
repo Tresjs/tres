@@ -29,6 +29,10 @@ export interface GLTFOptions {
   json?: boolean
   /** Optimize the model with glTF-Transform before generating against it. */
   transform?: boolean
+  /** Batch meshes that share a geometry+material pair into an InstancedMesh. */
+  instance?: boolean
+  /** Batch every eligible mesh, including the ones that appear once. */
+  instanceall?: boolean
   resolution?: number
   format?: TextureFormat
   simplify?: boolean
@@ -52,6 +56,11 @@ function plural(count: number, noun: string, suffix = 's'): string {
 /** The optimized asset lives beside the source as `<name>-transformed.glb`. */
 function transformedPath(input: string): string {
   return join(dirname(input), `${basename(input, extname(input))}-transformed.glb`)
+}
+
+/** `Robot.gen.vue` → `Robot.instances.gen.vue`, beside the component that imports it. */
+function instancesPath(target: string): string {
+  return join(dirname(target), basename(target).replace(/(\.gen)?\.vue$/, '.instances$1.vue'))
 }
 
 /** `4200000` → `4.0MB`. Enough precision to make the saving obvious, not exact. */
@@ -81,7 +90,9 @@ async function optimize(input: string, output: string, options: GLTFOptions, qui
     simplify: options.simplify,
     ratio: options.ratio,
     error: options.error,
-    keepMeshes: options.keepmeshes,
+    // join() welds compatible meshes into one, which is the opposite of what instancing
+    // wants: it needs the repeats to stay separate nodes over one deduplicated geometry.
+    keepMeshes: options.keepmeshes || Boolean(options.instance || options.instanceall),
     keepMaterials: options.keepmaterials,
   }).catch(async (error) => {
     throw await explainMissingFile(input, error)
@@ -98,9 +109,14 @@ async function optimize(input: string, output: string, options: GLTFOptions, qui
   console.log(gray('  the component targets the optimized file; useGLTF() now loads it'))
 }
 
-/** `toy-rocket.glb` → `ToyRocket`, so the output is importable as a component. */
+/**
+ * `toy-rocket.glb` → `ToyRocket`, so the output is importable as a component. Also read off
+ * the output path when `-o` names one, because that is the name the consumer will import,
+ * and `--instance` keys its injection on it.
+ */
 function componentName(input: string): string {
   return basename(input, extname(input))
+    .replace(/\.gen$/, '')
     .split(/[^a-z0-9]+/i)
     .filter(Boolean)
     .map(part => part[0].toUpperCase() + part.slice(1))
@@ -174,8 +190,18 @@ async function assertWritable(path: string, force: boolean): Promise<void> {
  * destroys the overrides a consumer wrote in their own file.
  */
 const gltf: CommandHandler = async function (input: string, options: GLTFOptions = {}) {
+  const wantsInstancing = Boolean(options.instance || options.instanceall)
+
+  // Batching dedupes by geometry identity, and an unoptimized export hands three one
+  // geometry object per node however identical they are — so instancing without the
+  // pipeline finds nothing. gltfjsx forces it silently; say it out loud instead.
+  if (wantsInstancing && !options.dryRun && !options.json) {
+    // eslint-disable-next-line no-console
+    console.log(`${cyan('⚙')} instancing needs deduplicated geometry, so --transform is on and --keepmeshes with it`)
+  }
+
   // --json and --dry-run only inspect the source, so there is nothing to optimize for them.
-  const wantsTransform = Boolean(options.transform) && !options.dryRun && !options.json
+  const wantsTransform = Boolean(options.transform || wantsInstancing) && !options.dryRun && !options.json
 
   // model: the file the IR is built from. assetSource: the path the url is inferred from.
   // They only diverge in --console mode, where the optimized file is written to a temp dir
@@ -217,13 +243,15 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
 
     if (options.dryRun) {
       const meshes = Object.values(ir.nodes).filter(node => node.type.endsWith('Mesh')).length
+      // Buckets of one only matter to --instanceall; they are not candidates on their own.
+      const candidates = ir.instances.filter(bucket => bucket.nodes.length > 1).length
       // eslint-disable-next-line no-console
       console.log([
         bold(input),
         `  ${plural(Object.keys(ir.nodes).length, 'named node')} (${plural(meshes, 'mesh', 'es')})`,
         `  ${plural(Object.keys(ir.materials).length, 'material')}`,
         `  ${plural(ir.animations.length, 'animation clip')}`,
-        ir.instances.length ? `  ${plural(ir.instances.length, 'instancing candidate')}` : '',
+        candidates ? `  ${plural(candidates, 'instancing candidate')}` : '',
         gray('  run without --dry-run to generate a component'),
       ].filter(Boolean).join('\n'))
       return
@@ -235,8 +263,14 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
       console.warn(`  Pass --url to set it explicitly.`)
     }
 
-    const { code, slots, warnings } = emitSFC(ir, {
+    // The provider's path is settled before the emit: the consumer imports it by name.
+    const target = options.console ? undefined : options.output ?? await defaultOutput(input)
+    const name = componentName(target ?? input)
+    const instancesTarget = instancesPath(target ?? `${name}.gen.vue`)
+
+    const { code, instances, slots, warnings } = emitSFC(ir, {
       url: asset.url,
+      name,
       slots: options.slots,
       shadows: options.shadows,
       keepGroups: options.keepgroups,
@@ -244,6 +278,9 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
       root: options.root,
       precision: options.precision,
       meta: options.meta,
+      instance: options.instance,
+      instanceAll: options.instanceall,
+      instancesModule: `./${basename(instancesTarget)}`,
       command: `tres ${process.argv.slice(2).join(' ')}`,
     })
 
@@ -251,19 +288,27 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
       console.warn(`${yellow('!')} ${warning}`)
     }
 
-    if (options.console) {
+    if (!target) {
       // eslint-disable-next-line no-console
-      console.log(code)
+      console.log(instances ? `${code}\n${gray(`<!-- ${basename(instancesTarget)} -->`)}\n${instances}` : code)
       return
     }
 
-    const target = options.output ?? await defaultOutput(input)
-    await assertWritable(target, Boolean(options.force))
+    const written = instances ? [instancesTarget, target] : [target]
+    for (const path of written) {
+      await assertWritable(path, Boolean(options.force))
+    }
     await mkdir(dirname(target), { recursive: true })
     await writeFile(target, code, 'utf-8')
+    if (instances) {
+      await writeFile(instancesTarget, instances, 'utf-8')
+    }
 
     // eslint-disable-next-line no-console
-    console.log(`${green('✔')} ${bold(target)}\n  ${plural(slots.length, 'slot')}${slots.length ? gray(`: ${slots.join(', ')}`) : ''}`)
+    console.log([
+      ...written.map(path => `${green('✔')} ${bold(path)}`),
+      `  ${plural(slots.length, 'slot')}${slots.length ? gray(`: ${slots.join(', ')}`) : ''}`,
+    ].join('\n'))
   }
   finally {
     if (tempDir) {

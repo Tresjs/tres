@@ -52,7 +52,11 @@ export interface IRNode {
   children: IRNode[]
 }
 
-/** Meshes sharing one geometry+material pair, which `--instance` can collapse. */
+/**
+ * Every mesh that shares one geometry+material pair, in traversal order. Singletons are
+ * included: `--instanceall` batches them too, and deciding which buckets are worth
+ * collapsing is the emitter's call, not a fact about the model.
+ */
 export interface IRInstanceBucket {
   material: string
   nodes: string[]

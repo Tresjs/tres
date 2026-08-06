@@ -129,7 +129,7 @@ function toInstanceBuckets(scene: Object3D): IRInstanceBucket[] {
     buckets.set(key, bucket)
   })
 
-  return [...buckets.values()].filter(bucket => bucket.nodes.length > 1)
+  return [...buckets.values()]
 }
 
 export function buildIR({ scene, animations, draco }: LoadedGLTF): GLTFIR {

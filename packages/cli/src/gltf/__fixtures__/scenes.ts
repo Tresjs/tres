@@ -290,6 +290,37 @@ export function repeatedGeometryGLB(): Promise<ArrayBuffer> {
 }
 
 /**
+ * The mix `--instance` has to split three ways: three meshes sharing a geometry, one
+ * mesh of its own, and a light that cannot be batched or duplicated.
+ */
+export function mixedInstancingGLB(): Promise<ArrayBuffer> {
+  const scene = new Group()
+  scene.name = 'Scene'
+
+  const geometry = new BoxGeometry(1, 1, 1)
+  const material = new MeshStandardMaterial({ name: 'Rock' })
+
+  for (let i = 0; i < 3; i++) {
+    const mesh = new Mesh(geometry, material)
+    mesh.name = `Rock_${i}`
+    mesh.position.setX(i)
+    scene.add(mesh)
+  }
+
+  const ground = new Mesh(new BoxGeometry(10, 1, 10), new MeshStandardMaterial({ name: 'Ground' }))
+  ground.name = 'Ground'
+  ground.position.setY(-2)
+  scene.add(ground)
+
+  const light = new DirectionalLight('#fff4e6', 2)
+  light.name = 'Sun'
+  light.position.set(5, 10, 5)
+  scene.add(light)
+
+  return toGLB(scene)
+}
+
+/**
  * A `.gltf` + sidecar `.bin` pair on disk, the layout of an unpacked export.
  * Returns the path to the `.gltf`.
  */

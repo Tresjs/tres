@@ -16,9 +16,17 @@ export interface MergedProps {
    * @default 100
    */
   limit?: number
+  /**
+   * Applied to every batch: shadows belong to the `InstancedMesh`, not to an `<Instance>`.
+   */
+  castShadow?: boolean
+  /**
+   * @see castShadow
+   */
+  receiveShadow?: boolean
 }
 
-withDefaults(defineProps<MergedProps>(), { limit: 100 })
+withDefaults(defineProps<MergedProps>(), { limit: 100, castShadow: false, receiveShadow: false })
 
 const registry = shallowReactive<Record<string, InstancesApi>>({})
 
@@ -35,6 +43,8 @@ defineExpose({ instances: registry })
     :geometry="mesh.geometry"
     :material="mesh.material"
     :limit="limit"
+    :cast-shadow="castShadow"
+    :receive-shadow="receiveShadow"
   />
   <slot></slot>
 </template>
