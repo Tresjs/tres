@@ -7,7 +7,7 @@ import Instances from './Instances.vue'
 
 export interface MergedProps {
   /**
-   * One batch per entry, keyed by the name `<Instance name="...">` refers to.
+   * One batch per entry, keyed by what `<Instance batch="...">` refers to.
    */
   meshes: Record<string, Mesh>
   /**
@@ -16,9 +16,17 @@ export interface MergedProps {
    * @default 100
    */
   limit?: number
+  /**
+   * Applied to every batch: shadows belong to the `InstancedMesh`, not to an `<Instance>`.
+   */
+  castShadow?: boolean
+  /**
+   * @see castShadow
+   */
+  receiveShadow?: boolean
 }
 
-withDefaults(defineProps<MergedProps>(), { limit: 100 })
+withDefaults(defineProps<MergedProps>(), { limit: 100, castShadow: false, receiveShadow: false })
 
 const registry = shallowReactive<Record<string, InstancesApi>>({})
 
@@ -31,10 +39,12 @@ defineExpose({ instances: registry })
   <Instances
     v-for="(mesh, key) in meshes"
     :key="key"
-    :name="key"
+    :batch="key"
     :geometry="mesh.geometry"
     :material="mesh.material"
     :limit="limit"
+    :cast-shadow="castShadow"
+    :receive-shadow="receiveShadow"
   />
   <slot></slot>
 </template>

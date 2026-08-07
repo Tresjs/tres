@@ -220,6 +220,54 @@ describe('gltf command', () => {
     await expect(readFile(out, 'utf-8')).resolves.toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/robot-transformed.glb'`)
   })
 
+  it('writes the provider beside the component with --instance', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'batched/public/models')
+    const out = join(dir, 'batched/Rocks.gen.vue')
+
+    await gltf.call({} as any, path, { instance: true, output: out })
+
+    await expect(readFile(out, 'utf-8')).resolves.toContain(`from './Rocks.instances.gen.vue'`)
+    await expect(readFile(join(dir, 'batched/Rocks.instances.gen.vue'), 'utf-8')).resolves.toContain('<Merged')
+    expect(output()).toContain('Rocks.instances.gen.vue')
+  })
+
+  it('keys the injection on the name -o gave the component, not on the model file', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'renamed/public/models')
+    const out = join(dir, 'renamed/Boulders.gen.vue')
+
+    await gltf.call({} as any, path, { instance: true, output: out })
+
+    await expect(readFile(out, 'utf-8')).resolves.toContain(`inject<ModelContext>('tres-gltf:Boulders')`)
+    await expect(readFile(join(dir, 'renamed/Boulders.instances.gen.vue'), 'utf-8')).resolves.toContain(`provide('tres-gltf:Boulders'`)
+  })
+
+  it('turns --transform on for instancing, and says why', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'forced/public/models')
+
+    await gltf.call({} as any, path, { instance: true, output: join(dir, 'forced/Rocks.gen.vue') })
+
+    await expect(stat(join(dir, 'forced/public/models/rocks-transformed.glb'))).resolves.toBeDefined()
+    expect(output()).toContain('instancing needs deduplicated geometry')
+  })
+
+  it('prints both halves with --console', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'shown/public/models')
+
+    await gltf.call({} as any, path, { instance: true, console: true })
+
+    expect(output()).toContain('<Instance batch=')
+    expect(output()).toContain('Rocks.instances.gen.vue')
+    expect(output()).toContain(`provide('tres-gltf:Rocks'`)
+  })
+
+  it('refuses to clobber a hand-written provider', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'guard/public/models')
+    const out = join(dir, 'guard/Rocks.gen.vue')
+    await writeFile(join(dir, 'guard/Rocks.instances.gen.vue'), '<template>mine</template>')
+
+    await expect(gltf.call({} as any, path, { instance: true, output: out })).rejects.toThrow('will not be overwritten')
+  })
+
   it('previews a transform with --console without writing the optimized file into the project', async () => {
     const path = await fixture('robot.glb', nestedGLB(), 'preview/public/models')
 

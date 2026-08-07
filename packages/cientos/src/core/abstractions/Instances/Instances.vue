@@ -20,12 +20,24 @@ export interface InstancesProps {
    */
   limit?: number
   /**
-   * Key this batch registers under with an ancestor `<Merged>`, so `<Instance name="...">` can find it.
+   * Key this batch registers under with an ancestor `<Merged>`, so `<Instance batch="...">` can find it.
+   */
+  batch?: string
+  /**
+   * Name for the `InstancedMesh` itself, like on any other Tres element.
    */
   name?: string
+  /**
+   * Shadows belong to the batch, not to an `<Instance>`: one `InstancedMesh` draws them all.
+   */
+  castShadow?: boolean
+  /**
+   * @see castShadow
+   */
+  receiveShadow?: boolean
 }
 
-const props = withDefaults(defineProps<InstancesProps>(), { limit: 1000 })
+const props = withDefaults(defineProps<InstancesProps>(), { limit: 1000, castShadow: false, receiveShadow: false })
 
 const { mesh, api, update } = useInstancesBatch(() => ({
   geometry: props.geometry,
@@ -38,15 +50,21 @@ provide(INSTANCES_INJECTION_KEY, api)
 const merged = inject(MERGED_INJECTION_KEY, null)
 
 if (merged) {
-  watch(() => props.name, (name, previous) => {
+  watch(() => props.batch, (batch, previous) => {
     if (previous) { delete merged[previous] }
-    if (name) { merged[name] = api }
+    if (batch) { merged[batch] = api }
   }, { immediate: true })
 
   onScopeDispose(() => {
-    if (props.name && merged[props.name] === api) { delete merged[props.name] }
+    if (props.batch && merged[props.batch] === api) { delete merged[props.batch] }
   })
 }
+
+// The batch is rebuilt whenever its geometry or material changes, so the name is reapplied
+// rather than set once.
+watch([mesh, () => props.name], ([current, name]) => {
+  if (current) { current.name = name ?? '' }
+}, { immediate: true })
 
 useLoop().onBeforeRender(update)
 
@@ -57,6 +75,8 @@ defineExpose({ instance: mesh })
   <primitive
     v-if="mesh"
     :object="mesh"
+    :cast-shadow="castShadow"
+    :receive-shadow="receiveShadow"
   >
     <slot></slot>
   </primitive>

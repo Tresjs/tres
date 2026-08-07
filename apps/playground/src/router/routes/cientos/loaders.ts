@@ -15,6 +15,11 @@ export const loadersRoutes = [
     component: () => import('@/pages/cientos/loaders/gltf-codegen/index.vue'),
   },
   {
+    path: '/cientos/loaders/gltf-instancing',
+    name: 'GLTFCodegenInstancing',
+    component: () => import('@/pages/cientos/loaders/gltf-instancing/index.vue'),
+  },
+  {
     path: '/cientos/loaders/use-svg',
     name: 'useSVG',
     component: () => import('@/pages/cientos/loaders/use-svg/index.vue'),

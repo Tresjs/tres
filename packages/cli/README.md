@@ -72,6 +72,8 @@ onMounted(() => robot.value?.actions.Idle?.play())
 | `-c, --console` | print instead of writing |
 | `-f, --force` | overwrite a file this tool did not generate |
 | `-T, --transform` | optimize the model first (see below) |
+| `-i, --instance` | batch repeated meshes into an `InstancedMesh` (see below) |
+| `-I, --instanceall` | batch every eligible mesh, even the ones that appear once |
 | `--resolution <px>` | max texture size when transforming (default 1024) |
 | `--format <fmt>` | texture format when transforming: `webp` (default), `jpeg`, `png`, `avif` |
 | `--simplify` | reduce geometry with meshoptimizer |
@@ -105,6 +107,73 @@ The optimized output is draco-compressed, so the generated component gets
 
 Draco-compressed and unpacked (`.gltf` + `.bin`) models both work. Draco models get
 `useGLTF(url, { draco: true })` automatically, since they render nothing without it.
+
+#### `--instance` / `--instanceall`
+
+Collapses meshes that share a geometry and material into one `InstancedMesh`. This
+restructures the output into **two** files, because one SFC is one component:
+
+```bash
+tres gltf public/models/Robot.glb --instance
+# ⚙ instancing needs deduplicated geometry, so --transform is on and --keepmeshes with it
+# ✔ src/models/Robot.instances.gen.vue   ← owns the load and the batches
+# ✔ src/models/Robot.gen.vue             ← renders <Instance> against them
+```
+
+The provider goes around every copy of the model. The model is loaded and parsed once,
+and each copy costs the drawcalls of one:
+
+```vue
+<RobotInstances>
+  <Robot />
+  <Robot :position="[3, 0, 0]" />
+  <Robot :position="[-3, 0, 0]" />
+</RobotInstances>
+```
+
+`--instance` only batches a geometry two or more meshes share; `--instanceall` batches
+every eligible mesh, which pays off when the whole model is rendered many times. Skinned
+meshes and meshes with morph targets are never batched: an `InstancedMesh` has nowhere to
+put per-mesh skeletons or morph influences.
+
+**It turns `--transform` on.** Batching dedupes by geometry identity, and an unoptimized
+export hands three.js one geometry object per node however identical they are, so
+instancing without the pipeline finds nothing. `--keepmeshes` comes with it, since
+`join()` would weld the repeats into a single mesh and leave nothing to batch.
+
+Slots still work. A batched node's slot hands over the batch it belongs to, so an override
+can stay in it or leave it:
+
+```vue
+<script setup>
+import { Instance } from '@tresjs/cientos'
+</script>
+
+<template>
+  <Robot>
+    <!-- stays batched: `batch` is the key its InstancedMesh registered under -->
+    <template #Screw="{ batch, position }">
+      <Instance :batch :position="position" color="red" @click="loosen" />
+    </template>
+
+    <!-- leaves the batch: the geometry and material are the batch's, drawn as its own mesh -->
+    <template #Panel="{ geometry, material, position }">
+      <TresMesh :geometry :material :position />
+    </template>
+  </Robot>
+</template>
+```
+
+Pass `batch`, never the slot name: `--instance` keys a batch after the first mesh of its
+bucket, so the two differ as soon as more than one mesh shares a geometry. An `<Instance>`
+whose `batch` matches nothing renders nothing, and says so.
+
+Leaving the batch costs one drawcall for control. That is what the geometry and material
+bindings are for, but it is not free.
+
+`<primitive>` nodes (lights, cameras) cannot be shared between copies: an `Object3D` has
+one parent, so a second `<Robot>` steals them from the first. The generator warns when a
+model has any and suggests `--root`.
 
 ### Build
 

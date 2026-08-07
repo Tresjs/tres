@@ -82,6 +82,7 @@ function pick(id: number) {
 
     <Instances
       ref="batchRef"
+      name="scatter"
       :geometry="geometry"
       :material="material"
       :limit="1000"

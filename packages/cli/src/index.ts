@@ -45,6 +45,8 @@ const commands: CommandDefinition[] = [
       .option('-c, --console', 'print the component instead of writing it')
       .option('-f, --force', 'overwrite a file this tool did not generate')
       .option('-T, --transform', 'optimize the model into a separate -transformed.glb and generate against it')
+      .option('-i, --instance', 'batch meshes that share a geometry and material into an InstancedMesh (implies --transform)')
+      .option('-I, --instanceall', 'batch every eligible mesh, even the ones that appear once (implies --transform)')
       .option('--resolution <px>', 'max texture size when transforming', v => Number.parseInt(v, 10), 1024)
       .option('--format <fmt>', 'texture format when transforming: webp | jpeg | png | avif', parseFormat, 'webp')
       .option('--simplify', 'reduce geometry with meshoptimizer when transforming')
