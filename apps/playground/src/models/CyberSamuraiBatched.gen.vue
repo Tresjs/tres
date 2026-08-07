@@ -5,7 +5,7 @@ Command: tres gltf public/models/cyber_samurai/cyber_samurai.glb --instanceall -
 Override the named slots from the parent instead; regenerating keeps your overrides.
 Render inside <CyberSamuraiBatchedInstances>, which owns the load and the batches.
 A batched slot hands you `batch`, the key of the batch it joins (not always the slot name):
-<template #Object_2="{ batch }"><Instance :name="batch" color="red" /></template>
+<template #Object_2="{ batch }"><Instance :batch color="red" /></template>
 with `import { Instance } from '@tresjs/cientos'` in the parent. Use the geometry and material
 it also hands you instead to leave the batch and draw that part yourself.
 */
@@ -49,61 +49,61 @@ defineExpose({ nodes, materials })
 <template>
   <TresGroup :dispose="null">
     <slot name="Object_2" batch="Object_2" :geometry="nodes.Object_2.geometry" :material="materials.Robe2" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_2" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_2" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_3" batch="Object_3" :geometry="nodes.Object_3.geometry" :material="materials.Robe" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_3" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_3" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_4" :node="nodes.Object_4" :material="materials.LowSet3">
       <TresLineSegments :geometry="nodes.Object_4.geometry" :material="materials.LowSet3" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_5" batch="Object_5" :geometry="nodes.Object_5.geometry" :material="materials.LowSet1" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_5" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_5" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_6" batch="Object_6" :geometry="nodes.Object_6.geometry" :material="materials.LowSet1" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_6" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_6" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_7" batch="Object_7" :geometry="nodes.Object_7.geometry" :material="materials.LowSet1" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_7" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_7" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_8" batch="Object_8" :geometry="nodes.Object_8.geometry" :material="materials.LowSet1" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_8" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_8" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_9" batch="Object_9" :geometry="nodes.Object_9.geometry" :material="materials.LowSet2" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_9" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_9" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_10" batch="Object_10" :geometry="nodes.Object_10.geometry" :material="materials.LowSet2" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_10" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_10" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_11" batch="Object_11" :geometry="nodes.Object_11.geometry" :material="materials.LowSet2" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_11" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_11" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_12" batch="Object_12" :geometry="nodes.Object_12.geometry" :material="materials.LowSet2" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_12" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_12" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_13" batch="Object_13" :geometry="nodes.Object_13.geometry" :material="materials.LowSet2" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_13" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_13" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_14" batch="Object_14" :geometry="nodes.Object_14.geometry" :material="materials.LowSet2" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_14" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_14" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_15" batch="Object_15" :geometry="nodes.Object_15.geometry" :material="materials.LowSet2" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_15" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_15" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_16" batch="Object_16" :geometry="nodes.Object_16.geometry" :material="materials.LowSet2" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_16" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_16" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_17" batch="Object_17" :geometry="nodes.Object_17.geometry" :material="materials.LowSet3" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_17" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_17" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_18" batch="Object_18" :geometry="nodes.Object_18.geometry" :material="materials.LowSet3" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_18" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_18" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_19" batch="Object_19" :geometry="nodes.Object_19.geometry" :material="materials.LowSet3" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_19" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_19" :rotation="[-1.57, 0, 0]" />
     </slot>
     <slot name="Object_20" batch="Object_20" :geometry="nodes.Object_20.geometry" :material="materials.LowSet3" :rotation="[-1.57, 0, 0]">
-      <Instance name="Object_20" :rotation="[-1.57, 0, 0]" />
+      <Instance batch="Object_20" :rotation="[-1.57, 0, 0]" />
     </slot>
   </TresGroup>
 </template>

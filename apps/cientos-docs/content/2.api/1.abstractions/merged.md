@@ -9,7 +9,7 @@ description: One instanced batch per mesh, shared across your whole component tr
 ::
 
 `<Merged />` takes a `{ name: mesh }` map and builds one instanced batch per entry. Any descendant,
-at any depth and in any component, joins a batch by name with `<Instance name="..." />`.
+at any depth and in any component, joins one by key with `<Instance batch="..." />`.
 
 That is what makes repeating a whole model cheap: a robot made of two meshes drawn 49 times is
 **two** drawcalls, not 98.
@@ -25,10 +25,10 @@ import { Instance } from '@tresjs/cientos'
 
 <template>
   <TresGroup>
-    <Instance name="Body" :position="[0, 0.6, 0]" />
-    <Instance name="Body" :position="[0, 1.6, 0]" :scale="0.6" />
-    <Instance name="Eye" :position="[-0.18, 1.7, 0.32]" />
-    <Instance name="Eye" :position="[0.18, 1.7, 0.32]" />
+    <Instance batch="Body" :position="[0, 0.6, 0]" />
+    <Instance batch="Body" :position="[0, 1.6, 0]" :scale="0.6" />
+    <Instance batch="Eye" :position="[-0.18, 1.7, 0.32]" />
+    <Instance batch="Eye" :position="[0.18, 1.7, 0.32]" />
   </TresGroup>
 </template>
 ```
@@ -85,7 +85,7 @@ other node stays batched.
 
 | Prop     | Description                                                          | Default    |
 | :------- | :-------------------------------------------------------------------- | ---------- |
-| `meshes` | One batch per entry, keyed by the name `<Instance name="..." />` uses. | *required* |
+| `meshes` | One batch per entry, keyed by what `<Instance batch="..." />` joins. | *required* |
 | `limit`  | Initial buffer allocation per batch. One batch per entry in `meshes`, so it defaults lower than `<Instances />`. | `100`     |
 
 Exposes the named batch registry through `instances`.

@@ -290,6 +290,38 @@ export function repeatedGeometryGLB(): Promise<ArrayBuffer> {
 }
 
 /**
+ * Object animation rather than skeletal: a clip that drives a mesh's own transform and a
+ * bare wrapper group's, both of which the emitter would otherwise strip the name off (and
+ * the group entirely).
+ */
+export function objectAnimatedGLB(): Promise<ArrayBuffer> {
+  const scene = new Group()
+  scene.name = 'Scene'
+
+  const geometry = new BoxGeometry(1, 1, 1)
+  const material = new MeshStandardMaterial({ name: 'Rock' })
+
+  const lone = new Mesh(geometry, material)
+  lone.name = 'Rock_0'
+
+  const rotor = new Group()
+  rotor.name = 'Rotor'
+  const orbiting = new Mesh(geometry, material)
+  orbiting.name = 'Rock_1'
+  orbiting.position.setX(2)
+  rotor.add(orbiting)
+
+  scene.add(lone, rotor)
+
+  const clip = new AnimationClip('Spin', 1, [
+    new VectorKeyframeTrack('Rock_0.position', [0, 1], [0, 0, 0, 0, 5, 0]),
+    new VectorKeyframeTrack('Rotor.position', [0, 1], [0, 0, 0, 0, 3, 0]),
+  ])
+
+  return toGLB(scene, [clip])
+}
+
+/**
  * The mix `--instance` has to split three ways: three meshes sharing a geometry, one
  * mesh of its own, and a light that cannot be batched or duplicated.
  */

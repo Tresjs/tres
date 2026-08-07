@@ -6,6 +6,7 @@ import {
   mixedInstancingGLB,
   morphAndMetaGLB,
   nestedGLB,
+  objectAnimatedGLB,
   repeatedGeometryGLB,
   skinnedGLB,
 } from '../gltf/__fixtures__/scenes'
@@ -20,9 +21,9 @@ describe('--instance', () => {
   it('renders every mesh in a bucket against one batch key', async () => {
     const { code } = await emit(repeatedGeometryGLB())
 
-    expect(code).toContain('<Instance name="Rock_0" />')
-    expect(code).toContain('<Instance name="Rock_0" :position="[1, 0, 0]" />')
-    expect(code).toContain('<Instance name="Rock_0" :position="[2, 0, 0]" />')
+    expect(code).toContain('<Instance batch="Rock_0" />')
+    expect(code).toContain('<Instance batch="Rock_0" :position="[1, 0, 0]" />')
+    expect(code).toContain('<Instance batch="Rock_0" :position="[2, 0, 0]" />')
   })
 
   it('allocates one batch per bucket in the provider', async () => {
@@ -63,15 +64,15 @@ describe('--instance', () => {
   it('leaves a mesh nothing shares a geometry with alone', async () => {
     const { code } = await emit(mixedInstancingGLB())
 
-    expect(code).toContain('<Instance name="Rock_0"')
+    expect(code).toContain('<Instance batch="Rock_0"')
     expect(code).toContain(':geometry="nodes.Ground.geometry"')
-    expect(code).not.toContain('<Instance name="Ground"')
+    expect(code).not.toContain('<Instance batch="Ground"')
   })
 
   it('batches even the meshes that appear once with --instanceall', async () => {
     const { code, instances } = await emit(mixedInstancingGLB(), { instance: false, instanceAll: true })
 
-    expect(code).toContain('<Instance name="Ground"')
+    expect(code).toContain('<Instance batch="Ground"')
     expect(instances).toContain('  Ground: nodes.value.Ground,')
   })
 
@@ -112,11 +113,29 @@ describe('--instance', () => {
     expect(code).not.toContain('cast-shadow')
   })
 
-  it('keeps the batch key when --keepnames would otherwise claim the name attribute', async () => {
+  // `batch` is the bucket's first node and the same for every copy in it, so the node's own
+  // name has to ride alongside rather than replace it.
+  it('keeps the batch key and the node name apart under --keepnames', async () => {
     const { code } = await emit(repeatedGeometryGLB(), { keepNames: true })
 
-    expect(code).toContain('<Instance name="Rock_0" :position="[1, 0, 0]" />')
-    expect(code).not.toContain('<Instance name="Rock_1"')
+    expect(code).toContain('<Instance batch="Rock_0" name="Rock_1" :position="[1, 0, 0]" />')
+    expect(code).not.toContain('<Instance batch="Rock_1"')
+  })
+
+  it('leaves the node name off when nothing asks for it', async () => {
+    const { code } = await emit(repeatedGeometryGLB())
+
+    expect(code).not.toContain('<Instance batch="Rock_0" name=')
+  })
+
+  // Batching cannot cost a clip its target: the batch reads each instance's world matrix
+  // every frame, so a named instance is one a mixer can still drive.
+  it('names a batched instance a clip drives, without --keepnames', async () => {
+    const { code } = await emit(objectAnimatedGLB(), { instance: false, instanceAll: true })
+
+    expect(code).toContain('<Instance batch="Rock_0" name="Rock_0" />')
+    expect(code).toContain('<TresGroup name="Rotor">')
+    expect(code).toContain('<Instance batch="Rock_0" :position="[2, 0, 0]" />')
   })
 
   it('hands an override the batch it would be leaving', async () => {
@@ -130,7 +149,7 @@ describe('--instance', () => {
     )
   })
 
-  // The bucket is keyed by its first node, so `<Instance name="Rock_1">` would join nothing
+  // The bucket is keyed by its first node, so `<Instance batch="Rock_1">` would join nothing
   // and render nothing. An override can only get it right if the slot hands the key over.
   it('hands an override the batch key rather than leaving it to guess the slot name', async () => {
     const { code } = await emit(repeatedGeometryGLB(), { slots: 'all' })
@@ -142,7 +161,7 @@ describe('--instance', () => {
   it('tells the parent how to override a batched slot without leaving the batch', async () => {
     const { code } = await emit(repeatedGeometryGLB(), { slots: 'all' })
 
-    expect(code).toContain('<template #Rock_0="{ batch }"><Instance :name="batch" color="red" /></template>')
+    expect(code).toContain('<template #Rock_0="{ batch }"><Instance :batch color="red" /></template>')
     expect(code).toContain(`import { Instance } from '@tresjs/cientos'`)
   })
 

@@ -7,7 +7,7 @@ import Instances from './Instances.vue'
 
 export interface MergedProps {
   /**
-   * One batch per entry, keyed by the name `<Instance name="...">` refers to.
+   * One batch per entry, keyed by what `<Instance batch="...">` refers to.
    */
   meshes: Record<string, Mesh>
   /**
@@ -39,7 +39,7 @@ defineExpose({ instances: registry })
   <Instances
     v-for="(mesh, key) in meshes"
     :key="key"
-    :name="key"
+    :batch="key"
     :geometry="mesh.geometry"
     :material="mesh.material"
     :limit="limit"

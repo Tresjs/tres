@@ -153,7 +153,7 @@ import { Instance } from '@tresjs/cientos'
   <Robot>
     <!-- stays batched: `batch` is the key its InstancedMesh registered under -->
     <template #Screw="{ batch, position }">
-      <Instance :name="batch" :position="position" color="red" @click="loosen" />
+      <Instance :batch :position="position" color="red" @click="loosen" />
     </template>
 
     <!-- leaves the batch: the geometry and material are the batch's, drawn as its own mesh -->
@@ -166,7 +166,7 @@ import { Instance } from '@tresjs/cientos'
 
 Pass `batch`, never the slot name: `--instance` keys a batch after the first mesh of its
 bucket, so the two differ as soon as more than one mesh shares a geometry. An `<Instance>`
-whose `name` matches no batch renders nothing, and says so.
+whose `batch` matches nothing renders nothing, and says so.
 
 Leaving the batch costs one drawcall for control. That is what the geometry and material
 bindings are for, but it is not free.

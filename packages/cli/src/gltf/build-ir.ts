@@ -1,4 +1,4 @@
-import type { Material, Mesh, Object3D } from 'three'
+import type { AnimationClip, Material, Mesh, Object3D } from 'three'
 import type { GLTFIR, IRInstanceBucket, IRMaterialEntry, IRNode, IRNodeEntry, IRTransform, IRWarning, Vector3Tuple } from './ir'
 import type { LoadedGLTF } from './load'
 import { PropertyBinding } from 'three'
@@ -110,6 +110,32 @@ function toCollisionWarning(object: Object3D): IRWarning | undefined {
   }
 }
 
+/**
+ * The nodes the clips actually drive. A track name is `<node>.<property>`, and the mixer
+ * resolves that node name against the rendered tree — so a node named here has to keep its
+ * name in the output or its track binds to nothing.
+ */
+function toAnimatedNodes(animations: AnimationClip[]): string[] {
+  const names = new Set<string>()
+
+  for (const clip of animations) {
+    for (const track of clip.tracks) {
+      try {
+        const { nodeName } = PropertyBinding.parseTrackName(track.name)
+        if (nodeName) {
+          names.add(nodeName)
+        }
+      }
+      catch {
+        // `parseTrackName` throws on a name it cannot read, which is a name three would
+        // never bind either. Nothing to keep, and no reason to fail the whole generate.
+      }
+    }
+  }
+
+  return [...names]
+}
+
 function toInstanceBuckets(scene: Object3D): IRInstanceBucket[] {
   const buckets = new Map<string, IRInstanceBucket>()
 
@@ -159,6 +185,7 @@ export function buildIR({ scene, animations, draco }: LoadedGLTF): GLTFIR {
     nodes,
     materials,
     animations: animations.map(clip => clip.name),
+    animated: toAnimatedNodes(animations),
     draco,
     instances: toInstanceBuckets(scene),
     warnings,

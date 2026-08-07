@@ -130,6 +130,17 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
   /** Only nodes that draw something make a slot worth having. */
   const renderable = { candidates: 0, slotted: 0 }
 
+  const animated = new Set(ir.animated)
+
+  /**
+   * A node a clip drives keeps its name whatever `--keepnames` says, and survives pruning:
+   * the mixer resolves tracks by name against the rendered tree, so dropping one leaves the
+   * clip binding to nothing.
+   */
+  function isAnimated(node: IRNode): boolean {
+    return Boolean(node.name) && animated.has(node.name)
+  }
+
   /** The key of the batch this node joins, which is the bucket's first node, not this one. */
   function batchOf(node: IRNode): string | undefined {
     return node.name ? plan.assignment.get(node.name) : undefined
@@ -170,7 +181,7 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
   function attributes(node: IRNode): string[] {
     const attrs: string[] = []
 
-    if (keepNames && node.name) {
+    if ((keepNames || isAnimated(node)) && node.name) {
       attrs.push(`name="${node.name}"`)
     }
     if (shadows && node.geometry) {
@@ -203,11 +214,16 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
 
   /**
    * A batched mesh keeps nothing but its placement: geometry, material and shadow flags
-   * belong to the `InstancedMesh` the provider owns, and `name` is the batch key, so
-   * `--keepnames` cannot have it.
+   * belong to the `InstancedMesh` the provider owns. `batch` is the key it joins under,
+   * which is the bucket's first mesh and so the same for every copy in it — `name` is
+   * still this node's own, and what a clip binds against.
    */
   function instanceAttributes(node: IRNode, key: string): string[] {
-    const attrs = [`name="${key}"`, ...transformAttrs(node).map(({ attr }) => attr)]
+    const attrs = [`batch="${key}"`]
+    if ((keepNames || isAnimated(node)) && node.name) {
+      attrs.push(`name="${node.name}"`)
+    }
+    attrs.push(...transformAttrs(node).map(({ attr }) => attr))
     if (meta && node.userData) {
       attrs.push(`:user-data="${JSON.stringify(node.userData).replace(/"/g, '\'')}"`)
     }
@@ -224,6 +240,7 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
       && !node.transform
       && !(meta && node.userData)
       && !(keepNames && node.name)
+      && !isAnimated(node)
   }
 
   function renderChildren(children: IRNode[], depth: number): string[] {
@@ -463,7 +480,7 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
   const batchedNote = batched
     ? [
         `A batched slot hands you \`batch\`, the key of the batch it joins (not always the slot name):`,
-        `<template #${batched.name}="{ batch }"><Instance :name="batch" color="red" /></template>`,
+        `<template #${batched.name}="{ batch }"><Instance :batch color="red" /></template>`,
         `with \`import { Instance } from '@tresjs/cientos'\` in the parent. Use the geometry and material`,
         `it also hands you instead to leave the batch and draw that part yourself.`,
       ]

@@ -255,7 +255,7 @@ describe('gltf command', () => {
 
     await gltf.call({} as any, path, { instance: true, console: true })
 
-    expect(output()).toContain('<Instance name=')
+    expect(output()).toContain('<Instance batch=')
     expect(output()).toContain('Rocks.instances.gen.vue')
     expect(output()).toContain(`provide('tres-gltf:Rocks'`)
   })

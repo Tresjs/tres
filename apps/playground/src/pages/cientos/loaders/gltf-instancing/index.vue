@@ -86,7 +86,7 @@ onUnmounted(() => clearInterval(readout))
         <!-- Staying in the batch: `batch` is the key its InstancedMesh registered under, which
              is not always the slot name. Per-instance color, no extra drawcall. -->
         <template v-if="tint" #Object_2="{ batch, rotation }">
-          <Instance :name="batch" :rotation="rotation" color="#00ffff" />
+          <Instance :batch="batch" :rotation="rotation" color="#00ffff" />
         </template>
 
         <!-- Leaving it: geometry and material are the batch's, drawn as a mesh of its own. -->

@@ -78,6 +78,11 @@ export interface GLTFIR {
   /** Every material, keyed the way `buildGraph` keys `materials` at runtime. */
   materials: Record<string, IRMaterialEntry>
   animations: string[]
+  /**
+   * Names of the nodes the clips' tracks target. A mixer resolves a track against a node
+   * name in the rendered tree, so these are the names the emitter cannot drop.
+   */
+  animated: string[]
   /** Whether the runtime loader must enable the draco decoder. */
   draco: boolean
   instances: IRInstanceBucket[]

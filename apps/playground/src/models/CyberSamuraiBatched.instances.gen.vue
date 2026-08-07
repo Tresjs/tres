@@ -15,7 +15,7 @@ withDefaults(defineProps<{ limit?: number }>(), { limit: 100 })
 
 const { nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>('/models/cyber_samurai/cyber_samurai-transformed.glb', { draco: true })
 
-// One InstancedMesh per entry. Every <Instance name="..."> in the tree joins the batch
+// One InstancedMesh per entry. Every <Instance batch="..."> in the tree joins the batch
 // registered under that key, wherever in the hierarchy it sits.
 const meshes = computed(() => ({
   Object_2: nodes.value.Object_2,

@@ -1,12 +1,12 @@
 /**
  * Decides which meshes get collapsed into an `InstancedMesh` batch. Both emitted files
  * derive their view from this one plan: the provider allocates a batch per key, the
- * consumer renders `<Instance :name>` against the same key.
+ * consumer renders `<Instance :batch>` against the same key.
  */
 import type { GLTFIR, IRNode } from '../gltf/ir'
 
 export interface InstanceBatch {
-  /** What `<Merged :meshes>` keys the batch by, and what `<Instance name>` refers to. */
+  /** What `<Merged :meshes>` keys the batch by, and what `<Instance batch>` refers to. */
   key: string
   material: string
   /** Nodes joining this batch, in traversal order. */

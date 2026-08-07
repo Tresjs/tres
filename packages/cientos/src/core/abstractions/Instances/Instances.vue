@@ -20,7 +20,11 @@ export interface InstancesProps {
    */
   limit?: number
   /**
-   * Key this batch registers under with an ancestor `<Merged>`, so `<Instance name="...">` can find it.
+   * Key this batch registers under with an ancestor `<Merged>`, so `<Instance batch="...">` can find it.
+   */
+  batch?: string
+  /**
+   * Name for the `InstancedMesh` itself, like on any other Tres element.
    */
   name?: string
   /**
@@ -46,15 +50,21 @@ provide(INSTANCES_INJECTION_KEY, api)
 const merged = inject(MERGED_INJECTION_KEY, null)
 
 if (merged) {
-  watch(() => props.name, (name, previous) => {
+  watch(() => props.batch, (batch, previous) => {
     if (previous) { delete merged[previous] }
-    if (name) { merged[name] = api }
+    if (batch) { merged[batch] = api }
   }, { immediate: true })
 
   onScopeDispose(() => {
-    if (props.name && merged[props.name] === api) { delete merged[props.name] }
+    if (props.batch && merged[props.batch] === api) { delete merged[props.batch] }
   })
 }
+
+// The batch is rebuilt whenever its geometry or material changes, so the name is reapplied
+// rather than set once.
+watch([mesh, () => props.name], ([current, name]) => {
+  if (current) { current.name = name ?? '' }
+}, { immediate: true })
 
 useLoop().onBeforeRender(update)
 

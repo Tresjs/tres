@@ -8,6 +8,7 @@ import {
   lightAndCameraGLB,
   morphAndMetaGLB,
   nestedGLB,
+  objectAnimatedGLB,
   simpleGLB,
   sketchfabGLB,
   skinnedGLB,
@@ -205,6 +206,23 @@ describe('emitSFC', () => {
     expect(code).toContain('defineExpose({ nodes, materials, actions })')
   })
 
+  // A mixer resolves a track against a node name in the rendered tree, so the nodes a clip
+  // drives keep theirs whatever --keepnames says. Skeletal clips escape this because bones
+  // are passed through as the parsed object, which is why it went unnoticed.
+  it('keeps the name of every node a clip drives', async () => {
+    const { code } = await emit(objectAnimatedGLB())
+
+    expect(code).toContain('<TresMesh name="Rock_0"')
+    expect(code).toContain('<TresGroup name="Rotor">')
+  })
+
+  it('leaves the names of nodes no clip drives alone', async () => {
+    const { code } = await emit(objectAnimatedGLB())
+
+    expect(code).toContain('<TresMesh :geometry="nodes.Rock_1.geometry"')
+    expect(code).not.toContain('<TresGroup name="Scene"')
+  })
+
   it('declares the type of every node the model names', async () => {
     const { code } = await emit(skinnedGLB())
 
@@ -268,6 +286,7 @@ describe('emitSFC', () => {
       nodes: { Odd: { type: 'MeshWeirdMaterialThing', isVarName: true } },
       materials: { Paint: { type: 'ImaginaryMaterial', isVarName: true } },
       animations: [],
+      animated: [],
       draco: false,
       instances: [],
       warnings: [],
