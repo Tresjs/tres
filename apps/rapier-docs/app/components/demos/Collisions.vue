@@ -36,14 +36,31 @@ const onCollisionExit = (event: any) => {
   console.log('onCollisionExit ~ event:', event)
 }
 
-const { debug, activeCollision, enableCcd } = useControls(
+const controlDefaults = {
+  debug: true,
+  activeCollision: true,
+  enableCcd: true,
+}
+
+const controls = useControls(
   {
-    debug: true,
-    activeCollision: true,
-    enableCcd: true,
+    resetBtn: {
+      label: 'Reset',
+      type: 'button',
+      onClick: () => {
+        resetControls(controls, controlDefaults)
+        resetRigidBody(torusRef.value?.instance)
+        collisionEvent.value = ''
+      },
+    },
+    debug: controlDefaults.debug,
+    activeCollision: controlDefaults.activeCollision,
+    enableCcd: controlDefaults.enableCcd,
   },
   { uuid },
 )
+
+const { debug, activeCollision, enableCcd } = controls
 </script>
 
 <template>
@@ -62,7 +79,7 @@ const { debug, activeCollision, enableCcd } = useControls(
       <Physics :debug>
         <RigidBody
           ref="torusRef"
-          collider="hull"
+          collider="convexHull"
           :enableCcd
           :activeCollision
           @collision-enter="onCollisionEnter"

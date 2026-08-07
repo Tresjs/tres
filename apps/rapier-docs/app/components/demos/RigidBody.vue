@@ -16,6 +16,48 @@ const gl = {
 const uuid = inject(`uuid`)
 const rigidTorusRef = shallowRef()
 
+const controlDefaults = {
+  gravityScale: 1,
+  additionalMass: 0,
+  lockTranslations: false,
+  lockRotations: false,
+  linvelX: 0,
+  linvelY: 0,
+  linvelZ: 0,
+  angvelX: 0,
+  angvelY: 0,
+  angvelZ: 0,
+  enabledTranslationX: true,
+  enabledTranslationY: true,
+  enabledTranslationZ: true,
+  debug: true,
+}
+
+const controls = useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      resetControls(controls, controlDefaults)
+      resetRigidBody(rigidTorusRef.value?.instance)
+    },
+  },
+  gravityScale: { value: controlDefaults.gravityScale, min: -10, max: 10, step: 0.1 },
+  additionalMass: { value: controlDefaults.additionalMass, min: 0, max: 100, step: 0.1 },
+  lockTranslations: controlDefaults.lockTranslations,
+  lockRotations: controlDefaults.lockRotations,
+  linvelX: { value: controlDefaults.linvelX, min: -10, max: 10, step: 0.1 },
+  linvelY: { value: controlDefaults.linvelY, min: -10, max: 10, step: 0.1 },
+  linvelZ: { value: controlDefaults.linvelZ, min: -10, max: 10, step: 0.1 },
+  angvelX: { value: controlDefaults.angvelX, min: -10, max: 10, step: 0.1 },
+  angvelY: { value: controlDefaults.angvelY, min: -10, max: 10, step: 0.1 },
+  angvelZ: { value: controlDefaults.angvelZ, min: -10, max: 10, step: 0.1 },
+  enabledTranslationX: controlDefaults.enabledTranslationX,
+  enabledTranslationY: controlDefaults.enabledTranslationY,
+  enabledTranslationZ: controlDefaults.enabledTranslationZ,
+  debug: controlDefaults.debug,
+}, { uuid })
+
 const {
   gravityScale,
   additionalMass,
@@ -31,31 +73,7 @@ const {
   enabledTranslationY,
   enabledTranslationZ,
   debug,
-} = useControls({
-  resetBtn: {
-    label: 'Reset Rigid Body',
-    type: 'button',
-    onClick: () => {
-      rigidTorusRef.value?.instance?.setRotation({ x: 0, y: 0, z: 0, w: 1 }, true)
-      rigidTorusRef.value?.instance?.setTranslation({ x: 0, y: 0, z: 0 }, true)
-      rigidTorusRef.value?.instance?.resetForces(true)
-    },
-  },
-  gravityScale: { value: 1, min: -10, max: 10, step: 0.1 },
-  additionalMass: { value: 0, min: 0, max: 100, step: 0.1 },
-  lockTranslations: false,
-  lockRotations: false,
-  linvelX: { value: 0, min: -10, max: 10, step: 0.1 },
-  linvelY: { value: 0, min: -10, max: 10, step: 0.1 },
-  linvelZ: { value: 0, min: -10, max: 10, step: 0.1 },
-  angvelX: { value: 0, min: -10, max: 10, step: 0.1 },
-  angvelY: { value: 0, min: -10, max: 10, step: 0.1 },
-  angvelZ: { value: 0, min: -10, max: 10, step: 0.1 },
-  enabledTranslationX: true,
-  enabledTranslationY: true,
-  enabledTranslationZ: true,
-  debug: true,
-}, { uuid })
+} = controls
 </script>
 
 <template>
