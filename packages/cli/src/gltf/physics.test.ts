@@ -29,6 +29,14 @@ describe('parsePhysics', () => {
     expect(parsePhysics('Wall-convcol.012')).toMatchObject({ shape: 'convexHull' })
   })
 
+  it('reads through a counter numbered by hand, which sits behind a separator', () => {
+    expect(parsePhysics('Wall-col-2')).toMatchObject({ body: 'fixed', shape: 'trimesh' })
+    expect(parsePhysics('Wall_col_2')).toMatchObject({ body: 'fixed' })
+    expect(parsePhysics('Crate-rb-dynamic-3')).toMatchObject({ body: 'dynamic' })
+    // Not a counter when there is no suffix in front of it: `Cube-2` is a mesh called Cube-2.
+    expect(parsePhysics('Cube-2')).toBeUndefined()
+  })
+
   it('accepts any of Godot\'s separators, in any case', () => {
     expect(parsePhysics('Floor_convcol')).toMatchObject({ shape: 'convexHull' })
     expect(parsePhysics('Floor$convcol')).toMatchObject({ shape: 'convexHull' })

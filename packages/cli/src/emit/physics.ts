@@ -34,9 +34,13 @@ export function bodyAttributes(physics: IRPhysics): string[] {
  * A batched mesh renders as `<Instance>`, which is a geometry-less placeholder — so a body
  * wrapping one has nothing to derive a collider from. This hands it the geometry back without
  * drawing it twice: one draw call for the batch, one body per instance.
+ *
+ * `:scale` has to ride along, because rapier sizes the derived collider from the scale of the
+ * child it read the geometry off — and here that child is this proxy, not the `<Instance>`.
  */
-export function colliderProxy(node: IRNode): string {
-  return `<TresMesh :geometry="${access('nodes', node.name)}.geometry" :visible="false" />`
+export function colliderProxy(node: IRNode, scale?: string): string {
+  const attrs = [`:geometry="${access('nodes', node.name)}.geometry"`, ':visible="false"', ...(scale ? [scale] : [])]
+  return `<TresMesh ${attrs.join(' ')} />`
 }
 
 /**

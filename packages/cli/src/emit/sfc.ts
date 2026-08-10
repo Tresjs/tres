@@ -317,16 +317,17 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     bodies++
 
     const pad = INDENT.repeat(depth)
+    const own = transformAttrs(node)
     const attrs = [
       ...bodyAttributes(physics),
-      ...transformAttrs(node)
-        .filter(({ binding }) => binding.key !== 'scale')
-        .map(({ attr }) => attr),
+      ...own.filter(({ binding }) => binding.key !== 'scale').map(({ attr }) => attr),
     ]
 
     // A batched node renders as a geometry-less `<Instance>`, so the body needs the geometry
-    // handed back to it separately or it has nothing to collide with.
-    const inner = batchOf(node) ? [...element, `${pad}${colliderProxy(node)}`] : element
+    // handed back to it separately or it has nothing to collide with — scaled the way the
+    // `<Instance>` is, since that is what rapier measures the collider against.
+    const scale = own.find(({ binding }) => binding.key === 'scale')?.attr
+    const inner = batchOf(node) ? [...element, `${pad}${colliderProxy(node, scale)}`] : element
 
     return [
       `${pad}<RigidBody ${attrs.join(' ')}>`,

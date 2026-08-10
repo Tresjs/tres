@@ -349,9 +349,9 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
     await mkdir(dirname(target), { recursive: true }).catch(async (error) => {
       throw await explainUnwritablePath(target, error)
     })
-    await writeFile(target, code, 'utf-8').catch(async (error) => {
-      throw await explainUnwritablePath(target, error)
-    })
+    // Past the mkdir there is nothing left to explain: the directory exists, so a failure here
+    // is a permission or a disk, and node's own errno already names the file.
+    await writeFile(target, code, 'utf-8')
     if (instances) {
       await writeFile(instancesTarget, instances, 'utf-8')
     }

@@ -320,6 +320,8 @@ export function physicsGLB(): Promise<ArrayBuffer> {
   const duplicate = new Mesh(canGeometry, material)
   duplicate.name = 'Can_A-rigid.001'
   duplicate.position.set(1, 4, 0)
+  // Batches with the can above it despite the scale, which the collider still has to match.
+  duplicate.scale.setScalar(2)
 
   const stairs = new Mesh(new BoxGeometry(2, 2, 2), material)
   stairs.name = 'Stairs'

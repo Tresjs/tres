@@ -119,6 +119,14 @@ describe('--physics rapier', () => {
     )
   })
 
+  it('scales the proxy with the Instance, since rapier sizes the collider off it', async () => {
+    const { code } = await emit(physicsGLB(), { instance: true })
+
+    expect(code).toMatch(
+      /<Instance batch="[^"]+" :scale="2" \/>\s*<TresMesh :geometry="nodes\['Can_A-rigid001'\]\.geometry" :visible="false" :scale="2" \/>/,
+    )
+  })
+
   it('leaves shadow flags off a proxy that never draws', async () => {
     const { code } = await emit(physicsGLB(), { shadows: true })
 

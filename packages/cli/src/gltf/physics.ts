@@ -88,6 +88,9 @@ const SEPARATOR = /[-_$]+/
  */
 const COUNTER = /[.\s]*\d+$/
 
+/** Numbering by hand puts the counter past the suffix and behind a separator: `Wall-col-2`. */
+const COUNTER_TOKEN = /^\d+$/
+
 const PRIMARY = new Set([...Object.keys(INTENTS), 'rb'])
 
 function isKeyword(token: string): boolean {
@@ -194,12 +197,17 @@ function misread(tokens: string[]): IRPhysicsMisread | undefined {
  * nothing about physics, which is nearly all of them.
  */
 export function parsePhysics(name: string): IRNodePhysics | undefined {
-  const tokens = name.split(SEPARATOR).filter(Boolean)
+  const words = name.split(SEPARATOR).filter(Boolean)
+  // Only past a suffix, so `Cube-2` keeps its number: there the 2 is part of the name.
+  if (words.length > 2 && COUNTER_TOKEN.test(words[words.length - 1])) {
+    words.pop()
+  }
   // A suffix has to suffix something: a mesh called `Cone` is a mesh, not a collider.
-  if (tokens.length < 2) {
+  if (words.length < 2) {
     return undefined
   }
 
+  const tokens = [...words]
   const tail: string[] = []
   while (tokens.length > 1) {
     const token = keyword(tokens[tokens.length - 1])
@@ -210,5 +218,5 @@ export function parsePhysics(name: string): IRNodePhysics | undefined {
     tokens.pop()
   }
 
-  return (tail.length > 0 ? interpret(tail) : undefined) ?? misread(name.split(SEPARATOR).filter(Boolean))
+  return (tail.length > 0 ? interpret(tail) : undefined) ?? misread(words)
 }
