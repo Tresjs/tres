@@ -130,6 +130,33 @@ describe('gltf command', () => {
     await expect(readFile(target, 'utf-8')).resolves.toContain('<template>')
   })
 
+  it('treats an -o without a .vue extension as a directory to write into', async () => {
+    const path = await fixture('toy-rocket.glb', nestedGLB(), 'into')
+    const target = join(dir, 'into', 'models')
+
+    await gltf.call({} as any, path, { output: target })
+
+    await expect(readFile(join(target, 'ToyRocket.gen.vue'), 'utf-8')).resolves.toContain('<template>')
+  })
+
+  it('writes into an -o directory that does not exist yet', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'fresh')
+    const target = join(dir, 'fresh', 'deep', 'nested')
+
+    await gltf.call({} as any, path, { output: target })
+
+    await expect(readFile(join(target, 'Robot.gen.vue'), 'utf-8')).resolves.toContain('<template>')
+  })
+
+  /** A leading slash is the filesystem root, and `-o /src/models` is a very easy slip. */
+  it('explains an absolute -o that was meant to be project-relative', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'absolute')
+
+    await expect(gltf.call({} as any, path, { output: '/src/models' }))
+      .rejects
+      .toThrow(/did you mean src\/models/)
+  })
+
   it('prints instead of writing with --console', async () => {
     const path = await fixture('robot.glb', nestedGLB(), 'printed')
 

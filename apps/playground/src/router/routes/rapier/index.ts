@@ -79,4 +79,9 @@ export const rapierRoutes = [
     name: 'Basic Ragdoll',
     component: () => import('@/pages/rapier/RagdollDemo.vue'),
   },
+  {
+    path: '/rapier/generated-level',
+    name: 'Generated Level (tres gltf --physics)',
+    component: () => import('@/pages/rapier/GeneratedLevel.vue'),
+  },
 ]

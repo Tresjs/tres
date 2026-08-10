@@ -2,6 +2,7 @@ import type { AnimationClip, Material, Mesh, Object3D } from 'three'
 import type { GLTFIR, IRInstanceBucket, IRMaterialEntry, IRNode, IRNodeEntry, IRTransform, IRWarning, Vector3Tuple } from './ir'
 import type { LoadedGLTF } from './load'
 import { PropertyBinding } from 'three'
+import { parsePhysics } from './physics'
 
 /** Same test gltfjsx uses: can this key be written as `nodes.Foo`? */
 const VAR_NAME = /^[$A-Z_][\w$]*$/i
@@ -58,6 +59,13 @@ function toNode(object: Object3D): IRNode {
   const authored = object.userData.name
   if (typeof authored === 'string' && authored !== object.name) {
     node.originalName = authored
+  }
+
+  // Read off the authored name where there is one: sanitization eats the dot in `-rigid.001`,
+  // and the suffix has to be readable either way.
+  const physics = parsePhysics(node.originalName ?? object.name)
+  if (physics) {
+    node.physics = physics
   }
 
   const transform = toTransform(object)

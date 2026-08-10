@@ -17,6 +17,16 @@ function parseFormat(value: string): string {
   return value
 }
 
+const PHYSICS_ENGINES = ['rapier'] as const
+
+/** One engine today. Naming it anyway keeps `--physics` open for the next one. */
+function parseEngine(value: string): string {
+  if (!(PHYSICS_ENGINES as readonly string[]).includes(value)) {
+    throw new InvalidArgumentError(`must be one of ${PHYSICS_ENGINES.join(', ')}`)
+  }
+  return value
+}
+
 /** A NaN silently handed to MeshoptSimplifier is worse than a clear rejection up front. */
 function parseFraction(name: string, max: number) {
   return (value: string): number => {
@@ -47,6 +57,7 @@ const commands: CommandDefinition[] = [
       .option('-T, --transform', 'optimize the model into a separate -transformed.glb and generate against it')
       .option('-i, --instance', 'batch meshes that share a geometry and material into an InstancedMesh (implies --transform)')
       .option('-I, --instanceall', 'batch every eligible mesh, even the ones that appear once (implies --transform)')
+      .option('-P, --physics <engine>', 'generate colliders from node name suffixes: rapier', parseEngine)
       .option('--resolution <px>', 'max texture size when transforming', v => Number.parseInt(v, 10), 1024)
       .option('--format <fmt>', 'texture format when transforming: webp | jpeg | png | avif', parseFormat, 'webp')
       .option('--simplify', 'reduce geometry with meshoptimizer when transforming')

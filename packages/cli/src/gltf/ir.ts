@@ -7,6 +7,8 @@
  * rounding, group pruning, slot filtering — belong to the emitter.
  */
 
+import type { IRNodePhysics } from './physics'
+
 export interface IRKey {
   /** Usable as `nodes.Foo`; otherwise the emitter must write `nodes['Foo']`. */
   isVarName: boolean
@@ -49,6 +51,11 @@ export interface IRNode {
   morphTargets?: true
   /** glTF `extras`, minus the name the loader stashes there. */
   userData?: Record<string, unknown>
+  /**
+   * What the node's name declares about collision. A naming fact like any other here, so it
+   * is read whatever the flags say; only `--physics` decides whether anything is emitted.
+   */
+  physics?: IRNodePhysics
   children: IRNode[]
 }
 

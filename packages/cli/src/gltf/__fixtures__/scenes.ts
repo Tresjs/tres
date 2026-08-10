@@ -290,6 +290,63 @@ export function repeatedGeometryGLB(): Promise<ArrayBuffer> {
 }
 
 /**
+ * Godot's collision suffixes, shaped the way a Blender level export actually arrives: a
+ * duplicate carrying its `.001` counter *after* the suffix, a proxy nested under the mesh it
+ * stands in for, a body under a transformed wrapper, and a typo that has to be reported
+ * rather than silently dropped.
+ *
+ * The two cans share a geometry and a material, so `--instance` has something to batch.
+ */
+export function physicsGLB(): Promise<ArrayBuffer> {
+  const scene = new Group()
+  scene.name = 'Scene'
+
+  const material = new MeshStandardMaterial({ name: 'Prototype' })
+
+  const floor = new Mesh(new BoxGeometry(20, 1, 20), material)
+  floor.name = 'Floor-convcol'
+
+  const table = new Mesh(new BoxGeometry(2, 1, 1), material)
+  table.name = 'table_medium-col'
+  table.position.set(1, 0, -3)
+  table.rotation.set(0, Math.PI / 2, 0)
+  table.scale.setScalar(2)
+
+  const canGeometry = new BoxGeometry(0.4, 1, 0.4)
+  const can = new Mesh(canGeometry, material)
+  can.name = 'Can_A-rigid'
+  can.position.set(0, 4, 0)
+
+  const duplicate = new Mesh(canGeometry, material)
+  duplicate.name = 'Can_A-rigid.001'
+  duplicate.position.set(1, 4, 0)
+
+  const stairs = new Mesh(new BoxGeometry(2, 2, 2), material)
+  stairs.name = 'Stairs'
+  // No material, like every collision proxy that was never meant to be seen.
+  const proxy = new Mesh(new BoxGeometry(2, 2, 2))
+  proxy.name = 'Stairs_Collision-convcolonly'
+  stairs.add(proxy)
+
+  const trigger = new Mesh(new BoxGeometry(2, 3, 1), material)
+  trigger.name = 'Exit-sensor'
+
+  const wrapper = new Group()
+  wrapper.name = 'Props'
+  wrapper.position.set(5, 0, 0)
+  const crate = new Mesh(new BoxGeometry(1, 1, 1), material)
+  crate.name = 'Crate-rigid'
+  wrapper.add(crate)
+
+  const typo = new Mesh(new BoxGeometry(1, 1, 1), material)
+  typo.name = 'Barrel-rb-dynmic'
+
+  scene.add(floor, table, can, duplicate, stairs, trigger, wrapper, typo)
+
+  return toGLB(scene)
+}
+
+/**
  * Object animation rather than skeletal: a clip that drives a mesh's own transform and a
  * bare wrapper group's, both of which the emitter would otherwise strip the name off (and
  * the group entirely).

@@ -1,3 +1,4 @@
+import type { IRNode } from '../gltf/ir'
 import type { CommandHandler } from '../registry'
 import type { TextureFormat } from '../gltf/transform'
 import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises'
@@ -33,6 +34,8 @@ export interface GLTFOptions {
   instance?: boolean
   /** Batch every eligible mesh, including the ones that appear once. */
   instanceall?: boolean
+  /** Generate colliders from the suffixes on node names. */
+  physics?: 'rapier'
   resolution?: number
   format?: TextureFormat
   simplify?: boolean
@@ -51,6 +54,11 @@ async function isDirectory(path: string): Promise<boolean> {
 
 function plural(count: number, noun: string, suffix = 's'): string {
   return `${count} ${noun}${count === 1 ? '' : suffix}`
+}
+
+/** Nodes whose name declares collision, misreads included: both are worth reporting. */
+function countColliders(node: IRNode): number {
+  return (node.physics ? 1 : 0) + node.children.reduce((total, child) => total + countColliders(child), 0)
 }
 
 /** The optimized asset lives beside the source as `<name>-transformed.glb`. */
@@ -173,6 +181,39 @@ async function defaultOutput(input: string): Promise<string> {
   return join(base, 'models', filename)
 }
 
+/**
+ * `-o src/models` is the obvious thing to type, and a directory is not a file. Anything not
+ * named `.vue` is taken as one: a generated SFC under any other extension cannot be imported
+ * by a bundler, so reading an extensionless path as a filename is never what was meant.
+ */
+function resolveOutput(output: string, input: string): string {
+  return output.endsWith('.vue') ? output : join(output, `${componentName(input)}.gen.vue`)
+}
+
+/**
+ * `-o /src/models` is a project path carrying a leading slash, which the shell reads as the
+ * filesystem root — the same slip as passing `/public/models/x.glb` as the input, and just as
+ * worth naming instead of leaving an errno behind.
+ */
+async function explainUnwritablePath(target: string, error: unknown): Promise<unknown> {
+  const { code } = (error ?? {}) as NodeJS.ErrnoException
+  if (!['ENOENT', 'EACCES', 'EPERM', 'EROFS'].includes(code ?? '') || !target.startsWith('/')) {
+    return error
+  }
+
+  const relative = target.replace(/^\/+/, '')
+  const [root] = relative.split('/')
+  // Nobody keeps a `/src` at the filesystem root, so the slash was a slip. `/Users` they do
+  // keep, and then the failure is about permissions rather than about the shape of the path.
+  const rooted = await isDirectory(`/${root}`)
+
+  return new Error(
+    rooted
+      ? `Cannot write to ${target}: ${(error as Error)?.message ?? 'the path is not writable'}.`
+      : `Cannot write to ${target} — did you mean ${relative}? A leading slash is the filesystem root, not the project root.`,
+  )
+}
+
 async function assertWritable(path: string, force: boolean): Promise<void> {
   if (force) {
     return
@@ -245,6 +286,9 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
       const meshes = Object.values(ir.nodes).filter(node => node.type.endsWith('Mesh')).length
       // Buckets of one only matter to --instanceall; they are not candidates on their own.
       const candidates = ir.instances.filter(bucket => bucket.nodes.length > 1).length
+      // Reported whether or not --physics is on: a level full of suffixes nobody acted on is
+      // exactly what the user needs to be told.
+      const colliders = countColliders(ir.root)
       // eslint-disable-next-line no-console
       console.log([
         bold(input),
@@ -252,6 +296,7 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
         `  ${plural(Object.keys(ir.materials).length, 'material')}`,
         `  ${plural(ir.animations.length, 'animation clip')}`,
         candidates ? `  ${plural(candidates, 'instancing candidate')}` : '',
+        colliders ? `  ${plural(colliders, 'collider suffix', 'es')}${options.physics ? '' : gray(' — pass --physics rapier to generate them')}` : '',
         gray('  run without --dry-run to generate a component'),
       ].filter(Boolean).join('\n'))
       return
@@ -264,7 +309,9 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
     }
 
     // The provider's path is settled before the emit: the consumer imports it by name.
-    const target = options.console ? undefined : options.output ?? await defaultOutput(input)
+    const target = options.console
+      ? undefined
+      : options.output ? resolveOutput(options.output, input) : await defaultOutput(input)
     const name = componentName(target ?? input)
     const instancesTarget = instancesPath(target ?? `${name}.gen.vue`)
 
@@ -280,6 +327,7 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
       meta: options.meta,
       instance: options.instance,
       instanceAll: options.instanceall,
+      physics: options.physics,
       instancesModule: `./${basename(instancesTarget)}`,
       command: `tres ${process.argv.slice(2).join(' ')}`,
     })
@@ -298,8 +346,12 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
     for (const path of written) {
       await assertWritable(path, Boolean(options.force))
     }
-    await mkdir(dirname(target), { recursive: true })
-    await writeFile(target, code, 'utf-8')
+    await mkdir(dirname(target), { recursive: true }).catch(async (error) => {
+      throw await explainUnwritablePath(target, error)
+    })
+    await writeFile(target, code, 'utf-8').catch(async (error) => {
+      throw await explainUnwritablePath(target, error)
+    })
     if (instances) {
       await writeFile(instancesTarget, instances, 'utf-8')
     }

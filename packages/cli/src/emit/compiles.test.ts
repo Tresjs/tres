@@ -2,11 +2,12 @@
  * The emitter builds markup as strings, so nothing else catches a stray quote or an
  * unbalanced tag. Run the real Vue compiler over the output instead of trusting it.
  */
+import type { EmitOptions } from './sfc'
 import { describe, expect, it } from 'vitest'
 import { compileScript, compileTemplate, parse } from 'vue/compiler-sfc'
 import { buildIR } from '../gltf/build-ir'
 import { loadGLTF } from '../gltf/load'
-import { lightAndCameraGLB, mixedInstancingGLB, morphAndMetaGLB, nestedGLB, sketchfabGLB, skinnedGLB } from '../gltf/__fixtures__/scenes'
+import { lightAndCameraGLB, mixedInstancingGLB, morphAndMetaGLB, nestedGLB, physicsGLB, sketchfabGLB, skinnedGLB } from '../gltf/__fixtures__/scenes'
 import { emitSFC } from './sfc'
 
 const CASES = {
@@ -16,6 +17,11 @@ const CASES = {
   'morph targets and metadata': () => morphAndMetaGLB(),
   'a sketchfab export': () => sketchfabGLB(),
 }
+
+const PHYSICS_CASES = {
+  'a level with collider suffixes': {},
+  'colliders inside batches': { instance: true },
+} satisfies Record<string, Partial<EmitOptions>>
 
 function compile(code: string, id: string) {
   const { descriptor, errors } = parse(code, { filename: `${id}.gen.vue` })
@@ -41,6 +47,20 @@ describe('generated output compiles', () => {
 
       expect(parseErrors).toEqual([])
       expect(templateErrors).toEqual([])
+    })
+  }
+
+  for (const [label, options] of Object.entries(PHYSICS_CASES)) {
+    it(`compiles ${label}`, async () => {
+      const ir = buildIR(await loadGLTF(await physicsGLB()))
+      const { code, instances } = emitSFC(ir, { url: '/level.glb', name: 'Level', slots: 'all', physics: 'rapier', ...options })
+
+      for (const [id, source] of [['level', code], ...(instances ? [['level-instances', instances]] : [])] as const) {
+        const { parseErrors, templateErrors } = compile(source, id)
+
+        expect(parseErrors, id).toEqual([])
+        expect(templateErrors, id).toEqual([])
+      }
     })
   }
 

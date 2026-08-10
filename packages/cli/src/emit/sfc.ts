@@ -1,7 +1,9 @@
 import type { GLTFIR, IRNode } from '../gltf/ir'
+import type { IRPhysics } from '../gltf/physics'
 import type { InstancePlan } from './instancing'
 import { contextKey, emitInstancesSFC } from './instances'
 import { NO_INSTANCING, planInstancing } from './instancing'
+import { bodyAttributes, colliderOf, colliderProxy, physicsWarnings, RAPIER_IMPORT } from './physics'
 import { access, declarer, header, importable, INDENT, modelTypes, round, tuple } from './shared'
 
 export interface EmitOptions {
@@ -26,6 +28,8 @@ export interface EmitOptions {
   instance?: boolean
   /** Batch every eligible mesh, including the ones that appear once. */
   instanceAll?: boolean
+  /** Generate physics bodies from the collider suffixes on node names. */
+  physics?: 'rapier'
   /** Import specifier for the emitted provider, when instancing. */
   instancesModule?: string
   /** Recorded in the header so regeneration is reproducible. */
@@ -108,6 +112,14 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
   const slots: string[] = []
   const slotSpecs: SlotSpec[] = []
 
+  const wantsPhysics = options.physics === 'rapier'
+  /** How many `<RigidBody>` elements the render actually produced. */
+  let bodies = 0
+
+  function physicsOf(node: IRNode): IRPhysics | undefined {
+    return wantsPhysics ? colliderOf(node) : undefined
+  }
+
   const root = options.root ? findNode(ir.root, options.root) : ir.root
   if (!root) {
     throw new Error(`No node named "${options.root}" in this model.`)
@@ -178,13 +190,24 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     return out
   }
 
-  function attributes(node: IRNode): string[] {
+  /**
+   * A body owns its placement, so `:position` and `:rotation` move up to the `<RigidBody>`.
+   * `:scale` stays on the mesh: rapier reads it off the child to size the collider it derives.
+   */
+  function ownTransformAttrs(node: IRNode, physics?: IRPhysics): string[] {
+    return transformAttrs(node)
+      .filter(({ binding }) => !physics || binding.key === 'scale')
+      .map(({ attr }) => attr)
+  }
+
+  function attributes(node: IRNode, physics?: IRPhysics): string[] {
     const attrs: string[] = []
 
     if ((keepNames || isAnimated(node)) && node.name) {
       attrs.push(`name="${node.name}"`)
     }
-    if (shadows && node.geometry) {
+    // An invisible proxy is never drawn, so shadow flags on one are noise.
+    if (shadows && node.geometry && !physics?.hidden) {
       attrs.push('cast-shadow', 'receive-shadow')
     }
     if (node.geometry && node.name) {
@@ -203,7 +226,12 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
       )
     }
 
-    attrs.push(...transformAttrs(node).map(({ attr }) => attr))
+    // `_colonly` collides without drawing: the mesh is a proxy for a visual sibling.
+    if (physics?.hidden) {
+      attrs.push(':visible="false"')
+    }
+
+    attrs.push(...ownTransformAttrs(node, physics))
 
     if (meta && node.userData) {
       attrs.push(`:user-data="${JSON.stringify(node.userData).replace(/"/g, '\'')}"`)
@@ -218,12 +246,12 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
    * which is the bucket's first mesh and so the same for every copy in it — `name` is
    * still this node's own, and what a clip binds against.
    */
-  function instanceAttributes(node: IRNode, key: string): string[] {
+  function instanceAttributes(node: IRNode, key: string, physics?: IRPhysics): string[] {
     const attrs = [`batch="${key}"`]
     if ((keepNames || isAnimated(node)) && node.name) {
       attrs.push(`name="${node.name}"`)
     }
-    attrs.push(...transformAttrs(node).map(({ attr }) => attr))
+    attrs.push(...ownTransformAttrs(node, physics))
     if (meta && node.userData) {
       attrs.push(`:user-data="${JSON.stringify(node.userData).replace(/"/g, '\'')}"`)
     }
@@ -237,6 +265,7 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
   function isPrunable(node: IRNode): boolean {
     return !keepGroups
       && isContainer(node)
+      && !physicsOf(node)
       && !node.transform
       && !(meta && node.userData)
       && !(keepNames && node.name)
@@ -262,21 +291,48 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
       return renderChildren(node.children, depth)
     }
 
-    const children = renderChildren(node.children, depth + 1)
-    if (isContainer(node) && children.length === 0) {
+    const physics = physicsOf(node)
+    const children = renderChildren(node.children, depth + (physics ? 2 : 1))
+    if (isContainer(node) && children.length === 0 && !physics) {
       return []
     }
 
     const batch = batchOf(node)
     const tag = batch ? 'Instance' : node.tag
-    const attrs = batch ? instanceAttributes(node, batch) : attributes(node)
+    const attrs = batch ? instanceAttributes(node, batch, physics) : attributes(node, physics)
     const open = [tag, ...attrs].join(' ')
 
-    const lines = children.length === 0
+    const element = children.length === 0
       ? [`${pad}<${open} />`]
       : [`${pad}<${open}>`, ...children, `${pad}</${tag}>`]
 
-    return wrap(node, lines, depth)
+    return wrap(node, physics ? renderBody(node, physics, element, depth) : element, depth)
+  }
+
+  /**
+   * The mesh goes inside the body it declares, because that is where `RigidBody` looks for a
+   * geometry to derive its colliders from — it reads its own direct children.
+   */
+  function renderBody(node: IRNode, physics: IRPhysics, element: string[], depth: number): string[] {
+    bodies++
+
+    const pad = INDENT.repeat(depth)
+    const attrs = [
+      ...bodyAttributes(physics),
+      ...transformAttrs(node)
+        .filter(({ binding }) => binding.key !== 'scale')
+        .map(({ attr }) => attr),
+    ]
+
+    // A batched node renders as a geometry-less `<Instance>`, so the body needs the geometry
+    // handed back to it separately or it has nothing to collide with.
+    const inner = batchOf(node) ? [...element, `${pad}${colliderProxy(node)}`] : element
+
+    return [
+      `${pad}<RigidBody ${attrs.join(' ')}>`,
+      ...inner.map(line => INDENT + line),
+      `${pad}</RigidBody>`,
+    ]
   }
 
   /**
@@ -344,6 +400,10 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
   }
 
   const body = renderChildren(root.children, instanced ? 2 : 3)
+
+  if (wantsPhysics) {
+    warnings.push(...physicsWarnings(root))
+  }
 
   if (slotMode === 'named' && renderable.slotted === 0 && renderable.candidates > 0) {
     warnings.push(
@@ -414,6 +474,7 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     threeTypes.size > 0 ? `import type { ${[...threeTypes].sort().join(', ')} } from 'three'` : '',
     instanced ? `import type { ${provided.join(', ')} } from '${instancesModule}'` : '',
     `import { ${cientos.join(', ')} } from '@tresjs/cientos'`,
+    bodies > 0 ? RAPIER_IMPORT : '',
     vue.length > 0 ? `import { ${vue.join(', ')} } from 'vue'` : '',
   ].filter(Boolean)
 
@@ -476,6 +537,17 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
    * The batched escape hatch is the one nobody guesses: it needs an import in the parent and
    * the batch key, so the header spells both out against a slot this model actually has.
    */
+  /**
+   * One world holds every model, so the component never renders its own `<Physics>` — and a
+   * body outside one silently never simulates, which is worth a line in the file itself.
+   */
+  const physicsNote = bodies > 0
+    ? [
+        `Colliders come from the suffixes on the node names. Render this inside <Physics> from`,
+        `'@tresjs/rapier', or the bodies never simulate.`,
+      ]
+    : []
+
   const batched = slotSpecs.find(slot => slot.bindings.some(binding => binding.key === 'batch'))
   const batchedNote = batched
     ? [
@@ -492,6 +564,7 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
       command,
       'Override the named slots from the parent instead; regenerating keeps your overrides.',
       instanced ? `Render inside <${name}Instances>, which owns the load and the batches.` : '',
+      ...physicsNote,
       ...batchedNote,
     ),
     ...imports,

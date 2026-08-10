@@ -60,7 +60,7 @@ onMounted(() => robot.value?.actions.Idle?.play())
 
 | Flag | |
 | --- | --- |
-| `-o, --output <path>` | where to write (default `<Model>.gen.vue` beside the model) |
+| `-o, --output <path>` | file, or a directory to write `<Model>.gen.vue` into (default: beside the model) |
 | `-u, --url <url>` | url the model is served from (default: inferred from `public/`) |
 | `-s, --slots <mode>` | `named` (default), `all`, `none` |
 | `--shadows` | add `cast-shadow` / `receive-shadow` |
@@ -74,6 +74,7 @@ onMounted(() => robot.value?.actions.Idle?.play())
 | `-T, --transform` | optimize the model first (see below) |
 | `-i, --instance` | batch repeated meshes into an `InstancedMesh` (see below) |
 | `-I, --instanceall` | batch every eligible mesh, even the ones that appear once |
+| `-P, --physics <engine>` | generate colliders from node name suffixes: `rapier` (see below) |
 | `--resolution <px>` | max texture size when transforming (default 1024) |
 | `--format <fmt>` | texture format when transforming: `webp` (default), `jpeg`, `png`, `avif` |
 | `--simplify` | reduce geometry with meshoptimizer |
@@ -87,6 +88,15 @@ onMounted(() => robot.value?.actions.Idle?.play())
 `--slots named` skips exporter noise like `Object_12` and `Sketchfab_model`. On
 marketplace assets that can leave you with nothing to override, so it says so and
 points at `--slots all`.
+
+`-o` takes either a file or a directory, and anything not ending in `.vue` is a directory
+(missing ones are created). Paths are relative to where you run the command, so
+`-o /src/models` is the filesystem root rather than your project, which it will tell you:
+
+```bash
+tres gltf public/models/Dummy.glb -o src/models
+# ✔ src/models/Dummy.gen.vue
+```
 
 #### `--transform`
 
@@ -107,6 +117,77 @@ The optimized output is draco-compressed, so the generated component gets
 
 Draco-compressed and unpacked (`.gltf` + `.bin`) models both work. Draco models get
 `useGLTF(url, { draco: true })` automatically, since they render nothing without it.
+
+#### `--physics rapier`
+
+Reads collision off the node names, so an artist authors physics in Blender and nobody
+edits the generated file. The vocabulary is
+[Godot's](https://docs.godotengine.org/en/stable/tutorials/assets_pipeline/importing_3d_scenes/node_type_customization.html),
+so a level already named for its importer works unchanged:
+
+```bash
+tres gltf public/models/level.glb --physics rapier
+# ✔ src/models/Level.gen.vue
+```
+
+| Suffix | Body | Shape | Mesh |
+| --- | --- | --- | --- |
+| `-col` | fixed | trimesh | drawn |
+| `-colonly` | fixed | trimesh | hidden |
+| `-convcol` | fixed | convex hull | drawn |
+| `-convcolonly` | fixed | convex hull | hidden |
+| `-rigid` | dynamic | convex hull | drawn |
+| `-rb-<type>` | `fixed`, `dynamic`, `kinematic`, `kinematicVelocity` | per body | drawn |
+| `-sensor` | fixed, `sensor` | convex hull | hidden |
+
+`only` in the name is what hides the mesh, so a collision proxy never draws and a
+collidable prop still does. Append a shape to override the default:
+`Crate-rigid-cuboid`, `Ramp-colonly-hull`. Shapes are `cuboid`, `ball`, `capsule`,
+`cone`, `cylinder`, `hull` and `trimesh`. Separators can be `-`, `_` or `$`, matching is
+case-insensitive, and a Blender duplicate counter is read through: `Can-rigid.001` is a
+body like its original.
+
+```vue
+<RigidBody type="fixed" collider="convexHull">
+  <TresMesh :geometry="nodes['Floor-convcol'].geometry" :material="materials.prototype" />
+</RigidBody>
+
+<RigidBody type="fixed" collider="convexHull">
+  <TresMesh :geometry="nodes['Stairs_Collision-convcolonly'].geometry" :visible="false" />
+</RigidBody>
+```
+
+Nothing is sized at generate time. `RigidBody` derives its colliders from the geometry of
+its own mesh children when the model loads, so a re-export that reshapes a mesh reshapes
+its collider, and the numbers can never drift from the ones rapier would have picked.
+`:position` and `:rotation` sit on the body, which rapier seeds the simulation from;
+`:scale` stays on the mesh, where rapier reads it to size the collider.
+
+The component never renders its own `<Physics>`, since one world holds many models:
+
+```vue
+<Physics>
+  <Level />
+</Physics>
+```
+
+A suffix that nearly parses is reported rather than dropped, because a level with no
+collision and no explanation is the worst outcome available:
+
+```
+! Barrel-rb-dynmic: "-rb-dynmic" reads like a collider suffix, but "dynmic" is not a
+  body type (fixed, static, dynamic, kinematic, kinematicvelocity). Nothing was generated for it.
+```
+
+Two things rapier cannot express, both warned about: bodies do not nest (a proxy inside
+another body simulates independently and drifts from it), and a body under a transformed
+ancestor is placed as if that transform were not there, because rapier simulates in world
+space. Apply transforms on export.
+
+Combines with `--instance`: a batched body keeps one draw call for the visuals and gets an
+invisible proxy mesh so it still has a geometry to collide with. Batched visuals trail
+physics by one frame, since the provider packs its matrices before the bodies write their
+poses.
 
 #### `--instance` / `--instanceall`
 

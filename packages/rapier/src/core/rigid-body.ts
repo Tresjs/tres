@@ -13,7 +13,7 @@ import type {
 import { BufferGeometry, IcosahedronGeometry, Mesh, SphereGeometry } from 'three'
 import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import type { TresObject3D } from '@tresjs/core'
-import { getColliderSizingsFromObject } from '../utils'
+import { getColliderSizingsFromObject, toColliderIndices } from '../utils'
 
 /**
  * @description
@@ -54,7 +54,7 @@ export const createRigidBodyAutoColliderArgs: (props: {
       const clonedGeometry = mergeVertices(geometry)
       const triMeshMap = clonedGeometry.attributes.position
         .array as Float32Array
-      const triMeshUnit = clonedGeometry.index?.array as Uint32Array
+      const triMeshUnit = toColliderIndices(clonedGeometry.index?.array)
 
       args = [triMeshMap, triMeshUnit]
     }
