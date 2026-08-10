@@ -343,7 +343,14 @@ export function physicsGLB(): Promise<ArrayBuffer> {
   const typo = new Mesh(new BoxGeometry(1, 1, 1), material)
   typo.name = 'Barrel-rb-dynmic'
 
-  scene.add(floor, table, can, duplicate, stairs, trigger, wrapper, typo)
+  // A suffix on a branch node, which rapier has no geometry to derive a collider from.
+  const building = new Group()
+  building.name = 'Building-convcol'
+  const wall = new Mesh(new BoxGeometry(4, 3, 1), material)
+  wall.name = 'Wall'
+  building.add(wall)
+
+  scene.add(floor, table, can, duplicate, stairs, trigger, wrapper, typo, building)
 
   return toGLB(scene)
 }

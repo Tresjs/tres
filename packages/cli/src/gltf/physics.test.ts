@@ -101,6 +101,19 @@ describe('parsePhysics', () => {
     })
   })
 
+  it('reports junk in front of a suffix it can read, instead of parsing past it', () => {
+    // Scans clean as a bare `-sensor`, and the collision the artist asked for vanishes.
+    expect(parsePhysics('Exit-colonly-cubiod-sensor')).toMatchObject({
+      kind: 'misread',
+      suffix: 'colonly-cubiod-sensor',
+      reason: expect.stringContaining('"cubiod" is not a shape or a body type'),
+    })
+    expect(parsePhysics('Crate-rb-dynmic-cuboid')).toMatchObject({
+      kind: 'misread',
+      reason: expect.stringContaining('"dynmic" is not a body type'),
+    })
+  })
+
   it('records what matched, so a warning can quote it', () => {
     expect(parsePhysics('Ramp-convcolonly')).toMatchObject({ suffix: 'convcolonly' })
     expect(parsePhysics('Crate-rb-dynamic-cuboid')).toMatchObject({ suffix: 'rb-dynamic-cuboid' })

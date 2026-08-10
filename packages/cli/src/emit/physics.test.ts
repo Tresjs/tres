@@ -99,6 +99,13 @@ describe('--physics rapier', () => {
     expect(code).not.toMatch(/<RigidBody[^>]*>\s*<TresMesh :geometry="nodes\['Barrel-rb-dynmic'\]/)
   })
 
+  it('refuses a suffix on a group, which a body has no geometry to read', async () => {
+    const { code, warnings } = await emit(physicsGLB())
+
+    expect(warnings.join('\n')).toContain('a group carries no geometry')
+    expect(code).not.toMatch(/<RigidBody[^>]*>\s*<TresGroup/)
+  })
+
   it('warns about a body under a transform, which rapier places as if it were not there', async () => {
     const { warnings } = await emit(physicsGLB())
 

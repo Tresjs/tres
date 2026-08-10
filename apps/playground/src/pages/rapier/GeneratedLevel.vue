@@ -6,7 +6,7 @@ import { Physics } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import Level from '@/models/Level.gen.vue'
 
-// Generated with: tres gltf public/models/level.glb --physics rapier --slots none
+// Generated with: tres gltf public/models/level.glb -o src/models/Level.gen.vue --physics rapier
 // Every body in the level comes from a Godot-style suffix on the node name:
 // `-convcol` on the geometry, `-convcolonly` on the stair proxies, `-rigid` on the cans.
 const gl = {

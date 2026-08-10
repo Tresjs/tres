@@ -167,8 +167,11 @@ function interpret(tail: string[]): IRPhysics | IRPhysicsMisread | undefined {
 /**
  * A recognized word trailed by something the grammar cannot read. `Crate-rb-dynmic` is the
  * case worth catching: it looks right, and without this it generates nothing at all.
+ *
+ * `tail` is what the scan already read as a suffix, quoted back in the warning but never
+ * searched: the junk is what sits between the keyword and it.
  */
-function misread(tokens: string[]): IRPhysicsMisread | undefined {
+function misread(tokens: string[], tail: string[] = []): IRPhysicsMisread | undefined {
   const index = tokens.findIndex(token => PRIMARY.has(token.toLowerCase()))
   // At 0 the whole name is the keyword, and a suffix has to suffix something.
   if (index <= 0) {
@@ -187,7 +190,7 @@ function misread(tokens: string[]): IRPhysicsMisread | undefined {
 
   return {
     kind: 'misread',
-    suffix: tokens.slice(index).join('-'),
+    suffix: [...tokens.slice(index), ...tail].join('-'),
     reason,
   }
 }
@@ -218,5 +221,10 @@ export function parsePhysics(name: string): IRNodePhysics | undefined {
     tokens.pop()
   }
 
-  return (tail.length > 0 ? interpret(tail) : undefined) ?? misread(words)
+  // Checked before the tail is interpreted, because a suffix the grammar *can* read hides
+  // everything in front of it: `Exit-colonly-cubiod-sensor` is a bare sensor otherwise, and
+  // the collision the artist actually asked for is gone with no warning.
+  return misread(tokens, tail)
+    ?? (tail.length > 0 ? interpret(tail) : undefined)
+    ?? misread(words)
 }

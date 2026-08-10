@@ -147,6 +147,10 @@ collidable prop still does. Append a shape to override the default:
 case-insensitive, and a Blender duplicate counter is read through: `Can-rigid.001` is a
 body like its original.
 
+Suffix meshes, not groups. A body reads the geometry off its own direct children, so a
+group has nothing to give it — suffix the meshes inside instead, and each becomes its own
+body. A suffix on a group is reported and generates nothing.
+
 ```vue
 <RigidBody type="fixed" collider="convexHull">
   <TresMesh :geometry="nodes['Floor-convcol'].geometry" :material="materials.prototype" />

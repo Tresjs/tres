@@ -45,6 +45,18 @@ function toTransform(object: Object3D): IRTransform | undefined {
   return Object.keys(transform).length > 0 ? transform : undefined
 }
 
+/**
+ * `RigidBody` derives its colliders from the geometry of its own direct children, so a suffix
+ * on a group produces a body with nothing to collide with — and the shape the artist asked for
+ * degrades into a bounding box at best. Say so instead, and name the fix.
+ */
+function noGeometry(object: Object3D): string {
+  // glTF has no Group: the loader hands back bare Object3D for every branch node.
+  const kind = object.type === 'Object3D' ? 'group' : object.type
+  return `a ${kind} carries no geometry for rapier to derive a collider from, and a body reads only `
+    + `its own direct children — put the suffix on the meshes inside it instead`
+}
+
 function toNode(object: Object3D): IRNode {
   const node: IRNode = {
     name: object.name,
@@ -61,11 +73,18 @@ function toNode(object: Object3D): IRNode {
     node.originalName = authored
   }
 
+  const mesh = object as Mesh
+  if (mesh.geometry) {
+    node.geometry = true
+  }
+
   // Read off the authored name where there is one: sanitization eats the dot in `-rigid.001`,
   // and the suffix has to be readable either way.
   const physics = parsePhysics(node.originalName ?? object.name)
   if (physics) {
-    node.physics = physics
+    node.physics = physics.kind === 'collider' && !node.geometry
+      ? { kind: 'misread', suffix: physics.suffix, reason: noGeometry(object) }
+      : physics
   }
 
   const transform = toTransform(object)
@@ -78,10 +97,6 @@ function toNode(object: Object3D): IRNode {
     node.material = material.name
   }
 
-  const mesh = object as Mesh
-  if (mesh.geometry) {
-    node.geometry = true
-  }
   if (mesh.morphTargetDictionary) {
     node.morphTargets = true
   }

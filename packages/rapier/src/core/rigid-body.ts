@@ -46,7 +46,14 @@ export const createRigidBodyAutoColliderArgs: (props: {
   ) {
     args = [radius ?? 1]
   }
-  else if (shape === 'capsule' || shape === 'cone' || shape === 'cylinder') {
+  else if (shape === 'capsule') {
+    // rapier measures a capsule's half-height across its cylindrical section alone, and adds a
+    // hemisphere of `radius` at each end. A bounding half-height passed straight through is
+    // therefore a collider two radii taller than the mesh it was read from.
+    const capRadius = Math.max(halfWidth, halfDepth)
+    args = [Math.max(halfHeight - capRadius, 0), capRadius]
+  }
+  else if (shape === 'cone' || shape === 'cylinder') {
     args = [halfHeight, halfWidth]
   }
   else if (geometry instanceof BufferGeometry) {
