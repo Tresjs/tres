@@ -9,16 +9,16 @@ import gltf from './gltf'
 
 describe('gltf command', () => {
   let dir: string
-  const log = vi.spyOn(console, 'log').mockImplementation(() => {})
-  const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+  const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true)
+  const stderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => true)
 
   beforeAll(async () => {
     dir = await mkdtemp(join(tmpdir(), 'tres-cli-'))
   })
 
   afterEach(() => {
-    log.mockClear()
-    warn.mockClear()
+    stdout.mockClear()
+    stderr.mockClear()
   })
 
   afterAll(async () => {
@@ -34,8 +34,10 @@ describe('gltf command', () => {
     return path
   }
 
-  const output = () => log.mock.calls.flat().join('\n')
-  const warnings = () => warn.mock.calls.flat().join('\n')
+  /** stdout carries the payload alone: --json, --console code, nothing decorated. */
+  const output = () => stdout.mock.calls.flat().join('')
+  /** stderr carries the progress: header, phases, warnings, the file list. */
+  const chrome = () => stderr.mock.calls.flat().join('')
 
   it('writes a .gen.vue next to the model', async () => {
     const path = await fixture('robot.glb', nestedGLB())
@@ -64,7 +66,7 @@ describe('gltf command', () => {
 
     await gltf.call({} as any, path, {})
 
-    expect(output()).toContain('src/models')
+    expect(chrome()).toContain('src/models')
   })
 
   it('uses app/ when the project keeps its source there', async () => {
@@ -109,7 +111,7 @@ describe('gltf command', () => {
 
     await gltf.call({} as any, path, {})
 
-    expect(warnings()).toContain('--url')
+    expect(chrome()).toContain('--url')
   })
 
   it('honours an explicit --url', async () => {
@@ -128,6 +130,33 @@ describe('gltf command', () => {
     await gltf.call({} as any, path, { output: target })
 
     await expect(readFile(target, 'utf-8')).resolves.toContain('<template>')
+  })
+
+  it('treats an -o without a .vue extension as a directory to write into', async () => {
+    const path = await fixture('toy-rocket.glb', nestedGLB(), 'into')
+    const target = join(dir, 'into', 'models')
+
+    await gltf.call({} as any, path, { output: target })
+
+    await expect(readFile(join(target, 'ToyRocket.gen.vue'), 'utf-8')).resolves.toContain('<template>')
+  })
+
+  it('writes into an -o directory that does not exist yet', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'fresh')
+    const target = join(dir, 'fresh', 'deep', 'nested')
+
+    await gltf.call({} as any, path, { output: target })
+
+    await expect(readFile(join(target, 'Robot.gen.vue'), 'utf-8')).resolves.toContain('<template>')
+  })
+
+  /** A leading slash is the filesystem root, and `-o /src/models` is a very easy slip. */
+  it('explains an absolute -o that was meant to be project-relative', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'absolute')
+
+    await expect(gltf.call({} as any, path, { output: '/src/models' }))
+      .rejects
+      .toThrow(/did you mean src\/models/)
   })
 
   it('prints instead of writing with --console', async () => {
@@ -180,8 +209,8 @@ describe('gltf command', () => {
 
     await gltf.call({} as any, path, {})
 
-    expect(output()).toContain('Robot.gen.vue')
-    expect(output()).toContain('2 slots')
+    expect(chrome()).toContain('Robot.gen.vue')
+    expect(chrome()).toContain('2 slots')
   })
 
   it('reports name collisions on stderr', async () => {
@@ -189,7 +218,7 @@ describe('gltf command', () => {
 
     await gltf.call({} as any, path, { console: true })
 
-    expect(warnings()).toContain('foobar_1')
+    expect(chrome()).toContain('foobar_1')
   })
 
   it('prints the IR as JSON with --json', async () => {
@@ -206,7 +235,7 @@ describe('gltf command', () => {
 
     await gltf.call({} as any, path, { dryRun: true })
 
-    expect(output()).toContain('3 meshes')
+    expect(chrome()).toContain('3 meshes')
   })
 
   it('optimizes to a separate -transformed.glb and generates against it', async () => {
@@ -218,6 +247,54 @@ describe('gltf command', () => {
     await expect(stat(join(dir, 'served/public/models/robot-transformed.glb'))).resolves.toBeDefined()
     await expect(stat(join(dir, 'served/public/models/robot.glb'))).resolves.toBeDefined()
     await expect(readFile(out, 'utf-8')).resolves.toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/robot-transformed.glb'`)
+  })
+
+  it('writes the provider beside the component with --instance', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'batched/public/models')
+    const out = join(dir, 'batched/Rocks.gen.vue')
+
+    await gltf.call({} as any, path, { instance: true, output: out })
+
+    await expect(readFile(out, 'utf-8')).resolves.toContain(`from './Rocks.instances.gen.vue'`)
+    await expect(readFile(join(dir, 'batched/Rocks.instances.gen.vue'), 'utf-8')).resolves.toContain('<Merged')
+    expect(chrome()).toContain('Rocks.instances.gen.vue')
+  })
+
+  it('keys the injection on the name -o gave the component, not on the model file', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'renamed/public/models')
+    const out = join(dir, 'renamed/Boulders.gen.vue')
+
+    await gltf.call({} as any, path, { instance: true, output: out })
+
+    await expect(readFile(out, 'utf-8')).resolves.toContain(`inject<ModelContext>('tres-gltf:Boulders')`)
+    await expect(readFile(join(dir, 'renamed/Boulders.instances.gen.vue'), 'utf-8')).resolves.toContain(`provide('tres-gltf:Boulders'`)
+  })
+
+  it('turns --transform on for instancing, and says why', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'forced/public/models')
+
+    await gltf.call({} as any, path, { instance: true, output: join(dir, 'forced/Rocks.gen.vue') })
+
+    await expect(stat(join(dir, 'forced/public/models/rocks-transformed.glb'))).resolves.toBeDefined()
+    expect(chrome()).toContain('instancing needs deduplicated geometry')
+  })
+
+  it('prints both halves with --console', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'shown/public/models')
+
+    await gltf.call({} as any, path, { instance: true, console: true })
+
+    expect(output()).toContain('<Instance batch=')
+    expect(output()).toContain('Rocks.instances.gen.vue')
+    expect(output()).toContain(`provide('tres-gltf:Rocks'`)
+  })
+
+  it('refuses to clobber a hand-written provider', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'guard/public/models')
+    const out = join(dir, 'guard/Rocks.gen.vue')
+    await writeFile(join(dir, 'guard/Rocks.instances.gen.vue'), '<template>mine</template>')
+
+    await expect(gltf.call({} as any, path, { instance: true, output: out })).rejects.toThrow('will not be overwritten')
   })
 
   it('previews a transform with --console without writing the optimized file into the project', async () => {
@@ -234,7 +311,8 @@ describe('gltf command', () => {
 
     await gltf.call({} as any, path, { transform: true, output: join(dir, 'saving/Robot.gen.vue') })
 
-    expect(output()).toMatch(/robot\.glb.*robot-transformed\.glb/s)
+    expect(chrome()).toMatch(/Transform\s+[\d.]+[KMG]?B › [\d.]+[KMG]?B\s+-\d+%/)
+    expect(chrome()).toContain('useGLTF() now loads robot-transformed.glb')
   })
 
   it('keeps the component named after the original model', async () => {

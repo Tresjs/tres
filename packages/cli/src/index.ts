@@ -1,11 +1,11 @@
 import type { CommandDefinition } from './registry'
 import { createRequire } from 'node:module'
 import { Command, InvalidArgumentError } from 'commander'
-import { banner } from './banner'
 import { defineCommand, registerCommands } from './registry'
+import { enableColorOnStderr, fail, mascot } from './ui'
 
 const require = createRequire(import.meta.url)
-const pkg = require('../package.json') as { version: string }
+const pkg = require('../package.json') as { version: string, description: string }
 
 const TEXTURE_FORMATS = ['webp', 'jpeg', 'png', 'avif'] as const
 
@@ -13,6 +13,16 @@ const TEXTURE_FORMATS = ['webp', 'jpeg', 'png', 'avif'] as const
 function parseFormat(value: string): string {
   if (!(TEXTURE_FORMATS as readonly string[]).includes(value)) {
     throw new InvalidArgumentError(`must be one of ${TEXTURE_FORMATS.join(', ')}`)
+  }
+  return value
+}
+
+const PHYSICS_ENGINES = ['rapier'] as const
+
+/** One engine today. Naming it anyway keeps `--physics` open for the next one. */
+function parseEngine(value: string): string {
+  if (!(PHYSICS_ENGINES as readonly string[]).includes(value)) {
+    throw new InvalidArgumentError(`must be one of ${PHYSICS_ENGINES.join(', ')}`)
   }
   return value
 }
@@ -44,7 +54,11 @@ const commands: CommandDefinition[] = [
       .option('-m, --meta', 'emit glTF extras as :user-data')
       .option('-c, --console', 'print the component instead of writing it')
       .option('-f, --force', 'overwrite a file this tool did not generate')
+      .option('-v, --verbose', 'list every slot name instead of the first few')
       .option('-T, --transform', 'optimize the model into a separate -transformed.glb and generate against it')
+      .option('-i, --instance', 'batch meshes that share a geometry and material into an InstancedMesh (implies --transform)')
+      .option('-I, --instanceall', 'batch every eligible mesh, even the ones that appear once (implies --transform)')
+      .option('-P, --physics <engine>', 'generate colliders from node name suffixes: rapier', parseEngine)
       .option('--resolution <px>', 'max texture size when transforming', v => Number.parseInt(v, 10), 1024)
       .option('--format <fmt>', 'texture format when transforming: webp | jpeg | png | avif', parseFormat, 'webp')
       .option('--simplify', 'reduce geometry with meshoptimizer when transforming')
@@ -68,18 +82,24 @@ const program = new Command()
 
 program
   .name('tres')
-  .description('CLI for TresJS projects')
+  .description(pkg.description)
   .version(pkg.version)
-  .addHelpText('beforeAll', `\n${banner()}\n`)
+  // beforeAll on the root is inherited by every subcommand's help, so the mascot has to be
+  // gated on command identity. `tres` with no arguments lands here too, which is the point:
+  // that is the only screen anyone reads as a landing page.
+  .addHelpText('beforeAll', context => (context.command === program ? `\n${mascot(pkg.version, pkg.description)}\n` : ''))
 
 registerCommands(program, commands)
 
 async function main() {
+  // Colour on stderr is a decision for the binary, not for whoever imports the ui module.
+  enableColorOnStderr()
+
   try {
     await program.parseAsync(process.argv)
   }
   catch (error) {
-    console.error(error instanceof Error ? error.message : error)
+    fail(error)
     process.exitCode = 1
   }
 }

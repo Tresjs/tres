@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { simpleGLB } from './__fixtures__/scenes'
 import { loadGLTF } from './load'
-import { transformGLTF } from './transform'
+import { announce, transformGLTF } from './transform'
 
 /**
  * A textured .glb built with glTF-Transform itself: three's exporter cannot encode
@@ -128,6 +128,44 @@ describe('transformGLTF', () => {
 
     const loaded = await loadGLTF(new Uint8Array(await readFile(output)).buffer as ArrayBuffer)
     expect(loaded.draco).toBe(true)
+  })
+
+  it('names every step it runs, in pipeline order', async () => {
+    const input = await write('narrated.glb', await texturedGLB(256))
+    const output = join(dir, 'narrated-transformed.glb')
+    const steps: string[] = []
+
+    await transformGLTF(input, output, { onStep: name => steps.push(name) })
+
+    expect(steps).toContain('textureCompress')
+    expect(steps.indexOf('weld')).toBeLessThan(steps.indexOf('draco'))
+  })
+
+  /**
+   * glTF-Transform reads the stack off `fn.name` before the first step runs, and transforms
+   * consult it to see what already ran. A wrapper that drops the name changes the pipeline.
+   */
+  it('announces steps without disturbing the stack the pipeline sees', async () => {
+    const [{ Document }, { createTransform }] = await Promise.all([
+      import('@gltf-transform/core'),
+      import('@gltf-transform/functions'),
+    ])
+
+    const stacks: (string[] | undefined)[] = []
+    const pipeline = ['weld', 'simplify'].map(name =>
+      createTransform(name, ((_document: unknown, context: { stack: string[] }) => {
+        stacks.push(context?.stack)
+      }) as never),
+    )
+
+    const seen: string[] = []
+    const wrapped = announce(pipeline, name => seen.push(name))
+
+    await new Document().transform(...wrapped)
+
+    expect(wrapped.map(step => step.name)).toEqual(['weld', 'simplify'])
+    expect(seen).toEqual(['weld', 'simplify'])
+    expect(stacks[0]).toEqual(['weld', 'simplify'])
   })
 
   it('runs the simplify path without error when asked', async () => {

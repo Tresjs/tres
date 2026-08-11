@@ -91,6 +91,31 @@ Instances read their world matrix, so parent transforms work exactly as you woul
 </Instances>
 ```
 
+## Animating instances
+
+Anything that moves an instance's node moves it in the batch, because the batch re-reads world
+matrices every frame. An `AnimationMixer` included: a mixer resolves its tracks by `Object3D`
+name, and an `<Instance />` takes a `name` like any other node, so a clip can drive one directly.
+
+```vue
+<Instances :geometry="geometry" :material="material">
+  <!-- "Blade" is driven by the clip; everything under "Rotor" rides along with it -->
+  <TresGroup name="Rotor">
+    <Instance name="Blade" />
+    <Instance v-for="i in 12" :key="i" :position="ringPosition(i)" />
+  </TresGroup>
+</Instances>
+```
+
+::prose-note
+Inside a `<Merged />`, `name` and `batch` are different things: `batch` picks which
+`InstancedMesh` to join, `name` is what this node is called. `tres gltf --instance` emits both,
+because a batch is keyed after its first mesh and every copy in it shares that key.
+::
+
+A track that finds no node is not silent: three logs
+`THREE.PropertyBinding: No target node found for track: <name>.position.` once for it.
+
 ## Limit and growth
 
 `limit` is the initial buffer allocation, not a cap. If more instances register than it allows, the
@@ -138,7 +163,8 @@ trades that per-node overhead for being able to write instances as ordinary Vue 
 | `geometry` | Geometry shared by every instance. Not disposed by the component.           | *required* |
 | `material` | Material shared by every instance. Not disposed by the component.           | *required* |
 | `limit`    | Initial buffer allocation. Grows automatically when exceeded.               | `1000`     |
-| `name`     | Key this batch registers under with an ancestor `<Merged />`.               | `undefined` |
+| `batch`    | Key this batch registers under with an ancestor `<Merged />`.               | `undefined` |
+| `name`     | Name for the `InstancedMesh` itself.                                        | `undefined` |
 
 Exposes the underlying `THREE.InstancedMesh` through `instance`.
 
@@ -146,7 +172,8 @@ Exposes the underlying `THREE.InstancedMesh` through `instance`.
 
 | Prop      | Description                                                                     | Default     |
 | :-------- | :------------------------------------------------------------------------------ | ----------- |
-| `name`    | Batch to join, by its key in `<Merged :meshes />`. Omit for the nearest `<Instances />`. | `undefined` |
+| `batch`   | Batch to join, by its key in `<Merged :meshes />`. Omit for the nearest `<Instances />`. | `undefined` |
+| `name`    | Name for this instance's node, so a mixer or `getObjectByName` can find it.       | `undefined` |
 | `color`   | Per-instance color, written into `instanceColor`.                                | `undefined` |
 | `visible` | `false` drops the instance from the batch without unregistering it.               | `true`      |
 

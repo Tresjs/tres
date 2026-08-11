@@ -1,8 +1,9 @@
 import type { CommandHandler } from '../registry'
+import * as ui from '../ui'
 
 const banana: CommandHandler = function (options: { count: number }) {
-  // eslint-disable-next-line no-console
-  console.log('🍌'.repeat(options.count))
+  ui.header('banana')
+  ui.payload('🍌'.repeat(options.count))
 }
 
 export default banana
