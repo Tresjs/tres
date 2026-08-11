@@ -1,9 +1,8 @@
 import { bold, gray, red, stripColors } from 'kolorist'
-import { amber, chip, enableColorOnStderr, glyph, green, mark } from './theme'
+import { amber, chip, glyph, green, mark } from './theme'
 
 export { mascot, type Mood, pickMood } from './mascot'
-
-enableColorOnStderr()
+export { enableColorOnStderr } from './theme'
 
 const HIDE_CURSOR = '\u001B[?25l'
 const SHOW_CURSOR = '\u001B[?25h'
@@ -16,11 +15,12 @@ const FRAME_MS = 80
 /** A narrow terminal still gets one item per line rather than a character-by-character column. */
 const MIN_LIST_WIDTH = 20
 
-const startedAt = performance.now()
-
 /** At most one spinner runs at a time; other output has to step around it. */
 let spinner: { clear: () => void, repaint: () => void } | null = null
 let handlersInstalled = false
+
+/** Synchronous cleanups owed on the way out, however the run ends. */
+const cleanups = new Set<() => void>()
 
 /** Repainting needs a terminal that can take the cursor back. CI logs are append-only. */
 function interactive(): boolean {
@@ -49,7 +49,7 @@ function emit(line = ''): void {
   spinner?.repaint()
 }
 
-/** A killed run must not leave the terminal without a cursor. */
+/** A killed run must not leave the terminal without a cursor, or its temporary files behind. */
 function installExitHandlers(): void {
   if (handlersInstalled) {
     return
@@ -62,15 +62,38 @@ function installExitHandlers(): void {
     const running = Boolean(spinner)
     spinner = null
     process.stderr.write(`${running ? CLEAR_LINE : ''}${SHOW_CURSOR}`)
+
+    for (const cleanup of cleanups) {
+      try {
+        cleanup()
+      }
+      catch {
+        // Already on the way out; a failed cleanup must not bury the reason we are here.
+      }
+    }
+    cleanups.clear()
   }
 
   process.on('exit', restore)
+  // Without a listener the default signal disposition skips 'exit' entirely, so the
+  // cleanups have to be driven from here too.
   for (const signal of ['SIGINT', 'SIGTERM'] as const) {
     process.on(signal, () => {
       restore()
       process.exit(130)
     })
   }
+}
+
+/**
+ * Register a synchronous cleanup to run on a clean exit, on Ctrl-C, and on SIGTERM. Async
+ * work is not an option on that path: the process is already leaving. Returns a function
+ * that unregisters it, for the ordinary case where the caller's own `finally` got there first.
+ */
+export function onExit(cleanup: () => void): () => void {
+  installExitHandlers()
+  cleanups.add(cleanup)
+  return () => cleanups.delete(cleanup)
 }
 
 export interface Task {
@@ -169,10 +192,10 @@ export function note(text: string): void {
 
 /**
  * A labelled comma list, wrapped to the terminal and hung under its first item. Past `limit`
- * the tail collapses to a count and the flag that prints the rest, so a 60-slot model does not
- * bury the paths above it.
+ * the tail collapses to a count, so a 60-slot model does not bury the paths above it. `hint`
+ * is the caller's way out of that cap — the helper has no idea which flag prints the rest.
  */
-export function list(label: string, items: string[], limit = Number.POSITIVE_INFINITY): void {
+export function list(label: string, items: string[], limit = Number.POSITIVE_INFINITY, hint = ''): void {
   if (!items.length) {
     return
   }
@@ -205,7 +228,7 @@ export function list(label: string, items: string[], limit = Number.POSITIVE_INF
     emit(gray(hang + rest))
   }
   if (hidden) {
-    emit(gray(`${hang}… ${hidden} more — rerun with --verbose`))
+    emit(gray(`${hang}… ${hidden} more${hint ? ` — ${hint}` : ''}`))
   }
 }
 
@@ -224,9 +247,10 @@ export function fail(error: unknown): void {
   emit()
 }
 
+/** `performance.now()` counts from process start, so the total needs no captured origin. */
 export function done(): void {
   emit()
-  emit(gray(`Done in ${elapsed(startedAt)}`))
+  emit(gray(`Done in ${elapsed(0)}`))
 }
 
 /** The command's actual output: JSON, generated code, bananas. Never decorated. */

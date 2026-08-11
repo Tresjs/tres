@@ -70,12 +70,34 @@ describe('ui', () => {
     expect(lines[1].startsWith('         ')).toBe(true)
   })
 
-  it('collapses a list past the limit and names the flag that expands it', () => {
-    ui.list('slots', ['One', 'Two', 'Three', 'Four'], 2)
+  it('collapses a list past the limit and carries the caller-supplied hint', () => {
+    ui.list('slots', ['One', 'Two', 'Three', 'Four'], 2, 'rerun with --verbose')
 
     expect(chrome()).toContain('  slots  One, Two,')
     expect(chrome()).toContain('… 2 more — rerun with --verbose')
     expect(chrome()).not.toContain('Three')
+  })
+
+  it('collapses without a hint when the caller has no way out to offer', () => {
+    ui.list('slots', ['One', 'Two', 'Three'], 1)
+
+    expect(chrome()).toContain('… 2 more\n')
+  })
+
+  it('runs registered cleanups on the way out, past a throwing one, and drops released ones', () => {
+    const released = vi.fn()
+    const kept = vi.fn()
+
+    ui.onExit(() => {
+      throw new Error('nothing left to unlink')
+    })
+    ui.onExit(released)()
+    ui.onExit(kept)
+
+    process.emit('exit', 0)
+
+    expect(kept).toHaveBeenCalledTimes(1)
+    expect(released).not.toHaveBeenCalled()
   })
 
   it('prints nothing for an empty list', () => {

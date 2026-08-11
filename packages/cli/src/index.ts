@@ -2,7 +2,7 @@ import type { CommandDefinition } from './registry'
 import { createRequire } from 'node:module'
 import { Command, InvalidArgumentError } from 'commander'
 import { defineCommand, registerCommands } from './registry'
-import { fail, mascot } from './ui'
+import { enableColorOnStderr, fail, mascot } from './ui'
 
 const require = createRequire(import.meta.url)
 const pkg = require('../package.json') as { version: string, description: string }
@@ -92,6 +92,9 @@ program
 registerCommands(program, commands)
 
 async function main() {
+  // Colour on stderr is a decision for the binary, not for whoever imports the ui module.
+  enableColorOnStderr()
+
   try {
     await program.parseAsync(process.argv)
   }

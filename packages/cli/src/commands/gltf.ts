@@ -1,6 +1,7 @@
 import type { IRNode } from '../gltf/ir'
 import type { CommandHandler } from '../registry'
 import type { TextureFormat } from '../gltf/transform'
+import { rmSync } from 'node:fs'
 import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { basename, dirname, extname, join, resolve } from 'node:path'
@@ -272,10 +273,14 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
   let model = input
   let assetSource = input
   let tempDir: string | undefined
+  // Transforming is the slow phase, so Ctrl-C lands in it more often than anywhere else, and
+  // the `finally` below never runs when it does. Cleanup has to be registered, not awaited.
+  let releaseTempDir: (() => void) | undefined
 
   if (wantsTransform) {
     if (options.console) {
       tempDir = await mkdtemp(join(tmpdir(), 'tres-gltf-'))
+      releaseTempDir = ui.onExit(() => rmSync(tempDir!, { recursive: true, force: true }))
       const sibling = transformedPath(input)
       model = join(tempDir, basename(sibling))
       assetSource = sibling
@@ -396,13 +401,14 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
     for (const path of written) {
       ui.success(bold(path))
     }
-    ui.list('slots', slots, options.verbose ? undefined : SLOT_PREVIEW)
+    ui.list('slots', slots, options.verbose ? undefined : SLOT_PREVIEW, 'rerun with --verbose')
     if (wantsTransform) {
       ui.note(`useGLTF() now loads ${basename(model)}`)
     }
     ui.done()
   }
   finally {
+    releaseTempDir?.()
     if (tempDir) {
       await rm(tempDir, { recursive: true, force: true }).catch(() => {})
     }
