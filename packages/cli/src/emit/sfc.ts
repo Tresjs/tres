@@ -4,7 +4,7 @@ import type { InstancePlan } from './instancing'
 import { contextKey, emitInstancesSFC } from './instances'
 import { NO_INSTANCING, planInstancing } from './instancing'
 import { bodyAttributes, colliderOf, colliderProxy, physicsWarnings, RAPIER_IMPORT } from './physics'
-import { access, declarer, header, importable, INDENT, modelTypes, round, tuple } from './shared'
+import { access, clipLoads, clipSources, declarer, header, importable, INDENT, mergedClips, modelTypes, round, tuple } from './shared'
 
 export interface EmitOptions {
   /** What the component passes to `useGLTF`. */
@@ -32,6 +32,8 @@ export interface EmitOptions {
   physics?: 'rapier'
   /** Import specifier for the emitted provider, when instancing. */
   instancesModule?: string
+  /** Url per `--animations` file, index-matched to `ir.animationSources`. */
+  animationURLs?: string[]
   /** Recorded in the header so regeneration is reproducible. */
   command?: string
 }
@@ -424,7 +426,10 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     )
   }
 
-  const hasAnimations = ir.animations.length > 0
+  const hasAnimations = ir.clips.length > 0
+  /** Only a model with clips of its own needs `state`, and an unused one trips noUnusedLocals. */
+  const hasOwnClips = ir.animations.length > 0
+  const sources = clipSources(ir.animationSources, options.animationURLs)
   const loaderArgs = ir.draco ? `'${url}', { draco: true }` : `'${url}'`
 
   const { lines: localTypes, threeTypes: modelThreeTypes } = modelTypes(ir)
@@ -499,9 +504,10 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
       ]
     : hasAnimations
       ? [
-          `const { state, nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
+          `const { ${[...(hasOwnClips ? ['state'] : []), 'nodes', 'materials', 'isLoading'].join(', ')} } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
+          ...clipLoads(sources),
           '',
-          `const animations = computed(() => state.value?.animations ?? [])`,
+          ...mergedClips(hasOwnClips, sources),
           ...animationSetup,
         ]
       : [
@@ -584,7 +590,7 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
   return {
     code,
     instances: instanced
-      ? emitInstancesSFC(ir, { url, name, shadows, plan, command }).code
+      ? emitInstancesSFC(ir, { url, name, shadows, plan, command, animationURLs: options.animationURLs }).code
       : undefined,
     slots,
     warnings,

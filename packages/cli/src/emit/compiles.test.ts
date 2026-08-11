@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest'
 import { compileScript, compileTemplate, parse } from 'vue/compiler-sfc'
 import { buildIR } from '../gltf/build-ir'
 import { loadGLTF } from '../gltf/load'
-import { lightAndCameraGLB, mixedInstancingGLB, morphAndMetaGLB, nestedGLB, physicsGLB, sketchfabGLB, skinnedGLB } from '../gltf/__fixtures__/scenes'
+import { clipOnlyGLB, lightAndCameraGLB, mixedInstancingGLB, morphAndMetaGLB, nestedGLB, physicsGLB, sketchfabGLB, skinnedGLB, skinnedNoClipsGLB } from '../gltf/__fixtures__/scenes'
 import { emitSFC } from './sfc'
 
 const CASES = {
@@ -99,6 +99,44 @@ describe('generated output compiles', () => {
     expect(templateErrors).toEqual([])
     expect(template.code).toContain('_renderSlot(_ctx.$slots, "Rock_1"')
     expect(template.code).toContain(`batch: 'Rock_0'`)
+  })
+
+  it('compiles a model whose clips all come from other files', async () => {
+    const ir = buildIR(await loadGLTF(await skinnedNoClipsGLB()), [
+      { path: 'clips/Idle.glb', gltf: await loadGLTF(await clipOnlyGLB('Idle')) },
+      { path: 'clips/Running_A.glb', gltf: await loadGLTF(await clipOnlyGLB('Running_A')) },
+    ])
+    const { code } = emitSFC(ir, {
+      url: '/model.glb',
+      slots: 'all',
+      animationURLs: ['/clips/Idle.glb', '/clips/Running_A.glb'],
+    })
+
+    const { parseErrors, templateErrors, script } = compile(code, 'model')
+
+    expect(parseErrors).toEqual([])
+    expect(templateErrors).toEqual([])
+    expect(script.content).toContain('useAnimations')
+  })
+
+  it('compiles both halves when the provider owns the clip files too', async () => {
+    const ir = buildIR(await loadGLTF(await mixedInstancingGLB()), [
+      { path: 'clips/Spin.glb', gltf: await loadGLTF(await clipOnlyGLB('Spin', ['Rock_0'])) },
+    ])
+    const { code, instances } = emitSFC(ir, {
+      url: '/model.glb',
+      name: 'Rocks',
+      slots: 'all',
+      instance: true,
+      animationURLs: ['/clips/Spin.glb'],
+    })
+
+    for (const [id, source] of [['rocks', code], ['rocks-instances', instances!]] as const) {
+      const { parseErrors, templateErrors } = compile(source, id)
+
+      expect(parseErrors, id).toEqual([])
+      expect(templateErrors, id).toEqual([])
+    }
   })
 
   it('keeps bracket-access keys intact through compilation', async () => {

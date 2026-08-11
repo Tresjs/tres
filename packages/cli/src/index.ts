@@ -27,6 +27,11 @@ function parseEngine(value: string): string {
   return value
 }
 
+/** `--animations` is repeatable: a per-clip export library is one file per animation. */
+function collect(value: string, previous: string[]): string[] {
+  return [...previous, value]
+}
+
 /** A NaN silently handed to MeshoptSimplifier is worse than a clear rejection up front. */
 function parseFraction(name: string, max: number) {
   return (value: string): number => {
@@ -45,6 +50,7 @@ const commands: CommandDefinition[] = [
     setup: cmd => cmd
       .option('-o, --output <path>', 'where to write the component (default: <Model>.gen.vue next to the model)')
       .option('-u, --url <url>', 'url the model is served from (default: inferred from public/)')
+      .option('-a, --animations <path>', 'glb/gltf file to take animation clips from, repeatable', collect, [])
       .option('-s, --slots <mode>', 'named | all | none', 'named')
       .option('--shadows', 'add cast-shadow and receive-shadow to meshes')
       .option('-K, --keepgroups', 'keep pass-through groups')

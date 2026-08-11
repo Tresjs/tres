@@ -443,8 +443,8 @@ export async function writeUnpackedGLTF(dir: string): Promise<string> {
   return path
 }
 
-/** A skinned mesh with one bone and one clip. */
-export function skinnedGLB(): Promise<ArrayBuffer> {
+/** A skinned mesh with one bone, plus whatever clips the caller wants on it. */
+function skinnedScene(): Group {
   const scene = new Group()
   scene.name = 'Scene'
 
@@ -457,9 +457,42 @@ export function skinnedGLB(): Promise<ArrayBuffer> {
   skinned.bind(new Skeleton([bone]))
   scene.add(skinned)
 
+  return scene
+}
+
+/** A skinned mesh with one bone and one clip. */
+export function skinnedGLB(): Promise<ArrayBuffer> {
   const clip = new AnimationClip('Idle', 1, [
     new VectorKeyframeTrack('hand.l.position', [0, 1], [0, 0, 0, 0, 1, 0]),
   ])
+
+  return toGLB(skinnedScene(), [clip])
+}
+
+/**
+ * The same rig with no clips at all: a mesh-only export, half of the rig-plus-clip-library
+ * pipeline `--animations` exists for.
+ */
+export function skinnedNoClipsGLB(): Promise<ArrayBuffer> {
+  return toGLB(skinnedScene())
+}
+
+/**
+ * The other half: a clip and the bones it drives, no mesh. Pass node names the rig does not
+ * have to fake a bad retarget.
+ */
+export function clipOnlyGLB(name: string, nodes: string[] = ['hand.l']): Promise<ArrayBuffer> {
+  const scene = new Group()
+  scene.name = 'Scene'
+
+  for (const node of nodes) {
+    const bone = new Bone()
+    bone.name = node
+    scene.add(bone)
+  }
+
+  const clip = new AnimationClip(name, 1, nodes.map(node =>
+    new VectorKeyframeTrack(`${node}.position`, [0, 1], [0, 0, 0, 0, 1, 0])))
 
   return toGLB(scene, [clip])
 }

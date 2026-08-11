@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { buildIR } from '../gltf/build-ir'
 import { loadGLTF } from '../gltf/load'
 import {
+  clipOnlyGLB,
   mixedInstancingGLB,
   morphAndMetaGLB,
   nestedGLB,
@@ -195,5 +196,52 @@ describe('--instance', () => {
     const { code } = await emit(repeatedGeometryGLB(), { instancesModule: '../models/Rocks.instances.gen.vue' })
 
     expect(code).toContain(`from '../models/Rocks.instances.gen.vue'`)
+  })
+
+  describe('with --animations', () => {
+    /** The provider owns every load, so the clip files load there too, not per copy. */
+    async function emitWithClips(glb: Promise<ArrayBuffer>, paths: { path: string, glb: Promise<ArrayBuffer> }[]) {
+      const ir = buildIR(
+        await loadGLTF(await glb),
+        await Promise.all(paths.map(async source => ({ path: source.path, gltf: await loadGLTF(await source.glb) }))),
+      )
+
+      return emitSFC(ir, {
+        url: '/models/rocks.glb',
+        name: 'Rocks',
+        instance: true,
+        animationURLs: paths.map(source => `/clips/${source.path.split('/').pop()}`),
+      })
+    }
+
+    it('loads the clip files in the provider, once for every copy of the model', async () => {
+      const { code, instances } = await emitWithClips(repeatedGeometryGLB(), [
+        { path: 'clips/Spin.glb', glb: clipOnlyGLB('Spin', ['Rock_0']) },
+      ])
+
+      expect(instances).toContain(`const { state: spin } = useGLTF('/clips/Spin.glb')`)
+      expect(instances).toContain('    ...(spin.value?.animations ?? []),')
+      expect(code).not.toContain('useGLTF')
+    })
+
+    it('provides the merged clips the way it already provides nodes and materials', async () => {
+      const { code, instances } = await emitWithClips(repeatedGeometryGLB(), [
+        { path: 'clips/Spin.glb', glb: clipOnlyGLB('Spin', ['Rock_0']) },
+      ])
+
+      expect(instances).toContain(`provide('tres-gltf:Rocks', { nodes, materials, animations })`)
+      expect(instances).toContain(`${'  '}animations: ComputedRef<AnimationClip[]>`)
+      expect(code).toContain('const { nodes, materials, animations } = context')
+      expect(code).toContain('const { actions } = useAnimations<AnimationClip, ActionName>(animations, modelRef)')
+    })
+
+    it('exports the union across every file for the model half to import', async () => {
+      const { instances } = await emitWithClips(repeatedGeometryGLB(), [
+        { path: 'clips/Spin.glb', glb: clipOnlyGLB('Spin', ['Rock_0']) },
+        { path: 'clips/Bounce.glb', glb: clipOnlyGLB('Bounce', ['Rock_1']) },
+      ])
+
+      expect(instances).toContain(`export type ActionName\n  = | 'Spin'\n    | 'Bounce'`)
+    })
   })
 })

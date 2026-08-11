@@ -69,7 +69,25 @@ export interface IRInstanceBucket {
   nodes: string[]
 }
 
-export interface IRWarning {
+/**
+ * One `--animations` file. The rig-plus-clip-library pipeline keeps the mesh in one file
+ * and the clips in others, so a model's clips are not always the model's own.
+ */
+export interface IRAnimationSource {
+  /** The path as it was passed on the command line. The emitter turns it into a url. */
+  path: string
+  /** Per file: a compressed clip library beside an uncompressed model is normal. */
+  draco: boolean
+  /** What the file carries, in file order — including clips nothing binds. */
+  clips: string[]
+  /**
+   * The subset whose tracks reach this model. A source with none of these is not worth
+   * loading at runtime, so the emitter leaves it out entirely.
+   */
+  bound: string[]
+}
+
+export interface IRNameCollisionWarning {
   type: 'name-collision'
   message: string
   /** The name the node ended up with. */
@@ -78,13 +96,59 @@ export interface IRWarning {
   originalName: string
 }
 
+/** Two files carry a clip of the same name, so only one is reachable through `actions`. */
+export interface IRClipCollisionWarning {
+  type: 'clip-collision'
+  message: string
+  /** The clip name both files use. */
+  name: string
+  /** The file that wins, being the last one merged. */
+  source: string
+  /** What it shadows: an earlier `--animations` path, or `the model` for the model's own. */
+  shadows: string
+}
+
+/** A clip whose tracks target node names this model does not have: a bad retarget. */
+export interface IRRetargetWarning {
+  type: 'retarget-mismatch'
+  message: string
+  /** The clip name. */
+  name: string
+  /** The file it came from. */
+  source: string
+  /** Node names it drives that the model has none of. */
+  missing: string[]
+  /** True when nothing bound at all, so the clip was left out of `clips`. */
+  dropped: boolean
+}
+
+/** A skinned model with nothing to play and no `--animations`: the clips are elsewhere. */
+export interface IRNoClipsWarning {
+  type: 'no-clips'
+  message: string
+}
+
+export type IRWarning
+  = | IRNameCollisionWarning
+    | IRClipCollisionWarning
+    | IRRetargetWarning
+    | IRNoClipsWarning
+
 export interface GLTFIR {
   root: IRNode
   /** Every named object, keyed the way `buildGraph` keys `nodes` at runtime. */
   nodes: Record<string, IRNodeEntry>
   /** Every material, keyed the way `buildGraph` keys `materials` at runtime. */
   materials: Record<string, IRMaterialEntry>
+  /** Clip names the model file itself carries. */
   animations: string[]
+  /** The `--animations` files, in the order they were passed. */
+  animationSources: IRAnimationSource[]
+  /**
+   * Every clip an emitted `ActionName` can offer: the model's own plus every source's,
+   * deduped in merge order, minus the ones no track of which binds to this model.
+   */
+  clips: string[]
   /**
    * Names of the nodes the clips' tracks target. A mixer resolves a track against a node
    * name in the rendered tree, so these are the names the emitter cannot drop.
