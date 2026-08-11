@@ -19,6 +19,8 @@ export interface TransformOptions {
   keepMeshes?: boolean
   /** Skip palette(), which batches simple materials into a texture atlas. */
   keepMaterials?: boolean
+  /** Called with the name of each pipeline step, just before it runs. */
+  onStep?: (name: string) => void
 }
 
 export interface TransformResult {
@@ -34,6 +36,28 @@ const DEFAULT_ERROR = 0.001
 
 /** min unique materials/meshes before palette/instance pay off; glTF-Transform's own default. */
 const BATCH_MIN = 5
+
+/**
+ * Report each step as it starts, so a long optimization has something to say for itself.
+ *
+ * glTF-Transform reads the whole pipeline's `fn.name`s into a stack up front, and `simplify()`
+ * consults that stack to decide whether `weld()` already ran. So the wrapper has to carry the
+ * original name across, and the pipeline has to stay a single `document.transform()` call.
+ */
+export function announce(transforms: Transform[], onStep?: (name: string) => void): Transform[] {
+  if (!onStep) {
+    return transforms
+  }
+
+  return transforms.map((step) => {
+    const wrapped: Transform = (document, context) => {
+      onStep(step.name)
+      return step(document, context)
+    }
+    Object.defineProperty(wrapped, 'name', { value: step.name })
+    return wrapped
+  })
+}
 
 /**
  * Optimize a model with glTF-Transform and write it to a new file, returning the
@@ -56,6 +80,7 @@ export async function transformGLTF(
     error = DEFAULT_ERROR,
     keepMeshes = false,
     keepMaterials = false,
+    onStep,
   } = options
 
   const [
@@ -103,7 +128,7 @@ export async function transformGLTF(
     fns.draco(),
   ]
 
-  await document.transform(...pipeline)
+  await document.transform(...announce(pipeline, onStep))
   await io.write(output, document)
 
   const [source, optimized] = await Promise.all([stat(input), stat(output)])
