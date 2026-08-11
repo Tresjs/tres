@@ -259,10 +259,10 @@ describe('gltf command', () => {
 
       await gltf.call({} as any, model, { dryRun: true, animations: [idle, run] })
 
-      expect(output()).toContain('0 animation clips')
-      expect(output()).toContain('+ Idle.glb: 1 clip')
-      expect(output()).toContain('+ Run.glb: 1 clip')
-      expect(output()).toContain('2 clips merged')
+      expect(chrome()).toContain('0 animation clips')
+      expect(chrome()).toContain('+ Idle.glb: 1 clip')
+      expect(chrome()).toContain('+ Run.glb: 1 clip')
+      expect(chrome()).toContain('2 clips merged')
     })
 
     it('points a skinned model with nothing to play at the flag', async () => {
@@ -270,7 +270,7 @@ describe('gltf command', () => {
 
       await gltf.call({} as any, model, { console: true })
 
-      expect(warnings()).toContain('--animations')
+      expect(chrome()).toContain('--animations')
     })
 
     it('says which animation file is missing rather than a bare ENOENT', async () => {

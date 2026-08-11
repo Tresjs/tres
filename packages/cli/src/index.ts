@@ -60,7 +60,7 @@ const commands: CommandDefinition[] = [
       .option('-m, --meta', 'emit glTF extras as :user-data')
       .option('-c, --console', 'print the component instead of writing it')
       .option('-f, --force', 'overwrite a file this tool did not generate')
-      .option('-v, --verbose', 'list every slot name instead of the first few')
+      .option('-v, --verbose', 'list every slot and clip name instead of the first few')
       .option('-T, --transform', 'optimize the model into a separate -transformed.glb and generate against it')
       .option('-i, --instance', 'batch meshes that share a geometry and material into an InstancedMesh (implies --transform)')
       .option('-I, --instanceall', 'batch every eligible mesh, even the ones that appear once (implies --transform)')

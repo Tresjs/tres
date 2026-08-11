@@ -8,7 +8,7 @@ import Engineer from '@/models/Engineer.gen.vue'
 // Engineer.glb carries the rig and zero clips; the 39 clips live in three KayKit libraries
 // beside it. The generated component loads all four and merges them, so `actions` is typed
 // with the union across every file — 37 entries, T-Pose being in all three:
-//   tres gltf public/models/Engineer.glb \
+//   tres gltf public/models/Engineer.glb -o src/models \
 //     -a public/models/animations/Rig_Medium/Rig_Medium_General.glb \
 //     -a public/models/animations/Rig_Medium/Rig_Medium_MovementBasic.glb \
 //     -a public/models/animations/Rig_Medium/Rig_Medium_MovementAdvanced.glb
