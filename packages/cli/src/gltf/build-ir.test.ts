@@ -222,6 +222,33 @@ describe('buildIR', () => {
       expect(ir.animated).toContain('handl')
     })
 
+    /**
+     * The retarget check tests a track's node name against the IR's node keys, so those keys
+     * have to be the names a mixer resolves and not a form of our own. Three does the work:
+     * `sanitizeNodeName` runs before we see the object (`hand.l` in the fixture is `handl`
+     * here), and a track's target is that same `Object3D.name`. Key the IR by anything
+     * derived and every external clip silently stops binding.
+     */
+    it('keys nodes by the name a mixer resolves, verbatim', async () => {
+      const loaded = await loadGLTF(await skinnedNoClipsGLB())
+      // A set, not a list: two nodes sharing a name collapse to one key, which is a separate
+      // case with a warning of its own.
+      const scene = new Set<string>()
+      loaded.scene.traverse(object => object.name && scene.add(object.name))
+
+      expect(Object.keys(buildIR(loaded).nodes).sort()).toEqual([...scene].sort())
+      expect(scene).toContain('handl')
+    })
+
+    it('binds a clip whose node names three had to sanitize', async () => {
+      const ir = await irOf(skinnedNoClipsGLB(), [
+        { path: 'clips/Idle.glb', glb: clipOnlyGLB('Idle', ['hand.l']) },
+      ])
+
+      expect(ir.clips).toEqual(['Idle'])
+      expect(ir.warnings.filter(warning => warning.type === 'retarget-mismatch')).toEqual([])
+    })
+
     it('warns when only some of a clip tracks bind, and keeps the clip', async () => {
       const ir = await irOf(skinnedNoClipsGLB(), [
         { path: 'clips/Run.glb', glb: clipOnlyGLB('Run', ['hand.l', 'mixamorigHips']) },

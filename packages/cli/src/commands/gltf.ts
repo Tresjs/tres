@@ -1,3 +1,4 @@
+import type { AnimationSourceInput } from '../gltf/build-ir'
 import type { IRNode } from '../gltf/ir'
 import type { CommandHandler } from '../registry'
 import type { TextureFormat } from '../gltf/transform'
@@ -307,7 +308,7 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
 
         // One at a time, so the line names the clip library it is on. A rig's animation
         // libraries are the same weight as the model, and there can be several of them.
-        const sources = []
+        const sources: AnimationSourceInput[] = []
         for (const path of animationPaths) {
           task.update(basename(path))
           sources.push({
