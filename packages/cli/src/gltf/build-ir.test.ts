@@ -116,10 +116,12 @@ describe('buildIR', () => {
     ])
   })
 
-  it('does not bucket a geometry used once', async () => {
+  it('keeps a geometry used once in a bucket of its own, for --instanceall', async () => {
     const ir = await irOf(simpleGLB())
 
-    expect(ir.instances).toEqual([])
+    expect(ir.instances).toEqual([
+      expect.objectContaining({ material: 'Autumm orange', nodes: ['Cube001'] }),
+    ])
   })
 
   it('flags which nodes carry geometry', async () => {

@@ -1,7 +1,8 @@
-import type { Material, Mesh, Object3D } from 'three'
+import type { AnimationClip, Material, Mesh, Object3D } from 'three'
 import type { GLTFIR, IRInstanceBucket, IRMaterialEntry, IRNode, IRNodeEntry, IRTransform, IRWarning, Vector3Tuple } from './ir'
 import type { LoadedGLTF } from './load'
 import { PropertyBinding } from 'three'
+import { parsePhysics } from './physics'
 
 /** Same test gltfjsx uses: can this key be written as `nodes.Foo`? */
 const VAR_NAME = /^[$A-Z_][\w$]*$/i
@@ -44,6 +45,18 @@ function toTransform(object: Object3D): IRTransform | undefined {
   return Object.keys(transform).length > 0 ? transform : undefined
 }
 
+/**
+ * `RigidBody` derives its colliders from the geometry of its own direct children, so a suffix
+ * on a group produces a body with nothing to collide with — and the shape the artist asked for
+ * degrades into a bounding box at best. Say so instead, and name the fix.
+ */
+function noGeometry(object: Object3D): string {
+  // glTF has no Group: the loader hands back bare Object3D for every branch node.
+  const kind = object.type === 'Object3D' ? 'group' : object.type
+  return `a ${kind} carries no geometry for rapier to derive a collider from, and a body reads only `
+    + `its own direct children — put the suffix on the meshes inside it instead`
+}
+
 function toNode(object: Object3D): IRNode {
   const node: IRNode = {
     name: object.name,
@@ -60,6 +73,20 @@ function toNode(object: Object3D): IRNode {
     node.originalName = authored
   }
 
+  const mesh = object as Mesh
+  if (mesh.geometry) {
+    node.geometry = true
+  }
+
+  // Read off the authored name where there is one: sanitization eats the dot in `-rigid.001`,
+  // and the suffix has to be readable either way.
+  const physics = parsePhysics(node.originalName ?? object.name)
+  if (physics) {
+    node.physics = physics.kind === 'collider' && !node.geometry
+      ? { kind: 'misread', suffix: physics.suffix, reason: noGeometry(object) }
+      : physics
+  }
+
   const transform = toTransform(object)
   if (transform) {
     node.transform = transform
@@ -70,10 +97,6 @@ function toNode(object: Object3D): IRNode {
     node.material = material.name
   }
 
-  const mesh = object as Mesh
-  if (mesh.geometry) {
-    node.geometry = true
-  }
   if (mesh.morphTargetDictionary) {
     node.morphTargets = true
   }
@@ -110,6 +133,32 @@ function toCollisionWarning(object: Object3D): IRWarning | undefined {
   }
 }
 
+/**
+ * The nodes the clips actually drive. A track name is `<node>.<property>`, and the mixer
+ * resolves that node name against the rendered tree — so a node named here has to keep its
+ * name in the output or its track binds to nothing.
+ */
+function toAnimatedNodes(animations: AnimationClip[]): string[] {
+  const names = new Set<string>()
+
+  for (const clip of animations) {
+    for (const track of clip.tracks) {
+      try {
+        const { nodeName } = PropertyBinding.parseTrackName(track.name)
+        if (nodeName) {
+          names.add(nodeName)
+        }
+      }
+      catch {
+        // `parseTrackName` throws on a name it cannot read, which is a name three would
+        // never bind either. Nothing to keep, and no reason to fail the whole generate.
+      }
+    }
+  }
+
+  return [...names]
+}
+
 function toInstanceBuckets(scene: Object3D): IRInstanceBucket[] {
   const buckets = new Map<string, IRInstanceBucket>()
 
@@ -129,7 +178,7 @@ function toInstanceBuckets(scene: Object3D): IRInstanceBucket[] {
     buckets.set(key, bucket)
   })
 
-  return [...buckets.values()].filter(bucket => bucket.nodes.length > 1)
+  return [...buckets.values()]
 }
 
 export function buildIR({ scene, animations, draco }: LoadedGLTF): GLTFIR {
@@ -159,6 +208,7 @@ export function buildIR({ scene, animations, draco }: LoadedGLTF): GLTFIR {
     nodes,
     materials,
     animations: animations.map(clip => clip.name),
+    animated: toAnimatedNodes(animations),
     draco,
     instances: toInstanceBuckets(scene),
     warnings,

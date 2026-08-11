@@ -19,7 +19,7 @@ import type { ShallowRef } from 'vue'
 import { useRapierContext } from '../../composables'
 import { bodyContextInjectionKey } from '../../core'
 import { createCollider } from '../../core/collider'
-import { isVector3Like, makePropsWatcherCL } from '../../utils'
+import { isVector3Like, makePropsWatcherCL, toColliderIndices } from '../../utils'
 import type { ColliderProps, CreateColliderReturnType, ExposedCollider, RigidBodyContext } from '../../types'
 
 const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
@@ -61,7 +61,7 @@ const updateShapeArgs = (shape: Exclude<ColliderProps['shape'], undefined>, args
   ) {
     safeArgs.push(
       args?.[0] instanceof Float32Array ? args?.[0] : new Float32Array(),
-      args?.[1] instanceof Uint32Array ? args?.[1] : new Uint32Array(),
+      toColliderIndices(args?.[1]),
     )
   }
   else if (shape === 'roundConvexHull') {
@@ -73,7 +73,7 @@ const updateShapeArgs = (shape: Exclude<ColliderProps['shape'], undefined>, args
   else if (shape === 'roundConvexMesh') {
     safeArgs.push(
       args?.[0] instanceof Float32Array ? args?.[0] : new Float32Array(),
-      args?.[1] instanceof Uint32Array ? args?.[1] : new Uint32Array(),
+      toColliderIndices(args?.[1]),
       typeof args?.[2] === 'number' ? args?.[2] : 0.1,
     )
   }

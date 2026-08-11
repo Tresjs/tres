@@ -2,11 +2,12 @@
  * The emitter builds markup as strings, so nothing else catches a stray quote or an
  * unbalanced tag. Run the real Vue compiler over the output instead of trusting it.
  */
+import type { EmitOptions } from './sfc'
 import { describe, expect, it } from 'vitest'
 import { compileScript, compileTemplate, parse } from 'vue/compiler-sfc'
 import { buildIR } from '../gltf/build-ir'
 import { loadGLTF } from '../gltf/load'
-import { lightAndCameraGLB, morphAndMetaGLB, nestedGLB, sketchfabGLB, skinnedGLB } from '../gltf/__fixtures__/scenes'
+import { lightAndCameraGLB, mixedInstancingGLB, morphAndMetaGLB, nestedGLB, physicsGLB, sketchfabGLB, skinnedGLB } from '../gltf/__fixtures__/scenes'
 import { emitSFC } from './sfc'
 
 const CASES = {
@@ -16,6 +17,11 @@ const CASES = {
   'morph targets and metadata': () => morphAndMetaGLB(),
   'a sketchfab export': () => sketchfabGLB(),
 }
+
+const PHYSICS_CASES = {
+  'a level with collider suffixes': {},
+  'colliders inside batches': { instance: true },
+} satisfies Record<string, Partial<EmitOptions>>
 
 function compile(code: string, id: string) {
   const { descriptor, errors } = parse(code, { filename: `${id}.gen.vue` })
@@ -44,6 +50,20 @@ describe('generated output compiles', () => {
     })
   }
 
+  for (const [label, options] of Object.entries(PHYSICS_CASES)) {
+    it(`compiles ${label}`, async () => {
+      const ir = buildIR(await loadGLTF(await physicsGLB()))
+      const { code, instances } = emitSFC(ir, { url: '/level.glb', name: 'Level', slots: 'all', physics: 'rapier', ...options })
+
+      for (const [id, source] of [['level', code], ...(instances ? [['level-instances', instances]] : [])] as const) {
+        const { parseErrors, templateErrors } = compile(source, id)
+
+        expect(parseErrors, id).toEqual([])
+        expect(templateErrors, id).toEqual([])
+      }
+    })
+  }
+
   it('compiles every slot into a render-slot call', async () => {
     const ir = buildIR(await loadGLTF(await sketchfabGLB()))
     const { code, slots } = emitSFC(ir, { url: '/model.glb', slots: 'all' })
@@ -52,6 +72,33 @@ describe('generated output compiles', () => {
 
     // `_renderSlot(` only: the bare name also appears in the compiler's import line.
     expect(template.code.match(/_renderSlot\(/g)?.length).toBe(slots.length)
+  })
+
+  it('compiles both halves of an instanced model', async () => {
+    const ir = buildIR(await loadGLTF(await mixedInstancingGLB()))
+    const { code, instances } = emitSFC(ir, { url: '/model.glb', name: 'Rocks', slots: 'all', instance: true, shadows: true })
+
+    for (const [id, source] of [['rocks', code], ['rocks-instances', instances!]] as const) {
+      const { parseErrors, templateErrors } = compile(source, id)
+
+      expect(parseErrors, id).toEqual([])
+      expect(templateErrors, id).toEqual([])
+    }
+  })
+
+  /**
+   * A bound `name` on a `<slot>` is a dynamic slot name to the compiler, not a slot prop, so
+   * handing the batch key over under that key would silently rename every batched slot.
+   */
+  it('keeps a batched slot name static while handing over the batch key', async () => {
+    const ir = buildIR(await loadGLTF(await mixedInstancingGLB()))
+    const { code } = emitSFC(ir, { url: '/model.glb', name: 'Rocks', slots: 'all', instance: true })
+
+    const { template, templateErrors } = compile(code, 'rocks')
+
+    expect(templateErrors).toEqual([])
+    expect(template.code).toContain('_renderSlot(_ctx.$slots, "Rock_1"')
+    expect(template.code).toContain(`batch: 'Rock_0'`)
   })
 
   it('keeps bracket-access keys intact through compilation', async () => {
