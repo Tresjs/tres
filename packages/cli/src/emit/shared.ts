@@ -3,7 +3,8 @@
  * provider and a consumer file, and the two have to agree on how a key is written
  * or the consumer's `nodes.Foo` misses the provider's `nodes['Foo']`.
  */
-import type { GLTFIR, Vector3Tuple } from '../gltf/ir'
+import type { GLTFIR, IRAnimationSource, Vector3Tuple } from '../gltf/ir'
+import { basename } from 'node:path'
 import * as THREE from 'three'
 
 export const INDENT = '  '
@@ -56,6 +57,109 @@ export function header(command: string | undefined, ...notes: string[]): string[
 }
 
 /**
+ * Identifiers the generated files already own. A clip file called `nodes.glb` must not
+ * shadow one of them.
+ */
+const RESERVED = new Set([
+  'state',
+  'nodes',
+  'materials',
+  'isLoading',
+  'animations',
+  'modelRef',
+  'actions',
+  'context',
+  'meshes',
+  'limit',
+  'props',
+])
+
+/** A `--animations` file as the emitted file sees it: one `useGLTF` call and one spread. */
+export interface ClipSource {
+  /** What the `state` of its `useGLTF` is renamed to. */
+  variable: string
+  url: string
+  draco: boolean
+}
+
+/**
+ * `clips/Running_A.glb` → `runningA`. Empty or digit-led names fall back to the index.
+ *
+ * Only the first letter of each part is touched: a clip library is called
+ * `Rig_Medium_MovementBasic`, and lowercasing the rest would read as `Movementbasic`.
+ */
+function toVariable(path: string, index: number, taken: Set<string>): string {
+  const parts = basename(path).replace(/\.[^.]+$/, '').split(/[^a-z0-9]+/i).filter(Boolean)
+  const camel = parts
+    .map((part, position) => position === 0
+      ? part[0].toLowerCase() + part.slice(1)
+      : part[0].toUpperCase() + part.slice(1))
+    .join('')
+
+  let name = isVarName(camel) ? camel : `clips${index}`
+  while (taken.has(name)) {
+    name = `${name}${index}`
+  }
+
+  return name
+}
+
+/**
+ * The `--animations` files worth loading at runtime, with the url the command inferred for
+ * each. A source none of whose clips reach this model is dropped: loading a file to merge
+ * nothing out of it is a request for nothing.
+ */
+export function clipSources(sources: IRAnimationSource[], urls: string[] = []): ClipSource[] {
+  const taken = new Set(RESERVED)
+
+  return sources
+    .map((source, index) => ({ source, url: urls[index] ?? `/${basename(source.path)}` }))
+    .filter(({ source }) => source.bound.length > 0)
+    .map(({ source, url }, index) => {
+      const variable = toVariable(source.path, index, taken)
+      taken.add(variable)
+      return { variable, url, draco: source.draco }
+    })
+}
+
+/** One `useGLTF` per clip file. Only its clips are read, so nothing else is destructured. */
+export function clipLoads(sources: ClipSource[]): string[] {
+  return sources.map(({ variable, url, draco }) =>
+    `const { state: ${variable} } = useGLTF(${draco ? `'${url}', { draco: true }` : `'${url}'`})`)
+}
+
+/**
+ * The array handed to `useAnimations`. Model first, then each file in the order it was passed:
+ * a mixer keys `actions` walking the array, so the last clip of a given name is the one that
+ * plays, and merging a clip library is meant to override what the model came with.
+ *
+ * The `isLoading` guard is not decoration. A clip library is a fraction of the size of the
+ * model it drives, so its files land first; a mixer handed clips before the tree exists binds
+ * every track to nothing, and three caches that miss rather than retrying it.
+ */
+export function mergedClips(ownClips: boolean, sources: ClipSource[]): string[] {
+  if (sources.length === 0) {
+    return [`const animations = computed(() => state.value?.animations ?? [])`]
+  }
+
+  const terms = [...(ownClips ? ['state'] : []), ...sources.map(source => source.variable)]
+
+  return [
+    'const animations = computed(() => {',
+    `${INDENT}// The mixer resolves every track against a node name in the rendered tree and never`,
+    `${INDENT}// retries a miss, so the clips must not reach it before the model they drive.`,
+    `${INDENT}if (isLoading.value) {`,
+    `${INDENT.repeat(2)}return []`,
+    `${INDENT}}`,
+    '',
+    `${INDENT}return [`,
+    ...terms.map(term => `${INDENT.repeat(2)}...(${term}.value?.animations ?? []),`),
+    `${INDENT}]`,
+    '})',
+  ]
+}
+
+/**
  * The `ModelNodes` / `ModelMaterials` / `ActionName` declarations. They come straight from
  * the parsed model, so the file describes this export and no other: a re-export that drops
  * a mesh turns into a type error at the override that used it.
@@ -69,7 +173,7 @@ export function modelTypes(ir: GLTFIR, exported = false): { lines: string[], thr
     ...Object.values(ir.nodes).map(entry => importable(entry.type, 'Object3D')),
     ...Object.values(ir.materials).map(entry => importable(entry.type, 'Material')),
   ])
-  if (ir.animations.length > 0) {
+  if (ir.clips.length > 0) {
     threeTypes.add('AnimationClip')
   }
 
@@ -85,11 +189,11 @@ export function modelTypes(ir: GLTFIR, exported = false): { lines: string[], thr
     '}',
     // `=` leads its line and the members line up under it: `style/operator-linebreak`,
     // the same shape core writes its own unions in.
-    ...(ir.animations.length > 0
+    ...(ir.clips.length > 0
       ? [
           '',
           `${prefix}type ActionName`,
-          ...ir.animations.map((clip, index) =>
+          ...ir.clips.map((clip, index) =>
             `${index === 0 ? `${INDENT}= ` : INDENT.repeat(2)}| '${clip.replace(/'/g, '\\\'')}'`),
         ]
       : []),

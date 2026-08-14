@@ -8,7 +8,7 @@
  */
 import type { GLTFIR } from '../gltf/ir'
 import type { InstancePlan } from './instancing'
-import { access, declarer, header, INDENT, modelTypes } from './shared'
+import { access, clipLoads, clipSources, declarer, header, INDENT, mergedClips, modelTypes } from './shared'
 
 export interface EmitInstancesOptions {
   /** What the component passes to `useGLTF`. */
@@ -20,6 +20,8 @@ export interface EmitInstancesOptions {
   plan: InstancePlan
   /** Recorded in the header so regeneration is reproducible. */
   command?: string
+  /** Url per `--animations` file, index-matched to `ir.animationSources`. */
+  animationURLs?: string[]
 }
 
 /**
@@ -36,7 +38,9 @@ export function contextKey(name: string): string {
 export function emitInstancesSFC(ir: GLTFIR, options: EmitInstancesOptions): { code: string } {
   const { url, name = 'Model', shadows = false, plan, command } = options
 
-  const hasAnimations = ir.animations.length > 0
+  const hasAnimations = ir.clips.length > 0
+  const hasOwnClips = ir.animations.length > 0
+  const sources = clipSources(ir.animationSources, options.animationURLs)
   const loaderArgs = ir.draco ? `'${url}', { draco: true }` : `'${url}'`
 
   const { lines: types, threeTypes } = modelTypes(ir, true)
@@ -54,9 +58,10 @@ export function emitInstancesSFC(ir: GLTFIR, options: EmitInstancesOptions): { c
   const meshes = plan.batches.map(batch =>
     `${INDENT}${declareBatch(batch.key)}: ${access('nodes.value', batch.key)},`)
 
-  const loaded = hasAnimations
-    ? `const { state, nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`
-    : `const { nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`
+  const loaded = [
+    `const { ${[...(hasOwnClips ? ['state'] : []), 'nodes', 'materials', 'isLoading'].join(', ')} } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
+    ...clipLoads(sources),
+  ]
 
   const provided = ['nodes', 'materials', ...(hasAnimations ? ['animations'] : [])]
 
@@ -81,7 +86,7 @@ export function emitInstancesSFC(ir: GLTFIR, options: EmitInstancesOptions): { c
     `// Initial buffer allocation per batch; the batch grows past it if more instances register.`,
     `withDefaults(defineProps<{ limit?: number }>(), { limit: 100 })`,
     '',
-    loaded,
+    ...loaded,
     '',
     '// One InstancedMesh per entry. Every <Instance batch="..."> in the tree joins the batch',
     '// registered under that key, wherever in the hierarchy it sits.',
@@ -89,7 +94,7 @@ export function emitInstancesSFC(ir: GLTFIR, options: EmitInstancesOptions): { c
     ...meshes,
     '}))',
     '',
-    ...(hasAnimations ? [`const animations = computed(() => state.value?.animations ?? [])`, ''] : []),
+    ...(hasAnimations ? [...mergedClips(hasOwnClips, sources), ''] : []),
     `provide('${contextKey(name)}', { ${provided.join(', ')} })`,
     '',
     `defineExpose({ nodes, materials })`,

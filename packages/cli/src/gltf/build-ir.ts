@@ -1,6 +1,7 @@
 import type { AnimationClip, Material, Mesh, Object3D } from 'three'
-import type { GLTFIR, IRInstanceBucket, IRMaterialEntry, IRNode, IRNodeEntry, IRTransform, IRWarning, Vector3Tuple } from './ir'
+import type { GLTFIR, IRAnimationSource, IRInstanceBucket, IRMaterialEntry, IRNode, IRNodeEntry, IRTransform, IRWarning, Vector3Tuple } from './ir'
 import type { LoadedGLTF } from './load'
+import { basename } from 'node:path'
 import { PropertyBinding } from 'three'
 import { parsePhysics } from './physics'
 
@@ -134,29 +135,31 @@ function toCollisionWarning(object: Object3D): IRWarning | undefined {
 }
 
 /**
- * The nodes the clips actually drive. A track name is `<node>.<property>`, and the mixer
- * resolves that node name against the rendered tree — so a node named here has to keep its
- * name in the output or its track binds to nothing.
+ * The nodes one clip drives. A track name is `<node>.<property>`, and the mixer resolves that
+ * node name against the rendered tree — so a node named here has to keep its name in the
+ * output or its track binds to nothing.
  */
-function toAnimatedNodes(animations: AnimationClip[]): string[] {
+function targetsOf(clip: AnimationClip): string[] {
   const names = new Set<string>()
 
-  for (const clip of animations) {
-    for (const track of clip.tracks) {
-      try {
-        const { nodeName } = PropertyBinding.parseTrackName(track.name)
-        if (nodeName) {
-          names.add(nodeName)
-        }
+  for (const track of clip.tracks) {
+    try {
+      const { nodeName } = PropertyBinding.parseTrackName(track.name)
+      if (nodeName) {
+        names.add(nodeName)
       }
-      catch {
-        // `parseTrackName` throws on a name it cannot read, which is a name three would
-        // never bind either. Nothing to keep, and no reason to fail the whole generate.
-      }
+    }
+    catch {
+      // `parseTrackName` throws on a name it cannot read, which is a name three would
+      // never bind either. Nothing to keep, and no reason to fail the whole generate.
     }
   }
 
   return [...names]
+}
+
+function toAnimatedNodes(animations: AnimationClip[]): string[] {
+  return [...new Set(animations.flatMap(targetsOf))]
 }
 
 function toInstanceBuckets(scene: Object3D): IRInstanceBucket[] {
@@ -181,7 +184,122 @@ function toInstanceBuckets(scene: Object3D): IRInstanceBucket[] {
   return [...buckets.values()]
 }
 
-export function buildIR({ scene, animations, draco }: LoadedGLTF): GLTFIR {
+/** One `--animations` file, already parsed. Only its clips are ever read. */
+export interface AnimationSourceInput {
+  /** The path as it was passed on the command line. */
+  path: string
+  gltf: LoadedGLTF
+}
+
+/** How a warning refers to the clips that came out of the model file itself. */
+const MODEL_LABEL = 'the model'
+
+/**
+ * What a warning calls a source. The full path stays on the warning itself for anything
+ * reading `--json`; a message that repeats `public/models/animations/Rig_Medium/…` three
+ * times is one nobody finishes reading. `MODEL_LABEL` passes through unchanged, having no
+ * separator in it.
+ */
+function label(path: string): string {
+  return basename(path)
+}
+
+/** Enough of a list to recognise the rig, not the whole skeleton. */
+function preview(names: string[], limit = 3): string {
+  return names.length > limit
+    ? `${names.slice(0, limit).join(', ')} and ${names.length - limit} more`
+    : names.join(', ')
+}
+
+interface MergedClips {
+  sources: IRAnimationSource[]
+  clips: string[]
+  /** The clip objects behind `clips`, for working out which node names have to survive. */
+  playable: AnimationClip[]
+  warnings: IRWarning[]
+}
+
+/**
+ * Merge the model's own clips with every `--animations` file, model first, and check each
+ * external clip against the rig it is about to be retargeted onto.
+ *
+ * A mixer keys `actions` by clip name walking the array, so a later file's clip shadows an
+ * earlier one of the same name. That is what merging is for, but the shadowed clip becomes
+ * unreachable, which is worth one line. A clip no track of which binds is worse: it is
+ * silent at runtime, so it never reaches `ActionName` at all.
+ */
+function mergeClips(
+  own: AnimationClip[],
+  inputs: AnimationSourceInput[],
+  nodeNames: Set<string>,
+): MergedClips {
+  const warnings: IRWarning[] = []
+  const clips: string[] = []
+  const playable: AnimationClip[] = []
+  /** Clip name → the file it is currently reachable from. */
+  const owner = new Map<string, string>()
+
+  function merge(clip: AnimationClip, source: string): void {
+    const shadowed = owner.get(clip.name)
+    if (shadowed !== undefined) {
+      const winner = label(source)
+      warnings.push({
+        type: 'clip-collision',
+        name: clip.name,
+        source,
+        shadows: shadowed,
+        message: `Both ${label(shadowed)} and ${winner} carry "${clip.name}". ${winner} is merged last, so its clip is the one that plays.`,
+      })
+    }
+    else {
+      clips.push(clip.name)
+    }
+
+    owner.set(clip.name, source)
+    playable.push(clip)
+  }
+
+  for (const clip of own) {
+    merge(clip, MODEL_LABEL)
+  }
+
+  const sources = inputs.map(({ path, gltf }): IRAnimationSource => {
+    const bound: string[] = []
+
+    for (const clip of gltf.animations) {
+      const targets = targetsOf(clip)
+      const missing = targets.filter(target => !nodeNames.has(target))
+      const dropped = targets.length > 0 && missing.length === targets.length
+
+      if (missing.length > 0) {
+        warnings.push({
+          type: 'retarget-mismatch',
+          name: clip.name,
+          source: path,
+          missing,
+          dropped,
+          message: dropped
+            ? `"${clip.name}" in ${label(path)} drives ${preview(missing)}, and this model has no node by any of those names — nothing would play, so it is left out of ActionName.`
+            : `"${clip.name}" in ${label(path)} drives ${preview(missing)}, which this model has no node for. Those tracks bind to nothing.`,
+        })
+      }
+
+      if (!dropped) {
+        bound.push(clip.name)
+        merge(clip, path)
+      }
+    }
+
+    return { path, draco: gltf.draco, clips: gltf.animations.map(clip => clip.name), bound }
+  })
+
+  return { sources, clips, playable, warnings }
+}
+
+export function buildIR(
+  { scene, animations, draco }: LoadedGLTF,
+  sources: AnimationSourceInput[] = [],
+): GLTFIR {
   const nodes: Record<string, IRNodeEntry> = {}
   const materials: Record<string, IRMaterialEntry> = {}
   const warnings: IRWarning[] = []
@@ -203,12 +321,27 @@ export function buildIR({ scene, animations, draco }: LoadedGLTF): GLTFIR {
     }
   })
 
+  const merged = mergeClips(animations, sources, new Set(Object.keys(nodes)))
+  warnings.push(...merged.warnings)
+
+  // A rig with nothing to play is the case this flag exists for, and nothing else in the
+  // output hints that the clips are simply in another file.
+  const skinned = Object.values(nodes).some(entry => entry.type === 'SkinnedMesh')
+  if (skinned && animations.length === 0 && sources.length === 0) {
+    warnings.push({
+      type: 'no-clips',
+      message: `This model is skinned but carries no animation clips. Pass --animations <path> to wire in clips exported to separate files.`,
+    })
+  }
+
   return {
     root: toNode(scene),
     nodes,
     materials,
     animations: animations.map(clip => clip.name),
-    animated: toAnimatedNodes(animations),
+    animationSources: merged.sources,
+    clips: merged.clips,
+    animated: toAnimatedNodes(merged.playable),
     draco,
     instances: toInstanceBuckets(scene),
     warnings,

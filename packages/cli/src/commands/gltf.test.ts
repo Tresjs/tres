@@ -4,7 +4,7 @@ import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
-import { collidingNamesGLB, nestedGLB, repeatedGeometryGLB, simpleGLB } from '../gltf/__fixtures__/scenes'
+import { clipOnlyGLB, collidingNamesGLB, nestedGLB, repeatedGeometryGLB, simpleGLB, skinnedNoClipsGLB } from '../gltf/__fixtures__/scenes'
 import gltf from './gltf'
 
 describe('gltf command', () => {
@@ -236,6 +236,50 @@ describe('gltf command', () => {
     await gltf.call({} as any, path, { dryRun: true })
 
     expect(chrome()).toContain('3 meshes')
+  })
+
+  describe('--animations', () => {
+    it('wires clips from separate files into the component', async () => {
+      const model = await fixture('Dummy.glb', skinnedNoClipsGLB(), 'rig/public/models')
+      const idle = await fixture('Idle.glb', clipOnlyGLB('Idle'), 'rig/public/clips')
+      await writeFile(join(dir, 'rig', 'package.json'), '{}')
+
+      await gltf.call({} as any, model, { animations: [idle] })
+
+      const generated = await readFile(join(dir, 'rig/models/Dummy.gen.vue'), 'utf-8')
+      expect(generated).toContain(`const { state: idle } = useGLTF('/clips/Idle.glb')`)
+      expect(generated).toContain('    ...(idle.value?.animations ?? []),')
+      expect(generated).toContain(`type ActionName\n  = | 'Idle'`)
+    })
+
+    it('reports what each source carries under --dry-run', async () => {
+      const model = await fixture('Dummy.glb', skinnedNoClipsGLB(), 'count')
+      const idle = await fixture('Idle.glb', clipOnlyGLB('Idle'), 'count')
+      const run = await fixture('Run.glb', clipOnlyGLB('Run'), 'count')
+
+      await gltf.call({} as any, model, { dryRun: true, animations: [idle, run] })
+
+      expect(chrome()).toContain('0 animation clips')
+      expect(chrome()).toContain('+ Idle.glb: 1 clip')
+      expect(chrome()).toContain('+ Run.glb: 1 clip')
+      expect(chrome()).toContain('2 clips merged')
+    })
+
+    it('points a skinned model with nothing to play at the flag', async () => {
+      const model = await fixture('Dummy.glb', skinnedNoClipsGLB(), 'quiet')
+
+      await gltf.call({} as any, model, { console: true })
+
+      expect(chrome()).toContain('--animations')
+    })
+
+    it('says which animation file is missing rather than a bare ENOENT', async () => {
+      const model = await fixture('Dummy.glb', skinnedNoClipsGLB(), 'absent')
+
+      await expect(gltf.call({} as any, model, { animations: ['/public/clips/Idle.glb'] }))
+        .rejects
+        .toThrow(/\/public\/clips\/Idle\.glb does not exist/)
+    })
   })
 
   it('optimizes to a separate -transformed.glb and generates against it', async () => {

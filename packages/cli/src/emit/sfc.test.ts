@@ -3,21 +3,45 @@ import { describe, expect, it } from 'vitest'
 import { buildIR } from '../gltf/build-ir'
 import { loadGLTF } from '../gltf/load'
 import {
+  clipOnlyGLB,
   collidingNamesGLB,
   exporterNamedGLB,
   lightAndCameraGLB,
   morphAndMetaGLB,
   nestedGLB,
   objectAnimatedGLB,
+  repeatedGeometryGLB,
   simpleGLB,
   sketchfabGLB,
   skinnedGLB,
+  skinnedNoClipsGLB,
 } from '../gltf/__fixtures__/scenes'
 import { emitSFC } from './sfc'
 
 async function emit(glb: Promise<ArrayBuffer>, options: Partial<EmitOptions> = {}) {
   const ir = buildIR(await loadGLTF(await glb))
   return emitSFC(ir, { url: '/models/robot.glb', ...options })
+}
+
+/** The `--animations` path: the model in one file, the clips in others. */
+async function emitWithClips(
+  glb: Promise<ArrayBuffer>,
+  sources: { path: string, glb: Promise<ArrayBuffer> }[],
+  options: Partial<EmitOptions> = {},
+) {
+  const ir = buildIR(
+    await loadGLTF(await glb),
+    await Promise.all(sources.map(async source => ({ path: source.path, gltf: await loadGLTF(await source.glb) }))),
+  )
+
+  return {
+    ir,
+    ...emitSFC(ir, {
+      url: '/models/dummy.glb',
+      animationURLs: sources.map(source => `/clips/${source.path.split('/').pop()}`),
+      ...options,
+    }),
+  }
 }
 
 describe('emitSFC', () => {
@@ -286,6 +310,8 @@ describe('emitSFC', () => {
       nodes: { Odd: { type: 'MeshWeirdMaterialThing', isVarName: true } },
       materials: { Paint: { type: 'ImaginaryMaterial', isVarName: true } },
       animations: [],
+      animationSources: [],
+      clips: [],
       animated: [],
       draco: false,
       instances: [],
@@ -383,5 +409,119 @@ describe('emitSFC', () => {
 
     expect(code).toContain(':morph-target-dictionary="nodes.Face.morphTargetDictionary"')
     expect(code).toContain(':morph-target-influences="nodes.Face.morphTargetInfluences"')
+  })
+
+  describe('--animations', () => {
+    it('loads every clip file beside the model', async () => {
+      const { code } = await emitWithClips(skinnedNoClipsGLB(), [
+        { path: 'clips/Idle.glb', glb: clipOnlyGLB('Idle') },
+        { path: 'clips/Running_A.glb', glb: clipOnlyGLB('Running_A') },
+      ])
+
+      expect(code).toContain(`const { state: idle } = useGLTF('/clips/Idle.glb')`)
+      expect(code).toContain(`const { state: runningA } = useGLTF('/clips/Running_A.glb')`)
+    })
+
+    // Real clip libraries are named `Rig_Medium_MovementBasic`; lowercasing past the first
+    // letter of each part would read as `rigMediumMovementbasic`.
+    it('keeps the casing the filename authored', async () => {
+      const { code } = await emitWithClips(skinnedNoClipsGLB(), [
+        { path: 'clips/Rig_Medium_MovementBasic.glb', glb: clipOnlyGLB('Walking_A') },
+      ])
+
+      expect(code).toContain('const { state: rigMediumMovementBasic } =')
+    })
+
+    it('merges the clips in one array, model first', async () => {
+      const { code } = await emitWithClips(skinnedGLB(), [{ path: 'clips/Run.glb', glb: clipOnlyGLB('Run') }])
+
+      expect(code).toContain([
+        '  return [',
+        '    ...(state.value?.animations ?? []),',
+        '    ...(run.value?.animations ?? []),',
+        '  ]',
+      ].join('\n'))
+    })
+
+    // A clip library is a fraction of the size of the model, so its files land first. A mixer
+    // handed clips before the tree exists binds every track to nothing and caches the miss.
+    it('holds the clips back until the model they drive has rendered', async () => {
+      const { code } = await emitWithClips(skinnedNoClipsGLB(), [{ path: 'clips/Idle.glb', glb: clipOnlyGLB('Idle') }])
+
+      expect(code).toContain('if (isLoading.value) {')
+      expect(code).toContain('return []')
+    })
+
+    it('never destructures a state the model has no clips to put in', async () => {
+      const { code } = await emitWithClips(skinnedNoClipsGLB(), [{ path: 'clips/Idle.glb', glb: clipOnlyGLB('Idle') }])
+
+      // An unused `state` is an error under the consumer's noUnusedLocals.
+      expect(code).toContain(`const { nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>('/models/dummy.glb')`)
+      expect(code).toContain('    ...(idle.value?.animations ?? []),')
+      expect(code).not.toContain('state.value?.animations')
+    })
+
+    it('unions the clip names across every file', async () => {
+      const { code } = await emitWithClips(skinnedGLB(), [
+        { path: 'clips/Run.glb', glb: clipOnlyGLB('Run') },
+        { path: 'clips/Jump.glb', glb: clipOnlyGLB('Jump') },
+      ])
+
+      expect(code).toContain(`type ActionName\n  = | 'Idle'\n    | 'Run'\n    | 'Jump'`)
+    })
+
+    it('wires useAnimations for a model that carries no clips of its own', async () => {
+      const { code } = await emitWithClips(skinnedNoClipsGLB(), [{ path: 'clips/Idle.glb', glb: clipOnlyGLB('Idle') }])
+
+      expect(code).toContain(`import { useAnimations, useGLTF } from '@tresjs/cientos'`)
+      expect(code).toContain('const { actions } = useAnimations<AnimationClip, ActionName>(animations, modelRef)')
+      expect(code).toContain('<TresGroup ref="modelRef" :dispose="null">')
+    })
+
+    it('keeps the name of a node only an external clip drives', async () => {
+      const { code } = await emitWithClips(repeatedGeometryGLB(), [
+        { path: 'clips/Spin.glb', glb: clipOnlyGLB('Spin', ['Rock_0']) },
+      ])
+
+      expect(code).toContain('<TresMesh name="Rock_0"')
+      expect(code).not.toContain('<TresMesh name="Rock_1"')
+    })
+
+    it('asks for the decoder per file, since only some of them are compressed', async () => {
+      const { ir } = await emitWithClips(skinnedNoClipsGLB(), [{ path: 'clips/Idle.glb', glb: clipOnlyGLB('Idle') }])
+      ir.animationSources[0].draco = true
+
+      const { code } = emitSFC(ir, { url: '/models/dummy.glb', animationURLs: ['/clips/Idle.glb'] })
+
+      expect(code).toContain(`const { state: idle } = useGLTF('/clips/Idle.glb', { draco: true })`)
+      expect(code).toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/dummy.glb')`)
+    })
+
+    it('names a file that is not an identifier after its position instead', async () => {
+      const { code } = await emitWithClips(skinnedNoClipsGLB(), [
+        { path: 'clips/1H_Melee_Chop.glb', glb: clipOnlyGLB('1H_Melee_Chop') },
+      ])
+
+      expect(code).toContain(`const { state: clips0 } = useGLTF('/clips/1H_Melee_Chop.glb')`)
+    })
+
+    it('never shadows an identifier the generated file already owns', async () => {
+      const { code } = await emitWithClips(skinnedNoClipsGLB(), [
+        { path: 'clips/nodes.glb', glb: clipOnlyGLB('Idle') },
+      ])
+
+      expect(code).not.toContain('const { state: nodes }')
+      expect(code).toContain('const { state: nodes0 }')
+    })
+
+    it('leaves out a file whose clips reach nothing in this model', async () => {
+      const { code } = await emitWithClips(skinnedGLB(), [
+        { path: 'clips/Wrong.glb', glb: clipOnlyGLB('Wrong', ['mixamorigHips']) },
+      ])
+
+      // Loading a file to merge nothing out of it is a request for nothing.
+      expect(code).not.toContain('/clips/Wrong.glb')
+      expect(code).toContain('const animations = computed(() => state.value?.animations ?? [])')
+    })
   })
 })

@@ -62,6 +62,7 @@ onMounted(() => robot.value?.actions.Idle?.play())
 | --- | --- |
 | `-o, --output <path>` | file, or a directory to write `<Model>.gen.vue` into (default: beside the model) |
 | `-u, --url <url>` | url the model is served from (default: inferred from `public/`) |
+| `-a, --animations <path>` | take clips from another glb, merged with the model's own; repeatable |
 | `-s, --slots <mode>` | `named` (default), `all`, `none` |
 | `--shadows` | add `cast-shadow` / `receive-shadow` |
 | `-K, --keepgroups` | keep pass-through groups |
@@ -97,6 +98,20 @@ points at `--slots all`.
 tres gltf public/models/Dummy.glb -o src/models
 # ✔ src/models/Dummy.gen.vue
 ```
+
+#### `--animations`
+
+Mixamo, KayKit and Quaternius ship the mesh in one file and the clips in others.
+Pass each clip file and they are merged into one array, model first, with
+`ActionName` unioned across all of them:
+
+```bash
+tres gltf public/models/Dummy.glb \
+  -a public/models/Idle.glb -a public/models/Running_A.glb
+```
+
+Both files are parsed, so the CLI also checks each clip's track targets against the
+model's node names — the one animation failure that is silent at runtime.
 
 #### `--transform`
 

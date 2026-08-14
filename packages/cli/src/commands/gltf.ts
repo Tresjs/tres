@@ -1,3 +1,4 @@
+import type { AnimationSourceInput } from '../gltf/build-ir'
 import type { IRNode } from '../gltf/ir'
 import type { CommandHandler } from '../registry'
 import type { TextureFormat } from '../gltf/transform'
@@ -17,6 +18,8 @@ import { glyph, green } from '../ui/theme'
 
 export interface GLTFOptions {
   url?: string
+  /** Files to take animation clips from, merged with whatever the model carries. */
+  animations?: string[]
   output?: string
   slots?: 'named' | 'all' | 'none'
   shadows?: boolean
@@ -293,18 +296,36 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
     }
   }
 
+  const animationPaths = options.animations ?? []
+
   try {
     const ir = await ui.phase(
       'Parse',
-      () => loadGLTFFile(model)
-        .catch(async (error) => {
+      async (task) => {
+        const loaded = await loadGLTFFile(model).catch(async (error) => {
           throw await explainMissingFile(model, error)
         })
-        .then(buildIR),
+
+        // One at a time, so the line names the clip library it is on. A rig's animation
+        // libraries are the same weight as the model, and there can be several of them.
+        const sources: AnimationSourceInput[] = []
+        for (const path of animationPaths) {
+          task.update(basename(path))
+          sources.push({
+            path,
+            gltf: await loadGLTFFile(path).catch(async (error) => {
+              throw await explainMissingFile(path, error)
+            }),
+          })
+        }
+
+        return buildIR(loaded, sources)
+      },
       parsed => [
         plural(Object.keys(parsed.nodes).length, 'named node'),
         plural(Object.values(parsed.nodes).filter(node => node.type.endsWith('Mesh')).length, 'mesh', 'es'),
         plural(Object.keys(parsed.materials).length, 'material'),
+        ...(parsed.animationSources.length ? [`${plural(parsed.clips.length, 'clip')} merged`] : []),
       ].join(gray(' · ')),
     )
 
@@ -325,6 +346,14 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
       const colliders = countColliders(ir.root)
 
       ui.note(plural(ir.animations.length, 'animation clip'))
+      for (const source of ir.animationSources) {
+        ui.note(`+ ${basename(source.path)}: ${plural(source.clips.length, 'clip')}`)
+      }
+      if (ir.animationSources.length) {
+        // The union an ActionName would offer, which is neither the sum nor the model's own:
+        // a name in two files counts once, and a clip nothing binds counts not at all.
+        ui.note(`${plural(ir.clips.length, 'clip')} merged`)
+      }
       if (candidates) {
         ui.note(plural(candidates, 'instancing candidate'))
       }
@@ -341,6 +370,17 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
       ui.note('Pass --url to set it explicitly.')
     }
 
+    // Each clip file is loaded at runtime in its own right, so each needs its own url.
+    // There is no --animations-url: move the file under public/ instead.
+    const animationURLs: string[] = []
+    for (const source of ir.animationSources) {
+      const clipAsset = await inferAssetURL(source.path)
+      if (!clipAsset.inferred) {
+        ui.warn(`No public/ directory above ${source.path}, so its url is a guess: ${clipAsset.url}`)
+      }
+      animationURLs.push(clipAsset.url)
+    }
+
     // The provider's path is settled before the emit: the consumer imports it by name.
     const target = options.console
       ? undefined
@@ -352,6 +392,7 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
       'Emit',
       () => emitSFC(ir, {
         url: asset.url,
+        animationURLs,
         name,
         slots: options.slots,
         shadows: options.shadows,
@@ -402,6 +443,11 @@ const gltf: CommandHandler = async function (input: string, options: GLTFOptions
       ui.success(bold(path))
     }
     ui.list('slots', slots, options.verbose ? undefined : SLOT_PREVIEW, 'rerun with --verbose')
+    // The merged names are the ActionName union the consumer will type against, and they
+    // came from files the user only named on the command line — worth printing back.
+    if (ir.animationSources.length) {
+      ui.list('clips', ir.clips, options.verbose ? undefined : SLOT_PREVIEW, 'rerun with --verbose')
+    }
     if (wantsTransform) {
       ui.note(`useGLTF() now loads ${basename(model)}`)
     }
