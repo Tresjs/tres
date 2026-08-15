@@ -247,7 +247,7 @@ describe('gltf command', () => {
       await gltf.call({} as any, model, { animations: [idle] })
 
       const generated = await readFile(join(dir, 'rig/models/Dummy.gen.vue'), 'utf-8')
-      expect(generated).toContain(`const { state: idle } = useGLTF('/clips/Idle.glb')`)
+      expect(generated).toContain(`const { state: idle, isLoading: idleLoading } = useGLTF('/clips/Idle.glb')`)
       expect(generated).toContain('    ...(idle.value?.animations ?? []),')
       expect(generated).toContain(`type ActionName\n  = | 'Idle'`)
     })

@@ -61,7 +61,7 @@ describe('emitSFC', () => {
   it('exposes nodes and materials to the parent', async () => {
     const { code } = await emit(simpleGLB())
 
-    expect(code).toContain('defineExpose({ nodes, materials })')
+    expect(code).toContain('defineExpose({ nodes, materials, isReady })')
   })
 
   it('binds geometry and material on a mesh', async () => {
@@ -227,7 +227,7 @@ describe('emitSFC', () => {
 
     expect(code).toContain(`import { useAnimations, useGLTF } from '@tresjs/cientos'`)
     expect(code).toContain('const { actions } = useAnimations<AnimationClip, ActionName>(animations, modelRef)')
-    expect(code).toContain('defineExpose({ nodes, materials, actions })')
+    expect(code).toContain('defineExpose({ nodes, materials, actions, isReady })')
   })
 
   // A mixer resolves a track against a node name in the rendered tree, so the nodes a clip
@@ -273,7 +273,7 @@ describe('emitSFC', () => {
   it('imports the three classes it names, as types', async () => {
     const { code } = await emit(skinnedGLB())
 
-    expect(code).toContain(`import type { AnimationClip, Bone, Group, MeshStandardMaterial, Object3D, SkinnedMesh } from 'three'`)
+    expect(code).toContain(`import type { AnimationAction, AnimationClip, Bone, Group, MeshStandardMaterial, Object3D, SkinnedMesh } from 'three'`)
   })
 
   it('hands the declared shapes to useGLTF', async () => {
@@ -365,6 +365,7 @@ describe('emitSFC', () => {
       */
       import type { Group, Mesh, MeshStandardMaterial, Object3D } from 'three'
       import { useGLTF } from '@tresjs/cientos'
+      import { ref, watch } from 'vue'
 
       interface ModelNodes {
         'AuxScene': Group
@@ -384,7 +385,26 @@ describe('emitSFC', () => {
 
       const { nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>('/models/robot.glb')
 
-      defineExpose({ nodes, materials })
+      const emit = defineEmits<{
+        ready: [{ nodes: ModelNodes, materials: ModelMaterials }]
+      }>()
+
+      const isReady = ref(false)
+      watch(
+        isLoading,
+        (loading) => {
+          if (loading) {
+            isReady.value = false
+            return
+          }
+          if (isReady.value) { return }
+          isReady.value = true
+          emit('ready', { nodes: nodes.value, materials: materials.value })
+        },
+        { flush: 'post', immediate: true },
+      )
+
+      defineExpose({ nodes, materials, isReady })
       </script>
 
       <template>
@@ -418,8 +438,8 @@ describe('emitSFC', () => {
         { path: 'clips/Running_A.glb', glb: clipOnlyGLB('Running_A') },
       ])
 
-      expect(code).toContain(`const { state: idle } = useGLTF('/clips/Idle.glb')`)
-      expect(code).toContain(`const { state: runningA } = useGLTF('/clips/Running_A.glb')`)
+      expect(code).toContain(`const { state: idle, isLoading: idleLoading } = useGLTF('/clips/Idle.glb')`)
+      expect(code).toContain(`const { state: runningA, isLoading: runningALoading } = useGLTF('/clips/Running_A.glb')`)
     })
 
     // Real clip libraries are named `Rig_Medium_MovementBasic`; lowercasing past the first
@@ -429,7 +449,7 @@ describe('emitSFC', () => {
         { path: 'clips/Rig_Medium_MovementBasic.glb', glb: clipOnlyGLB('Walking_A') },
       ])
 
-      expect(code).toContain('const { state: rigMediumMovementBasic } =')
+      expect(code).toContain('const { state: rigMediumMovementBasic, isLoading: rigMediumMovementBasicLoading } =')
     })
 
     it('merges the clips in one array, model first', async () => {
@@ -493,7 +513,7 @@ describe('emitSFC', () => {
 
       const { code } = emitSFC(ir, { url: '/models/dummy.glb', animationURLs: ['/clips/Idle.glb'] })
 
-      expect(code).toContain(`const { state: idle } = useGLTF('/clips/Idle.glb', { draco: true })`)
+      expect(code).toContain(`const { state: idle, isLoading: idleLoading } = useGLTF('/clips/Idle.glb', { draco: true })`)
       expect(code).toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/dummy.glb')`)
     })
 
@@ -502,7 +522,7 @@ describe('emitSFC', () => {
         { path: 'clips/1H_Melee_Chop.glb', glb: clipOnlyGLB('1H_Melee_Chop') },
       ])
 
-      expect(code).toContain(`const { state: clips0 } = useGLTF('/clips/1H_Melee_Chop.glb')`)
+      expect(code).toContain(`const { state: clips0, isLoading: clips0Loading } = useGLTF('/clips/1H_Melee_Chop.glb')`)
     })
 
     it('never shadows an identifier the generated file already owns', async () => {
@@ -510,8 +530,8 @@ describe('emitSFC', () => {
         { path: 'clips/nodes.glb', glb: clipOnlyGLB('Idle') },
       ])
 
-      expect(code).not.toContain('const { state: nodes }')
-      expect(code).toContain('const { state: nodes0 }')
+      expect(code).not.toContain('const { state: nodes,')
+      expect(code).toContain('const { state: nodes0, isLoading: nodes0Loading }')
     })
 
     it('leaves out a file whose clips reach nothing in this model', async () => {
@@ -522,6 +542,55 @@ describe('emitSFC', () => {
       // Loading a file to merge nothing out of it is a request for nothing.
       expect(code).not.toContain('/clips/Wrong.glb')
       expect(code).toContain('const animations = computed(() => state.value?.animations ?? [])')
+    })
+  })
+
+  describe('@ready / isReady', () => {
+    it('emits ready and exposes isReady on a static model', async () => {
+      const { code } = await emit(simpleGLB())
+
+      expect(code).toContain('const emit = defineEmits<{')
+      expect(code).toContain('ready: [{ nodes: ModelNodes, materials: ModelMaterials }]')
+      expect(code).toContain('const isReady = ref(false)')
+      expect(code).toContain('watch(\n  isLoading,')
+      expect(code).toContain(`emit('ready', { nodes: nodes.value, materials: materials.value })`)
+      expect(code).toContain('defineExpose({ nodes, materials, isReady })')
+    })
+
+    it('gates static ready on the load and resets it on a refetch', async () => {
+      const { code } = await emit(simpleGLB())
+
+      expect(code).toContain([
+        '  (loading) => {',
+        '    if (loading) {',
+        '      isReady.value = false',
+        '      return',
+        '    }',
+        '    if (isReady.value) { return }',
+        '    isReady.value = true',
+      ].join('\n'))
+    })
+
+    it('waits for every clip source and bound actions before an animated model is ready', async () => {
+      const { code } = await emitWithClips(skinnedNoClipsGLB(), [
+        { path: 'clips/Rig_Medium_General.glb', glb: clipOnlyGLB('Idle_A') },
+        { path: 'clips/Rig_Medium_MovementBasic.glb', glb: clipOnlyGLB('Jump_Start') },
+      ])
+
+      expect(code).toContain('const { state: rigMediumGeneral, isLoading: rigMediumGeneralLoading } =')
+      expect(code).toContain('const { state: rigMediumMovementBasic, isLoading: rigMediumMovementBasicLoading } =')
+      expect(code).toContain('() => [isLoading.value, rigMediumGeneralLoading.value, rigMediumMovementBasicLoading.value, Object.keys(actions).length]')
+      expect(code).toContain('if (signals.slice(0, -1).some(Boolean) || !signals.at(-1)) {')
+      expect(code).toContain('ready: [{ nodes: ModelNodes, materials: ModelMaterials, actions: Record<ActionName, AnimationAction | undefined> }]')
+      expect(code).toContain(`emit('ready', { nodes: nodes.value, materials: materials.value, actions })`)
+      expect(code).toContain('defineExpose({ nodes, materials, actions, isReady })')
+    })
+
+    it('reads only the model load when the animated model carries its own clips', async () => {
+      const { code } = await emit(skinnedGLB())
+
+      expect(code).toContain('() => [isLoading.value, Object.keys(actions).length]')
+      expect(code).toContain(`import type { AnimationAction, AnimationClip,`)
     })
   })
 })

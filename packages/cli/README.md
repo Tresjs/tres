@@ -48,14 +48,15 @@ lived in the generated file.
 
 The component declares the shape of the model it was generated from, so `node` above
 is a `Mesh` rather than an `any`, and a mesh the artist renamed turns into a type error
-at the override that used it. Animated models also get their clip names as a union:
+at the override that used it. Animated models get their clip names as a union and hand
+the bound `actions` to `@ready`, which fires once the clips are loaded and the actions
+bound (`isReady` exposes the same as a value):
 
 ```vue
-<script setup lang="ts">
-const robot = ref<InstanceType<typeof Robot>>()
-// actions.Idle, not actions['Idle'] — and a typo is a compile error
-onMounted(() => robot.value?.actions.Idle?.play())
-</script>
+<template>
+  <!-- actions.Idle, not actions['Idle'], and a typo is a compile error -->
+  <Robot @ready="({ actions }) => actions.Idle?.play()" />
+</template>
 ```
 
 | Flag | |

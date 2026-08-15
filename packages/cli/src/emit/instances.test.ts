@@ -53,7 +53,15 @@ describe('--instance', () => {
     const { code, instances } = await emit(repeatedGeometryGLB())
 
     expect(instances).toContain('export interface ModelContext {')
-    expect(code).toContain(`import type { ModelContext } from './Rocks.instances.gen.vue'`)
+    expect(code).toContain(`import type { ModelNodes, ModelMaterials, ModelContext } from './Rocks.instances.gen.vue'`)
+  })
+
+  it('emits ready once the provider has populated the static instanced model', async () => {
+    const { code } = await emit(repeatedGeometryGLB())
+
+    expect(code).toContain('() => Object.keys(nodes.value).length')
+    expect(code).toContain(`emit('ready', { nodes: nodes.value, materials: materials.value })`)
+    expect(code).toContain('defineExpose({ nodes, materials, isReady })')
   })
 
   it('says so rather than rendering nothing when the model is used on its own', async () => {
@@ -233,6 +241,17 @@ describe('--instance', () => {
       expect(instances).toContain(`${'  '}animations: ComputedRef<AnimationClip[]>`)
       expect(code).toContain('const { nodes, materials, animations } = context')
       expect(code).toContain('const { actions } = useAnimations<AnimationClip, ActionName>(animations, modelRef)')
+    })
+
+    it('fires ready on bound actions alone, since the provider owns the load', async () => {
+      const { code } = await emitWithClips(repeatedGeometryGLB(), [
+        { path: 'clips/Spin.glb', glb: clipOnlyGLB('Spin', ['Rock_0']) },
+      ])
+
+      expect(code).toContain('() => Object.keys(actions).length')
+      expect(code).toContain(`emit('ready', { nodes: nodes.value, materials: materials.value, actions })`)
+      expect(code).toContain('defineExpose({ nodes, materials, actions, isReady })')
+      expect(code).toContain(`import type { ActionName, ModelNodes, ModelMaterials, ModelContext } from './Rocks.instances.gen.vue'`)
     })
 
     it('exports the union across every file for the model half to import', async () => {

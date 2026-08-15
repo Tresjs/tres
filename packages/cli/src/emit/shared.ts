@@ -78,6 +78,8 @@ const RESERVED = new Set([
 export interface ClipSource {
   /** What the `state` of its `useGLTF` is renamed to. */
   variable: string
+  /** What its `isLoading` is renamed to, when the ready watch reads it. */
+  loading: string
   url: string
   draco: boolean
 }
@@ -118,14 +120,25 @@ export function clipSources(sources: IRAnimationSource[], urls: string[] = []): 
     .map(({ source, url }, index) => {
       const variable = toVariable(source.path, index, taken)
       taken.add(variable)
-      return { variable, url, draco: source.draco }
+      let loading = `${variable}Loading`
+      while (taken.has(loading)) {
+        loading = `${loading}${index}`
+      }
+      taken.add(loading)
+      return { variable, loading, url, draco: source.draco }
     })
 }
 
-/** One `useGLTF` per clip file. Only its clips are read, so nothing else is destructured. */
-export function clipLoads(sources: ClipSource[]): string[] {
-  return sources.map(({ variable, url, draco }) =>
-    `const { state: ${variable} } = useGLTF(${draco ? `'${url}', { draco: true }` : `'${url}'`})`)
+/**
+ * One `useGLTF` per clip file. Only the clips are read, so `state` is all that is
+ * destructured — unless `loading` is asked for, which the ready watch needs to know
+ * every source has landed.
+ */
+export function clipLoads(sources: ClipSource[], options: { loading?: boolean } = {}): string[] {
+  return sources.map(({ variable, loading, url, draco }) => {
+    const bindings = options.loading ? `state: ${variable}, isLoading: ${loading}` : `state: ${variable}`
+    return `const { ${bindings} } = useGLTF(${draco ? `'${url}', { draco: true }` : `'${url}'`})`
+  })
 }
 
 /**

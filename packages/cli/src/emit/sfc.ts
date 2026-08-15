@@ -97,6 +97,48 @@ function isContainer(node: IRNode): boolean {
   return !node.geometry && !isPassthrough(node)
 }
 
+/** The `ready` payload and `emit` call, by whether the model carries clips. */
+const READY_PAYLOAD = {
+  animated: {
+    type: '{ nodes: ModelNodes, materials: ModelMaterials, actions: Record<ActionName, AnimationAction | undefined> }',
+    value: '{ nodes: nodes.value, materials: materials.value, actions }',
+  },
+  static: {
+    type: '{ nodes: ModelNodes, materials: ModelMaterials }',
+    value: '{ nodes: nodes.value, materials: materials.value }',
+  },
+} as const
+
+/**
+ * The `ready`/`isReady` pair. Emits are one-shot, so a parent that binds late has nothing to
+ * read — `isReady` is the replayable half. Post-flush so it fires after the tree is in the
+ * graph, and resets to `false` on any reload (`useGLTF` exposes `execute()`) so it never lies
+ * after a refetch. `source` is what the watch reads, `notReady` the guard that keeps it from
+ * firing before every load has landed and the actions are bound.
+ */
+function readySetup(payload: { type: string, value: string }, source: string, param: string, notReady: string): string[] {
+  return [
+    'const emit = defineEmits<{',
+    `${INDENT}ready: [${payload.type}]`,
+    '}>()',
+    '',
+    'const isReady = ref(false)',
+    'watch(',
+    `${INDENT}${source},`,
+    `${INDENT}(${param}) => {`,
+    `${INDENT.repeat(2)}if (${notReady}) {`,
+    `${INDENT.repeat(3)}isReady.value = false`,
+    `${INDENT.repeat(3)}return`,
+    `${INDENT.repeat(2)}}`,
+    `${INDENT.repeat(2)}if (isReady.value) { return }`,
+    `${INDENT.repeat(2)}isReady.value = true`,
+    `${INDENT.repeat(2)}emit('ready', ${payload.value})`,
+    `${INDENT}},`,
+    `${INDENT}{ flush: 'post', immediate: true },`,
+    ')',
+  ]
+}
+
 export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
   const {
     url,
@@ -455,9 +497,14 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
   const threeTypes = instanced
     ? new Set([
         ...slotSpecs.flatMap(slot => slot.bindings.map(binding => binding.type)),
-        ...(hasAnimations ? ['AnimationClip'] : []),
+        ...(hasAnimations ? ['AnimationClip', 'AnimationAction'] : []),
       ].filter(type => THREE_CLASS.test(type)))
     : modelThreeTypes
+
+  // The `ready` payload types `actions` as `AnimationAction`, which `modelTypes` leaves out.
+  if (hasAnimations && !instanced) {
+    threeTypes.add('AnimationAction')
+  }
 
   const cientos = [
     instanced ? 'Instance' : '',
@@ -469,12 +516,15 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     // Instancing hands the clips over already wrapped, so only the standalone build computes them.
     ...(hasAnimations && !instanced ? ['computed'] : []),
     ...(instanced ? ['inject'] : []),
-    ...(hasAnimations ? ['ref'] : []),
+    // `ready`/`isReady` need both on every variant.
+    'ref',
+    'watch',
   ]
 
   // The provider declares the model's shapes, so this file imports them instead of
   // repeating them. Types only: the injection key itself is a literal in both files.
-  const provided = [...(hasAnimations ? ['ActionName'] : []), 'ModelContext']
+  // `ModelNodes` / `ModelMaterials` are named in the `ready` payload type.
+  const provided = [...(hasAnimations ? ['ActionName'] : []), 'ModelNodes', 'ModelMaterials', 'ModelContext']
 
   const imports = [
     threeTypes.size > 0 ? `import type { ${[...threeTypes].sort().join(', ')} } from 'three'` : '',
@@ -484,11 +534,10 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     vue.length > 0 ? `import { ${vue.join(', ')} } from 'vue'` : '',
   ].filter(Boolean)
 
-  const animationSetup = [
+  const animationBind = [
     `const modelRef = ref()`,
     `const { actions } = useAnimations<AnimationClip, ActionName>(animations, modelRef)`,
     '',
-    `defineExpose({ nodes, materials, actions })`,
   ]
 
   const setup = instanced
@@ -500,20 +549,45 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
         '',
         `const { ${['nodes', 'materials', ...(hasAnimations ? ['animations'] : [])].join(', ')} } = context`,
         '',
-        ...(hasAnimations ? animationSetup : [`defineExpose({ nodes, materials })`]),
+        // No `isLoading` here — the provider owns the load — so ready follows the injected data:
+        // the actions binding when animated, the nodes populating when not.
+        ...(hasAnimations
+          ? [
+              ...animationBind,
+              ...readySetup(READY_PAYLOAD.animated, '() => Object.keys(actions).length', 'count', '!count'),
+              '',
+              `defineExpose({ nodes, materials, actions, isReady })`,
+            ]
+          : [
+              ...readySetup(READY_PAYLOAD.static, '() => Object.keys(nodes.value).length', 'count', '!count'),
+              '',
+              `defineExpose({ nodes, materials, isReady })`,
+            ]),
       ]
     : hasAnimations
       ? [
           `const { ${[...(hasOwnClips ? ['state'] : []), 'nodes', 'materials', 'isLoading'].join(', ')} } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
-          ...clipLoads(sources),
+          ...clipLoads(sources, { loading: true }),
           '',
           ...mergedClips(hasOwnClips, sources),
-          ...animationSetup,
+          ...animationBind,
+          // Ready means every source loaded AND the actions bound: each clip file resolves on its
+          // own, so a handler firing on the first population would see the later clips undefined.
+          ...readySetup(
+            READY_PAYLOAD.animated,
+            `() => [${['isLoading.value', ...sources.map(source => `${source.loading}.value`)].join(', ')}, Object.keys(actions).length]`,
+            'signals',
+            'signals.slice(0, -1).some(Boolean) || !signals.at(-1)',
+          ),
+          '',
+          `defineExpose({ nodes, materials, actions, isReady })`,
         ]
       : [
           `const { nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
           '',
-          `defineExpose({ nodes, materials })`,
+          ...readySetup(READY_PAYLOAD.static, 'isLoading', 'loading', 'loading'),
+          '',
+          `defineExpose({ nodes, materials, isReady })`,
         ]
 
   /**
