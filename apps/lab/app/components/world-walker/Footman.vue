@@ -3,7 +3,7 @@ import type { AnimationAction } from 'three'
 import { useLoop, useTres } from '@tresjs/core'
 import { OrbitControls, useGLTF, useAnimations } from '@tresjs/cientos'
 import { RigidBody, CapsuleCollider } from '@tresjs/rapier'
-import { useMagicKeys, watchOnce } from '@vueuse/core'
+import { useMagicKeys } from '@vueuse/core'
 import { Quaternion, Vector3 } from 'three'
 import { HEIGHT_SCALE } from './constants'
 
@@ -17,12 +17,14 @@ const animations = computed(() => state.value?.animations || [])
 const model = computed(() => state?.value?.scene)
 const { actions } = useAnimations(animations, model)
 
-watchOnce(isLoading, (v) => {
-  if (!v) {
-    currentAction.value = actions.Idle
-    currentAction.value?.play()
-    if (hasPressed.value) changeAnimation(actions.SwordAndShieldRun)
-  }
+// useAnimations binds the actions post-flush, so seed off `actions` rather than the
+// loading flag — a pre-flush watcher on isLoading reads them before they exist
+watch(actions, (newActions) => {
+  const idle = newActions.Idle
+  if (!idle || currentAction.value) return
+  currentAction.value = idle
+  idle.play()
+  if (hasPressed.value) changeAnimation(newActions.SwordAndShieldRun)
 })
 
 // constants
