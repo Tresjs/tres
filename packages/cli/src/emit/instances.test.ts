@@ -53,13 +53,14 @@ describe('--instance', () => {
     const { code, instances } = await emit(repeatedGeometryGLB())
 
     expect(instances).toContain('export interface ModelContext {')
-    expect(code).toContain(`import type { ModelNodes, ModelMaterials, ModelContext } from './Rocks.instances.gen.vue'`)
+    // Sorted: perfectionist/sort-named-imports reads the generated file too.
+    expect(code).toContain(`import type { ModelContext, ModelMaterials, ModelNodes } from './Rocks.instances.gen.vue'`)
   })
 
   it('emits ready once the provider has populated the static instanced model', async () => {
     const { code } = await emit(repeatedGeometryGLB())
 
-    expect(code).toContain('() => Object.keys(nodes.value).length')
+    expect(code).toContain('  () => Object.keys(nodes.value).length > 0,')
     expect(code).toContain(`emit('ready', { nodes: nodes.value, materials: materials.value })`)
     expect(code).toContain('defineExpose({ nodes, materials, isReady })')
   })
@@ -248,10 +249,10 @@ describe('--instance', () => {
         { path: 'clips/Spin.glb', glb: clipOnlyGLB('Spin', ['Rock_0']) },
       ])
 
-      expect(code).toContain('() => Object.keys(actions).length')
+      expect(code).toContain('  () => Object.keys(actions).length > 0,')
       expect(code).toContain(`emit('ready', { nodes: nodes.value, materials: materials.value, actions })`)
       expect(code).toContain('defineExpose({ nodes, materials, actions, isReady })')
-      expect(code).toContain(`import type { ActionName, ModelNodes, ModelMaterials, ModelContext } from './Rocks.instances.gen.vue'`)
+      expect(code).toContain(`import type { ActionName, ModelContext, ModelMaterials, ModelNodes } from './Rocks.instances.gen.vue'`)
     })
 
     it('exports the union across every file for the model half to import', async () => {

@@ -110,23 +110,44 @@ const READY_PAYLOAD = {
 } as const
 
 /**
- * The `ready`/`isReady` pair. Emits are one-shot, so a parent that binds late has nothing to
- * read — `isReady` is the replayable half. Post-flush so it fires after the tree is in the
- * graph, and resets to `false` on any reload (`useGLTF` exposes `execute()`) so it never lies
- * after a refetch. `source` is what the watch reads, `notReady` the guard that keeps it from
- * firing before every load has landed and the actions are bound.
+ * The `ready` declaration. Separate from the wiring below because it has to sit above
+ * `defineSlots`, which `vue/define-macros-order` enforces in the consumer's own lint run.
  */
-function readySetup(payload: { type: string, value: string }, source: string, param: string, notReady: string): string[] {
+function readyEmits(payload: { type: string, value: string }): string[] {
   return [
     'const emit = defineEmits<{',
     `${INDENT}ready: [${payload.type}]`,
     '}>()',
     '',
+  ]
+}
+
+/**
+ * The `ready`/`isReady` pair. The event is one-shot per load, so a parent that binds late has
+ * nothing to read — `isReady` is the replayable half. Post-flush so it fires after the tree is
+ * in the graph, and back to `false` the moment any term stops holding, so it never lies after a
+ * refetch (`useGLTF` exposes `execute()`).
+ *
+ * `terms` are AND-ed into one boolean, which is what the watch reads: the callback then only
+ * runs when readiness actually flips, and each term names what it waits for instead of sitting
+ * at a position in an array the guard has to index.
+ */
+function readySetup(payload: { type: string, value: string }, terms: string[]): string[] {
+  // `&&` leads its line: `style/operator-linebreak`, the shape the consumer's linter wants.
+  const source = terms.length === 1
+    ? [`${INDENT}() => ${terms[0]},`]
+    : [
+        `${INDENT}() => ${terms[0]}`,
+        ...terms.slice(1).map((term, index) =>
+          `${INDENT.repeat(2)}&& ${term}${index === terms.length - 2 ? ',' : ''}`),
+      ]
+
+  return [
     'const isReady = ref(false)',
     'watch(',
-    `${INDENT}${source},`,
-    `${INDENT}(${param}) => {`,
-    `${INDENT.repeat(2)}if (${notReady}) {`,
+    ...source,
+    `${INDENT}(ready) => {`,
+    `${INDENT.repeat(2)}if (!ready) {`,
     `${INDENT.repeat(3)}isReady.value = false`,
     `${INDENT.repeat(3)}return`,
     `${INDENT.repeat(2)}}`,
@@ -523,8 +544,14 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
 
   // The provider declares the model's shapes, so this file imports them instead of
   // repeating them. Types only: the injection key itself is a literal in both files.
-  // `ModelNodes` / `ModelMaterials` are named in the `ready` payload type.
-  const provided = [...(hasAnimations ? ['ActionName'] : []), 'ModelNodes', 'ModelMaterials', 'ModelContext']
+  // `ModelNodes` / `ModelMaterials` are named in the `ready` payload type. Sorted, because
+  // `perfectionist/sort-named-imports` reads the generated file as readily as a written one.
+  const provided = [
+    ...(hasAnimations ? ['ActionName'] : []),
+    'ModelContext',
+    'ModelMaterials',
+    'ModelNodes',
+  ]
 
   const imports = [
     threeTypes.size > 0 ? `import type { ${[...threeTypes].sort().join(', ')} } from 'three'` : '',
@@ -549,43 +576,49 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
         '',
         `const { ${['nodes', 'materials', ...(hasAnimations ? ['animations'] : [])].join(', ')} } = context`,
         '',
-        // No `isLoading` here — the provider owns the load — so ready follows the injected data:
-        // the actions binding when animated, the nodes populating when not.
+        // No `isLoading` or `state` here — the provider owns the load — so ready follows the
+        // injected data: the actions binding when animated, the nodes populating when not.
         ...(hasAnimations
           ? [
               ...animationBind,
-              ...readySetup(READY_PAYLOAD.animated, '() => Object.keys(actions).length', 'count', '!count'),
+              ...readySetup(READY_PAYLOAD.animated, ['Object.keys(actions).length > 0']),
               '',
               `defineExpose({ nodes, materials, actions, isReady })`,
             ]
           : [
-              ...readySetup(READY_PAYLOAD.static, '() => Object.keys(nodes.value).length', 'count', '!count'),
+              ...readySetup(READY_PAYLOAD.static, ['Object.keys(nodes.value).length > 0']),
               '',
               `defineExpose({ nodes, materials, isReady })`,
             ]),
       ]
     : hasAnimations
       ? [
-          `const { ${[...(hasOwnClips ? ['state'] : []), 'nodes', 'materials', 'isLoading'].join(', ')} } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
+          `const { state, nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
           ...clipLoads(sources, { loading: true }),
           '',
           ...mergedClips(hasOwnClips, sources),
           ...animationBind,
-          // Ready means every source loaded AND the actions bound: each clip file resolves on its
-          // own, so a handler firing on the first population would see the later clips undefined.
-          ...readySetup(
-            READY_PAYLOAD.animated,
-            `() => [${['isLoading.value', ...sources.map(source => `${source.loading}.value`)].join(', ')}, Object.keys(actions).length]`,
-            'signals',
-            'signals.slice(0, -1).some(Boolean) || !signals.at(-1)',
-          ),
+          // Every source has to land AND the actions bind: each clip file resolves on its own, so
+          // a handler firing on the first population would see the later clips undefined. `state`
+          // is the one that tells a finished load from a failed one — the actions bind against the
+          // root group, which stays mounted whatever the model did, so clips from a `--animations`
+          // file fill `actions` even when the model itself never arrived.
+          ...readySetup(READY_PAYLOAD.animated, [
+            '!isLoading.value',
+            ...sources.map(source => `!${source.loading}.value`),
+            'state.value !== null',
+            'Object.keys(actions).length > 0',
+          ]),
           '',
           `defineExpose({ nodes, materials, actions, isReady })`,
         ]
       : [
-          `const { nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
+          `const { state, nodes, materials, isLoading } = useGLTF<ModelNodes, ModelMaterials>(${loaderArgs})`,
           '',
-          ...readySetup(READY_PAYLOAD.static, 'isLoading', 'loading', 'loading'),
+          // `isLoading` is cleared in a `finally`, so a 404 clears it exactly like a success.
+          // `state` is set only when the load produced a scene, and nulled again on every
+          // refetch, so it is what keeps a failed load out of a `ready` handler.
+          ...readySetup(READY_PAYLOAD.static, ['!isLoading.value', 'state.value !== null']),
           '',
           `defineExpose({ nodes, materials, isReady })`,
         ]
@@ -651,6 +684,9 @@ export function emitSFC(ir: GLTFIR, options: EmitOptions): EmitResult {
     ...imports,
     '',
     ...(instanced ? [] : localTypes),
+    // Above `defineSlots`: `vue/define-macros-order` wants the macros in that order, and the
+    // payload type is declared (or imported) further up either way.
+    ...readyEmits(hasAnimations ? READY_PAYLOAD.animated : READY_PAYLOAD.static),
     ...slotTypes,
     ...setup,
     '</script>',

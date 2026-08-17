@@ -57,10 +57,15 @@ export function header(command: string | undefined, ...notes: string[]): string[
 }
 
 /**
- * Identifiers the generated files already own. A clip file called `nodes.glb` must not
- * shadow one of them.
+ * Identifiers the generated files already own, as locals or as imports. A clip file called
+ * `nodes.glb` must not shadow one of them, and neither must `emit.glb` shadow the `emit` the
+ * ready wiring declares — a redeclaration does not compile.
+ *
+ * Only names a clip variable could actually take are worth listing: `toVariable` lowercases
+ * the first letter, so `Instance`, `Merged` and the three classes are out of reach.
  */
 const RESERVED = new Set([
+  // Locals the setup block declares.
   'state',
   'nodes',
   'materials',
@@ -72,6 +77,15 @@ const RESERVED = new Set([
   'meshes',
   'limit',
   'props',
+  'emit',
+  'isReady',
+  // Imported bindings, which a `const` in the same file redeclares just as loudly.
+  'computed',
+  'inject',
+  'ref',
+  'watch',
+  'useAnimations',
+  'useGLTF',
 ])
 
 /** A `--animations` file as the emitted file sees it: one `useGLTF` call and one spread. */
