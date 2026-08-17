@@ -3,7 +3,7 @@ import type { ExperimentItem } from '~/app/types'
 
 useHead({
   meta: [
-    { name: 'description', content: 'Explore creative WebGL experiments built with TresJS, the declarative ThreeJS framework for Vue' },
+    { name: 'description', content: 'Explore creative experiments built with TresJS, the declarative 3D framework for Vue' },
   ],
 })
 
@@ -107,7 +107,7 @@ function getRepoTitleFromExperiment(experiment: ExperimentItem): string {
   <UContainer class="py-12">
     <div class="flex flex-col items-center mb-12">
       <p class="text-lg text-gray-600 dark:text-gray-400 text-center max-w-2xl">
-        Explore creative WebGL experiments built with TresJS, the declarative ThreeJS framework for Vue
+        Explore creative experiments built with TresJS, the declarative 3D framework for Vue
       </p>
     </div>
 

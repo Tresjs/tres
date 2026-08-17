@@ -39,6 +39,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "build": "tsdown",
     "build:analyze": "ANALYZE=true tsdown",
     "preview": "vite preview",

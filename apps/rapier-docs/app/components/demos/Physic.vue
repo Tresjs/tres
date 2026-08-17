@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
-import { Physics, RigidBody } from '@tresjs/rapier'
+import { DEFAULT_GRAVITY, DEFAULT_TIMESTEP, Physics, RigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 
 const gl = {
@@ -13,21 +13,59 @@ const gl = {
 }
 
 const uuid = inject(`uuid`)
+const ballRef = shallowRef()
 
-const { gravityY, gravityX, gravityZ, debug } = useControls({
-  gravityY: { value: -9.8, min: -20, max: 20, step: 0.1 },
-  gravityX: { value: 0, min: -20, max: 20, step: 0.1 },
-  gravityZ: { value: 0, min: -20, max: 20, step: 0.1 },
+const controlDefaults = {
+  gravityX: DEFAULT_GRAVITY.x,
+  gravityY: DEFAULT_GRAVITY.y,
+  gravityZ: DEFAULT_GRAVITY.z,
+  timeStep: DEFAULT_TIMESTEP as number | 'vary',
+  timeScale: 1,
+  pause: false,
   debug: true,
+}
+
+const controls = useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      resetControls(controls, controlDefaults)
+      resetRigidBody(ballRef.value?.instance)
+    },
+  },
+  gravityX: { value: controlDefaults.gravityX, min: -20, max: 20, step: 0.1 },
+  gravityY: { value: controlDefaults.gravityY, min: -20, max: 20, step: 0.1 },
+  gravityZ: { value: controlDefaults.gravityZ, min: -20, max: 20, step: 0.1 },
+  timeStep: {
+    value: controlDefaults.timeStep,
+    options: [
+      { text: '1/30', value: 1 / 30 },
+      { text: '1/60', value: 1 / 60 },
+      { text: '1/120', value: 1 / 120 },
+      { text: 'vary', value: 'vary' },
+    ],
+  },
+  timeScale: { value: controlDefaults.timeScale, min: 0, max: 4, step: 0.1 },
+  pause: controlDefaults.pause,
+  debug: controlDefaults.debug,
 }, { uuid })
+
+const { gravityY, gravityX, gravityZ, debug, pause, timeStep, timeScale } = controls
 </script>
 
 <template>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 0, 35]" :look-at="[0, 0, 0]" />
     <Suspense>
-      <Physics :debug :gravity="[gravityX, gravityY, gravityZ]">
-        <RigidBody collider="ball" :position="[0, 0, 0]">
+      <Physics
+        :debug
+        :pause
+        :time-step="timeStep"
+        :time-scale="timeScale"
+        :gravity="[gravityX, gravityY, gravityZ]"
+      >
+        <RigidBody ref="ballRef" collider="ball" :position="[0, 0, 0]">
           <TresMesh :position="[0, 0, 0]">
             <TresSphereGeometry />
             <TresMeshStandardMaterial color="#5672cd" />

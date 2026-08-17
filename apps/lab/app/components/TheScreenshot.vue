@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { Vector2 } from 'three'
 
+const props = withDefaults(defineProps<{
+  /** defineShortcuts key, e.g. 's' or 'meta_shift_s'; override when the experiment uses S */
+  shortcut?: string
+}>(), {
+  shortcut: 's',
+})
+
 const { renderer, scene, camera } = useTres()
 
 function takeScreenshot() {
@@ -44,7 +51,7 @@ function takeScreenshot() {
 }
 
 defineShortcuts({
-  s: () => {
+  [props.shortcut]: () => {
     takeScreenshot()
   }
 })

@@ -18,7 +18,7 @@ export const makePropWatcherRB = <
   instance: ShallowRef<RigidBodyContext['rigidBody'] | undefined>,
   onSet: `set${Capitalize<keyof RigidBodyProps>}`,
 ) => watch([() => props[toWatch], instance], ([newValue, _]) => {
-  if (!instance.value) { return }
+  if (!instance.value || newValue === undefined) { return }
   // TODO: we should give users the possibility to set the wakeUp parameter.
   ((instance.value[onSet as keyof Methods<RigidBody>]) as CallableProps<RigidBody>[keyof CallableProps<RigidBody>])?.(...(Array.isArray(newValue) ? (newValue as boolean[]) : [newValue]), true)
 })
@@ -45,8 +45,10 @@ export const makePropWatcherCL = <
   instance: ShallowRef<CreateColliderReturnType | undefined>,
   onSet: `set${Capitalize<keyof ColliderProps>}`,
 ) => watch([() => props[toWatch], instance], ([newValue, _]) => {
-  if (!instance.value) { return }
-  (instance.value.collider[onSet as keyof typeof instance.value.collider] as CallableProps<ColliderProps>[keyof CallableProps<ColliderProps>])?.(newValue, true)
+  if (!instance.value || newValue === undefined) { return }
+  (instance.value.collider[
+    onSet as keyof typeof instance.value.collider
+  ] as CallableProps<ColliderProps>[keyof CallableProps<ColliderProps>])?.(newValue)
 })
 
 export const makePropsWatcherCL = <
@@ -61,4 +63,20 @@ export const makePropsWatcherCL = <
   const watcherName = watcher.charAt(0).toUpperCase()
     + watcher.slice(1) as Capitalize<keyof ColliderProps>
   makePropWatcherCL(props, watcher as keyof ColliderProps, instance, `set${watcherName}`)
+})
+
+/**
+ * @description Watch RigidBody props that are forwarded to auto-generated colliders.
+ */
+export const makeAutoColliderPropsWatchers = <
+  K extends keyof ColliderProps & keyof RigidBodyProps,
+>(
+  props: Pick<RigidBodyProps, K>,
+  watchers: K[],
+  setProp: <P extends K>(prop: P, value: ColliderProps[P]) => void,
+) => watchers.forEach((key) => {
+  watch(() => props[key], (value) => {
+    if (value === undefined) { return }
+    setProp(key, value as ColliderProps[typeof key])
+  })
 })
