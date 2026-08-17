@@ -35,8 +35,21 @@ const moveCube = (impulse: Vector3) => {
 
 const uuid = inject(`uuid`)
 
-const { debug } = useControls({
+const controlDefaults = {
   debug: true,
+}
+
+const controls = useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      resetControls(controls, controlDefaults)
+      resetRigidBody(rigidCubeRef.value?.instance)
+      numberOfIntersections.value = 0
+    },
+  },
+  debug: controlDefaults.debug,
   zpos: {
     label: 'Z+',
     type: 'button',
@@ -58,6 +71,8 @@ const { debug } = useControls({
     onClick: () => moveCube(new Vector3(-5, 0, 0)),
   },
 }, { uuid })
+
+const { debug } = controls
 </script>
 
 <template>

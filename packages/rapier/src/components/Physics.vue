@@ -5,7 +5,7 @@ import { Vector3 } from 'three'
 import { watch } from 'vue'
 import type { VectorCoordinates } from '@tresjs/core'
 import { useRapierContextProvider } from '../composables'
-import { DEFAULT_TIMESTEP, GRAVITY, MAX_PHYSICS_DELTA } from '../constants'
+import { DEFAULT_GRAVITY, DEFAULT_TIMESTEP, MAX_PHYSICS_DELTA } from '../constants'
 
 import {
   collisionTrigger,
@@ -20,7 +20,7 @@ import type { PhysicsProps, SourceTarget } from '../types'
 const props = withDefaults(
   defineProps<Partial<PhysicsProps>>(),
   {
-    gravity: () => new Vector3(GRAVITY.x, GRAVITY.y, GRAVITY.z),
+    gravity: () => new Vector3(DEFAULT_GRAVITY.x, DEFAULT_GRAVITY.y, DEFAULT_GRAVITY.z),
     debug: false,
     pause: false,
     timeStep: DEFAULT_TIMESTEP,

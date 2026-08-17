@@ -22,9 +22,24 @@ const gl = {
 const bodyRefA: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 const bodyRefB: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 
-const { debug } = useControls({
+const controlDefaults = {
   debug: true,
+}
+
+const controls = useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      resetControls(controls, controlDefaults)
+      resetRigidBody(bodyRefA.value?.instance)
+      resetRigidBody(bodyRefB.value?.instance, { x: -2.2, y: 0, z: 0 })
+    },
+  },
+  debug: controlDefaults.debug,
 }, { uuid: inject(`uuid`) })
+
+const { debug } = controls
 </script>
 
 <template>

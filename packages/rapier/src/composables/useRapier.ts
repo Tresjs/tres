@@ -2,7 +2,7 @@ import { createInjectionState, tryOnScopeDispose } from '@vueuse/core'
 import { ref, shallowRef } from 'vue'
 import type { RapierContext } from '../types/rapier'
 import type { World } from '@dimforge/rapier3d-compat'
-import { DEFAULT_TIMESTEP, GRAVITY } from '../constants/physics'
+import { DEFAULT_GRAVITY, DEFAULT_TIMESTEP } from '../constants/physics'
 
 const [
   useRapierContextProvider,
@@ -21,7 +21,7 @@ const [
     rapier.value = RAPIER
     // Copy: World stores the vector by reference and Physics mutates it in place,
     // so passing the shared constant would leak gravity across every world.
-    world.value = new RAPIER.World({ ...GRAVITY })
+    world.value = new RAPIER.World({ ...DEFAULT_GRAVITY })
   }
 
   const setWorld = (w: World) => {

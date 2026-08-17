@@ -4,9 +4,25 @@ import { OrbitControls } from '@tresjs/cientos'
 import { Physics, RigidBody } from '@tresjs/rapier'
 import { useControls } from '@tresjs/leches'
 
-const { debug } = useControls({
+const ballRef = shallowRef()
+
+const controlDefaults = {
   debug: false,
+}
+
+const controls = useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      resetControls(controls, controlDefaults)
+      resetRigidBody(ballRef.value?.instance)
+    },
+  },
+  debug: controlDefaults.debug,
 }, { uuid: inject(`uuid`) })
+
+const { debug } = controls
 </script>
 
 <template>
@@ -16,7 +32,7 @@ const { debug } = useControls({
 
     <Suspense>
       <Physics :debug>
-        <RigidBody collider="ball" :restitution="0.75">
+        <RigidBody ref="ballRef" collider="ball" :restitution="0.75">
           <TresMesh :position="[0, 8, 0]">
             <TresSphereGeometry />
             <TresMeshStandardMaterial color="#5672cd" />
