@@ -35,7 +35,7 @@ const newLocal = {
     links: [
       {
         icon: 'i-simple-icons-github',
-        to: 'https://github.com/tresjs/post-processing',
+        to: 'https://github.com/Tresjs/tres',
         target: '_blank',
         ariaLabel: 'GitHub',
       },
@@ -61,7 +61,7 @@ const newLocal = {
       'aria-label': 'TresJS on X',
     }, {
       'icon': 'i-simple-icons-github',
-      'to': 'https://github.com/tresjs/post-processing',
+      'to': 'https://github.com/Tresjs/tres',
       'target': '_blank',
       'aria-label': 'Post-processing on GitHub',
     }],

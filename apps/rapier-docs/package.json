@@ -25,6 +25,7 @@
     "@unhead/vue": "catalog:",
     "better-sqlite3": "catalog:",
     "nuxt": "catalog:nuxt",
+    "nuxt-component-meta": "catalog:",
     "nuxt-llms": "catalog:",
     "tweakpane": "catalog:",
     "vue": "catalog:vue",

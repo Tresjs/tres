@@ -13,7 +13,7 @@ catch {
 const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'))
 
 export default defineNuxtConfig({
-  modules: ['@nuxt/image', '@nuxt/ui', '@nuxt/content', 'nuxt-llms'],
+  modules: ['@nuxt/image', '@nuxt/ui', '@nuxt/content', 'nuxt-llms', 'nuxt-component-meta'],
 
   image: {
     quality: 80,
