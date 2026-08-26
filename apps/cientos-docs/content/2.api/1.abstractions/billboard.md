@@ -10,28 +10,6 @@ description: Make objects always face the camera automatically.
 
 Adds a `THREE.Group` that always faces the camera.
 
-## Usage
-
-```vue{2,10,14}
-<script setup lang="ts">
-import { Billboard, Box, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-</script>
-
-<template>
-  <TresCanvas clear-color="#333333">
-    <OrbitControls />
-    <TresPerspectiveCamera :position="[0, 0, 10]" />
-    <Billboard>
-      <Box :scale="[0.5, 0.5, 0.001]">
-        <TresMeshNormalMaterial />
-      </Box>
-    </Billboard>
-  </TresCanvas>
-</template>
-
-```
-
 ## Props
 
 | Prop             | Description                                          | Default       |

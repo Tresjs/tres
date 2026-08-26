@@ -15,35 +15,6 @@ placeholder that registers itself with it, so a `v-for` of a thousand nodes cost
 An `<Instance />` behaves like any other node in the graph: give it `position`, nest it under a
 group, animate that group, toggle it with `v-if`, listen for `@click` on one of them.
 
-## Usage
-
-```vue{3,14,16-21}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Instance, Instances } from '@tresjs/cientos'
-import { BoxGeometry, MeshStandardMaterial } from 'three'
-
-const geometry = new BoxGeometry(0.35, 0.35, 0.35)
-const material = new MeshStandardMaterial()
-
-const cubes = Array.from({ length: 900 }, (_, i) => [i % 30 - 15, 0, Math.floor(i / 30) - 15])
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[14, 10, 14]" />
-    <Instances :geometry="geometry" :material="material">
-      <Instance
-        v-for="(position, i) in cubes"
-        :key="i"
-        :position="position"
-        color="#38bdf8"
-      />
-    </Instances>
-  </TresCanvas>
-</template>
-```
-
 ::prose-note
 The `geometry` and `material` are yours: `<Instances />` never disposes them.
 ::

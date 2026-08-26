@@ -18,25 +18,6 @@ While this material operates independently of any post-processing, it achieves a
 This component ports Anderson Mancini's threejs-vanilla-holographic-material to TresJS. All credit goes to him.
 ::
 
-## Usage
-
-```vue{3,10}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { HolographicMaterial, Sphere } from '@tresjs/cientos'
-
-</script>
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at=[0,0,0] />
-    <Sphere :scale="0.5">
-      <HolographicMaterial />
-    </Sphere>
-    <TresAmbientLight />
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop                   | Description                                                   | Type                                                | default   |

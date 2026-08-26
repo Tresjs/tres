@@ -10,33 +10,6 @@ description: DirectionalLight-based shadow component with progressive accumulati
 
 `<AccumulativeShadows />` is a `THREE.DirectionalLight`-based shadow component. It displays shadows on a single shadow catcher plane, included in the component. It is based on [Drei component of the same name](http://drei.docs.pmnd.rs/staging/accumulative-shadows).
 
-## Usage
-
-```vue{2,15-19}
-<script setup lang="ts">
-import { AccumulativeShadows } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-</script>
-
-<template>
-  <TresCanvas clear-color="#fbb03b" :shadows="true">
-      <TresPerspectiveCamera
-      :look-at="[0, 0, 0]"
-    />
-    <TresMesh :position-y="0.3" :scale="0.4" :cast-shadow="true">
-      <TresTorusKnotGeometry />
-      <TresMeshNormalMaterial />
-    </TresMesh>
-    <AccumulativeShadows
-      :blend="100"
-      color="#fbb03b"
-      once
-      :position-y="-0.4"
-    />
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop | Description | Default |

@@ -22,33 +22,6 @@ cross-fades between the world (`0`) and the portal (`1`).
 This component is a port of the [drei MeshPortalMaterial](https://drei.docs.pmnd.rs/portals/mesh-portal-material){target="_blank"}. All credit goes to the original authors.
 ::
 
-## Usage
-
-```vue
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { MeshPortalMaterial, OrbitControls } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 0, 6]" />
-    <OrbitControls />
-    <TresMesh>
-      <TresPlaneGeometry :args="[3, 4]" />
-      <MeshPortalMaterial :blend="0">
-        <!-- children render INTO the portal scene -->
-        <TresAmbientLight :intensity="0.5" />
-        <TresMesh :position="[0, 0, -1]">
-          <TresTorusKnotGeometry :args="[0.6, 0.25, 128, 32]" />
-          <TresMeshStandardMaterial color="#fbb03b" />
-        </TresMesh>
-      </MeshPortalMaterial>
-    </TresMesh>
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop | Type | Default | Description |

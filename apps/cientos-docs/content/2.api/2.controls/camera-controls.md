@@ -12,26 +12,6 @@ description: Is similar to OrbitControls yet supports smooth transitions and mor
 
 However, it is thirty party library for ThreeJS. So to use it you would need to install and import using [npm](https://www.npmjs.com/package/camera-controls).
 
-## Usage
-
-```vue{7}
-<script setup>
-import { CameraControls } from "@tresjs/cientos"
-</script>
-<template>
-  <TresCanvas clear-color="#82DBC5">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <CameraControls />
-    <Box :scale="2">
-      <TresMeshToonMaterial color="orange" />
-    </Box>
-    <TresAmbientLight />
-    <TresDirectionalLight :position="[0, 2, 4]" />
-    <TresGridHelper />
-  </TresCanvas>
-</template>
-```
-
 ::prose-warning
 Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
 ::

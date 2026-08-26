@@ -10,26 +10,6 @@ description: Fake, non-lighting-based shadow component for single plane shadows.
 
 `<ContactShadows />` is a "fake", non-lighting-based shadow component. It displays shadows on a single plane. The component is based on the [Three.js contact shadows example](https://threejs.org/examples/webgl_shadow_contact.html) by [@mrdoob](https://twitter.com/mrdoob).
 
-## Usage
-
-```vue{2,13}
-<script setup lang="ts">
-import { ContactShadows, Levioso, TorusKnot } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-</script>
-
-<template>
-  <TresCanvas clear-color="white">
-    <Levioso :speed="2" :range="[0, 0.7]" :rotation-factor="9">
-      <TorusKnot :scale="0.45">
-        <TresMeshNormalMaterial />
-      </TorusKnot>
-    </Levioso>
-    <ContactShadows :position-y="-1" color="#335" :scale="20" />
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop         | Description                                                                    | Default     |

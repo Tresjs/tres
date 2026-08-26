@@ -10,26 +10,6 @@ description: Display image textures with shader-based effects.
 
 `<Image />` is a shader-based component that optionally loads then displays an image texture on a default plane or on your custom geometry.
 
-## Usage
-
-```vue{3,10-12}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Image } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 0, 5]" />
-
-    <Image
-      url="https://upload.wikimedia.org/wikipedia/commons/f/f0/Cyanistes_caeruleus_Oulu_20150516.JPG"
-      :scale="[2, 2]"
-    />
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 ::prose-warning

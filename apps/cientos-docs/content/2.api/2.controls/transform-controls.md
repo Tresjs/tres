@@ -14,23 +14,6 @@ The [Transform Controls](https://threejs.org/docs/#examples/en/controls/Transfor
 
 To use the Transform Controls, simply add the `TransformControls` component to your scene. You can pass the `templateRef`of the instance you want to control as a prop.
 
-```vue{7,8}
-<script setup>
-const boxRef = shallowRef()
-</script>
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :args="[45, 1, 0.1, 1000]" />
-    <OrbitControls make-default />
-    <TransformControls :object="boxRef" />
-    <TresMesh ref="boxRef" :position="[0, 4, 0]" cast-shadow>
-      <TresBoxGeometry :args="[1.5, 1.5, 1.5]" />
-      <TresMeshToonMaterial color="#4F4F4F" />
-    </TresMesh>
-  </TresCanvas>
-</template>
-```
-
 ::prose-warning
 If you are using other controls <span style="background-color:#222;padding:0.25rem;border-radius:4px;"><a href="/api/controls/orbit-controls" style="color:#f7f7f7;text-decoration:none">OrbitControls</a></span> they will interfere with each other when dragging. To avoid this, you can set the `makeDefault` prop to `true` on the **OrbitControls**.
 ::

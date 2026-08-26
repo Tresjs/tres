@@ -14,42 +14,6 @@ Alternatively, the children can be fit into a `Box3` or an `Object3D`.
 
 Or the children can simply be resized. With `<Fit />` the children are scaled relative to the center of their calculated bounding box.
 
-## Usage
-
-```vue{2,20,27}
-<script setup lang="ts">
-import { Fit, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-import { BoxGeometry, MeshNormalMaterial } from 'three'
-
-const positions: number[][] = []
-for (let y = 100; y <= 120; y += 10) {
-  for (let x = 100; x <= 120; x += 10) {
-    positions.push([x, y, 9999])
-  }
-}
-const geom = new BoxGeometry()
-const mat = new MeshNormalMaterial()
-</script>
-
-<template>
-  <TresCanvas clear-color="#4F4F4F">
-    <TresPerspectiveCamera :position="[1, 1, 1]" />
-    <OrbitControls />
-    <Fit>
-      <TresMesh
-        v-for="(pos, index) in positions"
-        :key="index"
-        :position="pos"
-        :args="[geom, mat]"
-      />
-    </Fit>
-    <TresGridHelper :args="[1, 1]" />
-  </TresCanvas>
-</template>
-
-```
-
 ## Props
 
 | Name | Description |

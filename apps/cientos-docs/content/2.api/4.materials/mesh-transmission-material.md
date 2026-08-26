@@ -16,31 +16,6 @@ The material renders the scene into a buffer texture each frame to simulate refr
 This component is a port of the [drei MeshTransmissionMaterial](https://drei.docs.pmnd.rs/shaders/mesh-transmission-material){target="_blank"}. All credit goes to the original authors.
 ::
 
-## Usage
-
-```vue{3,10-16}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { MeshTransmissionMaterial, Environment } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 0, 5]" />
-    <Environment preset="city" />
-    <TresMesh>
-      <TresTorusKnotGeometry :args="[1, 0.3, 128, 32]" />
-      <MeshTransmissionMaterial
-        :transmission="1"
-        :thickness="0.5"
-        :chromatic-aberration="0.03"
-        :resolution="512"
-      />
-    </TresMesh>
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop | Description | Type | Default |

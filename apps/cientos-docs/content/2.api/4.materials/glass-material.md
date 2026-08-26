@@ -10,29 +10,6 @@ description: Makes a geometry look like glass by re-defining the MeshPhysicalMat
 
 The `cientos` package provides a new`<MeshGlassMaterial />` component that makes a geometry look like glass. This is achieved by re-defining the `MeshPhysicalMaterial`.
 
-## Usage
-
-### You can use it like you normally do with TresJs
-
-```vue{2,10}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { MeshGlassMaterial } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
-    <TresMesh>
-      <TresTorusGeometry />
-      <MeshGlassMaterial />
-    </TresMesh>
-    <TresAmbientLight />
-    <TresDirectionalLight :position="[0, 2, 4]" />
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 No props are required. The component extends `THREE.MeshPhysicalMaterial` and accepts all the same props plus additional reflection-specific properties.

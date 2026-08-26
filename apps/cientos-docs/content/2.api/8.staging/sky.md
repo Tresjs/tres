@@ -10,25 +10,6 @@ description: Wrapper for the Three.js Sky add-on with sun position controls.
 
 `<Sky />` is a wrapper for the [Three.js `Sky` add-on](https://threejs.org/examples/?q=sky#webgl_shaders_sky).
 
-## Usage
-
-```vue{2,9}
-<script setup lang="ts">
-import { OrbitControls, Sky } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-</script>
-
-<template>
-  <TresCanvas :tone-mapping-exposure="0.25">
-    <TresPerspectiveCamera :position="[0, 15, 200]" />
-    <Sky />
-    <OrbitControls />
-    <TresGridHelper :args="[1000, 20]" />
-  </TresCanvas>
-</template>
-
-```
-
 ## Props
 
 | Name | Type | Description | Default | Required |

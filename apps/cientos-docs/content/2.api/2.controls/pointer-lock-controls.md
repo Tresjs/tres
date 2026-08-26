@@ -15,24 +15,6 @@ This control uses the <span style="background-color:#222;padding:0.25rem;border-
 In addition, you need to wait 1 second between canceling and re-starting the event
 ::
 
-## Usage
-
-```vue{3,10}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { PointerLockControls, Box } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera />
-    <Box :position-y="0.5" />
-    <PointerLockControls />
-    <TresGridHelper />
-  </TresCanvas>
-</template>
-```
-
 ::prose-warning
 Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
 ::
