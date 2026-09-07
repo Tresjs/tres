@@ -18,6 +18,13 @@ const formattedPage = computed(() => {
   }
 })
 
+// Social crawlers require an absolute og:image URL, so resolve the thumbnail against the canonical origin.
+const { siteUrl } = useRuntimeConfig().public
+const ogImage = computed(() => {
+  const path = page.value?.thumbnail ?? `/experiments/${route.path.split('/').pop()}.webp`
+  return new URL(path, siteUrl).href
+})
+
 useHead({
   title: () => page.value?.title,
   meta: [
@@ -50,7 +57,7 @@ useHead({
     {
       hid: 'og:image',
       property: 'og:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.webp`,
+      content: () => ogImage.value,
     },
     {
       hid: 'og:image:alt',
@@ -73,7 +80,7 @@ useHead({
     {
       hid: 'twitter:image',
       name: 'twitter:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.webp`,
+      content: () => ogImage.value,
     },
     {
       hid: 'twitter:image:alt',

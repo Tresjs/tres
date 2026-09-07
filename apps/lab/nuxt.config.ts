@@ -15,6 +15,18 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
   ],
 
+  runtimeConfig: {
+    public: {
+      // Origin used to build absolute og:image/twitter:image URLs. Social crawlers reject
+      // relative paths. DEPLOY_PRIME_URL makes deploy previews point at their own origin, so
+      // the image resolves there too; falls back to the production domain on local builds.
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL
+        || process.env.DEPLOY_PRIME_URL
+        || process.env.URL
+        || 'https://lab.tresjs.org',
+    },
+  },
+
   css: ['~/assets/styles/main.css'],
   declare: ['*.glsl'],
   tres: {
