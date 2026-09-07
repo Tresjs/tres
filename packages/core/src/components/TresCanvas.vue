@@ -31,9 +31,9 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   enableProvideBridge: true, // We should probably move to options in next major version
   toneMapping: ACESFilmicToneMapping,
   shadowMapType: PCFSoftShadowMap,
-  options: {
+  customRendererOptions: () => ({
     primitivePrefix: '',
-  },
+  }),
 })
 
 const emit = defineEmits<TresCanvasEmits>()
