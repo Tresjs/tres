@@ -15,6 +15,14 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
   ],
 
+  runtimeConfig: {
+    public: {
+      // Canonical origin used to build absolute og:image/twitter:image URLs.
+      // Social crawlers reject relative image paths. Override with NUXT_PUBLIC_SITE_URL.
+      siteUrl: 'https://lab.tresjs.org',
+    },
+  },
+
   css: ['~/assets/styles/main.css'],
   declare: ['*.glsl'],
   tres: {
