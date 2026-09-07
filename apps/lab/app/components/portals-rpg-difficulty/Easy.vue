@@ -22,7 +22,7 @@ const lutes = computed(() => {
 </script>
 
 <template>
-  <TresAmbientLight :intensity="1.5" />
+  <TresAmbientLight :intensity="0.2" />
   <TresGroup v-if="nodes?.Ground" :position="[0, -2, -8]">
     <primitive name="Ground" :object="nodes['Ground']" />
     <TresGroup v-if="trees" name="Trees">
@@ -34,8 +34,12 @@ const lutes = computed(() => {
     </TresGroup>
     <PortalsRpgDifficultyEngineer :nodes="nodes" :state="state" />
     <primitive name="Backpack" :object="nodes['Engineer_Backpack']" />
-    <primitive v-for="lute in lutes" :key="lute.name" :object="lute" />
-
     <primitive name="BeerMug" :object="nodes['Mug_Beer']" />
+    <PortalsRpgDifficultyBard :nodes="nodes" :state="state" />
+    <primitive v-for="lute in lutes" :key="lute.name" :object="lute" />
+    <PortalsRpgDifficultyRogue :nodes="nodes" :state="state" />
+    <PortalsRpgDifficultyDruid :nodes="nodes" :state="state" />
+    <PortalsRpgDifficultyWitch :nodes="nodes" :state="state" />
+    <PortalsRpgDifficultyDog :nodes="nodes" :state="state" />
   </TresGroup>
 </template>

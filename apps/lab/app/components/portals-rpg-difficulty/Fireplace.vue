@@ -44,6 +44,7 @@ watch(fire, () => {
 
 <template>
     <TresGroup name="Fireplace">
+        <TresPointLight :position="[0, 0, 0]" :intensity="10" :color="'#ff9d2e'" />
         <primitive name="Fireplace" :object="fireplace" />
         <primitive name="Fire" :object="fire">
             <TresShaderMaterial :vertex-shader="vertexShader" :fragment-shader="fragmentShader" :uniforms="uniforms"
