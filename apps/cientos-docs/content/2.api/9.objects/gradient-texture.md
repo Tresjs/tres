@@ -10,30 +10,6 @@ description: Create gradient textures for materials.
 
 `<GradientTexture />` creates a gradient in a THREE.Texture and attaches it to its parent THREE.Material's `map` by default.
 
-## Usage
-
-```vue
-<script setup lang="ts">
-import { GradientTexture } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 0, 5]" />
-
-    <TresMesh>
-      <TresPlaneGeometry :args="[2, 2]" />
-      <TresMeshBasicMaterial>
-        <GradientTexture
-          :stops="[0, 1]"
-          :colors="['#ff0000', '#0000ff']"
-        />
-      </TresMeshBasicMaterial>
-    </TresMesh>
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop             | Description                                          | Default       |

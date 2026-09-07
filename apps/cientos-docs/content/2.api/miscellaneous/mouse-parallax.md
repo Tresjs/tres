@@ -20,25 +20,6 @@ You only need to import and add it to your template as `<MouseParallax />`. Addi
 
 `local` is a boolean that enables movement based on the position of the mouse on the canvas rather than the window.
 
-```vue{2,12}
-<script setup lang="ts">
-import { MouseParallax, TorusKnot } from "@tresjs/cientos";
-import { TresCanvas } from "@tresjs/core";
-</script>
-
-<template>
-  <TresCanvas clear-color="#82DBC5">
-    <TresPerspectiveCamera :position="[0, 0, 7.5]" :fov="75" />
-    <TorusKnot>
-      <TresMeshToonMaterial color="orange" />
-    </TorusKnot>
-    <MouseParallax :factor="5" :ease="[3, 0.1]" />
-    <TresAmbientLight />
-    <TresDirectionalLight :position="[0, 2, 4]" />
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop         | Description                                                                 | Default |

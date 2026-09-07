@@ -16,7 +16,7 @@ const pkg = JSON.parse(readFileSync(cientosPackageJsonPath, 'utf-8'))
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxt/image', '@nuxt/ui', '@nuxt/content', 'nuxt-llms'],
+  modules: ['@nuxt/image', '@nuxt/ui', '@nuxt/content', 'nuxt-llms', 'nuxt-component-meta'],
 
   image: {
     quality: 80,

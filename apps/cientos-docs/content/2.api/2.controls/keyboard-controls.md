@@ -23,24 +23,6 @@ description: WASD on QWERTY keyboards or equivalent keys on non-QWERTY keyboards
 `KeyboardControls` uses `PointerLockControls` under the hood. You can use [PointerLockControls props and events](pointer-lock-controls#props).
 ::
 
-## Usage
-
-```vue{3,10}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { KeyboardControls, Box } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera />
-    <Box :position-y="0.5" />
-    <KeyboardControls />
-    <TresGridHelper />
-  </TresCanvas>
-</template>
-```
-
 ::prose-warning
 Is really important that the Perspective camera is set first in the canvas. Otherwise might break.
 ::

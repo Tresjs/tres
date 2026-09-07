@@ -18,36 +18,6 @@ If you are using other camera controls, be sure to make them the 'default'.
 ```
 ::
 
-## Usage
-
-```vue{3,6,7,9-11,18,23}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Bounds, OrbitControls } from '@tresjs/cientos'
-import { shallowRef } from 'vue'
-
-const boundsRef = shallowRef()
-const objectRef = shallowRef()
-
-function focusObject() {
-  boundsRef.value?.instance.lookAt(objectRef.value)
-}
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 2, 5]" />
-    <OrbitControls make-default />
-    <Bounds ref="boundsRef" clip use-mounted :offset="0.75">
-      <TresMesh ref="objectRef" @click="(e) => focusObject()">
-        <TresBoxGeometry />
-        <TresMeshNormalMaterial />
-      </TresMesh>
-    </Bounds>
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Name | Description | Default |

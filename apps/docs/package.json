@@ -27,6 +27,7 @@
     "@vueuse/core": "catalog:utils",
     "better-sqlite3": "catalog:",
     "nuxt": "catalog:nuxt",
+    "nuxt-component-meta": "catalog:",
     "nuxt-llms": "catalog:",
     "tailwindcss": "catalog:",
     "tweakpane": "catalog:",

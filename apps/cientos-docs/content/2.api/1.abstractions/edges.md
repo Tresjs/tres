@@ -10,26 +10,6 @@ description: Render visible edges of objects with enhanced visual quality.
 
 The `cientos` package provides an abstraction of [EdgesGeometry](https://threejs.org/docs/#api/en/geometries/EdgesGeometry) from Three.js, `<Edges>` is specifically designed for rendering visible edges of objects in a scene graph. This enhances the visual quality by highlighting contours and providing a stylized appearance which contributes to the artistic aspect of 3D visualizations.
 
-## Usage
-
-```vue{3,12}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Box, Edges, OrbitControls } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[0, 2, 5]" />
-    <OrbitControls />
-    <Box>
-      <TresMeshBasicMaterial />
-      <Edges />
-    </Box>
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 `<Edges>` is based on [LineSegments](https://threejs.org/docs/#api/en/objects/LineSegments) & [Line](https://threejs.org/docs/#api/en/objects/Line) and supports all of its props.

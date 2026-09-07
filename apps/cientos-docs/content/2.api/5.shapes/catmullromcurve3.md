@@ -12,29 +12,6 @@ The `cientos` package provides a `<CatmullRomCurve3 />` component that allows yo
 
 `<CatmullRomCurve3 />` wraps [Three.js's `CatmullRomCurve3`](https://threejs.org/docs/index.html?q=catmu#api/en/extras/curves/CatmullRomCurve3) functionality, but applies it to Cientos' `<Line2 />` under the hood, meaning you can use [all the props from `<Line2 />`.](line2#props)
 
-## Usage
-
-```vue{3,10-14}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { CatmullRomCurve3 } from '@tresjs/cientos'
-import { Vector3 } from 'three'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <CatmullRomCurve3
-      :points="[new Vector3(-1, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 0, 0)]"
-      :segments="50"
-      color="orange"
-      :line-width="3"
-    />
-    <TresAmbientLight />
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop         | Type      | Description                                                                   | Default        |

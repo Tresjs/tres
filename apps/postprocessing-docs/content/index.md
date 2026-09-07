@@ -31,7 +31,7 @@ Enhance the rendering flow with passes and effects — bloom, depth of field, gl
   icon: i-simple-icons-github
   size: lg
   target: _blank
-  to: https://github.com/tresjs/post-processing
+  to: https://github.com/Tresjs/tres
   variant: subtle
   ---
   Star on GitHub

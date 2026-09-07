@@ -10,27 +10,6 @@ description: Component for creating 3D lines using Three.js's Line2.
 
 The `cientos` package provides a `<Line2 />` component for creating 3-D lines. It wraps [Three.js's `Line2`](https://github.com/mrdoob/three.js/blob/e2bcdfff6427c2f106cb819b18d88d1e13aa508a/examples/jsm/lines/Line2.js).
 
-## Usage
-
-```vue{3,8-12}
-<script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { Line2 } from '@tresjs/cientos'
-</script>
-
-<template>
-  <TresCanvas>
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <Line2
-      :points="[[0, 0, 0], [1, 1, 0], [1, 1, 1], [0, 0, 1]]"
-      color="orange"
-      :line-width="3"
-    />
-    <TresAmbientLight />
-  </TresCanvas>
-</template>
-```
-
 ## Props
 
 | Prop            | Type                     | Description                                                                | Default        |

@@ -13,28 +13,6 @@ description: Display 2D animations defined in a texture atlas.
 * An image containing multiple sprites
 * A JSON atlas containing the individual sprite coordinates in the image
 
-## Usage
-
-```vue{2, 10-14}
-<script setup lang="ts">
-import { AnimatedSprite } from '@tresjs/cientos'
-
-const currentAnimation = ref('cientosIdle')
-</script>
-
-<template>
-  <TresCanvas>
-    <Suspense>
-      <AnimatedSprite
-        image="https://raw.githubusercontent.com/Tresjs/assets/main/textures/animated-sprite/cientosTexture.png"
-        atlas="https://raw.githubusercontent.com/Tresjs/assets/main/textures/animated-sprite/cientosAtlas.json"
-        :animation="currentAnimation"
-      />
-    </Suspense>
-  </TresCanvas>
-</template>
-```
-
 ::prose-warning
 `<AnimatedSprite />` loads resources asynchronously, so it must be wrapped in a `<Suspense />`.
 ::

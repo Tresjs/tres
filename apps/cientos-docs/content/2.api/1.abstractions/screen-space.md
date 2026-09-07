@@ -12,32 +12,6 @@ description: Position objects in front of the camera with CSS-like positioning.
 
 Additionally, the `top`, `bottom`, `left`, `right` props can be used to position them similarly to CSS `position: absolute` property when using a `PerspectiveCamera` or an `OrtographicCamera`.
 
-## Usage
-
-```vue{2,11,16}
-<script setup lang="ts">
-import { OrbitControls, ScreenSpace } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-</script>
-
-<template>
-  <TresCanvas clear-color="#333">
-    <TresPerspectiveCamera />
-    <OrbitControls />
-
-    <ScreenSpace :depth="5">
-      <TresMesh>
-        <TresTorusGeometry />
-        <TresMeshNormalMaterial />
-      </TresMesh>
-    </ScreenSpace>
-
-    <TresGridHelper :args="[10, 10]" />
-  </TresCanvas>
-</template>
-
-```
-
 ## Props
 
 | Prop     | Description                                                 | Default                                 |

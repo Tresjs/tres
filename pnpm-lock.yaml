@@ -118,6 +118,9 @@ catalogs:
     meshoptimizer:
       specifier: ^1.2.0
       version: 1.2.0
+    nuxt-component-meta:
+      specifier: 0.17.2
+      version: 0.17.2
     nuxt-llms:
       specifier: 0.1.3
       version: 0.1.3
@@ -353,6 +356,9 @@ importers:
       nuxt:
         specifier: catalog:nuxt
         version: 4.1.3(@parcel/watcher@2.5.1)(@types/node@25.9.3)(@vue/compiler-sfc@3.5.38)(better-sqlite3@12.10.0)(cac@6.7.14)(commander@13.1.0)(db0@0.3.4(better-sqlite3@12.10.0))(eslint@10.4.1(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.32.0)(magicast@0.5.3)(optionator@0.9.4)(rolldown@1.1.1)(rollup@4.54.0)(terser@5.48.0)(tsx@4.21.0)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(vue-tsc@3.3.4(typescript@6.0.3))(yaml@2.9.0)
+      nuxt-component-meta:
+        specifier: 'catalog:'
+        version: 0.17.2(magicast@0.5.3)
       nuxt-llms:
         specifier: 'catalog:'
         version: 0.1.3(magicast@0.5.3)
@@ -457,6 +463,9 @@ importers:
       nuxt:
         specifier: catalog:nuxt
         version: 4.1.3(@parcel/watcher@2.5.1)(@types/node@25.9.3)(@vue/compiler-sfc@3.5.38)(better-sqlite3@12.10.0)(cac@6.7.14)(commander@13.1.0)(db0@0.3.4(better-sqlite3@12.10.0))(eslint@10.4.1(jiti@2.7.0))(ioredis@5.8.2)(lightningcss@1.32.0)(magicast@0.5.3)(optionator@0.9.4)(rolldown@1.1.1)(rollup@4.54.0)(terser@5.48.0)(tsx@4.21.0)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(vue-tsc@3.3.4(typescript@6.0.3))(yaml@2.9.0)
+      nuxt-component-meta:
+        specifier: 'catalog:'
+        version: 0.17.2(magicast@0.5.3)
       nuxt-llms:
         specifier: 'catalog:'
         version: 0.1.3(magicast@0.5.3)
@@ -777,6 +786,9 @@ importers:
       nuxt:
         specifier: catalog:nuxt
         version: 4.1.3(@parcel/watcher@2.5.1)(@types/node@25.9.3)(@vue/compiler-sfc@3.5.38)(better-sqlite3@12.10.0)(cac@6.7.14)(commander@13.1.0)(db0@0.3.4(better-sqlite3@12.10.0))(eslint@10.4.1(jiti@2.7.0))(ioredis@5.8.2)(lightningcss@1.32.0)(magicast@0.5.3)(optionator@0.9.4)(rolldown@1.1.1)(rollup@4.54.0)(terser@5.48.0)(tsx@4.21.0)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(vue-tsc@3.3.4(typescript@6.0.3))(yaml@2.9.0)
+      nuxt-component-meta:
+        specifier: 'catalog:'
+        version: 0.17.2(magicast@0.5.3)
       nuxt-llms:
         specifier: 'catalog:'
         version: 0.1.3(magicast@0.5.3)
@@ -847,6 +859,9 @@ importers:
       nuxt:
         specifier: catalog:nuxt
         version: 4.1.3(@parcel/watcher@2.5.1)(@types/node@25.9.3)(@vue/compiler-sfc@3.5.38)(better-sqlite3@12.10.0)(cac@6.7.14)(commander@13.1.0)(db0@0.3.4(better-sqlite3@12.10.0))(eslint@10.4.1(jiti@2.7.0))(ioredis@5.8.2)(lightningcss@1.32.0)(magicast@0.5.3)(optionator@0.9.4)(rolldown@1.1.1)(rollup@4.54.0)(terser@5.48.0)(tsx@4.21.0)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.48.0)(tsx@4.21.0)(yaml@2.9.0))(vue-tsc@3.3.4(typescript@6.0.3))(yaml@2.9.0)
+      nuxt-component-meta:
+        specifier: 'catalog:'
+        version: 0.17.2(magicast@0.5.3)
       nuxt-llms:
         specifier: 'catalog:'
         version: 0.1.3(magicast@0.5.3)
@@ -28567,3 +28582,137 @@ snapshots:
   zod@3.25.76: {}
 
   zwitch@2.0.4: {}
+
+time:
+  '@antfu/eslint-config@9.0.0': '2026-05-11T06:18:58.474Z'
+  '@anthropic-ai/sdk@0.104.1': '2026-06-09T23:57:32.046Z'
+  '@cloudflare/workers-types@4.20260612.1': '2026-06-12T01:44:18.978Z'
+  '@dimforge/rapier3d-compat@0.19.3': '2025-11-05T18:26:14.292Z'
+  '@gltf-transform/core@4.4.1': '2026-07-02T02:44:35.775Z'
+  '@gltf-transform/extensions@4.4.1': '2026-07-02T02:44:37.792Z'
+  '@gltf-transform/functions@4.4.1': '2026-07-02T02:44:39.683Z'
+  '@iconify-json/carbon@1.2.23': '2026-06-04T05:55:32.105Z'
+  '@iconify-json/game-icons@1.2.4': '2026-04-24T04:45:08.166Z'
+  '@iconify-json/ic@1.2.4': '2025-08-11T08:06:24.316Z'
+  '@iconify-json/logos@1.2.11': '2026-03-28T07:03:23.281Z'
+  '@iconify-json/lucide@1.2.111': '2026-05-30T04:56:18.150Z'
+  '@iconify-json/simple-icons@1.2.86': '2026-06-08T06:37:00.605Z'
+  '@iconify-json/vscode-icons@1.2.56': '2026-06-11T04:59:40.150Z'
+  '@iconify/json@2.2.485': '2026-06-11T05:00:49.497Z'
+  '@nuxt/content@3.14.0': '2026-05-18T13:04:42.147Z'
+  '@nuxt/devtools-ui-kit@3.2.4': '2026-03-17T02:03:47.608Z'
+  '@nuxt/devtools@3.2.4': '2026-03-17T02:03:29.605Z'
+  '@nuxt/eslint-config@1.16.0': '2026-06-10T05:44:35.473Z'
+  '@nuxt/eslint@1.16.0': '2026-06-10T05:44:45.446Z'
+  '@nuxt/fonts@0.11.4': '2025-05-14T21:44:28.247Z'
+  '@nuxt/icon@2.0.0': '2025-08-11T06:56:24.808Z'
+  '@nuxt/icon@2.2.3': '2026-06-02T14:45:42.589Z'
+  '@nuxt/image@2.0.0': '2025-11-05T10:37:35.379Z'
+  '@nuxt/kit@4.1.2': '2025-09-12T21:47:13.863Z'
+  '@nuxt/module-builder@1.0.2': '2025-07-25T09:58:07.051Z'
+  '@nuxt/schema@4.4.8': '2026-06-08T18:36:00.415Z'
+  '@nuxt/scripts@0.11.13': '2025-08-22T08:50:44.439Z'
+  '@nuxt/scripts@0.12.1': '2025-09-25T04:19:17.141Z'
+  '@nuxt/test-utils@4.0.3': '2026-04-27T12:13:31.070Z'
+  '@nuxt/ui@4.8.2': '2026-06-04T14:46:11.394Z'
+  '@nuxtjs/color-mode@4.0.1': '2026-06-09T13:10:49.184Z'
+  '@nx/js@22.7.5': '2026-05-27T20:05:24.065Z'
+  '@octokit/auth-app@8.2.0': '2026-02-03T01:08:41.360Z'
+  '@pmndrs/pointer-events@6.6.30': '2026-05-29T01:43:39.840Z'
+  '@shikijs/engine-javascript@4.2.0': '2026-06-03T01:34:53.420Z'
+  '@tweakpane/core@2.0.5': '2024-11-03T15:41:03.486Z'
+  '@tweakpane/plugin-essentials@0.2.1': '2023-12-17T09:21:08.743Z'
+  '@types/inquirer@9.0.9': '2025-08-06T06:03:50.819Z'
+  '@types/license-checker@25.0.6': '2023-11-07T09:47:47.822Z'
+  '@types/node@25.9.3': '2026-06-10T22:15:10.607Z'
+  '@types/three@0.184.1': '2026-05-06T23:46:07.702Z'
+  '@typescript-eslint/eslint-plugin@8.61.0': '2026-06-08T18:01:21.196Z'
+  '@typescript-eslint/parser@8.61.0': '2026-06-08T18:00:59.869Z'
+  '@unhead/vue@3.1.4': '2026-06-12T05:41:30.893Z'
+  '@unocss/core@66.3.2': '2025-06-26T03:16:26.932Z'
+  '@vitejs/plugin-vue@6.0.7': '2026-05-15T04:07:59.852Z'
+  '@vitest/browser@4.1.8': '2026-06-01T08:14:46.126Z'
+  '@vitest/coverage-v8@4.1.8': '2026-06-01T08:15:09.012Z'
+  '@vitest/ui@4.1.8': '2026-06-01T08:15:13.391Z'
+  '@vue/devtools-api@8.1.2': '2026-05-08T04:37:31.940Z'
+  '@vue/test-utils@2.4.11': '2026-06-04T15:26:17.785Z'
+  '@vueuse/components@14.3.0': '2026-05-01T01:52:29.565Z'
+  '@vueuse/core@14.3.0': '2026-05-01T01:51:32.081Z'
+  '@vueuse/motion@3.0.3': '2025-03-10T23:26:10.540Z'
+  '@vueuse/nuxt@13.9.0': '2025-09-01T11:43:25.653Z'
+  '@vueuse/nuxt@14.3.0': '2026-05-01T01:52:57.086Z'
+  '@vueuse/shared@14.3.0': '2026-05-01T01:51:23.656Z'
+  better-sqlite3@12.10.0: '2026-05-12T09:58:59.557Z'
+  camera-controls@3.1.2: '2025-11-17T01:53:06.103Z'
+  chalk@5.6.2: '2025-09-08T14:47:54.486Z'
+  commander@15.0.0: '2026-05-29T09:16:23.076Z'
+  defu@6.1.7: '2026-04-07T09:28:09.388Z'
+  draco3dgltf@1.5.7: '2024-01-17T21:58:08.609Z'
+  eslint-flat-config-viewer@0.1.20: '2024-03-29T11:26:53.101Z'
+  eslint-plugin-format@2.0.1: '2026-02-25T04:26:26.190Z'
+  eslint-plugin-vitest-globals@1.6.1: '2026-03-13T07:09:03.308Z'
+  eslint-plugin-vue@10.9.2: '2026-06-03T09:04:41.569Z'
+  eslint@10.4.1: '2026-05-29T20:32:32.193Z'
+  execa@9.6.1: '2025-11-29T20:53:46.888Z'
+  gsap@3.15.0: '2026-04-13T13:15:35.800Z'
+  hono@4.12.25: '2026-06-09T03:28:50.819Z'
+  inquirer@14.0.2: '2026-05-31T17:42:44.844Z'
+  jsdom@29.1.1: '2026-04-30T08:52:48.353Z'
+  kolorist@1.8.0: '2023-04-22T22:01:16.523Z'
+  license-checker@25.0.1: '2019-01-10T19:30:32.196Z'
+  mdast-util-to-string@4.0.0: '2023-07-07T16:19:50.488Z'
+  meshoptimizer@1.2.0: '2026-06-30T14:44:04.134Z'
+  mlly@1.8.2: '2026-03-19T23:39:49.530Z'
+  n8ao@1.10.2: '2026-06-12T04:27:10.842Z'
+  nuxt-component-meta@0.17.2: '2026-02-09T16:37:05.650Z'
+  nuxt-llms@0.1.3: '2025-06-06T12:58:11.795Z'
+  nuxt-svgo@5.3.0: '2026-04-30T23:04:29.267Z'
+  nuxt@4.1.3: '2025-10-06T16:06:31.908Z'
+  nx@22.4.4: '2026-01-30T23:48:44.007Z'
+  octokit@5.0.5: '2025-10-31T02:27:34.676Z'
+  ohash@2.0.11: '2025-03-04T17:39:01.858Z'
+  ora@9.4.0: '2026-04-22T06:11:17.972Z'
+  pathe@2.0.3: '2025-02-11T19:47:35.862Z'
+  pkg-types@2.3.1: '2026-04-27T10:24:15.497Z'
+  playwright@1.60.0: '2026-05-11T19:09:33.114Z'
+  postprocessing@6.37.8: '2025-09-12T10:25:47.531Z'
+  postprocessing@6.39.1: '2026-04-17T15:59:06.660Z'
+  radashi@12.9.1: '2026-05-12T12:35:40.239Z'
+  rollup-plugin-analyzer@4.0.0: '2020-12-20T01:22:16.072Z'
+  rollup-plugin-copy@3.5.0: '2023-09-02T11:06:46.889Z'
+  rollup-plugin-visualizer@7.0.1: '2026-03-03T12:43:13.985Z'
+  sharp@0.35.3: '2026-07-01T11:28:34.077Z'
+  sirv@3.0.2: '2025-09-03T22:05:27.662Z'
+  sponsorkit@17.1.1: '2026-05-20T04:55:47.957Z'
+  stats-gl@4.1.0: '2026-02-24T03:39:39.948Z'
+  stats.js@0.17.0: '2016-10-29T01:18:40.513Z'
+  tailwindcss@4.3.0: '2026-05-08T20:25:26.174Z'
+  three-custom-shader-material@6.4.0: '2025-10-12T08:28:26.232Z'
+  three-mesh-bvh@0.9.10: '2026-05-13T04:01:22.645Z'
+  three-stdlib@2.36.1: '2025-11-10T21:21:28.049Z'
+  three@0.184.0: '2026-04-16T16:27:55.636Z'
+  tsdown@0.18.3: '2025-12-24T16:05:32.462Z'
+  tweakpane@4.0.5: '2024-11-03T16:34:20.750Z'
+  typescript@5.8.3: '2025-04-05T00:17:37.851Z'
+  typescript@6.0.3: '2026-04-16T23:38:27.905Z'
+  unocss-preset-scrollbar@4.0.0: '2026-02-28T02:24:32.287Z'
+  unocss@66.7.0: '2026-05-21T09:00:19.196Z'
+  unplugin-auto-import@20.3.0: '2025-11-27T02:27:02.972Z'
+  unplugin-vue-components@32.1.0: '2026-05-20T04:38:37.140Z'
+  vite-plugin-banner@0.8.1: '2025-04-21T15:22:40.286Z'
+  vite-plugin-css-injected-by-js@5.0.1: '2026-04-17T10:41:30.096Z'
+  vite-plugin-dts@4.5.4: '2025-05-15T06:20:27.521Z'
+  vite-plugin-glsl@1.5.5: '2025-11-28T14:56:56.895Z'
+  vite-plugin-glsl@1.6.0: '2026-04-03T12:37:09.747Z'
+  vite-plugin-inspect@11.4.1: '2026-05-29T06:29:16.904Z'
+  vite-plugin-qrcode@0.3.0: '2025-06-29T18:34:17.393Z'
+  vite-plugin-vue-devtools@8.0.5: '2025-11-17T16:17:45.895Z'
+  vite-svg-loader@5.1.1: '2026-03-05T13:32:05.804Z'
+  vite@8.0.16: '2026-06-01T09:50:43.261Z'
+  vitest@4.1.8: '2026-06-01T08:14:50.474Z'
+  vue-demi@0.14.10: '2024-07-25T16:19:54.431Z'
+  vue-router@5.1.0: '2026-05-28T14:32:47.343Z'
+  vue-tsc@3.3.4: '2026-06-08T03:49:40.790Z'
+  vue@3.5.38: '2026-06-11T08:00:56.469Z'
+  webdriverio@9.28.0: '2026-06-10T19:34:41.513Z'
+  wrangler@4.100.0: '2026-06-11T15:33:53.534Z'

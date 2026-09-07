@@ -10,32 +10,6 @@ description: Calculate and align children within their parent using bounding box
 
 Calculates a bounding box around its children and aligns them as a group within their parent. The component measures its contents and realigns on every frame unless `cacheKey` is set.
 
-## Usage
-
-```vue{2,13,18}
-<script setup lang="ts">
-import { Align, OrbitControls } from '@tresjs/cientos'
-import { TresCanvas } from '@tresjs/core'
-</script>
-
-<template>
-  <TresCanvas clear-color="#222">
-    <TresPerspectiveCamera />
-    <OrbitControls />
-
-    <TresAxesHelper :scale="2" />
-
-    <Align top right back>
-      <TresMesh>
-        <TresBoxGeometry />
-        <TresMeshNormalMaterial />
-      </TresMesh>
-    </Align>
-  </TresCanvas>
-</template>
-
-```
-
 ## Props
 
 All props are optional.

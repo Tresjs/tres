@@ -10,26 +10,6 @@ description: similar to OrbitControls but for map views
 
 [MapControls](https://threejs.org/docs/index.html?q=controls#examples/en/controls/MapControls) similar to OrbitControls, this control is intended for transforming a camera over a map from bird's eye perspective, but uses a specific preset for mouse/touch interaction and disables screen space panning by default.
 
-## Usage
-
-```vue{7}
-<script setup>
-import { MapControls } from "@tresjs/cientos"
-</script>
-<template>
-  <TresCanvas clear-color="#82DBC5">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <MapControls />
-    <Box :scale="2">
-      <TresMeshToonMaterial color="orange" />
-    </Box>
-    <TresAmbientLight />
-    <TresDirectionalLight :position="[0, 2, 4]" />
-    <TresGridHelper />
-  </TresCanvas>
-</template>
-```
-
 ::prose-warning
 It is really important that the perspective camera is set first in the canvas. Otherwise the scene might break.
 ::
