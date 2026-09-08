@@ -3,6 +3,9 @@ import { Color } from 'three'
 
 const { nodes, state } = useGLTF('/models/portals-rpg/adventurers-camp.glb', { draco: true })
 
+const { scene: portalScene } = useTresContext()
+portalScene.value.background = new Color('#0d1330')
+
 
 const trees = computed(() => {
   return Object.entries(nodes.value).map(([key, value]) => key.includes('Tree') ? value : null)
@@ -14,11 +17,6 @@ const logs = computed(() => {
     .filter(Boolean)
 })
 
-// MAT_StylizedDirt ships a near-white albedo, so the ground reads as pale stone.
-// color multiplies the map, so tinting it keeps every bit of the texture detail.
-// Written imperatively: :material-color on a primitive assigns the string straight
-// over the Color instance, because patchProp's pierced-prop branch returns before
-// its color handling.
 const DIRT = new Color('#8a6244')
 
 watch(() => nodes.value?.Ground, (ground) => {
@@ -35,12 +33,8 @@ const lutes = computed(() => {
 
 <template>
   <TresAmbientLight :intensity="0.2" />
-  <!-- Fake moonlight. Trees sit at z -15..-19 and the camp at z -8, so a light from
-  high behind the treeline travels toward the camera and rims the backs of the party
-  and the tree crowns, leaving the fire to own every front-facing surface. A
-  directional light reads position as a direction only, so no shadow map is needed
-  for the angle to hold. -->
-  <TresDirectionalLight :position="[-8, 22, -24]" :intensity="0.7" :color="'#9db6ff'" />
+  <Stars :size="0.6" :radius="120" :depth="40" :count="3000" />
+  <TresDirectionalLight name="Moonlight" :position="[-8, 22, -24]" :intensity="0.7" :color="'#9db6ff'" />
   <TresGroup v-if="nodes?.Ground" :position="[0, -2, -8]">
     <primitive name="Ground" :object="nodes['Ground']" />
     <TresGroup v-if="trees" name="Trees">

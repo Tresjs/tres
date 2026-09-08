@@ -13,5 +13,8 @@ const gl = {
     <PortalsRpgDifficultyExperience />
     <OrbitControls />
     <TheScreenshot />
+    <!-- <Suspense>
+      <Environment :files="['/skyboxes/medieval-bg.png']" background />
+    </Suspense> -->
   </TresCanvas>
 </template>
