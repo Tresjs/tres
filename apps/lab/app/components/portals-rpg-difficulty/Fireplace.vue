@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import vertexShader from './shaders/fire-vertex.glsl?raw'
 import fragmentShader from './shaders/fire-fragment.glsl?raw'
-import type { PointLight } from 'three';
+import type { Box3, PointLight } from 'three';
 import { Color, DoubleSide, Uniform, Vector2, Vector3 } from 'three';
 import { marble } from './marble'
 
@@ -26,6 +26,11 @@ const SWAY = 0.08
 const LIGHT_SAMPLES = [0.3, 0.55, 0.78, 0.95]
 const LIGHT_SWELL_MID = 0.53
 const LIGHT_SWING = 6
+
+// Read by the fire light and by Sparks.vue, so a flare reaches both on the same
+// frame. A Uniform rather than a ref: the sparks material consumes it directly and
+// a per-frame reactive write would re-render the component tree for nothing.
+const swell = new Uniform(0)
 
 const uniforms = {
     uCoreOffset: new Uniform(0.8),
@@ -68,6 +73,7 @@ const uniforms = {
 // matrix write then pays for the proxy.
 const fireLight = shallowRef<PointLight | null>(null)
 const flameCenter = new Vector3()
+const flameBounds = shallowRef<Box3 | null>(null)
 const lightRest = { intensity: 1, position: new Vector3() }
 
 // The template props stay the rest pose the flicker swings around.
@@ -86,6 +92,7 @@ watch(fire, () => {
         uniforms.uHeightMin.value = bounds.min.y
         uniforms.uHeightRange.value = bounds.max.y - bounds.min.y
         bounds.getCenter(flameCenter)
+        flameBounds.value = bounds 
     }
 }, { immediate: true })
 
@@ -97,13 +104,11 @@ onBeforeRender(({ elapsed }) => {
     animator.z = Math.cos(elapsed * 1.8) * SWAY
     uniforms.uTime.value = elapsed
 
-    if (!fireLight.value) { return }
-
-    // Same field, same offset as the vertex shader, so the light peaks on the
-    // frame the flame swells instead of drifting against it.
-    let swell = 0
+    // Same field, same offset as the vertex shader, so the light and the sparks peak
+    // on the frame the flame swells instead of drifting against it.
+    let sum = 0
     for (const t of LIGHT_SAMPLES) {
-        swell += marble(
+        sum += marble(
             flameCenter.x - animator.x,
             uniforms.uHeightMin.value + t * uniforms.uHeightRange.value - animator.y,
             flameCenter.z - animator.z,
@@ -112,9 +117,11 @@ onBeforeRender(({ elapsed }) => {
             uniforms.uMarbleTurbulence.value,
         )
     }
-    swell /= LIGHT_SAMPLES.length
+    swell.value = sum / LIGHT_SAMPLES.length
 
-    fireLight.value.intensity = lightRest.intensity + (swell - LIGHT_SWELL_MID) * LIGHT_SWING
+    if (!fireLight.value) { return }
+
+    fireLight.value.intensity = lightRest.intensity + (swell.value - LIGHT_SWELL_MID) * LIGHT_SWING
     fireLight.value.position.set(
         lightRest.position.x + animator.x,
         lightRest.position.y,
@@ -130,6 +137,10 @@ onBeforeRender(({ elapsed }) => {
         <primitive name="Fire" :object="fire">
             <TresShaderMaterial :vertex-shader="vertexShader" :fragment-shader="fragmentShader" :uniforms="uniforms"
                 :side="DoubleSide" />
+            <!-- Parented to the flame mesh, so the sparks inherit its transform from the
+            GLTF instead of repeating its placement here. -->
+            <PortalsRpgDifficultySparks v-if="flameBounds" :bounds="flameBounds" :animator="animator"
+                :swell="swell" :sway-amplitude="SWAY" />
         </primitive>
     </TresGroup>
 </template>
