@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Stars } from '@tresjs/cientos'
-import { PCFSoftShadowMap } from 'three'
+import { PCFShadowMap } from 'three'
 
 
 </script>
 
 <template>
   <TheLoadingScreen background="#11101B" />
-  <TresCanvas window-size clear-color="#11101B" shadows :shadow-map-type="PCFSoftShadowMap">
+  <TresCanvas window-size clear-color="#11101B" shadows :shadow-map-type="PCFShadowMap">
     <TresPerspectiveCamera :position="[0, 1, 5]" :fov="75" :near="0.1" :far="1000" />
     <OrbitControls />
     <LowpolyPlanetThePlanet />

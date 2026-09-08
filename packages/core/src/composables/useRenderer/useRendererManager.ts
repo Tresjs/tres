@@ -145,10 +145,10 @@ export interface RendererOptions {
    * Type of shadow map to use for shadow calculations
    * - `BasicShadowMap`: Basic shadow map.
    * - `PCFShadowMap`: Percentage-Closer Filtering shadow map.
-   * - `PCFSoftShadowMap`: Percentage-Closer Filtering soft shadow map.
+   * - `PCFSoftShadowMap`: Deprecated on WebGL, three falls back to `PCFShadowMap`. Still supported on WebGPU.
    * - `VSMShadowMap`: Variance shadow map.
    * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
-   * @default PCFSoftShadowMap (Opinionated default by TresJS)
+   * @default PCFShadowMap
    */
   shadowMapType?: ShadowMapType
   /**
