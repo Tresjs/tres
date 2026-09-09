@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ACESFilmicToneMapping, PCFShadowMap } from 'three'
+import { ACESFilmicToneMapping } from 'three'
 import { ref, shallowRef } from 'vue'
 import { version } from '../../package.json' with { type: 'json' }
 import type { TresContext } from '../composables'
@@ -30,7 +30,7 @@ const props = withDefaults(defineProps<TresCanvasProps>(), {
   clearAlpha: 1,
   enableProvideBridge: true, // We should probably move to options in next major version
   toneMapping: ACESFilmicToneMapping,
-  shadowMapType: PCFShadowMap,
+  shadowMapType: undefined,
   customRendererOptions: () => ({
     primitivePrefix: '',
   }),

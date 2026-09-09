@@ -142,7 +142,7 @@ For detailed technical information about prop reactivity, see [GitHub Issue #982
   ::::
 
   ::::field{name="shadowMapType" type="ShadowMapType"}
-  **⚡ Reactive** - Default: `PCFShadowMap` - The type of shadow map to use:
+  **⚡ Reactive** - Default: `PCFShadowMap` on WebGL, `PCFSoftShadowMap` on WebGPU - The type of shadow map to use:
   - `BasicShadowMap` - Basic shadow mapping (fastest, lowest quality)
   - `PCFShadowMap` - Percentage-Closer Filtering shadows (good quality/performance balance)
   - `PCFSoftShadowMap` - Deprecated on WebGL, three falls back to `PCFShadowMap` and logs a warning. Still supported on WebGPU.
