@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { OrthographicCamera, RepeatWrapping } from 'three'
+import type { OrthographicCamera } from 'three'
+import { RepeatWrapping } from 'three'
 import { activeColorSetIndex, COLOR_CYCLE_SECONDS, colorSets } from './color-sets'
-import { createConeMaterial, createSphereMaterial, uTime, uActiveColorSet } from './tsl/materials'
+import { createConeMaterial, createSphereMaterial, uActiveColorSet, uTime } from './tsl/materials'
 
 // 1:1 world-to-pixel ortho frustum so the cone/sphere stay at fixed pixel
 // size regardless of canvas dimensions.
@@ -10,7 +11,7 @@ const cameraRef = shallowRef<OrthographicCamera>()
 
 watch([sizes.width, sizes.height, cameraRef], () => {
   const cam = cameraRef.value
-  if (!cam || !sizes.width.value || !sizes.height.value) return
+  if (!cam || !sizes.width.value || !sizes.height.value) { return }
   cam.left = -sizes.width.value / 2
   cam.right = sizes.width.value / 2
   cam.top = sizes.height.value / 2
@@ -22,7 +23,7 @@ watch([sizes.width, sizes.height, cameraRef], () => {
 const { state: noiseTexture } = useTexture('/experiments/vuefes-japan-2025/noise.png')
 
 watch(noiseTexture, (tex) => {
-  if (!tex) return
+  if (!tex) { return }
   tex.wrapS = RepeatWrapping
   tex.wrapT = RepeatWrapping
 }, { immediate: true })
@@ -34,7 +35,7 @@ const coneMaterial = shallowRef<ReturnType<typeof createConeMaterial> | null>(nu
 const sphereMaterial = shallowRef<ReturnType<typeof createSphereMaterial> | null>(null)
 
 watch(noiseTexture, (tex) => {
-  if (!tex) return
+  if (!tex) { return }
   coneMaterial.value = createConeMaterial(tex)
   sphereMaterial.value = createSphereMaterial(tex)
 }, { immediate: true })

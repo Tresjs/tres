@@ -2,7 +2,7 @@
 import type { Object3D } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { TransformControls } from '@tresjs/cientos'
-import { useElementSize, useRefHistory, useDark } from '@vueuse/core'
+import { useDark, useElementSize, useRefHistory } from '@vueuse/core'
 
 import type { BoxSceneNode, CameraSceneNode, ConeSceneNode, SceneSettings, SphereSceneNode } from './types'
 
@@ -11,7 +11,8 @@ interface State {
   sceneNodes: (CameraSceneNode | BoxSceneNode | SphereSceneNode | ConeSceneNode)[]
 }
 const state = ref<State>({
-  sceneSettings: { width: 800, height: 600 }, sceneNodes: [
+  sceneSettings: { width: 800, height: 600 },
+  sceneNodes: [
     {
       id: crypto.randomUUID(),
       type: 'camera',
@@ -22,7 +23,7 @@ const state = ref<State>({
       rotation: [0, 0, 0],
       scale: [1, 1, 1],
     },
-  ]
+  ],
 })
 const history = useRefHistory(state, { deep: true })
 history.clear()
@@ -46,7 +47,7 @@ type Space = 'world' | 'local'
 const currentSpace = ref<Space>('world')
 const spaces: Space[] = ['world', 'local']
 
-//#region TresJS
+// #region TresJS
 const tresCanvasRef = shallowRef()
 const renderCamRef = shallowRef()
 const navCamRef = shallowRef()
@@ -94,7 +95,7 @@ watchEffect(() => {
 
 const transformControlFocused = ref(false)
 const orbitEnabled = computed(() => !transformControlFocused.value && currentCameraName.value === 'nav')
-//#endregion
+// #endregion
 
 function addConeSceneNode() {
   const newSceneNode: ConeSceneNode = {
@@ -191,8 +192,11 @@ function handleDeleteSceneNode(sceneNodeId: string) {
         </button>
       </div>
       <div class="flex flex-col flex-grow gap-2">
-        <div v-for="sceneNode in state.sceneNodes" :key="sceneNode.id" class="flex justify-between"
-          :class="{ 'ring-2 ring-blue-400': sceneNode.id === selectedNodeId }">
+        <div v-for="sceneNode in state.sceneNodes"
+             :key="sceneNode.id"
+             class="flex justify-between"
+             :class="{ 'ring-2 ring-blue-400': sceneNode.id === selectedNodeId }"
+        >
           <div @click="selectSceneNode(sceneNode.id)">
             {{ sceneNode.type }}
           </div>
@@ -205,8 +209,12 @@ function handleDeleteSceneNode(sceneNodeId: string) {
     <div class="flex flex-col flex-grow">
       <div class="flex gap-2 border border-b-0 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-500 p-1">
         <div class="flex gap-1">
-          <button v-for="mode in modes" :key="mode" class="dark:bg-gray-600"
-            :class="{ 'ring-2 ring-blue-400': currentMode === mode }" @click="currentMode = mode">
+          <button v-for="mode in modes"
+                  :key="mode"
+                  class="dark:bg-gray-600"
+                  :class="{ 'ring-2 ring-blue-400': currentMode === mode }"
+                  @click="currentMode = mode"
+          >
             {{ mode }}
           </button>
         </div>
@@ -221,73 +229,111 @@ function handleDeleteSceneNode(sceneNodeId: string) {
         </div>
         |
         <div class="flex gap-1">
-          <button v-for="space in spaces" :key="space" class="dark:bg-gray-600"
-            :class="{ 'ring-2 ring-blue-400': currentSpace === space }" @click="currentSpace = space">
+          <button v-for="space in spaces"
+                  :key="space"
+                  class="dark:bg-gray-600"
+                  :class="{ 'ring-2 ring-blue-400': currentSpace === space }"
+                  @click="currentSpace = space"
+          >
             {{ space }}
           </button>
         </div>
         |
         <div class="flex gap-1">
-          <button v-for="cameraName in ['render', 'nav']" :key="cameraName" class="dark:bg-gray-600"
-            :class="{ 'ring-2 ring-blue-400': currentCameraName === cameraName }"
-            @click="currentCameraName = cameraName">
+          <button v-for="cameraName in ['render', 'nav']"
+                  :key="cameraName"
+                  class="dark:bg-gray-600"
+                  :class="{ 'ring-2 ring-blue-400': currentCameraName === cameraName }"
+                  @click="currentCameraName = cameraName"
+          >
             {{ cameraName }}
           </button>
         </div>
       </div>
       <div class="flex flex-grow items-center justify-center border border-slate-200 dark:border-gray-700">
         <SimpleEditorContainElement :enabled="currentCameraName === 'render'"
-          :aspect-ratio="state.sceneSettings.width / state.sceneSettings.height" class="border border-slate-400">
+                                    :aspect-ratio="state.sceneSettings.width / state.sceneSettings.height"
+                                    class="border border-slate-400"
+        >
           <div ref="canvasContainerRef" class="h-full w-full">
             <TresCanvas v-if="cameraNode != null" ref="tresCanvasRef" :clear-color="isDark ? '#252526' : '#FAFAFA'">
               <TresPerspectiveCamera :ref="(el) => {
-                  renderCamRef = el;
-                  sceneNodeRefs[cameraNode.id] = (el as unknown as Object3D);
-                }
-                " name="render" :position="cameraNode.position" :rotation="cameraNode.rotation" />
+                                       renderCamRef = el;
+                                       sceneNodeRefs[cameraNode.id] = (el as unknown as Object3D);
+                                     }
+                                     "
+                                     name="render"
+                                     :position="cameraNode.position"
+                                     :rotation="cameraNode.rotation"
+              />
               <TresPerspectiveCamera ref="navCamRef" name="nav" :position="[50, 50, 50]" :far="3000" />
 
-              <TresCameraHelper v-if="navCamRef != null && renderCamRef != null" ref="cameraHelperRef"
-                :visible="currentCameraName === 'nav'" :args="[renderCamRef]" />
+              <TresCameraHelper v-if="navCamRef != null && renderCamRef != null"
+                                ref="cameraHelperRef"
+                                :visible="currentCameraName === 'nav'"
+                                :args="[renderCamRef]"
+              />
 
               <!-- TODO: couldn't get cientos orbit control to disable -->
               <SimpleEditorCustomTresOrbitControls :enabled="orbitEnabled" :camera="navCamRef" />
 
               <SimpleEditorSceneNodeCone v-for="sceneNode in state.sceneNodes.filter((i) => i.type === 'cone')"
-                :key="sceneNode.id" :ref="(el: any) => {
-                    sceneNodeRefs[sceneNode.id] = el?.mesh;
-                  }
-                  " :position="sceneNode.position" :rotation="sceneNode.rotation" :scale="sceneNode.scale"
-                :properties="(sceneNode as ConeSceneNode).properties"
-                :first="state.sceneNodes.filter(i => i.type === 'cone')[0] === sceneNode"
-                @click="selectSceneNode(sceneNode.id)" />
+                                         :key="sceneNode.id"
+                                         :ref="(el: any) => {
+                                           sceneNodeRefs[sceneNode.id] = el?.mesh;
+                                         }
+                                         "
+                                         :position="sceneNode.position"
+                                         :rotation="sceneNode.rotation"
+                                         :scale="sceneNode.scale"
+                                         :properties="(sceneNode as ConeSceneNode).properties"
+                                         :first="state.sceneNodes.filter(i => i.type === 'cone')[0] === sceneNode"
+                                         @click="selectSceneNode(sceneNode.id)"
+              />
 
               <SimpleEditorSceneNodeBox v-for="sceneNode in state.sceneNodes.filter((i) => i.type === 'box')"
-                :key="sceneNode.id" :ref="(el: any) => {
-                    sceneNodeRefs[sceneNode.id] = el?.mesh;
-                  }
-                  " :position="sceneNode.position" :rotation="sceneNode.rotation" :scale="sceneNode.scale"
-                :properties="(sceneNode as BoxSceneNode).properties"
-                :first="state.sceneNodes.filter(i => i.type === 'box')[0] === sceneNode"
-                @click="selectSceneNode(sceneNode.id)" />
+                                        :key="sceneNode.id"
+                                        :ref="(el: any) => {
+                                          sceneNodeRefs[sceneNode.id] = el?.mesh;
+                                        }
+                                        "
+                                        :position="sceneNode.position"
+                                        :rotation="sceneNode.rotation"
+                                        :scale="sceneNode.scale"
+                                        :properties="(sceneNode as BoxSceneNode).properties"
+                                        :first="state.sceneNodes.filter(i => i.type === 'box')[0] === sceneNode"
+                                        @click="selectSceneNode(sceneNode.id)"
+              />
 
               <SimpleEditorSceneNodeSphere v-for="sceneNode in state.sceneNodes.filter((i) => i.type === 'sphere')"
-                :key="sceneNode.id" :ref="(el: any) => {
-                    sceneNodeRefs[sceneNode.id] = el?.mesh;
-                  }
-                  " :position="sceneNode.position" :rotation="sceneNode.rotation" :scale="sceneNode.scale"
-                :properties="(sceneNode as SphereSceneNode).properties"
-                :first="state.sceneNodes.filter(i => i.type === 'sphere')[0] === sceneNode"
-                @click="selectSceneNode(sceneNode.id)" />
+                                           :key="sceneNode.id"
+                                           :ref="(el: any) => {
+                                             sceneNodeRefs[sceneNode.id] = el?.mesh;
+                                           }
+                                           "
+                                           :position="sceneNode.position"
+                                           :rotation="sceneNode.rotation"
+                                           :scale="sceneNode.scale"
+                                           :properties="(sceneNode as SphereSceneNode).properties"
+                                           :first="state.sceneNodes.filter(i => i.type === 'sphere')[0] === sceneNode"
+                                           @click="selectSceneNode(sceneNode.id)"
+              />
 
-              <TransformControls v-if="selectedNodeId != null" :key="currentCameraName"
-                :object="sceneNodeRefs[selectedNodeId!]" :mode="currentMode" :space="currentSpace" @mouse-down="
-                  transformControlFocused = true;
-                history.pause();
-                " @mouse-up="
-                  transformControlFocused = false;
-                history.resume(true);
-                " @object-change="handleTransformChange(selectedNodeId!, sceneNodeRefs[selectedNodeId!])" />
+              <TransformControls v-if="selectedNodeId != null"
+                                 :key="currentCameraName"
+                                 :object="sceneNodeRefs[selectedNodeId!]"
+                                 :mode="currentMode"
+                                 :space="currentSpace"
+                                 @mouse-down="
+                                   transformControlFocused = true;
+                                   history.pause();
+                                 "
+                                 @mouse-up="
+                                   transformControlFocused = false;
+                                   history.resume(true);
+                                 "
+                                 @object-change="handleTransformChange(selectedNodeId!, sceneNodeRefs[selectedNodeId!])"
+              />
               <TresGridHelper :args="[100, 10, '#44403C', '#E4E4E7']" />
               <TheScreenshot />
             </TresCanvas>
@@ -306,17 +352,27 @@ function handleDeleteSceneNode(sceneNodeId: string) {
         <b>
           Scene Node Properties
         </b>
-        <SimpleEditorSceneNodeProps :model-value="selectedNode" @update:model-value="selectedNode!.position = $event.position;
-        selectedNode!.rotation = $event.rotation;
-        selectedNode!.scale = $event.scale" />
-        <SimpleEditorSceneNodeCameraProps v-if="selectedNode.type === 'camera'" :model-value="selectedNode"
-          @update:model-value="selectedNode!.properties = $event.properties" />
-        <SimpleEditorSceneNodeConeProps v-if="selectedNode.type === 'cone'" :model-value="selectedNode"
-          @update:model-value="selectedNode!.properties = $event.properties" />
-        <SimpleEditorSceneNodeBoxProps v-if="selectedNode.type === 'box'" :model-value="selectedNode"
-          @update:model-value="selectedNode!.properties = $event.properties" />
-        <SimpleEditorSceneNodeSphereProps v-if="selectedNode.type === 'sphere'" :model-value="selectedNode"
-          @update:model-value="selectedNode!.properties = $event.properties" />
+        <SimpleEditorSceneNodeProps :model-value="selectedNode"
+                                    @update:model-value="selectedNode!.position = $event.position;
+                                                         selectedNode!.rotation = $event.rotation;
+                                                         selectedNode!.scale = $event.scale"
+        />
+        <SimpleEditorSceneNodeCameraProps v-if="selectedNode.type === 'camera'"
+                                          :model-value="selectedNode"
+                                          @update:model-value="selectedNode!.properties = $event.properties"
+        />
+        <SimpleEditorSceneNodeConeProps v-if="selectedNode.type === 'cone'"
+                                        :model-value="selectedNode"
+                                        @update:model-value="selectedNode!.properties = $event.properties"
+        />
+        <SimpleEditorSceneNodeBoxProps v-if="selectedNode.type === 'box'"
+                                       :model-value="selectedNode"
+                                       @update:model-value="selectedNode!.properties = $event.properties"
+        />
+        <SimpleEditorSceneNodeSphereProps v-if="selectedNode.type === 'sphere'"
+                                          :model-value="selectedNode"
+                                          @update:model-value="selectedNode!.properties = $event.properties"
+        />
       </div>
     </div>
   </div>

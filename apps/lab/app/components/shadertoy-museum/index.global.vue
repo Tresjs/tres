@@ -21,21 +21,19 @@ const state: ShaderToyMuseumState = reactive({
   },
 })
 
-
 useControls({
   next: {
     type: 'button',
     label: 'Next',
     onClick: () => {
       state.next()
-    }
-  }
+    },
+  },
 }, {
   uuid,
 })
 
 provide('state', state)
-
 
 watch(state.shaderToyTargets, (newShaderToyTargets) => {
   if (newShaderToyTargets.length > 0) {
@@ -63,7 +61,7 @@ onMounted(
         state.next()
       }, 8000)
     }, 3000)
-  }
+  },
 )
 </script>
 
@@ -72,7 +70,7 @@ onMounted(
   <!--   <ClientOnly>
     <TresLeches :uuid="uuid" />
   </ClientOnly> -->
-  <TresCanvas :clear-color="'#000000'" :antialias="false" @click="state.next()">
+  <TresCanvas clear-color="#000000" :antialias="false" @click="state.next()">
     <!-- TODO: Add experiment scene objects -->
     <ShadertoyMuseumExperiment />
     <TheScreenshot />

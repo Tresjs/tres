@@ -27,63 +27,58 @@ useHead({
 
 // Fetch all experiments ordered by featured first, then by date
 const { data: experiments } = await useAsyncData('experiments', () =>
-  queryCollection('experiments').all()
-)
+  queryCollection('experiments').all())
 
 // Format experiments with additional data using a second useAsyncData to handle the dependencies
-const { data: formattedExperiments } = await useAsyncData('formatted-experiments',
-  async () => {
-    if (!experiments.value) return []
+const { data: formattedExperiments } = await useAsyncData('formatted-experiments', async () => {
+  if (!experiments.value) { return [] }
 
-    const formattedList = await Promise.all(
-      experiments.value.map(async (experiment) => {
-        const slug = getSlugFromExperiment(experiment)
+  const formattedList = await Promise.all(
+    experiments.value.map(async (experiment) => {
+      const slug = getSlugFromExperiment(experiment)
 
-        const authorSlugs = Array.isArray(experiment.author)
-          ? experiment.author
-          : [experiment.author]
+      const authorSlugs = Array.isArray(experiment.author)
+        ? experiment.author
+        : [experiment.author]
 
-        // Fetch the author using useAsyncData to leverage caching
-        const authorPromises = authorSlugs.map(authorSlug =>
-          useAsyncData(`author-${authorSlug}`, () =>
-            queryCollection('authors')
-              .where('slug', '=', authorSlug)
-              .first()
-          )
-        )
+      // Fetch the author using useAsyncData to leverage caching
+      const authorPromises = authorSlugs.map(authorSlug =>
+        useAsyncData(`author-${authorSlug}`, () =>
+          queryCollection('authors')
+            .where('slug', '=', authorSlug)
+            .first()),
+      )
 
-        const authorResults = await Promise.all(authorPromises)
-        const authors = authorResults.map(result => result.data?.value).filter(Boolean)
+      const authorResults = await Promise.all(authorPromises)
+      const authors = authorResults.map(result => result.data?.value).filter(Boolean)
 
-        return {
-          ...experiment,
-          slug,
-          title: getTitleFromExperiment(experiment),
-          thumbnail: getThumbnailFromExperiment(experiment),
-          authors,
-          repoPath: getRepoPathFromExperiment(experiment),
-          repoTitle: getRepoTitleFromExperiment(experiment),
-        }
-      })
-    )
+      return {
+        ...experiment,
+        slug,
+        title: getTitleFromExperiment(experiment),
+        thumbnail: getThumbnailFromExperiment(experiment),
+        authors,
+        repoPath: getRepoPathFromExperiment(experiment),
+        repoTitle: getRepoTitleFromExperiment(experiment),
+      }
+    }),
+  )
 
-    // Sort by featured first, then by date (newest first)
-    return formattedList.sort((a, b) => {
-      // Featured experiments first
-      if (a.featured && !b.featured) return -1
-      if (!a.featured && b.featured) return 1
+  // Sort by featured first, then by date (newest first)
+  return formattedList.sort((a, b) => {
+    // Featured experiments first
+    if (a.featured && !b.featured) { return -1 }
+    if (!a.featured && b.featured) { return 1 }
 
-      // Then sort by date (newest first)
-      const dateA = new Date(a.lastUpdated || 0)
-      const dateB = new Date(b.lastUpdated || 0)
-      return dateB.getTime() - dateA.getTime()
-    })
-  },
-  {
-    // Watch the experiments data to re-evaluate when it changes
-    watch: [experiments]
-  }
-)
+    // Then sort by date (newest first)
+    const dateA = new Date(a.lastUpdated || 0)
+    const dateB = new Date(b.lastUpdated || 0)
+    return dateB.getTime() - dateA.getTime()
+  })
+}, {
+  // Watch the experiments data to re-evaluate when it changes
+  watch: [experiments],
+})
 
 function getSlugFromExperiment(experiment: ExperimentItem): string {
   return experiment.path?.split('/').pop() ?? ''
@@ -91,9 +86,7 @@ function getSlugFromExperiment(experiment: ExperimentItem): string {
 
 function getTitleFromExperiment(experiment: ExperimentItem): string {
   return experiment.title
-    ?? getSlugFromExperiment(experiment).split('-')
-      .map(capitalize)
-      .join(' ')
+    ?? getSlugFromExperiment(experiment).split('-').map(capitalize).join(' ')
 }
 
 function capitalize(word: string): string {

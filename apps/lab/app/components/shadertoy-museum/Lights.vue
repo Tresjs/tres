@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Group, Vector2, type Light } from 'three';
-import type { ShaderToyMuseumState } from './const';
-import { MathUtils } from 'three';
+import { Group, MathUtils, Vector2 } from 'three'
+import type { Light } from 'three'
+import type { ShaderToyMuseumState } from './const'
+
 const { lerp, pingpong } = MathUtils
 
 const state: ShaderToyMuseumState = inject('state')!
@@ -10,17 +11,16 @@ const shaderToyTarget = computed(() => state.shaderToyTargets[state.i])
 
 const lightsGroup = shallowRef(new Group())
 
-
 watch(shaderToyTarget, (target) => {
-  if(target && target.lights) {
+  if (target && target.lights) {
     for (const light of lightsGroup.value.children) {
-        (light as Light).removeFromParent()
+      (light as Light).removeFromParent()
     }
 
     if (target.lights && target.lights.length > 0) {
-        for (const light of target.lights) {
-            lightsGroup.value.add(light)
-        }
+      for (const light of target.lights) {
+        lightsGroup.value.add(light)
+      }
     }
   }
 }, { immediate: true })
@@ -30,7 +30,7 @@ const { onBeforeRender } = useLoop()
 const center = new Vector2(0.5, 0.5)
 
 onBeforeRender(({ elapsed }) => {
-  if(shaderToyTarget.value && shaderToyTarget.value.lights ) {
+  if (shaderToyTarget.value && shaderToyTarget.value.lights) {
     for (const light of shaderToyTarget.value.lights) {
       if (light.userData.x) {
         light.position.x = light.userData.x.init + Math.cos(light.userData.x.speed * elapsed + light.userData.x.phase) * light.userData.x.dist
@@ -51,6 +51,7 @@ onBeforeRender(({ elapsed }) => {
   }
 })
 </script>
+
 <template>
-  <TresGroup ref="lightsGroup"/>
+  <TresGroup ref="lightsGroup" />
 </template>

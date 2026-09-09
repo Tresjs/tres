@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ShaderMaterial, SphereGeometry, Vector3, Color, MathUtils } from 'three/src/Three'
+import { Color, MathUtils, ShaderMaterial, SphereGeometry, Vector3 } from 'three/src/Three'
 
 const rgb = (r: number, g: number, b: number) => new Color(r / 255, g / 255, b / 255)
 const BG_COLOR_BOTTOM_BLUISH = rgb(170, 215, 217)
@@ -19,20 +19,20 @@ const ORBIT_MAX = ORBIT_MIN + 10
 const RAND_SEED = 898211544
 
 const seededRandom = (a: number) => function () {
-  a |= 0; a = a + 0x9e3779b9 | 0
-  let t = a ^ a >>> 16; t = Math.imul(t, 0x21f0aaad)
-  t = t ^ t >>> 15; t = Math.imul(t, 0x735a2d97)
+  a |= 0; a = a + 0x9E3779B9 | 0
+  let t = a ^ a >>> 16; t = Math.imul(t, 0x21F0AAAD)
+  t = t ^ t >>> 15; t = Math.imul(t, 0x735A2D97)
   return ((t = t ^ t >>> 15) >>> 0) / 4294967296
 }
 const rand = seededRandom(RAND_SEED)
 const randRange = (n = 1) => rand() * n
 const { PI, cos, sin } = Math
 const PI2 = PI * 2
-const spheres = new Array(SPHERE_COUNT).fill(0).map((_: unknown, i) => i)
-const sizes = new Array(SPHERE_COUNT).fill(0).map(() => randRange(1) * randRange() ** 3)
-const orbitRadii = new Array(SPHERE_COUNT).fill(0).map(() => MathUtils.lerp(ORBIT_MIN, ORBIT_MAX, randRange()))
-const thetas = new Array(SPHERE_COUNT).fill(0).map(() => randRange(PI2))
-const phis = new Array(SPHERE_COUNT).fill(0).map(() => randRange(PI2))
+const spheres = Array.from({ length: SPHERE_COUNT }).fill(0).map((_: unknown, i) => i)
+const sizes = Array.from({ length: SPHERE_COUNT }).fill(0).map(() => randRange(1) * randRange() ** 3)
+const orbitRadii = Array.from({ length: SPHERE_COUNT }).fill(0).map(() => MathUtils.lerp(ORBIT_MIN, ORBIT_MAX, randRange()))
+const thetas = Array.from({ length: SPHERE_COUNT }).fill(0).map(() => randRange(PI2))
+const phis = Array.from({ length: SPHERE_COUNT }).fill(0).map(() => randRange(PI2))
 const positions: [number, number, number][] = orbitRadii.map((rad, i) => ([rad * cos(thetas[i]) * sin(phis[i]), rad * sin(thetas[i]) * sin(phis[i]), rad * cos(phis[i])]))
 
 const getGradientMaterial = (colorBottomWarm: Color, colorTopWarm: Color, colorBottomCool: Color, colorTopCool: Color) => new ShaderMaterial({

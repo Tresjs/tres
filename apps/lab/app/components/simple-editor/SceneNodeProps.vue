@@ -28,17 +28,17 @@ function handleModelValueUpdate() {
         v-model.number="internalModelValue.position[0]"
         class="dark:text-black"
         @update:model-value="handleModelValueUpdate"
-      >
+      />
       y: <input
         v-model.number="internalModelValue.position[1]"
         class="dark:text-black"
         @update:model-value="handleModelValueUpdate"
-      >
+      />
       z: <input
         v-model.number="internalModelValue.position[2]"
         class="dark:text-black"
         @update:model-value="handleModelValueUpdate"
-      >
+      />
     </div>
   </div>
   <div>
@@ -48,17 +48,17 @@ function handleModelValueUpdate() {
         v-model.number="internalModelValue.rotation[0]"
         class="dark:text-black"
         @update:model-value="handleModelValueUpdate"
-      >
+      />
       y: <input
         v-model.number="internalModelValue.rotation[1]"
         class="dark:text-black"
         @update:model-value="handleModelValueUpdate"
-      >
+      />
       z: <input
         v-model.number="internalModelValue.rotation[2]"
         class="dark:text-black"
         @update:model-value="handleModelValueUpdate"
-      >
+      />
     </div>
   </div>
   <div>
@@ -68,17 +68,17 @@ function handleModelValueUpdate() {
         v-model.number="internalModelValue.scale[0]"
         class="dark:text-black"
         @update:model-value="handleModelValueUpdate"
-      >
+      />
       y: <input
         v-model.number="internalModelValue.scale[1]"
         class="dark:text-black"
         @update:model-value="handleModelValueUpdate"
-      >
+      />
       z: <input
         v-model.number="internalModelValue.scale[2]"
         class="dark:text-black"
         @update:model-value="handleModelValueUpdate"
-      >
+      />
     </div>
   </div>
 </template>

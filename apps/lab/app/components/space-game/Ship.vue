@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, shallowRef } from 'vue'
 import type { GameStore } from '../TheExperience.vue'
-import { BoxGeometry, Color, Group, MeshBasicMaterial, PointLight, Vector3 } from 'three';
+import { BoxGeometry, Color, Group, MeshBasicMaterial, PointLight, Vector3 } from 'three'
 
 const geometry = new BoxGeometry(1, 1, 40)
 const lightgreen = new Color('lightgreen')

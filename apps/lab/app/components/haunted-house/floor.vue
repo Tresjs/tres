@@ -1,6 +1,6 @@
 <script setup>
-import { shallowRef, watch, computed } from 'vue'
-import { Float32BufferAttribute, RepeatWrapping, BoxGeometry, MeshStandardMaterial, Mesh } from 'three'
+import { computed, shallowRef, watch } from 'vue'
+import { BoxGeometry, Float32BufferAttribute, Mesh, MeshStandardMaterial, RepeatWrapping } from 'three'
 import { useTextures } from '@tresjs/cientos'
 
 const floorRef = shallowRef()
@@ -17,13 +17,13 @@ const floorTexturePaths = [
 // Load floor textures
 const {
   textures: floorTextures,
-  error: floorError
+  error: floorError,
 } = useTextures(floorTexturePaths)
 
 // Configure texture wrapping and repeat when textures are loaded
 watch(floorTextures, (textures) => {
   if (textures && textures.length === floorTexturePaths.length) {
-    textures.forEach(texture => {
+    textures.forEach((texture) => {
       if (texture) {
         texture.repeat.set(8, 8)
         texture.wrapS = RepeatWrapping
@@ -106,7 +106,13 @@ for (let i = 0; i < 50; i++) {
     <TresMeshStandardMaterial color="#89c854" />
   </TresMesh>
   <TresGroup ref="gravesRef">
-    <TresMesh v-for="({ position, scale, rotation }, index) in graves" :key="index" :position="position" :scale="scale"
-      :rotation="rotation" :material="graveMaterial" :geometry="graveGeometry" />
+    <TresMesh v-for="({ position, scale, rotation }, index) in graves"
+              :key="index"
+              :position="position"
+              :scale="scale"
+              :rotation="rotation"
+              :material="graveMaterial"
+              :geometry="graveGeometry"
+    />
   </TresGroup>
 </template>

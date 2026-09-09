@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { CoefficientCombineRule } from '@dimforge/rapier3d-compat'
-import { type ExposedRigidBody, RigidBody } from '@tresjs/rapier'
+import { RigidBody } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 import {
   BoxGeometry,
-  type InstancedMesh,
+
   MeshStandardMaterial,
   Object3D,
   RepeatWrapping,
   SRGBColorSpace,
 } from 'three'
+import type { InstancedMesh } from 'three'
 import { shallowRef, watch } from 'vue'
 import BallComponent from './BallComponent.vue'
 import GrassField from './GrassField.vue'
@@ -50,51 +52,51 @@ const BOXES: {
   size: ArrayVec3
   rotation?: ArrayVec3
 }[] = [
-    // Ramps
-    {
-      position: [-10, 3, -20],
-      rotation: [0.1, Math.PI * 0.65, Math.PI * 0.1],
-      size: [10, 0.55, 2.5],
-    },
-    {
-      position: [7.5, 0.3, 22],
-      rotation: [Math.PI * 0, Math.PI * -0.3, Math.PI * 0.1],
-      size: [5, 0.3, 1.6],
-    },
-    {
-      position: [30, 2.5, 40],
-      rotation: [Math.PI * 0, Math.PI * 0, Math.PI * -0.13],
-      size: [8, 0.3, 3],
-    },
-    {
-      position: [-30, 2.5, 40],
-      rotation: [Math.PI * 0, Math.PI, Math.PI * -0.13],
-      size: [8, 0.3, 3],
-    },
+  // Ramps
+  {
+    position: [-10, 3, -20],
+    rotation: [0.1, Math.PI * 0.65, Math.PI * 0.1],
+    size: [10, 0.55, 2.5],
+  },
+  {
+    position: [7.5, 0.3, 22],
+    rotation: [Math.PI * 0, Math.PI * -0.3, Math.PI * 0.1],
+    size: [5, 0.3, 1.6],
+  },
+  {
+    position: [30, 2.5, 40],
+    rotation: [Math.PI * 0, Math.PI * 0, Math.PI * -0.13],
+    size: [8, 0.3, 3],
+  },
+  {
+    position: [-30, 2.5, 40],
+    rotation: [Math.PI * 0, Math.PI, Math.PI * -0.13],
+    size: [8, 0.3, 3],
+  },
 
-    // Blocks
-    {
-      position: [0, 5.6, 40],
-      rotation: [0, Math.PI, 0],
-      size: [8, 0.3, 3],
-    },
-    {
-      position: [10, 10, -5],
-      size: [3, 10, 3],
-    },
-    {
-      position: [-20, 8, -40],
-      size: [4, 8, 4],
-    },
-    {
-      position: [15, 3, 40],
-      size: [8, 3, 8],
-    },
-    {
-      position: [-15, 3, 40],
-      size: [8, 3, 8],
-    },
-  ]
+  // Blocks
+  {
+    position: [0, 5.6, 40],
+    rotation: [0, Math.PI, 0],
+    size: [8, 0.3, 3],
+  },
+  {
+    position: [10, 10, -5],
+    size: [3, 10, 3],
+  },
+  {
+    position: [-20, 8, -40],
+    size: [4, 8, 4],
+  },
+  {
+    position: [15, 3, 40],
+    size: [8, 3, 8],
+  },
+  {
+    position: [-15, 3, 40],
+    size: [8, 3, 8],
+  },
+]
 
 const GRID_TILES_PER_UNIT = 0.5
 
@@ -245,7 +247,7 @@ watch(trackMarkInstancedMeshRef, (mesh) => {
     :restitution="0.5"
     collider="convexHull"
   >
-  <TresMesh
+    <TresMesh
       v-for="(box, index) in BOXES"
       :key="`box-${index}`"
       cast-shadow
@@ -283,5 +285,4 @@ watch(trackMarkInstancedMeshRef, (mesh) => {
     :args="[trackMarkGeometry, trackMarkMaterial, trackMarks.length]"
     receive-shadow
   />
-
 </template>

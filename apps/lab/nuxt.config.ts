@@ -37,12 +37,12 @@ export default defineNuxtConfig({
   imports: {
     transform: {
       exclude: [
-        /[/]packages[/\\]cientos[/\\]dist[/\\]trescientos\.js$/,
-        /[/]packages[/\\]core[/\\]dist[/\\]tres\.js$/,
-        /[/]packages[/\\]leches[/\\]dist[/\\]tresleches\.js$/,
-        /[/]packages[/\\]postprocessing[/\\]dist[/\\]tres-post-processing\.js$/,
+        /\/packages[/\\]cientos[/\\]dist[/\\]trescientos\.js$/,
+        /\/packages[/\\]core[/\\]dist[/\\]tres\.js$/,
+        /\/packages[/\\]leches[/\\]dist[/\\]tresleches\.js$/,
+        /\/packages[/\\]postprocessing[/\\]dist[/\\]tres-post-processing\.js$/,
       ],
-    }
+    },
   },
 
   fonts: {
@@ -76,7 +76,7 @@ export default defineNuxtConfig({
     serverBundle: {
       collections: ['lucide', 'carbon', 'game-icons', 'ic', 'logos', 'ph'],
       externalizeIconsJson: true,
-    }
+    },
   },
 
   vite: {
@@ -95,7 +95,7 @@ export default defineNuxtConfig({
         'radashi',
         '@pmndrs/pointer-events',
       ],
-    }
+    },
   },
 
   compatibilityDate: '2024-08-29',

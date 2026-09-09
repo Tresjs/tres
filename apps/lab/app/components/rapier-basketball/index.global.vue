@@ -4,10 +4,11 @@ import { TresCanvas } from '@tresjs/core'
 import {
   CuboidCollider,
   CylinderCollider,
-  type ExposedRigidBody,
+
   Physics,
   RigidBody,
 } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue'
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -271,7 +272,8 @@ function onScore() {
   shootScore.value += 1
   shootStreak.value += 1
   scoreMessage.value = shootStreak.value > 1
-    ? `${shootStreak.value}x Streak!` : 'On fire🔥'
+    ? `${shootStreak.value}x Streak!`
+    : 'On fire🔥'
   scoreFlash.value = true
 
   window.setTimeout(() => {
@@ -292,7 +294,7 @@ watch(ballRef, () => {
   nextTick(() => {
     setTimeout(() => {
       setBallForAim()
-    }, 0);
+    }, 0)
   })
 }, { once: true })
 
@@ -300,19 +302,24 @@ onMounted(() => {
   window.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowLeft' || e.key === 'a') {
       adjustLandingX('left')
-    } else if (e.key === 'ArrowRight' || e.key === 'd') {
+    }
+    else if (e.key === 'ArrowRight' || e.key === 'd') {
       adjustLandingX('right')
-    } else if (e.key === 'ArrowUp' || e.key === 'w') {
+    }
+    else if (e.key === 'ArrowUp' || e.key === 'w') {
       adjustPower('up')
-    } else if (e.key === 'ArrowDown' || e.key === 's') {
+    }
+    else if (e.key === 'ArrowDown' || e.key === 's') {
       adjustPower('down')
-    } else if (e.key === ' ' || e.key === 'Enter') {
+    }
+    else if (e.key === ' ' || e.key === 'Enter') {
       shootBall()
-    } else if (e.key === 'Escape' || e.key === 'r') {
+    }
+    else if (e.key === 'Escape' || e.key === 'r') {
       resetGame()
     }
   })
-});
+})
 </script>
 
 <template>
@@ -403,7 +410,6 @@ onMounted(() => {
       :shadow-camera-right="20"
       :shadow-radius="1.5"
     />
-
 
     <Suspense>
       <Physics :debug :gravity="[0, gravityY, 0]">
@@ -568,128 +574,128 @@ onMounted(() => {
 
 <style scoped>
   .gui {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 10;
-    font-family: 'Segoe UI', system-ui, sans-serif;
-  }
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
 
-  .score-panel {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    min-width: 11rem;
-    padding: 1rem 1.15rem;
-    border-radius: 1rem;
-    color: #1e293b;
-    background: linear-gradient(135deg, #F2EEDD, #edb06a);
-    box-shadow: 0 8px 24px #00000018;
-    transition:
-      transform 0.25s ease,
-      box-shadow 0.25s ease;
-  }
+.score-panel {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  min-width: 11rem;
+  padding: 1rem 1.15rem;
+  border-radius: 1rem;
+  color: #1e293b;
+  background: linear-gradient(135deg, #f2eedd, #edb06a);
+  box-shadow: 0 8px 24px #00000018;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
 
-  .score-panel.flash {
-    transform: scale(1.05);
-    box-shadow: 0 0 28px #fde047;
-  }
+.score-panel.flash {
+  transform: scale(1.05);
+  box-shadow: 0 0 28px #fde047;
+}
 
-  .score-panel-title {
-    font-size: 1.15rem;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-    margin-bottom: 0.65rem;
-  }
+.score-panel-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.65rem;
+}
 
-  .score-panel-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-    margin-bottom: 0.55rem;
-  }
+.score-panel-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.55rem;
+}
 
-  .score-panel-stats .label {
-    display: block;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    opacity: 0.85;
-    letter-spacing: 0.06em;
-  }
+.score-panel-stats .label {
+  display: block;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  opacity: 0.85;
+  letter-spacing: 0.06em;
+}
 
-  .score-panel-stats strong {
-    font-size: 1.35rem;
-    line-height: 1.1;
-  }
+.score-panel-stats strong {
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
 
-  .score-panel-message {
-    margin: 0;
-    font-size: 0.85rem;
-    font-weight: 600;
-    opacity: 0.95;
-  }
+.score-panel-message {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.95;
+}
 
-  .controls {
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-    pointer-events: auto;
-  }
+.controls {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  pointer-events: auto;
+}
 
-  .controls-row {
-    display: flex;
-    gap: 0.35rem;
-  }
+.controls-row {
+  display: flex;
+  gap: 0.35rem;
+}
 
-  .controls-btn {
-    width: 3.25rem;
-    height: 3.25rem;
-    border: none;
-    border-radius: 0.85rem;
-    background: linear-gradient(180deg, #fff7ed, #fed7aa);
-    color: #9a3412;
-    font-size: 1.15rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow:
-      0 4px 0 #c2410c,
-      0 8px 20px rgb(0 0 0 / 0.18);
-    transition:
-      transform 0.08s ease,
-      box-shadow 0.08s ease;
-    user-select: none;
-  }
+.controls-btn {
+  width: 3.25rem;
+  height: 3.25rem;
+  border: none;
+  border-radius: 0.85rem;
+  background: linear-gradient(180deg, #fff7ed, #fed7aa);
+  color: #9a3412;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    0 4px 0 #c2410c,
+    0 8px 20px rgb(0 0 0 / 0.18);
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
+  user-select: none;
+}
 
-  .controls-btn:active:not(:disabled) {
-    transform: translateY(3px);
-    box-shadow:
-      0 1px 0 #c2410c,
-      0 4px 12px rgb(0 0 0 / 0.15);
-  }
+.controls-btn:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow:
+    0 1px 0 #c2410c,
+    0 4px 12px rgb(0 0 0 / 0.15);
+}
 
-  .controls-btn-shoot {
-    font-size: 1.45rem;
-    background: linear-gradient(180deg, #fb923c, #ea580c);
-    color: #fff;
-    box-shadow:
-      0 4px 0 #9a3412,
-      0 8px 24px #ea580c45;
-  }
+.controls-btn-shoot {
+  font-size: 1.45rem;
+  background: linear-gradient(180deg, #fb923c, #ea580c);
+  color: #fff;
+  box-shadow:
+    0 4px 0 #9a3412,
+    0 8px 24px #ea580c45;
+}
 
-  .controls-btn-shoot.reset {
-    background: linear-gradient(145deg, #576574, #2f3542);
-    font-size: 1.35rem;
-  }
+.controls-btn-shoot.reset {
+  background: linear-gradient(145deg, #576574, #2f3542);
+  font-size: 1.35rem;
+}
 
-  .controls-hint {
-    margin: 0.35rem 0 0;
-    font-size: 0.72rem;
-    color: white;
-    text-shadow: 0 1px 4px #00000035;
-    text-align: center;
-  }
+.controls-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.72rem;
+  color: white;
+  text-shadow: 0 1px 4px #00000035;
+  text-align: center;
+}
 </style>

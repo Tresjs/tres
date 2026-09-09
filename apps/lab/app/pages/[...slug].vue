@@ -8,8 +8,7 @@ const { data: page } = await useAsyncData(route.path, () => {
 })
 
 const { data: authors } = await useAsyncData('authors', () =>
-  queryCollection('authors').all()
-)
+  queryCollection('authors').all())
 
 const formattedPage = computed(() => {
   return {
@@ -91,7 +90,7 @@ useHead({
 })
 
 function toPascalCase(str: string) {
-  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()).replace(/^[a-z]/, (letter) => letter.toUpperCase())
+  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()).replace(/^[a-z]/, letter => letter.toUpperCase())
 }
 
 const component = computed(() => toPascalCase(page.value?.stem.split('/').pop() ?? ''))

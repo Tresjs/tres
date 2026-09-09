@@ -4,11 +4,11 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     float aspect = iResolution.y/iResolution.x;
     float value;
-	vec2 uv = fragCoord.xy / iResolution.x;
+  vec2 uv = fragCoord.xy / iResolution.x;
     uv -= vec2(0.5, 0.5*aspect);
     float rot = radians(45.0); // radians(45.0*sin(iTime));
     mat2 m = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
-   	uv  = m * uv;
+     uv  = m * uv;
     uv += vec2(0.5, 0.5*aspect);
     uv.y+=0.5*(1.0-aspect);
     vec2 pos = 10.0*uv;

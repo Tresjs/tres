@@ -2,31 +2,31 @@ export const truchet = `
 // NOTE: https://www.shadertoy.com/view/4td3zj
 /*
 
-	Raymarched Hexagonal Truchet
-	----------------------------
+  Raymarched Hexagonal Truchet
+  ----------------------------
 
-	Raymarching a hexagonal Truchet pattern. The Truchet pattern itself is pretty easy to produce.
-	This particular production method is based off of one of Fabrice Neyret's finely tuned examples,
-	which in turn was based on something Mattz did a while back. Both examples are below.
+  Raymarching a hexagonal Truchet pattern. The Truchet pattern itself is pretty easy to produce.
+  This particular production method is based off of one of Fabrice Neyret's finely tuned examples,
+  which in turn was based on something Mattz did a while back. Both examples are below.
 
-	Technically, there isn't a lot to it. The hardest part was producing the Truchet pattern in a
-	reasonably quick way, but most of that was already done for me. Therefore, since I had nothing new
-	to add, I prettied it up a bit... and by that I mean, I made it really shiny. Probably too shiny.
-	It kind of hurts my eyes. :)
+  Technically, there isn't a lot to it. The hardest part was producing the Truchet pattern in a
+  reasonably quick way, but most of that was already done for me. Therefore, since I had nothing new
+  to add, I prettied it up a bit... and by that I mean, I made it really shiny. Probably too shiny.
+  It kind of hurts my eyes. :)
 
-	The weird, abstract, dragon disco style wasn't intentional. I'm briefly passing through parts of
-	Asia next week, so that may have mildy influenced my style choices. Hopefully, it meets
-	834144373's approval. :)
+  The weird, abstract, dragon disco style wasn't intentional. I'm briefly passing through parts of
+  Asia next week, so that may have mildy influenced my style choices. Hopefully, it meets
+  834144373's approval. :)
 
 
-	Based on:
+  Based on:
 
-	hexagonal truchet ( 352 ) - FabriceNeyret2
-	https://www.shadertoy.com/view/Xdt3D8
+  hexagonal truchet ( 352 ) - FabriceNeyret2
+  https://www.shadertoy.com/view/Xdt3D8
 
-	... which, in turn, was based on:
-	hexagonal tiling - mattz
-	https://www.shadertoy.com/view/4d2GzV
+  ... which, in turn, was based on:
+  hexagonal tiling - mattz
+  https://www.shadertoy.com/view/4d2GzV
 
 */
 
@@ -46,7 +46,7 @@ float heightMap(in vec2 p) {
 
     p *= 3.;
 
-	// Hexagonal coordinates.
+  // Hexagonal coordinates.
     vec2 h = vec2(p.x + p.y*.57735, p.y*1.1547);
 
     // Closest hexagon center.
@@ -106,10 +106,10 @@ vec3 getNormal(vec3 p, inout float edge, inout float crv) {
     vec2 e = vec2(.01, 0); // Larger epsilon for greater sample spread, thus thicker edges.
 
     // Take some distance function measurements from either side of the hit point on all three axes.
-	float d1 = map(p + e.xyy), d2 = map(p - e.xyy);
-	float d3 = map(p + e.yxy), d4 = map(p - e.yxy);
-	float d5 = map(p + e.yyx), d6 = map(p - e.yyx);
-	float d = map(p)*2.;	// The hit point itself - Doubled to cut down on calculations. See below.
+  float d1 = map(p + e.xyy), d2 = map(p - e.xyy);
+  float d3 = map(p + e.yxy), d4 = map(p - e.yxy);
+  float d5 = map(p + e.yyx), d6 = map(p - e.yyx);
+  float d = map(p)*2.;  // The hit point itself - Doubled to cut down on calculations. See below.
 
     // Edges - Take a geometry measurement from either side of the hit point. Average them, then see how
     // much the value differs from the hit point itself. Do this for X, Y and Z directions. Here, the sum
@@ -127,9 +127,9 @@ vec3 getNormal(vec3 p, inout float edge, inout float crv) {
 
     // Redoing the calculations for the normal with a more precise epsilon value.
     e = vec2(.0025, 0);
-	d1 = map(p + e.xyy), d2 = map(p - e.xyy);
-	d3 = map(p + e.yxy), d4 = map(p - e.yxy);
-	d5 = map(p + e.yyx), d6 = map(p - e.yyx);
+  d1 = map(p + e.xyy), d2 = map(p - e.xyy);
+  d3 = map(p + e.yxy), d4 = map(p - e.yxy);
+  d5 = map(p + e.yyx), d6 = map(p - e.yyx);
 
 
     // Return the normal.
@@ -143,7 +143,7 @@ vec3 getNormal(vec3 p, inout float edge, inout float crv) {
 // Anyway, I like this one. I'm assuming it's based on IQ's original.
 float calculateAO(in vec3 p, in vec3 n)
 {
-	float sca = 2., occ = 0.;
+  float sca = 2., occ = 0.;
     for(float i=0.; i<5.; i++){
 
         float hr = .01 + i*.5/4.;
@@ -187,8 +187,8 @@ vec3 dbF(in vec3 p, in vec3 nor, float bumpfactor){
 // Compact, self-contained version of IQ's 3D value noise function.
 float n3D(vec3 p){
 
-	const vec3 s = vec3(7, 157, 113);
-	vec3 ip = floor(p); p -= ip;
+  const vec3 s = vec3(7, 157, 113);
+  vec3 ip = floor(p); p -= ip;
     vec4 h = vec4(0., s.yz, s.y + s.z) + dot(ip, s);
     p = p*p*(3. - 2.*p); //p *= p*p*(p*(p * 6. - 15.) + 10.);
     h = mix(fract(sin(mod(h, 6.2831589))*43758.5453),
@@ -239,17 +239,17 @@ vec2 hash22(vec2 p) {
 //
 float Voronoi(in vec2 p){
 
-	vec2 g = floor(p), o; p -= g;
+  vec2 g = floor(p), o; p -= g;
 
-	vec3 d = vec3(1); // 1.4, etc. "d.z" holds the distance comparison value.
+  vec3 d = vec3(1); // 1.4, etc. "d.z" holds the distance comparison value.
 
-	for(int y = -1; y <= 1; y++){
-		for(int x = -1; x <= 1; x++){
+  for(int y = -1; y <= 1; y++){
+    for(int x = -1; x <= 1; x++){
 
-			o = vec2(x, y);
+      o = vec2(x, y);
             o += hash22(g + o) - p;
 
-			d.z = dot(o, o);
+      d.z = dot(o, o);
             // More distance metrics.
             //o = abs(o);
             //d.z = max(o.x*.8666 + o.y*.5, o.y);//
@@ -259,8 +259,8 @@ float Voronoi(in vec2 p){
             d.y = max(d.x, min(d.y, d.z));
             d.x = min(d.x, d.z);
 
-		}
-	}
+    }
+  }
 
     return max(d.y/1.2 - d.x*1., 0.)/1.2;
     //return d.y - d.x; // return 1.-d.x; // etc.
@@ -329,7 +329,7 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ){
     // Surface color value.
     vec3 oC = vec3(1);
 
-	if(fold.x>0.) oC = vec3(1, .05, .1)*c2; // Reddish pink with finer grained Truchet overlay.
+  if(fold.x>0.) oC = vec3(1, .05, .1)*c2; // Reddish pink with finer grained Truchet overlay.
 
     if(fold.x<0.05 && (fold.y)<0.) oC = vec3(1, .7, .45)*(c2*.25 + .75); // Lighter lined borders.
     else if(fold.x<0.) oC = vec3(1, .8, .4)*c2; // Gold, with overlay.
@@ -341,8 +341,8 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ){
     // on, this effect is a little on the subtle side.
     float p1 = 1.0 - smoothstep(0., .1, fold.x*.5+.5); // Restrict to the snake-like path.
     // Other path.
-	//float p2 = 1.0 - smoothstep(0., .1, cos(heightMap(sp.xy + 1. + iTime/4.)*6.283)*.5+.5);
-	float p2 = 1.0 - smoothstep(0., .1, Voronoi(sp.xy*4. + vec2(tm, cos(tm/4.))));
+  //float p2 = 1.0 - smoothstep(0., .1, cos(heightMap(sp.xy + 1. + iTime/4.)*6.283)*.5+.5);
+  float p2 = 1.0 - smoothstep(0., .1, Voronoi(sp.xy*4. + vec2(tm, cos(tm/4.))));
     p1 = (p2 + .25)*p1; // Overlap the paths.
     oC += oC.yxz*p1*p1; // Gives a kind of electron effect. Works better with just Voronoi, but it'll do.
 
@@ -379,6 +379,6 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ){
 
 
     // Rough gamma correction, then present to the screen.
-	fragColor = vec4(sqrt(clamp(col, 0., 1.)), col.r);
+  fragColor = vec4(sqrt(clamp(col, 0., 1.)), col.r);
 }
 `

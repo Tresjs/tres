@@ -14,19 +14,19 @@ setInterval(() => seconds.value = ((Date.now() - t) / 1000).toFixed(1), 100)
 <template>
   <div class="base UpperLeft" @click="gameStore.actions.toggleSound(!gameStore.sound)">
     sound
-    <br>
+    <br />
     {{ gameStore.sound ? 'turn off' : 'turn on' }}
   </div>
   <div class="base UpperRight">
     <a href="https://codesandbox.io/p/sandbox/i2160">R3F original by 0xca0a</a>
-    <br>
+    <br />
     <a href="https://twitter.com/0xca0a">0xca0a on twitter</a>
   </div>
   <div class="base LowerLeft">
     <h2>{{ seconds }}</h2>
     <h1>{{ score }}</h1>
   </div>
-  <div class="base Global" />
+  <div class="base Global"></div>
 </template>
 
 <style lang="css" scoped>
@@ -65,7 +65,7 @@ setInterval(() => seconds.value = ((Date.now() - t) / 1000).toFixed(1), 100)
   pointer-events: all;
   cursor: pointer;
 
-  &>a {
+  & > a {
     color: indianred;
     text-decoration: none;
   }
@@ -81,13 +81,13 @@ setInterval(() => seconds.value = ((Date.now() - t) / 1000).toFixed(1), 100)
   transform: skew(-5deg, -5deg);
   width: 200px;
 
-  &>h1 {
+  & > h1 {
     margin: 0;
     font-size: 10em;
     line-height: 1em;
   }
 
-  &>h2 {
+  & > h2 {
     margin: 0;
     font-size: 4em;
     line-height: 1em;
@@ -96,11 +96,11 @@ setInterval(() => seconds.value = ((Date.now() - t) / 1000).toFixed(1), 100)
   @media only screen and (max-width: 900px) {
     bottom: 30px;
 
-    &>h1 {
+    & > h1 {
       font-size: 6em !important;
     }
 
-    &>h2 {
+    & > h2 {
       font-size: 3em !important;
     }
   }
@@ -114,7 +114,7 @@ setInterval(() => seconds.value = ((Date.now() - t) / 1000).toFixed(1), 100)
   width: 150px;
   background: black;
 
-  &>div {
+  & > div {
     height: 100%;
     background: indianred;
   }

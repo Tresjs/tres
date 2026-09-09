@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { gsap } from 'gsap'
-import { Color, RepeatWrapping, NearestFilter, MeshStandardMaterial } from 'three'
-import { useTexture, CustomShaderMaterial } from '@tresjs/cientos'
+import { Color, MeshStandardMaterial, NearestFilter, RepeatWrapping } from 'three'
+import { CustomShaderMaterial, useTexture } from '@tresjs/cientos'
 import { useLoop, useTres } from '@tresjs/core'
-import { vertex, fragment } from './shaders'
-
-const ctx = gsap.context(() => { })
+import { fragment, vertex } from './shaders'
 
 const props = defineProps({
   colors: {
@@ -14,13 +12,13 @@ const props = defineProps({
   },
   params: {
     type: Object as PropType<{
-      roughness?: number,
-      metalness?: number,
-      iterations?: number,
-      depth?: number,
-      smoothing?: number,
-      displacement?: number,
-      speed?: number,
+      roughness?: number
+      metalness?: number
+      iterations?: number
+      depth?: number
+      smoothing?: number
+      displacement?: number
+      speed?: number
     }>,
     default: () => ({}),
   },
@@ -30,9 +28,11 @@ const props = defineProps({
   },
 })
 
-const { colors, params, indexColor } = toRefs(props)
-
 const emit = defineEmits(['sphere-click'])
+
+const ctx = gsap.context(() => { })
+
+const { colors, params, indexColor } = toRefs(props)
 
 const sphereRef = shallowRef(null)
 const elapsedStart = ref(0)
@@ -94,7 +94,7 @@ uniformKeys.forEach((key) => {
     (val) => {
       uniforms[key].value = val
     },
-    { immediate: true }
+    { immediate: true },
   )
 })
 
@@ -109,7 +109,7 @@ watch([heightMapTexture, displacementMapTexture], () => {
 })
 
 function animateScale(targetScale: number) {
-  if (!sphereRef.value || !sphereRef.value.instance) return
+  if (!sphereRef.value || !sphereRef.value.instance) { return }
 
   gsap.to(sphereRef.value.instance.scale, {
     x: targetScale,
@@ -117,7 +117,7 @@ function animateScale(targetScale: number) {
     z: targetScale,
     duration: 1,
     ease: 'elastic.out(1, 0.4)',
-    overwrite: 'auto'
+    overwrite: 'auto',
   })
 }
 
@@ -155,15 +155,25 @@ onRender(({ elapsed }) => {
 })
 
 defineExpose({
-  animateSphereColor
+  animateSphereColor,
 })
 </script>
 
 <template>
-  <Sphere ref="sphereRef" :args="[1, 64, 32]" @pointerdown="onSpherePointerDown" @pointerup="onSpherePointerUp"
-    @pointerenter="onSpherePointerEnter" @pointerleave="onSpherePointerLeave">
-    <CustomShaderMaterial :roughness="params.roughness" :metalness="params.metalness"
-      :base-material="MeshStandardMaterial" :vertex-shader="vertex" :fragment-shader="fragment" :uniforms="uniforms"
-      silent />
+  <Sphere ref="sphereRef"
+          :args="[1, 64, 32]"
+          @pointerdown="onSpherePointerDown"
+          @pointerup="onSpherePointerUp"
+          @pointerenter="onSpherePointerEnter"
+          @pointerleave="onSpherePointerLeave"
+  >
+    <CustomShaderMaterial :roughness="params.roughness"
+                          :metalness="params.metalness"
+                          :base-material="MeshStandardMaterial"
+                          :vertex-shader="vertex"
+                          :fragment-shader="fragment"
+                          :uniforms="uniforms"
+                          silent
+    />
   </Sphere>
 </template>

@@ -15,7 +15,6 @@ function getRepoTitleFromPath(path: string) {
 
 const to = getRepoPathFromPath(route.path)
 const title = getRepoTitleFromPath(route.path)
-
 </script>
 
 <template>

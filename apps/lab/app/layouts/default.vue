@@ -7,8 +7,9 @@
     <div class="pattern-bg">
       <UContainer class="pt-56px">
         <main
-          class="bg-(--ui-bg) border-x border-gray-100 dark:border-gray-800 min-h-[calc(100vh-var(--ui-header-height))]">
-          <slot />
+          class="bg-(--ui-bg) border-x border-gray-100 dark:border-gray-800 min-h-[calc(100vh-var(--ui-header-height))]"
+        >
+          <slot></slot>
         </main>
       </UContainer>
     </div>

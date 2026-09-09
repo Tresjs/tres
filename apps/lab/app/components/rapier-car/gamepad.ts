@@ -1,5 +1,6 @@
 import { useRafFn } from '@vueuse/core'
-import { type MaybeRefOrGetter, reactive, toValue } from 'vue'
+import { reactive, toValue } from 'vue'
+import type { MaybeRefOrGetter } from 'vue'
 
 const STICK_DEADZONE = 0.15
 const TRIGGER_DEADZONE = 0.05

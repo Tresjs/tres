@@ -10,9 +10,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
 /** SHADERDATA
 {
-	"title": "Sinusoidal 2 for TresJS",
+  "title": "Sinusoidal 2 for TresJS",
     "author": "andretchen0",
-	"description": "Simple shader made for this TresJS lab",
+  "description": "Simple shader made for this TresJS lab",
     "href": "https://lab.tresjs.org"
 }
 */
