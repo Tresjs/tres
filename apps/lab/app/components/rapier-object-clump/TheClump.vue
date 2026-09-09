@@ -37,11 +37,9 @@ watchEffect(() => {
 
 const whiteMeshRef = useTemplateRef<InstancedMesh>('whiteMeshRef')
 const blackMeshRef = useTemplateRef<InstancedMesh>('blackMeshRef')
-const goldMeshRef = useTemplateRef<InstancedMesh>('goldMeshRef')
 
 const whiteBodyRef = shallowRef<InstanceType<typeof InstancedRigidBody> | null>(null)
 const blackBodyRef = shallowRef<InstanceType<typeof InstancedRigidBody> | null>(null)
-const goldBodyRef = shallowRef<InstanceType<typeof InstancedRigidBody> | null>(null)
 
 const rfs = (range: number) => (Math.random() - 0.5) * range
 const dummy = new Object3D()
