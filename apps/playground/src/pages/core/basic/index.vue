@@ -30,7 +30,7 @@ const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useContr
   },
   shadows: true,
   shadowMapType: {
-    value: PCFSoftShadowMap,
+    value: PCFShadowMap,
     options: [
       { text: 'Basic', value: BasicShadowMap },
       { text: 'PCF', value: PCFShadowMap },
