@@ -7,7 +7,6 @@ import CameraRig from './CameraRig.vue'
 const gl = {
   clearColor: 'black',
   powerPreference: 'high-performance',
-  shadowMapType: 'PCFSoftShadowMap',
 }
 </script>
 

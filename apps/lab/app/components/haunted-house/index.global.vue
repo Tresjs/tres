@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
+import { PCFShadowMap, SRGBColorSpace } from 'three'
 
 const gl = {
   clearColor: '#262837',
   shadows: true,
   alpha: false,
-  shadowMapType: PCFSoftShadowMap,
+  shadowMapType: PCFShadowMap,
   outputColorSpace: SRGBColorSpace,
 }
 </script>
