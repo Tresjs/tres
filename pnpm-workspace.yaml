@@ -18,26 +18,27 @@ overrides:
 catalogs:
   build:
     rollup-plugin-analyzer: ^4.0.0
-    rollup-plugin-visualizer: ^7.0.1
+    rollup-plugin-visualizer: ^7.1.1
     tsdown: 0.18.3
   docs:
     vitepress: 1.6.4
   eslint:
-    '@typescript-eslint/eslint-plugin': ^8.61.0
-    '@typescript-eslint/parser': ^8.61.0
-    eslint: ^10.4.1
-    eslint-plugin-vue: ^10.9.2
+    '@typescript-eslint/eslint-plugin': ^8.69.0
+    '@typescript-eslint/parser': ^8.69.0
+    eslint: ^10.9.1
+    eslint-plugin-vue: ^10.10.0
   node:
-    '@types/node': ^25.9.3
+    '@types/node': ^26.4.1
   nuxt:
     '@nuxt/content': ^3.14.0
+    '@nuxt/kit': ^4.1.2
     '@nuxt/image': ^2.0.0
     '@nuxt/ui': ^4.8.2
     nuxt: 4.1.3
   testing:
     '@vitest/coverage-v8': ^4.1.8
     '@vitest/ui': ^4.1.8
-    '@vue/test-utils': ^2.4.11
+    '@vue/test-utils': ^2.5.0
     jsdom: ^29.1.1
     vitest: 4.1.8
   three:
@@ -47,27 +48,26 @@ catalogs:
     three-stdlib: ^2.36.1
   typescript:
     typescript: ^6.0.3
-    vue-tsc: ^3.3.4
+    vue-tsc: ^3.3.11
   utils:
-    '@vueuse/core': ^14.3.0
+    '@vueuse/core': ^14.4.0
+    '@vueuse/nuxt': ^14.4.0
     gsap: ^3.15.0
     kolorist: ^1.8.0
     pathe: ^2.0.3
-    unocss: ^66.7.0
+    unocss: ^66.9.2
     unplugin-auto-import: 20.3.0
   vite:
     '@vitejs/plugin-vue': ^6.0.7
-    vite: ^8.0.16
+    vite: ^8.2.2
     vite-plugin-banner: ^0.8.1
     vite-plugin-dts: 4.5.4
-    vite-plugin-glsl: 1.5.5
+    vite-plugin-glsl: ^1.6.0
     vite-plugin-qrcode: 0.3.0
-    vite-plugin-vue-devtools: 8.0.5
+    vite-plugin-vue-devtools: 8.2.1
   vue:
-    vue: ^3.5.38
-    vue-router: ^5.1.0
-  conflicts_build_h0_22_2:
-    tsdown: ^0.22.2
+    vue: ^3.5.42
+    vue-router: ^5.3.1
 
 allowBuilds:
   '@parcel/watcher': false
@@ -81,13 +81,13 @@ allowBuilds:
   vue-demi: false
   workerd: false
 catalog:
-  '@antfu/eslint-config': ~9.0.0
+  '@antfu/eslint-config': ~9.5.1
   '@anthropic-ai/sdk': ^0.104.1
   '@cloudflare/workers-types': ^4.20260612.1
   '@dimforge/rapier3d-compat': ^0.19.3
-  '@gltf-transform/core': ^4.4.1
-  '@gltf-transform/extensions': ^4.4.1
-  '@gltf-transform/functions': ^4.4.1
+  '@gltf-transform/core': ^4.5.0
+  '@gltf-transform/extensions': ^4.5.0
+  '@gltf-transform/functions': ^4.5.0
   '@iconify-json/ic': ^1.2.4
   '@iconify-json/lucide': ^1.2.111
   '@iconify-json/simple-icons': ^1.2.86
@@ -95,17 +95,17 @@ catalog:
   '@iconify/json': ^2.2.485
   '@nuxt/icon': ^2.2.3
   '@nuxt/scripts': 0.12.1
-  '@octokit/auth-app': ^8.2.0
+  '@octokit/auth-app': ^8.3.1
   '@pmndrs/pointer-events': ^6.6.30
   '@tweakpane/core': ^2.0.5
   '@tweakpane/plugin-essentials': ^0.2.1
-  '@unhead/vue': ^3.1.4
-  '@unocss/core': 66.3.2
+  '@unhead/vue': ^3.4.0
+  '@unocss/core': ^66.9.2
   '@vitest/browser': ^4.1.8
-  '@vue/devtools-api': ^8.1.2
-  '@vueuse/components': ^14.3.0
+  '@vue/devtools-api': ^8.2.1
+  '@vueuse/components': ^14.4.0
   '@vueuse/motion': ^3.0.3
-  '@vueuse/shared': ^14.3.0
+  '@vueuse/shared': ^14.4.0
   better-sqlite3: ^12.10.0
   camera-controls: ^3.1.2
   commander: ^15.0.0
@@ -113,18 +113,18 @@ catalog:
   eslint-flat-config-viewer: ^0.1.20
   eslint-plugin-format: ^2.0.1
   eslint-plugin-vitest-globals: ^1.6.1
-  hono: ^4.12.25
+  hono: ^4.13.5
   meshoptimizer: ^1.2.0
   nuxt-llms: 0.1.3
   octokit: ^5.0.5
-  postprocessing: ^6.39.1
+  postprocessing: ^6.39.4
   radashi: ^12.9.1
   rollup-plugin-copy: ^3.5.0
-  sharp: ^0.35.3
-  stats-gl: ^4.1.0
+  sharp: ^0.35.4
+  stats-gl: ^4.2.3
   stats.js: ^0.17.0
   tailwindcss: ^4.3.0
-  three-mesh-bvh: ^0.9.10
+  three-mesh-bvh: ^0.9.14
   tweakpane: ^4.0.5
   unocss-preset-scrollbar: ^4.0.0
   unplugin-vue-components: ^32.1.0
@@ -132,5 +132,5 @@ catalog:
   vite-plugin-inspect: ^11.4.1
   vite-svg-loader: ^5.1.1
   vue-demi: ^0.14.10
-  webdriverio: ^9.28.0
-  wrangler: ^4.100.0
+  webdriverio: ^9.31.5
+  wrangler: ^4.129.0

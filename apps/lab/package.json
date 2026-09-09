@@ -10,12 +10,12 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@nuxt/eslint": "^1.16.0",
+    "@nuxt/eslint": "^1.17.0",
     "@nuxt/ui": "catalog:nuxt",
     "@tresjs/nuxt": "workspace:*",
     "@tresjs/post-processing": "workspace:*",
     "@tresjs/rapier": "workspace:*",
-    "@vueuse/nuxt": "^14.3.0",
+    "@vueuse/nuxt": "catalog:utils",
     "better-sqlite3": "^12.10.0",
     "mdast-util-to-string": "^4.0.0",
     "n8ao": "^1.10.2",
@@ -40,11 +40,11 @@
     "@tresjs/leches": "workspace:*",
     "@tweakpane/plugin-essentials": "^0.2.1",
     "@types/three": "catalog:three",
-    "@unhead/vue": "^3.1.4",
+    "@unhead/vue": "catalog:",
     "gsap": "catalog:utils",
     "nuxt": "catalog:nuxt",
     "nuxt-svgo": "^5.3.0",
-    "postprocessing": "6.37.8",
+    "postprocessing": "catalog:",
     "vite-svg-loader": "^5.1.1"
   }
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { OrthographicCamera, RepeatWrapping } from 'three'
+import type { OrthographicCamera} from 'three';
+import { RepeatWrapping } from 'three'
 import { activeColorSetIndex, COLOR_CYCLE_SECONDS, colorSets } from './color-sets'
 import { createConeMaterial, createSphereMaterial, uTime, uActiveColorSet } from './tsl/materials'
 

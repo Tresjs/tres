@@ -16,7 +16,7 @@ import {
   uniformArray,
   If,
 } from 'three/tsl'
-import { Color } from 'three'
+import type { Color } from 'three'
 import type { ColorSet } from '../color-sets'
 import { colorSets } from '../color-sets'
 import { generateSumiDetail } from './flow-field'

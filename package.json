@@ -40,7 +40,8 @@
   ],
   "devDependencies": {
     "@nx/js": "^22.7.5",
-    "@shikijs/engine-javascript": "^4.2.0",
+    "@shikijs/engine-javascript": "^4.4.3",
+    "h3": "^1.15.11",
     "nx": "22.4.4",
     "sponsorkit": "^17.1.1"
   }

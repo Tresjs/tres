@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { InstancedRigidBody } from '@tresjs/rapier';
 import { useTexture } from '@tresjs/cientos';
-import { InstancedMesh, MeshStandardMaterial, Object3D, RepeatWrapping, SphereGeometry, Vector3 } from 'three';
+import type { InstancedMesh} from 'three';
+import { MeshStandardMaterial, Object3D, RepeatWrapping, SphereGeometry, Vector3 } from 'three';
 
 const WHITE_COUNT = 26
 const BLACK_COUNT = 14
@@ -36,11 +37,9 @@ watchEffect(() => {
 
 const whiteMeshRef = useTemplateRef<InstancedMesh>('whiteMeshRef')
 const blackMeshRef = useTemplateRef<InstancedMesh>('blackMeshRef')
-const goldMeshRef = useTemplateRef<InstancedMesh>('goldMeshRef')
 
 const whiteBodyRef = shallowRef<InstanceType<typeof InstancedRigidBody> | null>(null)
 const blackBodyRef = shallowRef<InstanceType<typeof InstancedRigidBody> | null>(null)
-const goldBodyRef = shallowRef<InstanceType<typeof InstancedRigidBody> | null>(null)
 
 const rfs = (range: number) => (Math.random() - 0.5) * range
 const dummy = new Object3D()
