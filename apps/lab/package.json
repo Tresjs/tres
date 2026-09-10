@@ -24,14 +24,14 @@
     "vue": "catalog:vue"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.2.23",
+    "@iconify-json/carbon": "^1.2.26",
     "@iconify-json/game-icons": "^1.2.4",
     "@iconify-json/ic": "^1.2.4",
-    "@iconify-json/logos": "^1.2.11",
+    "@iconify-json/logos": "^1.2.13",
     "@iconify-json/lucide": "^1.2.111",
     "@nuxt/content": "catalog:nuxt",
     "@nuxt/fonts": "0.11.4",
-    "@nuxt/icon": "2.0.0",
+    "@nuxt/icon": "catalog:",
     "@nuxt/image": "catalog:nuxt",
     "@nuxt/scripts": "0.11.13",
     "@nuxtjs/color-mode": "^4.0.1",
