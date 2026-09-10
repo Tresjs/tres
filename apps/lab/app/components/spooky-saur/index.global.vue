@@ -19,8 +19,13 @@ const fontPath = '/fonts/jetbrains-mono.json'
   </TheLoadingScreen>
   <TresCanvas clear-color="#A590FF">
     <TresPerspectiveCamera ref="cameraRef" :look-at="[0, 1, 0]" :position="[1, 2, 8]" />
-    <OrbitControls :max-distance="10" :min-azimuth-angle="-Math.PI / 6" :max-azimuth-angle="Math.PI / 6"
-      :min-polar-angle="0" :max-polar-angle="Math.PI / 2 - Math.PI / 18" :target="[0, 1, 0]" />
+    <OrbitControls :max-distance="10"
+                   :min-azimuth-angle="-Math.PI / 6"
+                   :max-azimuth-angle="Math.PI / 6"
+                   :min-polar-angle="0"
+                   :max-polar-angle="Math.PI / 2 - Math.PI / 18"
+                   :target="[0, 1, 0]"
+    />
     <Backdrop :floor="10" :scale="[150, 40, 10]" :position="[0, -0.05, -20]" receive-shadow>
       <TresMeshStandardMaterial color="#A590FF" :side="DoubleSide" />
     </Backdrop>
@@ -38,12 +43,31 @@ const fontPath = '/fonts/jetbrains-mono.json'
       <BloomPmndrs :luminance-threshold="0.2" :luminance-smoothing="0.3" :intensity="0.1" />
     </EffectComposerPmndrs>
     <TresAmbientLight :intensity="0.1" />
-    <TresDirectionalLight color="#FF3F00" :intensity="0.6" :position="[3, 3, 3]" :shadow-mapSize-width="1024"
-      :shadow-mapSize-height="1024" :shadow-camera-far="50" :shadow-camera-left="-10" :shadow-camera-right="10"
-      :shadow-camera-top="10" :shadow-camera-bottom="-10" :shadow-bias="-0.000001" cast-shadow />
-    <TresDirectionalLight color="white" :intensity="0.4" :position="[2, 1, 3]" :shadow-mapSize-width="1024"
-      :shadow-mapSize-height="1024" :shadow-camera-far="50" :shadow-camera-left="-10" :shadow-camera-right="10"
-      :shadow-camera-top="10" :shadow-camera-bottom="-10" :shadow-bias="-0.000001" />
+    <TresDirectionalLight color="#FF3F00"
+                          :intensity="0.6"
+                          :position="[3, 3, 3]"
+                          :shadow-mapSize-width="1024"
+                          :shadow-mapSize-height="1024"
+                          :shadow-camera-far="50"
+                          :shadow-camera-left="-10"
+                          :shadow-camera-right="10"
+                          :shadow-camera-top="10"
+                          :shadow-camera-bottom="-10"
+                          :shadow-bias="-0.000001"
+                          cast-shadow
+    />
+    <TresDirectionalLight color="white"
+                          :intensity="0.4"
+                          :position="[2, 1, 3]"
+                          :shadow-mapSize-width="1024"
+                          :shadow-mapSize-height="1024"
+                          :shadow-camera-far="50"
+                          :shadow-camera-left="-10"
+                          :shadow-camera-right="10"
+                          :shadow-camera-top="10"
+                          :shadow-camera-bottom="-10"
+                          :shadow-bias="-0.000001"
+    />
     <TheScreenshot />
   </TresCanvas>
 </template>

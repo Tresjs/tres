@@ -73,14 +73,23 @@ const backgroundColor = computed(() => new Color(config.bg.value))
 <template>
   <TresGroup v-if="outside?.geometry" :rotation-y="Math.PI / 12">
     <TresMesh :geometry="outside.geometry" :position="outside.position" :scale="outside.scale">
-      <MeshTransmissionMaterial :transmission="config.transmission.value" :roughness="config.roughness.value"
-        :thickness="config.thickness.value" :ior="config.ior.value"
-        :chromatic-aberration="config.chromaticAberration.value" :anisotropic-blur="config.anisotropicBlur.value"
-        :distortion="config.distortion.value" :distortion-scale="config.distortionScale.value"
-        :temporal-distortion="config.temporalDistortion.value" :clearcoat="config.clearcoat.value"
-        :attenuation-distance="config.attenuationDistance.value" :samples="config.samples.value"
-        :resolution="config.resolution.value" :backside="config.backside.value" :color="config.color.value"
-        :background="backgroundColor" />
+      <MeshTransmissionMaterial :transmission="config.transmission.value"
+                                :roughness="config.roughness.value"
+                                :thickness="config.thickness.value"
+                                :ior="config.ior.value"
+                                :chromatic-aberration="config.chromaticAberration.value"
+                                :anisotropic-blur="config.anisotropicBlur.value"
+                                :distortion="config.distortion.value"
+                                :distortion-scale="config.distortionScale.value"
+                                :temporal-distortion="config.temporalDistortion.value"
+                                :clearcoat="config.clearcoat.value"
+                                :attenuation-distance="config.attenuationDistance.value"
+                                :samples="config.samples.value"
+                                :resolution="config.resolution.value"
+                                :backside="config.backside.value"
+                                :color="config.color.value"
+                                :background="backgroundColor"
+      />
     </TresMesh>
 
     <primitive v-if="internal" :object="internal" :render-order="-100" cast-shadow />

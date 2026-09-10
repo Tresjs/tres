@@ -68,6 +68,12 @@ catalogs:
     vue-router: ^5.1.0
   conflicts_build_h0_22_2:
     tsdown: ^0.22.2
+  conflicts_@nuxt/icon_2_0_0:
+    '@nuxt/icon': 2.0.0
+  conflicts_@nuxt/scripts_0_11_13:
+    '@nuxt/scripts': 0.11.13
+  conflicts_postprocessing_6_37_8:
+    postprocessing: 6.37.8
 
 allowBuilds:
   '@parcel/watcher': false
@@ -88,13 +94,19 @@ catalog:
   '@gltf-transform/core': ^4.4.1
   '@gltf-transform/extensions': ^4.4.1
   '@gltf-transform/functions': ^4.4.1
+  '@iconify-json/carbon': ^1.2.23
+  '@iconify-json/game-icons': ^1.2.4
   '@iconify-json/ic': ^1.2.4
+  '@iconify-json/logos': ^1.2.11
   '@iconify-json/lucide': ^1.2.111
   '@iconify-json/simple-icons': ^1.2.86
   '@iconify-json/vscode-icons': ^1.2.56
   '@iconify/json': ^2.2.485
+  '@nuxt/eslint': ^1.16.0
+  '@nuxt/fonts': 0.11.4
   '@nuxt/icon': ^2.2.3
   '@nuxt/scripts': 0.12.1
+  '@nuxtjs/color-mode': ^4.0.1
   '@octokit/auth-app': ^8.2.0
   '@pmndrs/pointer-events': ^6.6.30
   '@tweakpane/core': ^2.0.5
@@ -105,6 +117,7 @@ catalog:
   '@vue/devtools-api': ^8.1.2
   '@vueuse/components': ^14.3.0
   '@vueuse/motion': ^3.0.3
+  '@vueuse/nuxt': ^14.3.0
   '@vueuse/shared': ^14.3.0
   better-sqlite3: ^12.10.0
   camera-controls: ^3.1.2
@@ -114,8 +127,11 @@ catalog:
   eslint-plugin-format: ^2.0.1
   eslint-plugin-vitest-globals: ^1.6.1
   hono: ^4.12.25
+  mdast-util-to-string: ^4.0.0
   meshoptimizer: ^1.2.0
+  n8ao: ^1.10.2
   nuxt-llms: 0.1.3
+  nuxt-svgo: ^5.3.0
   octokit: ^5.0.5
   postprocessing: ^6.39.1
   radashi: ^12.9.1

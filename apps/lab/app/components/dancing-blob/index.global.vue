@@ -24,7 +24,7 @@ const permissionModal = overlay.create(BlobPermissionModal, { destroyOnClose: tr
  * Handles microphone stream and sets up the analyser node.
  */
 const handleMicrophoneStream = () => {
-  if (!stream.value) return
+  if (!stream.value) { return }
   // Create audio context and analyser
   const audioContext = new (window.AudioContext)()
   const source = audioContext.createMediaStreamSource(stream.value)
@@ -45,33 +45,37 @@ watch(
       try {
         await start() // Start the user media stream
         handleMicrophoneStream()
-      } catch {
+      }
+      catch {
         permissionModal.open()
       }
-    } else if (state === 'prompt') {
+    }
+    else if (state === 'prompt') {
       // Open modal and wait for user to click OK, then start stream to trigger browser dialog
       const modalInstance = permissionModal.open()
       await modalInstance.result
       try {
         await start()
         handleMicrophoneStream()
-      } catch {
+      }
+      catch {
         // If user cancels or denies, keep modal open
         permissionModal.open()
       }
-    } else if (state === 'denied') {
+    }
+    else if (state === 'denied') {
       permissionModal.open()
       stop()
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
 
 <template>
   <div class="w-full h-full relative overflow-hidden">
     <NuxtLink class="absolute top-12 left-12" to="/">
-      <img src="/logos/tres_logo_white.svg" alt="TresJS Logo">
+      <img src="/logos/tres_logo_white.svg" alt="TresJS Logo" />
     </NuxtLink>
     <ClientOnly>
       <TresLeches collapsed />

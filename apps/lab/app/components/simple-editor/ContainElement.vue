@@ -27,7 +27,6 @@ const containedHeight = computed(() => isLandscape.value ? height.value : width.
       height: `${enabled ? containedHeight : height}px`,
     }"
   >
-    <slot />
+    <slot></slot>
   </div>
 </template>
-

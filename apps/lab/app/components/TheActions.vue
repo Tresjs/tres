@@ -17,16 +17,21 @@ defineShortcuts({
   },
   h: () => {
     visible.value = !visible.value
-  }
+  },
 })
 </script>
+
 <template>
   <UFieldGroup v-if="visible" size="sm">
     <TheCodeButton />
-    <USlideover v-model:open="openInfo" size="lg" :title="page.title" :ui="{
-      content: 'max-w-2xl'
-    }">
-      <UButton :icon="'i-carbon-document'" color="neutral" variant="subtle" />
+    <USlideover v-model:open="openInfo"
+                size="lg"
+                :title="page.title"
+                :ui="{
+                  content: 'max-w-2xl',
+                }"
+    >
+      <UButton icon="i-carbon-document" color="neutral" variant="subtle" />
       <template #title>
         <div class="flex items-center gap-8">
           <h2 class="text-2xl font-bold">{{ page.title }}</h2>
@@ -41,7 +46,11 @@ defineShortcuts({
         <ContentRenderer :value="page" />
       </template>
     </USlideover>
-    <UButton variant="subtle" color="neutral" :icon="isDark ? 'i-carbon-sun' : 'i-carbon-moon'" class="rounded-full"
-      @click="toggleDark()" />
+    <UButton variant="subtle"
+             color="neutral"
+             :icon="isDark ? 'i-carbon-sun' : 'i-carbon-moon'"
+             class="rounded-full"
+             @click="toggleDark()"
+    />
   </UFieldGroup>
 </template>

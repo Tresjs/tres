@@ -3,7 +3,8 @@ import { TresCanvas } from '@tresjs/core'
 import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 import { Physics } from '@tresjs/rapier'
 import { useEventListener, useMagicKeys, whenever } from '@vueuse/core'
-import { ACESFilmicToneMapping, MathUtils, type PerspectiveCamera, SRGBColorSpace, Vector3 } from 'three'
+import { ACESFilmicToneMapping, MathUtils, SRGBColorSpace, Vector3 } from 'three'
+import type { PerspectiveCamera } from 'three'
 import { computed, onUnmounted, ref, shallowRef, watch, watchEffect } from 'vue'
 import CarComponent from './CarComponent.vue'
 import { useCarGamepad } from './gamepad'
@@ -533,18 +534,18 @@ onUnmounted(() => {
 
 <style scoped>
   .render-stats {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    color: #84cc16;
-    font-family: ui-monospace, monospace;
-    font-size: 11px;
-    font-weight: 600;
-    pointer-events: none;
-    z-index: 10;
-  }
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  color: #84cc16;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  pointer-events: none;
+  z-index: 10;
+}
 
-  .render-stats p {
-    margin: 0;
-  }
+.render-stats p {
+  margin: 0;
+}
 </style>

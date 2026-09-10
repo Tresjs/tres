@@ -8,7 +8,6 @@ const gl = {
 useControls('fpsgraph', {
   uuid: 'glass-material-experiment',
 })
-
 </script>
 
 <template>

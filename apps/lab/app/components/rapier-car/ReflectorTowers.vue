@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Color, Mesh, type Object3D, SpotLight } from 'three'
+import { Color, Mesh, SpotLight } from 'three'
+import type { Object3D } from 'three'
 import { shallowRef, watch } from 'vue'
 
 type ArrayVec3 = [number, number, number]

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 </script>
+
 <template>
   <TresAmbientLight :intensity="0.4" />
   <TresDirectionalLight

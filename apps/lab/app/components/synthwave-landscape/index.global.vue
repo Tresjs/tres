@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { SRGBColorSpace, CineonToneMapping } from 'three'
+import { CineonToneMapping, SRGBColorSpace } from 'three'
 import { ImprovedNoise } from 'three/examples/jsm/math/ImprovedNoise'
 import { clamp } from 'three/src/math/MathUtils'
 import { PALETTE } from './palette'
@@ -76,23 +76,42 @@ const onLoop = ({ elapsed }: { elapsed: number }) => {
 
       <SynthwaveLandscapeSun :scale="100" :color-a="PALETTE[3]" :color-b="PALETTE[7]" :position="[0, 133, -600]" />
 
-      <SynthwaveLandscapeGrid :scale="2660" :position="[0, 71, -600]" :progress="dayProgress" :num-divisions="39"
-        :color="PALETTE[1]" :fill="PALETTE[2]" :col-fills="[
-          { color: PALETTE[6], colNum: -1 },
-          { color: PALETTE[6], colNum: 0 },
-          { color: PALETTE[6], colNum: 1 },
-        ]" />
+      <SynthwaveLandscapeGrid :scale="2660"
+                              :position="[0, 71, -600]"
+                              :progress="dayProgress"
+                              :num-divisions="39"
+                              :color="PALETTE[1]"
+                              :fill="PALETTE[2]"
+                              :col-fills="[
+                                { color: PALETTE[6],
+                                  colNum: -1 },
+                                { color: PALETTE[6],
+                                  colNum: 0 },
+                                { color: PALETTE[6],
+                                  colNum: 1 },
+                              ]"
+      />
       <Stars :scale="5" :count="1000" />
     </TresPerspectiveCamera>
     <TresAmbientLight :color="PALETTE[3]" :intensity="40 * (1 - dayProgress)" />
     <TresDirectionalLight :intensity="20 + 80 * dayProgress" :position="[0, 70, -400]" :color="PALETTE[3]" />
     <TresDirectionalLight :intensity="100 * dayProgress" :position="[200, 0, 100]" :color="PALETTE[1]" />
 
-    <SynthwaveLandscapeTerrain :terrain-gen-fn="terrainGen" :camera-z="z" :color-fills="PALETTE[2]"
-      :color-lines="dayProgress > 0.5 ? PALETTE[4] : PALETTE[8]" :color-dust="PALETTE[3]" :scale="TERRAIN_SCALE"
-      :speed="SPEED" :shininess="dayProgress" />
-    <SynthwaveLandscapeGradientSky :color-sky="PALETTE[3]" :color-ground="PALETTE[5]" :size="1000" :offset="0.3"
-      :scale="2" />
+    <SynthwaveLandscapeTerrain :terrain-gen-fn="terrainGen"
+                               :camera-z="z"
+                               :color-fills="PALETTE[2]"
+                               :color-lines="dayProgress > 0.5 ? PALETTE[4] : PALETTE[8]"
+                               :color-dust="PALETTE[3]"
+                               :scale="TERRAIN_SCALE"
+                               :speed="SPEED"
+                               :shininess="dayProgress"
+    />
+    <SynthwaveLandscapeGradientSky :color-sky="PALETTE[3]"
+                                   :color-ground="PALETTE[5]"
+                                   :size="1000"
+                                   :offset="0.3"
+                                   :scale="2"
+    />
     <TheScreenshot />
   </TresCanvas>
 </template>

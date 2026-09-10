@@ -28,7 +28,6 @@ watch(pumpkin, (newPumpkin) => {
   newPumpkin.geometry?.scale(0.025, 0.025, 0.025)
 })
 
-
 const pointsParentGeometry = computed(() => pumpkin.value?.geometry?.clone())
 
 const baseMaterial = new PointsMaterial({
@@ -57,7 +56,6 @@ const points = computed(() => new Points(pointsParentGeometry.value, shaderMater
 watch(points, (newPoints) => {
   context.scene.value.add(newPoints)
 })
-
 
 const { onBeforeRender } = useLoop()
 

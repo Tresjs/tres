@@ -17,23 +17,23 @@ import { truchet } from './truchet'
 import { octgrams } from './octgrams'
 
 export {
-  gamesOfSinus,
-  unyo,
-  prettyHip,
-  mainImageDrawCircle,
   cellular,
-  tiles,
-  rainbow,
-  star,
   fractalPyramid,
+  gamesOfSinus,
+  mainImageDrawCircle,
   mandelbulb,
-  shader02,
+  octgrams,
+  prettyHip,
+  rainbow,
   raymarchingBasic,
   seventiesMelt,
+  shader02,
   sinusoidalTresJS,
   sinusoidalTresJS2,
+  star,
+  tiles,
   truchet,
-  octgrams,
+  unyo,
 }
 
 export const mainImage = gamesOfSinus

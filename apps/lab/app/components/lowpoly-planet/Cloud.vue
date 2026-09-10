@@ -21,7 +21,7 @@ function random(min: number, max: number): number {
 }
 
 watch(cloud, (cloud) => {
-  if (!cloud) return
+  if (!cloud) { return }
   cloud.castShadow = true
   cloud.position.set(random(-8, 8), random(0.5, 1), random(-8, 8))
   const size = random(0.5, 1)
@@ -29,12 +29,10 @@ watch(cloud, (cloud) => {
   cloud.updateMatrixWorld()
 })
 
-
-
 watch(
   () => props.planet,
   (planet) => {
-    if (!cloudRef.value) return
+    if (!cloudRef.value) { return }
     cloudRef.value.lookAt(planet.position)
     cloudRef.value.updateMatrixWorld()
   },
@@ -45,9 +43,8 @@ const { onBeforeRender } = useLoop()
 let angle = random(-1, 1) * Math.PI
 const speed = Math.random() / 10
 
-
 onBeforeRender(({ delta }) => {
-  if (!cloudRef.value || !props.planet) return
+  if (!cloudRef.value || !props.planet) { return }
 
   const radius = Math.abs(props.planet.geometry.boundingSphere.radius)
   angle += delta * speed

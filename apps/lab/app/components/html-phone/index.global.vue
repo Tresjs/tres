@@ -11,7 +11,7 @@ const gl = {
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
 const onViewClicked = () => {
-  if (!cameraRef.value) return
+  if (!cameraRef.value) { return }
   gsap.to(cameraRef.value.position, {
     duration: 1,
     x: 0,
@@ -19,12 +19,10 @@ const onViewClicked = () => {
     z: 3,
     ease: 'power2.inOut',
     onUpdate: () => {
-      if (cameraRef.value)
-        cameraRef.value.lookAt(0, 3, 0)
+      if (cameraRef.value) { cameraRef.value.lookAt(0, 3, 0) }
     },
   })
 }
-
 </script>
 
 <template>
@@ -57,8 +55,15 @@ const onViewClicked = () => {
       <Environment background :blur="0.9" preset="city" />
     </Suspense>
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :intensity="2" :position="[2, 3, 0]" :cast-shadow="true" :shadow-camera-far="50"
-      :shadow-camera-left="-10" :shadow-camera-right="10" :shadow-camera-top="10" :shadow-camera-bottom="-10" />
+    <TresDirectionalLight :intensity="2"
+                          :position="[2, 3, 0]"
+                          :cast-shadow="true"
+                          :shadow-camera-far="50"
+                          :shadow-camera-left="-10"
+                          :shadow-camera-right="10"
+                          :shadow-camera-top="10"
+                          :shadow-camera-bottom="-10"
+    />
     <TheScreenshot />
   </TresCanvas>
 </template>

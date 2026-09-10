@@ -1,7 +1,5 @@
 <script setup lang="ts">
 // TODO: Implement experiment logic
-
-
 </script>
 
 <template>
@@ -11,7 +9,7 @@
     <!-- TODO: Add experiment scene objects -->
     <FireworksShaderTheFireworks />
     <OrbitControls />
-    <Sky :elevation="-2"  />
+    <Sky :elevation="-2" />
     <TheScreenshot />
   </TresCanvas>
 </template>

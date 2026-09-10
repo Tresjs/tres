@@ -22,7 +22,6 @@ watch([nodes, bakedMaterial], ([nodes, texture]) => {
     }
   })
 })
-
 </script>
 
 <template>

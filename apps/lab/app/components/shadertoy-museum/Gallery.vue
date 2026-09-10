@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Camera, Light } from 'three';
+import type { Camera, Light } from 'three'
 import { Box3, Mesh, MeshPhongMaterial, Quaternion, Vector3 } from 'three'
 import { shaderToySrc } from './shader-toy'
 import { shaderToyLights } from './shader-toy/lights'
@@ -19,10 +19,10 @@ watch(gallery, (newGallery) => {
 
       if (child.name.startsWith('ShaderToy')) {
         if (!child.userData.name) {
-          throw ("Missing Blender property 'userData.name'.")
+          throw ('Missing Blender property \'userData.name\'.')
         }
         if (typeof child.userData.name !== 'string') {
-          throw ("Blender GLTF 'userData.name' should be a string.")
+          throw ('Blender GLTF \'userData.name\' should be a string.')
         }
         if (!(child.userData.name in shaderToySrc)) {
           throw (`${child.userData.name} not in shaderToySrc. Srcs: ${Object.keys(shaderToySrc).join(', ')}`)
@@ -63,7 +63,8 @@ watch(gallery, (newGallery) => {
           let data = { title: '', author: '', description: '', href: 'https://www.shadertoy.com/' }
           try {
             data = { ...data, ...JSON.parse(shaderDataStr) }
-          } catch (error) {
+          }
+          catch (error) {
             console.error(error)
           }
 
@@ -103,7 +104,8 @@ watch(gallery, (newGallery) => {
                 const data = JSON.parse(userData[key])
                 userData[key] = data
               }
-            } catch (e) {
+            }
+            catch (e) {
               console.error(e)
             }
           }
@@ -120,6 +122,7 @@ watch(gallery, (newGallery) => {
   }
 })
 </script>
+
 <template>
   <TresGroup>
     <primitive v-if="gallery" :object="gallery.scene" />

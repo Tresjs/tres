@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import {
-  type DynamicRayCastVehicleController,
+
   Quaternion,
   Vector3,
 } from '@dimforge/rapier3d-compat'
-import { CuboidCollider, type ExposedRigidBody, RigidBody, useRapier } from '@tresjs/rapier'
+import type { DynamicRayCastVehicleController } from '@dimforge/rapier3d-compat'
+import { CuboidCollider, RigidBody, useRapier } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 import {
   Group,
   MathUtils,
   Mesh,
   MeshStandardMaterial,
-  type Object3D,
+
   Quaternion as ThreeQuaternion,
   Vector3 as ThreeVector3,
-  type Vector3Like,
+
 } from 'three'
+import type { Object3D, Vector3Like } from 'three'
 import { nextTick, onUnmounted, shallowRef, watch } from 'vue'
 import ExhaustVFX from './ExhaustVFX.vue'
 import { AIR_TUNING_DEFAULTS, createFlight } from './flight'
@@ -114,7 +117,7 @@ defineExpose({
 
 const { nodes: carModelNodes } = useGLTF(
   '/models/rapier-car/car.glb?v=tex-small-1',
-  { draco: true }
+  { draco: true },
 )
 const carModel = computed<Group | null>(() => carModelNodes.value.Scene)
 

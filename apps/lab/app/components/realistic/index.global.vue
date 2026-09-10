@@ -8,8 +8,10 @@ const environmentFiles = ['/px.jpg', '/nx.jpg', '/py.jpg', '/ny.jpg', '/pz.jpg',
     <TresPerspectiveCamera :position="[3, 3, 5]" />
     <OrbitControls />
     <Suspense>
-      <Environment background :files="environmentFiles"
-        path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap" />
+      <Environment background
+                   :files="environmentFiles"
+                   path="https://raw.githubusercontent.com/Tresjs/assets/main/textures/environmentMap"
+      />
     </Suspense>
     <Suspense>
       <RealisticDamagedHelmet />
