@@ -335,6 +335,20 @@ export function useRendererManager(
   }
 
   const replaceRenderFunction = (fn: RenderFunction) => {
+    if (fn.length === 0) {
+      renderFunction = () => {
+        const result = (fn as () => unknown)()
+        if (result && typeof (result as Promise<unknown>).then === 'function') {
+          (result as Promise<unknown>).then(notifyFrameRendered, notifyFrameRendered)
+        }
+        else {
+          notifyFrameRendered()
+        }
+      }
+
+      return
+    }
+
     renderFunction = fn
   }
 

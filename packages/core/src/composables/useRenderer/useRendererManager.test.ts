@@ -143,6 +143,51 @@ describe('useRendererManager render-mode lifecycle', () => {
     vi.advanceTimersToNextFrame()
     expect(renderer.render).toHaveBeenCalledTimes(3)
   })
+
+  it('on-demand settles when the custom render function does not declare notifySuccess', async () => {
+    const { manager } = await mountHarness('on-demand')
+
+    const customRender = vi.fn(() => {})
+    manager.replaceRenderFunction(customRender)
+
+    vi.advanceTimersToNextFrame()
+    vi.advanceTimersToNextFrame()
+    vi.advanceTimersToNextFrame()
+    expect(customRender).toHaveBeenCalledTimes(1)
+  })
+
+  it('always keeps calling a custom render function without notifySuccess every frame', async () => {
+    const { manager } = await mountHarness('always')
+
+    const customRender = vi.fn(() => {})
+    manager.replaceRenderFunction(customRender)
+
+    vi.advanceTimersToNextFrame()
+    vi.advanceTimersToNextFrame()
+    vi.advanceTimersToNextFrame()
+    expect(customRender).toHaveBeenCalledTimes(3)
+  })
+
+  it('keeps the explicit notifySuccess contract for render functions that declare it', async () => {
+    const { manager } = await mountHarness('on-demand')
+
+    const notifyingRender = vi.fn((notifySuccess: () => void) => {
+      notifySuccess()
+    })
+    manager.replaceRenderFunction(notifyingRender)
+
+    vi.advanceTimersToNextFrame()
+    vi.advanceTimersToNextFrame()
+    expect(notifyingRender).toHaveBeenCalledTimes(1)
+
+    const nonNotifyingRender = vi.fn((_notifySuccess: () => void) => {})
+    manager.replaceRenderFunction(nonNotifyingRender)
+    manager.invalidate()
+
+    vi.advanceTimersToNextFrame()
+    vi.advanceTimersToNextFrame()
+    expect(nonNotifyingRender).toHaveBeenCalledTimes(2)
+  })
 })
 
 describe('tres-canvas render-mode switching (integration)', () => {
