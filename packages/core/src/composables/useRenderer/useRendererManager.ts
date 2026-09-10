@@ -269,6 +269,10 @@ export function useRendererManager(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
+  watch(() => toValue(options.renderMode), (renderMode) => {
+    frames.value = renderMode === 'manual' ? 0 : 1
+  })
+
   const readyEventHook = createEventHook<TresRenderer>()
   const errorEventHook = createEventHook<TresRendererError>()
   let hasTriggeredReady = false
