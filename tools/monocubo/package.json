@@ -19,11 +19,11 @@
     "execa": "^9.6.1",
     "inquirer": "^14.2.1",
     "license-checker": "^25.0.1",
-    "ora": "^9.4.0",
+    "ora": "^9.4.1",
     "tsdown": "catalog:build"
   },
   "devDependencies": {
-    "@types/inquirer": "^9.0.9",
+    "@types/inquirer": "^9.0.10",
     "@types/node": "catalog:node",
     "typescript": "catalog:typescript"
   }

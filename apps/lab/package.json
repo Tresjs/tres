@@ -33,7 +33,7 @@
     "@iconify-json/lucide": "catalog:",
     "@nuxt/content": "catalog:nuxt",
     "@nuxt/fonts": "catalog:",
-    "@nuxt/icon": "catalog:conflicts_@nuxt/icon_2_0_0",
+    "@nuxt/icon": "catalog:",
     "@nuxt/image": "catalog:nuxt",
     "@nuxt/scripts": "catalog:conflicts_@nuxt/scripts_0_11_13",
     "@nuxtjs/color-mode": "catalog:",
