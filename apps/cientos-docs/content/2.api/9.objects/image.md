@@ -44,8 +44,7 @@ import { Image } from '@tresjs/cientos'
 | `zoom`          | Shrinks or enlarges the image texture. | `1` |
 | `radius`        | Border radius applied to the image texture. (Intended for rectangular geometries. Use with `transparent`.) | `0` |
 | `grayscale`        | Power of grayscale effect. 0 is off. 1 is full grayscale. | `0` |
-| `toneMapped`        | Whether this material is tone mapped according to the renderers toneMapping settings. [See THREE.material.tonemapped](https://threejs.org/docs/?q=material#api/en/materials/Material.toneMapped) | `0` |
-| `transparent` |  Whether the image material should be transparent. [See THREE.material.transparent](https://threejs.org/docs/?q=material#api/en/materials/Material.transparent) | `false` |
+| `toneMapped`        | Whether this material is tone mapped according to the renderers toneMapping settings. [See THREE.material.tonemapped](https://threejs.org/docs/?q=material#api/en/materials/Material.toneMapped) | `true` |
 | `transparent` |  Whether the image material should be transparent. [See THREE.material.transparent](https://threejs.org/docs/?q=material#api/en/materials/Material.transparent) | `false` |
 | `opacity` | Opacity of the image material. [See THREE.material.transparent](https://threejs.org/docs/?q=material#api/en/materials/Material.transparent) | `1` |
 | `side` | THREE.Side of the image material. [See THREE.material.side](https://threejs.org/docs/?q=material#api/en/materials/Material.side) | `FrontSide` |

@@ -53,8 +53,13 @@ All props are optional.
 | `disableY`   | If `true`, disables alignment on the y-axis. | `false` |
 | `disableZ`   | If `true`, disables alignment on the z-axis. | `false` |
 | `precise`    | See [Box3.setFromObject](https://threejs.org/docs/index.html?q=box3#api/en/math/Box3.setFromObject). | `true` |
-| `onAlign`    | Callback that fires when updating, after measurement. | |
 | `cacheKey`   | If set, component will only update when `cacheKey`'s value changes. If unset, component will update every frame. | `undefined` |
+
+## Events
+
+| Event    | Payload                | Description                                              |
+| -------- | ---------------------- | -------------------------------------------------------- |
+| `change` | `AlignCallbackOptions` | Fires after measurement, whenever the aligned bounding box or position changes. |
 
 ## AlignCallbackOptions
 

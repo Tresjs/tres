@@ -41,16 +41,16 @@ import { TresCanvas } from '@tresjs/core'
 
 | Prop | Description | Default |
 | - | - | - |
-| `once` | Whether shadow creation only happens once (resets after props change) | `false` |
+| `once` | Whether shadow creation only happens once (resets after props change) | `true` |
 | `accumulate` | Whether shadows accumulate progressively over several frames | `true` |
 | `frames` | Number of frames to render. More yields cleaner results but takes more time. If `accumulate && once`, 1 frame will be consumed every update for `frames` updates. Otherwise, `frames` frames are consumed for every update. | `40` |
-| `blend` | If `accumulate`, controls the refresh ratio | `100` |
+| `blend` | If `accumulate`, controls the refresh ratio | `20` |
 | `limit` | If less than `Infinity`, limits the amount of frames rendered. Use this to increase performance once a movable scene has settled | `Infinity` |
 | `scale` | Scale of the plane | `10` |
 | `opacity` | Opacity of the plane | `1` |
 | `alphaTest` | Discards alpha pixels | `0.65` |
 | `color` | Shadow color | `'black'` |
-| `colorBlend` | If less than `Infinity`, limits the amount of frames rendered. Use this to increase performance once a movable scene has settled | `Infinity` |
+| `colorBlend` | Amount of `color` blended into the shadow. `0` is black | `2` |
 | `resolution` | Buffer resolution | `1024` |
 | `toneMapped` | Texture tonemapping | `true` |
 
