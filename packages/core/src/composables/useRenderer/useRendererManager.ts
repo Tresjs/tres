@@ -269,6 +269,10 @@ export function useRendererManager(
 
   const isModeAlways = computed(() => toValue(options.renderMode) === 'always')
 
+  watch(() => toValue(options.renderMode), (renderMode) => {
+    frames.value = renderMode === 'manual' ? 0 : 1
+  })
+
   const readyEventHook = createEventHook<TresRenderer>()
   const errorEventHook = createEventHook<TresRendererError>()
   let hasTriggeredReady = false
@@ -331,6 +335,20 @@ export function useRendererManager(
   }
 
   const replaceRenderFunction = (fn: RenderFunction) => {
+    if (fn.length === 0) {
+      renderFunction = () => {
+        const result = (fn as () => unknown)()
+        if (result && typeof (result as Promise<unknown>).then === 'function') {
+          (result as Promise<unknown>).then(notifyFrameRendered, notifyFrameRendered)
+        }
+        else {
+          notifyFrameRendered()
+        }
+      }
+
+      return
+    }
+
     renderFunction = fn
   }
 
