@@ -3,21 +3,20 @@ import { LoopOnce } from 'three'
 
 const { state, nodes } = useGLTF('/models/cult-of-the-lamb/lamb-v2.glb', { draco: true })
 
-const lamb = computed(() => nodes.value?.['rig'])
+const lamb = computed(() => nodes.value?.rig)
 const animations = computed(() => state.value?.animations || [])
 
 const { actions } = useAnimations(animations, lamb)
 
-const currentAction = ref(actions['elevate'])
+const currentAction = ref(actions.elevate)
 
 watch(actions, (newActions) => {
-  currentAction.value = newActions['elevate']
-  if (!currentAction.value) return
+  currentAction.value = newActions.elevate
+  if (!currentAction.value) { return }
   currentAction.value.clampWhenFinished = true
   currentAction.value.loop = LoopOnce
   currentAction.value.play()
 })
-
 </script>
 
 <template>

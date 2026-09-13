@@ -38,10 +38,12 @@ function getVertexArray(offset = 0) {
 
 <template>
   <TresGroup ref="landscapeRef">
-    <slot />
+    <slot></slot>
     <TresMesh :rotation="[-Math.PI * 0.5, 0, 0]">
-      <TresPlaneGeometry ref="geometryRef" :args="[width, depth, width, depth]"
-        :attributes-position-array="getVertexArray()" />
+      <TresPlaneGeometry ref="geometryRef"
+                         :args="[width, depth, width, depth]"
+                         :attributes-position-array="getVertexArray()"
+      />
       <TresMeshBasicMaterial :color="props.color" />
     </TresMesh>
   </TresGroup>

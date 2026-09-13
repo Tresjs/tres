@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { ScrollControls } from '@tresjs/cientos'
 
 const gl = {
@@ -34,7 +34,6 @@ onLoop(() => {
     }
   }
 })
-
 </script>
 
 <template>
@@ -113,4 +112,3 @@ onLoop(() => {
     </section>
   </div>
 </template>
-

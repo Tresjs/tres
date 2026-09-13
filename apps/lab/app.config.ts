@@ -3,13 +3,13 @@ export default defineAppConfig({
     colors: {
       primary: 'teal',
       accent: 'yellow',
-      neutral: 'zinc'
+      neutral: 'zinc',
     },
     card: {
       slots: {
         root: 'rounded-xs hover:bg-linear-[115deg,#272727 .06%,#171717]',
-        body: 'p-2 sm:p-3'
-      }
-    }
-  }
+        body: 'p-2 sm:p-3',
+      },
+    },
+  },
 })

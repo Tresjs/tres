@@ -2,7 +2,7 @@ export interface SceneSettings {
   width: number
   height: number
 }
-  
+
 export interface SceneNode {
   id: string
   type: 'camera' | 'box' | 'sphere' | 'cone'
@@ -10,14 +10,14 @@ export interface SceneNode {
   rotation: [number, number, number]
   scale: [number, number, number]
 }
-  
+
 export interface CameraSceneNode extends SceneNode {
   type: 'camera'
   properties: {
     fov: number
   }
 }
-  
+
 export interface BoxSceneNode extends SceneNode {
   type: 'box'
   properties: {
@@ -26,7 +26,7 @@ export interface BoxSceneNode extends SceneNode {
     length: number
   }
 }
-  
+
 export interface SphereSceneNode extends SceneNode {
   type: 'sphere'
   properties: {

@@ -7,11 +7,11 @@ import {
   InstancedBufferGeometry,
   Mesh,
   ShaderMaterial,
+  Sphere,
   SRGBColorSpace,
   Uniform,
   Vector2,
   Vector3,
-  Sphere,
 } from 'three'
 import { ImprovedNoise } from 'three/examples/jsm/math/ImprovedNoise'
 import { onUnmounted, watch } from 'vue'
@@ -58,11 +58,21 @@ const props = withDefaults(defineProps<{
 
 // Blade template: 5 vertices / 3 triangles, tapering to a tip
 const BLADE_POSITIONS = new Float32Array([
-  -1, 0, 0,
-  1, 0, 0,
-  -0.5, 0.7, 0,
-  0.5, 0.7, 0,
-  0, 1, 0,
+  -1,
+  0,
+  0,
+  1,
+  0,
+  0,
+  -0.5,
+  0.7,
+  0,
+  0.5,
+  0.7,
+  0,
+  0,
+  1,
+  0,
 ])
 const BLADE_TIPNESS = new Float32Array([0, 0, 0.7, 0.7, 1])
 const BLADE_INDICES = [0, 1, 2, 1, 3, 2, 2, 3, 4]

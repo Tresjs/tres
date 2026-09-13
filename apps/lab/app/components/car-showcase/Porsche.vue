@@ -7,7 +7,6 @@ const { state: model, materials } = useGLTF('/models/porsche/911-transformed.glb
 })
 
 watch(materials, (materials) => {
-
   if (materials.rubber) {
     materials.rubber.color = new Color('#222')
     materials.rubber.roughness = 0.6
@@ -34,15 +33,14 @@ watch(materials, (materials) => {
     materials.paint.color = new Color('#555')
   }
 }, { immediate: true })
-
 </script>
 
 <template>
   <primitive
     v-if="model?.scene"
-    :scale="[1.6, 1.6, 1.6]" 
-    :position="[-0.5, -0.18, 0]" 
-    :rotation="[0, Math.PI / 5, 0]" 
-    :object="model.scene" 
+    :scale="[1.6, 1.6, 1.6]"
+    :position="[-0.5, -0.18, 0]"
+    :rotation="[0, Math.PI / 5, 0]"
+    :object="model.scene"
   />
 </template>

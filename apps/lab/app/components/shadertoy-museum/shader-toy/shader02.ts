@@ -13,18 +13,18 @@ float sdSphere( vec3 p, float s )
 
 float map(vec3 p)
 {
-	float d = 0.480;
-	for (int i = 0; i < 16; i++)
-	{
-		float fi = float(i);
-		float time = iTime * (fract(fi * 412.531 + 1.073) - 1.020) * 1.152;
-		d = opSmoothUnion(
+  float d = 0.480;
+  for (int i = 0; i < 16; i++)
+  {
+    float fi = float(i);
+    float time = iTime * (fract(fi * 412.531 + 1.073) - 1.020) * 1.152;
+    d = opSmoothUnion(
             sdSphere(p + sin(time + fi * vec3(52.5126, 64.62744, 632.25)) * vec3(2.0, 2.0, 0.8), mix(0.5, 1.0, fract(fi * 412.531 + 0.5124))),
-			d,
-			0.024
-		);
-	}
-	return d;
+      d,
+      0.024
+    );
+  }
+  return d;
 }
 
 vec3 calcNormal( in vec3 p )
@@ -42,23 +42,23 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     vec2 uv = fragCoord/iResolution.xy;
 
     // screen size is 6m x 6m
-	vec3 rayOri = vec3((uv - 0.5) * vec2(iResolution.x/iResolution.y, 0.368) * 6.0, 3.0);
-	vec3 rayDir = vec3(0.0, 0.0, -1.0);
+  vec3 rayOri = vec3((uv - 0.5) * vec2(iResolution.x/iResolution.y, 0.368) * 6.0, 3.0);
+  vec3 rayDir = vec3(0.0, 0.0, -1.0);
 
-	float depth = 0.0;
-	vec3 p;
+  float depth = 0.0;
+  vec3 p;
 
-	for(int i = 0; i < 64; i++) {
-		p = rayOri + rayDir * depth;
-		float dist = map(p);
+  for(int i = 0; i < 64; i++) {
+    p = rayOri + rayDir * depth;
+    float dist = map(p);
         depth += dist;
-		if (dist < 1e-6) {
-			break;
-		}
-	}
+    if (dist < 1e-6) {
+      break;
+    }
+  }
 
     depth = min(6.0, depth);
-	vec3 n = calcNormal(p);
+  vec3 n = calcNormal(p);
     float b = max(0.0, dot(n, vec3(0.577)));
     vec3 col = (0.5 + 0.5 * cos((b + iTime * 3.0) + uv.xyx * 2.0 + vec3(0,2,4))) * (0.85 + b * 0.35);
     col *= exp( -depth * 0.15 );
@@ -69,9 +69,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
 /** SHADERDATA
 {
-	"title": "shader2",
-	"description": "sure",
-	"model": "nothing"
+  "title": "shader2",
+  "description": "sure",
+  "model": "nothing"
 }
 */
 `

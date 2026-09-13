@@ -1,6 +1,4 @@
 <script setup lang="ts">
-
-
 const gl = {
   clearColor: '#202020',
   shadows: true,

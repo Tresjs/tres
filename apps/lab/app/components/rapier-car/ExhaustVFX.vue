@@ -4,11 +4,12 @@ import {
   BufferAttribute,
   BufferGeometry,
   Mesh,
-  type Object3D,
+
   Points,
   ShaderMaterial,
   Vector3,
 } from 'three'
+import type { Object3D } from 'three'
 import { onUnmounted, shallowRef, watch } from 'vue'
 
 const props = defineProps<{

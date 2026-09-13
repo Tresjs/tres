@@ -2,7 +2,7 @@
 import type { TresObject } from '@tresjs/core'
 import { useDark } from '@vueuse/core'
 import { shallowRef, watch } from 'vue'
-import { MathUtils, Object3D, MeshToonMaterial, BoxGeometry, Color } from 'three'
+import { BoxGeometry, Color, MathUtils, MeshToonMaterial, Object3D } from 'three'
 
 import { colors } from './constants'
 
@@ -102,7 +102,10 @@ function onPointerLeave(ev: ThreeEvent<PointerEvent>) {
 
 <template>
   <TresGroup :position="[0, 0, -30]">
-    <TresInstancedMesh ref="meshRef" :args="[cubeGeometry, mainMaterial, COUNT]" @pointer-enter="onPointerEnter"
-      @pointer-leave="onPointerLeave" />
+    <TresInstancedMesh ref="meshRef"
+                       :args="[cubeGeometry, mainMaterial, COUNT]"
+                       @pointer-enter="onPointerEnter"
+                       @pointer-leave="onPointerLeave"
+    />
   </TresGroup>
 </template>

@@ -4,7 +4,7 @@ import { Icosahedron, OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import {
   AgXToneMapping,
-  PCFSoftShadowMap,
+  PCFShadowMap,
   SRGBColorSpace,
 } from 'three'
 
@@ -16,7 +16,7 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: AgXToneMapping,
   toneMappingExposure: 2.2,
-  shadowMapType: PCFSoftShadowMap,
+  shadowMapType: PCFShadowMap,
   antialias: true,
 }
 </script>

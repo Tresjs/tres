@@ -11,7 +11,7 @@ const dummy = gameStore.mutation.dummy
 
 export interface ExplosionData {
   time: number
-  particles: { position: Vector3; dPos: Vector3 }[]
+  particles: { position: Vector3, dPos: Vector3 }[]
   offset: Vector3
   color: string
 }
@@ -47,9 +47,14 @@ onBeforeRender(updateExplosions)
 </script>
 
 <template>
-  <TresInstancedMesh v-for="explosion, i of gameStore.explosions" ref="instancedMeshesRef" :key="i"
-    :args="[undefined, undefined, explosion.particles.length]" :position="explosion.offset" :frustum-culled="false"
-    :scale="2">
+  <TresInstancedMesh v-for="explosion, i of gameStore.explosions"
+                     ref="instancedMeshesRef"
+                     :key="i"
+                     :args="[undefined, undefined, explosion.particles.length]"
+                     :position="explosion.offset"
+                     :frustum-culled="false"
+                     :scale="2"
+  >
     <TresDodecahedronGeometry :args="[10, 0]" />
     <TresMeshBasicMaterial :color="explosion.color" :transparent="true" :opacity="1" :fog="false" />
   </TresInstancedMesh>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { TresPointerEvent } from '@tresjs/core'
 import { useLoop, useTres } from '@tresjs/core'
-import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
-import { DataTexture, InstancedMesh, Matrix4, type Mesh, MeshStandardMaterial, Quaternion, RepeatWrapping, TorusGeometry, Vector3 } from 'three'
+import { Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
+import { DataTexture, InstancedMesh, Matrix4, MeshStandardMaterial, Quaternion, RepeatWrapping, TorusGeometry, Vector3 } from 'three'
+import type { Mesh } from 'three'
 import { RoundedBox } from '@tresjs/cientos'
 
 const poleRef = shallowRef<ExposedRigidBody | null>(null)
@@ -44,7 +46,7 @@ function linkInitialPos(i: number): [number, number, number] {
 // Chain interaction groups: membership=bit2, filter=everything except bit2 → links don't collide with each other
 const CHAIN_GROUPS = 0x0002FFFD
 
-const linkRefs = ref<(ExposedRigidBody | null)[]>(Array.from({ length: PHYSICS_LINKS }, () => null))
+const linkRefs = ref<(ExposedRigidBody | null)[]>(Array.from({ length: PHYSICS_LINKS }).fill(null))
 function setLinkRef(el: unknown, i: number) {
   linkRefs.value[i] = (el as ExposedRigidBody | null) ?? null
 }
@@ -151,7 +153,7 @@ function onBallPointerDown(event: TresPointerEvent) {
   const ball = ballRef.value?.instance
   if (!ball) { return }
   event.stopPropagation()
-    ; (event.object as unknown as { setPointerCapture?: (id: number) => void }).setPointerCapture?.(event.pointerId)
+  ; (event.object as unknown as { setPointerCapture?: (id: number) => void }).setPointerCapture?.(event.pointerId)
   // Start the tilt from the chain's current direction so the grab is seamless
   const t = ball.translation()
   _tmpVec.set(t.x - POLE_POS.x, t.y - POLE_POS.y, t.z - POLE_POS.z).normalize()
@@ -197,7 +199,7 @@ function onBallPointerUp(event: TresPointerEvent) {
   if (!isDragging.value) { return }
   // Ball keeps its current drag velocity → natural throw/swing on release
   isDragging.value = false
-    ; (event.object as unknown as { releasePointerCapture?: (id: number) => void }).releasePointerCapture?.(event.pointerId)
+  ; (event.object as unknown as { releasePointerCapture?: (id: number) => void }).releasePointerCapture?.(event.pointerId)
   document.body.style.cursor = ''
 }
 
@@ -406,23 +408,49 @@ onBeforeRender(({ delta }) => {
       </RigidBody>
 
       <!-- Chain physics links — small invisible ball colliders, visuals come from the InstancedMesh -->
-      <RigidBody v-for="i in PHYSICS_LINKS" :key="`link-${ballKey}-${i}`" :ref="(el) => setLinkRef(el, i - 1)"
-        type="dynamic" collider="ball" :mass="linkMass" :linear-damping="0.1" :angular-damping="1.0" :enable-ccd="true"
-        :collision-groups="CHAIN_GROUPS" :solver-groups="CHAIN_GROUPS" :position="linkInitialPos(i - 1)"
-        :rotation="[0, 0, CHAIN_ROT_Z]">
+      <RigidBody v-for="i in PHYSICS_LINKS"
+                 :key="`link-${ballKey}-${i}`"
+                 :ref="(el) => setLinkRef(el, i - 1)"
+                 type="dynamic"
+                 collider="ball"
+                 :mass="linkMass"
+                 :linear-damping="0.1"
+                 :angular-damping="1.0"
+                 :enable-ccd="true"
+                 :collision-groups="CHAIN_GROUPS"
+                 :solver-groups="CHAIN_GROUPS"
+                 :position="linkInitialPos(i - 1)"
+                 :rotation="[0, 0, CHAIN_ROT_Z]"
+      >
         <TresMesh :visible="false">
           <TresSphereGeometry :args="[0.06, 4, 4]" />
         </TresMesh>
       </RigidBody>
 
-      <RigidBody :key="ballKey" ref="ballRef" type="dynamic" :position="BALL_START" collider="ball" :mass="mass"
-        :enable-ccd="true">
-        <TresMesh cast-shadow @pointerdown="onBallPointerDown" @pointermove="onBallPointerMove"
-          @pointerup="onBallPointerUp" @pointerover="onBallPointerOver" @pointerout="onBallPointerOut">
+      <RigidBody :key="ballKey"
+                 ref="ballRef"
+                 type="dynamic"
+                 :position="BALL_START"
+                 collider="ball"
+                 :mass="mass"
+                 :enable-ccd="true"
+      >
+        <TresMesh cast-shadow
+                  @pointerdown="onBallPointerDown"
+                  @pointermove="onBallPointerMove"
+                  @pointerup="onBallPointerUp"
+                  @pointerover="onBallPointerOver"
+                  @pointerout="onBallPointerOut"
+        >
           <TresSphereGeometry :args="[BALL_SIZE, 32, 32]" />
           <!-- roughness acts as a multiplier on the map, so keep it at 1 -->
-          <TresMeshStandardMaterial color="#1a1a1a" :metalness="0.95" :roughness="1"
-            :roughness-map="ballNoiseTexture" :bump-map="ballNoiseTexture" :bump-scale="0.04" />
+          <TresMeshStandardMaterial color="#1a1a1a"
+                                    :metalness="0.95"
+                                    :roughness="1"
+                                    :roughness-map="ballNoiseTexture"
+                                    :bump-map="ballNoiseTexture"
+                                    :bump-scale="0.04"
+          />
           <!-- Connection lug at the joint anchor (local [0, BALL_SIZE, 0]). Nested inside the
                sphere mesh because auto-colliders are generated from the body's DIRECT children
                only — as a direct child it would get its own collider. Raycast is disabled via
@@ -439,23 +467,33 @@ onBeforeRender(({ delta }) => {
       <SphericalJoint :bodies="[poleRef?.instance, linkRefs[0]?.instance]" :params="[[0, 0, 0], [0, SEG_LEN / 2, 0]]" />
       <!-- link i → link i+1 -->
       <!-- @vue-expect-error duplicate rapier3d-compat type instances cause a benign RigidBody mismatch -->
-      <SphericalJoint v-for="i in PHYSICS_LINKS - 1" :key="`joint-${i}`"
-        :bodies="[linkRefs[i - 1]?.instance, linkRefs[i]?.instance]"
-        :params="[[0, -SEG_LEN / 2, 0], [0, SEG_LEN / 2, 0]]" />
+      <SphericalJoint v-for="i in PHYSICS_LINKS - 1"
+                      :key="`joint-${i}`"
+                      :bodies="[linkRefs[i - 1]?.instance, linkRefs[i]?.instance]"
+                      :params="[[0, -SEG_LEN / 2, 0], [0, SEG_LEN / 2, 0]]"
+      />
       <!-- last link → ball -->
       <!-- @vue-expect-error duplicate rapier3d-compat type instances cause a benign RigidBody mismatch -->
       <SphericalJoint :bodies="[linkRefs[PHYSICS_LINKS - 1]?.instance, ballRef?.instance]"
-        :params="[[0, -SEG_LEN / 2, 0], [0, BALL_SIZE, 0]]" />
+                      :params="[[0, -SEG_LEN / 2, 0], [0, BALL_SIZE, 0]]"
+      />
 
-      <RigidBody v-for="(box, i) in boxes" :key="`${wallKey}-${parsedGrid.cols}-${parsedGrid.rows}-${i}`" type="dynamic"
-        :mass="boxMass" :position="[
-          3,
-          brickHeight / 2 + box.row * brickHeight,
-          -((parsedGrid.cols - 1) / 2) * brickWidth + box.col * brickWidth + (box.row % 2 === 1 ? brickWidth / 2 : 0),
-        ]" collider="cuboid">
+      <RigidBody v-for="(box, i) in boxes"
+                 :key="`${wallKey}-${parsedGrid.cols}-${parsedGrid.rows}-${i}`"
+                 type="dynamic"
+                 :mass="boxMass"
+                 :position="[
+                   3,
+                   brickHeight / 2 + box.row * brickHeight,
+                   -((parsedGrid.cols - 1) / 2) * brickWidth + box.col * brickWidth + (box.row % 2 === 1 ? brickWidth / 2 : 0),
+                 ]"
+                 collider="cuboid"
+      >
         <RoundedBox :args="[brickHeight, brickHeight, brickWidth, 1, brickHeight * 0.05]" cast-shadow receive-shadow>
-          <TresMeshStandardMaterial :color="CEMENT_SHADES[box.row % CEMENT_SHADES.length]" :roughness="0.95"
-            :metalness="0" />
+          <TresMeshStandardMaterial :color="CEMENT_SHADES[box.row % CEMENT_SHADES.length]"
+                                    :roughness="0.95"
+                                    :metalness="0"
+          />
         </RoundedBox>
       </RigidBody>
 

@@ -1,8 +1,10 @@
-// @ts-check
-import withNuxt from './.nuxt/eslint.config.mjs'
+import { tresLintConfig } from '@tresjs/eslint-config'
 
-export default withNuxt(
-  // Your custom configs here
+export default tresLintConfig(
+  {
+    // public/fonts holds generated font atlases with intentional irregular whitespace
+    ignores: ['**/*.md', '.nuxt/**', '.output/**', 'dist/**', 'public/fonts/**'],
+  },
   {
     rules: {
       'vue/attribute-hyphenation': 'off',
