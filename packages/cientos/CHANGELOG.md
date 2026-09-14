@@ -1,3 +1,32 @@
+## 5.9.0 (2026-09-14)
+
+### 🚀 Features
+
+- **cli:** batch repeated meshes with --instance and --instanceall ([#1472](https://github.com/Tresjs/tres/pull/1472))
+- **cientos:** add Instances and Merged abstractions ([#1468](https://github.com/Tresjs/tres/pull/1468))
+- **cli:** tres gltf, glTF to Vue SFC codegen ([#1464](https://github.com/Tresjs/tres/pull/1464))
+- MeshPortalMaterial (MVP) + TresPortal ([#1445](https://github.com/Tresjs/tres/pull/1445))
+- **cientos:** small addition to the keyboardControls with the Q key you can go down and with the E key you can go up (assuming Y+up) ([#1449](https://github.com/Tresjs/tres/pull/1449))
+- **cientos:** Refractor component ([#1422](https://github.com/Tresjs/tres/pull/1422))
+- **cientos:** add RoundedPlane shape ([aefa2613](https://github.com/Tresjs/tres/commit/aefa2613))
+
+### 🩹 Fixes
+
+- **useProgress:** reset loading progress based on already loaded items and  unified loading screen for experiments ([bd532edb](https://github.com/Tresjs/tres/commit/bd532edb))
+- **cientos:** reactivity for randomness and count ([#1448](https://github.com/Tresjs/tres/pull/1448))
+- **cientos:** strip scene.environment during AccumulativeShadows bake ([#1446](https://github.com/Tresjs/tres/pull/1446))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- alvarosabu @alvarosabu
+- Claude Opus 4.8
+- Jaime A Torrealba C @JaimeTorrealba
+
 ## 5.8.1 (2026-06-18)
 
 ### 🧱 Updated Dependencies
