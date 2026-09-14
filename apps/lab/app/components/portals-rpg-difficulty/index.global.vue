@@ -22,7 +22,7 @@ const CONTROLS = {
 
 <template>
   <TresCanvas v-bind="gl">
-    <TresPerspectiveCamera :position="[0, 0, 8]" :fov="50" :look-at="[0, 0, 0]" />
+    <TresPerspectiveCamera :position="[0, 0, 6]" :fov="50" :look-at="[0, 0, 0]" />
     <PortalsRpgDifficultyExperience />
     <OrbitControls v-bind="CONTROLS" enable-damping />
     <TheScreenshot />

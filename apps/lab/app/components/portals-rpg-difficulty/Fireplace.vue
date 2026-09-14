@@ -74,6 +74,11 @@ const uniforms = {
 const fireLight = shallowRef<PointLight | null>(null)
 const flameCenter = new Vector3()
 const flameBounds = shallowRef<Box3 | null>(null)
+// The notes rise out of the flame tip, not off the bard's lute, so the whole camp
+// reads as singing along rather than one player.
+const notesOrigin = computed(() => flameBounds.value
+    ? [flameCenter.x, flameBounds.value.max.y, flameCenter.z]
+    : [0, 0, 0])
 const lightRest = { intensity: 1, position: new Vector3() }
 
 // The template props stay the rest pose the flicker swings around.
@@ -142,5 +147,6 @@ onBeforeRender(({ elapsed }) => {
             <PortalsRpgDifficultySparks v-if="flameBounds" :bounds="flameBounds" :animator="animator"
                 :swell="swell" :sway-amplitude="SWAY" />
         </primitive>
+        <PortalsRpgDifficultyNotes v-if="flameBounds" :position="notesOrigin" />
     </TresGroup>
 </template>
