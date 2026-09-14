@@ -30,3 +30,11 @@ Packages use pnpm's `workspace:*` protocol for internal dependencies. The catalo
   - If it exists, it will contain other links to the documentation for the LLMs used in this project
 - ALWAYS follow existing links in table of contents or documentation indices
 - Verify examples and patterns from documentation before using
+
+## Agent Configuration
+
+Instructions, skills and hooks are shared by Claude Code, Codex and Cursor. Edit the canonical copy only:
+
+- **Instructions**: `AGENTS.md` at the root and inside each package or app. Every `CLAUDE.md` is a one-line `@AGENTS.md` import so Claude Code reads the same file.
+- **Skills**: `.agents/skills/<name>/SKILL.md`. Codex and Cursor read this folder directly; `.claude/skills` is a symlink to it.
+- **Hooks**: scripts live in `.agents/hooks/`. They are wired from `.claude/settings.json`, `.codex/hooks.json` and `.cursor/hooks.json`.
