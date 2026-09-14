@@ -1,12 +1,14 @@
 #!/usr/bin/env bash
-# Runs lint:fix and typecheck (if available) for the package containing the edited file
+# Runs lint:fix and typecheck (if available) for the package containing the edited file.
+# Shared by Claude Code, Codex and Cursor; wired from .claude/settings.json, .codex/hooks.json and .cursor/hooks.json.
 
 INPUT=$(cat)
 
 FILE_PATH=$(echo "$INPUT" | python3 -c "
 import sys, json
 data = json.load(sys.stdin)
-print(data.get('tool_input', {}).get('file_path', ''))
+# Claude Code and Codex nest the path under tool_input; Cursor's afterFileEdit sends it flat.
+print(data.get('tool_input', data).get('file_path', ''))
 " 2>/dev/null)
 
 if [ -z "$FILE_PATH" ]; then
