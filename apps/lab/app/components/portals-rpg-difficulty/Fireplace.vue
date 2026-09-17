@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import vertexShader from './shaders/fire-vertex.glsl?raw'
+import noise from './shaders/noise.glsl?raw'
+import fireVertex from './shaders/fire-vertex.glsl?raw'
 import fragmentShader from './shaders/fire-fragment.glsl?raw'
 import type { Box3, PointLight } from 'three';
 import { Color, DoubleSide, Uniform, Vector2, Vector3 } from 'three';
 import { marble } from './marble'
+
+// The noise chunk is shared with the mage orb, so it is prepended here instead
+// of duplicated in the .glsl file.
+const vertexShader = noise + fireVertex
 
 const props = defineProps<{
     nodes: Record<string, any>

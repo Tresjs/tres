@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Color } from 'three'
+import type { MeshStandardMaterial } from 'three'
 
 const { nodes, state } = useGLTF('/models/portals-rpg/adventurers-camp.glb', { draco: true })
 
@@ -19,8 +20,25 @@ const logs = computed(() => {
 
 const DIRT = new Color('#8a6244')
 
+const patchGroundFade = (material: MeshStandardMaterial) => {
+  material.transparent = true
+  material.onBeforeCompile = (shader) => {
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', '#include <common>\nvarying vec2 vGroundUv;')
+      .replace('#include <uv_vertex>', '#include <uv_vertex>\nvGroundUv = uv;')
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', '#include <common>\nvarying vec2 vGroundUv;')
+      // Reversed edges in smoothstep are undefined in GLSL, so invert the result instead
+      .replace('#include <alphamap_fragment>', `#include <alphamap_fragment>
+        diffuseColor.a *= 1.0 - smoothstep(0.2, 0.5, length(vGroundUv - 0.5));`)
+  }
+  material.needsUpdate = true
+}
+
 watch(() => nodes.value?.Ground, (ground) => {
-  if (ground?.material) { ground.material.color.copy(DIRT) }
+  if (!ground?.material) { return }
+  ground.material.color.copy(DIRT)
+  patchGroundFade(ground.material)
 }, { immediate: true })
 
 const lutes = computed(() => {

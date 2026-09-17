@@ -3,6 +3,7 @@ import { Html } from '@tresjs/cientos'
 import { ref } from 'vue'
 import Card from './Card.vue'
 import Easy from './Easy.vue'
+import Balanced from './Balanced.vue'
 import { EquirectangularReflectionMapping, MathUtils, SRGBColorSpace } from 'three'
 
 const { scene: mainScene } = useTresContext()
@@ -30,7 +31,7 @@ watch(() => background.value, (value) => {
 // planes read as one folded panel: inner edge at x = ±(1 + gap).
 const difficulties = [
   { label: 'Explorer', description: 'A narrative experience placing story before combat', x: -2.321, z: 0.389, rotationY: 0.4, component: Easy },
-  { label: 'Balanced', description: 'A balanced adventure full of challenging rewards', x: 0, z: 0, rotationY: 0 },
+  { label: 'Balanced', description: 'A balanced adventure full of challenging rewards', x: 0, z: 0, rotationY: 0, component: Balanced },
   { label: 'Tactician', description: 'A tough campaign with strategic depth', x: 2.321, z: 0.389, rotationY: -0.4 },
 ]
 
@@ -67,7 +68,7 @@ function toggle(label: string) {
       :distance-factor="4"
       :position="[0, 0, 0.02]"
     >
-      <Card :label="d.label" :description="d.description" :faded="focused === d.label" />
+      <Card :label="d.label" :description="d.description" :faded="focused !== null" />
     </Html>
   </TresMesh>
   <!-- <Easy /> -->

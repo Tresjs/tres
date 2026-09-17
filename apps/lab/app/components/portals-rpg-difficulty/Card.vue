@@ -2,7 +2,8 @@
 defineProps<{
   label: string
   description: string
-  // The portal took over the screen, so the frame gets out of the way.
+  // A portal took over the screen: the focused frame gets out of the way, and
+  // the others fade so they do not float over the blended scene.
   faded?: boolean
 }>()
 
