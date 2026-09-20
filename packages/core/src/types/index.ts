@@ -127,15 +127,16 @@ export interface VectorCoordinates {
   z: number
 }
 
+type NumericArray = readonly number[]
+
 export type MathType<T extends MathRepresentation | THREE.Euler> = T extends THREE.Color
   ? ConstructorParameters<typeof THREE.Color> | THREE.ColorRepresentation
 
-  : T extends VectorRepresentation | THREE.Layers | THREE.Euler ? T | Parameters<T['set']> | number | VectorCoordinates : T | Parameters<T['set']>
+  : T extends VectorRepresentation | THREE.Layers | THREE.Euler ? T | NumericArray | number | VectorCoordinates : T | NumericArray
 
 type VectorLike<VectorClass extends THREE.Vector2 | THREE.Vector3 | THREE.Vector4>
   = | VectorClass
-    | Parameters<VectorClass['set']>
-    | Readonly<Parameters<VectorClass['set']>>
+    | NumericArray
     | Parameters<VectorClass['setScalar']>[0]
 
 export type TresVector2 = VectorLike<THREE.Vector2>
