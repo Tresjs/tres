@@ -18,9 +18,9 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 }
 /** SHADERDATA
 {
-	"title": "The games of sinus :)",
-	"author": "cesio",
-	"description": "Sinusoid, color pallette inspired by https://www.shadertoy.com/view/ls3Xzn",
+  "title": "The games of sinus :)",
+  "author": "cesio",
+  "description": "Sinusoid, color pallette inspired by https://www.shadertoy.com/view/ls3Xzn",
     "href": "https://www.shadertoy.com/view/M32BD1"
 }
 */

@@ -8,14 +8,20 @@ const { data: page } = await useAsyncData(route.path, () => {
 })
 
 const { data: authors } = await useAsyncData('authors', () =>
-  queryCollection('authors').all()
-)
+  queryCollection('authors').all())
 
 const formattedPage = computed(() => {
   return {
     ...page.value,
     authors: authors.value?.filter(author => page.value?.author.includes(author.slug)),
   }
+})
+
+// Social crawlers require an absolute og:image URL, so resolve the thumbnail against the canonical origin.
+const { siteUrl } = useRuntimeConfig().public
+const ogImage = computed(() => {
+  const path = page.value?.thumbnail ?? `/experiments/${route.path.split('/').pop()}.webp`
+  return new URL(path, siteUrl).href
 })
 
 useHead({
@@ -50,7 +56,7 @@ useHead({
     {
       hid: 'og:image',
       property: 'og:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.webp`,
+      content: () => ogImage.value,
     },
     {
       hid: 'og:image:alt',
@@ -73,7 +79,7 @@ useHead({
     {
       hid: 'twitter:image',
       name: 'twitter:image',
-      content: page?.value?.thumbnail ?? `/${page?.value?._path?.split('/').pop()}.webp`,
+      content: () => ogImage.value,
     },
     {
       hid: 'twitter:image:alt',
@@ -84,7 +90,7 @@ useHead({
 })
 
 function toPascalCase(str: string) {
-  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()).replace(/^[a-z]/, (letter) => letter.toUpperCase())
+  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()).replace(/^[a-z]/, letter => letter.toUpperCase())
 }
 
 const component = computed(() => toPascalCase(page.value?.stem.split('/').pop() ?? ''))

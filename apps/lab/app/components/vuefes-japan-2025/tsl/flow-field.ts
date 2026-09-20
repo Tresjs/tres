@@ -1,7 +1,7 @@
 // TSL port of generateSumiPattern and generateSumiDetail.
 
-import { float, Fn, add, mul } from 'three/tsl'
-import { flowField, fbm } from './noise'
+import { add, float, Fn, mul } from 'three/tsl'
+import { fbm, flowField } from './noise'
 
 /**
  * Three-layer flow-field warp → sumi ink marble pattern.
@@ -19,11 +19,19 @@ export const generateSumiPattern = Fn(([uvNode, timeNode, scale]: [any, any, any
 
   const marbleNoise = fbm(
     add(st, finalFlow.mul(0.8)),
-    float(0.6), float(2.0), float(1.8), float(0.5), 6,
+    float(0.6),
+    float(2.0),
+    float(1.8),
+    float(0.5),
+    6,
   )
   const sumiPattern = fbm(
     add(add(st, finalFlow).mul(3.0), timeNode.mul(0.05)),
-    float(0.6), float(2.0), float(1.8), float(0.5), 6,
+    float(0.6),
+    float(2.0),
+    float(1.8),
+    float(0.5),
+    6,
   )
 
   return marbleNoise.mul(0.5).add(sumiPattern.mul(0.5))
@@ -44,6 +52,10 @@ export const generateSumiDetail = Fn(([uvNode, timeNode]: [any, any]) => {
 
   return fbm(
     add(add(st, finalFlow).mul(6.0), timeNode.mul(0.02)),
-    float(0.8), float(4.0), float(2.2), float(0.7), 4,
+    float(0.8),
+    float(4.0),
+    float(2.2),
+    float(0.7),
+    4,
   )
 })

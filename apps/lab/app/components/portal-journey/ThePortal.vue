@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Mesh } from 'three'
-import { DoubleSide, MeshBasicMaterial, ShaderMaterial, Color } from 'three'
+import { Color, DoubleSide, MeshBasicMaterial, ShaderMaterial } from 'three'
 import PortalVertex from './shaders/portal/vertex.glsl'
 import PortalFragment from './shaders/portal/fragment.glsl'
 
@@ -8,7 +8,6 @@ const experiment = {
   portalColorStart: '#82DBC5',
   portalColorEnd: '#EBFFEE',
 }
-
 
 const { state: portal } = useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/portal/portal.glb',

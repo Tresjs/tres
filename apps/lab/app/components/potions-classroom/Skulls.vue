@@ -24,7 +24,12 @@ watch([skulls, bakedMaterial], ([skulls, texture]) => {
 <template>
   <template v-if="isBoneTextureReady">
     <primitive v-for="skull of skulls" :key="skull.uuid" :object="skull" />
-    <TresPointLight v-if="skulls[1]" :position="skulls[1].position" color="#2ddb4e" :distance="10" :intensity="2"
-      :decay="2" />
+    <TresPointLight v-if="skulls[1]"
+                    :position="skulls[1].position"
+                    color="#2ddb4e"
+                    :distance="10"
+                    :intensity="2"
+                    :decay="2"
+    />
   </template>
 </template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Vector3 } from 'three'
+
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ elapsed, camera }) => {

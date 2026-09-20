@@ -3,21 +3,21 @@
 // No runtime uIsSphere branch — the two meshes have distinct materials.
 
 import {
-  Fn,
+  acos,
+  atan,
+  Discard,
   float,
+  Fn,
   int,
+  normalize,
+  normalView,
+  PI,
+  positionLocal,
+  texture,
+  uniform,
   vec2,
   vec3,
   vec4,
-  uniform,
-  texture,
-  normalView,
-  positionLocal,
-  acos,
-  atan,
-  normalize,
-  Discard,
-  PI,
 } from 'three/tsl'
 import { MeshBasicNodeMaterial } from 'three/webgpu'
 import type { Texture } from 'three'

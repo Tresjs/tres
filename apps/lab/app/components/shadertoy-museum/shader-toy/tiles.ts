@@ -3,11 +3,11 @@ export const tiles = `
 void mainImage( out vec4 fragColor, in vec2 fragCoord )
 {
     float aspect_ratio = iResolution.y/iResolution.x;
-	vec2 uv = fragCoord.xy / iResolution.x;
+  vec2 uv = fragCoord.xy / iResolution.x;
     uv -= vec2(0.5, 0.5 * aspect_ratio);
     float rot = radians(-30. -iTime); // radians(45.0*sin(iTime));
     mat2 rotation_matrix = mat2(cos(rot), -sin(rot), sin(rot), cos(rot));
-   	uv = rotation_matrix * uv;
+     uv = rotation_matrix * uv;
     vec2 scaled_uv = 20.0 * uv;
     vec2 tile = fract(scaled_uv);
     float tile_dist = min(min(tile.x, 1.0-tile.x), min(tile.y, 1.0-tile.y));

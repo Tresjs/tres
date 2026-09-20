@@ -54,8 +54,12 @@ useControls('fpsgraph', {
   </ClientOnly>
   <TresCanvas window-size v-bind="gl">
     <TresPerspectiveCamera ref="cameraRef" :position="[15, 0, 15]" :fov="25" />
-    <OrbitControls ref="controlsRef" :min-polar-angle="0" :max-polar-angle="Math.PI / 2" auto-rotate
-      :auto-rotate-speed="0.05" />
+    <OrbitControls ref="controlsRef"
+                   :min-polar-angle="0"
+                   :max-polar-angle="Math.PI / 2"
+                   auto-rotate
+                   :auto-rotate-speed="0.05"
+    />
 
     <TresAmbientLight :intensity="Math.PI" />
 
@@ -64,8 +68,14 @@ useControls('fpsgraph', {
         <GelatinousCubeModelLowPoly @ready="onModelReady" />
       </Suspense>
 
-      <AccumulativeShadows :position="[0, 1, 0]" :frames="100" :alpha-test="0.9" color="#3ead5d" :color-blend="1"
-        :opacity="0.8" :scale="20">
+      <AccumulativeShadows :position="[0, 1, 0]"
+                           :frames="100"
+                           :alpha-test="0.9"
+                           color="#3ead5d"
+                           :color-blend="1"
+                           :opacity="0.8"
+                           :scale="20"
+      >
         <RandomizedLights :radius="10" :ambient="0.5" :intensity="Math.PI" :position="[2.5, 8, -2.5]" :bias="0.001" />
       </AccumulativeShadows>
     </TresGroup>

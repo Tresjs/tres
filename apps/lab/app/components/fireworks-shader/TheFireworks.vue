@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AdditiveBlending, BufferGeometry, Color, Float32BufferAttribute, Points, ShaderMaterial, Spherical, Uniform, Vector3, type ColorRepresentation } from 'three'
+import { AdditiveBlending, BufferGeometry, Color, Float32BufferAttribute, Points, ShaderMaterial, Spherical, Uniform, Vector3 } from 'three'
+import type { ColorRepresentation } from 'three'
 import { useDevicePixelRatio, useEventListener, useWindowSize } from '@vueuse/core'
 import gsap from 'gsap'
 // Shaders
@@ -98,7 +99,7 @@ function createFireworks(options: FireworksOptions) {
     {
       value: 1,
       duration: 3,
-      onComplete: destroyFirework
+      onComplete: destroyFirework,
     },
   )
 }
@@ -121,7 +122,7 @@ const createRandomFirework = () => {
     position,
     size: rand(0.05, 0.2),
     radius: rand(0.5, 3),
-    color
+    color,
   })
 }
 
@@ -131,7 +132,6 @@ watch(textures, (newTextures) => {
   if (material.value) {
     material.value.uniforms!.uTexture!.value = newTextures?.[Math.floor(Math.random() * newTextures.length)]
   }
-
 })
 
 onMounted(() => {
@@ -140,5 +140,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <slot />
+  <slot></slot>
 </template>

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { CoefficientCombineRule, Quaternion, Vector3 } from '@dimforge/rapier3d-compat'
-import { BallCollider, type ExposedRigidBody, RigidBody } from '@tresjs/rapier'
-import { Mesh, MeshStandardMaterial, type Object3D } from 'three'
+import { BallCollider, RigidBody } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
+import { Mesh, MeshStandardMaterial } from 'three'
+import type { Object3D } from 'three'
 import { shallowRef, watch } from 'vue'
 
 const BALL_RADIUS = 2.94

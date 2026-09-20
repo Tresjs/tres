@@ -2,11 +2,11 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Edit|Write|MultiEdit",
+        "matcher": "apply_patch|Edit|Write",
         "hooks": [
           {
             "type": "command",
-            "command": "bash '/Users/alvarosabu/Projects/tres/tres/.codex/hooks/lint-and-typecheck.sh'"
+            "command": "bash \"$(git rev-parse --show-toplevel)/.agents/hooks/lint-and-typecheck.sh\""
           }
         ]
       }

@@ -15,6 +15,18 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
   ],
 
+  runtimeConfig: {
+    public: {
+      // Origin used to build absolute og:image/twitter:image URLs. Social crawlers reject
+      // relative paths. DEPLOY_PRIME_URL makes deploy previews point at their own origin, so
+      // the image resolves there too; falls back to the production domain on local builds.
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL
+        || process.env.DEPLOY_PRIME_URL
+        || process.env.URL
+        || 'https://lab.tresjs.org',
+    },
+  },
+
   css: ['~/assets/styles/main.css'],
   declare: ['*.glsl'],
   tres: {
@@ -25,12 +37,12 @@ export default defineNuxtConfig({
   imports: {
     transform: {
       exclude: [
-        /[/]packages[/\\]cientos[/\\]dist[/\\]trescientos\.js$/,
-        /[/]packages[/\\]core[/\\]dist[/\\]tres\.js$/,
-        /[/]packages[/\\]leches[/\\]dist[/\\]tresleches\.js$/,
-        /[/]packages[/\\]postprocessing[/\\]dist[/\\]tres-post-processing\.js$/,
+        /\/packages[/\\]cientos[/\\]dist[/\\]trescientos\.js$/,
+        /\/packages[/\\]core[/\\]dist[/\\]tres\.js$/,
+        /\/packages[/\\]leches[/\\]dist[/\\]tresleches\.js$/,
+        /\/packages[/\\]postprocessing[/\\]dist[/\\]tres-post-processing\.js$/,
       ],
-    }
+    },
   },
 
   fonts: {
@@ -64,7 +76,7 @@ export default defineNuxtConfig({
     serverBundle: {
       collections: ['lucide', 'carbon', 'game-icons', 'ic', 'logos', 'ph'],
       externalizeIconsJson: true,
-    }
+    },
   },
 
   vite: {
@@ -83,7 +95,7 @@ export default defineNuxtConfig({
         'radashi',
         '@pmndrs/pointer-events',
       ],
-    }
+    },
   },
 
   compatibilityDate: '2024-08-29',
