@@ -5,11 +5,21 @@ import { OrbitControls, useGLTF, useAnimations } from '@tresjs/cientos'
 import { RigidBody, CapsuleCollider } from '@tresjs/rapier'
 import { useMagicKeys } from '@vueuse/core'
 import { Quaternion, Vector3 } from 'three'
-import { HEIGHT_SCALE } from './constants'
+import { createHeightSampler, loadHeightImage } from './heightmap'
+import { CAMERA_CLEARANCE, CAMERA_OFFSET, HEIGHTFIELD_ROWS, SPAWN, SPAWN_CLEARANCE, WALK_BOUNDS } from './constants'
 
 type Body = NonNullable<InstanceType<typeof RigidBody>['instance']>
 type BodyPosition = ReturnType<Body['translation']>
 type Controls = NonNullable<InstanceType<typeof OrbitControls>['instance']>
+
+// sample at the collider resolution so the spawn height matches the heightfield the
+// capsule lands on, not the finer displaced mesh
+const sampler = createHeightSampler(await loadHeightImage(), HEIGHTFIELD_ROWS + 1)
+const spawn: [number, number, number] = [
+  SPAWN.x,
+  sampler.heightAt(SPAWN.x, SPAWN.z) + SPAWN_CLEARANCE,
+  SPAWN.z,
+]
 
 const { state, isLoading } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/warcraft-3-alliance-footmanfanmade/source/Footman_RIG.glb')
 
@@ -29,11 +39,10 @@ watch(actions, (newActions) => {
 
 // constants
 const fadeDuration = 0.2
-const velocity = 5
+const speed = 5
 const rotateAngle = new Vector3(0, 1, 0)
-const cameraTarget = new Vector3()
 const walkDirection = new Vector3()
-const rotateQuarternion = new Quaternion()
+const rotateQuaternion = new Quaternion()
 const prevPosition = new Vector3()
 let hasPrevPosition = false
 
@@ -73,8 +82,8 @@ const moveBody = (body: Body, position: BodyPosition, camera: Camera) => {
   const directionOffsetModel = getInvertOffset() // correct rotation model coordinates
 
   // rotate model
-  rotateQuarternion.setFromAxisAngle(rotateAngle, angleYCameraDirection + directionOffsetModel)
-  model.value?.quaternion.rotateTowards(rotateQuarternion, 0.2)
+  rotateQuaternion.setFromAxisAngle(rotateAngle, angleYCameraDirection + directionOffsetModel)
+  model.value?.quaternion.rotateTowards(rotateQuaternion, 0.2)
 
   // calculate direction
   camera.getWorldDirection(walkDirection)
@@ -82,9 +91,14 @@ const moveBody = (body: Body, position: BodyPosition, camera: Camera) => {
   walkDirection.normalize()
   walkDirection.applyAxisAngle(rotateAngle, directionOffset)
 
+  // the terrain collider ends at the heightfield bounds: drop whichever component would
+  // carry him past the edge, so he slides along it instead of walking off into the void
+  if (Math.abs(position.x) > WALK_BOUNDS && Math.sign(walkDirection.x) === Math.sign(position.x)) walkDirection.x = 0
+  if (Math.abs(position.z) > WALK_BOUNDS && Math.sign(walkDirection.z) === Math.sign(position.z)) walkDirection.z = 0
+
   // gravity keeps the y velocity, the heightfield does the rest
   body.setLinvel(
-    { x: walkDirection.x * velocity, y: body.linvel().y, z: walkDirection.z * velocity },
+    { x: walkDirection.x * speed, y: body.linvel().y, z: walkDirection.z * speed },
     true,
   )
 }
@@ -142,9 +156,7 @@ const updateCameraTarget = (position: BodyPosition, camera: Camera, controls: Co
   camera.position.x += position.x - prevPosition.x
   camera.position.z += position.z - prevPosition.z
 
-  // update camera target
-  cameraTarget.set(position.x, position.y + 1, position.z)
-  controls.target = cameraTarget
+    controls.target.set(position.x, position.y + 1, position.z)
 }
 const { onBeforeRender } = useLoop()
 
@@ -160,6 +172,16 @@ onBeforeRender(() => {
   if (!hasPrevPosition) {
     prevPosition.set(position.x, position.y, position.z)
     hasPrevPosition = true
+    // frame the footman from behind once he exists: from here on the camera only
+    // tracks his displacement, so this is the shot the demo opens on
+    const camX = position.x + CAMERA_OFFSET.x
+    const camZ = position.z + CAMERA_OFFSET.z
+    activeCamera.position.set(
+      camX,
+      // uphill of the footman the offset alone can end up inside the slope
+      Math.max(position.y + CAMERA_OFFSET.y, sampler.heightAt(camX, camZ) + CAMERA_CLEARANCE),
+      camZ,
+    )
   }
 
   if (hasPressed.value) {
@@ -181,6 +203,7 @@ onBeforeRender(() => {
     :enable-pan="false"
     :min-distance="3"
     :max-distance="12"
+    :min-polar-angle="Math.PI / 3"
     :max-polar-angle="Math.PI / 2 - 0.05"
   />
   <RigidBody
@@ -189,7 +212,7 @@ onBeforeRender(() => {
     type="dynamic"
     :collider="false"
     lock-rotations
-    :position="[0, HEIGHT_SCALE / 2, 0]"
+    :position="spawn"
   >
     <CapsuleCollider :args="[0.5, 0.35]" :position="[0, 0.85, 0]" />
     <primitive :object="model" />

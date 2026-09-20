@@ -51,8 +51,10 @@ export interface VegetationChunk {
   radius: number
 }
 
-// scratch vector for the chunk bounds, reused across every plant
+// scratch vectors reused across every plant: the sampled normal stays live until the
+// instance is pushed, so it gets its own rather than sharing the bounds one
 const tmp = new Vector3()
+const tmpNormal = new Vector3()
 
 function pickRegion(regions: Region[], rand: () => number) {
   const r = rand()
@@ -97,7 +99,7 @@ function buildChunkGeometry(
       for (let p = 0; p < plantsPerCell; p++) {
         const x = originX + cx * CELL_SIZE + rand() * CELL_SIZE
         const z = originZ + cz * CELL_SIZE + rand() * CELL_SIZE
-        const normal = sampler.normalAt(x, z)
+        const normal = sampler.normalAt(x, z, tmpNormal)
         if (normal.y < minNormalY) continue
 
         const y = sampler.heightAt(x, z)
@@ -174,8 +176,8 @@ export function buildGrassChunks(sampler: HeightSampler, density: number, minNor
     seed: 'world-walker-grass',
     regions: GRASS_REGIONS,
     density,
-    baseWidth: 0.9,
-    baseHeight: 0.8,
+    baseWidth: 0.65,
+    baseHeight: 0.58,
     minNormalY,
     stiffnessMin: 0.15,
     stiffnessMax: 1,
@@ -187,8 +189,8 @@ export function buildClutterChunks(sampler: HeightSampler, density: number, minN
     seed: 'world-walker-clutter',
     regions: BUSH_REGIONS,
     density,
-    baseWidth: 2,
-    baseHeight: 1.8,
+    baseWidth: 1.3,
+    baseHeight: 1.15,
     minNormalY,
     stiffnessMin: 0.05,
     stiffnessMax: 0.2,

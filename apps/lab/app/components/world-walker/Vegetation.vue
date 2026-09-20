@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Mesh, Texture } from 'three'
-import vertex from './vertex.glsl'
-import fragment from './fragment.glsl'
+import vertex from './shaders/vertex.glsl'
+import fragment from './shaders/fragment.glsl'
 import { useLoop } from '@tresjs/core'
 import { useTextures } from '@tresjs/cientos'
 import { Color, DoubleSide, NoColorSpace, RepeatWrapping, SRGBColorSpace, Vector2, Vector3 } from 'three'

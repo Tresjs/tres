@@ -3,7 +3,7 @@ import { HEIGHT_SCALE, TERRAIN_SIZE } from './constants'
 
 export interface HeightSampler {
   heightAt: (x: number, z: number) => number
-  normalAt: (x: number, z: number) => Vector3
+  normalAt: (x: number, z: number, target?: Vector3) => Vector3
 }
 
 const images = new Map<string, Promise<HTMLImageElement>>()
@@ -69,10 +69,11 @@ export function createHeightSampler(img: HTMLImageElement, resolution = 512): He
   }
 
   const eps = TERRAIN_SIZE / 256
-  const normalAt = (x: number, z: number) => {
+  // `target` lets hot loops hand in a scratch vector instead of allocating one per sample
+  const normalAt = (x: number, z: number, target = new Vector3()) => {
     const nx = heightAt(x - eps, z) - heightAt(x + eps, z)
     const nz = heightAt(x, z - eps) - heightAt(x, z + eps)
-    return new Vector3(nx, 2 * eps, nz).normalize()
+    return target.set(nx, 2 * eps, nz).normalize()
   }
 
   return { heightAt, normalAt }

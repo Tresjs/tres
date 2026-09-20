@@ -6,7 +6,7 @@ author: [jaime-bboyjt]
 status: draft
 date: 2026-07-09
 featured: false
-description: A third-person character controller walking across a heightfield terrain scattered with wind-blown vegetation, under the rain. Built with @tresjs/rapier physics and cientos' Precipitation and Sky.
+description: A third-person character controller walking across a heightfield terrain scattered with wind-blown, instanced vegetation. Built with @tresjs/rapier physics, a custom GLSL billboard shader.
 tags: ['physics', 'rapier', 'controls', 'heightfield', 'shaders', 'glsl', 'vegetation']
 lastUpdated: 2026-07-11
 ---
