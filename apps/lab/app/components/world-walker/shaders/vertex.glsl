@@ -15,11 +15,16 @@ uniform vec3 uSunColor;
 uniform vec3 uAmbientColor;
 uniform float uFadeStart;
 uniform float uFadeEnd;
+uniform float uUnderground; // 0 while the camera is clear of the ground, 1 once it has sunk in
+uniform float uUnderFade;
 
 varying vec2 vUv;
 varying vec2 vNoiseUv;
 varying vec3 vLight;
 varying float vFade;
+
+// plants sit in their own shadow near the ground; without this they read as stickers
+const float ROOT_SHADE = 0.55;
 
 void main() {
   vec2 corner = position.xy;
@@ -40,8 +45,18 @@ void main() {
   // same Lambert term as the terrain, using the ground normal under the plant
   float ndl = max(dot(normalize(iNormal), uLightDir), 0.0);
   vLight = iTint * (uAmbientColor + uSunColor * ndl) * (1.0 + 0.15 * sway);
+  vLight *= mix(ROOT_SHADE, 1.0, corner.y);
 
   vFade = smoothstep(uFadeStart, uFadeEnd, distance(cameraPosition, iRoot));
+
+  // the camera is under this plant's patch of ground when it sits on the negative side
+  // of the tangent plane at iRoot — exactly the plants that would be seen from below
+  float side = dot(cameraPosition - iRoot, normalize(iNormal));
+  float below = 1.0 - smoothstep(-uUnderFade, 0.0, side);
+  // vFade >= 2 drives the fragment's coverage term to <= 0 for any noise value, so the
+  // plant is guaranteed to discard; values in between dissolve it out progressively
+  vFade = max(vFade, below * uUnderground * 2.0);
+
   vNoiseUv = iRoot.xz * 0.37;
   vUv = vec2(
     corner.x < 0.0 ? iUvRect.x : iUvRect.y,

@@ -1,7 +1,10 @@
 import { Vector3 } from 'three'
-import { HEIGHT_SCALE, TERRAIN_SIZE } from './constants'
+import { HEIGHT_SCALE, TERRAIN_RESOLUTION, TERRAIN_SIZE } from './constants'
 
 export interface HeightSampler {
+  resolution: number
+  // row-major and un-scaled (0..1): the collider matrix is built straight from this
+  heights: Float32Array
   heightAt: (x: number, z: number) => number
   normalAt: (x: number, z: number, target?: Vector3) => Vector3
 }
@@ -12,7 +15,7 @@ const images = new Map<string, Promise<HTMLImageElement>>()
 // when another component decodes the same resource concurrently
 export function loadHeightImage(src = '/textures/world-walker/height.jpg') {
   const cached = images.get(src)
-  if (cached) return cached
+  if (cached) { return cached }
 
   const pending = new Promise<HTMLImageElement>((resolve, reject) => {
     const img = new Image()
@@ -45,7 +48,7 @@ export function readHeightData(img: HTMLImageElement, resolution: number) {
 }
 
 // CPU-side sampler matching the displaced plane: image row 0 ↔ world z = -half, col 0 ↔ x = -half
-export function createHeightSampler(img: HTMLImageElement, resolution = 512): HeightSampler {
+export function createHeightSampler(img: HTMLImageElement, resolution = TERRAIN_RESOLUTION): HeightSampler {
   const heights = readHeightData(img, resolution)
 
   const half = TERRAIN_SIZE / 2
@@ -76,5 +79,24 @@ export function createHeightSampler(img: HTMLImageElement, resolution = 512): He
     return target.set(nx, 2 * eps, nz).normalize()
   }
 
-  return { heightAt, normalAt }
+  return { resolution, heights, heightAt, normalAt }
+}
+
+const samplers = new Map<string, Promise<HeightSampler>>()
+
+// every consumer of the terrain surface — collider, mesh, footman, vegetation — has to
+// read the same grid or they describe different worlds, so hand out one sampler per
+// resolution instead of letting each caller build its own
+export function getHeightSampler(resolution = TERRAIN_RESOLUTION, src?: string) {
+  const key = `${src ?? 'default'}:${resolution}`
+  const cached = samplers.get(key)
+  if (cached) { return cached }
+
+  const pending = loadHeightImage(src).then(img => createHeightSampler(img, resolution)).catch((error) => {
+    samplers.delete(key)
+    throw error
+  })
+
+  samplers.set(key, pending)
+  return pending
 }

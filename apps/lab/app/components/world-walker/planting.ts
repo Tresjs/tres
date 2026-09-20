@@ -61,7 +61,7 @@ function pickRegion(regions: Region[], rand: () => number) {
   let acc = 0
   for (const region of regions) {
     acc += region.weight
-    if (r <= acc) return region
+    if (r <= acc) { return region }
   }
   return regions[regions.length - 1]!
 }
@@ -100,7 +100,7 @@ function buildChunkGeometry(
         const x = originX + cx * CELL_SIZE + rand() * CELL_SIZE
         const z = originZ + cz * CELL_SIZE + rand() * CELL_SIZE
         const normal = sampler.normalAt(x, z, tmpNormal)
-        if (normal.y < minNormalY) continue
+        if (normal.y < minNormalY) { continue }
 
         const y = sampler.heightAt(x, z)
 
@@ -134,7 +134,7 @@ function buildChunkGeometry(
   }
 
   const count = roots.length / 3
-  if (!count) return null
+  if (!count) { return null }
 
   const geometry = new InstancedBufferGeometry()
   geometry.setAttribute('position', new BufferAttribute(new Float32Array(QUAD_CORNERS), 3))
@@ -164,7 +164,7 @@ export function buildLayerChunks(sampler: HeightSampler, options: LayerOptions):
       const originX = -HALF + gx * chunkSize
       const originZ = -HALF + gz * chunkSize
       const chunk = buildChunkGeometry(sampler, options, originX, originZ, chunkSize)
-      if (chunk) chunks.push(chunk)
+      if (chunk) { chunks.push(chunk) }
     }
   }
 
