@@ -88,7 +88,7 @@ const lightingPresets: LightingPresets = {
 }
 
 const radius = ref(2)
-const height = ref(0)
+const floor = ref(0)
 const stageRef = shallowRef<typeof Group>()
 const boundsRef = shallowRef<typeof Bounds>()
 const alignRef = shallowRef<typeof Align>()
@@ -177,6 +177,9 @@ const environmentComputed: ComputedRef<EnvironmentOptions | null> = computed(() 
 
 const onAlignChange = (alignProps: AlignCallbackOptions) => {
   radius.value = alignProps.boundingSphere.radius
+  floor.value = props.align?.disable || props.align?.disableY
+    ? alignProps.boundingBox.min.y
+    : alignProps.verticalAlignment - alignProps.height / 2
   if (props.adjustCamera !== false) {
     debouncedLookAt()
   }
@@ -216,7 +219,7 @@ defineExpose({ instance: stageRef, update: () => {} })
         <slot></slot>
       </Align>
     </Bounds>
-    <TresGroup :position="[0, -height / 2 - ((shadows as StageShadows)?.offset ?? 0) / 2, 0]">
+    <TresGroup :position="[0, floor - ((shadows as StageShadows)?.offset ?? 0) / 2, 0]">
       <ContactShadows
         v-if="contactShadowsComputed"
         :scale="radius * 4"
