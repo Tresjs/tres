@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import noise from './shaders/noise.glsl?raw'
-import orbDisplace from './shaders/orb-displace.glsl?raw'
-import type { Mesh, MeshStandardMaterial } from 'three'
-import { IcosahedronGeometry, Uniform, Vector3 } from 'three'
+import fireVertex from './shaders/fire-vertex.glsl?raw'
+import fragmentShader from './shaders/fire-fragment.glsl?raw'
+import type { Mesh, PointLight } from 'three'
+import { Color, DoubleSide, IcosahedronGeometry, Uniform, Vector2, Vector3 } from 'three'
+import { marble } from './marble'
 
 const props = defineProps<{
   nodes: Record<string, any>
   state: Record<string, any>
 }>()
+
+// The orb is the campfire flame folded into a ball: same marble displacement,
+// same fresnel core/rim ramps, only the palette and the scale change.
+const vertexShader = noise + fireVertex
 
 const mage = computed(() => props.nodes.Rig_Mage)
 const orb = computed<Mesh | undefined>(() => props.nodes.Mage_Orb)
@@ -19,107 +25,141 @@ currentAction?.play()
 
 // The GLTF orb is an 80-face flat-shaded icosphere; displacing that reads as
 // the whole ball jittering. Faces = 20 * (detail + 1)^2, so 7 gives 1280,
-// enough for the noise to roll across the surface as blobs.
+// enough for the veins to roll across the surface as tongues.
 const ORB_DETAIL = 7
 
-// Two beats that never line up, so the pulse does not read as a metronome.
-const PULSE = [
-  { amplitude: 0.06, frequency: 1.5 },
-  { amplitude: 0.02, frequency: 0.4 },
-]
-// How much of the scale pulse the glow follows. Bloom keys on this emitter, so
-// the halo swells on the same beat as the surface.
-const GLOW_FOLLOW = 3
+// Every length below is a fraction of the orb radius, so the same look survives
+// a rescale of the model. The fire tunes these in absolute units because its
+// mesh only exists at one size.
+const RISE_SPEED = 1.2
+const SWAY = 0.12
+const MARBLE_SIZE = 0.5
+const MARBLE_VEINS = 2.5
+const DISPLACE_STRENGTH = 0.22
 
-// The surface only churns, it must not read as a different shape, so the
-// amplitude stays well under the scale pulse.
-const DISPLACE_AMPLITUDE = 0.12
-const DISPLACE_CELLS = 2.5
-const DISPLACE_SPEED = 0.35
-// Emissive gain per unit of displacement. turbulence() - 0.5 spans about
-// -0.3..0.3, so 2 swings the glow roughly 40 percent either way.
-const DISPLACE_GLOW = 2.0
+// Same sampling scheme as the fire light, see Fireplace.vue for the reasoning.
+const LIGHT_SAMPLES = [0.3, 0.55, 0.78, 0.95]
+const LIGHT_SWELL_MID = 0.53
+const LIGHT_SWING = 2
+
+const animator = new Vector3()
+const swell = new Uniform(0)
 
 const uniforms = {
-  uOrbTime: new Uniform(0),
-  uOrbAmplitude: new Uniform(0),
-  uOrbFrequency: new Uniform(1),
-  uOrbSpeed: new Uniform(DISPLACE_SPEED),
-  uOrbEps: new Uniform(0.01),
-  uOrbGlow: new Uniform(DISPLACE_GLOW),
+  // Bottom pale, top deep blue, so the ball reads as a flame rising through it.
+  uCoreOffset: new Uniform(0.9),
+  uCoreScale: new Uniform(0.6),
+  uCoreMidPos: new Uniform(0.4),
+  uCoreStrength: new Uniform(1.4),
+  uCoreLow: new Uniform(new Color('#0a46e0')),
+  uCoreMid: new Uniform(new Color('#0ac8ff')),
+  uCoreHigh: new Uniform(new Color('#d8fbff')),
+
+  uRimStops: new Uniform(new Vector2(0.0, 0.523)),
+  uRimOffset: new Uniform(1.0),
+  uRimScale: new Uniform(1.0),
+  uRimStrength: new Uniform(1.0),
+  uRimLow: new Uniform(new Color('#1ea8ff')),
+  uRimHigh: new Uniform(new Color('#0b1e9e')),
+
+  uHeightMin: new Uniform(0),
+  uHeightRange: new Uniform(1),
+
+  uMaskFloor: new Uniform(1.0),
+  uPowerA: new Uniform(2.0),
+  uPowerB: new Uniform(4.0),
+  uRampA: new Uniform(new Vector2(0.0, 1.0)),
+  uRampB: new Uniform(new Vector2(0.082, 1.0)),
+
+  uAnimator: new Uniform(animator),
+  uMarbleSize: new Uniform(MARBLE_SIZE),
+  uMarbleTurbulence: new Uniform(5.0),
+  uMarbleVeins: new Uniform(MARBLE_VEINS),
+  uDisplaceStrength: new Uniform(DISPLACE_STRENGTH),
+  uDisplaceMid: new Uniform(0.5),
+  // The fire pins its base to the logs. The orb floats, so the whole surface churns.
+  uBaseMask: new Uniform(0),
+
+  uTime: new Uniform(0),
+  uFlicker: new Uniform(0.06),
 }
 
-const orbRest = { scale: new Vector3(1, 1, 1), emissiveIntensity: 1 }
-let orbMaterial: MeshStandardMaterial | null = null
+let radius = 1
+const orbCenter = new Vector3()
+const lightPosition = computed(() => orbCenter.toArray() as [number, number, number])
 
-const patchOrb = (mesh: Mesh) => {
-  // useGLTF caches the scene, so a remount would otherwise rebuild and re-clone.
-  if (mesh.userData.orbPatched) { return }
-  mesh.userData.orbPatched = true
+const orbLight = shallowRef<PointLight | null>(null)
+const lightRest = { intensity: 1 }
+
+watch(orbLight, (light) => {
+  if (light) { lightRest.intensity = light.intensity }
+})
+
+const prepareOrb = (mesh: Mesh) => {
+  // useGLTF caches the scene, so a remount would otherwise rebuild the geometry.
+  if (mesh.userData.orbPrepared) { return }
+  mesh.userData.orbPrepared = true
 
   mesh.geometry.computeBoundingSphere()
-  const { radius, center } = mesh.geometry.boundingSphere!
+  const { radius: r, center } = mesh.geometry.boundingSphere!
   mesh.geometry.dispose()
-  mesh.geometry = new IcosahedronGeometry(radius, ORB_DETAIL).translate(center.x, center.y, center.z)
+  mesh.geometry = new IcosahedronGeometry(r, ORB_DETAIL).translate(center.x, center.y, center.z)
+  mesh.geometry.computeBoundingBox()
 
-  uniforms.uOrbAmplitude.value = radius * DISPLACE_AMPLITUDE
-  uniforms.uOrbFrequency.value = DISPLACE_CELLS / radius
-  uniforms.uOrbEps.value = radius * 0.02
-
-  // The glow material is shared with the skeletons' eyes; patching it in place
-  // would make every eye churn too.
-  const material = (mesh.material as MeshStandardMaterial).clone()
-  material.onBeforeCompile = (shader) => {
-    Object.assign(shader.uniforms, uniforms)
-    shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', `#include <common>\n${noise}\n${orbDisplace}`)
-      .replace('#include <beginnormal_vertex>', `
-        vec3 orbDisplaced;
-        vec3 objectNormal;
-        orbWarp(orbDisplaced, objectNormal);
-        #ifdef USE_TANGENT
-          vec3 objectTangent = vec3(tangent.xyz);
-        #endif`)
-      .replace('#include <begin_vertex>', 'vec3 transformed = orbDisplaced;')
-    shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nuniform float uOrbGlow;\nvarying float vOrbAmount;')
-      // Bulges glow brighter and dips darker, so the noise reads as energy
-      // moving under the surface instead of a flat disc with a wobbly edge.
-      .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
-        totalEmissiveRadiance *= max(0.0, 1.0 + vOrbAmount * uOrbGlow);`)
-  }
-  material.needsUpdate = true
-  mesh.material = material
-
-  orbMaterial = material
-  orbRest.scale.copy(mesh.scale)
-  orbRest.emissiveIntensity = material.emissiveIntensity
+  radius = r
+  orbCenter.copy(center)
+  const bounds = mesh.geometry.boundingBox!
+  uniforms.uHeightMin.value = bounds.min.y
+  uniforms.uHeightRange.value = bounds.max.y - bounds.min.y
+  uniforms.uMarbleSize.value = MARBLE_SIZE * r
+  uniforms.uMarbleVeins.value = MARBLE_VEINS / r
+  uniforms.uDisplaceStrength.value = DISPLACE_STRENGTH * r
 }
 
 // immediate: nodes are already loaded when this mounts, because Balanced.vue
 // gates the group on the floors, so a plain watch would never fire.
 watch(orb, (mesh) => {
-  if (mesh?.geometry) { patchOrb(mesh) }
+  if (mesh?.geometry) { prepareOrb(mesh) }
 }, { immediate: true })
 
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ elapsed }) => {
-  uniforms.uOrbTime.value = elapsed
+  animator.y = elapsed * RISE_SPEED * radius
+  animator.x = Math.sin(elapsed * 2.6) * SWAY * radius
+  animator.z = Math.cos(elapsed * 1.8) * SWAY * radius
+  uniforms.uTime.value = elapsed
 
-  const mesh = orb.value
-  if (!mesh || !orbMaterial) { return }
-
-  let pulse = 0
-  for (const { amplitude, frequency } of PULSE) {
-    pulse += amplitude * Math.sin(elapsed * frequency * Math.PI * 2)
+  let sum = 0
+  for (const t of LIGHT_SAMPLES) {
+    sum += marble(
+      orbCenter.x - animator.x,
+      uniforms.uHeightMin.value + t * uniforms.uHeightRange.value - animator.y,
+      orbCenter.z - animator.z,
+      uniforms.uMarbleVeins.value,
+      uniforms.uMarbleSize.value,
+      uniforms.uMarbleTurbulence.value,
+    )
   }
-  mesh.scale.copy(orbRest.scale).multiplyScalar(1 + pulse)
-  orbMaterial.emissiveIntensity = orbRest.emissiveIntensity * (1 + pulse * GLOW_FOLLOW)
+  swell.value = sum / LIGHT_SAMPLES.length
+
+  if (!orbLight.value) { return }
+  orbLight.value.intensity = lightRest.intensity + (swell.value - LIGHT_SWELL_MID) * LIGHT_SWING
 })
 </script>
 
 <template>
-  <primitive name="Mage orb" :object="nodes.Mage_Orb" />
+  <primitive name="Mage orb" :object="nodes.Mage_Orb">
+    <TresShaderMaterial
+      :vertex-shader="vertexShader"
+      :fragment-shader="fragmentShader"
+      :uniforms="uniforms"
+      :side="DoubleSide"
+    />
+    <!-- Parented to the orb so it rides the GLTF transform. It swells with the same
+    marble field that displaces the surface, so the mage's hand brightens on the
+    same frame the ball flares. -->
+    <TresPointLight ref="orbLight" :position="lightPosition" :intensity="3" :distance="6" color="#0ac8ff" />
+  </primitive>
   <primitive name="Mage" :object="mage" />
 </template>

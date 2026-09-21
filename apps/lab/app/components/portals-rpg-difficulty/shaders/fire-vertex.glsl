@@ -12,7 +12,8 @@ varying float vHeight;
 varying vec3 vNormalView;
 varying vec3 vViewDir;
 
-// hash13 / valueNoise / turbulence come from noise.glsl, prepended in Fireplace.vue.
+// hash13 / valueNoise / turbulence come from noise.glsl, prepended by the
+// component that owns the material (Fireplace.vue, Mage.vue).
 
 float marble(vec3 p) {
   float veins = uMarbleVeins * (p.x + p.y + p.z);
