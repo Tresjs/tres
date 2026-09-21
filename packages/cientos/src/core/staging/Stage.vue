@@ -38,7 +38,7 @@ type StageShadows = Partial<AccumulativeShadowsProps>
   & Partial<RandomizedLightsProps>
   & Partial<ContactShadowsProps> & {
     type: 'contact' | 'accumulative'
-    /** Shadow plane offset, default: 0 */
+    /** Distance of the shadow plane below the content, default: 0 */
     offset?: number
     /** Shadow bias, default: -0.0001 */
     bias?: number
@@ -219,7 +219,7 @@ defineExpose({ instance: stageRef, update: () => {} })
         <slot></slot>
       </Align>
     </Bounds>
-    <TresGroup :position="[0, floor - ((shadows as StageShadows)?.offset ?? 0) / 2, 0]">
+    <TresGroup :position="[0, floor - ((shadows as StageShadows)?.offset ?? 0), 0]">
       <ContactShadows
         v-if="contactShadowsComputed"
         :scale="radius * 4"

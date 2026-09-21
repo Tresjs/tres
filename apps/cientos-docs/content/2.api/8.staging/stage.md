@@ -84,7 +84,7 @@ When using custom shadow configuration, you can pass an object with the followin
 | Prop | Description | Default |
 | :--- | :---------- | :------ |
 | **type** | Shadow type: `'contact' \| 'accumulative'` | - |
-| **offset** | Shadow plane offset | `0` |
+| **offset** | Distance of the shadow plane below the content | `0` |
 | **bias** | Shadow bias | `-0.0001` |
 | **normalBias** | Shadow normal bias | `0` |
 | **size** | Shadow map size | `1024` |
