@@ -22,32 +22,45 @@ const CONTROLS = {
   maxPolarAngle: MathUtils.degToRad(100),
 }
 
+useControls('fpsgraph', { uuid })
+
+const revealed = ref(false)
+
 // Threshold near 1 so only the bright emitters inside the portals (torches,
 // fire, the mage orb) bloom. The dim sky and the lit stone stay crisp.
-const BLOOM = {
-  luminanceThreshold: 0.9,
-  luminanceSmoothing: 0.2,
-  mipmapBlur: true,
-  intensity: 1.2,
-  radius: 0.6,
-}
-
-useControls('fpsgraph', { uuid })
+const {
+  bloomIntensity,
+  bloomThreshold,
+  bloomSmoothing,
+  bloomRadius,
+  bloomMipmapBlur,
+} = useControls('bloom', {
+  intensity: { value: 0.5, min: 0, max: 5, step: 0.05 },
+  threshold: { value: 0.33, min: 0, max: 1, step: 0.01 },
+  smoothing: { value: 0.2, min: 0, max: 1, step: 0.01 },
+  radius: { value: 0.6, min: 0, max: 1, step: 0.01 },
+  mipmapBlur: { value: false, type: 'boolean', label: 'mipmap blur' },
+}, { uuid })
 </script>
 
 <template>
-  <!-- Same uuid as the fpsgraph above and the dungeon controls in Balanced.vue,
-       or they land in a panel that is never mounted. -->
+  <TheLoadingScreen background="#dfdfdf" text-color="#000000" @hidden="revealed = true" />
   <ClientOnly>
     <TresLeches :uuid="uuid" />
   </ClientOnly>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 0, 6]" :fov="50" :look-at="[0, 0, 0]" />
-    <PortalsRpgDifficultyExperience />
+    <PortalsRpgDifficultyExperience :revealed="revealed" />
     <OrbitControls v-bind="CONTROLS" enable-damping />
     <Suspense>
       <EffectComposerPmndrs>
-        <BloomPmndrs v-bind="BLOOM" />
+        <BloomPmndrs
+          :intensity="bloomIntensity"
+          :luminance-threshold="bloomThreshold"
+          :luminance-smoothing="bloomSmoothing"
+          :radius="bloomRadius"
+          :mipmap-blur="bloomMipmapBlur"
+        />
       </EffectComposerPmndrs>
     </Suspense>
     <TheScreenshot />

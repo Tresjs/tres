@@ -5,14 +5,33 @@ defineProps<{
   // A portal took over the screen: the focused frame gets out of the way, and
   // the others fade so they do not float over the blended scene.
   faded?: boolean
+  popped?: boolean
+  popDelay?: number
+  popDuration?: number
 }>()
+
+// Drop the animation once landed, so the card is plain content in the Html
+// layer again instead of its own composited layer.
+const settled = ref(false)
 
 const CORNERS = ['tl', 'tr', 'bl', 'br'] as const
 const PIPS = ['t', 'b', 'l', 'r'] as const
 </script>
 
 <template>
-  <div class="card" :class="{ 'card--faded': faded }">
+  <div
+    class="card"
+    :class="{
+      'card--faded': faded,
+      'card--popped': popped && !settled,
+      'card--settled': settled,
+    }"
+    :style="{
+      '--pop-delay': `${popDelay ?? 0}s`,
+      '--pop-duration': `${popDuration ?? 0.9}s`,
+    }"
+    @animationend.self="settled = true"
+  >
     <div class="card__window">
       <div class="card__vignette" />
       <div class="card__fade" />
@@ -76,11 +95,112 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
   width: 200px;
   height: 300px;
   transition: opacity 0.35s ease;
+  transform: scale(0);
   pointer-events: none;
 }
 
 .card--faded {
   opacity: 0;
+}
+
+/* Keyframes sampled from gsap's elastic.out(1, 0.5), the frame mesh ease in
+   Experience. Change one and regenerate the other. */
+.card--popped {
+  animation: card-pop var(--pop-duration) linear var(--pop-delay) both;
+}
+
+.card--settled {
+  transform: none;
+}
+
+@keyframes card-pop {
+  0% {
+    transform: scale(0);
+  }
+
+  2.5% {
+    transform: scale(0.2);
+  }
+
+  5% {
+    transform: scale(0.428);
+  }
+
+  7.5% {
+    transform: scale(0.651);
+  }
+
+  10% {
+    transform: scale(0.845);
+  }
+
+  12.5% {
+    transform: scale(1);
+  }
+
+  15% {
+    transform: scale(1.109);
+  }
+
+  17.5% {
+    transform: scale(1.175);
+  }
+
+  20% {
+    transform: scale(1.202);
+  }
+
+  22.5% {
+    transform: scale(1.2);
+  }
+
+  25% {
+    transform: scale(1.177);
+  }
+
+  30% {
+    transform: scale(1.101);
+  }
+
+  35% {
+    transform: scale(1.027);
+  }
+
+  40% {
+    transform: scale(0.981);
+  }
+
+  45% {
+    transform: scale(0.964);
+  }
+
+  50% {
+    transform: scale(0.969);
+  }
+
+  55% {
+    transform: scale(0.982);
+  }
+
+  60% {
+    transform: scale(0.995);
+  }
+
+  65% {
+    transform: scale(1.003);
+  }
+
+  70% {
+    transform: scale(1.006);
+  }
+
+  80% {
+    transform: scale(1.003);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Everything below sits against the window. The hairline draws the portal
