@@ -2,11 +2,7 @@
 import type { Mesh } from 'three'
 import { gsap } from 'gsap'
 
-// The DemonHeart is a root-level mesh in avernus.glb with no animation tracks
-// (the mixers only drive the two rigs), so its scale is free to animate. The
-// beat is a real one: a strong contraction, a weaker second one, then a long
-// rest, rather than a sine breathing. The beam aims at the heart's bounding
-// sphere centre, which sits on the mesh origin, so it is unaffected.
+// The heart has no animation tracks (the mixers only drive the rigs), so its scale is free to animate.
 
 const props = defineProps<{
   heart: Mesh
@@ -14,8 +10,7 @@ const props = defineProps<{
 
 const UUID = 'portals-rpg-difficulty'
 
-// useGLTF caches the scene between portal mounts, so read the base scale once
-// and restore it on unmount, or every remount would start from a mid-beat size.
+// useGLTF caches the scene between mounts; restore the base scale on unmount or a remount starts mid-beat.
 const base = props.heart.scale.x
 
 const { heartBpm, heartStrength } = useControls('heart', {
@@ -31,8 +26,6 @@ function build() {
     const beat = 60 / heartBpm.value
     const scale = props.heart.scale
     const at = (k: number) => ({ x: base * (1 + k), y: base * (1 + k), z: base * (1 + k) })
-    // Fractions of one beat. The two contractions take about two thirds of
-    // it, the rest fills the remainder so the tempo matches the bpm.
     gsap.timeline({ repeat: -1 })
       .to(scale, { ...at(heartStrength.value), duration: beat * 0.12, ease: 'power2.out' })
       .to(scale, { ...at(0), duration: beat * 0.18, ease: 'power2.in' })

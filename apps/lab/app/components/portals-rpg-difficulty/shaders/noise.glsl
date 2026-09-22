@@ -1,6 +1,4 @@
-// Shared 3D value noise. Imported with ?raw and prepended to the shader string
-// in JS, so this file has no uniforms, no main and no includes of its own.
-// marble.ts is the CPU twin of these functions; an edit here is an edit there.
+// Prepended via ?raw, so no uniforms and no main. marble.ts is the CPU twin; an edit here is an edit there.
 
 const int OCTAVES = 3;
 

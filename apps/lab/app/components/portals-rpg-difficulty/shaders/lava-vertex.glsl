@@ -1,7 +1,5 @@
-// CustomShaderMaterial vertex stage for GEO_Lava_Lake. The GLB node is
-// identity and its vertices are already Y-up, so the Blender object
-// coordinate the shader graph sampled is one basis swap away from `position`.
-// Sampling the Three position directly would rotate the whole lava pattern.
+// The GLB node is identity with Y-up vertices, so the Blender object coordinate is one basis
+// swap away. Sampling the Three position directly would rotate the whole lava pattern.
 varying vec3 vBlenderPosition;
 
 void main() {

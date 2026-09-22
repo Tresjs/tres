@@ -1,6 +1,4 @@
-// The march runs in the box's local space so the unit cube (-0.5..0.5) is the
-// volume bounds and the noise rides with the box. The camera is brought into
-// that space here, once per vertex, instead of once per fragment.
+// The march runs in box local space (unit cube); the camera is brought in once per vertex, not per fragment.
 varying vec3 vLocalPosition;
 varying vec3 vCameraLocal;
 

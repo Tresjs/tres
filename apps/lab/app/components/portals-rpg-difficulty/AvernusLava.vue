@@ -7,10 +7,8 @@ import avernusFields from './shaders/avernus-fields.glsl?raw'
 import lavaVertex from './shaders/lava-vertex.glsl?raw'
 import lavaFragment from './shaders/lava-fragment.glsl?raw'
 
-// MAT_Lava_Flowing_Magma from the 2026-09-21 Blender snapshot, rebuilt as a
-// CustomShaderMaterial over MeshPhysicalMaterial so the dark crust still
-// answers to the light rig. The GLB material stays intact and is restored on
-// unmount, because useGLTF caches the scene between portal mounts.
+// Over MeshPhysicalMaterial so the dark crust still answers to the light rig. The GLB
+// material is restored on unmount because useGLTF caches the scene between portal mounts.
 
 const props = defineProps<{
   nodes: Record<string, any>
@@ -18,10 +16,8 @@ const props = defineProps<{
 
 const UUID = 'portals-rpg-difficulty'
 
-// Snapshot defaults. Blender's Specular IOR Level 0.3 is 0.6 of its 0.5
-// default, and Three's specularIntensity scales F0 the same way. Emission
-// gain 1 is the captured value; 0.6 compensates for the lab's bloom pass,
-// which pushes the 1.9x fissure emission from orange to yellow-white.
+// specularIntensity 0.6 is Blender's Specular IOR Level 0.3 over its 0.5 default. Emission
+// 0.6 (captured 1) compensates for the bloom pass pushing the fissures to yellow-white.
 const uniforms = {
   uWarpAmount: { value: 1.25 },
   uPlateScale: { value: 1.05 },
@@ -31,9 +27,6 @@ const uniforms = {
   uFineDetail: { value: 1 },
   uDebugView: { value: 0 },
   uTime: { value: 0 },
-  // Blender units per second along the flow axis, and noise-Z units per
-  // second for the churn. The snapshot is a still frame, so these are tuned
-  // by eye: slow enough that the crust reads as solid rock, not a conveyor.
   uFlowSpeed: { value: 0.04 },
   uChurnSpeed: { value: 0.08 },
 }
@@ -86,8 +79,7 @@ const {
   emission: { value: uniforms.uEmissionGain.value, min: 0, max: 6, step: 0.05 },
   bump: { value: uniforms.uBumpStrength.value, min: 0, max: 3, step: 0.05 },
   specular: { value: 0.6, min: 0, max: 1, step: 0.05 },
-  // Drops the scale-22 pitting noise, the most expensive octaves for the
-  // least visible detail. It only feeds the bump height.
+  // Drops the most expensive noise octaves; they only feed the bump height.
   fineDetail: { value: true, type: 'boolean', label: 'fine detail' },
   debugView: {
     value: 0,

@@ -26,26 +26,20 @@ void main() {
   float t = fract(life);
   float cycle = floor(life);
 
-  // Re-seeding the drift per cycle keeps 140 points from reading as 140 repeating
-  // paths. The hash is keyed on the cycle index, not on time, so a spark holds one
-  // path for its whole rise instead of jittering every frame.
+  // Keyed on the cycle, not time: a spark holds one path per rise, and the paths do not repeat.
   float r1 = hash21(vec2(aSeed.y, cycle));
   float r2 = hash21(vec2(aSeed.z, cycle + 7.3));
 
   vec3 p = position;
 
-  // The t*t term is the buoyancy of the hot column; the linear term keeps sparks
-  // moving the instant they leave the coals instead of crawling off them.
+  // t*t is buoyancy; the linear term keeps sparks moving as they leave the coals.
   p.y += uRise * (0.35 * t + 0.65 * t * t) * (0.7 + 0.6 * r1);
 
-  // Amplitude scales with age: tight over the coals, loose near the tip.
   float wobble = aSeed.x * t + aSeed.y * 6.2831;
   p.x += uSpread * t * (sin(wobble) * 0.6 + (r1 - 0.5) * 1.4);
   p.z += uSpread * t * (cos(wobble * 1.13) * 0.6 + (r2 - 0.5) * 1.4);
 
-  // Same sway vector the fire light rides, so sparks can never lean against the
-  // flame. uSwayGain converts it to a flame-relative amplitude. Older sparks lean
-  // further, having been in the moving air longer.
+  // Same sway vector the fire light rides, so sparks never lean against the flame.
   p.xz += uAnimator.xz * uSwayGain * t;
 
   vAge = t;
@@ -53,9 +47,7 @@ void main() {
   vec4 viewPosition = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * viewPosition;
 
-  // uSparkSize is a world diameter, so this stays right across fov, canvas size
-  // and DPR changes instead of needing a magic pixel constant per scene.
-  // projectionMatrix[1][1] is 1/tan(fovY/2).
+  // uSparkSize is a world diameter; projectionMatrix[1][1] is 1/tan(fovY/2).
   float pixelsPerUnit = projectionMatrix[1][1] * uPixelHeight * 0.5;
   gl_PointSize = aSize * uSparkSize * pixelsPerUnit * (1.0 - 0.55 * t) * (0.85 + 0.3 * uSwell);
   gl_PointSize *= 1.0 / -viewPosition.z;

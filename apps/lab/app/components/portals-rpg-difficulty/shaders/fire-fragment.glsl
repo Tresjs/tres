@@ -23,7 +23,6 @@ varying float vHeight;
 varying vec3 vNormalView;
 varying vec3 vViewDir;
 
-// Color ramps
 vec3 ramp3(vec3 c0, vec3 c1, vec3 c2, float midPos, float t) {
   vec3 lower = mix(c0, c1, smoothstep(0.0, midPos, t));
   return mix(lower, c2, smoothstep(midPos, 1.0, t));

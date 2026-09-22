@@ -5,36 +5,27 @@ import type { Box3 } from 'three'
 import { AdditiveBlending, Color, Uniform, Vector3 } from 'three'
 
 const props = defineProps<{
-  // Local-space bounds of the flame mesh. Sparks are a child of that mesh, so
-  // seeding in the same space needs no transform of its own.
+  // Flame-mesh local space; sparks are its child, so no transform of their own.
   bounds: Box3
-  // The live sway vector Fireplace.vue drives, shared by reference.
   animator: Vector3
-  // Shared with the fire light, so a flare shows up in the embers on the same frame.
   swell: Uniform<number>
-  // Peak value of animator.xz, needed to turn the sway into a flame-relative
-  // amplitude instead of the raw noise-offset units the fire shader reads it in.
+  // Peak of animator.xz, to turn the sway into a flame-relative amplitude.
   swayAmplitude: number
 }>()
 
 const COUNT = 140
 
-// Sparks come off the burning wood, not off the flame tip, so they seed on a disk
-// well inside the flame footprint.
+// Sparks come off the wood, not the flame tip, so they seed inside the footprint.
 const SEED_RADIUS = 0.35
 const SEED_HEIGHT = 0.08
-// Multiples of the flame's own size, so the effect survives a rescale of the model.
+// Multiples of the flame's size, so the effect survives a rescale of the model.
 const RISE = 1.6
 const SPREAD = 0.9
 const SWAY = 0.6
-// The ember volume is deliberately larger than the flame mesh: sparks carry well
-// past the visible cone. Scales travel only, not the seed disk, which stays on the
-// coals, and not the spark size, which is a look knob of its own.
+// Scales travel only: the seed disk stays on the coals and spark size is its own knob.
 const BOUNDS_SCALE = 3
 const SPARK_SIZE = 0.09
-// Lifetimes carry BOUNDS_SCALE too, because speed is travel over lifetime: scaling
-// the travel alone makes the embers shoot. These two set the pace, BOUNDS_SCALE sets
-// the reach, and the two stay independent.
+// Lifetimes carry BOUNDS_SCALE too: speed is travel over lifetime, else the embers shoot.
 const LIFE_MIN = 1.2
 const LIFE_MAX = 2.6
 
@@ -60,8 +51,7 @@ for (let i = 0; i < COUNT; i++) {
   seeds[i * 3 + 1] = Math.random()
   seeds[i * 3 + 2] = Math.random()
 
-  // The birth offset spans one whole lifetime, so the initial ages come out uniform
-  // over the rise and the stream never launches as one visible volley.
+  // Birth offset spans a whole lifetime, so the stream never launches as one volley.
   const lifetime = (LIFE_MIN + Math.random() * (LIFE_MAX - LIFE_MIN)) * BOUNDS_SCALE
   lives[i * 2 + 0] = Math.random() * lifetime
   lives[i * 2 + 1] = lifetime
@@ -83,8 +73,7 @@ const uniforms = {
   uColorCool: new Uniform(new Color('#ff4d00')),
 }
 
-// The vertex shader sizes points from a world size, which needs the canvas height
-// in device pixels to land on a pixel count.
+// Points are sized from a world size, which needs the canvas height in device pixels.
 const { sizes: canvas } = useTres()
 
 watchEffect(() => {
@@ -99,8 +88,7 @@ onBeforeRender(({ elapsed }) => {
 </script>
 
 <template>
-  <!-- frustumCulled: the bounding sphere covers only the seed disk, but the shader
-  lifts sparks a flame-height above it, so culling drops them at some angles. -->
+  <!-- The bounding sphere covers only the seed disk; the shader lifts sparks well above it. -->
   <TresPoints name="Sparks" :frustum-culled="false">
     <TresBufferGeometry
       :position="[positions, 3]"

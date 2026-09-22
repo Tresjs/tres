@@ -2,16 +2,13 @@
 defineProps<{
   label: string
   description: string
-  // A portal took over the screen: the focused frame gets out of the way, and
-  // the others fade so they do not float over the blended scene.
   faded?: boolean
   popped?: boolean
   popDelay?: number
   popDuration?: number
 }>()
 
-// Drop the animation once landed, so the card is plain content in the Html
-// layer again instead of its own composited layer.
+// Once landed, drop the animation so the card stops being its own composited layer.
 const settled = ref(false)
 
 const CORNERS = ['tl', 'tr', 'bl', 'br'] as const
@@ -43,15 +40,11 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
           viewBox="0 0 100 100" fill="none" stroke="currentColor"
           stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
         >
-          <!-- double quarter-round bracket hugging the corner -->
           <path d="M6 62 C6 31 31 6 62 6" />
           <path d="M14 62 C14 35 35 14 62 14" stroke-width="1" opacity=".7" />
-          <!-- volute at each end of the bracket -->
           <path d="M6 62 C6 71 12 76 19 74 C24 72 25 65 21 62 C18 60 14 61 13 64" />
           <path d="M62 6 C71 6 76 12 74 19 C72 24 65 25 62 21 C60 18 61 14 64 13" />
-          <!-- fleuron on the diagonal, outside the bracket -->
           <path d="M12 12 L18 6 L24 12 L18 18 Z" stroke-width="1" />
-          <!-- leaf sprouts on the outside of the arc -->
           <path d="M9 44 C16 42 20 36 20 30" stroke-width=".9" opacity=".6" />
           <path d="M44 9 C42 16 36 20 30 20" stroke-width=".9" opacity=".6" />
         </svg>
@@ -83,11 +76,10 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
 </template>
 
 <style scoped>
-/* The card is exactly 200 x 300 px, which covers the 2 x 3 world-unit portal
-   plane under <Html transform :distance-factor="4">, where one world unit is
-   400 / distanceFactor px. Change either number and both must move together. */
+/* 200 x 300 px covers the 2 x 3 world-unit plane under <Html :distance-factor="4">
+   (one unit = 400 / distanceFactor px). Change one and the other must follow. */
 .card {
-  --rule: #d9c9a3; /* pale gold, between the #b4945f label and white */
+  --rule: #d9c9a3;
   --gold: #b4945f;
 
   position: relative;
@@ -103,8 +95,7 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
   opacity: 0;
 }
 
-/* Keyframes sampled from gsap's elastic.out(1, 0.5), the frame mesh ease in
-   Experience. Change one and regenerate the other. */
+/* Sampled from gsap elastic.out(1, 0.5), the frame mesh ease in Experience. Regenerate together. */
 .card--popped {
   animation: card-pop var(--pop-duration) linear var(--pop-delay) both;
 }
@@ -203,24 +194,19 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
   }
 }
 
-/* Everything below sits against the window. The hairline draws the portal
-   edge, now that there is no frame around it. */
 .card__window {
   position: absolute;
   inset: 0;
   box-shadow: inset 0 0 0 1px rgb(217 201 163 / 30%);
 }
 
-/* Darkens the portal towards its edges, so the rules stay readable whatever
-   the scene inside happens to show. */
 .card__vignette {
   position: absolute;
   inset: 0;
   background: radial-gradient(125% 95% at 50% 40%, transparent 46%, rgb(0 0 0 / 48%) 100%);
 }
 
-/* Keeps the caption legible. Replaces the backdrop ShaderMaterial plane, which
-   needed a polygonOffset bias to stop it flickering on the angled panels. */
+/* Replaces a backdrop ShaderMaterial plane that flickered on the angled panels. */
 .card__fade {
   position: absolute;
   right: 0;
@@ -243,7 +229,6 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
   opacity: 0.55;
 }
 
-/* One ornament, four flips. */
 .card__corner {
   position: absolute;
   width: 50px;
@@ -257,7 +242,6 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
 .card__corner--bl { bottom: -3px; left: -3px; transform: scaleY(-1); }
 .card__corner--br { right: -3px; bottom: -3px; transform: scale(-1, -1); }
 
-/* Fleuron at the middle of each edge. */
 .card__pip {
   position: absolute;
   width: 34px;

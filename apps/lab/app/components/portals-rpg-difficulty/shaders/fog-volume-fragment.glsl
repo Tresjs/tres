@@ -1,10 +1,5 @@
-// Fake volumetric: a short raymarch through the unit cube, accumulating a
-// domain-warped fBm run through a two-stop colour ramp. Stands in for Blender's
-// Noise Texture (Scale / Detail / Roughness / Lacunarity / Distortion) feeding
-// a Color Ramp into a Principled Volume.
-//
-// The noise field is baked into a tiling 3D texture (see fogNoiseTexture.ts),
-// so a step costs two trilinear fetches instead of eight procedural noises.
+// Raymarch through the unit cube, standing in for Blender's Noise Texture -> Color Ramp -> Principled
+// Volume. The noise is baked into a tiling 3D texture (fogNoiseTexture.ts): two fetches per step, not eight noises.
 precision highp sampler3D;
 
 uniform sampler3D uNoise;
@@ -28,25 +23,22 @@ varying vec3 vCameraLocal;
 #define STEPS 10
 #endif
 
-// Density at one point of the box, in local space (-0.5..0.5).
 float sampleDensity(vec3 local) {
   vec3 p = local / uNoiseScale
     + vec3(uSeed * 17.0, uTime * uDriftSpeed, uSeed * 3.7);
 
-  // Domain warp, standing in for the Vector Math distortion feeding the Noise Texture.
   vec3 warp = (texture(uNoise, p / uNoisePeriod).gba * 2.0 - 1.0) * uDistortion;
   float n = texture(uNoise, (p + warp) / uNoisePeriod).r;
   float ramped = smoothstep(uRampLow, uRampHigh, n);
 
-  // Soft falloff toward the cube faces so the box bounds do not read as a hard cube.
+  // Fade toward the faces so the bounds do not read as a hard cube.
   vec3 edgeDist = 0.5 - abs(local);
   float edgeFade = smoothstep(0.0, 0.18, min(min(edgeDist.x, edgeDist.y), edgeDist.z));
 
   return ramped * edgeFade;
 }
 
-// Interleaved gradient noise: a per-pixel offset for the first step, so the
-// march can use few steps without the sample planes showing as bands.
+// Interleaved gradient noise offsets the first step so few steps do not band.
 float jitter(vec2 fragCoord) {
   return fract(52.9829189 * fract(0.06711056 * fragCoord.x + 0.00583715 * fragCoord.y));
 }
@@ -54,9 +46,8 @@ float jitter(vec2 fragCoord) {
 void main() {
   vec3 rayDir = normalize(vLocalPosition - vCameraLocal);
 
-  // Slab test against the unit cube. The mesh draws its back faces, so the
-  // fragment is the exit point and the entry is either the front face or the
-  // camera itself when it sits inside the box.
+  // The mesh draws back faces, so the fragment is the exit point; entry is the front face
+  // or the camera itself when it sits inside the box.
   vec3 invDir = 1.0 / rayDir;
   vec3 t0 = (vec3(-0.5) - vCameraLocal) * invDir;
   vec3 t1 = (vec3(0.5) - vCameraLocal) * invDir;
@@ -67,7 +58,7 @@ void main() {
   if (tFar <= tNear) { discard; }
 
   float dt = (tFar - tNear) / float(STEPS);
-  // Step length in world units, so a stretched box is not denser along its long axis.
+  // World-space step so a stretched box is not denser along its long axis.
   float stepWorld = length(rayDir * uScale) * dt;
   float offset = jitter(gl_FragCoord.xy);
 

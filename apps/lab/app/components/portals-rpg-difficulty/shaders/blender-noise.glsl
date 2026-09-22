@@ -1,29 +1,12 @@
-// Port of Blender's material noise GLSL, trimmed to what the Avernus materials
-// sample: 3D Perlin fBM with fractional detail and distortion, the Noise
-// Texture Color output, and 3D Voronoi Distance-to-Edge.
-//
-// Source: blender/blender tag v5.2.1, source/blender/gpu/shaders/
-//   common/gpu_shader_common_hash.glsl
-//   material/gpu_shader_material_noise.glsl
-//   material/gpu_shader_material_fractal_noise.glsl
-//   material/gpu_shader_material_tex_noise.glsl
-//   material/gpu_shader_material_voronoi.glsl
-//   material/gpu_shader_material_tex_voronoi.glsl
-//   material/gpu_shader_material_fractal_voronoi.glsl
-//
-// Imported with ?raw and prepended to the material shaders, so this file has
-// no uniforms and no main. Blender hashes integer cell coordinates through
-// Jenkins lookup3 and PCG, so the float->uint reinterprets and the wrapping
-// integer arithmetic below are load-bearing: swap in a float hash and every
-// cell moves, and the reference render stops matching.
+// Port of Blender's material noise GLSL. Source: blender/blender v5.2.1, source/blender/gpu/shaders/
+// common/gpu_shader_common_hash.glsl and material/gpu_shader_material_{noise,fractal_noise,tex_noise,
+// voronoi,tex_voronoi,fractal_voronoi}.glsl. Imported with ?raw, so no uniforms and no main.
+// The uint hashes (Jenkins lookup3, PCG) and the wrapping integer math are load-bearing: a float
+// hash moves every cell and the reference render stops matching.
 
 #define BL_FLT_MAX 3.402823466e+38
 // Blender clamps Detail to 15; a constant bound keeps the loop WebGL2-safe.
 #define BL_MAX_OCTAVES 16
-
-// ---------------------------------------------------------------------------
-// Jenkins lookup3 (gpu_shader_common_hash.glsl)
-// ---------------------------------------------------------------------------
 
 uint blRot(uint x, uint k) {
   return (x << k) | (x >> (32u - k));
@@ -98,10 +81,6 @@ vec3 blHashInt3ToVec3(ivec3 k) {
   return vec3(h & 0x7fffffff) * (1.0 / 2147483647.0);
 }
 
-// ---------------------------------------------------------------------------
-// Perlin 3D (gpu_shader_material_noise.glsl)
-// ---------------------------------------------------------------------------
-
 float blFade(float t) {
   return t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
 }
@@ -167,10 +146,6 @@ float blSnoise3(vec3 p) {
   return 0.9820 * blPerlin3(p);
 }
 
-// ---------------------------------------------------------------------------
-// fBM with fractional detail (gpu_shader_material_fractal_noise.glsl)
-// ---------------------------------------------------------------------------
-
 float blNoiseFbm3(vec3 p, float detail, float roughness, float lacunarity, bool normalized) {
   float fscale = 1.0;
   float amp = 1.0;
@@ -198,11 +173,6 @@ float blNoiseFbm3(vec3 p, float detail, float roughness, float lacunarity, bool 
   return normalized ? 0.5 * sum / maxamp + 0.5 : sum;
 }
 
-// ---------------------------------------------------------------------------
-// Noise Texture node, 3D fBM (gpu_shader_material_tex_noise.glsl)
-// ---------------------------------------------------------------------------
-
-// Seeded offsets that decorrelate the distortion axes and the colour channels.
 vec3 blRandomVec3Offset(float seed) {
   return vec3(
     100.0 + blHashVec2ToFloat(vec2(seed, 0.0)) * 100.0,
@@ -216,7 +186,6 @@ struct BlenderNoiseSample {
   vec3 color;
 };
 
-// q is the node input already multiplied by the node Scale, exactly once.
 // Lacunarity 2 and Normalize on, as in every Avernus noise node.
 BlenderNoiseSample blenderNoise3(vec3 q, float detail, float roughness, float distortion) {
   detail = clamp(detail, 0.0, 15.0);
@@ -258,14 +227,7 @@ float blenderNoise3Fac(vec3 q, float detail, float roughness, float distortion) 
   return blNoiseFbm3(p, detail, roughness, 2.0, true);
 }
 
-// ---------------------------------------------------------------------------
-// Voronoi 3D Distance to Edge (gpu_shader_material_voronoi.glsl)
-// ---------------------------------------------------------------------------
-
-// Euclidean, Randomness 1, Detail 0, Normalize off: with those settings the
-// fractal wrapper returns the single-octave distance unchanged, so it is
-// skipped. Two passes over the 27 neighbours: find the closest feature, then
-// the nearest bisector plane between it and every other feature.
+// Euclidean, Randomness 1, Detail 0, Normalize off: the fractal wrapper is then an identity, so it is skipped.
 float blenderVoronoiEdge3(vec3 coord) {
   vec3 cellPositionF = floor(coord);
   vec3 localPosition = coord - cellPositionF;

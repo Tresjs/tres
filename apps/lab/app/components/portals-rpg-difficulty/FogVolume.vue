@@ -4,42 +4,25 @@ import fragmentShader from './shaders/fog-volume-fragment.glsl?raw'
 import { BackSide, Color, Uniform, Vector3 } from 'three'
 import { FOG_NOISE_PERIOD, getFogNoiseTexture } from './fogNoiseTexture'
 
-// One fake-volumetric fog patch: a unit box the fragment shader raymarches,
-// accumulating a noise field along the view ray. Every default is the matching
-// value from the MAT_Blue_Mist_* materials in "Dungeon Battle.blend".
-//
-// detail, roughness and lacunarity are baked into a shared 3D noise texture at
-// mount (fogNoiseTexture.ts); changing them afterwards has no effect.
+// Defaults are the Blender Noise Texture values. detail, roughness and lacunarity are
+// baked into the shared 3D texture at mount (fogNoiseTexture.ts); later changes do nothing.
 const props = withDefaults(defineProps<{
-  // Three.js space (Y-up), already converted from Blender.
   position?: [number, number, number]
   scale?: [number, number, number]
-  // The Noise Texture "W" value. Only a seed, so the four boxes do not share a pattern.
   seed?: number
-  // Noise Texture "Scale" (0.85 on all four materials).
   noiseScale?: number
-  // Noise Texture "Detail" (4.5). Blender blends fractionally between octave
-  // counts; the bake cannot, so this is rounded.
+  // Blender blends fractionally between octave counts; the bake cannot, so this is rounded.
   detail?: number
-  // Noise Texture "Roughness" (0.68): how much each octave's contribution shrinks.
   roughness?: number
-  // Noise Texture "Lacunarity" (2.0): frequency multiplier per octave.
   lacunarity?: number
-  // Noise Texture "Distortion" (0.45): domain-warp strength before sampling.
   distortion?: number
-  // The Color Ramp's two stops (black at 0.43, white at 0.7).
   rampLow?: number
   rampHigh?: number
-  // Principled Volume "Color", linear RGB.
   color?: [number, number, number]
-  // Extinction per world unit where the noise is at full strength. Blender's
-  // density has the same meaning but its raymarch is much finer, so treat this
-  // as a relative strength tuned by eye. 0.1..0.5 is the useful range.
+  // Relative strength tuned by eye, Blender's raymarch is much finer. 0.1..0.5 is the useful range.
   density?: number
-  // Raymarch samples per ray, two texture fetches each. The per-pixel jitter
-  // hides banding, so 6..12 reads fine for soft mist.
+  // Two texture fetches per step. The per-pixel jitter hides banding, so 6..12 reads fine.
   steps?: number
-  // Blender's mist is a still frame. 0 matches it; a small value keeps it alive.
   driftSpeed?: number
   renderOrder?: number
 }>(), {
@@ -79,8 +62,7 @@ const uniforms = {
   uTime: new Uniform(0),
 }
 
-// A GLSL for-loop needs a compile-time bound, so the step count goes in as a
-// define rather than a uniform.
+// A GLSL for-loop needs a compile-time bound, so the step count is a define.
 const defines = { STEPS: Math.max(1, Math.round(props.steps)) }
 
 watch(() => props.density, (value) => {
@@ -108,10 +90,8 @@ onBeforeRender(({ elapsed }) => {
     :render-order="renderOrder"
   >
     <TresBoxGeometry :args="[1, 1, 1]" />
-    <!-- Back faces: the exit face is visible from outside and from inside the
-         box, so the march also works with the camera in the mist. depthWrite
-         off so overlapping boxes blend instead of clipping each other;
-         renderOrder sorts them back to front by hand. -->
+    <!-- BackSide so the march also works with the camera inside the box. depthWrite off
+         so overlapping boxes blend; renderOrder sorts them back to front by hand. -->
     <TresShaderMaterial
       :vertex-shader="vertexShader"
       :fragment-shader="fragmentShader"

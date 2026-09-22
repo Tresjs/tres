@@ -5,8 +5,7 @@ const { nodes, state } = useGLTF('/models/portals-rpg/dungeon-battle.glb', { dra
 
 const { scene: portalScene } = useTresContext()
 portalScene.value.background = new Color('#000000')
-// Blender's world background is pure black with no sky light, so an exponential
-// falloff to near-black stands in for it. 0.02..0.04 reads well at room scale.
+// Blender's world is pure black with no sky light; an exponential falloff to near-black stands in for it.
 portalScene.value.fog = new FogExp2('#04080f', 0.03)
 
 function pick(keyword: string) {
@@ -15,8 +14,7 @@ function pick(keyword: string) {
   )
 }
 
-// Leches mutates the Vector3 in place, and the template only tracks the ref
-// itself, so read the components through a computed to get a re-render.
+// Leches mutates the Vector3 in place, so read components through a computed to re-render.
 const { dungeonPosition, dungeonRotation } = useControls('dungeon', {
   position: { value: new Vector3(-1.4, -2.7, -5.4), step: 0.1 },
   rotation: { value: new Vector3(3, 37, 0), step: 1, min: -180, max: 180, label: 'rotation (deg)' },
@@ -38,7 +36,6 @@ const barriers = computed(() => pick('barrier'))
     <primitive v-for="barrier in barriers" :key="barrier.name" name="Barriers" :object="barrier" />
     <primitive name="Banner" :object="nodes.banner_shield_blue" />
     <primitive name="Stacked boxes" :object="nodes.box_stacked" />
-    <!-- Static prop floating beside Rig_Mage, not part of the rig. -->
 
     <PortalsRpgDifficultyZynrae :nodes="nodes" :state="state" />
     <PortalsRpgDifficultyFenrath :nodes="nodes" :state="state" />

@@ -3,14 +3,10 @@ import type { Ref } from 'vue'
 import { AmbientLight, Color, HemisphereLight, LinearSRGBColorSpace, Matrix4, PointLight, RectAreaLight, Vector3 } from 'three'
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js'
 
-// The 13-light rig from the 2026-09-21 Blender snapshot (LIGHTING_REFERENCE.md),
-// in the Avernus group's local space: positions already converted from Z-up
-// with (x, z, -y). Source watts are kept as data and turned into Three
-// intensity through one calibrated scale, because Blender's radiant watts and
-// Three's candela/lumens are different units and only the ratios carry over.
+// Positions are the Blender rig converted from Z-up with (x, z, -y). Watts are kept
+// as data and scaled once: Blender radiant watts and Three lumens only share ratios.
 
-// RectAreaLight is a no-op on WebGLRenderer until its LTC lookup textures
-// exist. Idempotent, module scope: DungeonMist.vue makes the same call.
+// RectAreaLight is a no-op on WebGLRenderer until its LTC textures exist. Idempotent.
 RectAreaLightUniformsLib.init()
 
 const UUID = 'portals-rpg-difficulty'
@@ -44,9 +40,7 @@ const POINT_SOURCES: PointSource[] = [
   { name: 'LGT_Original_RedFill', watts: 100, rgb: [1, 0.12761, 0.12761], position: [4.076245, 5.903862, -1.005454], role: 'fill' },
 ]
 
-// Blender disk area lights. A RectAreaLight square with side d*sqrt(pi)/2 keeps
-// the emitting area; the disk shape itself is not reproduced. Rect lights do
-// not cast shadows in WebGL.
+// A square with side d*sqrt(pi)/2 keeps the emitting area of Blender's disk lights.
 const DISK_SOURCES: DiskSource[] = [
   { name: 'LGT_Cavern_Ambience', watts: 450, rgb: [1, 0.56, 0.28], position: [-4.0248, 9, -1.3416], diameter: 7, direction: [0, -0.666678, -0.745346], role: 'wash' },
   { name: 'LGT_Lava_Rim', watts: 1400, rgb: [1, 0.28, 0.055], position: [-2.236, 5, -4.472], diameter: 5, direction: [0.383479, -0.514507, 0.766959], role: 'rim' },
@@ -54,7 +48,6 @@ const DISK_SOURCES: DiskSource[] = [
   { name: 'LGT_Warm_Key', watts: 1150, rgb: [1, 0.76, 0.53], position: [-1.3416, 8, 6.2608], diameter: 6, direction: [0.152892, -0.683774, -0.713496], role: 'key' },
 ]
 
-// World node: linear (0.13, 0.105, 0.085) at strength 0.22.
 const WORLD_RGB: [number, number, number] = [0.13 * 0.22, 0.105 * 0.22, 0.085 * 0.22]
 
 const linear = (rgb: [number, number, number]) => new Color().setRGB(rgb[0], rgb[1], rgb[2], LinearSRGBColorSpace)
@@ -74,9 +67,8 @@ const rectLights = DISK_SOURCES.map((source) => {
   const light = new RectAreaLight(linear(source.rgb), 1, side, side)
   light.name = source.name
   light.position.set(...source.position)
-  // Object3D.lookAt works in world space and the parent group's matrixWorld
-  // is not built yet, so build the rotation in local space. Eye-at-light order
-  // puts local -Z on the target, which is the side a RectAreaLight emits from.
+  // lookAt works in world space but the parent matrixWorld is not built yet, so aim in
+  // local space. Eye-at-light order puts local -Z on the target, the side a RectAreaLight emits from.
   target.set(...source.direction).add(light.position)
   aim.lookAt(light.position, target, light.up)
   light.quaternion.setFromRotationMatrix(aim)
@@ -86,10 +78,7 @@ const rectLights = DISK_SOURCES.map((source) => {
 const ambient = new AmbientLight(linear(WORLD_RGB), 1)
 ambient.name = 'WORLD_Avernus_Cavern'
 
-// Port-only approximations, not members of the source rig. Cycles bounces the
-// lava's and candles' emission onto every underside; WebGL emissive does not
-// light neighbours. These stand in for that bounce and can be zeroed to judge
-// the source rig on its own.
+// Not in the source rig: stand-ins for the Cycles bounce of lava and candle emission.
 const spillBounce = new HemisphereLight(new Color('#1a0408'), new Color('#ff4a12'), 1)
 spillBounce.name = 'SPILL_Lava_Bounce'
 const spillHotspot = new PointLight(new Color('#ff4a12'), 1, 16, 2)
@@ -108,7 +97,6 @@ const {
   lightsAmbient,
   lightsSpill,
 } = useControls('lights', {
-  // Artistic calibration of watts to Three power, not a unit conversion.
   powerScale: { value: 0.12, min: 0, max: 2, step: 0.01, label: 'power scale' },
   key: { value: 1, min: 0, max: 4, step: 0.05 },
   fill: { value: 1, min: 0, max: 4, step: 0.05 },
@@ -127,8 +115,6 @@ const roleGain: Record<Role, Ref<number>> = {
   candle: lightsCandles,
 }
 
-// power = watts * scale * roleGain, then Three's own power setters turn lumens
-// into candela (point: /4pi) or nits (rect: /area*pi).
 watchEffect(() => {
   const scale = lightsPowerScale.value
   POINT_SOURCES.forEach((source, i) => {

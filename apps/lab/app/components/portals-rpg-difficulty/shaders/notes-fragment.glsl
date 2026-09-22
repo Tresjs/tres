@@ -18,8 +18,7 @@ void main() {
   vec2 atlasUv = vec2((vGlyph + uv.x) / uAtlasCells, uv.y);
   float glyph = texture2D(uAtlas, atlasUv).a * vGlyphWeight;
 
-  // The halo has to finish inside 0.5, the corner of the sprite, or it shows a
-  // square silhouette. Far ghosts are halo only, which is what makes the trail a smear.
+  // Must end inside 0.5 (the sprite corner) or it shows a square. Far ghosts are halo only.
   float halo = smoothstep(0.5, 0.05, length(gl_PointCoord - 0.5)) * 0.35 * uGlow;
 
   vec3 color = mix(uColorYoung, uColorMid, smoothstep(0.0, 0.4, vAge));

@@ -11,8 +11,6 @@ const props = defineProps<{
   state: Record<string, any>
 }>()
 
-// The orb is the campfire flame folded into a ball: same marble displacement,
-// same fresnel core/rim ramps, only the palette and the scale change.
 const vertexShader = noise + fireVertex
 
 const mage = computed(() => props.nodes.Rig_Mage)
@@ -23,21 +21,17 @@ const { actions } = useAnimations(props.state.animations, mage.value)
 const currentAction = actions.Mage_Pose
 currentAction?.play()
 
-// The GLTF orb is an 80-face flat-shaded icosphere; displacing that reads as
-// the whole ball jittering. Faces = 20 * (detail + 1)^2, so 7 gives 1280,
-// enough for the veins to roll across the surface as tongues.
+// The GLTF orb is an 80-face icosphere and jitters when displaced.
+// Faces = 20 * (detail + 1)^2, so 7 gives 1280.
 const ORB_DETAIL = 7
 
-// Every length below is a fraction of the orb radius, so the same look survives
-// a rescale of the model. The fire tunes these in absolute units because its
-// mesh only exists at one size.
+// Fractions of the orb radius, so the look survives a model rescale.
 const RISE_SPEED = 1.2
 const SWAY = 0.12
 const MARBLE_SIZE = 0.5
 const MARBLE_VEINS = 2.5
 const DISPLACE_STRENGTH = 0.22
 
-// Same sampling scheme as the fire light, see Fireplace.vue for the reasoning.
 const LIGHT_SAMPLES = [0.3, 0.55, 0.78, 0.95]
 const LIGHT_SWELL_MID = 0.53
 const LIGHT_SWING = 2
@@ -46,7 +40,6 @@ const animator = new Vector3()
 const swell = new Uniform(0)
 
 const uniforms = {
-  // Bottom pale, top deep blue, so the ball reads as a flame rising through it.
   uCoreOffset: new Uniform(0.9),
   uCoreScale: new Uniform(0.6),
   uCoreMidPos: new Uniform(0.4),
@@ -77,7 +70,6 @@ const uniforms = {
   uMarbleVeins: new Uniform(MARBLE_VEINS),
   uDisplaceStrength: new Uniform(DISPLACE_STRENGTH),
   uDisplaceMid: new Uniform(0.5),
-  // The fire pins its base to the logs. The orb floats, so the whole surface churns.
   uBaseMask: new Uniform(0),
 
   uTime: new Uniform(0),
@@ -116,8 +108,7 @@ const prepareOrb = (mesh: Mesh) => {
   uniforms.uDisplaceStrength.value = DISPLACE_STRENGTH * r
 }
 
-// immediate: nodes are already loaded when this mounts, because Balanced.vue
-// gates the group on the floors, so a plain watch would never fire.
+// immediate: Balanced.vue gates the group on loaded nodes, so a plain watch never fires.
 watch(orb, (mesh) => {
   if (mesh?.geometry) { prepareOrb(mesh) }
 }, { immediate: true })
@@ -156,9 +147,7 @@ onBeforeRender(({ elapsed }) => {
       :uniforms="uniforms"
       :side="DoubleSide"
     />
-    <!-- Parented to the orb so it rides the GLTF transform. It swells with the same
-    marble field that displaces the surface, so the mage's hand brightens on the
-    same frame the ball flares. -->
+    <!-- Parented to the orb so it rides the GLTF transform. -->
     <TresPointLight ref="orbLight" :position="lightPosition" :intensity="3" :distance="6" color="#0ac8ff" />
   </primitive>
   <primitive name="Mage" :object="mage" />

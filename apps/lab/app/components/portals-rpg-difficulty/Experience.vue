@@ -9,13 +9,10 @@ import Balanced from './Balanced.vue'
 import Tactician from './Tactician.vue'
 import { EquirectangularReflectionMapping, MathUtils, SRGBColorSpace } from 'three'
 
-// Flipped by the page once the loading screen has faded out.
 const props = defineProps<{ revealed?: boolean }>()
 
 const { scene: mainScene } = useTresContext()
 
-// Degrees of yaw applied to the sky, to put the part of the panorama you want
-// behind the frames.
 const SKY_YAW = 90
 
 const { state: background } = useTexture('/skyboxes/medieval-bg.png')
@@ -26,22 +23,19 @@ watch(() => background.value, (value) => {
     value.colorSpace = SRGBColorSpace
     mainScene.value.background = value
     mainScene.value.environment = value
-    // mainScene.value.backgroundBlurriness = 0.01
     mainScene.value.backgroundRotation.y = MathUtils.degToRad(SKY_YAW)
     mainScene.value.environmentRotation.y = MathUtils.degToRad(SKY_YAW)
     mainScene.value.backgroundIntensity = 0.2
   }
 }, { immediate: true })
 
-// Side frames are angled inward and pushed forward in z (z = sin θ) so the three
-// planes read as one folded panel: inner edge at x = ±(1 + gap).
+// Side frames angle inward and move forward (z = sin θ) so the three planes read as one folded panel.
 const difficulties = [
   { label: 'Explorer', description: 'A narrative experience placing story before combat', x: -2.321, z: 0.389, rotationY: 0.4, component: Easy },
   { label: 'Balanced', description: 'A balanced adventure full of challenging rewards', x: 0, z: 0, rotationY: 0, component: Balanced },
   { label: 'Tactician', description: 'A tough campaign with strategic depth', x: 2.321, z: 0.389, rotationY: -0.4, component: Tactician },
 ]
 
-// Stagger is longer than the visible wobble so each frame lands on its own beat.
 const POP_DELAY = 0.5
 const POP_DURATION = 0.8
 const POP_STAGGER = 0.55
@@ -74,14 +68,12 @@ watch(() => props.revealed, (v) => {
 
 onUnmounted(() => popCtx?.revert())
 
-// TODO: click-to-focus (blend a portal to full screen, fly the camera in).
-// Removed for now; see git history for the snapping version.
+// TODO: click-to-focus (blend a portal full screen, fly the camera in); see git history.
 </script>
 
 <template>
-  <!-- The Html card must not inherit the mesh scale: Html sets will-change,
-       so Chrome rasterises it at the first scale it sees (0) and the card
-       stays pixelated. It pops with its own CSS keyframes instead. -->
+  <!-- Html sets will-change, so Chrome rasterises the card at the first scale it sees (0).
+       Keep it out of the mesh scale; it pops with its own CSS keyframes. -->
   <TresGroup
     v-for="(d, i) in difficulties"
     :key="d.label"
@@ -95,8 +87,7 @@ onUnmounted(() => popCtx?.revert())
         <component :is="d.component" v-if="d.component" />
       </MeshPortalMaterial>
     </TresMesh>
-    <!-- distance-factor 4 makes one world unit 100 CSS px, so the card's
-         200 x 300 px window lands exactly on the 2 x 3 plane. -->
+    <!-- distance-factor 4 makes one world unit 100 CSS px, so the 200 x 300 card covers the 2 x 3 plane. -->
     <Html
       center
       transform
@@ -113,5 +104,4 @@ onUnmounted(() => popCtx?.revert())
       />
     </Html>
   </TresGroup>
-  <!-- <Easy /> -->
 </template>

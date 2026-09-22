@@ -1,15 +1,6 @@
-// Avernus material fields, transcribed from the live Blender snapshot of
-// 2026-09-21 (avernus_shader_equations.glsl in the handover). Values are
-// linear RGB. Every ramp is piecewise LINEAR with clamped end stops, which is
-// what Blender's ColorRamp does; a smoothstep is not equivalent.
-//
-// Requires blender-noise.glsl before it. Imported with ?raw, no uniforms.
-// The tunables (warp, plate scale, fine detail, wisp scale, drift) are
-// function parameters so the snapshot constants stay visible at the call site.
-
-// ---------------------------------------------------------------------------
-// Lava ramps: MAT_Lava_Flowing_Magma
-// ---------------------------------------------------------------------------
+// Avernus material fields, transcribed from the Blender snapshot of 2026-09-21
+// (avernus_shader_equations.glsl). Linear RGB. Ramps are piecewise linear with clamped
+// stops, like Blender's ColorRamp; a smoothstep is not equivalent. Needs blender-noise.glsl first.
 
 float lavaFissure(float x) {
   if (x <= 0.00800000038) return 1.0;
@@ -53,44 +44,29 @@ struct LavaFields {
   float moltenMask;
 };
 
-// blenderObjectPosition is the Blender-space object coordinate (Z up). The
-// snapshot values are warpAmount 1.25 and plateScale 1.05. fineDetail off
-// skips the scale-22 pitting noise, which only feeds the bump height.
-// The snapshot has no time input. flow translates the whole pattern so the
-// crust plates ride downstream; churn walks the warp and pool noises along
-// their unused Z axis, so the fissures breathe without the plates sliding.
-// The lake is flat, so Z is free to serve as a time axis.
+// blenderObjectPosition is Blender-space (Z up). Snapshot: warpAmount 1.25, plateScale 1.05,
+// no time input. The lake is flat, so Z is free as a time axis: flow slides the plates
+// downstream, churn walks the warp and pool noises along Z so fissures breathe in place.
 LavaFields evaluateLava(vec3 blenderObjectPosition, float warpAmount, float plateScale, bool fineDetail,
                         vec3 flow, float churn) {
-  // Flow_Direction_Stretch
   vec3 p = blenderObjectPosition * vec3(0.78, 1.25, 1.0) + flow;
   vec3 churnAxis = vec3(0.0, 0.0, churn);
-  // Flow_Distortion (Color) -> centre -> Flow_Warp_Amount -> Warped_Flow_Coordinates
   vec3 warpColor = blenderNoise3(p * 0.7 + churnAxis, 3.0, 0.65, 0.0).color;
   vec3 q = p + warpAmount * (warpColor - vec3(0.5));
-  // Crust_Plate_Boundaries -> Molten_Fissure_Width
   float edgeDistance = blenderVoronoiEdge3(q * plateScale);
-  // Broad_Molten_Flow -> Open_Lava_Pools
   float broad = blenderNoise3Fac(q * 0.8 + churnAxis * 0.5, 2.5, 0.7, 0.6);
-  // Molten_Surface_Mask
   float mask = max(lavaFissure(edgeDistance), lavaPools(broad));
   vec3 color = lavaPalette(mask);
-  // Fine_Crust_Pitting -> Pitting_Depth
   float micro = fineDetail ? blenderNoise3Fac(q * 22.0, 2.0, 0.5, 0.0) : 0.5;
 
   LavaFields f;
   f.baseColor = color;
   f.emission = color * (1.9 * lavaHeat(mask));
   f.roughness = lavaRoughness(mask);
-  // Raised_Crust_Height + Pitting_Depth -> Crust_Surface_Height
   f.height = (1.0 - mask) + 0.18 * micro;
   f.moltenMask = mask;
   return f;
 }
-
-// ---------------------------------------------------------------------------
-// Energy ramps: MAT_Pentagram_Dark_Energy
-// ---------------------------------------------------------------------------
 
 float energyTopFade(float x) {
   if (x <= 0.0) return 1.0;
@@ -107,8 +83,7 @@ float energyEndFade(float x) {
   return 0.0;
 }
 
-// Four stops at density 0, 0.30, 0.65, 1. Passed in so the palette can be
-// exposed as uniforms; the snapshot values live in AvernusEnergy.vue.
+// Stops passed in so the palette can be uniforms; snapshot values live in AvernusEnergy.vue.
 vec3 energyPalette(float x, vec3 c0, vec3 c1, vec3 c2, vec3 c3) {
   if (x <= 0.0) return c0;
   if (x < 0.300000012) return mix(c0, c1, (x - 0.0) / 0.300000012);
@@ -133,18 +108,14 @@ struct EnergyFields {
   float density;
 };
 
-// energyUV: the plane's own UV, V = 0 at the groove, V = 1 at the top.
-// wispScale multiplies the snapshot's 8.5 x 1.6 stretch; drift shifts only
-// the noise sample so the top and end fades stay attached to the geometry.
+// energyUV: V = 0 at the groove, V = 1 at the top. drift shifts only the noise sample
+// so the top and end fades stay attached to the geometry.
 EnergyFields evaluateEnergy(vec2 energyUV, float wispScale, vec3 drift,
                             vec3 c0, vec3 c1, vec3 c2, vec3 c3) {
-  // Vertical_Wisp_Stretch -> Turbulent_Energy
   vec3 q = vec3(energyUV, 0.0) * vec3(8.5, 1.6, 1.0) * wispScale + drift;
   float noiseFac = blenderNoise3Fac(q * 2.4, 3.1, 0.65, 0.9);
-  // Dissolve_With_Height, Wisp_Density, Soft_Wisp_Edges (clamped)
   float threshold = 0.43 * energyUV.y + 0.29;
   float density = clamp(8.0 * (noiseFac - threshold), 0.0, 1.0);
-  // Wisps_Height_Fade, Wisps_End_Fade, Energy_Opacity
   float a = 0.78 * density * energyTopFade(energyUV.y) * energyEndFade(energyUV.x);
   vec3 color = energyPalette(density, c0, c1, c2, c3);
 

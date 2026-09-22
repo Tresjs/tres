@@ -4,14 +4,10 @@ import fragmentShader from './shaders/notes-fragment.glsl?raw'
 import { AdditiveBlending, CanvasTexture, Color, Uniform, Vector2 } from 'three'
 
 const props = withDefaults(defineProps<{
-  // Master alpha over the whole stream, on top of the per-note fade.
   opacity?: number
 }>(), { opacity: 1 })
 
-// Musical notes rising off the bard's lute in a corkscrew. Values are the ones
-// settled on in .claude/reference/bard-notes-companion.html, which runs the same math.
 const COUNT = 10
-// One note per beat, with a little slop so it reads as a rhythm, not a metronome.
 const BEAT = 0.45
 const LIFETIME = 4.5
 const RISE = 2.4
@@ -20,22 +16,16 @@ const RADIUS_START = 1.2
 const RADIUS_END = 0.6
 const RADIUS_JITTER = 0.3
 const TURBULENCE = 0.08
-// Ghost points behind each head. They shrink and dim toward the tail so the trail
-// tapers along the helix instead of pointing straight down.
 const TRAIL_GHOSTS = 7
 const TRAIL_SECONDS = 0.55
-// Only the head and the first ghosts draw the glyph; the rest are halo only.
 const GLYPH_GHOSTS = 2
 const FADE_START = 0.55
 const GLOW = 0.6
-// World diameter of the sprite. The glyph fills the middle 60%, the rest is halo.
 const NOTE_SIZE = 0.6
 
 const GLYPHS = ['♪', '♫', '♩', '♬']
 const CELL = 128
 
-// Drawn once at mount: the notes are text, and a canvas is the cheapest way to get
-// crisp glyphs with an alpha channel into a point sprite.
 function makeAtlas() {
   const canvas = document.createElement('canvas')
   canvas.width = CELL * GLYPHS.length
@@ -106,14 +96,12 @@ const uniforms = {
   uFadeStart: new Uniform(FADE_START),
   uGlow: new Uniform(GLOW),
   uOpacity: new Uniform(props.opacity),
-  // Same family as the fire, so the notes sit in the same light as the sparks.
   uColorYoung: new Uniform(new Color('#ffe2a8')),
   uColorMid: new Uniform(new Color('#ffb347')),
   uColorOld: new Uniform(new Color('#ff6e2b')),
 }
 
-// The vertex shader sizes points from a world size, which needs the canvas height
-// in device pixels to land on a pixel count.
+// Point size is a world size; the shader needs the canvas height in device pixels to convert it.
 const { sizes: canvas } = useTres()
 
 watchEffect(() => {
@@ -136,8 +124,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <!-- frustumCulled: every vertex sits on the origin, so the bounding sphere is a
-  point, but the shader lifts notes a full rise above it. -->
+  <!-- Every vertex sits on the origin, so the bounding sphere is a point the shader lifts notes out of. -->
   <TresPoints name="Notes" :frustum-culled="false">
     <TresBufferGeometry
       :position="[positions, 3]"

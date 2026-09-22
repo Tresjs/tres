@@ -6,8 +6,7 @@ import type { Box3, PointLight } from 'three';
 import { Color, DoubleSide, Uniform, Vector2, Vector3 } from 'three';
 import { marble } from './marble'
 
-// The noise chunk is shared with the mage orb, so it is prepended here instead
-// of duplicated in the .glsl file.
+// The noise chunk is shared with the mage orb, so it is prepended here.
 const vertexShader = noise + fireVertex
 
 const props = defineProps<{
@@ -17,24 +16,19 @@ const props = defineProps<{
 const fireplace = computed(() => props.nodes['Fireplace'])
 const fire = computed(() => props.nodes['Fire'])
 
-// Stand-in for the "Fire Animator" empty in Blender. The Displace texture is read
-// in this point's object space, so moving it up scrolls the marble veins up
-// through the mesh. The sway keeps it off a pure vertical slide.
+// Stand-in for Blender's "Fire Animator" empty: moving it scrolls the marble veins through the mesh.
 const animator = new Vector3()
 const RISE_SPEED = 0.7
 const SWAY = 0.08
 
-// Heights up the flame axis where the light samples the marble field. A single
-// sample swings the full 0..1 but at up to 7 units/s, which strobes; averaging
-// four spreads them over half a vein cycle and lands on ~0.17..0.98 at 2.3/s,
-// which reads as the flame swelling rather than one vein crossing.
+// One sample strobes (full 0..1 swing at up to 7 units/s); averaging four spreads them
+// over half a vein cycle, so the light reads as the flame swelling.
 const LIGHT_SAMPLES = [0.3, 0.55, 0.78, 0.95]
 const LIGHT_SWELL_MID = 0.53
 const LIGHT_SWING = 6
 
-// Read by the fire light and by Sparks.vue, so a flare reaches both on the same
-// frame. A Uniform rather than a ref: the sparks material consumes it directly and
-// a per-frame reactive write would re-render the component tree for nothing.
+// Shared with Sparks.vue so a flare reaches both on the same frame. A Uniform, not a
+// ref: a per-frame reactive write would re-render the tree for nothing.
 const swell = new Uniform(0)
 
 const uniforms = {
@@ -74,27 +68,23 @@ const uniforms = {
     uFlicker: new Uniform(0.06),
 }
 
-// shallowRef: a plain ref() hands back a reactive proxy of the light, and every
-// matrix write then pays for the proxy.
+// shallowRef: a plain ref() wraps the light in a proxy that every matrix write pays for.
 const fireLight = shallowRef<PointLight | null>(null)
 const flameCenter = new Vector3()
 const flameBounds = shallowRef<Box3 | null>(null)
-// The notes rise out of the flame tip, not off the bard's lute, so the whole camp
-// reads as singing along rather than one player.
+// Notes rise from the flame tip, not the lute, so the whole camp reads as singing along.
 const notesOrigin = computed(() => flameBounds.value
     ? [flameCenter.x, flameBounds.value.max.y, flameCenter.z]
     : [0, 0, 0])
 const lightRest = { intensity: 1, position: new Vector3() }
 
-// The template props stay the rest pose the flicker swings around.
 watch(fireLight, (light) => {
     if (!light) { return }
     lightRest.intensity = light.intensity
     lightRest.position.copy(light.position)
 })
 
-// immediate: nodes are already loaded when this component mounts, because Easy.vue
-// gates the whole group on nodes.Ground, so a plain watch would never fire.
+// immediate: Easy.vue gates this on nodes.Ground, so nodes are loaded before mount.
 watch(fire, () => {
     if (fire.value?.geometry) {
         fire.value.geometry.computeBoundingBox()
@@ -114,8 +104,7 @@ onBeforeRender(({ elapsed }) => {
     animator.z = Math.cos(elapsed * 1.8) * SWAY
     uniforms.uTime.value = elapsed
 
-    // Same field, same offset as the vertex shader, so the light and the sparks peak
-    // on the frame the flame swells instead of drifting against it.
+    // Same field and offset as the vertex shader, so light and sparks peak with the flame.
     let sum = 0
     for (const t of LIGHT_SAMPLES) {
         sum += marble(
@@ -147,8 +136,7 @@ onBeforeRender(({ elapsed }) => {
         <primitive name="Fire" :object="fire">
             <TresShaderMaterial :vertex-shader="vertexShader" :fragment-shader="fragmentShader" :uniforms="uniforms"
                 :side="DoubleSide" />
-            <!-- Parented to the flame mesh, so the sparks inherit its transform from the
-            GLTF instead of repeating its placement here. -->
+            <!-- Child of the flame mesh, so the sparks inherit its GLTF transform. -->
             <PortalsRpgDifficultySparks v-if="flameBounds" :bounds="flameBounds" :animator="animator"
                 :swell="swell" :sway-amplitude="SWAY" />
         </primitive>

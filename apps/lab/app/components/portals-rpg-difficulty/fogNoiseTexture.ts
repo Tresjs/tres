@@ -1,13 +1,8 @@
 import { Data3DTexture, LinearFilter, RepeatWrapping } from 'three'
 
-// The fog shader used to evaluate 8 procedural gradient noises per raymarch
-// step. Over a 2048px portal target with overlapping boxes that was ~100
-// noise evaluations per pixel per box and the frame rate fell to ~19 fps.
-// Baking the field once into a tiling 3D texture turns each step into two
-// trilinear fetches.
-//
-// R   = fBm (Blender Noise Texture: Detail / Roughness / Lacunarity), 0..1
-// GBA = three single-octave noises used as the domain warp vector, -1..1
+// Evaluating 8 procedural noises per raymarch step dropped a 2048px portal to ~19 fps.
+// Baked once into a tiling 3D texture, each step is two trilinear fetches.
+// R = fBm 0..1, GBA = three single-octave noises for the domain warp, -1..1.
 
 export interface FogNoiseParams {
   octaves: number
@@ -15,8 +10,7 @@ export interface FogNoiseParams {
   lacunarity: number
 }
 
-// Noise-space units covered by one texture repeat. The shader divides its
-// sample position by this to get a texture coordinate.
+// Noise-space units per texture repeat; the shader divides its sample position by this.
 export const FOG_NOISE_PERIOD = 4
 const SIZE = 64
 
@@ -40,8 +34,7 @@ function fade(t: number) {
   return t * t * t * (t * (t * 6 - 15) + 10)
 }
 
-// Gradient noise whose lattice wraps every `period` cells, so the baked tile
-// has no seam under RepeatWrapping.
+// The lattice wraps every `period` cells, so the tile has no seam under RepeatWrapping.
 function periodicGradientNoise(x: number, y: number, z: number, period: number) {
   const cx = Math.floor(x)
   const cy = Math.floor(y)
@@ -96,9 +89,8 @@ export function getFogNoiseTexture(params: FogNoiseParams) {
         const py = y * step
         const pz = z * step
 
-        // Same accumulation as mx_fractal_noise_float: unnormalised sum, first
-        // octave at full amplitude. The lattice period grows with the
-        // frequency; a non-integer lacunarity rounds it and gets a faint seam.
+        // Unnormalised sum as in mx_fractal_noise_float. A non-integer lacunarity
+        // rounds the period and gets a faint seam.
         let n = 0
         let amplitude = 1
         let frequency = 1
@@ -109,7 +101,6 @@ export function getFogNoiseTexture(params: FogNoiseParams) {
           frequency *= params.lacunarity
         }
 
-        // Offsets match the ones the GLSL version used for its three warp samples.
         const wx = periodicGradientNoise(px + 13.5, py + 7.1, pz, FOG_NOISE_PERIOD)
         const wy = periodicGradientNoise(px, py + 13.5, pz + 7.1, FOG_NOISE_PERIOD)
         const wz = periodicGradientNoise(px + 7.1, py, pz + 13.5, FOG_NOISE_PERIOD)

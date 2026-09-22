@@ -1,7 +1,6 @@
 <script setup lang="ts">
 defineProps<{
   title: string
-  // Waits for the frames to land.
   shown?: boolean
   delay?: number
 }>()
@@ -21,8 +20,6 @@ const landed = ref(false)
     <p class="font-serif mb-1 text-4xl font-medium tracking-wide text-[#f2ead8] text-shadow-[0_2px_12px_rgb(0_0_0/80%)]">
       {{ title }}
     </p>
-    <!-- Same fleuron as the card pips, stretched into a rule that thins out
-         towards both ends. Pale gold matches the card ornaments. -->
     <svg
       class="h-6 w-[min(520px,90%)] text-[#d9c9a3] opacity-85"
       viewBox="0 0 400 24"
@@ -33,8 +30,7 @@ const landed = ref(false)
       stroke-linejoin="round"
     >
       <defs>
-        <!-- userSpaceOnUse: a horizontal line has a zero-height bounding box,
-             and SVG skips bounding-box gradients on those entirely. -->
+        <!-- userSpaceOnUse: a zero-height bounding box makes SVG skip the gradient. -->
         <linearGradient
           id="banner-rule-fade"
           gradientUnits="userSpaceOnUse"

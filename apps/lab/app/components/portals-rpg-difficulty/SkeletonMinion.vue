@@ -4,8 +4,7 @@ const props = defineProps<{
   state: Record<string, any>
 }>()
 
-// Three copies of the same minion. Blender gave the duplicates a .001/.002
-// suffix on both the rig and its clip. GLTFLoader strips dots from node names
+// GLTFLoader strips the Blender .001/.002 suffix dots from node names
 // (Rig_Skeleton_Minion001) but not from clip names (Skeleton_Minion_Pose.001).
 const SUFFIXES = ['', '.001', '.002']
 

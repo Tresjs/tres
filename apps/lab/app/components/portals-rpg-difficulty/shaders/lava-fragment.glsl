@@ -1,7 +1,5 @@
-// CustomShaderMaterial fragment stage for GEO_Lava_Lake over
-// MeshPhysicalMaterial. blender-noise.glsl and avernus-fields.glsl are
-// prepended in AvernusLava.vue. vNormal and vViewPosition come from Three's
-// physical material varyings.
+// GEO_Lava_Lake, CSM fragment over MeshPhysicalMaterial. blender-noise.glsl and
+// avernus-fields.glsl are prepended in AvernusLava.vue.
 uniform float uWarpAmount;
 uniform float uPlateScale;
 uniform float uEmissionGain;
@@ -15,13 +13,10 @@ uniform float uChurnSpeed;
 
 varying vec3 vBlenderPosition;
 
-// Blender's Bump node filter width. Scales the un-perturbed normal against the
-// surface gradient, so a smaller value means a stronger bump.
+// Blender's Bump node filter width; smaller means a stronger bump.
 const float BUMP_FILTER_WIDTH = 0.1;
 
-// Blender node_bump (gpu_shader_material_bump.glsl) with the height offsets
-// replaced by hardware derivatives of the single height sample: one field
-// evaluation instead of three. Everything in view space.
+// Blender node_bump with the height offsets replaced by derivatives of one height sample.
 vec3 bumpNormal(vec3 N, float height, vec3 P) {
   vec3 dPdx = dFdx(P);
   vec3 dPdy = dFdy(P);
@@ -39,12 +34,10 @@ vec3 bumpNormal(vec3 N, float height, vec3 P) {
 }
 
 void main() {
-  // CSM sets csm_UnlitFac to 1 whenever a shader mentions csm_FragColor, so
-  // the lit path has to claim it back before the debug branch below.
+  // CSM sets csm_UnlitFac to 1 whenever a shader mentions csm_FragColor; claim it back for the lit path.
   csm_UnlitFac = 0.0;
 
-  // Flow runs along Blender -Y, the axis Flow_Direction_Stretch elongates.
-  // Sampling upstream makes the pattern travel downstream.
+  // Sampling upstream along Blender -Y makes the pattern travel downstream.
   vec3 flow = vec3(0.0, uTime * uFlowSpeed, 0.0);
   LavaFields f = evaluateLava(vBlenderPosition, uWarpAmount, uPlateScale, uFineDetail > 0.5,
                               flow, uTime * uChurnSpeed);

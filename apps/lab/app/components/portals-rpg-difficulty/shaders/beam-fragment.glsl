@@ -1,17 +1,7 @@
-// CustomShaderMaterial fragment stage for the heart-to-chest energy beam over
-// MeshStandardMaterial. The streak structure comes from the emissive/dark
-// cylinders of three.js webgpu_tsl_vfx_tornado: two stretched, skewed noise
-// fields multiplied and cut with a hard step, so the beam reads as ribbons
-// wrapped in black ribbons rather than as smoke. The shading of the ribbons
-// is the pentagram curtains' MAT_Pentagram_Dark_Energy: the streak mask plays
-// the wisp density, so a ribbon has a bright crimson rim and a dark core, lit
-// diffuse plus emission with straight alpha, from avernus-fields.glsl.
-//
-// Requires blender-noise.glsl and avernus-fields.glsl before it. The
-// reference reads a tiling perlin texture in UV space; here the noise is
-// sampled on the seamless ring vector (cos, sin) so no seam shows on the tube,
-// and the reference's skew (u += v) becomes a rotation of the ring by the
-// distance along the beam.
+// Heart-to-chest beam, CSM fragment over MeshStandardMaterial. Streaks after three.js
+// webgpu_tsl_vfx_tornado, shaded with the pentagram curtain palette (avernus-fields.glsl).
+// Noise is sampled on the ring vector (cos, sin) instead of UV so the tube has no seam;
+// the reference skew (u += v) becomes a ring rotation by the distance along the beam.
 uniform float uOpacity;
 uniform float uDarkOpacity;
 uniform float uRimGain;
@@ -21,9 +11,8 @@ uniform float uSkew;
 uniform float uStreakScale;
 uniform float uTimeScale;
 uniform float uTime;
-// Seed offset so the dark shell reads a different field than the bright layer.
 uniform float uSeed;
-// 1 for the dark shell: black, harder edge, longer fade in at the heart.
+// 1 for the dark shell.
 uniform float uDark;
 uniform vec3 uPalette0;
 uniform vec3 uPalette1;
@@ -41,12 +30,10 @@ vec2 rotate(vec2 v, float a) {
   return vec2(v.x * c - v.y * s, v.x * s + v.y * c);
 }
 
-// One tornado noise layer. In the reference: uv + (t * uSpeed, -t), skewed by
-// uSkew on x, scaled by `scale`, then texture.r remapped 0.45..0.7. Here x is
-// the ring angle in turns, so the skew and the scroll rotate the ring, and
-// scale.x is the number of noise periods around the circumference.
+// x is the ring angle in turns, so skew and scroll rotate the ring; scale.x is the
+// number of noise periods around the circumference. 0.45..0.7 is the reference remap.
 float streak(float uSpeed, vec2 scale, float seed) {
-  // Negated so positive speed scrolls the ribbons toward V = 0, the heart.
+  // Negated so positive speed scrolls toward the heart (V = 0).
   float t = -uTime * uTimeScale;
   float turns = t * uSpeed + uSkew * (vAlong - t);
   vec2 r = rotate(vRing, turns * TAU) * (scale.x / TAU);
@@ -65,13 +52,10 @@ void main() {
   float effect = noise1 * noise2 * min(fadeIn, fadeOut);
 
   float alpha = smoothstep(0.0, mix(uEdge, 0.01, uDark), effect) * mix(uOpacity, uDarkOpacity, uDark);
-  // Depth writes stay on so the two layers occlude each other; empty
-  // fragments must not write depth over the scene behind the beam.
+  // Depth writes stay on so the two layers occlude each other; empty fragments must not write depth.
   if (alpha < 0.01) { discard; }
 
-  // Curtain shading: density 0 is the bright crimson rim, 1 the dark core, so
-  // the ribbon edge (effect ~ 0) glows and its middle goes dark. uCoreDark
-  // sets how fast the ribbon darkens away from its edge.
+  // density 0 is the bright rim, 1 the dark core, so the ribbon edge glows and its middle goes dark.
   float density = clamp(effect * uCoreDark, 0.0, 1.0);
   vec3 color = energyPalette(density, uPalette0, uPalette1, uPalette2, uPalette3);
   vec3 emission = color * (5.0 * energyRim(density)) * uRimGain;

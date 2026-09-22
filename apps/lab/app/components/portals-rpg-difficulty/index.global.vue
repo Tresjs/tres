@@ -4,7 +4,6 @@ import { MathUtils } from 'three'
 
 const uuid = 'portals-rpg-difficulty'
 
-// The controls panel is a tuning aid, not part of the demo.
 const isDev = import.meta.dev
 
 const gl = {
@@ -12,9 +11,7 @@ const gl = {
   alpha: false,
 }
 
-// The three frames make one folded panel that only reads correctly from the
-// front, so the camera stays in a small cone around z+ and cannot pan away
-// from the panel centre.
+// The folded panel only reads from the front, so the camera is locked to a small cone around z+.
 const CONTROLS = {
   enablePan: false,
   minDistance: 5,
@@ -29,12 +26,9 @@ useControls('fpsgraph', { uuid })
 
 const revealed = ref(false)
 
-// Lands after the last frame has stopped wobbling: POP_DELAY + 2 * POP_STAGGER
-// + POP_DURATION in Experience.
+// POP_DELAY + 2 * POP_STAGGER + POP_DURATION in Experience, so it lands after the last wobble.
 const BANNER_DELAY = 2.4
 
-// Threshold near 1 so only the bright emitters inside the portals (torches,
-// fire, the mage orb) bloom. The dim sky and the lit stone stay crisp.
 const {
   bloomIntensity,
   bloomThreshold,
@@ -76,8 +70,5 @@ const {
         />
       </EffectComposerPmndrs>
     </Suspense>
-    <!-- <Suspense>
-      <Environment :files="['/skyboxes/medieval-bg.png']" background />
-    </Suspense> -->
   </TresCanvas>
 </template>

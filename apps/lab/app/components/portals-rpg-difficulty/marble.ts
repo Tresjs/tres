@@ -1,5 +1,4 @@
-// CPU twin of the marble chain in shaders/fire-vertex.glsl, so the fire light can
-// read the very field that displaces the mesh. An edit to one is an edit to both.
+// CPU twin of the marble chain in shaders/fire-vertex.glsl; edit both together.
 
 const OCTAVES = 3
 
