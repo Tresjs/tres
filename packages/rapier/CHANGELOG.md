@@ -1,3 +1,21 @@
+## 1.1.0 (2026-09-14)
+
+### 🚀 Features
+
+- **cli:** tres gltf --physics rapier, colliders from node names ([#1474](https://github.com/Tresjs/tres/pull/1474))
+
+### 🩹 Fixes
+
+- **useRapier:** prevent gravity leakage across worlds by passing a copy of the GRAVITY constant ([#1469](https://github.com/Tresjs/tres/pull/1469))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 1.0.1 (2026-07-29)
 
 ### 🩹 Fixes

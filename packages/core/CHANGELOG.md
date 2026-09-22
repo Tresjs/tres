@@ -1,3 +1,24 @@
+## 5.9.0 (2026-09-14)
+
+### 🚀 Features
+
+- MeshPortalMaterial (MVP) + TresPortal ([#1445](https://github.com/Tresjs/tres/pull/1445))
+- **core:** expose isWebGPURenderer guard and reactive isWebGPU flag ([#1440](https://github.com/Tresjs/tres/pull/1440))
+
+### 🩹 Fixes
+
+- **core:** default shadowMapType to PCFShadowMap ([#1483](https://github.com/Tresjs/tres/pull/1483))
+- **core:** apply customRendererOptions default in TresCanvas ([#1479](https://github.com/Tresjs/tres/pull/1479))
+- **useCamera:** shallow ref ([#1453](https://github.com/Tresjs/tres/pull/1453))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- Claude Opus 4.8
+- Eduardo San Martin Morote @posva
+- Jaime A Torrealba C @JaimeTorrealba
+- Jungzl
+
 ## 5.8.3 (2026-06-18)
 
 ### 🩹 Fixes

@@ -2,11 +2,11 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "apply_patch|Edit|Write",
+        "matcher": "Edit|Write|MultiEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$(git rev-parse --show-toplevel)/.agents/hooks/lint-and-typecheck.sh\""
+            "command": "bash \"${CLAUDE_PROJECT_DIR}/.agents/hooks/lint-and-typecheck.sh\""
           }
         ]
       }
