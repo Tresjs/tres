@@ -40,7 +40,7 @@ type StageShadows = Partial<AccumulativeShadowsProps>
     type: 'contact' | 'accumulative'
     /** Distance of the shadow plane below the content, default: 0 */
     offset?: number
-    /** Shadow bias, default: -0.0001 */
+    /** Shadow bias, inverted for the accumulative lights, default: -0.0001 */
     bias?: number
     /** Shadow normal bias, default: 0 */
     normalBias?: number
@@ -188,7 +188,8 @@ const randomizedLightsComputed: ComputedRef<Partial<RandomizedLightsProps>> = co
     castShadow: shadows.castShadow,
     near: shadows.near,
     far: shadows.far,
-    bias: shadows.bias ?? 0,
+    // NOTE: inverted, as the accumulative plane only receives shadows and needs a positive bias
+    bias: -(shadows.bias ?? -0.0001),
     mapSize: shadows.mapSize ?? shadows.size ?? 1024,
     size: radius.value * 4,
     position: shadows.position ?? lightingMainComputed.value,
@@ -232,7 +233,7 @@ defineExpose({ instance: stageRef, update: () => {} })
         :position="lightingMainComputed"
         :intensity="intensity * 2"
         :castShadow="!!shadows"
-        :shadow-bias="(shadows as StageShadows)?.bias ?? 0"
+        :shadow-bias="(shadows as StageShadows)?.bias ?? -0.0001"
         :shadow-normalBias="(shadows as StageShadows)?.normalBias ?? 0"
         :shadow-mapSize-x="(shadows as StageShadows)?.size ?? 1024"
         :shadow-mapSize-y="(shadows as StageShadows)?.size ?? 1024"

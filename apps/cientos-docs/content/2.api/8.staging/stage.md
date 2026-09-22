@@ -85,7 +85,7 @@ When using custom shadow configuration, you can pass an object with the followin
 | :--- | :---------- | :------ |
 | **type** | Shadow type: `'contact' \| 'accumulative'` | - |
 | **offset** | Distance of the shadow plane below the content | `0` |
-| **bias** | Shadow bias | `-0.0001` |
+| **bias** | Shadow bias, inverted for the accumulative lights | `-0.0001` |
 | **normalBias** | Shadow normal bias | `0` |
 | **size** | Shadow map size | `1024` |
 
