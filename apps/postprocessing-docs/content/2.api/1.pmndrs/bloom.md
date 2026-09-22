@@ -48,7 +48,6 @@ import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
 | `luminanceThreshold` | The luminance threshold. Raise this value to mask out darker elements in the scene. Range is [0, 1]. | `0.9`                                                                                                                                          |
 | `luminanceSmoothing` | Controls the smoothness of the luminance threshold. Range is [0, 1].                                 | `0.025`                                                                                                                                        |
 | `mipmapBlur`         | Enables mip map blur.                                                                                | `false`                                                                                                                                        |
-| `radius`             | The blur radius of the mip map blur. Only has an effect when `mipmapBlur` is enabled. Range is [0, 1]. | `0.85`                                                                                                                                         |
 
 ## Further Reading
 

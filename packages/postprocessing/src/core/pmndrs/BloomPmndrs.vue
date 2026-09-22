@@ -56,15 +56,6 @@ export interface BloomPmndrsProps {
    * @memberof BloomPmndrsProps
    */
   mipmapBlur?: boolean
-  /**
-   * The blur radius of the mip map blur. Only has an effect when `mipmapBlur` is enabled. Range is [0, 1].
-   *
-   * @default 0.85
-   *
-   * @type {number}
-   * @memberof BloomPmndrsProps
-   */
-  radius?: number
 }
 </script>
 
@@ -87,7 +78,6 @@ makePropWatchers(
     [() => props.kernelSize, 'kernelSize'],
     [() => props.luminanceSmoothing, 'luminanceMaterial.smoothing'],
     [() => props.luminanceThreshold, 'luminanceMaterial.threshold'],
-    [() => props.radius, 'mipmapBlurPass.radius'],
   ],
   effect,
   () => new BloomEffect(),
