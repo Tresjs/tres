@@ -8,7 +8,7 @@ date: 2026-09-07
 lastUpdated: 2026-09-22
 ---
 
-This experiment is a demo of the latest **portals** features in TresJS. It is a difficulty selector for an RPG: three framed cards float in a medieval sky, and each frame is a `MeshPortalMaterial` that renders its own scene. Pick a difficulty and you are looking into that world.
+This experiment is a demo of the latest **portals** features in TresJS. It is a difficulty selector for an RPG: three framed cards float in a medieval sky, and each frame is a `MeshPortalMaterial` that renders its own scene.
 
 It is inspired by [this portals video from Wawa Sensei](https://www.youtube.com/watch?v=2W_VR92Pqgs) and [this React Three Fiber CodeSandbox demo](https://codesandbox.io/p/sandbox/9m4tpc), rebuilt with TresJS and cientos.
 
