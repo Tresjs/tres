@@ -2,7 +2,6 @@
   "name": "@tresjs/cli",
   "type": "module",
   "version": "0.0.0",
-  "private": true,
   "description": "CLI for TresJS projects",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -35,6 +34,7 @@
     "build": "tsdown",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
