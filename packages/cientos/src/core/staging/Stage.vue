@@ -136,27 +136,62 @@ const lightingFillComputed: ComputedRef<[number, number, number]> = computed(() 
   return lightingPresetComputed.value.fill.map(v => v * radius.value) as [number, number, number]
 })
 
-const contactShadowsComputed: ComputedRef<StageShadows | null> = computed(() => {
+const contactShadowsComputed: ComputedRef<Partial<ContactShadowsProps> | null> = computed(() => {
   if (props.shadows === true || props.shadows === 'contact') {
-    return { type: 'contact' }
+    return {}
   }
   else if (typeof props.shadows === 'object' && props.shadows.type === 'contact') {
-    return props.shadows
+    const { type: _t, offset: _o, bias: _b, normalBias: _nb, size: _s, ...rest } = props.shadows
+    return rest
   }
   else {
     return null
   }
 })
 
-const accumulativeShadowsComputed: ComputedRef<StageShadows | null> = computed(() => {
+const accumulativeShadowsComputed: ComputedRef<Partial<AccumulativeShadowsProps> | null> = computed(() => {
   if (props.shadows === 'accumulative') {
-    return { type: 'accumulative' }
+    return {}
   }
-  else if (typeof props.shadows === 'object' && (props.shadows as StageShadows).type === 'accumulative') {
-    return props.shadows
+  else if (typeof props.shadows === 'object' && props.shadows.type === 'accumulative') {
+    const {
+      type: _t,
+      offset: _o,
+      bias: _b,
+      normalBias: _nb,
+      size: _s,
+      count: _c,
+      radius: _r,
+      intensity: _i,
+      ambient: _a,
+      castShadow: _cs,
+      mapSize: _ms,
+      near: _n,
+      far: _f,
+      position: _p,
+      ...rest
+    } = props.shadows
+    return rest
   }
   else {
     return null
+  }
+})
+
+const randomizedLightsComputed: ComputedRef<Partial<RandomizedLightsProps>> = computed(() => {
+  const shadows: Partial<StageShadows> = typeof props.shadows === 'object' ? props.shadows : {}
+  return {
+    count: shadows.count ?? 8,
+    radius: shadows.radius ?? radius.value,
+    intensity: shadows.intensity ?? 1.5,
+    ambient: shadows.ambient ?? 0.5,
+    castShadow: shadows.castShadow,
+    near: shadows.near,
+    far: shadows.far,
+    bias: shadows.bias ?? 0,
+    mapSize: shadows.mapSize ?? shadows.size ?? 1024,
+    size: radius.value * 4,
+    position: shadows.position ?? lightingMainComputed.value,
   }
 })
 
@@ -213,7 +248,6 @@ defineExpose({ instance: stageRef, update: () => {} })
       :offset="typeof props.adjustCamera === 'boolean' ? 0.3 : props.adjustCamera"
       use-mounted
       use-resize
-      v-bind="props"
     >
       <Align ref="alignRef" v-bind="align" @change="onAlignChange">
         <slot></slot>
@@ -236,17 +270,7 @@ defineExpose({ instance: stageRef, update: () => {} })
         :scale="radius * 4"
         v-bind="accumulativeShadowsComputed"
       >
-        <RandomizedLights
-          :position="lightingMainComputed"
-          :count="accumulativeShadowsComputed.count ?? 8"
-          :radius="accumulativeShadowsComputed.radius ?? radius"
-          :intensity="accumulativeShadowsComputed.intensity ?? 1.5"
-          :ambient="accumulativeShadowsComputed.ambient ?? 0.5"
-          :size="radius * 4"
-          :bias="accumulativeShadowsComputed.bias ?? 0"
-          :map-size="accumulativeShadowsComputed.size ?? 1024"
-          v-bind="accumulativeShadowsComputed"
-        />
+        <RandomizedLights v-bind="randomizedLightsComputed" />
       </AccumulativeShadows>
       <Suspense>
         <Environment v-if="environmentComputed" v-bind="environmentComputed" />

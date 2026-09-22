@@ -89,4 +89,4 @@ When using custom shadow configuration, you can pass an object with the followin
 | **normalBias** | Shadow normal bias | `0` |
 | **size** | Shadow map size | `1024` |
 
-Additionally inherits all props from `AccumulativeShadowsProps`, `RandomizedLightsProps`, and `ContactShadowsProps`.
+Additionally inherits all props from `AccumulativeShadowsProps`, `RandomizedLightsProps`, and `ContactShadowsProps`, except the randomized lights' `size`, which Stage derives from the content's bounds.
