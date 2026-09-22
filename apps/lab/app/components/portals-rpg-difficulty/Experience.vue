@@ -41,14 +41,6 @@ const difficulties = [
   { label: 'Tactician', description: 'A tough campaign with strategic depth', x: 2.321, z: 0.389, rotationY: -0.4, component: Tactician },
 ]
 
-// null = every portal stays a window. Only one portal may blend at a time: the
-// blend pass takes over the whole screen, so two at once fight for it.
-const focused = ref<string | null>(null)
-
-function toggle(label: string) {
-  focused.value = focused.value === label ? null : label
-}
-
 // Stagger is longer than the visible wobble so each frame lands on its own beat.
 const POP_DELAY = 0.5
 const POP_DURATION = 0.8
@@ -81,7 +73,9 @@ watch(() => props.revealed, (v) => {
 }, { immediate: true })
 
 onUnmounted(() => popCtx?.revert())
-// TODO: ease `blend` instead of snapping, and fly the camera into the frame.
+
+// TODO: click-to-focus (blend a portal to full screen, fly the camera in).
+// Removed for now; see git history for the snapping version.
 </script>
 
 <template>
@@ -94,14 +88,10 @@ onUnmounted(() => popCtx?.revert())
     :position="[d.x, 0, d.z]"
     :rotation="[0, d.rotationY, 0]"
   >
-    <TresMesh
-      :ref="(el) => setFrame(i, el)"
-      :scale="0"
-      @click="toggle(d.label)"
-    >
+    <TresMesh :ref="(el) => setFrame(i, el)" :scale="0">
       <TresPlaneGeometry :args="[2, 3]" />
 
-      <MeshPortalMaterial :blend="focused === d.label ? 1 : 0" :resolution="2048">
+      <MeshPortalMaterial :resolution="2048">
         <component :is="d.component" v-if="d.component" />
       </MeshPortalMaterial>
     </TresMesh>
@@ -117,7 +107,6 @@ onUnmounted(() => popCtx?.revert())
       <Card
         :label="d.label"
         :description="d.description"
-        :faded="focused !== null"
         :popped="revealed"
         :pop-delay="POP_DELAY + i * POP_STAGGER"
         :pop-duration="POP_DURATION"

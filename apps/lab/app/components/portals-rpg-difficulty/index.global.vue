@@ -4,6 +4,9 @@ import { MathUtils } from 'three'
 
 const uuid = 'portals-rpg-difficulty'
 
+// The controls panel is a tuning aid, not part of the demo.
+const isDev = import.meta.dev
+
 const gl = {
   clearColor: '#12121a',
   alpha: false,
@@ -26,6 +29,10 @@ useControls('fpsgraph', { uuid })
 
 const revealed = ref(false)
 
+// Lands after the last frame has stopped wobbling: POP_DELAY + 2 * POP_STAGGER
+// + POP_DURATION in Experience.
+const BANNER_DELAY = 2.4
+
 // Threshold near 1 so only the bright emitters inside the portals (torches,
 // fire, the mage orb) bloom. The dim sky and the lit stone stay crisp.
 const {
@@ -45,9 +52,15 @@ const {
 
 <template>
   <TheLoadingScreen background="#dfdfdf" text-color="#000000" @hidden="revealed = true" />
-  <ClientOnly>
+
+  <ClientOnly v-if="isDev">
     <TresLeches :uuid="uuid" />
   </ClientOnly>
+  <PortalsRpgDifficultyBanner
+    title="Choose your difficulty"
+    :shown="revealed"
+    :delay="BANNER_DELAY"
+  />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 0, 6]" :fov="50" :look-at="[0, 0, 0]" />
     <PortalsRpgDifficultyExperience :revealed="revealed" />
@@ -63,7 +76,6 @@ const {
         />
       </EffectComposerPmndrs>
     </Suspense>
-    <TheScreenshot />
     <!-- <Suspense>
       <Environment :files="['/skyboxes/medieval-bg.png']" background />
     </Suspense> -->
