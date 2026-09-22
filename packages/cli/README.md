@@ -73,6 +73,7 @@ bound (`isReady` exposes the same as a value):
 | `-m, --meta` | emit glTF extras as `:user-data` |
 | `-c, --console` | print instead of writing |
 | `-f, --force` | overwrite a file this tool did not generate |
+| `-v, --verbose` | list every slot and clip name instead of the first few |
 | `-T, --transform` | optimize the model first (see below) |
 | `-i, --instance` | batch repeated meshes into an `InstancedMesh` (see below) |
 | `-I, --instanceall` | batch every eligible mesh, even the ones that appear once |
