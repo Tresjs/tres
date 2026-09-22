@@ -119,6 +119,7 @@ catalog:
   '@vueuse/motion': ^3.0.3
   '@vueuse/nuxt': ^14.3.0
   '@vueuse/shared': ^14.3.0
+  alea: ^1.0.1
   better-sqlite3: ^12.10.0
   camera-controls: ^3.1.2
   commander: ^15.0.0
@@ -137,6 +138,7 @@ catalog:
   radashi: ^12.9.1
   rollup-plugin-copy: ^3.5.0
   sharp: ^0.35.3
+  simplex-noise: ^4.0.3
   stats-gl: ^4.1.0
   stats.js: ^0.17.0
   tailwindcss: ^4.3.0
