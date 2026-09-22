@@ -71,7 +71,7 @@ import { Stage, OrbitControls, Plane } from '@tresjs/cientos'
 | Prop | Description | Default |
 | :--- | :---------- | :------ |
 | **lighting** | Lighting setup. Options: `null \| undefined \| false \| 'rembrandt' \| 'portrait' \| 'upfront' \| 'soft' \| { main: [x, y, z], fill: [x, y, z] }` | `'rembrandt'` |
-| **shadows** | Controls the ground shadows. Options: `boolean \| 'contact' \| 'accumulative' \| StageShadows` | `'contact'` |
+| **shadows** | Controls the ground shadows. Options: `boolean \| 'contact' \| 'accumulative' \| StageShadows \| null` | `'contact'` |
 | **adjustCamera** | Optionally wraps and thereby centers the models using `<Bounds>`, can also be a camera offset | `true` |
 | **environment** | The default environment | `'city'` |
 | **intensity** | Lighting intensity, `0` removes lights | `0.5` |

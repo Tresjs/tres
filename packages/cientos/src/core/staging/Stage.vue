@@ -23,7 +23,7 @@ interface StageProps {
     | 'soft'
     | { main: [x: number, y: number, z: number], fill: [x: number, y: number, z: number] }
   /** Controls the ground shadows, default: "contact" */
-  shadows?: boolean | 'contact' | 'accumulative' | StageShadows
+  shadows?: boolean | 'contact' | 'accumulative' | StageShadows | null
   /** Optionally wraps and thereby centers the models using <Bounds>, can also be a camera offset, default: true */
   adjustCamera?: boolean | number
   /** The default environment, default: { preset: "city" } */
@@ -140,7 +140,7 @@ const contactShadowsComputed: ComputedRef<Partial<ContactShadowsProps> | null> =
   if (props.shadows === true || props.shadows === 'contact') {
     return {}
   }
-  else if (typeof props.shadows === 'object' && props.shadows.type === 'contact') {
+  else if (props.shadows && typeof props.shadows === 'object' && props.shadows.type === 'contact') {
     const { type: _t, offset: _o, bias: _b, normalBias: _nb, size: _s, ...rest } = props.shadows
     return rest
   }
@@ -153,7 +153,7 @@ const accumulativeShadowsComputed: ComputedRef<Partial<AccumulativeShadowsProps>
   if (props.shadows === 'accumulative') {
     return {}
   }
-  else if (typeof props.shadows === 'object' && props.shadows.type === 'accumulative') {
+  else if (props.shadows && typeof props.shadows === 'object' && props.shadows.type === 'accumulative') {
     const {
       type: _t,
       offset: _o,
@@ -179,7 +179,7 @@ const accumulativeShadowsComputed: ComputedRef<Partial<AccumulativeShadowsProps>
 })
 
 const randomizedLightsComputed: ComputedRef<Partial<RandomizedLightsProps>> = computed(() => {
-  const shadows: Partial<StageShadows> = typeof props.shadows === 'object' ? props.shadows : {}
+  const shadows: Partial<StageShadows> = props.shadows && typeof props.shadows === 'object' ? props.shadows : {}
   return {
     count: shadows.count ?? 8,
     radius: shadows.radius ?? radius.value,
