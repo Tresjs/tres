@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useMediaQuery } from '@vueuse/core'
 import { DefaultLoadingManager } from 'three'
 
 withDefaults(defineProps<{
@@ -14,8 +15,55 @@ const emit = defineEmits<{ hidden: [] }>()
 // No await: async setup would need a <Suspense> boundary at every usage,
 // without one Vue silently skips the component
 const progress = ref(0)
-const hasFinishLoading = ref(false)
+const assetsReady = ref(false)
 let started = false
+
+// Experiments flagged `responsive: false` in their frontmatter only work in
+// landscape, so phones get a rotate prompt before the scene is revealed.
+const experiment = inject(EXPERIMENT_KEY, undefined)
+const needsLandscape = computed(() => experiment?.value?.responsive === false)
+// `pointer: coarse` keeps portrait desktop monitors out of this branch.
+const isCoarsePointer = useIsPhone()
+const isPortrait = useMediaQuery('(orientation: portrait)')
+const isPortraitPhone = computed(() => isCoarsePointer.value && isPortrait.value)
+const proceeded = ref(false)
+
+type Phase = 'loading' | 'rotate' | 'ready' | 'hidden'
+const phase = computed<Phase>(() => {
+  if (!assetsReady.value) { return 'loading' }
+  if (!needsLandscape.value || proceeded.value) { return 'hidden' }
+  return isPortraitPhone.value ? 'rotate' : 'ready'
+})
+
+// Best-effort only: iPhone Safari has no element fullscreen and rejects,
+// and orientation lock is Android-only and needs fullscreen first. The tap
+// on Proceed/Continue is the only user gesture we get, so this is the moment.
+async function enterFullscreen() {
+  try {
+    await document.documentElement.requestFullscreen()
+    await screen.orientation.lock?.('landscape')
+  }
+  catch {}
+}
+
+// The leave fade keeps rendering for ~300ms after phase turns 'hidden'. Without this,
+// a loading -> hidden jump would show the ready state during the fade.
+const shownPhase = ref<Phase>('loading')
+watch(phase, (p) => {
+  if (p !== 'hidden') { shownPhase.value = p }
+})
+
+function proceed() {
+  if (isCoarsePointer.value) { enterFullscreen() }
+  proceeded.value = true
+}
+
+// Only promise fullscreen where it can happen: iPhone Safari lacks the API.
+// Read on mount, `document` is not available during SSR.
+const canFullscreen = ref(false)
+onMounted(() => {
+  canFullscreen.value = isCoarsePointer.value && !!document.fullscreenEnabled
+})
 
 // Keep the screen up for at least one full jump cycle so fast loads
 // don't flash it for a few frames
@@ -28,7 +76,9 @@ function scheduleHide() {
   hideScheduled = true
   const remaining = Math.max(0, MIN_VISIBLE_MS - (Date.now() - shownAt))
   setTimeout(() => {
-    hasFinishLoading.value = true
+    // Already in landscape (or on desktop): no prompt, hide as usual
+    if (!isPortraitPhone.value) { proceeded.value = true }
+    assetsReady.value = true
   }, remaining)
 }
 
@@ -63,12 +113,48 @@ onMounted(() => {
     leave-to-class="opacity-0"
     @after-leave="emit('hidden')"
   >
-    <div v-show="!hasFinishLoading"
+    <div v-show="phase !== 'hidden'"
          class="fixed inset-0 z-50 flex items-center justify-center"
          :style="{ backgroundColor: background,
                    color: textColor }"
     >
-      <slot :progress="progress">
+      <div v-if="shownPhase !== 'loading'" class="flex flex-col items-center gap-5 px-6 text-center font-mono">
+        <div class="relative size-12" aria-hidden="true">
+          <Transition
+            mode="out-in"
+            enter-active-class="transition duration-300 ease-out"
+            enter-from-class="scale-50 opacity-0"
+            leave-active-class="transition duration-200 ease-in"
+            leave-to-class="scale-50 opacity-0"
+          >
+            <UIcon v-if="shownPhase === 'rotate'" key="rotate" name="i-lucide-smartphone" class="rotate-hint size-12" />
+            <UIcon v-else key="check" name="i-lucide-circle-check" class="size-12" />
+          </Transition>
+        </div>
+        <p class="max-w-xs text-sm" role="status">
+          {{ shownPhase === 'rotate'
+            ? 'Rotate your phone to landscape for a better experience'
+            : 'Ready when you are' }}
+        </p>
+        <button v-if="shownPhase === 'ready'"
+                type="button"
+                class="rounded-full border border-current px-6 py-2 text-sm transition-colors hover:bg-current/10"
+                @click="proceed"
+        >
+          Proceed
+        </button>
+        <button v-else
+                type="button"
+                class="text-xs underline opacity-60 transition-opacity hover:opacity-100"
+                @click="proceed"
+        >
+          Continue anyway
+        </button>
+        <p v-if="canFullscreen" class="text-xs opacity-60">
+          Opens in fullscreen. Use back or swipe down to exit.
+        </p>
+      </div>
+      <slot v-else :progress="progress">
         <div class="flex flex-col items-center gap-4 font-mono">
           <div class="flex flex-col items-center" aria-hidden="true">
             <svg width="28"
@@ -101,6 +187,27 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* Turn to landscape, hold, turn back: mimics the gesture we ask for */
+.rotate-hint {
+  animation: rotate-hint 2.4s ease-in-out infinite;
+}
+
+@keyframes rotate-hint {
+  0%,
+  20% {
+    transform: rotate(0deg);
+  }
+
+  45%,
+  75% {
+    transform: rotate(90deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
 .cube-boy {
   transform-origin: bottom center;
   animation: cube-jump 1.4s ease-in-out infinite;
