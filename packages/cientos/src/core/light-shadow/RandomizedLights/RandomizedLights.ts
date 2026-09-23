@@ -96,6 +96,9 @@ export default class RandomizedLights extends Group {
       light.shadow.camera.bottom = -this._size
       light.shadow.camera.near = this._near
       light.shadow.camera.far = this._far
+      // NOTE: three only recomputes the shadow camera projection when it
+      // allocates the shadow map, later frustum changes need it explicitly.
+      light.shadow.camera.updateProjectionMatrix()
     }
   }
 
