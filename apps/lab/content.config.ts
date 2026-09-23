@@ -30,6 +30,8 @@ export default defineContentConfig({
         date: z.string(),
         lastUpdated: z.string(),
         featured: z.boolean().optional(),
+        // false = the scene only works in landscape; the loading screen asks phones to rotate
+        responsive: z.boolean().optional(),
       }),
     }),
   },

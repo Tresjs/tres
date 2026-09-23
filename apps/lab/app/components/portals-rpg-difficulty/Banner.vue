@@ -12,16 +12,16 @@ const landed = ref(false)
 <template>
   <!-- z-10: the canvas comes later in the DOM and would paint over the banner. -->
   <div
-    class="pointer-events-none fixed top-20 left-1/2 z-10 flex w-[min(1000px,100vw)] -translate-x-1/2 flex-col items-center bg-[linear-gradient(to_right,transparent,rgb(0_0_0/60%)_25%,rgb(0_0_0/78%)_50%,rgb(0_0_0/60%)_75%,transparent)] pt-4 pb-2 transition-opacity duration-600 ease-out"
+    class="pointer-events-none fixed top-20 left-1/2 z-10 flex w-[min(1000px,100vw)] -translate-x-1/2 flex-col items-center bg-[linear-gradient(to_right,transparent,rgb(0_0_0/60%)_25%,rgb(0_0_0/78%)_50%,rgb(0_0_0/60%)_75%,transparent)] pt-4 pb-2 transition-opacity duration-600 ease-out short:top-2 short:pt-2 short:pb-1"
     :class="shown ? 'opacity-100 [transition-delay:var(--delay)]' : 'opacity-0'"
     :style="{ '--delay': landed ? '0s' : `${delay ?? 0}s` }"
     @transitionend.self="landed = true"
   >
-    <p class="font-serif mb-1 text-4xl font-medium tracking-wide text-[#f2ead8] text-shadow-[0_2px_12px_rgb(0_0_0/80%)]">
+    <p class="font-serif mb-1 text-4xl font-medium tracking-wide text-[#f2ead8] text-shadow-[0_2px_12px_rgb(0_0_0/80%)] short:mb-0 short:text-2xl">
       {{ title }}
     </p>
     <svg
-      class="h-6 w-[min(520px,90%)] text-[#d9c9a3] opacity-85"
+      class="h-6 w-[min(520px,90%)] text-[#d9c9a3] opacity-85 short:h-4"
       viewBox="0 0 400 24"
       fill="none"
       stroke="currentColor"
