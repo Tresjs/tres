@@ -6,6 +6,9 @@ const uuid = 'portals-rpg-difficulty'
 
 const isDev = import.meta.dev
 
+const isPhone = useIsPhone()
+const dpr = computed<[number, number] | undefined>(() => (isPhone.value ? [1, 1.5] : undefined))
+
 const gl = {
   clearColor: '#12121a',
   alpha: false,
@@ -48,18 +51,18 @@ const {
   <TheLoadingScreen background="#dfdfdf" text-color="#000000" @hidden="revealed = true" />
 
   <ClientOnly v-if="isDev">
-    <TresLeches :uuid="uuid" />
+    <TresLeches :uuid="uuid" collapsed />
   </ClientOnly>
   <PortalsRpgDifficultyBanner
     title="Choose your difficulty"
     :shown="revealed"
     :delay="BANNER_DELAY"
   />
-  <TresCanvas v-bind="gl">
+  <TresCanvas v-bind="gl" :dpr="dpr">
     <TresPerspectiveCamera :position="[0, 0, 6]" :fov="50" :look-at="[0, 0, 0]" />
     <PortalsRpgDifficultyExperience :revealed="revealed" />
     <OrbitControls v-bind="CONTROLS" enable-damping />
-    <Suspense>
+    <Suspense v-if="!isPhone">
       <EffectComposerPmndrs>
         <BloomPmndrs
           :intensity="bloomIntensity"
