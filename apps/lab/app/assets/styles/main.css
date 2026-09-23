@@ -4,6 +4,7 @@
 @theme static {
   --font-display: 'Manrope', sans-serif;
   --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Crimson Pro', ui-serif, Georgia, serif;
 
   --breakpoint-3xl: 1920px;
   --ui-pattern-fg: color-mix(in oklab, var(--ui-text) 5%, transparent);

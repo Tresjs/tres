@@ -49,6 +49,8 @@ export default defineNuxtConfig({
     families: [
       { name: 'Manrope', provider: 'google' },
       { name: 'Inter', provider: 'google' },
+      // Weights listed explicitly: the label uses 600, which is not a Google default.
+      { name: 'Crimson Pro', provider: 'google', weights: [400, 600, 700] },
     ],
   },
 

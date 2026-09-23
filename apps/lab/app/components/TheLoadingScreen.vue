@@ -9,6 +9,8 @@ withDefaults(defineProps<{
   textColor: '#ffffff',
 })
 
+const emit = defineEmits<{ hidden: [] }>()
+
 // No await: async setup would need a <Suspense> boundary at every usage,
 // without one Vue silently skips the component
 const progress = ref(0)
@@ -56,7 +58,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <Transition leave-active-class="transition-opacity duration-500" leave-to-class="opacity-0">
+  <Transition
+    leave-active-class="transition-opacity duration-500"
+    leave-to-class="opacity-0"
+    @after-leave="emit('hidden')"
+  >
     <div v-show="!hasFinishLoading"
          class="fixed inset-0 z-50 flex items-center justify-center"
          :style="{ backgroundColor: background,

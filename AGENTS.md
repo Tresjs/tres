@@ -31,6 +31,10 @@ Packages use pnpm's `workspace:*` protocol for internal dependencies. The catalo
 - ALWAYS follow existing links in table of contents or documentation indices
 - Verify examples and patterns from documentation before using
 
+## Domain Vocabulary
+
+Before naming a domain concept in code, specs, tickets or reviews, read `CONTEXT-MAP.md` and the `CONTEXT.md` of the package you are working in. Use their terms and treat the `_Avoid_` lists as banned synonyms.
+
 ## Agent Configuration
 
 Instructions, skills and hooks are shared by Claude Code, Codex and Cursor. Edit the canonical copy only:
