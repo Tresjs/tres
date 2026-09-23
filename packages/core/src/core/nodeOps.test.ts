@@ -601,6 +601,25 @@ describe('nodeOps', () => {
       expect(light.shadow.mapSize[1]).toBe(2048)
     })
 
+    it('updates the projection matrix of a camera reached through pierced props', () => {
+      // Setup
+      const light = nodeOps.createElement('DirectionalLight')!
+      const camera = light.shadow.camera
+      camera.updateProjectionMatrix()
+      const halfWidthBefore = 1 / camera.projectionMatrix.elements[0]
+
+      // Test
+      nodeOps.patchProp(light, 'shadow-camera-left', null, -10)
+      nodeOps.patchProp(light, 'shadow-camera-right', null, 10)
+      nodeOps.patchProp(light, 'shadow-camera-far', null, 80)
+
+      // Assert
+      expect(halfWidthBefore).toBe(5)
+      expect(camera.left).toBe(-10)
+      expect(1 / camera.projectionMatrix.elements[0]).toBeCloseTo(10)
+      expect(-2 / camera.projectionMatrix.elements[10]).toBeCloseTo(80 - camera.near)
+    })
+
     it('does not patch/traverse pierced props of existing dashed properties', async () => {
     // Setup
       const node = nodeOps.createElement('Mesh')!

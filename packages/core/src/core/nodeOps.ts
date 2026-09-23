@@ -415,6 +415,12 @@ export const nodeOps = ({
         if (isTresCamera(node)) {
           node.updateProjectionMatrix()
         }
+        // NOTE: The pierced path may land on a nested camera, e.g. a light's
+        // `shadow-camera-*`. Three only recomputes that projection when the
+        // shadow map is first allocated, so later changes are lost without this.
+        else if (isTresCamera(target)) {
+          target.updateProjectionMatrix()
+        }
         invalidateInstance(node as TresObject)
         return
       }
