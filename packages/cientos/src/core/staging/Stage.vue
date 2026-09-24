@@ -12,6 +12,7 @@ import type { RandomizedLightsProps } from '../light-shadow/RandomizedLights/com
 import type { AlignCallbackOptions, AlignProps } from '../abstractions/Align.vue'
 import type { EnvironmentOptions, EnvironmentPresetsType } from './useEnvironment/const'
 import { useDebounceFn } from '@vueuse/core'
+import { pick } from '../../utils'
 
 interface StageProps {
   /** Lighting setup, default: "rembrandt" */
@@ -141,8 +142,7 @@ const contactShadowsComputed: ComputedRef<Partial<ContactShadowsProps> | null> =
     return {}
   }
   else if (props.shadows && typeof props.shadows === 'object' && props.shadows.type === 'contact') {
-    const { type: _t, offset: _o, bias: _b, normalBias: _nb, size: _s, ...rest } = props.shadows
-    return rest
+    return pick(props.shadows, Object.keys(ContactShadows.props) as (keyof ContactShadowsProps)[])
   }
   else {
     return null
@@ -154,24 +154,7 @@ const accumulativeShadowsComputed: ComputedRef<Partial<AccumulativeShadowsProps>
     return {}
   }
   else if (props.shadows && typeof props.shadows === 'object' && props.shadows.type === 'accumulative') {
-    const {
-      type: _t,
-      offset: _o,
-      bias: _b,
-      normalBias: _nb,
-      size: _s,
-      count: _c,
-      radius: _r,
-      intensity: _i,
-      ambient: _a,
-      castShadow: _cs,
-      mapSize: _ms,
-      near: _n,
-      far: _f,
-      position: _p,
-      ...rest
-    } = props.shadows
-    return rest
+    return pick(props.shadows, Object.keys(AccumulativeShadows.props) as (keyof AccumulativeShadowsProps)[])
   }
   else {
     return null
