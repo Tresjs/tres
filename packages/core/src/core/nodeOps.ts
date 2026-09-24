@@ -3,7 +3,7 @@ import type { DisposeType, LocalState, TresInstance, TresObject, TresObject3D, T
 import { BufferAttribute } from 'three'
 import { isRef } from 'vue'
 import type { ElementNamespace, RendererOptions } from 'vue'
-import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
+import { attach, doRemoveDeregister, doRemoveDetach, getDefaultInstance, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { filterInPlace } from '../utils/array'
 import { logError } from '../utils/logger'
 import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
@@ -427,6 +427,15 @@ export const nodeOps = ({
     }
     let value = nextValue
     if (value === '') { value = true }
+
+    // NOTE: Vue passes `null` when a bound prop is removed. Math props can't
+    // hold it (and `position` & co. are read-only), so reset them to the default.
+    if (value == null && isCopyable(target)) {
+      const defaultValue = getDefaultInstance(root)?.[finalKey]
+      if (isCopyable(defaultValue)) { target.copy(defaultValue) }
+      invalidateInstance(node as TresObject)
+      return
+    }
     // Set prop, prefer atomic methods if applicable
     if (isFunction(target)) {
       // don't call pointer event callback functions

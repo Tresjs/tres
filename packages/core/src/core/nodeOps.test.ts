@@ -697,6 +697,64 @@ describe('nodeOps', () => {
       expect(spy).toHaveBeenCalledTimes(3)
     })
 
+    describe('when a prop is removed', () => {
+      it('resets read-only properties to their default instead of throwing', () => {
+        // Setup
+        const node = nodeOps.createElement('Mesh')!
+        nodeOps.patchProp(node, 'position', null, [1, 2, 3])
+        nodeOps.patchProp(node, 'scale', null, [4, 5, 6])
+
+        // Test
+        const remove = () => {
+          nodeOps.patchProp(node, 'position', [1, 2, 3], null)
+          nodeOps.patchProp(node, 'scale', [4, 5, 6], undefined)
+        }
+
+        // Assert
+        expect(remove).not.toThrow()
+        expect(node.position.toArray()).toEqual([0, 0, 0])
+        expect(node.scale.toArray()).toEqual([1, 1, 1])
+      })
+
+      it('resets to the default of the owning class', () => {
+        // Setup
+        const light = nodeOps.createElement('DirectionalLight')!
+        nodeOps.patchProp(light, 'position', null, [5, 5, 5])
+
+        // Test
+        nodeOps.patchProp(light, 'position', [5, 5, 5], null)
+
+        // Assert
+        expect(light.position.toArray()).toEqual([0, 1, 0])
+      })
+
+      it('resets writable math properties instead of assigning `null`', () => {
+        // Setup
+        const material = nodeOps.createElement('MeshStandardMaterial')!
+        nodeOps.patchProp(material, 'color', null, 'red')
+
+        // Test
+        nodeOps.patchProp(material, 'color', 'red', null)
+
+        // Assert
+        expect(material.color).toBeInstanceOf(THREE.Color)
+        expect(material.color.getHex()).toBe(0xFFFFFF)
+      })
+
+      it('still assigns `null` to other properties', () => {
+        // Setup
+        const material = nodeOps.createElement('MeshStandardMaterial')!
+        const texture = new THREE.Texture()
+        nodeOps.patchProp(material, 'map', null, texture)
+
+        // Test
+        nodeOps.patchProp(material, 'map', texture, null)
+
+        // Assert
+        expect(material.map).toBeNull()
+      })
+    })
+
     describe('primitive', () => {
       describe(':object', () => {
         it('replaces original object', () => {
