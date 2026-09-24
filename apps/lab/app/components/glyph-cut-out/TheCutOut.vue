@@ -81,15 +81,20 @@ const { FieldRadius: radius, FieldStiffness: stiffness, FieldDamping: damping, F
   damping: { value: 3.1, min: 1, max: 20, step: 0.1, label: 'Damping' },
   kick: { value: 4.4, min: 0, max: 6, step: 0.1, label: 'Kick' },
 }, LECHES)
-const { GrainScatter: scatter, GrainHalo: halo, GrainCone: cone, GrainLift: lift, GrainGlow: glow } = useControls('Grain', {
+const { GrainScatter: scatter, GrainHalo: halo, GrainCone: cone, GrainLift: lift, GrainGlow: glow, GrainFalloff: falloff } = useControls('Grain', {
   scatter: { value: 0.02, min: 0, max: 0.4, step: 0.005, label: 'Scatter' },
   halo: { value: 0.079, min: 0, max: 0.1, step: 0.001, label: 'Halo' },
   cone: { value: 1.85, min: 0, max: Math.PI, step: 0.01, label: 'Cone' },
   lift: { value: 0.43, min: 0, max: 1, step: 0.01, label: 'Lift' },
   glow: { value: 0, min: 0, max: 2, step: 0.05, label: 'Dust glow' },
+  falloff: { value: 2.2, min: 1, max: 10, step: 0.1, label: 'Falloff' },
+}, LECHES)
+const { LensAberration: aberration, LensFlight: flightAberration } = useControls('Lens', {
+  aberration: { value: 1, min: 0, max: 8, step: 0.1, label: 'Dust split px' },
+  flight: { value: 8, min: 0, max: 10, step: 0.1, label: 'Flight boost' },
 }, LECHES)
 const field = useForceField({ radius, stiffness, damping, kick })
-useGrainDissolve(field, { scatter, halo, cone, lift, glow })
+useGrainDissolve(field, { scatter, halo, cone, lift, glow, falloff, aberration, flightAberration })
 
 // `createDefaultMaterial()` keeps the analytic Slug coverage in `opacityNode`; only the color becomes the clip.
 const cutOut = defineTextMaterial((context) => {
