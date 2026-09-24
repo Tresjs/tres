@@ -16,12 +16,14 @@ The text is rendered by [pmndrs glyph](https://github.com/pmndrs/glyph), the typ
 
 - **Hero**: `TYPE IS / A WINDOW / TRESJS × GLYPH` set in Anton, masked over a looping clip
 - **Parallax**: moving the pointer shifts the video sample, so the letters read as a window with depth
+- **Grain dissolve**: around the pointer the letters crumble into dithered dust that drifts away and rises. Moving fast kicks a spring that throws the dust further, then it settles back to a faint halo
 - **Dive**: scrolling dollies the camera into the I of `WINDOW` until the clip fills the frame
 - **Fallback**: if the clip cannot play, a procedural TSL liquid takes its place inside the letters
 
 ### Technical Implementation
 
 - **`defineTextMaterial`**: glyph hands the material factory a `createDefaultMaterial()` whose `opacityNode` already carries the analytic coverage. Only `colorNode` is replaced with a `screenUV` sample of the `VideoTexture`
+- **Grain dissolve**: the Tres render function is replaced by a `RenderPipeline` with a scene pass. Every pixel takes one stochastic sample from a random point between itself and the cursor, with a length and cone set by a gaussian field and a spring driven by pointer speed. One sample per pixel, no averaging, is what gives the dithered film grain. Skipped on coarse pointers
 - **Cover fit**: the sample is scaled by the viewport and video aspect ratios, so the clip always covers the screen
 - **Dive target**: `Text.glyphs()` returns per-glyph ink boxes. The I is located by its cluster index and its ink center becomes the camera target. A round letter would land in its counter, which is background
 - **Camera**: placed so one world unit equals one CSS pixel at `z = 0`, then dollied toward the target on scroll with an exponential zoom, so the perceived speed stays constant across a 50x range

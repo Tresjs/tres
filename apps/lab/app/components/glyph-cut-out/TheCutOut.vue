@@ -5,10 +5,13 @@ import { Text } from '@pmndrs/glyph/vue'
 import type { VueTextInstance } from '@pmndrs/glyph/vue'
 import { useSlug } from '@pmndrs/glyph/vue/slug'
 import { useLoop, useTres } from '@tresjs/core'
+import { useControls } from '@tresjs/leches'
 import { useEventListener } from '@vueuse/core'
 import { float, Fn, mix, screenUV, sin, texture, time, uniform, vec2, vec3 } from 'three/tsl'
 import type { PerspectiveCamera } from 'three/webgpu'
 import { Vector2 } from 'three/webgpu'
+import { useForceField } from './useForceField'
+import { useGrainDissolve } from './useGrainDissolve'
 import { useVideoTexture } from './useVideoTexture'
 
 const props = defineProps<{
@@ -69,6 +72,25 @@ const liquid = Fn(([uv]: [ReturnType<typeof screenUV.sub>]) => {
   )
 })
 
+// ---- Force field: a radial spring around the pointer drives the grain dissolve pass ----
+// Folder controls come back prefixed with the folder name, and the uuid must match the <TresLeches> panel.
+const LECHES = { uuid: 'glyph-cut-out' }
+const { FieldRadius: radius, FieldStiffness: stiffness, FieldDamping: damping, FieldKick: kick } = useControls('Field', {
+  radius: { value: 0.18, min: 0.05, max: 0.6, step: 0.01, label: 'Radius' },
+  stiffness: { value: 23, min: 10, max: 300, step: 1, label: 'Stiffness' },
+  damping: { value: 3.1, min: 1, max: 20, step: 0.1, label: 'Damping' },
+  kick: { value: 4.4, min: 0, max: 6, step: 0.1, label: 'Kick' },
+}, LECHES)
+const { GrainScatter: scatter, GrainHalo: halo, GrainCone: cone, GrainLift: lift, GrainGlow: glow } = useControls('Grain', {
+  scatter: { value: 0.02, min: 0, max: 0.4, step: 0.005, label: 'Scatter' },
+  halo: { value: 0.079, min: 0, max: 0.1, step: 0.001, label: 'Halo' },
+  cone: { value: 1.85, min: 0, max: Math.PI, step: 0.01, label: 'Cone' },
+  lift: { value: 0.43, min: 0, max: 1, step: 0.01, label: 'Lift' },
+  glow: { value: 0, min: 0, max: 2, step: 0.05, label: 'Dust glow' },
+}, LECHES)
+const field = useForceField({ radius, stiffness, damping, kick })
+useGrainDissolve(field, { scatter, halo, cone, lift, glow })
+
 // `createDefaultMaterial()` keeps the analytic Slug coverage in `opacityNode`; only the color becomes the clip.
 const cutOut = defineTextMaterial((context) => {
   const material = context.createDefaultMaterial()
@@ -118,9 +140,12 @@ function locateTarget() {
 const camera = shallowRef<PerspectiveCamera | null>(null)
 const smoothProgress = ref(0)
 const pointer = new Vector2()
+// Capture phase: the canvas pointer system handles the event first and can stop it before it bubbles to window,
+// which made the parallax react only while dragging.
 useEventListener(window, 'pointermove', (event: PointerEvent) => {
   pointer.set((event.clientX / window.innerWidth) * 2 - 1, (event.clientY / window.innerHeight) * 2 - 1)
-})
+  field.onPointerMove(event)
+}, { capture: true, passive: true })
 
 const smoothstep = (edge0: number, edge1: number, x: number) => {
   const t = Math.min(1, Math.max(0, (x - edge0) / (edge1 - edge0)))
@@ -149,6 +174,10 @@ onBeforeRender(({ delta }) => {
   cam.near = Math.max(0.1, distance * 0.1)
   cam.far = cameraDistance.value * 2
   cam.updateProjectionMatrix()
+
+  // The field is a hero-only toy: it fades out as the dive starts so the zoomed letter stays clean.
+  field.fade.value = 1 - smoothstep(0.02, 0.12, smoothProgress.value)
+  field.update(delta, { camX: cam.position.x, camY: cam.position.y, zoom, width: width.value, height: height.value })
 })
 </script>
 
