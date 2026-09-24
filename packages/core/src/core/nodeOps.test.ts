@@ -728,6 +728,19 @@ describe('nodeOps', () => {
         expect(light.position.toArray()).toEqual([0, 1, 0])
       })
 
+      it('resets primitives to the default of the wrapped object\'s class', () => {
+        // Setup
+        const group = new THREE.Group()
+        const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: group })!
+        nodeOps.patchProp(primitive, 'position', null, [0, 1, 0])
+
+        // Test
+        nodeOps.patchProp(primitive, 'position', [0, 1, 0], null)
+
+        // Assert
+        expect(group.position.toArray()).toEqual([0, 0, 0])
+      })
+
       it('resets writable math properties instead of assigning `null`', () => {
         // Setup
         const material = nodeOps.createElement('MeshStandardMaterial')!

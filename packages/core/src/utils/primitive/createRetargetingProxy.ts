@@ -13,16 +13,16 @@ export function createRetargetingProxy<T extends Record<string | number | symbol
 
   const handler: ProxyHandler<any> = {
     has(_: any, key: string | number | symbol) {
-      return (key in getters) || (key in _target)
+      return Object.hasOwn(getters, key) || (key in _target)
     },
     get(_: any, prop: keyof T, __: any) {
-      if (prop in getters) {
+      if (Object.hasOwn(getters, prop)) {
         return getters[prop](_target)
       }
       return _target[prop]
     },
     set(_: any, prop: K, val: T[K]) {
-      if (setters[prop]) {
+      if (Object.hasOwn(setters, prop)) {
         setters[prop](val, _target, proxy, setTarget)
       }
       else {

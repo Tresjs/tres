@@ -72,6 +72,13 @@ describe('createRetargetingProxy', () => {
       const proxy = createRetargetingProxy(target, getters)
       expect('foo' in proxy).toBe(true)
     })
+    it('gets inherited keys like \'constructor\' from the target, not from getters', () => {
+      class Foo {}
+      const target = new Foo()
+      const proxy = createRetargetingProxy(target, { bar: vi.fn(() => 'bar') })
+      expect(proxy.constructor).toBe(Foo)
+      expect(proxy.toString()).toBe(target.toString())
+    })
   })
 
   describe('createRetargetingProxy(_, __, setters)', () => {
@@ -83,6 +90,14 @@ describe('createRetargetingProxy', () => {
 
       proxy.foo = 'hello'
       expect(setters.foo).toHaveBeenCalledTimes(1)
+    })
+
+    it('sets inherited keys like \'toString\' on the target, not through setters', () => {
+      const target = {}
+      const toString = () => 'foo'
+      const proxy = createRetargetingProxy(target, {}, { bar: vi.fn(() => true) })
+      proxy.toString = toString
+      expect(target.toString).toBe(toString)
     })
 
     it('allows a setter to modify a passed value', () => {
