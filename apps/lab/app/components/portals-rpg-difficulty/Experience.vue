@@ -13,6 +13,11 @@ const props = defineProps<{ revealed?: boolean }>()
 
 const { scene: mainScene } = useTresContext()
 
+// Each 2 x 3 plane covers roughly 600 x 900 device pixels on a phone, so 512 is close
+// to native there. Desktop keeps 2048 for the zoomed-in OrbitControls range.
+const isPhone = useIsPhone()
+const portalResolution = computed(() => (isPhone.value ? 1024 : 2048))
+
 const SKY_YAW = 90
 
 const { state: background } = useTexture('/skyboxes/medieval-bg.png')
@@ -83,7 +88,7 @@ onUnmounted(() => popCtx?.revert())
     <TresMesh :ref="(el) => setFrame(i, el)" :scale="0">
       <TresPlaneGeometry :args="[2, 3]" />
 
-      <MeshPortalMaterial :resolution="2048">
+      <MeshPortalMaterial :resolution="portalResolution">
         <component :is="d.component" v-if="d.component" />
       </MeshPortalMaterial>
     </TresMesh>
