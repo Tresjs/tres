@@ -6,6 +6,7 @@ thumbnail: /experiments/portals-rpg-difficulty.webp
 tags: ['portals', 'meshPortalMaterial', 'rpg']
 date: 2026-09-07
 lastUpdated: 2026-09-22
+responsive: false
 ---
 
 This experiment is a demo of the latest **portals** features in TresJS. It is a difficulty selector for an RPG: three framed cards float in a medieval sky, and each frame is a `MeshPortalMaterial` that renders its own scene.

@@ -52,7 +52,12 @@ const WORLD_RGB: [number, number, number] = [0.13 * 0.22, 0.105 * 0.22, 0.085 * 
 
 const linear = (rgb: [number, number, number]) => new Color().setRGB(rgb[0], rgb[1], rgb[2], LinearSRGBColorSpace)
 
-const pointLights = POINT_SOURCES.map((source) => {
+// Eight candle glows are per-fragment cost across the whole cavern for a few faint dots.
+// Phones keep the red fill only. Read once: the light list is built at setup, not reactive.
+const isPhone = useIsPhone()
+const pointSources = isPhone.value ? POINT_SOURCES.filter(s => s.role !== 'candle') : POINT_SOURCES
+
+const pointLights = pointSources.map((source) => {
   const light = new PointLight(linear(source.rgb), 1, 0, 2)
   light.name = source.name
   light.position.set(...source.position)
@@ -117,7 +122,7 @@ const roleGain: Record<Role, Ref<number>> = {
 
 watchEffect(() => {
   const scale = lightsPowerScale.value
-  POINT_SOURCES.forEach((source, i) => {
+  pointSources.forEach((source, i) => {
     pointLights[i].power = source.watts * scale * roleGain[source.role].value
   })
   DISK_SOURCES.forEach((source, i) => {
