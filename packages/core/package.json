@@ -45,7 +45,7 @@
     "build": "tsdown",
     "build:analyze": "ANALYZE=true tsdown",
     "test": "vitest",
-    "test:ci": "vitest run",
+    "test:ci": "vitest run --typecheck",
     "test:ui": "vitest --ui --coverage.enabled=true",
     "coverage": "vitest run --coverage",
     "lint": "eslint .",

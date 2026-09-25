@@ -29,8 +29,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    // Enabled per script (`test:ci` passes `--typecheck`) so watch mode stays fast.
     typecheck: {
-      enabled: true,
       checker: 'vue-tsc',
       // Core's own sources have type errors that CI does not gate yet; only the
       // assertions in *.test-d.ts files decide this run.
