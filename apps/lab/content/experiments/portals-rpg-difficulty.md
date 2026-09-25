@@ -15,7 +15,7 @@ It is inspired by [this portals video from Wawa Sensei](https://www.youtube.com/
 
 The theme comes from the [difficulty screen in Baldur's Gate 3](https://www.thegamer.com/baldurs-gate-3-best-difficulty/), where each mode is a painted portrait. This experiment recreates the spirit of those paintings as live 3D scenes, using [KayKit](https://kaylousberg.itch.io/) characters by Kay Lousberg, plus a few custom characters made by me.
 
-![Baldur's Gate 3 Explorer difficulty portrait](https://static0.thegamerimages.com/wordpress/wp-content/uploads/2023/08/explorer.jpg?q=50&fit=crop&w=825&dpr=1.5)
+![Baldur's Gate 3 Explorer difficulty portrait](/explorer.webp)
 
 ### What You'll See
 
