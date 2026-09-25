@@ -601,6 +601,25 @@ describe('nodeOps', () => {
       expect(light.shadow.mapSize[1]).toBe(2048)
     })
 
+    it('updates the projection matrix of a camera reached through pierced props', () => {
+      // Setup
+      const light = nodeOps.createElement('DirectionalLight')!
+      const camera = light.shadow.camera
+      camera.updateProjectionMatrix()
+      const halfWidthBefore = 1 / camera.projectionMatrix.elements[0]
+
+      // Test
+      nodeOps.patchProp(light, 'shadow-camera-left', null, -10)
+      nodeOps.patchProp(light, 'shadow-camera-right', null, 10)
+      nodeOps.patchProp(light, 'shadow-camera-far', null, 80)
+
+      // Assert
+      expect(halfWidthBefore).toBe(5)
+      expect(camera.left).toBe(-10)
+      expect(1 / camera.projectionMatrix.elements[0]).toBeCloseTo(10)
+      expect(-2 / camera.projectionMatrix.elements[10]).toBeCloseTo(80 - camera.near)
+    })
+
     it('does not patch/traverse pierced props of existing dashed properties', async () => {
     // Setup
       const node = nodeOps.createElement('Mesh')!
@@ -676,6 +695,77 @@ describe('nodeOps', () => {
       nodeOps.patchProp(camera, 'position', undefined, 2)
       nodeOps.patchProp(camera, 'position', undefined, 3)
       expect(spy).toHaveBeenCalledTimes(3)
+    })
+
+    describe('when a prop is removed', () => {
+      it('resets read-only properties to their default instead of throwing', () => {
+        // Setup
+        const node = nodeOps.createElement('Mesh')!
+        nodeOps.patchProp(node, 'position', null, [1, 2, 3])
+        nodeOps.patchProp(node, 'scale', null, [4, 5, 6])
+
+        // Test
+        const remove = () => {
+          nodeOps.patchProp(node, 'position', [1, 2, 3], null)
+          nodeOps.patchProp(node, 'scale', [4, 5, 6], undefined)
+        }
+
+        // Assert
+        expect(remove).not.toThrow()
+        expect(node.position.toArray()).toEqual([0, 0, 0])
+        expect(node.scale.toArray()).toEqual([1, 1, 1])
+      })
+
+      it('resets to the default of the owning class', () => {
+        // Setup
+        const light = nodeOps.createElement('DirectionalLight')!
+        nodeOps.patchProp(light, 'position', null, [5, 5, 5])
+
+        // Test
+        nodeOps.patchProp(light, 'position', [5, 5, 5], null)
+
+        // Assert
+        expect(light.position.toArray()).toEqual([0, 1, 0])
+      })
+
+      it('resets primitives to the default of the wrapped object\'s class', () => {
+        // Setup
+        const group = new THREE.Group()
+        const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: group })!
+        nodeOps.patchProp(primitive, 'position', null, [0, 1, 0])
+
+        // Test
+        nodeOps.patchProp(primitive, 'position', [0, 1, 0], null)
+
+        // Assert
+        expect(group.position.toArray()).toEqual([0, 0, 0])
+      })
+
+      it('resets writable math properties instead of assigning `null`', () => {
+        // Setup
+        const material = nodeOps.createElement('MeshStandardMaterial')!
+        nodeOps.patchProp(material, 'color', null, 'red')
+
+        // Test
+        nodeOps.patchProp(material, 'color', 'red', null)
+
+        // Assert
+        expect(material.color).toBeInstanceOf(THREE.Color)
+        expect(material.color.getHex()).toBe(0xFFFFFF)
+      })
+
+      it('still assigns `null` to other properties', () => {
+        // Setup
+        const material = nodeOps.createElement('MeshStandardMaterial')!
+        const texture = new THREE.Texture()
+        nodeOps.patchProp(material, 'map', null, texture)
+
+        // Test
+        nodeOps.patchProp(material, 'map', texture, null)
+
+        // Assert
+        expect(material.map).toBeNull()
+      })
     })
 
     describe('primitive', () => {
