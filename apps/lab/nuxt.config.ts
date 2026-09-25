@@ -1,4 +1,36 @@
+import { readFileSync } from 'node:fs'
+import type { Plugin } from 'vite'
 import svgLoader from 'vite-svg-loader'
+
+// glyph is excluded from Vite pre-bundling (see optimizeDeps.exclude), so in dev its dist files are served under
+// their real names. Two of those bite:
+// - `internal/fingerprint.js` is a hash helper, but privacy blockers (EasyPrivacy) block any URL containing
+//   "fingerprint" and the whole experiment fails to import. Serve it under a virtual id instead.
+// - the package ships `sourceMappingURL` comments without the .map files, which floods the terminal with warnings.
+// Production bundles into hashed chunks, so neither applies there.
+const GLYPH_HASH_ID = '\0glyph-hash-helper.js'
+function glyphDevServing(): Plugin {
+  let realPath: string | undefined
+  return {
+    name: 'lab:glyph-dev-serving',
+    enforce: 'pre',
+    apply: 'serve',
+    async resolveId(source, importer) {
+      if (!importer?.includes('/@pmndrs/glyph/') || !source.endsWith('/fingerprint.js')) { return }
+      const resolved = await this.resolve(source, importer, { skipSelf: true })
+      if (!resolved) { return }
+      // Vite tags excluded deps with a `?v=<hash>` query; the file system does not know about it.
+      realPath = resolved.id.split('?')[0]
+      return GLYPH_HASH_ID
+    },
+    load(id) {
+      const path = id.split('?')[0]!
+      const file = id === GLYPH_HASH_ID ? realPath : path.includes('/@pmndrs/glyph/dist/') && path.endsWith('.js') ? path : undefined
+      if (!file) { return }
+      return readFileSync(file, 'utf8').replace(/\n\/\/# sourceMappingURL=.*$/m, '')
+    },
+  }
+}
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -49,6 +81,8 @@ export default defineNuxtConfig({
     families: [
       { name: 'Manrope', provider: 'google' },
       { name: 'Inter', provider: 'google' },
+      // Weights listed explicitly: the label uses 600, which is not a Google default.
+      { name: 'Crimson Pro', provider: 'google', weights: [400, 600, 700] },
     ],
   },
 
@@ -80,7 +114,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    plugins: [svgLoader()],
+    plugins: [svgLoader(), glyphDevServing()],
     optimizeDeps: {
       include: [
         '@vue/devtools-core',
@@ -94,6 +128,14 @@ export default defineNuxtConfig({
         'stats-gl',
         'radashi',
         '@pmndrs/pointer-events',
+      ],
+      // glyph locates its wasm with `new URL('...wasm', import.meta.url)`; pre-bundling would point that
+      // at Vite's dep cache where the file does not exist.
+      exclude: [
+        '@pmndrs/glyph',
+        '@pmndrs/glyph/vue',
+        '@pmndrs/glyph/vue/slug',
+        '@pmndrs/glyph/three',
       ],
     },
   },
