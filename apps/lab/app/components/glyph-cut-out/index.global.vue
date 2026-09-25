@@ -71,8 +71,10 @@ const NOTES = [
 <template>
   <TheLoadingScreen background="#0b0b0d" />
   <TresLeches v-if="isDev" uuid="glyph-cut-out" />
+  <!-- TresCanvas sets touch-action: none, which blocks page scroll on touch screens. Vertical panning is the dive. -->
   <TresCanvas
     :renderer="createRenderer"
+    :style="{ touchAction: 'pan-y' }"
     clear-color="#0b0b0d"
     render-mode="always"
     window-size

@@ -6,6 +6,7 @@ thumbnail: /experiments/glyph-cut-out.webp
 tags: ['glyph', 'typography', 'webgpu', 'tsl', 'video']
 date: 2026-09-24
 lastUpdated: 2026-09-24
+responsive: true
 ---
 
 Three lines of a heavy display font fill the viewport. The video only exists inside the letters. Scroll, and the camera dives into the I until its stem becomes the frame and the clip goes full bleed.
