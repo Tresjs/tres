@@ -1,3 +1,17 @@
+## 3.9.0 (2026-09-25)
+
+### 🚀 Features
+
+- **postprocessing:** add radius prop to BloomPmndrs ([#1494](https://github.com/Tresjs/tres/pull/1494))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.1
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 3.8.0 (2026-09-14)
 
 ### 🧱 Updated Dependencies

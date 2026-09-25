@@ -1,3 +1,19 @@
+## 5.9.1 (2026-09-25)
+
+### 🩹 Fixes
+
+- **cientos:** `Stage` shadow placement and props leaking into child components ([#1496](https://github.com/Tresjs/tres/pull/1496))
+- **cientos:** accumulative shadows losing settings and leaking GPU memory ([#1497](https://github.com/Tresjs/tres/pull/1497))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.1
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- Sandro Circi @sandros94
+
 ## 5.9.0 (2026-09-14)
 
 ### 🚀 Features
