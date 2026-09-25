@@ -12,6 +12,7 @@ export interface ExperimentItem {
   thumbnail?: string
   tags?: string[]
   featured?: boolean
+  responsive?: boolean
 }
 
 /**
