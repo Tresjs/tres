@@ -44,4 +44,9 @@ export const issuesRoutes = [
     name: '#23: HMR disposal / duplicates',
     component: () => import('@/pages/core/issues/23/index.vue'),
   },
+  {
+    path: '/issues/696',
+    name: '#696: vector prop types',
+    component: () => import('@/pages/core/issues/696/index.vue'),
+  },
 ]
