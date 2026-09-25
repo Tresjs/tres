@@ -29,6 +29,13 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    typecheck: {
+      enabled: true,
+      checker: 'vue-tsc',
+      // Core's own sources have type errors that CI does not gate yet; only the
+      // assertions in *.test-d.ts files decide this run.
+      ignoreSourceErrors: true,
+    },
   },
   optimizeDeps: {
     exclude: ['vue', 'three'],
