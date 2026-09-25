@@ -1,3 +1,9 @@
+## 1.1.1 (2026-09-25)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.1
+
 ## 1.1.0 (2026-09-14)
 
 ### 🚀 Features

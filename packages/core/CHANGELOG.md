@@ -1,3 +1,13 @@
+## 5.9.1 (2026-09-25)
+
+### 🩹 Fixes
+
+- **core:** restore math prop types with @types/three 0.186 ([#1504](https://github.com/Tresjs/tres/pull/1504))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 5.9.0 (2026-09-14)
 
 ### 🚀 Features

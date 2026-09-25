@@ -12,6 +12,7 @@ import type { RandomizedLightsProps } from '../light-shadow/RandomizedLights/com
 import type { AlignCallbackOptions, AlignProps } from '../abstractions/Align.vue'
 import type { EnvironmentOptions, EnvironmentPresetsType } from './useEnvironment/const'
 import { useDebounceFn } from '@vueuse/core'
+import { pick } from '../../utils'
 
 interface StageProps {
   /** Lighting setup, default: "rembrandt" */
@@ -23,7 +24,7 @@ interface StageProps {
     | 'soft'
     | { main: [x: number, y: number, z: number], fill: [x: number, y: number, z: number] }
   /** Controls the ground shadows, default: "contact" */
-  shadows?: boolean | 'contact' | 'accumulative' | StageShadows
+  shadows?: boolean | 'contact' | 'accumulative' | StageShadows | null
   /** Optionally wraps and thereby centers the models using <Bounds>, can also be a camera offset, default: true */
   adjustCamera?: boolean | number
   /** The default environment, default: { preset: "city" } */
@@ -38,9 +39,9 @@ type StageShadows = Partial<AccumulativeShadowsProps>
   & Partial<RandomizedLightsProps>
   & Partial<ContactShadowsProps> & {
     type: 'contact' | 'accumulative'
-    /** Shadow plane offset, default: 0 */
+    /** Distance of the shadow plane below the content, default: 0 */
     offset?: number
-    /** Shadow bias, default: -0.0001 */
+    /** Shadow bias, inverted for the accumulative lights, default: -0.0001 */
     bias?: number
     /** Shadow normal bias, default: 0 */
     normalBias?: number
@@ -88,7 +89,7 @@ const lightingPresets: LightingPresets = {
 }
 
 const radius = ref(2)
-const height = ref(0)
+const floor = ref(0)
 const stageRef = shallowRef<typeof Group>()
 const boundsRef = shallowRef<typeof Bounds>()
 const alignRef = shallowRef<typeof Align>()
@@ -136,27 +137,45 @@ const lightingFillComputed: ComputedRef<[number, number, number]> = computed(() 
   return lightingPresetComputed.value.fill.map(v => v * radius.value) as [number, number, number]
 })
 
-const contactShadowsComputed: ComputedRef<StageShadows | null> = computed(() => {
+const contactShadowsComputed: ComputedRef<Partial<ContactShadowsProps> | null> = computed(() => {
   if (props.shadows === true || props.shadows === 'contact') {
-    return { type: 'contact' }
+    return {}
   }
-  else if (typeof props.shadows === 'object' && props.shadows.type === 'contact') {
-    return props.shadows
+  else if (props.shadows && typeof props.shadows === 'object' && props.shadows.type === 'contact') {
+    return pick(props.shadows, Object.keys(ContactShadows.props) as (keyof ContactShadowsProps)[])
   }
   else {
     return null
   }
 })
 
-const accumulativeShadowsComputed: ComputedRef<StageShadows | null> = computed(() => {
+const accumulativeShadowsComputed: ComputedRef<Partial<AccumulativeShadowsProps> | null> = computed(() => {
   if (props.shadows === 'accumulative') {
-    return { type: 'accumulative' }
+    return {}
   }
-  else if (typeof props.shadows === 'object' && (props.shadows as StageShadows).type === 'accumulative') {
-    return props.shadows
+  else if (props.shadows && typeof props.shadows === 'object' && props.shadows.type === 'accumulative') {
+    return pick(props.shadows, Object.keys(AccumulativeShadows.props) as (keyof AccumulativeShadowsProps)[])
   }
   else {
     return null
+  }
+})
+
+const randomizedLightsComputed: ComputedRef<Partial<RandomizedLightsProps>> = computed(() => {
+  const shadows: Partial<StageShadows> = props.shadows && typeof props.shadows === 'object' ? props.shadows : {}
+  return {
+    count: shadows.count ?? 8,
+    radius: shadows.radius ?? radius.value,
+    intensity: shadows.intensity ?? 1.5,
+    ambient: shadows.ambient ?? 0.5,
+    castShadow: shadows.castShadow,
+    near: shadows.near,
+    far: shadows.far,
+    // NOTE: inverted, as the accumulative plane only receives shadows and needs a positive bias
+    bias: -(shadows.bias ?? -0.0001),
+    mapSize: shadows.mapSize ?? shadows.size ?? 1024,
+    size: radius.value * 4,
+    position: shadows.position ?? lightingMainComputed.value,
   }
 })
 
@@ -177,6 +196,9 @@ const environmentComputed: ComputedRef<EnvironmentOptions | null> = computed(() 
 
 const onAlignChange = (alignProps: AlignCallbackOptions) => {
   radius.value = alignProps.boundingSphere.radius
+  floor.value = props.align?.disable || props.align?.disableY
+    ? alignProps.boundingBox.min.y
+    : alignProps.verticalAlignment - alignProps.height / 2
   if (props.adjustCamera !== false) {
     debouncedLookAt()
   }
@@ -194,7 +216,7 @@ defineExpose({ instance: stageRef, update: () => {} })
         :position="lightingMainComputed"
         :intensity="intensity * 2"
         :castShadow="!!shadows"
-        :shadow-bias="(shadows as StageShadows)?.bias ?? 0"
+        :shadow-bias="(shadows as StageShadows)?.bias ?? -0.0001"
         :shadow-normalBias="(shadows as StageShadows)?.normalBias ?? 0"
         :shadow-mapSize-x="(shadows as StageShadows)?.size ?? 1024"
         :shadow-mapSize-y="(shadows as StageShadows)?.size ?? 1024"
@@ -210,13 +232,12 @@ defineExpose({ instance: stageRef, update: () => {} })
       :offset="typeof props.adjustCamera === 'boolean' ? 0.3 : props.adjustCamera"
       use-mounted
       use-resize
-      v-bind="props"
     >
       <Align ref="alignRef" v-bind="align" @change="onAlignChange">
         <slot></slot>
       </Align>
     </Bounds>
-    <TresGroup :position="[0, -height / 2 - ((shadows as StageShadows)?.offset ?? 0) / 2, 0]">
+    <TresGroup :position="[0, floor - ((shadows as StageShadows)?.offset ?? 0), 0]">
       <ContactShadows
         v-if="contactShadowsComputed"
         :scale="radius * 4"
@@ -233,17 +254,7 @@ defineExpose({ instance: stageRef, update: () => {} })
         :scale="radius * 4"
         v-bind="accumulativeShadowsComputed"
       >
-        <RandomizedLights
-          :position="lightingMainComputed"
-          :count="accumulativeShadowsComputed.count ?? 8"
-          :radius="accumulativeShadowsComputed.radius ?? radius"
-          :intensity="accumulativeShadowsComputed.intensity ?? 1.5"
-          :ambient="accumulativeShadowsComputed.ambient ?? 0.5"
-          :size="radius * 4"
-          :bias="accumulativeShadowsComputed.bias ?? 0"
-          :map-size="accumulativeShadowsComputed.size ?? 1024"
-          v-bind="accumulativeShadowsComputed"
-        />
+        <RandomizedLights v-bind="randomizedLightsComputed" />
       </AccumulativeShadows>
       <Suspense>
         <Environment v-if="environmentComputed" v-bind="environmentComputed" />
