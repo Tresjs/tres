@@ -12,6 +12,8 @@
   "dependencies": {
     "@nuxt/eslint": "catalog:",
     "@nuxt/ui": "catalog:nuxt",
+    "@pmndrs/glyph": "^0.1.0",
+    "@tresjs/core": "workspace:*",
     "@tresjs/nuxt": "workspace:*",
     "@tresjs/post-processing": "workspace:*",
     "@tresjs/rapier": "workspace:*",

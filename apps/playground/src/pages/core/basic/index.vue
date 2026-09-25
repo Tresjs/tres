@@ -57,14 +57,8 @@ function onLoop() {
 
 <template>
   <TresLeches :uuid="uuid" />
-  <TresCanvas
-    :clear-color="clearColor"
-    :clear-alpha="clearAlpha"
-    :tone-mapping="formattedToneMapping"
-    :shadows="shadows"
-    :shadow-map-type="formattedShadowMapType"
-    @loop="onLoop"
-  >
+  <TresCanvas :clear-color="clearColor" :clear-alpha="clearAlpha" :tone-mapping="formattedToneMapping"
+    :shadows="shadows" :shadow-map-type="formattedShadowMapType" @loop="onLoop">
     <TresPerspectiveCamera :position="[5, 5, 5]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <TresMesh ref="cubeRef" cast-shadow :position="[0, 2, 0]">
@@ -72,10 +66,7 @@ function onLoop() {
       <TresMeshStandardMaterial color="teal" :opacity="1" transparent />
     </TresMesh>
 
-    <TresMesh
-      :rotation-x="-Math.PI / 2"
-      receive-shadow
-    >
+    <TresMesh :rotation-x="-Math.PI / 2" receive-shadow>
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>

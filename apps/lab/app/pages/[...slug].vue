@@ -10,6 +10,10 @@ const { data: page } = await useAsyncData(route.path, () => {
 const { data: authors } = await useAsyncData('authors', () =>
   queryCollection('authors').all())
 
+// Experiments render TheLoadingScreen themselves and have no access to the
+// content record, so expose it down the tree for flags like `responsive`.
+provide(EXPERIMENT_KEY, page)
+
 const formattedPage = computed(() => {
   return {
     ...page.value,
