@@ -1,6 +1,9 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 
+/* Landscape phones: the viewport is ~390px tall, fixed overlays need a tighter layout */
+@custom-variant short (@media (max-height: 500px));
+
 @theme static {
   --font-display: 'Manrope', sans-serif;
   --font-sans: 'Inter', sans-serif;
