@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Camera, Light } from 'three'
 import { Box3, Mesh, MeshPhongMaterial, Quaternion, Vector3 } from 'three'
-import { shaderToySrc } from './shader-toy'
-import { shaderToyLights } from './shader-toy/lights'
+import { shaderToySrc } from '../../shaders/shadertoy-museum'
+import { shaderToyLights } from '../../shaders/shadertoy-museum/lights'
 import type { ShaderToyMuseumState, ShaderToyTarget } from './const'
 
 const state: ShaderToyMuseumState = inject('state')!
@@ -19,13 +19,13 @@ watch(gallery, (newGallery) => {
 
       if (child.name.startsWith('ShaderToy')) {
         if (!child.userData.name) {
-          throw ('Missing Blender property \'userData.name\'.')
+          throw new Error('Missing Blender property \'userData.name\'.')
         }
         if (typeof child.userData.name !== 'string') {
-          throw ('Blender GLTF \'userData.name\' should be a string.')
+          throw new TypeError('Blender GLTF \'userData.name\' should be a string.')
         }
         if (!(child.userData.name in shaderToySrc)) {
-          throw (`${child.userData.name} not in shaderToySrc. Srcs: ${Object.keys(shaderToySrc).join(', ')}`)
+          throw new Error(`${child.userData.name} not in shaderToySrc. Srcs: ${Object.keys(shaderToySrc).join(', ')}`)
         }
 
         const name = child.userData.name as keyof typeof shaderToySrc
