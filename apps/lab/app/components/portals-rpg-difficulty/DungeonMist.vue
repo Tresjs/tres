@@ -11,6 +11,11 @@ RectAreaLightUniformsLib.init()
 
 const MIST_CENTER = new Vector3(4, 2, -2)
 
+// Four overlapping raymarch boxes; the step count is a shader define, so it is read once
+// at mount. 6 is the low end where the per-pixel jitter still hides banding.
+const isPhone = useIsPhone()
+const fogSteps = isPhone.value ? 6 : 10
+
 // shallowRef: a plain ref() wraps the light in a proxy that every matrix write pays for.
 const sidelight = shallowRef<RectAreaLight | null>(null)
 const backlight = shallowRef<RectAreaLight | null>(null)
@@ -62,6 +67,7 @@ watch([sidelight, backlight, fill], (lights) => {
     <!-- Density keeps Blender's per-box ratios but the scale is by eye: the raymarch
          integrates over 10-20 world units, so small numbers go a long way. -->
     <PortalsRpgDifficultyFogVolume
+      :steps="fogSteps"
       :position="[5, 2.7, -3.5]"
       :scale="[15, 6.8, 8]"
       :seed="5.8"
@@ -69,6 +75,7 @@ watch([sidelight, backlight, fill], (lights) => {
       :render-order="1"
     />
     <PortalsRpgDifficultyFogVolume
+      :steps="fogSteps"
       :position="[4, 0.55, 0]"
       :scale="[22, 3, 18]"
       :seed="1.7"
@@ -76,6 +83,7 @@ watch([sidelight, backlight, fill], (lights) => {
       :render-order="2"
     />
     <PortalsRpgDifficultyFogVolume
+      :steps="fogSteps"
       :position="[-0.3, 1.7, -1]"
       :scale="[5, 4.5, 13]"
       :seed="9.2"
@@ -83,6 +91,7 @@ watch([sidelight, backlight, fill], (lights) => {
       :render-order="3"
     />
     <PortalsRpgDifficultyFogVolume
+      :steps="fogSteps"
       :position="[6, 5.5, -7.5]"
       :scale="[13, 3.5, 6]"
       :seed="14.1"

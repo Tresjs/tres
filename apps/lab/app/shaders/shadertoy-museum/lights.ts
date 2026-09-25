@@ -4,7 +4,7 @@ import type { shaderToySrc } from './index'
 
 const { clamp } = MathUtils
 
-const { pow, sqrt, cos, abs, sin } = Math
+const { sqrt, cos, abs, sin } = Math
 
 export type LightFn = (light: Light, uv: Vector2, iTime: number) => void
 
