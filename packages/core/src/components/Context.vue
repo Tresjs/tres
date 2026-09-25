@@ -127,7 +127,7 @@ const createInternalComponent = (context: TresContext, hmrTick: Ref<number>) =>
       provide(CONTEXT_INJECTION_KEY, context)
       provide('extend', extend)
 
-      if (typeof window !== 'undefined' && ctx?.app) {
+      if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined' && ctx?.app) {
         registerTresDevtools(ctx?.app, context)
       }
 
