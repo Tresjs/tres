@@ -1453,9 +1453,6 @@ importers:
       '@tresjs/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@tresjs/leches':
-        specifier: workspace:*
-        version: link:../leches
       '@types/three':
         specifier: catalog:three
         version: 0.184.1
