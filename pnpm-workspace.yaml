@@ -13,6 +13,7 @@ shamefullyHoist: true
 overrides:
   ws: ^8.21.0
   tmp: ^0.2.7 # GHSA-7c78-jf6q-g5cm: path traversal via non-string template in <=0.2.6
+  'undici@7': ^7.29.1 # GHSA-3wwx-pv8p-q78v: DoS in permessage-deflate; miniflare pins 7.29.0
 
 catalogs:
   build:
