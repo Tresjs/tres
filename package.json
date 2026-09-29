@@ -39,10 +39,10 @@
     "apps/*"
   ],
   "devDependencies": {
-    "@nx/js": "^22.7.5",
+    "@nx/js": "23.2.1",
     "@shikijs/engine-javascript": "^4.4.3",
     "h3": "^1.15.11",
-    "nx": "22.4.4",
-    "sponsorkit": "^17.1.1"
+    "nx": "23.2.1",
+    "sponsorkit": "^18.0.0"
   }
 }
