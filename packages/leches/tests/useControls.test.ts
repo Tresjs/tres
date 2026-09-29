@@ -1,6 +1,6 @@
 import { isRef, nextTick } from 'vue'
 import { afterEach, describe, expect, it } from 'vitest'
-import { dispose, useControls, useControlsProvider } from '/@/composables/useControls'
+import { dispose, useControls, useControlsProvider, useControlsStore } from '/@/composables/useControls'
 import { mount } from '@vue/test-utils'
 import { TresLeches } from '/@/'
 
@@ -54,6 +54,59 @@ describe('useControls', () => {
       expect(isRef(folderB)).toBe(true)
       expect(folderA.value).toBe('awiwi')
       expect(folderB.value).toBe(1)
+    })
+  })
+
+  describe('when the folder name has emoji or symbols', () => {
+    it.each([
+      ['🌊 Terrain', 'U+1F300 block'],
+      ['⛰ Terrain', 'outside U+1F300 block'],
+      ['✨ Terrain', 'dingbat'],
+      ['🪨 Terrain', 'U+1FA70 block'],
+      ['🏔️ Terrain', 'variation selector U+FE0F'],
+      ['🧑‍🚀 Terrain', 'ZWJ sequence'],
+      ['👋🏽 Terrain', 'skin tone modifier'],
+      ['🇪🇸 Terrain', 'flag'],
+      ['🏴󠁧󠁢󠁳󠁣󠁴󠁿 Terrain', 'subdivision flag tags'],
+      ['1️⃣ Terrain', 'digit keycap'],
+      ['#️⃣ Terrain', 'symbol keycap'],
+      ['★ Terrain', 'non-emoji symbol'],
+      ['→ Terrain ♪', 'arrow and note'],
+      ['Terrain™', 'trademark'],
+    ])('should strip %s (%s) from the key prefix', (folderName) => {
+      const controls = useControls(folderName, { height: 1 })
+      expect(Object.keys(controls)).toEqual(['TerrainHeight'])
+    })
+
+    it.each([
+      ['🌊 Montaña', 'MontañaHeight'],
+      ['🌊 日本', '日本Height'],
+      ['🌊 नमस्ते', 'नमस्तेHeight'],
+    ])('should keep accented and non-latin letters in %s', (folderName, expected) => {
+      const controls = useControls(folderName, { height: 1 })
+      expect(Object.keys(controls)).toEqual([expected])
+    })
+
+    // ASCII names worked before (with bracket access), so their keys must not change.
+    it.each([
+      ['Terrain', 'TerrainHeight'],
+      ['Terrain Mask', 'Terrain MaskHeight'],
+      ['Terrain-Mask', 'Terrain-MaskHeight'],
+      ['my.folder', 'my.folderHeight'],
+      ['Scene (debug)', 'Scene (debug)Height'],
+      ['[Terrain]', '[Terrain]Height'],
+    ])('should keep the ASCII folder name %s unchanged', (folderName, expected) => {
+      const controls = useControls(folderName, { height: 1 })
+      expect(Object.keys(controls)).toEqual([expected])
+    })
+
+    it.each([
+      ['🏔️ Terrain', 'TerrainHeight'],
+      ['★ Terrain', 'TerrainHeight'],
+      ['🌊', 'Height'],
+    ])('should label the control in %s without the folder prefix', (folderName, key) => {
+      useControls(folderName, { height: 1 })
+      expect(useControlsStore().store.default[key].label).toBe('height')
     })
   })
 
