@@ -49,7 +49,7 @@ Controls without the ceremony
   icon: i-lucide-wand-sparkles
   ---
   #title
-  Smart defaults
+  Type inference
 
   #description
   Booleans, numbers, colors, text, vectors, selects, buttons, and graphs are inferred from the values you provide.
@@ -74,7 +74,7 @@ Controls without the ceremony
   Flexible panels
 
   #description
-  Float, collapse, resize, group controls into folders, or use UUIDs to render independent panels.
+  Float, collapse, resize, organize controls into folders, or use panel ids to render several panels.
   :::
 
   :::u-page-feature

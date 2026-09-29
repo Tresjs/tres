@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TresLeches, useControls } from '@tresjs/leches'
 
-// Both layers render the same UUID, so they share state and stay in sync while
+// Both layers render the same panel id, so they share state and stay in sync while
 // the user edits whichever side is visible.
 useControls({
   visible: true,
