@@ -148,4 +148,11 @@ export class ProgressiveLightMap {
     this.scene.background = oldBg
     this.scene.environment = oldEnv
   }
+
+  dispose() {
+    this.progressiveLightMap1.dispose()
+    this.progressiveLightMap2.dispose()
+    this.discardMat.dispose()
+    this.targetMat.dispose()
+  }
 }
