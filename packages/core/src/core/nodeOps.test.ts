@@ -597,8 +597,32 @@ describe('nodeOps', () => {
 
       // Assert
       expect(light.shadow).toBeTruthy()
-      expect(light.shadow.mapSize[0]).toBe(2048)
-      expect(light.shadow.mapSize[1]).toBe(2048)
+      expect(light.shadow.mapSize).toBeInstanceOf(THREE.Vector2)
+      expect(light.shadow.mapSize.toArray()).toEqual([2048, 2048])
+    })
+
+    it('patches pierced math props in place', () => {
+      // Setup
+      const node = nodeOps.createElement('Mesh')!
+      const color = node.material.color
+
+      // Test
+      nodeOps.patchProp(node, 'material-color', null, 'red')
+
+      // Assert
+      expect(node.material.color).toBe(color)
+      expect(color.getHex()).toBe(0xFF0000)
+    })
+
+    it('calls pierced methods on the object they belong to', () => {
+      // Setup
+      const node = nodeOps.createElement('Mesh')!
+
+      // Test
+      nodeOps.patchProp(node, 'position-set', null, [1, 2, 3])
+
+      // Assert
+      expect(node.position.toArray()).toEqual([1, 2, 3])
     })
 
     it('updates the projection matrix of a camera reached through pierced props', () => {
@@ -752,6 +776,26 @@ describe('nodeOps', () => {
         // Assert
         expect(material.color).toBeInstanceOf(THREE.Color)
         expect(material.color.getHex()).toBe(0xFFFFFF)
+      })
+
+      it('resets pierced math properties to the default of the object they belong to', () => {
+        // Setup
+        const light = nodeOps.createElement('DirectionalLight')!
+        const mesh = nodeOps.createElement('Mesh')!
+        nodeOps.patchProp(light, 'shadow-camera-position', null, [1, 2, 3])
+        nodeOps.patchProp(mesh, 'material-color', null, 'red')
+
+        // Test
+        const remove = () => {
+          nodeOps.patchProp(light, 'shadow-camera-position', [1, 2, 3], null)
+          nodeOps.patchProp(mesh, 'material-color', 'red', undefined)
+        }
+
+        // Assert
+        expect(remove).not.toThrow()
+        expect(light.shadow.camera.position.toArray()).toEqual([0, 0, 0])
+        expect(mesh.material.color).toBeInstanceOf(THREE.Color)
+        expect(mesh.material.color.getHex()).toBe(0xFFFFFF)
       })
 
       it('still assigns `null` to other properties', () => {

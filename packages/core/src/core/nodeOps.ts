@@ -404,26 +404,12 @@ export const nodeOps = ({
     }
 
     // Traverse pierced props (e.g. foo-bar=value => foo.bar = value)
+    // NOTE: Only the owner and key change, the value is then set like any other prop.
     if (key.includes('-') && target === undefined) {
       const resolved = resolve(root, key)
-      target = resolved.target
       root = resolved.target
       finalKey = resolved.key
-
-      if (target && finalKey) {
-        target[finalKey] = nextValue
-        if (isTresCamera(node)) {
-          node.updateProjectionMatrix()
-        }
-        // NOTE: The pierced path may land on a nested camera, e.g. a light's
-        // `shadow-camera-*`. Three only recomputes that projection when the
-        // shadow map is first allocated, so later changes are lost without this.
-        else if (isTresCamera(target)) {
-          target.updateProjectionMatrix()
-        }
-        invalidateInstance(node as TresObject)
-        return
-      }
+      target = root?.[finalKey] as Record<string, unknown>
     }
     let value = nextValue
     if (value === '') { value = true }
@@ -441,8 +427,8 @@ export const nodeOps = ({
       // don't call pointer event callback functions
 
       if (!isSupportedPointerEvent(prop)) {
-        if (Array.isArray(value)) { node[finalKey](...value) }
-        else { node[finalKey](value) }
+        if (Array.isArray(value)) { target.call(root, ...value) }
+        else { target.call(root, value) }
       }
       // NOTE: Set on* callbacks
       // Issue: https://github.com/Tresjs/tres/issues/360
@@ -452,8 +438,12 @@ export const nodeOps = ({
       return
     }
 
+    // Plain values have nothing to update in place
+    if (typeof target !== 'object' || target === null) {
+      root[finalKey] = value
+    }
     // Layers must be written to the mask property
-    if (isLayers(target) && isLayers(value)) {
+    else if (isLayers(target) && isLayers(value)) {
       target.mask = value.mask
     }
     // Set colors if valid color representation for automatic conversion (copy)
@@ -493,6 +483,12 @@ export const nodeOps = ({
 
     if (isTresCamera(node)) {
       node.updateProjectionMatrix()
+    }
+    // NOTE: The pierced path may land on a nested camera, e.g. a light's
+    // `shadow-camera-*`. Three only recomputes that projection when the
+    // shadow map is first allocated, so later changes are lost without this.
+    else if (root !== node && isTresCamera(root)) {
+      root.updateProjectionMatrix()
     }
 
     invalidateInstance(node as TresObject)
