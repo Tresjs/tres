@@ -757,9 +757,6 @@ importers:
       nuxt-llms:
         specifier: 'catalog:'
         version: 0.1.3(magicast@0.5.3)
-      tweakpane:
-        specifier: 'catalog:'
-        version: 4.0.5
       vue:
         specifier: catalog:vue
         version: 3.5.38(typescript@6.0.3)
@@ -770,9 +767,6 @@ importers:
       '@tresjs/eslint-config':
         specifier: workspace:*
         version: link:../../packages/eslint-config
-      '@tweakpane/core':
-        specifier: 'catalog:'
-        version: 2.0.5
       eslint:
         specifier: catalog:eslint
         version: 10.4.1(jiti@2.7.0)

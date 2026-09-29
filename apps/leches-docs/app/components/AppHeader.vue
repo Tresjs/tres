@@ -33,33 +33,17 @@ const version = useRuntimeConfig().public.pkgVersion
       variant="subtle"
     />
 
-    <template
-      v-if="header?.logo?.dark || header?.logo?.light || header?.title"
-      #title
-    >
+    <template #title>
       <UColorModeImage
         v-if="header?.logo?.dark || header?.logo?.light"
         :light="header?.logo?.light!"
         :dark="header?.logo?.dark!"
         :alt="header?.logo?.alt"
-        class="h-6 w-auto shrink-0"
+        class="h-3 w-auto shrink-0"
       />
-
-      <span v-else-if="header?.title">
+      <span v-if="header?.title">
         {{ header.title }}
       </span>
-    </template>
-
-    <template
-      v-else
-      #left
-    >
-      <NuxtLink
-        :to="header?.to || '/'"
-        class="mr-2"
-      >
-        <TheLogo class="w-auto h-6 shrink-0" />
-      </NuxtLink>
       <UBadge
         color="primary"
         variant="subtle"

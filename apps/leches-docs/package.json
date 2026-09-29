@@ -27,13 +27,11 @@
     "better-sqlite3": "catalog:",
     "nuxt": "catalog:nuxt",
     "nuxt-llms": "catalog:",
-    "tweakpane": "catalog:",
     "vue": "catalog:vue",
     "vue-router": "catalog:vue"
   },
   "devDependencies": {
     "@tresjs/eslint-config": "workspace:*",
-    "@tweakpane/core": "catalog:",
     "eslint": "catalog:eslint",
     "typescript": "catalog:typescript",
     "vue-tsc": "catalog:typescript"
