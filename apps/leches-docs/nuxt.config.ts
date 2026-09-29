@@ -60,7 +60,6 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-07-11',
 
-  // @ts-expect-error Nuxt 4.1's generated config type omits the valid Nitro option.
   nitro: {
     prerender: {
       routes: [
