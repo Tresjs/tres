@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, isRef, nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
+import { computed, isRef, nextTick, onMounted, onUnmounted, provide, ref, toRefs, watch } from 'vue'
 import { useDraggable } from '../composables/useDraggable'
+import { LECHES_DARK_KEY, useIsDark } from '../composables/useIsDark'
 import { useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider, useControlsStore } from '../composables/useControls'
 import type { LechesControlUnion } from '../types'
@@ -46,6 +47,10 @@ const HEADER_HEIGHT = 32 // button(28px) + wrapper padding(4px)
 const CONTENT_PADDING = 32 // tl-py-4 = 16px top + 16px bottom
 const CONTROL_HEIGHT = 24 // 20px unit + 4px spacing
 const FPS_GRAPH_EXTRA_HEIGHT = 24
+
+const containerRef = ref<HTMLElement | null>(null)
+const isDark = useIsDark(containerRef)
+provide(LECHES_DARK_KEY, isDark)
 
 const panelWidth = ref(DEFAULT_WIDTH)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
@@ -334,7 +339,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="tresleches-container">
+  <div ref="containerRef" class="tresleches-container" :class="{ 'tl-dark': isDark }">
     <div
       :id="`tres-leches-pane-${uuid}`"
       ref="paneRef"

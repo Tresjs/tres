@@ -43,6 +43,9 @@ export default defineConfig({
         presetUno({
           prefix: 'tl-',
           variablePrefix: 'tl-',
+          // TresLeches sets `tl-dark` on its root from the nearest `.dark`/`.light`
+          // ancestor, so each panel follows its own theme scope, not only <html>.
+          dark: { dark: '.tl-dark', light: '.tl-light' },
         }),
         presetIcons({
           scale: 1.2,
