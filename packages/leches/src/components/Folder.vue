@@ -26,6 +26,7 @@ const isOpen = ref(false)
 const isExpanded = computed(() => isOpen.value || props.forceOpen)
 
 const toggle = () => {
+  if (props.forceOpen) { return }
   isOpen.value = !isOpen.value
   emit('open', isOpen.value)
 }
@@ -54,6 +55,7 @@ const toggle = () => {
       :aria-expanded="isExpanded"
       aria-haspopup="true"
       role="button"
+      :disabled="forceOpen"
       :data-folder="label"
       tabindex="0"
       @click="toggle"

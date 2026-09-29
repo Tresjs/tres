@@ -113,7 +113,7 @@ const filteredGroupedControls = computed(() => {
   if (!query) { return groupedControls.value }
 
   return Object.fromEntries(
-    Object.entries(groupedControls.value).flatMap(([folderName, folderControls]) => {
+    Object.entries(groupedControls.value).map(([folderName, folderControls]) => {
       const folderMatches = folderName !== 'default' && folderName.toLocaleLowerCase().includes(query)
       const matchingControls = folderMatches
         ? folderControls
@@ -122,12 +122,14 @@ const filteredGroupedControls = computed(() => {
               .some(value => value.toLocaleLowerCase().includes(query))
           })
 
-      return matchingControls.length > 0 ? [[folderName, matchingControls]] : []
+      return [folderName, matchingControls]
     }),
   )
 })
 
-const hasSearchResults = computed(() => Object.keys(filteredGroupedControls.value).length > 0)
+const hasSearchResults = computed(() => Object.values(filteredGroupedControls.value).some(group => group.length > 0))
+
+const NON_VALUE_CONTROL_TYPES = new Set<LechesControlUnion['type']>(['button', 'graph', 'fpsgraph'])
 
 async function toggleSearch() {
   isSearchOpen.value = !isSearchOpen.value
@@ -146,10 +148,6 @@ function closeSearch() {
   searchQuery.value = ''
 }
 
-function jsonKeyForControl(control: LechesControlUnion) {
-  return control.label || control.name || control.key
-}
-
 function panelValuesAsJson() {
   const panelValues: Record<string, unknown> = {}
 
@@ -157,10 +155,10 @@ function panelValuesAsJson() {
     const folderValues: Record<string, unknown> = {}
 
     for (const control of folderControls) {
-      if (control.type === 'button') { continue }
+      if (NON_VALUE_CONTROL_TYPES.has(control.type)) { continue }
 
       const value = unref(control.value)
-      folderValues[jsonKeyForControl(control)] = value !== null && typeof value === 'object'
+      folderValues[control.key] = value !== null && typeof value === 'object'
         ? toRaw(value)
         : value
     }
@@ -168,7 +166,7 @@ function panelValuesAsJson() {
     if (folderName === 'default') {
       Object.assign(panelValues, folderValues)
     }
-    else {
+    else if (Object.keys(folderValues).length > 0) {
       panelValues[folderName] = folderValues
     }
   }
@@ -542,6 +540,7 @@ onUnmounted(() => {
           <template v-for="(group, folderName) of filteredGroupedControls" :key="folderName">
             <Folder
               v-if="folderName !== 'default'"
+              v-show="!normalizedSearchQuery || group.length > 0"
               :label="folderName"
               :controls="group"
               :force-open="Boolean(normalizedSearchQuery)"
