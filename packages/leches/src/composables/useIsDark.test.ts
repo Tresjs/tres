@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { effectScope, nextTick } from 'vue'
 import { useIsDark } from './useIsDark'
 
@@ -10,9 +10,26 @@ function run(target: HTMLElement | null) {
   return { isDark, stop: () => scope.stop() }
 }
 
+// jsdom has no matchMedia. The listener lets a test flip the OS preference.
+function mockPrefersDark(matches: boolean) {
+  const listeners = new Set<(e: { matches: boolean }) => void>()
+  const query = {
+    matches,
+    media: '(prefers-color-scheme: dark)',
+    addEventListener: (_: string, cb: (e: { matches: boolean }) => void) => listeners.add(cb),
+    removeEventListener: (_: string, cb: (e: { matches: boolean }) => void) => listeners.delete(cb),
+  }
+  vi.stubGlobal('matchMedia', () => query)
+  return (next: boolean) => {
+    query.matches = next
+    listeners.forEach(cb => cb({ matches: next }))
+  }
+}
+
 afterEach(() => {
   html.className = ''
   document.body.innerHTML = ''
+  vi.unstubAllGlobals()
 })
 
 describe('useIsDark', () => {
@@ -48,6 +65,25 @@ describe('useIsDark', () => {
     document.body.innerHTML = '<div class="dark"><div id="panel"></div></div>'
     const { isDark, stop } = run(document.getElementById('panel'))
     expect(isDark.value).toBe(true)
+    stop()
+  })
+
+  it('follows the OS preference when no .dark or .light class is set', async () => {
+    const setPrefersDark = mockPrefersDark(true)
+    const { isDark, stop } = run(null)
+    expect(isDark.value).toBe(true)
+
+    setPrefersDark(false)
+    await nextTick()
+    expect(isDark.value).toBe(false)
+    stop()
+  })
+
+  it('lets a .light class override a dark OS preference', () => {
+    mockPrefersDark(true)
+    html.classList.add('light')
+    const { isDark, stop } = run(null)
+    expect(isDark.value).toBe(false)
     stop()
   })
 })
