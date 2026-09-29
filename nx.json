@@ -38,7 +38,6 @@
   },
   "release": {
     "projectsRelationship": "independent",
-    "releaseTagPattern": "{projectName}@{version}",
     "groups": {
       "core": {
         "projects": [
@@ -76,6 +75,9 @@
     "git": {
       "commit": true,
       "tag": true
+    },
+    "releaseTag": {
+      "pattern": "{projectName}@{version}"
     }
   }
 }

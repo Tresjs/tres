@@ -12,7 +12,7 @@
   "dependencies": {
     "@nuxt/eslint": "catalog:",
     "@nuxt/ui": "catalog:nuxt",
-    "@pmndrs/glyph": "^0.1.0",
+    "@pmndrs/glyph": "catalog:",
     "@tresjs/core": "workspace:*",
     "@tresjs/nuxt": "workspace:*",
     "@tresjs/post-processing": "workspace:*",
@@ -35,7 +35,7 @@
     "@nuxt/fonts": "catalog:",
     "@nuxt/icon": "catalog:",
     "@nuxt/image": "catalog:nuxt",
-    "@nuxt/scripts": "catalog:conflicts_@nuxt/scripts_0_11_13",
+    "@nuxt/scripts": "catalog:",
     "@nuxtjs/color-mode": "catalog:",
     "@tresjs/cientos": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
@@ -46,7 +46,7 @@
     "gsap": "catalog:utils",
     "nuxt": "catalog:nuxt",
     "nuxt-svgo": "catalog:",
-    "postprocessing": "catalog:conflicts_postprocessing_6_37_8",
+    "postprocessing": "catalog:",
     "vite-svg-loader": "catalog:"
   }
 }
