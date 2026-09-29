@@ -1,3 +1,9 @@
+## 5.9.2 (2026-09-29)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.7.0
+
 ## 5.9.1 (2026-09-25)
 
 ### 🩹 Fixes
