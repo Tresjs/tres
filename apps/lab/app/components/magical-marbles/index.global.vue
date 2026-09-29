@@ -4,7 +4,6 @@ import { EffectComposerPmndrs, ToneMappingPmndrs } from '@tresjs/post-processing
 import { ToneMappingMode } from 'postprocessing'
 import { ContactShadows } from '@tresjs/cientos'
 
-
 const gl = {
   alpha: true,
   shadows: false,
@@ -143,7 +142,7 @@ const animateColorTransition = (immediate = false) => {
         background: `${backgroundGradient.value}`,
         duration: 1.2,
         ease: 'power2.out',
-        overwrite: 'auto'
+        overwrite: 'auto',
       })
     })
   }
@@ -172,7 +171,7 @@ const contactShadowColor = computed(() => {
       </p>
     </div>
 
-    <div ref="backgroundRef" class="magical-marbles__bg" />
+    <div ref="backgroundRef" class="magical-marbles__bg"></div>
   </div>
 
   <TresCanvas window-size v-bind="gl" :toneMappingExposure="toneMappingExposure">
@@ -180,8 +179,12 @@ const contactShadowColor = computed(() => {
 
     <OrbitControls auto-rotate :enable-rotate="false" :enable-pan="false" make-default />
 
-    <MagicalMarblesMarble ref="marbleRef" :colors="colors" :params="marbleParams" :indexColor="indexColor"
-      @sphere-click="handleSphereClick" />
+    <MagicalMarblesMarble ref="marbleRef"
+                          :colors="colors"
+                          :params="marbleParams"
+                          :indexColor="indexColor"
+                          @sphere-click="handleSphereClick"
+    />
 
     <ContactShadows :position-y="-1.1" :color="contactShadowColor" :blur="0.85" :scale="5" :opacity="0.35" />
     <Suspense>
@@ -225,7 +228,7 @@ const contactShadowColor = computed(() => {
 }
 
 .magical-marbles__infos p {
-  color: #FFF;
+  color: #fff;
 }
 
 .magical-marbles__infos a {

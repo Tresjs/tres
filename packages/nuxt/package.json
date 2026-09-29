@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/nuxt",
   "type": "module",
-  "version": "5.6.3",
+  "version": "5.7.1",
   "description": "TresJS integration for Nuxt.",
   "author": "Daniel Roe (https://github.com/danielroe/)",
   "license": "MIT",
@@ -36,6 +36,7 @@
     "dist"
   ],
   "scripts": {
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "build": "pnpm run module:build && pnpm run client:build",
     "module:build": "nuxt-module-build prepare && nuxt-module-build build",
     "client:build": "nuxt prepare client && nuxi generate client",

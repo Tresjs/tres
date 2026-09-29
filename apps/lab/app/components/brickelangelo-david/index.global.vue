@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
 import { useMouse } from '@vueuse/core'
 import gsap from 'gsap'
-
-
 
 const { x, y } = useMouse()
 
@@ -58,7 +56,10 @@ const onDavidReady = () => {
       </div>
     </template>
   </TheLoadingScreen>
-  <div class="cursor fixed w-16 h-16 bg-white bg-opacity-40 rounded-full" :style="{ left: `${x}px`, top: `${y}px` }" />
+  <div class="cursor fixed w-16 h-16 bg-white bg-opacity-40 rounded-full"
+       :style="{ left: `${x}px`,
+                 top: `${y}px` }"
+  ></div>
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera ref="cameraRef" :position="cameraPosition" :look-at="[0, 5, 0]" />
@@ -68,7 +69,8 @@ const onDavidReady = () => {
     <TheScreenshot />
   </TresCanvas>
   <div
-    class="title absolute left-0 bottom-30 w-full text-white z-20 pointer-events-none flex flex-col items-center justify-around">
+    class="title absolute left-0 bottom-30 w-full text-white z-20 pointer-events-none flex flex-col items-center justify-around"
+  >
     <h2 class="text-3xl font-italic">
       Brickelangelo's
     </h2>
@@ -103,7 +105,7 @@ html {
   letter-spacing: 0.25em;
 }
 
-.title>h1:after {
+.title > h1:after {
   content: '';
   position: absolute;
   bottom: 10px;

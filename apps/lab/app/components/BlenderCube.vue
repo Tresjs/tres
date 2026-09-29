@@ -9,7 +9,10 @@ Object.assign(materials.coat, {
 })
 
 Object.assign(materials.paint, {
-  envMapIntensity: 2, roughness: 0.45, metalness: 0.8, color: '#555' 
+  envMapIntensity: 2,
+  roughness: 0.45,
+  metalness: 0.8,
+  color: '#555',
 })
 </script>
 

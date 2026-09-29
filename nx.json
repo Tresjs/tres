@@ -45,11 +45,13 @@
           "@tresjs/core",
           "@tresjs/cientos",
           "@tresjs/post-processing",
-          "@tresjs/nuxt"
+          "@tresjs/nuxt",
+          "@tresjs/rapier"
         ]
       },
       "tooling": {
         "projects": [
+          "@tresjs/cli",
           "@tresjs/eslint-config",
           "@tresjs/leches"
         ]

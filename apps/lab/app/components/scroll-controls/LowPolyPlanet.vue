@@ -12,7 +12,7 @@ const { nodes } = await useGLTF(
   '/models/low-poly-planet/low-poly-planet-v3.glb',
 )
 
-const planet = nodes['Planet'] as TresObject3D
+const planet = nodes.Planet as TresObject3D
 const planetRef = shallowRef()
 const clouds = Object.values(nodes).filter(node => node.name.includes('Cloud'))
 const cloudsRef = shallowRef()
@@ -20,7 +20,7 @@ const cloudsRef = shallowRef()
 const { onLoop } = useRenderLoop()
 
 onLoop(({ delta }) => {
-  if (!planet) return
+  if (!planet) { return }
   planet.rotation.y -= delta * 0.004
   planet.rotation.z -= delta * 0.002
   planet.rotation.x -= delta * 0.005

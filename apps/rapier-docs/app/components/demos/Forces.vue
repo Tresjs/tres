@@ -39,6 +39,11 @@ const windForceCube = () => {
 const uuid = inject(`uuid`)
 
 useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => resetRigidBody(rigidCubeRef.value?.instance),
+  },
   up: {
     label: 'Impulse up',
     type: 'button',

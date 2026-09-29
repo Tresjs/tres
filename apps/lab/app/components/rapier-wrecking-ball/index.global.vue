@@ -9,9 +9,17 @@ import { PCFShadowMap } from 'three'
 
     <Environment preset="city" background quality="4k" />
     <TresDirectionalLight
-      :position="[5, 15, 10]" :intensity="1.5" cast-shadow :shadow-mapSize-width="2048"
-      :shadow-mapSize-height="2048" :shadow-camera-left="-30" :shadow-camera-right="30" :shadow-camera-top="15"
-      :shadow-camera-bottom="-15" :shadow-camera-near="0.1" :shadow-camera-far="80"
+      :position="[5, 15, 10]"
+      :intensity="1.5"
+      cast-shadow
+      :shadow-mapSize-width="2048"
+      :shadow-mapSize-height="2048"
+      :shadow-camera-left="-30"
+      :shadow-camera-right="30"
+      :shadow-camera-top="15"
+      :shadow-camera-bottom="-15"
+      :shadow-camera-near="0.1"
+      :shadow-camera-far="80"
     />
 
     <RapierWreckingBallTheWreckingBall />

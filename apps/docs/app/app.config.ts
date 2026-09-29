@@ -103,6 +103,11 @@ const newLocal = {
       to: 'https://post-processing.tresjs.org/',
       target: '_blank',
     }, {
+      icon: 'i-tres-rapier-alien',
+      label: 'rapier',
+      to: 'https://rapier.tresjs.org/',
+      target: '_blank',
+    }, {
       icon: 'i-lucide-cake',
       label: 'tresleches',
       to: 'https://tresleches.tresjs.org/',

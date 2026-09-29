@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/core",
   "type": "module",
-  "version": "5.8.3",
+  "version": "5.9.1",
   "description": "Declarative ThreeJS using Vue Components",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -41,10 +41,11 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "build": "tsdown",
     "build:analyze": "ANALYZE=true tsdown",
     "test": "vitest",
-    "test:ci": "vitest run",
+    "test:ci": "vitest run --typecheck",
     "test:ui": "vitest --ui --coverage.enabled=true",
     "coverage": "vitest run --coverage",
     "lint": "eslint .",

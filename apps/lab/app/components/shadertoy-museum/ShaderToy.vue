@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import fragmentShader from './shaders/fragment.glsl'
-import type { ShaderToyMuseumState } from './const';
-import { Uniform, Vector2, ShaderMaterial, DoubleSide } from 'three';
+import type { ShaderToyMuseumState } from './const'
+import { DoubleSide, ShaderMaterial, Uniform, Vector2 } from 'three'
 
 const state: ShaderToyMuseumState = inject('state')!
 
 const shaderToyTarget = computed(() => state.shaderToyTargets[state.i])
 
 const material = shallowRef<ShaderMaterial>()
-
 
 const vertexShader = shallowRef(`
 uniform vec2 iResolution;
@@ -51,7 +50,7 @@ watch(shaderToyTarget, (target) => {
     console.log('target', target)
     vertexShader.value = getVertexShader(target.shader)
 
-    if (material.value) material.value.dispose()
+    if (material.value) { material.value.dispose() }
     material.value = new ShaderMaterial({ vertexShader: getVertexShader(target.shader), fragmentShader, uniforms, side: DoubleSide })
   }
 }, { immediate: true })
@@ -62,11 +61,14 @@ onBeforeRender(({ elapsed }) => {
   uniforms.iTime.value = elapsed
 })
 </script>
+
 <template>
-  <TresMesh v-if="shaderToyTarget" :material="material"
-    :position="[shaderToyTarget.target.position.x, shaderToyTarget.target.position.y, shaderToyTarget.target.position.z]"
-    :scale="[shaderToyTarget.target.scale.x, shaderToyTarget.target.scale.y, shaderToyTarget.target.scale.z]"
-    :rotation="[shaderToyTarget.target.rotation.x, shaderToyTarget.target.rotation.y, shaderToyTarget.target.rotation.z]">
+  <TresMesh v-if="shaderToyTarget"
+            :material="material"
+            :position="[shaderToyTarget.target.position.x, shaderToyTarget.target.position.y, shaderToyTarget.target.position.z]"
+            :scale="[shaderToyTarget.target.scale.x, shaderToyTarget.target.scale.y, shaderToyTarget.target.scale.z]"
+            :rotation="[shaderToyTarget.target.rotation.x, shaderToyTarget.target.rotation.y, shaderToyTarget.target.rotation.z]"
+  >
     <TresPlaneGeometry :copy="shaderToyTarget.target.geometry" />
   </TresMesh>
 </template>

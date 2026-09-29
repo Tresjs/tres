@@ -11,7 +11,6 @@ The `<Physics />` component is the main component, provider and source of all ph
 
 ::SceneWrapper
   ::DemosPhysic
-  ::
 ::
 
 ::prose-warning
@@ -36,8 +35,6 @@ import { Physics } from '@tresjs/rapier'
 </template>
 ```
 
-
-
 ## Props
 
 :::field-group
@@ -49,8 +46,16 @@ import { Physics } from '@tresjs/rapier'
   Default: `false` - Enables debug mode.
   ::::
 
-  ::::field{name="timestep" type="number"}
-  Default: `1` - Sets the new simulation timestep in seconds.
+  ::::field{name="pause" type="boolean"}
+  Default: `false` - Pauses the physics simulation when `true`.
+  ::::
+
+  ::::field{name="timeStep" type="number | 'vary'"}
+  Default: `1/60` - Fixed simulation timestep in seconds. Uses an accumulator so physics speed stays consistent across refresh rates. Pass `'vary'` to step once per frame using the render delta instead.
+  ::::
+
+  ::::field{name="timeScale" type="number"}
+  Default: `1` - Scales simulation speed relative to real time (`2` is double speed, `0.5` is half). Values `<= 0` skip stepping; prefer pausing the world to freeze it.
   ::::
 :::
 
@@ -66,7 +71,15 @@ import { Physics } from '@tresjs/rapier'
   ::::
 
   ::::field{name="isPaused" type="Ref<boolean>"}
-  Reactive flag for paused state.
+  Reactive flag to pause the physics simulation.
+  ::::
+
+  ::::field{name="timeStep" type="Ref<number | 'vary'>"}
+  Reactive simulation timestep. Synced from the `timeStep` prop; mutate at runtime via `useRapier`.
+  ::::
+
+  ::::field{name="timeScale" type="Ref<number>"}
+  Reactive simulation speed scale.
   ::::
 
   ::::field{name="rapier" type="ShallowRef<RAPIER>"}

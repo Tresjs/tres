@@ -38,6 +38,7 @@
     "dist"
   ],
   "scripts": {
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "dev": "npx @eslint/config-inspector --config eslint.config.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

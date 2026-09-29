@@ -36,6 +36,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "build": "vite build",
     "build:analyze": "ANALYZE=true vite build",
     "preview": "vite preview",

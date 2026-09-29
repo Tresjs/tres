@@ -19,7 +19,7 @@ const { onBeforeRender } = useLoop()
 
 const planetRef = shallowRef<TresObject>()
 onBeforeRender(({ delta }) => {
-  if (!planetRef.value) return
+  if (!planetRef.value) { return }
   const planet = planetRef.value
   planet.rotation.y += delta * 0.04
   planet.rotation.z += delta * 0.02
@@ -31,7 +31,6 @@ const icosphere = computed(() => nodes.value.Icosphere)
 watch(icosphere, (icosphere: TresObject) => {
   icosphere.geometry.computeBoundingSphere()
 })
-
 </script>
 
 <template>

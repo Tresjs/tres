@@ -16,4 +16,4 @@ const warp = new Audio(warpAudio)
 const click = new Audio(clickAudio)
 const explosion = new Audio(explosionAudio)
 
-export { zap, engine, engine2, bg, warp, click, explosion, mp3 }
+export { bg, click, engine, engine2, explosion, mp3, warp, zap }

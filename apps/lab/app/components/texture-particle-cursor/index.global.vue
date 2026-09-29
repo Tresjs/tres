@@ -11,7 +11,7 @@ useControls('fpsgraph', {
     <TresLeches uuid="texture-particle-cursor-experiment" />
   </ClientOnly>
   <TresCanvas clear-color="#181818">
-    <TresPerspectiveCamera :position="[0,0,18]" />
+    <TresPerspectiveCamera :position="[0, 0, 18]" />
     <!-- TODO: Add experiment scene objects -->
     <OrbitControls />
     <TextureParticleCursorExperiment />

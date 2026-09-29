@@ -61,9 +61,21 @@ onUnmounted(() => {
     </Sphere>
 
     <BlenderCube :position="[0, 2, 0]" @ready="cubeReady = true" />
-    <AccumulativeShadows v-if="enabled" :accumulate="accumulate" :alpha-test="alphaTest" :blend="blend"
-      :color="isOrange ? 'orange' : 'blue'" :color-blend="colorBlend" :frames="frames" :limit="limit" :once="once"
-      :opacity="opacity" :resolution="resolution" :tone-mapped="toneMapped" :scale="scale" />
+    <AccumulativeShadows
+      v-if="enabled"
+      :accumulate="accumulate"
+      :alpha-test="alphaTest"
+      :blend="blend"
+      :color="isOrange ? 'orange' : 'blue'"
+      :color-blend="colorBlend"
+      :frames="frames"
+      :limit="limit"
+      :once="once"
+      :opacity="opacity"
+      :resolution="resolution"
+      :tone-mapped="toneMapped"
+      :scale="scale"
+    />
     <Suspense>
       <Environment preset="city" />
     </Suspense>

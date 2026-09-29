@@ -10,6 +10,21 @@ export const loadersRoutes = [
     component: () => import('@/pages/cientos/loaders/use-gltf/GLTFModelDemo.vue'),
   },
   {
+    path: '/cientos/loaders/gltf-codegen',
+    name: 'GLTFCodegenSlots',
+    component: () => import('@/pages/cientos/loaders/gltf-codegen/index.vue'),
+  },
+  {
+    path: '/cientos/loaders/gltf-animations',
+    name: 'GLTFCodegenAnimations',
+    component: () => import('@/pages/cientos/loaders/gltf-animations/index.vue'),
+  },
+  {
+    path: '/cientos/loaders/gltf-instancing',
+    name: 'GLTFCodegenInstancing',
+    component: () => import('@/pages/cientos/loaders/gltf-instancing/index.vue'),
+  },
+  {
     path: '/cientos/loaders/use-svg',
     name: 'useSVG',
     component: () => import('@/pages/cientos/loaders/use-svg/index.vue'),

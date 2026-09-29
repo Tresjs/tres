@@ -2,18 +2,18 @@
 // random → noise → fbm, all as pure Fn() node functions.
 
 import {
+  add,
+  dot,
   float,
+  floor,
   Fn,
   fract,
-  floor,
-  mix,
-  sin,
-  dot,
-  vec2,
   Loop,
+  mix,
   mul,
-  add,
+  sin,
   sub,
+  vec2,
 } from 'three/tsl'
 
 /**
@@ -70,11 +70,19 @@ export const fbm = Fn(([st, amplitude, frequency, lacunarity, gain, octaves]: [a
 export const flowField = Fn(([p, time]: [any, any]) => {
   const fx = fbm(
     add(p, vec2(0.0, time.mul(0.1))),
-    float(0.6), float(2.0), float(1.8), float(0.5), 6,
+    float(0.6),
+    float(2.0),
+    float(1.8),
+    float(0.5),
+    6,
   )
   const fy = fbm(
     add(p, vec2(time.mul(0.1), 0.0)),
-    float(0.6), float(2.0), float(1.8), float(0.5), 6,
+    float(0.6),
+    float(2.0),
+    float(1.8),
+    float(0.5),
+    6,
   )
   return vec2(fx, fy)
 })

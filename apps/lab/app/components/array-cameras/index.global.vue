@@ -1,5 +1,5 @@
 <script setup>
-import { PerspectiveCamera, Vector4, Vector3 } from 'three'
+import { PerspectiveCamera, Vector3, Vector4 } from 'three'
 import { useWindowSize } from '@vueuse/core'
 
 const { width, height } = useWindowSize()
@@ -56,8 +56,8 @@ const cameras = computed(() => {
   <TresCanvas window-size clear-color="#82DBC5">
     <TresArrayCamera :args="[cameras]" :position="[0, 2, 5]" />
     <ArrayCamerasKnightRigged />
-    <TresAmbientLight :color="0xffffff" :intensity="1" />
-    <TresDirectionalLight :color="0xffffff" :intensity="3" />
+    <TresAmbientLight :color="0xFFFFFF" :intensity="1" />
+    <TresDirectionalLight :color="0xFFFFFF" :intensity="3" />
     <TresHemisphereLight />
     <TresAxesHelper :size="5" />
     <TheScreenshot />

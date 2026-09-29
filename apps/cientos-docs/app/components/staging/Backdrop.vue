@@ -2,7 +2,7 @@
 import { Backdrop, GLTFModel, OrbitControls, useProgress } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import type { Camera } from 'three'
-import { PCFSoftShadowMap, SRGBColorSpace } from 'three'
+import { PCFShadowMap, SRGBColorSpace } from 'three'
 import { ref, watchEffect } from 'vue'
 import { useControls } from '@tresjs/leches'
 
@@ -12,7 +12,7 @@ const gl = {
   clearColor: 'pink',
   shadows: true,
   alpha: false,
-  shadowMapType: PCFSoftShadowMap,
+  shadowMapType: PCFShadowMap,
   outputColorSpace: SRGBColorSpace,
 }
 
