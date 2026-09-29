@@ -52,6 +52,11 @@
   --color-yellow-950: #451003;
 }
 
+.light {
+  /* Repeated so a `.light` scope inside a dark page resets the dark override below */
+  --ui-pattern-dot-fg: color-mix(in oklab, oklch(0.18 0.04 266.75) 5%, transparent);
+}
+
 .dark {
   --ui-line-color: var(--color-gray-800);
   --ui-pattern-dot-fg: color-mix(in oklab, var(--color-gray-200) 5%, transparent);

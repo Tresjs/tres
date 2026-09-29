@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, unref, watch } from 'vue'
-import { useDark } from '@vueuse/core'
+import { computed, inject, ref, unref, watch } from 'vue'
+import { LECHES_DARK_KEY } from '../composables/useIsDark'
 import type { LechesNumberControl } from '../types'
 import { useNumberDrag } from '../composables/useNumberDrag'
 import { clampValue, defaultFormat, getInputMode } from '../utils/format'
@@ -18,7 +18,7 @@ const step = computed(() => props.control.step ?? 0.1)
 const formatter = computed(() => props.control.format ?? defaultFormat(step.value))
 const displayValue = ref(formatter.value(controlValue.value))
 const isFocused = ref(false)
-const isDark = useDark()
+const isDark = inject(LECHES_DARK_KEY, ref(false))
 
 const sliderFilledStyle = computed(() => {
   const colorStart = isDark.value ? '#9ca3af' : '#2d2d2d'
