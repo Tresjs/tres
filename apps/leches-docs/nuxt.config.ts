@@ -74,7 +74,7 @@ export default defineNuxtConfig({
   },
 
   llms: {
-    domain: 'https://tresleches.tresjs.org/',
+    domain: 'https://leches.tresjs.org',
     title: 'Tres Leches',
     description: 'Tasty, reactive GUI controls for Vue.',
     full: {
