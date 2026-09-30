@@ -38,6 +38,19 @@
   --color-teal-900: #1b463f;
   --color-teal-950: #0a2925;
 
+  /* Accent palette, built around #DFAB40 at 500 */
+  --color-leche-50: #fcf8ec;
+  --color-leche-100: #f8edcf;
+  --color-leche-200: #f1d99c;
+  --color-leche-300: #e9c46a;
+  --color-leche-400: #e4b752;
+  --color-leche-500: #dfab40;
+  --color-leche-600: #c48d2c;
+  --color-leche-700: #a26d24;
+  --color-leche-800: #845623;
+  --color-leche-900: #6d4720;
+  --color-leche-950: #3e250e;
+
   /* Yellow/Brown Palette */
   --color-yellow-50: #fff8eb;
   --color-yellow-100: #feeac7;
@@ -58,6 +71,8 @@
 }
 
 .dark {
+  /* Nuxt UI uses shade 400 in dark mode; use 500 so the accent is #DFAB40 in both themes */
+  --ui-primary: var(--ui-color-primary-500);
   --ui-line-color: var(--color-gray-800);
   --ui-pattern-dot-fg: color-mix(in oklab, var(--color-gray-200) 5%, transparent);
 }
