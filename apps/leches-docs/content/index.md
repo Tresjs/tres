@@ -5,6 +5,9 @@ seo:
 ---
 
 ::u-page-hero
+---
+orientation: horizontal
+---
 
 #title
 
@@ -35,6 +38,10 @@ Create reactive controls from plain values, refs, and configuration objects. Tre
   variant: subtle
   ---
   View on GitHub
+  :::
+
+#default
+  :::hero-demo
   :::
 ::
 
