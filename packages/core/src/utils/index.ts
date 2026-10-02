@@ -70,6 +70,24 @@ export function resolve(obj: Record<string, any>, key: string) {
   }
 }
 
+const defaultInstances = new WeakMap<object, Record<string, unknown> | undefined>()
+
+/** Shared blank instance of `obj`'s class to read defaults from, `undefined` if it can't be built without args */
+export function getDefaultInstance(obj: object) {
+  const Ctor = obj.constructor as new () => Record<string, unknown>
+  if (!defaultInstances.has(Ctor)) {
+    let instance: Record<string, unknown> | undefined
+    try {
+      instance = new Ctor()
+    }
+    catch {
+      instance = undefined
+    }
+    defaultInstances.set(Ctor, instance)
+  }
+  return defaultInstances.get(Ctor)
+}
+
 function joinAsCamelCase(...strings: string[]): string {
   return strings.map((s, i) => i === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1)).join('')
 }
