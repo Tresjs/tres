@@ -158,9 +158,13 @@ export function invalidateInstance(instance: TresObject) {
 
   if (!ctx?.renderer) { return }
 
-  if (ctx.renderer.canBeInvalidated.value) {
-    ctx.renderer.invalidate()
-  }
+  // Patching runs inside Vue's render effect. Reading frame state there would
+  // subscribe it to frame completion and continuously invalidate an idle scene.
+  queueMicrotask(() => {
+    if (ctx.renderer.canBeInvalidated.value) {
+      ctx.renderer.invalidate()
+    }
+  })
 }
 
 export function setPrimitiveObject(
