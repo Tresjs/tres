@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { isRef, ref } from 'vue'
+import { computed, isRef, ref } from 'vue'
 import type { LechesControlUnion } from '../types'
 import ControlInput from './ControlInput.vue'
 
-defineProps<{
+const props = withDefaults(defineProps<{
   controls: LechesControlUnion[]
   label: string | number
-}>()
+  forceOpen?: boolean
+}>(), {
+  forceOpen: false,
+})
 
 const emit = defineEmits(['open'])
 
@@ -20,8 +23,10 @@ function onChange(value: string, control: LechesControlUnion) {
 }
 
 const isOpen = ref(false)
+const isExpanded = computed(() => isOpen.value || props.forceOpen)
 
 const toggle = () => {
+  if (props.forceOpen) { return }
   isOpen.value = !isOpen.value
   emit('open', isOpen.value)
 }
@@ -46,16 +51,17 @@ const toggle = () => {
         tl-relative
         tl-z-10
       "
-      style="padding: 0 var(--tl-h-padding * 2); height: var(--tl-unit-size); line-height: var(--tl-unit-size); font-size: var(--tl-font-size);"
-      :aria-expanded="isOpen"
+      style="padding: 0 var(--tl-h-padding); height: var(--tl-unit-size); line-height: var(--tl-unit-size); font-size: var(--tl-font-size);"
+      :aria-expanded="isExpanded"
       aria-haspopup="true"
       role="button"
+      :disabled="forceOpen"
       :data-folder="label"
       tabindex="0"
       @click="toggle"
     >
       <span>{{ label }}</span>
-      <i :class="isOpen ? 'i-ic:baseline-keyboard-arrow-up' : 'i-ic:baseline-keyboard-arrow-down'"></i>
+      <i :class="isExpanded ? 'i-ic:baseline-keyboard-arrow-up' : 'i-ic:baseline-keyboard-arrow-down'"></i>
     </button>
 
     <div class="tl-relative tl-overflow-hidden">
@@ -69,7 +75,7 @@ const toggle = () => {
         leave-to-class="tl-origin-top tl-scale-y-0 tl-opacity-0"
       >
         <div
-          v-show="isOpen"
+          v-show="isExpanded"
           class="tl-bg-white dark:tl-bg-dark-300 tl-rounded-b"
           style="padding-top: var(--tl-v-padding); padding-bottom: var(--tl-v-padding);"
           role="menu"
