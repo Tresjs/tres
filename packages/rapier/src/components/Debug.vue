@@ -12,8 +12,6 @@ const { onBeforeRender } = useLoop()
 const lineSegmentsRef = ref<LineSegments | null>(null)
 
 onBeforeRender(() => {
-  // No boundingSphere check: three sets it once on the first render (empty geometry, radius -1)
-  // and never updates it, so it is not a readiness signal. Culling is off in the template instead.
   if (!world?.value || !lineSegmentsRef.value?.geometry) { return }
 
   const buffers = world.value.debugRender()
@@ -32,9 +30,10 @@ onBeforeRender(() => {
       frustum-culled=false: the bounding sphere goes stale as the positions change every frame.
       White base color: vertex colors multiply it, so any other color darkens Rapier's palette.
       depth-test=false + high render order: draw colliders on top of the meshes that contain them.
+      depth-write=false: an overlay must not cut holes in transparent meshes drawn after it.
     -->
     <TresLineSegments ref="lineSegmentsRef" :frustum-culled="false" :render-order="999">
-      <TresLineBasicMaterial color="#ffffff" vertex-colors :depth-test="false" />
+      <TresLineBasicMaterial color="#ffffff" vertex-colors :depth-test="false" :depth-write="false" />
       <TresBufferGeometry />
     </TresLineSegments>
   </TresGroup>
