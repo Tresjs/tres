@@ -53,6 +53,7 @@ export default defineConfig({
             // aliases by insertion order and the broader one would otherwise
             // rewrite the subpath into a non-existent file.
             '@tresjs/cientos/styles.css': resolve(__dirname, '../../packages/cientos/src/core/abstractions/Decal/DebugUI/styles.css'),
+            '@tresjs/core/webgpu': resolve(__dirname, '../../packages/core/src/webgpu/index.ts'),
             '@tresjs/core': resolve(__dirname, '../../packages/core/src/index.ts'),
             '@tresjs/cientos': resolve(__dirname, '../../packages/cientos/src/index.ts'),
             '@tresjs/post-processing': resolve(__dirname, '../../packages/postprocessing/src/index.ts'),

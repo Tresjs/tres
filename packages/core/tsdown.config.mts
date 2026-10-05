@@ -18,6 +18,8 @@ export default defineConfig([
   {
     entry: {
       tres: './src/index.ts',
+      // Same config as the root entry, so rolldown puts the catalogue and context in one shared chunk.
+      webgpu: './src/webgpu/index.ts',
     },
     platform: 'neutral',
     fromVite: true,

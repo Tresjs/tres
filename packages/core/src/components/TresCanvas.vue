@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ACESFilmicToneMapping } from 'three'
 import { ref, shallowRef } from 'vue'
 import { version } from '../../package.json' with { type: 'json' }
 import type { TresContext } from '../composables'
 import type { ContextEmits, ContextProps } from './Context.vue'
 import Context from './Context.vue'
+import { tresCanvasDefaults } from './tresCanvasDefaults'
 
 export type TresCanvasEmits = ContextEmits
 export type TresCanvasProps = ContextProps
@@ -14,27 +14,7 @@ export interface TresCanvasInstance {
   dispose: () => void
 }
 
-const props = withDefaults(defineProps<TresCanvasProps>(), {
-  alpha: undefined,
-  depth: undefined,
-  shadows: undefined,
-  stencil: undefined,
-  antialias: true,
-  windowSize: undefined,
-  useLegacyLights: undefined,
-  preserveDrawingBuffer: undefined,
-  logarithmicDepthBuffer: undefined,
-  failIfMajorPerformanceCaveat: undefined,
-  renderMode: 'always',
-  clearColor: '#000000',
-  clearAlpha: 1,
-  enableProvideBridge: true, // We should probably move to options in next major version
-  toneMapping: ACESFilmicToneMapping,
-  shadowMapType: undefined,
-  customRendererOptions: () => ({
-    primitivePrefix: '',
-  }),
-})
+const props = withDefaults(defineProps<TresCanvasProps>(), tresCanvasDefaults)
 
 const emit = defineEmits<TresCanvasEmits>()
 
