@@ -49,4 +49,9 @@ export const issuesRoutes = [
     name: '#696: vector prop types',
     component: () => import('@/pages/core/issues/696/index.vue'),
   },
+  {
+    path: '/issues/1513',
+    name: '#1513: rapier debug lines visibility',
+    component: () => import('@/pages/core/issues/1513/index.vue'),
+  },
 ]
