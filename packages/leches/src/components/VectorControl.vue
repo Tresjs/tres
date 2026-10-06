@@ -122,7 +122,7 @@ function onKeyDown(e: KeyboardEvent, index: number) {
       <div
         v-for="(_subcontrol, $index) in vector"
         :key="label + $index"
-        class="leches-num tl-relative tl-flex tl-items-center tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200"
+        class="leches-num tl-relative tl-flex tl-items-center tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-400 tl-rounded tl-border-none tl-outline-none tl-focus:tl-border-gray-200 tl-focus:tl-ring tl-focus:tl-ring-gray-200"
         :class="{
           'tl-w-2/5': focused === $index,
           'tl-w-1/3': isVector3(controlValue),

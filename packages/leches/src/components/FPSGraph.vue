@@ -86,7 +86,7 @@ const isDark = inject(LECHES_DARK_KEY, ref(false))
         tl-text-right
         tl-text-gray-400
         tl-bg-gray-100
-        dark:tl-bg-dark-300
+        dark:tl-bg-dark-400
         dark:tl-text-gray-400
         tl-outline-none
         tl-border-none
@@ -101,7 +101,7 @@ const isDark = inject(LECHES_DARK_KEY, ref(false))
         :width="width"
         :height="height"
         xmlns="http://www.w3.org/2000/svg"
-        class="tl-bg-gray-100 dark:tl-bg-dark-300"
+        class="tl-bg-gray-100 dark:tl-bg-dark-400"
       >
         <polyline
           :points="points"
