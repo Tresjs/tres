@@ -18,9 +18,9 @@ const gl = {
     <TresPerspectiveCamera :position="[5.3, 2.45, 9.3]" :look-at="[0, 0, 0]" />
     <OrbitControls />
     <FBXModel
-      path="https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx"
+      path="https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/kenney-suv/suv.fbx"
       cast-shadow
-      :scale="0.01"
+      :scale="0.02"
       :position="[0, -1.6, 0]"
       :rotation-y="-Math.PI * 0.5"
     />

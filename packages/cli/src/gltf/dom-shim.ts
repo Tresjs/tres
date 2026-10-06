@@ -5,7 +5,7 @@
  * The `src` setter MUST actually fire `load`, otherwise texture-bearing models
  * hang forever inside `parse()` with no error.
  */
-import type { TransferListItem } from 'node:worker_threads'
+import type { Transferable } from 'node:worker_threads'
 import { Worker as NodeWorker } from 'node:worker_threads'
 
 let installed = false
@@ -23,7 +23,7 @@ class WorkerShim {
   onerror: ((error: unknown) => void) | null = null
 
   private worker?: NodeWorker
-  private queue: Array<[unknown, TransferListItem[] | undefined]> = []
+  private queue: Array<[unknown, Transferable[] | undefined]> = []
   private ready: Promise<void>
 
   constructor(url: string) {
@@ -51,7 +51,7 @@ class WorkerShim {
     })
   }
 
-  postMessage(message: unknown, transfer?: TransferListItem[]): void {
+  postMessage(message: unknown, transfer?: Transferable[]): void {
     if (this.worker) {
       this.worker.postMessage(message, transfer)
     }

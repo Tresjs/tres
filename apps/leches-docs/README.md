@@ -1,6 +1,6 @@
 # Tres Leches docs
 
-Documentation site for [`@tresjs/leches`](../../packages/leches), the tweak-panel GUI for Vue. Live at https://tresleches.tresjs.org.
+Documentation site for [`@tresjs/leches`](../../packages/leches), the tweak-panel GUI for Vue. Live at https://leches.tresjs.org.
 
 Built with Nuxt 4, Nuxt UI and Nuxt Content. The pages use live demos of the local `@tresjs/leches` workspace package, so changes to the package show up in the docs during development.
 

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Docs site for `@tresjs/leches`, built with Nuxt 4, Nuxt UI and Nuxt Content. Deployed to https://tresleches.tresjs.org. The Nx project name is `tresleches-docs` (from `package.json`), not the folder name.
+Docs site for `@tresjs/leches`, built with Nuxt 4, Nuxt UI and Nuxt Content. Deployed to https://leches.tresjs.org. The Nx project name is `tresleches-docs` (from `package.json`), not the folder name.
 
 ## Vocabulary
 
