@@ -69,7 +69,7 @@ const _scaleColliderArgs = (
  * @see https://rapier.rs/docs/user_guides/javascript/colliders
  */
 export const createColliderDesc = (props: CreateColliderDescProps) => {
-  const { shape, object, args, position, rotation, rigidBody, scale } = props
+  const { shape, object, args, position, rotation, scale } = props
   const { halfWidth, halfHeight, halfDepth }
     = getColliderSizingsFromObject(object)
   const colliderDescMethod = ColliderDesc[shape || 'cuboid']
@@ -117,15 +117,15 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
     colliderDesc = getSafeColliderDesc()
   }
 
+  // The desc transform is an offset from the body, so the fallbacks must be local too: the
+  // shape object's place inside the body, or none. The body's own world pose would apply twice.
   const newPosition: Vector3
     = (position && parsePosition(position))
       ?? (object?.position && parsePosition(object?.position))
-      ?? rigidBody.translation()
       ?? VECTOR_ZERO
   const newRotation: Quaternion
     = (rotation && parseRotation(rotation))
       ?? (object?.quaternion && parseRotation(object?.quaternion))
-      ?? rigidBody.rotation()
       ?? QUATERNION_ZERO.clone()
 
   colliderDesc
