@@ -20,7 +20,6 @@
     "@vueuse/nuxt": "catalog:",
     "better-sqlite3": "catalog:",
     "mdast-util-to-string": "catalog:",
-    "n8ao": "catalog:",
     "three": "catalog:three",
     "three-custom-shader-material": "catalog:three",
     "vue": "catalog:vue"

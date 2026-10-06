@@ -63,6 +63,8 @@ import TexturePmndrs from './TexturePmndrs.vue'
 import type { TexturePmndrsProps } from './TexturePmndrs.vue'
 import ASCIIPmndrs from './ASCIIPmndrs.vue'
 import type { ASCIIPmndrsProps } from './ASCIIPmndrs.vue'
+import N8AOPmndrs from './N8AOPmndrs.vue'
+import type { N8AOPmndrsProps } from './N8AOPmndrs.vue'
 
 export {
   BloomPmndrs,
@@ -97,6 +99,7 @@ export {
   FXAAPmndrs,
   TexturePmndrs,
   ASCIIPmndrs,
+  N8AOPmndrs,
   BloomPmndrsProps,
   DepthOfFieldPmndrsProps,
   EffectComposerPmndrsProps,
@@ -128,4 +131,5 @@ export {
   FXAAPmndrsProps,
   TexturePmndrsProps,
   ASCIIPmndrsProps,
+  N8AOPmndrsProps,
 }
