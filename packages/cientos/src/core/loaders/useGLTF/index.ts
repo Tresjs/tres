@@ -37,16 +37,33 @@ export interface UseGLTFOptions {
  * const { state: model } = useGLTF('/path/to/model.glb', { draco: true })
  * ```
  *
+ * The shape of `nodes` and `materials` is only known once the model is loaded, so both
+ * default to a loose record. Pass the model's own shape to get them typed — `tres gltf`
+ * generates those interfaces for you:
+ *
+ * @example
+ * ```ts
+ * interface ModelNodes { Body: SkinnedMesh }
+ * interface ModelMaterials { Skin: MeshStandardMaterial }
+ * const { nodes, materials } = useGLTF<ModelNodes, ModelMaterials>('/path/to/model.glb')
+ * ```
+ *
  * @param {MaybeRef<string>} path - Path to the GLTF model file
  * @param {UseGLTFOptions} options - Options for loading the model
  * @returns {{ state: GLTF, isLoading: boolean, execute: () => Promise<void> }} Object containing the model state, loading state and reload function
  */
-export function useGLTF(path: MaybeRef<string>, options?: UseGLTFOptions): {
+// Deliberately unconstrained: `Record<string, Object3D>` would reject an `interface`,
+// which has no implicit index signature, and a lint --fix that turns a caller's alias
+// into an interface would then break their build.
+export function useGLTF<
+  TNodes = Record<string, any>,
+  TMaterials = Record<string, any>,
+>(path: MaybeRef<string>, options?: UseGLTFOptions): {
   state: Ref<GLTF | null>
   isLoading: Ref<boolean>
   execute: (delay?: number, ...args: any[]) => Promise<GLTF>
-  nodes: ComputedRef<Record<string, any>>
-  materials: ComputedRef<Record<string, any>>
+  nodes: ComputedRef<TNodes>
+  materials: ComputedRef<TMaterials>
 } {
   const useLoaderOptions: TresLoaderOptions<GLTF, true> = {
 
@@ -69,12 +86,14 @@ export function useGLTF(path: MaybeRef<string>, options?: UseGLTFOptions): {
     })
   }
 
+  // `buildGraph` keys by the names it finds at runtime, which the caller may have
+  // declared up front; it cannot prove the model matches, so the assertion is theirs.
   const nodes = computed(() => {
-    return result.state.value?.scene ? buildGraph(result.state.value?.scene as unknown as TresObject).nodes : {}
+    return (result.state.value?.scene ? buildGraph(result.state.value?.scene as unknown as TresObject).nodes : {}) as TNodes
   })
 
   const materials = computed(() => {
-    return result.state.value?.scene ? buildGraph(result.state.value?.scene as unknown as TresObject).materials : {}
+    return (result.state.value?.scene ? buildGraph(result.state.value?.scene as unknown as TresObject).materials : {}) as TMaterials
   })
 
   return {

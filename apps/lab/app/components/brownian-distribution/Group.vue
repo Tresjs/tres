@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useDark } from '@vueuse/core'
-import { MathUtils, Vector3, Euler, BoxGeometry, CylinderGeometry, SphereGeometry, MeshToonMaterial  } from 'three'
+import { BoxGeometry, CylinderGeometry, Euler, MathUtils, MeshToonMaterial, SphereGeometry, Vector3 } from 'three'
 
 import { colors } from './constants'
+
 const { lerp } = MathUtils
 const COUNT = 2000
 

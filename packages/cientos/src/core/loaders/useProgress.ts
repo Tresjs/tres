@@ -15,7 +15,10 @@ export function useProgress(): Promise<{
   const items: Ref<string[]> = ref([])
 
   return new Promise((resolve) => {
-    DefaultLoadingManager.onStart = () => {
+    DefaultLoadingManager.onStart = (_url, itemsLoaded) => {
+      // Manager counters accumulate for its whole lifetime; baseline each
+      // batch on the items already loaded so progress starts at 0%
+      saveLastTotalLoaded = itemsLoaded
       hasFinishLoading.value = false
     }
 

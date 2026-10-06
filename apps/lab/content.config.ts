@@ -1,4 +1,4 @@
-import { defineContentConfig, defineCollection, z } from '@nuxt/content'
+import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
 export default defineContentConfig({
   collections: {
@@ -19,7 +19,7 @@ export default defineContentConfig({
       type: 'page',
       source: {
         include: 'experiments/**/*.md',
-        exclude: ['experiments/CLAUDE.md']
+        exclude: ['experiments/CLAUDE.md'],
       },
       schema: z.object({
         title: z.string(),
@@ -30,6 +30,8 @@ export default defineContentConfig({
         date: z.string(),
         lastUpdated: z.string(),
         featured: z.boolean().optional(),
+        // false = the scene only works in landscape; the loading screen asks phones to rotate
+        responsive: z.boolean().optional(),
       }),
     }),
   },

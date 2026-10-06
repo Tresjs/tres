@@ -1,4 +1,4 @@
-import { useFps, useMemory, useRafFn } from '@vueuse/core'
+import { useFps, useIntervalFn, useMemory, useRafFn } from '@vueuse/core'
 import { boundedPush, calculateMemoryUsage } from '../utils/perf'
 import type { TresContext } from '../composables'
 import type { TresObject } from '../types'
@@ -42,7 +42,7 @@ export function setupTresDevtools(ctx: TresContext) {
   // Performance
   const updateInterval = 100 // Update interval in milliseconds
   const fps = useFps({ every: updateInterval })
-  const { isSupported, memory } = useMemory({ interval: updateInterval })
+  const { isSupported, memory } = useMemory({ scheduler: cb => useIntervalFn(cb, updateInterval) })
   const maxFrames = 160
   let lastUpdateTime = performance.now()
 

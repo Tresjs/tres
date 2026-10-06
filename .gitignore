@@ -30,7 +30,13 @@ coverage
 
 .env
 .env.local
-.claude
+# Personal agent notes stay local; only the shared Claude Code config and skills pointer are tracked.
+# Patterns are root-anchored so nested .claude folders in apps and packages stay fully ignored.
+/.claude/*
+!/.claude/settings.json
+!/.claude/skills
+/*/.claude
+/*/*/.claude
 .worktrees
 
 .nx/*

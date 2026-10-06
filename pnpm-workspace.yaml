@@ -11,63 +11,63 @@ minimumReleaseAge: 7200 # 5 days
 shamefullyHoist: true
 
 overrides:
-  ipx: 3.0.2
   ws: ^8.21.0
   tmp: ^0.2.7 # GHSA-7c78-jf6q-g5cm: path traversal via non-string template in <=0.2.6
+  'undici@7': ^7.29.1 # GHSA-3wwx-pv8p-q78v: DoS in permessage-deflate; miniflare pins 7.29.0
 
 catalogs:
   build:
     rollup-plugin-analyzer: ^4.0.0
-    rollup-plugin-visualizer: ^7.0.1
-    tsdown: 0.18.3
+    rollup-plugin-visualizer: ^7.1.1
+    '@tsdown/css': 0.23.0
+    tsdown: 0.23.0
   docs:
     vitepress: 1.6.4
   eslint:
-    '@typescript-eslint/eslint-plugin': ^8.61.0
-    '@typescript-eslint/parser': ^8.61.0
-    eslint: ^10.4.1
-    eslint-plugin-vue: ^10.9.2
+    '@typescript-eslint/eslint-plugin': ^8.69.0
+    '@typescript-eslint/parser': ^8.69.0
+    eslint: ^10.9.1
+    eslint-plugin-vue: ^10.10.0
   node:
-    '@types/node': ^25.9.3
+    '@types/node': ^26.4.1
   nuxt:
-    '@nuxt/content': ^3.14.0
-    '@nuxt/image': ^2.0.0
-    '@nuxt/ui': ^4.8.2
-    nuxt: 4.1.3
+    '@nuxt/content': ^3.16.0
+    '@nuxt/kit': ^4.5.2
+    '@nuxt/image': ^2.1.0
+    '@nuxt/ui': ^4.11.0
+    nuxt: 4.5.2
   testing:
-    '@vitest/coverage-v8': ^4.1.8
-    '@vitest/ui': ^4.1.8
-    '@vue/test-utils': ^2.4.11
-    jsdom: ^29.1.1
-    vitest: 4.1.8
+    '@vitest/coverage-v8': ^5.0.1
+    '@vitest/ui': ^5.0.1
+    '@vue/test-utils': ^2.5.0
+    jsdom: ^30.1.1
+    vitest: 5.0.1
   three:
-    '@types/three': ^0.184.1
-    three: ^0.184.0
+    '@types/three': ^0.186.0
+    three: ^0.186.0
     three-custom-shader-material: ^6.4.0
     three-stdlib: ^2.36.1
   typescript:
     typescript: ^6.0.3
-    vue-tsc: ^3.3.4
+    vue-tsc: ^3.3.11
   utils:
-    '@vueuse/core': ^14.3.0
+    '@vueuse/core': ^15.0.0
     gsap: ^3.15.0
     kolorist: ^1.8.0
     pathe: ^2.0.3
-    unocss: ^66.7.0
-    unplugin-auto-import: 20.3.0
+    unocss: ^66.9.2
+    unplugin-auto-import: ^21.1.0
   vite:
-    '@vitejs/plugin-vue': ^6.0.7
-    vite: ^8.0.16
+    '@vitejs/plugin-vue': ^6.0.8
+    vite: ^8.2.2
     vite-plugin-banner: ^0.8.1
-    vite-plugin-dts: 4.5.4
-    vite-plugin-glsl: 1.5.5
-    vite-plugin-qrcode: 0.3.0
-    vite-plugin-vue-devtools: 8.0.5
+    vite-plugin-dts: ^5.1.1
+    vite-plugin-glsl: ^1.6.1
+    vite-plugin-qrcode: ^0.4.1
+    vite-plugin-vue-devtools: 8.2.1
   vue:
-    vue: ^3.5.38
-    vue-router: ^5.1.0
-  conflicts_build_h0_22_2:
-    tsdown: ^0.22.2
+    vue: ^3.5.42
+    vue-router: ^5.3.1
 
 allowBuilds:
   '@parcel/watcher': false
@@ -76,54 +76,72 @@ allowBuilds:
   esbuild: false
   geckodriver: false
   nx: false
-  sharp: false
+  sharp: true
   unrs-resolver: false
   vue-demi: false
   workerd: false
 catalog:
-  '@antfu/eslint-config': ~9.0.0
-  '@anthropic-ai/sdk': ^0.104.1
-  '@cloudflare/workers-types': ^4.20260612.1
-  '@dimforge/rapier3d-compat': ^0.19.3
+  '@antfu/eslint-config': ~9.5.1
+  '@anthropic-ai/sdk': ^0.128.0
+  '@cloudflare/workers-types': ^5.20260924.1
+  '@dimforge/rapier3d-compat': ^0.20.0
+  '@eslint/config-inspector': ^3.5.0
+  '@gltf-transform/core': ^4.5.0
+  '@gltf-transform/extensions': ^4.5.0
+  '@gltf-transform/functions': ^4.5.0
+  '@iconify-json/carbon': ^1.2.26
+  '@iconify-json/game-icons': ^1.2.4
   '@iconify-json/ic': ^1.2.4
-  '@iconify-json/lucide': ^1.2.111
-  '@iconify-json/simple-icons': ^1.2.86
-  '@iconify-json/vscode-icons': ^1.2.56
-  '@iconify/json': ^2.2.485
-  '@nuxt/icon': ^2.2.3
-  '@nuxt/scripts': 0.12.1
-  '@octokit/auth-app': ^8.2.0
+  '@iconify-json/logos': ^1.2.13
+  '@iconify-json/lucide': ^1.2.129
+  '@iconify-json/simple-icons': ^1.2.94
+  '@iconify-json/vscode-icons': ^1.2.76
+  '@iconify/json': ^2.2.525
+  '@nuxt/eslint': ^1.17.0
+  '@nuxt/fonts': ^0.14.0
+  '@nuxt/icon': ^2.5.1
+  '@nuxt/scripts': ^1.3.9
+  '@nuxtjs/color-mode': ^4.0.1
+  '@octokit/auth-app': ^8.3.1
+  '@pmndrs/glyph': ^0.1.0
   '@pmndrs/pointer-events': ^6.6.30
   '@tweakpane/core': ^2.0.5
   '@tweakpane/plugin-essentials': ^0.2.1
-  '@unhead/vue': ^3.1.4
-  '@unocss/core': 66.3.2
-  '@vitest/browser': ^4.1.8
-  '@vue/devtools-api': ^8.1.2
-  '@vueuse/components': ^14.3.0
+  '@unhead/vue': ^3.4.0
+  '@unocss/core': ^66.9.2
+  '@vitest/browser': ^5.0.1
+  '@vue/devtools-api': ^8.2.1
+  '@vueuse/components': ^15.0.0
   '@vueuse/motion': ^3.0.3
-  '@vueuse/shared': ^14.3.0
-  better-sqlite3: ^12.10.0
+  '@vueuse/nuxt': ^15.0.0
+  '@vueuse/shared': ^15.0.0
+  better-sqlite3: ^13.0.3
   camera-controls: ^3.1.2
-  eslint-flat-config-viewer: ^0.1.20
+  commander: ^15.0.0
+  draco3dgltf: ^1.5.7
   eslint-plugin-format: ^2.0.1
   eslint-plugin-vitest-globals: ^1.6.1
-  hono: ^4.12.25
-  nuxt-llms: 0.1.3
+  hono: ^4.13.5
+  mdast-util-to-string: ^4.0.0
+  meshoptimizer: ^1.2.0
+  n8ao: ^2.0.1
+  nuxt-llms: ^0.2.0
+  nuxt-svgo: ^5.3.0
   octokit: ^5.0.5
-  postprocessing: ^6.39.1
-  radashi: ^12.9.1
+  postprocessing: ^6.39.5
+  radashi: ^12.9.6
   rollup-plugin-copy: ^3.5.0
-  stats-gl: ^4.1.0
+  sharp: ^0.35.4
+  stats-gl: ^4.2.3
   stats.js: ^0.17.0
-  tailwindcss: ^4.3.0
-  three-mesh-bvh: ^0.9.10
+  tailwindcss: ^4.3.3
+  three-mesh-bvh: ^0.9.14
   tweakpane: ^4.0.5
   unocss-preset-scrollbar: ^4.0.0
   unplugin-vue-components: ^32.1.0
-  vite-plugin-css-injected-by-js: ^5.0.1
-  vite-plugin-inspect: ^11.4.1
-  vite-svg-loader: ^5.1.1
+  vite-plugin-css-injected-by-js: ^5.0.2
+  vite-plugin-inspect: ^12.0.2
+  vite-svg-loader: ^5.1.3
   vue-demi: ^0.14.10
-  webdriverio: ^9.28.0
-  wrangler: ^4.100.0
+  webdriverio: ^9.31.5
+  wrangler: ^4.129.0

@@ -18,14 +18,12 @@ watch(animations, (animations) => {
 const { actions } = useAnimations(animations, rig)
 const currentAction = ref<AnimationAction>()
 
-
 watch(actions, (actions) => {
   if (Object.keys(actions || {}).length === 0) { return }
 
   currentAction.value = actions.Wave
   currentAction.value?.reset().play()
 }, { immediate: true })
-
 </script>
 
 <template>

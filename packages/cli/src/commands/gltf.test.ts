@@ -1,0 +1,404 @@
+import type { GLTFIR } from '../gltf/ir'
+import { Buffer } from 'node:buffer'
+import { mkdir, mkdtemp, readFile, rm, stat, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
+import { clipOnlyGLB, collidingNamesGLB, nestedGLB, repeatedGeometryGLB, simpleGLB, skinnedNoClipsGLB } from '../gltf/__fixtures__/scenes'
+import gltf from './gltf'
+
+describe('gltf command', () => {
+  let dir: string
+  const stdout = vi.spyOn(process.stdout, 'write').mockImplementation(() => true)
+  const stderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => true)
+
+  beforeAll(async () => {
+    dir = await mkdtemp(join(tmpdir(), 'tres-cli-'))
+  })
+
+  afterEach(() => {
+    stdout.mockClear()
+    stderr.mockClear()
+  })
+
+  afterAll(async () => {
+    await rm(dir, { recursive: true, force: true })
+    vi.restoreAllMocks()
+  })
+
+  async function fixture(name: string, glb: Promise<ArrayBuffer>, subdir = ''): Promise<string> {
+    const target = join(dir, subdir)
+    await mkdir(target, { recursive: true })
+    const path = join(target, name)
+    await writeFile(path, Buffer.from(await glb))
+    return path
+  }
+
+  /** stdout carries the payload alone: --json, --console code, nothing decorated. */
+  const output = () => stdout.mock.calls.flat().join('')
+  /** stderr carries the progress: header, phases, warnings, the file list. */
+  const chrome = () => stderr.mock.calls.flat().join('')
+
+  it('writes a .gen.vue next to the model', async () => {
+    const path = await fixture('robot.glb', nestedGLB())
+
+    await gltf.call({} as any, path, {})
+
+    const generated = await readFile(join(dir, 'robot.gen.vue'), 'utf-8')
+    expect(generated).toContain('<template v-if="!isLoading">')
+  })
+
+  it('never writes into public/, which the bundler copies but never compiles', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'app/public/models')
+    await writeFile(join(dir, 'app', 'package.json'), '{}')
+    await mkdir(join(dir, 'app', 'src'), { recursive: true })
+
+    await gltf.call({} as any, path, {})
+
+    await expect(readFile(join(dir, 'app/src/models/Robot.gen.vue'), 'utf-8')).resolves.toContain('useGLTF')
+    await expect(readFile(join(dir, 'app/public/models/Robot.gen.vue'), 'utf-8')).rejects.toThrow()
+  })
+
+  it('says where it put a component it had to relocate', async () => {
+    const path = await fixture('rover.glb', nestedGLB(), 'moved/public/models')
+    await writeFile(join(dir, 'moved', 'package.json'), '{}')
+    await mkdir(join(dir, 'moved', 'src'), { recursive: true })
+
+    await gltf.call({} as any, path, {})
+
+    expect(chrome()).toContain('src/models')
+  })
+
+  it('uses app/ when the project keeps its source there', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'nuxtapp/public/models')
+    await writeFile(join(dir, 'nuxtapp', 'package.json'), '{}')
+    await writeFile(join(dir, 'nuxtapp', 'nuxt.config.ts'), 'export default {}')
+    await mkdir(join(dir, 'nuxtapp', 'app'), { recursive: true })
+
+    await gltf.call({} as any, path, {})
+
+    await expect(readFile(join(dir, 'nuxtapp/app/models/Robot.gen.vue'), 'utf-8')).resolves.toContain('useGLTF')
+  })
+
+  it('falls back to models/ at the project root when there is no src or app', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'flat/public/models')
+    await writeFile(join(dir, 'flat', 'package.json'), '{}')
+
+    await gltf.call({} as any, path, {})
+
+    await expect(readFile(join(dir, 'flat/models/Robot.gen.vue'), 'utf-8')).resolves.toContain('useGLTF')
+  })
+
+  it('derives the component filename from the model, in PascalCase', async () => {
+    const path = await fixture('toy-rocket.glb', nestedGLB())
+
+    await gltf.call({} as any, path, {})
+
+    await expect(readFile(join(dir, 'ToyRocket.gen.vue'), 'utf-8')).resolves.toContain('<template>')
+  })
+
+  it('serves a model under public/ from the public root', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'served/public/models')
+
+    await gltf.call({} as any, path, {})
+
+    const generated = await readFile(join(dir, 'served/models/Robot.gen.vue'), 'utf-8')
+    expect(generated).toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/robot.glb')`)
+  })
+
+  it('warns when it cannot infer the url', async () => {
+    const path = await fixture('loose.glb', nestedGLB(), 'nowhere')
+
+    await gltf.call({} as any, path, {})
+
+    expect(chrome()).toContain('--url')
+  })
+
+  it('honours an explicit --url', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'explicit')
+
+    await gltf.call({} as any, path, { url: '/assets/robot.glb' })
+
+    const generated = await readFile(join(dir, 'explicit/Robot.gen.vue'), 'utf-8')
+    expect(generated).toContain(`useGLTF<ModelNodes, ModelMaterials>('/assets/robot.glb')`)
+  })
+
+  it('writes where -o says', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'out')
+    const target = join(dir, 'out', 'custom', 'Model.vue')
+
+    await gltf.call({} as any, path, { output: target })
+
+    await expect(readFile(target, 'utf-8')).resolves.toContain('<template>')
+  })
+
+  it('treats an -o without a .vue extension as a directory to write into', async () => {
+    const path = await fixture('toy-rocket.glb', nestedGLB(), 'into')
+    const target = join(dir, 'into', 'models')
+
+    await gltf.call({} as any, path, { output: target })
+
+    await expect(readFile(join(target, 'ToyRocket.gen.vue'), 'utf-8')).resolves.toContain('<template>')
+  })
+
+  it('writes into an -o directory that does not exist yet', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'fresh')
+    const target = join(dir, 'fresh', 'deep', 'nested')
+
+    await gltf.call({} as any, path, { output: target })
+
+    await expect(readFile(join(target, 'Robot.gen.vue'), 'utf-8')).resolves.toContain('<template>')
+  })
+
+  /** A leading slash is the filesystem root, and `-o /src/models` is a very easy slip. */
+  it('explains an absolute -o that was meant to be project-relative', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'absolute')
+
+    await expect(gltf.call({} as any, path, { output: '/src/models' }))
+      .rejects
+      .toThrow(/did you mean src\/models/)
+  })
+
+  it('prints instead of writing with --console', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'printed')
+
+    await gltf.call({} as any, path, { console: true })
+
+    expect(output()).toContain('<template>')
+    await expect(readFile(join(dir, 'printed/Robot.gen.vue'), 'utf-8')).rejects.toThrow()
+  })
+
+  it('overwrites its own previous output', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'again')
+    await gltf.call({} as any, path, {})
+
+    await expect(gltf.call({} as any, path, {})).resolves.toBeUndefined()
+  })
+
+  it('refuses to clobber a file it did not generate', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'handwritten')
+    const target = join(dir, 'handwritten', 'Robot.gen.vue')
+    await writeFile(target, '<template>mine</template>')
+
+    await expect(gltf.call({} as any, path, {})).rejects.toThrow(/--force/)
+    await expect(readFile(target, 'utf-8')).resolves.toBe('<template>mine</template>')
+  })
+
+  it('clobbers anyway with --force', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'forced')
+    const target = join(dir, 'forced', 'Robot.gen.vue')
+    await writeFile(target, '<template>mine</template>')
+
+    await gltf.call({} as any, path, { force: true })
+
+    await expect(readFile(target, 'utf-8')).resolves.toContain('useGLTF')
+  })
+
+  it('passes emitter flags through', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'flags')
+
+    await gltf.call({} as any, path, { console: true, shadows: true, keepnames: true, precision: 4 })
+
+    expect(output()).toContain('cast-shadow receive-shadow')
+    expect(output()).toContain('name="Body"')
+    expect(output()).toContain('1.5708')
+  })
+
+  it('reports what it wrote', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'report')
+
+    await gltf.call({} as any, path, {})
+
+    expect(chrome()).toContain('Robot.gen.vue')
+    expect(chrome()).toContain('2 slots')
+  })
+
+  it('reports name collisions on stderr', async () => {
+    const path = await fixture('collide.glb', collidingNamesGLB(), 'collide')
+
+    await gltf.call({} as any, path, { console: true })
+
+    expect(chrome()).toContain('foobar_1')
+  })
+
+  it('prints the IR as JSON with --json', async () => {
+    const path = await fixture('simple.glb', simpleGLB(), 'json')
+
+    await gltf.call({} as any, path, { json: true })
+
+    const ir = JSON.parse(output()) as GLTFIR
+    expect(ir.nodes.Cube001).toBeDefined()
+  })
+
+  it('pluralizes mesh as meshes in --dry-run', async () => {
+    const path = await fixture('meshes.glb', repeatedGeometryGLB(), 'dry')
+
+    await gltf.call({} as any, path, { dryRun: true })
+
+    expect(chrome()).toContain('3 meshes')
+  })
+
+  describe('--animations', () => {
+    it('wires clips from separate files into the component', async () => {
+      const model = await fixture('Dummy.glb', skinnedNoClipsGLB(), 'rig/public/models')
+      const idle = await fixture('Idle.glb', clipOnlyGLB('Idle'), 'rig/public/clips')
+      await writeFile(join(dir, 'rig', 'package.json'), '{}')
+
+      await gltf.call({} as any, model, { animations: [idle] })
+
+      const generated = await readFile(join(dir, 'rig/models/Dummy.gen.vue'), 'utf-8')
+      expect(generated).toContain(`const { state: idle, isLoading: idleLoading } = useGLTF('/clips/Idle.glb')`)
+      expect(generated).toContain('    ...(idle.value?.animations ?? []),')
+      expect(generated).toContain(`type ActionName\n  = | 'Idle'`)
+    })
+
+    it('reports what each source carries under --dry-run', async () => {
+      const model = await fixture('Dummy.glb', skinnedNoClipsGLB(), 'count')
+      const idle = await fixture('Idle.glb', clipOnlyGLB('Idle'), 'count')
+      const run = await fixture('Run.glb', clipOnlyGLB('Run'), 'count')
+
+      await gltf.call({} as any, model, { dryRun: true, animations: [idle, run] })
+
+      expect(chrome()).toContain('0 animation clips')
+      expect(chrome()).toContain('+ Idle.glb: 1 clip')
+      expect(chrome()).toContain('+ Run.glb: 1 clip')
+      expect(chrome()).toContain('2 clips merged')
+    })
+
+    it('points a skinned model with nothing to play at the flag', async () => {
+      const model = await fixture('Dummy.glb', skinnedNoClipsGLB(), 'quiet')
+
+      await gltf.call({} as any, model, { console: true })
+
+      expect(chrome()).toContain('--animations')
+    })
+
+    it('says which animation file is missing rather than a bare ENOENT', async () => {
+      const model = await fixture('Dummy.glb', skinnedNoClipsGLB(), 'absent')
+
+      await expect(gltf.call({} as any, model, { animations: ['/public/clips/Idle.glb'] }))
+        .rejects
+        .toThrow(/\/public\/clips\/Idle\.glb does not exist/)
+    })
+  })
+
+  it('optimizes to a separate -transformed.glb and generates against it', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'served/public/models')
+    const out = join(dir, 'served/Robot.gen.vue')
+
+    await gltf.call({} as any, path, { transform: true, output: out })
+
+    await expect(stat(join(dir, 'served/public/models/robot-transformed.glb'))).resolves.toBeDefined()
+    await expect(stat(join(dir, 'served/public/models/robot.glb'))).resolves.toBeDefined()
+    await expect(readFile(out, 'utf-8')).resolves.toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/robot-transformed.glb'`)
+  })
+
+  it('writes the provider beside the component with --instance', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'batched/public/models')
+    const out = join(dir, 'batched/Rocks.gen.vue')
+
+    await gltf.call({} as any, path, { instance: true, output: out })
+
+    await expect(readFile(out, 'utf-8')).resolves.toContain(`from './Rocks.instances.gen.vue'`)
+    await expect(readFile(join(dir, 'batched/Rocks.instances.gen.vue'), 'utf-8')).resolves.toContain('<Merged')
+    expect(chrome()).toContain('Rocks.instances.gen.vue')
+  })
+
+  it('keys the injection on the name -o gave the component, not on the model file', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'renamed/public/models')
+    const out = join(dir, 'renamed/Boulders.gen.vue')
+
+    await gltf.call({} as any, path, { instance: true, output: out })
+
+    await expect(readFile(out, 'utf-8')).resolves.toContain(`inject<ModelContext>('tres-gltf:Boulders')`)
+    await expect(readFile(join(dir, 'renamed/Boulders.instances.gen.vue'), 'utf-8')).resolves.toContain(`provide('tres-gltf:Boulders'`)
+  })
+
+  it('turns --transform on for instancing, and says why', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'forced/public/models')
+
+    await gltf.call({} as any, path, { instance: true, output: join(dir, 'forced/Rocks.gen.vue') })
+
+    await expect(stat(join(dir, 'forced/public/models/rocks-transformed.glb'))).resolves.toBeDefined()
+    expect(chrome()).toContain('instancing needs deduplicated geometry')
+  })
+
+  it('prints both halves with --console', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'shown/public/models')
+
+    await gltf.call({} as any, path, { instance: true, console: true })
+
+    expect(output()).toContain('<Instance batch=')
+    expect(output()).toContain('Rocks.instances.gen.vue')
+    expect(output()).toContain(`provide('tres-gltf:Rocks'`)
+  })
+
+  it('refuses to clobber a hand-written provider', async () => {
+    const path = await fixture('rocks.glb', repeatedGeometryGLB(), 'guard/public/models')
+    const out = join(dir, 'guard/Rocks.gen.vue')
+    await writeFile(join(dir, 'guard/Rocks.instances.gen.vue'), '<template>mine</template>')
+
+    await expect(gltf.call({} as any, path, { instance: true, output: out })).rejects.toThrow('will not be overwritten')
+  })
+
+  it('previews a transform with --console without writing the optimized file into the project', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'preview/public/models')
+
+    await gltf.call({} as any, path, { transform: true, console: true })
+
+    await expect(stat(join(dir, 'preview/public/models/robot-transformed.glb'))).rejects.toThrow()
+    expect(output()).toContain(`useGLTF<ModelNodes, ModelMaterials>('/models/robot-transformed.glb'`)
+  })
+
+  it('reports the saving with both sizes', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'saving')
+
+    await gltf.call({} as any, path, { transform: true, output: join(dir, 'saving/Robot.gen.vue') })
+
+    expect(chrome()).toMatch(/Transform\s+[\d.]+[KMG]?B › [\d.]+[KMG]?B\s+-\d+%/)
+    expect(chrome()).toContain('useGLTF() now loads robot-transformed.glb')
+  })
+
+  it('keeps the component named after the original model', async () => {
+    const path = await fixture('rover.glb', nestedGLB(), 'namecheck')
+
+    await gltf.call({} as any, path, { transform: true })
+
+    await expect(readFile(join(dir, 'namecheck/Rover.gen.vue'), 'utf-8')).resolves.toContain('useGLTF')
+    await expect(readFile(join(dir, 'namecheck/RoverTransformed.gen.vue'), 'utf-8')).rejects.toThrow()
+  })
+
+  it('enables the draco loader for the compressed output', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'dracocheck')
+
+    await gltf.call({} as any, path, { transform: true, console: true })
+
+    expect(output()).toContain('{ draco: true }')
+  })
+
+  it('does not transform under --dry-run', async () => {
+    const path = await fixture('robot.glb', nestedGLB(), 'drytransform')
+
+    await gltf.call({} as any, path, { transform: true, dryRun: true })
+
+    await expect(stat(join(dir, 'drytransform/robot-transformed.glb'))).rejects.toThrow()
+  })
+
+  it('fails loudly when the file does not exist', async () => {
+    await expect(gltf.call({} as any, join(dir, 'missing.glb'), {})).rejects.toThrow(/missing\.glb/)
+  })
+
+  it('points at the relative path when given a url-shaped one', async () => {
+    await fixture('robot.glb', nestedGLB(), 'public/models')
+    const cwd = vi.spyOn(process, 'cwd').mockReturnValue(dir)
+
+    try {
+      await expect(gltf.call({} as any, '/public/models/robot.glb', {}))
+        .rejects
+        .toThrow(/did you mean public\/models\/robot\.glb/)
+    }
+    finally {
+      cwd.mockRestore()
+    }
+  })
+})

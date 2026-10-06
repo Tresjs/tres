@@ -1,7 +1,7 @@
 import type { TresContext } from '../useTresContextProvider'
 
-import type { ComputedRef, Ref } from 'vue'
-import { computed, ref, watchEffect } from 'vue'
+import type { ComputedRef, ShallowRef } from 'vue'
+import { computed, shallowRef, triggerRef, watchEffect } from 'vue'
 import { isCamera, isPerspectiveCamera } from '../../utils/is'
 import type { TresCamera } from '../../types'
 
@@ -9,12 +9,11 @@ import type { TresCamera } from '../../types'
  * Interface for the return value of the useCamera composable
  */
 export interface UseCameraReturn {
-
   activeCamera: ComputedRef<TresCamera>
   /**
    * The list of cameras
    */
-  cameras: Ref<TresCamera[]>
+  cameras: ShallowRef<TresCamera[]>
   /**
    * Register a camera
    * @param camera - The camera to register
@@ -47,7 +46,7 @@ interface UseCameraParams {
  * @returns The camera management functions and state
  */
 export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn => {
-  const cameras = ref<TresCamera[]>([])
+  const cameras = shallowRef<TresCamera[]>([])
   const activeCamera = computed<TresCamera>(() => cameras.value[0]) // the first camera is used to make sure there is always one camera active
 
   /**
@@ -59,7 +58,9 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
       ? cameraOrUuid
       : cameras.value.find((camera: TresCamera) => camera.uuid === cameraOrUuid)
 
-    if (!camera) { return }
+    if (!camera) {
+      return
+    }
 
     const otherCameras = cameras.value.filter(({ uuid }) => uuid !== camera.uuid)
     cameras.value = [camera, ...otherCameras]
@@ -71,8 +72,11 @@ export const useCameraManager = ({ sizes }: UseCameraParams): UseCameraReturn =>
    * @param active - Whether to set the camera as active
    */
   const registerCamera = (camera: TresCamera, active = false): void => {
-    if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) { return }
+    if (cameras.value.some(({ uuid }) => uuid === camera.uuid)) {
+      return
+    }
     cameras.value.push(camera)
+    triggerRef(cameras)
 
     if (active) {
       setActiveCamera(camera.uuid)

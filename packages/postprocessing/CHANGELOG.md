@@ -1,3 +1,36 @@
+## 3.9.2 (2026-10-06)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.3
+
+## 3.9.1 (2026-09-29)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.2
+- Updated @tresjs/eslint-config to 1.7.0
+
+## 3.9.0 (2026-09-25)
+
+### 🚀 Features
+
+- **postprocessing:** add radius prop to BloomPmndrs ([#1494](https://github.com/Tresjs/tres/pull/1494))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.1
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 3.8.0 (2026-09-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.0
+
 ## 3.7.4 (2026-06-18)
 
 ### 🧱 Updated Dependencies

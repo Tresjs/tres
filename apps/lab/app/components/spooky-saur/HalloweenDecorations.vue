@@ -3,12 +3,11 @@ import { Color, MeshStandardMaterial } from 'three'
 
 const { state, nodes } = useGLTF('/models/halloween/halloween-decoration.glb', { draco: true })
 
-
 watch(nodes, (newState) => {
   console.log(newState)
 })
 
-const flames = computed(() => Object.values(nodes.value ?? {}).filter((node) => node.name.includes('Flame')) ?? [])
+const flames = computed(() => Object.values(nodes.value ?? {}).filter(node => node.name.includes('Flame')) ?? [])
 
 watch(flames, (newFlames) => {
   console.log(newFlames)
@@ -37,7 +36,7 @@ onBeforeRender(({ elapsed }) => {
 
     const pseudoRandom
       = 0.25 * Math.sin(timeFactor + (flameRandoms.value[index] ?? 0))
-      * Math.cos(timeFactor * 2 + (flameRandoms.value[index] ?? 0))
+        * Math.cos(timeFactor * 2 + (flameRandoms.value[index] ?? 0))
 
     let intensity = (Math.cos(timeFactor + (flameOffsets.value[index] ?? 0)) + pseudoRandom) * 70 + 80
     intensity = Math.max(intensity, 100) // Ensuring a minimum intensity so it doesn't go completely black

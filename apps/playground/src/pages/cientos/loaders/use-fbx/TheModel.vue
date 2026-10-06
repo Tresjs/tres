@@ -11,7 +11,7 @@ const state = inject<{
 
 // Use the new reactive useFBX composable
 const { state: model, isLoading, nodes, materials } = useFBX(
-  'https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx',
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/kenney-suv/suv.fbx',
 )
 
 // Log nodes when they become available
@@ -30,7 +30,7 @@ watch(model, (newModel) => {
     console.log('FBX model loaded', newModel)
 
     // Apply transformations and shadow settings
-    newModel.scale.set(0.01, 0.01, 0.01)
+    newModel.scale.set(0.02, 0.02, 0.02)
     newModel.position.set(0, -2.6, 0) // Adjusted for TresGroup position offset
     newModel.rotation.y = -Math.PI * 0.5
 

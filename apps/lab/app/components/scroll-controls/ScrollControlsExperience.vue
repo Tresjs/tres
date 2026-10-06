@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { ScrollControls } from '@tresjs/cientos'
 
 const gl = {
@@ -34,25 +34,16 @@ onLoop(() => {
     }
   }
 })
-
-const { hasFinishLoading } = await useProgress()
 </script>
 
 <template>
-  <Transition
-    name="fade-overlay"
-    enter-active-class="opacity-1 transition-opacity duration-200"
-    leave-active-class="opacity-0 transition-opacity duration-200"
-  >
-    <div
-      v-show="!hasFinishLoading"
-      class="fixed bg-[#0F4866] text-white top-0 left-0 w-full h-full z-80 flex justify-center items-center text-black font-mono"
-    >
-      <div class="w-200px">
-        Loading... {{ progress }} % 🚀
+  <TheLoadingScreen background="#0F4866">
+    <template #default="{ progress: loadingProgress }">
+      <div class="font-mono">
+        Loading... {{ loadingProgress }} % 🚀
       </div>
-    </div>
-  </Transition>
+    </template>
+  </TheLoadingScreen>
   <TresCanvas
     v-bind="gl"
     window-size
@@ -121,4 +112,3 @@ const { hasFinishLoading } = await useProgress()
     </section>
   </div>
 </template>
-

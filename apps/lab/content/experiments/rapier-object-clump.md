@@ -1,5 +1,5 @@
 ---
-thumbnail: /rapier-object-clump.png
+thumbnail: /experiments/rapier-object-clump.webp
 title: Rapier Object Clump
 slug: rapier-object-clump
 author: [alvarosabu]

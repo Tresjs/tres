@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/post-processing",
   "type": "module",
-  "version": "3.7.4",
+  "version": "3.9.2",
   "description": "Post-processing library for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -39,6 +39,7 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "build": "tsdown",
     "build:analyze": "ANALYZE=true tsdown",
     "preview": "vite preview",
@@ -47,7 +48,7 @@
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.8.3",
+    "@tresjs/core": "^5.9.1",
     "three": ">=0.169",
     "vue": ">=3.4"
   },
@@ -58,7 +59,6 @@
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
-    "@tresjs/leches": "workspace:*",
     "@types/three": "catalog:three",
     "@vitejs/plugin-vue": "catalog:vite",
     "eslint": "catalog:eslint",

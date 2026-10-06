@@ -3,7 +3,7 @@ import gsap from 'gsap'
 
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
-import { Color, AdditiveBlending, BufferAttribute } from 'three'
+import { AdditiveBlending, BufferAttribute, Color } from 'three'
 
 const parameters = {
   count: 30000,
@@ -192,8 +192,11 @@ onMounted(() => {
 
 <template>
   <TresPoints ref="bufferRef">
-    <TresBufferGeometry :position="[positions, 3]" :a-scale="[scales, 1]" :color="[colors, 3]"
-      :a-randomness="[randomnessArray, 3]" />
+    <TresBufferGeometry :position="[positions, 3]"
+                        :a-scale="[scales, 1]"
+                        :color="[colors, 3]"
+                        :a-randomness="[randomnessArray, 3]"
+    />
     <TresShaderMaterial v-bind="shader" />
   </TresPoints>
 </template>

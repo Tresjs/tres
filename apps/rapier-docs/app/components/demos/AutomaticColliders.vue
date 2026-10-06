@@ -40,13 +40,33 @@ const jumpCapsule = () => {
   capsuleRef.value.instance.applyImpulse({ x: 0, y: 15, z: 0 }, true)
 }
 
-const { debug, friction, mass, restitution, density } = useControls({
+const controlDefaults = {
   debug: true,
-  friction: { value: 0.5, min: 0, max: 1, step: 0.1 },
-  mass: { value: 1, min: 0.1, max: 20, step: 0.1 },
-  restitution: { value: 0.5, min: 0, max: 2, step: 0.1 },
-  density: { value: 1, min: 0.1, max: 20, step: 0.1 },
+  friction: 0.5,
+  mass: 1,
+  restitution: 0.5,
+  density: 1,
+}
+
+const controls = useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      resetControls(controls, controlDefaults)
+      resetRigidBody(ballRef.value?.instance, { x: 0, y: 15, z: 0 })
+      resetRigidBody(cubeRef.value?.instance, { x: 4, y: 15, z: 0 })
+      resetRigidBody(capsuleRef.value?.instance, { x: -4, y: 15, z: 0 })
+    },
+  },
+  debug: controlDefaults.debug,
+  friction: { value: controlDefaults.friction, min: 0, max: 1, step: 0.1 },
+  mass: { value: controlDefaults.mass, min: 0.1, max: 20, step: 0.1 },
+  restitution: { value: controlDefaults.restitution, min: 0, max: 2, step: 0.1 },
+  density: { value: controlDefaults.density, min: 0.1, max: 20, step: 0.1 },
 }, { uuid })
+
+const { debug, friction, mass, restitution, density } = controls
 </script>
 
 <template>

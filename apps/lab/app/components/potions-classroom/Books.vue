@@ -21,7 +21,7 @@ const bakedMaterial = computed(() => new MeshBasicMaterial({
 }))
 
 watch([books, bakedMaterial], ([books, texture]) => {
-  books.forEach(book => {
+  books.forEach((book) => {
     book.material = texture
   })
 })

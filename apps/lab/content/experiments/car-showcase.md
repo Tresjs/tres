@@ -1,5 +1,6 @@
 ---
 title: Porsche 911 Car Showcase
+thumbnail: /experiments/car-showcase.webp
 author: alvarosabu
 description: A showcase of the Porsche 911
 tags: [car, showcase, live envmap]

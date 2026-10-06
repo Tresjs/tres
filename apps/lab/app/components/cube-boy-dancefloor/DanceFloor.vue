@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 const cellColor = shallowRef('#000000')
 const sectionColor = shallowRef('#000000')
 const cellThickness = shallowRef(0)

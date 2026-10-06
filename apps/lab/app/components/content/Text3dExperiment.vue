@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 import { OrbitControls, Text3D, Torus } from '@tresjs/cientos'
 import type { TresCamera } from '@tresjs/core'
 

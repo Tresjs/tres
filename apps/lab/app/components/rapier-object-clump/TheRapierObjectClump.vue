@@ -23,8 +23,13 @@ watchEffect(() => {
 
 <template>
   <TresAmbientLight :intensity="0.5" />
-  <TresSpotLight :position="[30, 30, 30]" :intensity="1" :angle="0.2" :penumbra="1" cast-shadow
-    :shadow-mapSize="[512, 512]" />
+  <TresSpotLight :position="[30, 30, 30]"
+                 :intensity="1"
+                 :angle="0.2"
+                 :penumbra="1"
+                 cast-shadow
+                 :shadow-mapSize="[512, 512]"
+  />
   <Environment files="/hdr/adamsbridge.hdr" />
 
   <Suspense>

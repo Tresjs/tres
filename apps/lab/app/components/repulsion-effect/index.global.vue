@@ -9,7 +9,7 @@
   </div>
 
   <NuxtLink class="repulsion-effect__logo" to="/">
-    <img src="/logos/tres_logo_white.svg" alt="TresJS Logo">
+    <img src="/logos/tres_logo_white.svg" alt="TresJS Logo" />
   </NuxtLink>
 
   <div class="repulsion-effect__infos">
@@ -24,7 +24,7 @@
     </p>
   </div>
 
-  <div class="repulsion-effect__bg" />
+  <div class="repulsion-effect__bg"></div>
 
   <TresCanvas window-size alpha shadows powerPreference="high-performance" :clear-alpha="0">
     <TresPerspectiveCamera :position="[0, 65, 0]" :rotation-x="-1.57" :fov="20" />
@@ -37,11 +37,21 @@
     <TresPointLight color="#c27439" :intensity="5" :decay="0" :position="[-35, 5, 0]" />
     <TresPointLight color="#fff000" :intensity="5" :decay="0" :position="[0, 5, 20]" />
 
-    <TresSpotLight color="#7bccd7" :decay="0" cast-shadow :shadow-mapSize-width="2048" :shadow-mapSize-height="2048"
-      :position="[0, 25, 0]" />
+    <TresSpotLight color="#7bccd7"
+                   :decay="0"
+                   cast-shadow
+                   :shadow-mapSize-width="2048"
+                   :shadow-mapSize-height="2048"
+                   :position="[0, 25, 0]"
+    />
 
-    <TresRectAreaLight color="#341212" :decay="0" :width="1000" :height="1000" :position="[5, 20, 50]"
-      :look-at="[0, 0, 0]" />
+    <TresRectAreaLight color="#341212"
+                       :decay="0"
+                       :width="1000"
+                       :height="1000"
+                       :position="[5, 20, 50]"
+                       :look-at="[0, 0, 0]"
+    />
     <RepulsionEffectScene />
     <TheScreenshot />
   </TresCanvas>
@@ -83,7 +93,7 @@
 
 .repulsion-effect__infos p {
   font-family: 'Montserrat', sans-serif;
-  color: #FFF;
+  color: #fff;
 }
 
 .repulsion-effect__infos a {

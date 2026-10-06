@@ -3,6 +3,7 @@
 </script>
 
 <template>
+  <TheLoadingScreen />
   <TresCanvas>
     <TresPerspectiveCamera :position="[8, 10, 10]" :look-at="[0, 2, 0]" />
     <OrbitControls :target="[0, 2, 0]" />

@@ -12,6 +12,7 @@ export interface ExperimentItem {
   thumbnail?: string
   tags?: string[]
   featured?: boolean
+  responsive?: boolean
 }
 
 /**
@@ -24,4 +25,4 @@ export interface AuthorItem {
   name: string
   avatar: string
   bio?: string
-} 
+}
