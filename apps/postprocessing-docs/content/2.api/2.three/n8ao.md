@@ -14,7 +14,7 @@ The demo starts in the `Split` render mode: the left half has no AO, the right h
 
 ## Usage
 
-`N8AOPass` renders the scene itself, so it replaces the `RenderPass` of the composer. Set `without-render-pass` on `<EffectComposer>`, or the scene renders two times each frame.
+`N8AOPass` renders the scene itself, so it replaces the `RenderPass` of the composer. Set `without-render-pass` on `<EffectComposer>`, or the scene renders two times each frame. In development, `<N8AO />` logs a warning when it finds a `RenderPass` before it.
 
 ```vue
 <script setup lang="ts">

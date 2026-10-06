@@ -40,7 +40,7 @@ Custom shader-based effects for specialized use cases
 ### Composables
 Both pmndrs and three implementations include composables for effect management in their respective `composables/` directories.
 
-`src/util/n8ao.ts` holds the logic shared by `N8AOPmndrs` and `N8AO`: typed wrappers for the untyped `n8ao` package and the `useN8AO` composable that adds, configures and disposes the pass.
+`src/util/n8ao.ts` holds the logic shared by `N8AOPmndrs` and `N8AO`: types for the untyped `n8ao` package, its lazy loader, and the `useN8AO` composable that adds, configures and disposes the pass. `n8ao` is loaded with a dynamic `import()`, because a static import puts its neural model in every app bundle. A disabled placeholder pass holds the position in the chain while it loads.
 
 ## Key Features
 

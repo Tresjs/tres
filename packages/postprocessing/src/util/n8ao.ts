@@ -3,8 +3,6 @@ import type { Pass as ThreePass } from 'three/examples/jsm/postprocessing/Pass.j
 import type { Pass as PmndrsPass } from 'postprocessing'
 import type { ShallowRef } from 'vue'
 import { useTres } from '@tresjs/core'
-// @ts-expect-error n8ao ships without type declarations
-import { N8AOPass as N8AOPassImpl, N8AOPostPass as N8AOPostPassImpl } from 'n8ao'
 import { Color, Material, RenderTarget, Texture } from 'three'
 import { onUnmounted, shallowRef, watch } from 'vue'
 
@@ -55,8 +53,21 @@ export type N8AOPostPassInstance = PmndrsPass & N8AOPassMembers & {
 
 export type N8AOPassConstructor<P> = new (scene: Scene, camera: Camera, width?: number, height?: number) => P
 
-export const N8AOPass: N8AOPassConstructor<N8AOPassInstance> = N8AOPassImpl
-export const N8AOPostPass: N8AOPassConstructor<N8AOPostPassInstance> = N8AOPostPassImpl
+interface N8AOModule {
+  N8AOPass: N8AOPassConstructor<N8AOPassInstance>
+  N8AOPostPass: N8AOPassConstructor<N8AOPostPassInstance>
+}
+
+let n8aoModule: Promise<N8AOModule> | undefined
+
+// Loaded on first use instead of imported statically: n8ao runs top-level checks on its neural model,
+// so Rollup (Vite 7 and older) keeps the model and its shader code in every app that imports this
+// package, even apps that never use N8AO
+// @ts-expect-error n8ao ships without type declarations
+const loadN8AO = (): Promise<N8AOModule> => n8aoModule ??= import('n8ao')
+
+export const loadN8AOPass = async () => (await loadN8AO()).N8AOPass
+export const loadN8AOPostPass = async () => (await loadN8AO()).N8AOPostPass
 
 export interface N8AOProps {
   /**
@@ -206,35 +217,47 @@ const disposePass = (pass: object) => {
   }
 }
 
-interface N8AOComposer<P> {
+interface N8AOComposer<B> {
   passes: unknown[]
-  removePass: (pass: P) => void
+  removePass: (pass: B) => void
+}
+
+/** What `useN8AO` needs to know about one composer family. */
+export interface N8AOFamily<B, P extends B, C> {
+  /** Loads the n8ao pass class of this family. */
+  loadPassClass: () => Promise<N8AOPassConstructor<P>>
+  /** Creates a disabled pass that holds the position of the n8ao pass while n8ao loads. */
+  createPlaceholder: () => B
+  /** Adds a pass to the composer, at `index` when given. */
+  addPass: (composer: C, pass: B, index?: number) => void
 }
 
 /**
  * Keeps one n8ao pass in the composer for the lifetime of the calling component.
  *
  * @param composer - The composer provided by the parent composer component.
- * @param PassClass - The family-specific n8ao pass class.
- * @param addPass - Adds the pass to the composer, at `index` when given.
+ * @param family - The pass class loader, placeholder and `addPass` of the composer family.
  * @param props - The component props.
  */
-export const useN8AO = <P extends AnyN8AOPass, C extends N8AOComposer<P>>(
+export const useN8AO = <B, P extends B & AnyN8AOPass, C extends N8AOComposer<B>>(
   composer: ShallowRef<C | null> | undefined,
-  PassClass: N8AOPassConstructor<P>,
-  addPass: (composer: C, pass: P, index?: number) => void,
+  family: N8AOFamily<B, P, C>,
   props: N8AOProps,
 ): { pass: ShallowRef<P | null> } => {
   const { scene, camera, sizes, invalidate } = useTres()
 
   const pass = shallowRef<P | null>(null) as ShallowRef<P | null>
+  // The pass in the composer at our position: the placeholder while n8ao loads, then `pass`
+  let slot: B | null = null
   let owner: C | null = null
+  // Increased by every rebuild and by unmount, so a build that waited for n8ao can tell it is stale
+  let generation = 0
 
   const removePass = () => {
-    if (!pass.value) { return }
-    owner?.removePass(pass.value)
-    disposePass(pass.value)
+    if (slot) { owner?.removePass(slot) }
+    if (pass.value) { disposePass(pass.value) }
     pass.value = null
+    slot = null
     owner = null
   }
 
@@ -243,17 +266,32 @@ export const useN8AO = <P extends AnyN8AOPass, C extends N8AOComposer<P>>(
   // Resizing is not handled here: the composer calls `setSize` on all its passes with the drawing buffer size.
   watch(
     [() => composer?.value, scene, camera, () => !!sizes.width.value && !!sizes.height.value],
-    ([currentComposer, currentScene, currentCamera, hasSize]) => {
-      const index = pass.value && currentComposer && currentComposer === owner ? currentComposer.passes.indexOf(pass.value) : -1
+    async ([currentComposer, currentScene, currentCamera, hasSize]) => {
+      const build = ++generation
+      const index = slot && currentComposer && currentComposer === owner ? currentComposer.passes.indexOf(slot) : -1
       removePass()
 
       if (!currentComposer || !currentScene || !currentCamera || !hasSize) { return }
 
-      pass.value = new PassClass(currentScene, currentCamera, sizes.width.value, sizes.height.value)
-      for (const key of configurationProps) { applyProp(pass.value, props, key) }
-      applyGammaCorrection(pass.value, props.gammaCorrection)
-      addPass(currentComposer, pass.value, ~index ? index : undefined)
+      // Siblings declared after this component add their passes while n8ao loads, so hold the position now
+      const placeholder = family.createPlaceholder()
+      family.addPass(currentComposer, placeholder, ~index ? index : undefined)
+      slot = placeholder
       owner = currentComposer
+
+      const PassClass = await family.loadPassClass()
+      // A newer build or unmount already removed the placeholder
+      if (build !== generation) { return }
+
+      const newPass = new PassClass(currentScene, currentCamera, sizes.width.value, sizes.height.value)
+      for (const key of configurationProps) { applyProp(newPass, props, key) }
+      applyGammaCorrection(newPass, props.gammaCorrection)
+
+      const placeholderIndex = currentComposer.passes.indexOf(placeholder)
+      currentComposer.removePass(placeholder)
+      family.addPass(currentComposer, newPass, ~placeholderIndex ? placeholderIndex : undefined)
+      slot = newPass
+      pass.value = newPass
       invalidate()
     },
     { immediate: true },
@@ -275,7 +313,10 @@ export const useN8AO = <P extends AnyN8AOPass, C extends N8AOComposer<P>>(
     invalidate()
   })
 
-  onUnmounted(removePass)
+  onUnmounted(() => {
+    generation++
+    removePass()
+  })
 
   return { pass }
 }
