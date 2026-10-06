@@ -47,7 +47,7 @@ function onKeydown(event: KeyboardEvent) {
         role="checkbox"
         :aria-checked="controlValue"
         :class="{ 'tl-bg-dark-500 dark:tl-bg-gray-400': controlValue,
-                  'tl-bg-gray-100 dark:tl-bg-dark-300': !controlValue }"
+                  'tl-bg-gray-100 dark:tl-bg-dark-400': !controlValue }"
         class="leches-checkbox
           tl-flex
           tl-justify-center

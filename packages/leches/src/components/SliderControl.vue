@@ -22,7 +22,7 @@ const isDark = inject(LECHES_DARK_KEY, ref(false))
 
 const sliderFilledStyle = computed(() => {
   const colorStart = isDark.value ? '#9ca3af' : '#2d2d2d'
-  const colorEnd = isDark.value ? '#2d2d2d' : '#9ca3af'
+  const colorEnd = isDark.value ? '#222222' : '#9ca3af'
   return {
     backgroundImage: `linear-gradient(to right, ${colorStart} 0% ${
       (100 * ((controlValue.value as number) - (props.control.min || 0)))
@@ -139,7 +139,8 @@ function onKeyDown(e: KeyboardEvent) {
   --tl-thumb-bg: #2d2d2d;
 }
 
-.dark {
+/* `tl-dark` is set by TresLeches from the nearest `.dark`/`.light` scope or the OS, so a page-level `.dark` is not enough */
+.tl-dark {
   --tl-border-color: #9ca3af;
   --tl-thumb-bg: #9ca3af;
 }
