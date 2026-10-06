@@ -76,7 +76,7 @@ const toggle = () => {
       >
         <div
           v-show="isExpanded"
-          class="tl-bg-white dark:tl-bg-dark-300 tl-rounded-b"
+          class="tl-bg-white dark:tl-bg-dark-200 tl-rounded-b"
           style="padding-top: var(--tl-v-padding); padding-bottom: var(--tl-v-padding);"
           role="menu"
         >
