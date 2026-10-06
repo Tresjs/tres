@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue'
-import { useDark, useFps, useRafFn } from '@vueuse/core'
+import { inject, onMounted, onUnmounted, ref } from 'vue'
+import { useFps, useRafFn } from '@vueuse/core'
+import { LECHES_DARK_KEY } from '../composables/useIsDark'
 import type { LechesControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
@@ -67,7 +68,7 @@ useRafFn(({ timestamp }) => {
   }
 })
 
-const isDark = useDark()
+const isDark = inject(LECHES_DARK_KEY, ref(false))
 </script>
 
 <template>

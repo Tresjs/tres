@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed, isRef, nextTick, onMounted, onUnmounted, ref, toRefs, watch } from 'vue'
+import { computed, isRef, nextTick, onMounted, onUnmounted, provide, ref, toRaw, toRefs, unref, watch } from 'vue'
 import { useDraggable } from '../composables/useDraggable'
+import { LECHES_DARK_KEY, useIsDark } from '../composables/useIsDark'
 import { useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider, useControlsStore } from '../composables/useControls'
 import type { LechesControlUnion } from '../types'
@@ -46,6 +47,10 @@ const HEADER_HEIGHT = 32 // button(28px) + wrapper padding(4px)
 const CONTENT_PADDING = 32 // tl-py-4 = 16px top + 16px bottom
 const CONTROL_HEIGHT = 24 // 20px unit + 4px spacing
 const FPS_GRAPH_EXTRA_HEIGHT = 24
+
+const containerRef = ref<HTMLElement | null>(null)
+const isDark = useIsDark(containerRef)
+provide(LECHES_DARK_KEY, isDark)
 
 const panelWidth = ref(DEFAULT_WIDTH)
 const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | null>(null)
@@ -93,6 +98,102 @@ const groupedControls = computed(() => {
 
   return groups
 })
+
+// Panel actions
+const isSearchOpen = ref(false)
+const searchQuery = ref('')
+const searchInputRef = ref<HTMLInputElement | null>(null)
+const copyStatus = ref<'idle' | 'copied' | 'error'>('idle')
+let copyStatusTimeout: ReturnType<typeof setTimeout> | undefined
+
+const normalizedSearchQuery = computed(() => searchQuery.value.trim().toLocaleLowerCase())
+
+const filteredGroupedControls = computed(() => {
+  const query = normalizedSearchQuery.value
+  if (!query) { return groupedControls.value }
+
+  return Object.fromEntries(
+    Object.entries(groupedControls.value).map(([folderName, folderControls]) => {
+      const folderMatches = folderName !== 'default' && folderName.toLocaleLowerCase().includes(query)
+      const matchingControls = folderMatches
+        ? folderControls
+        : folderControls.filter((control) => {
+            return [control.key, control.label, control.name]
+              .some(value => value.toLocaleLowerCase().includes(query))
+          })
+
+      return [folderName, matchingControls]
+    }),
+  )
+})
+
+const hasSearchResults = computed(() => Object.values(filteredGroupedControls.value).some(group => group.length > 0))
+
+const NON_VALUE_CONTROL_TYPES = new Set<LechesControlUnion['type']>(['button', 'graph', 'fpsgraph'])
+
+async function toggleSearch() {
+  isSearchOpen.value = !isSearchOpen.value
+
+  if (!isSearchOpen.value) {
+    searchQuery.value = ''
+    return
+  }
+
+  await nextTick()
+  searchInputRef.value?.focus()
+}
+
+function closeSearch() {
+  isSearchOpen.value = false
+  searchQuery.value = ''
+}
+
+function panelValuesAsJson() {
+  const panelValues: Record<string, unknown> = {}
+
+  for (const [folderName, folderControls] of Object.entries(groupedControls.value)) {
+    const folderValues: Record<string, unknown> = {}
+
+    for (const control of folderControls) {
+      if (NON_VALUE_CONTROL_TYPES.has(control.type)) { continue }
+
+      const value = unref(control.value)
+      folderValues[control.key] = value !== null && typeof value === 'object'
+        ? toRaw(value)
+        : value
+    }
+
+    if (folderName === 'default') {
+      Object.assign(panelValues, folderValues)
+    }
+    else if (Object.keys(folderValues).length > 0) {
+      panelValues[folderName] = folderValues
+    }
+  }
+
+  return JSON.stringify(panelValues, null, 2)
+}
+
+function setCopyStatus(status: 'copied' | 'error') {
+  copyStatus.value = status
+  if (copyStatusTimeout) { clearTimeout(copyStatusTimeout) }
+  copyStatusTimeout = setTimeout(() => {
+    copyStatus.value = 'idle'
+  }, 2000)
+}
+
+async function copyPanelAsJson() {
+  const json = panelValuesAsJson()
+
+  try {
+    if (!navigator.clipboard?.writeText) { throw new Error('Clipboard API is unavailable') }
+    await navigator.clipboard.writeText(json)
+    setCopyStatus('copied')
+  }
+  catch {
+    setCopyStatus('error')
+  }
+}
 
 function calculateHeight() {
   if (isCollapsedAndNotFloat.value) { return COLLAPSED_SIZE } // Height when collapsed
@@ -329,12 +430,13 @@ onMounted(async () => {
 
 // Add cleanup when component is unmounted
 onUnmounted(() => {
+  if (copyStatusTimeout) { clearTimeout(copyStatusTimeout) }
   dispose(uuid?.value)
 })
 </script>
 
 <template>
-  <div class="tresleches-container">
+  <div ref="containerRef" class="tresleches-container" :class="{ 'tl-dark': isDark }">
     <div
       :id="`tres-leches-pane-${uuid}`"
       ref="paneRef"
@@ -346,17 +448,59 @@ onUnmounted(() => {
       :style="panelStyle"
     >
       <header
-        class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600"
+        class="tl-relative tl-flex tl-items-center tl-min-h-8 tl-text-gray-200 dark:tl-text-gray-600"
         :class="[!isCollapsed && float ? 'tl-justify-between' : 'tl-justify-center']"
       >
-        <div v-if="!isCollapsed && float" class="w-1/3"></div>
-        <div v-if="!isCollapsed && float" ref="handleRef" class="tl-cursor-grabbing w-1/3">
+        <div v-if="!isCollapsed" class="tl-flex tl-items-center tl-gap-0.5 tl-p-1 tl-z-10">
+          <div
+            class="tl-panel-action tl-panel-action-search tl-flex tl-items-center tl-h-6 tl-rounded-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-overflow-hidden tl-transition-all tl-duration-200"
+            :class="isSearchOpen ? 'tl-w-36' : 'tl-w-6'"
+          >
+            <button
+              type="button"
+              class="tl-w-6 tl-h-6 tl-flex-none tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-transparent tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer"
+              aria-label="Search controls and folders"
+              :aria-expanded="isSearchOpen"
+              @click="toggleSearch"
+            >
+              <i class="i-ic-baseline-search tl-w-3.5 tl-h-3.5"></i>
+            </button>
+            <input
+              v-if="isSearchOpen"
+              ref="searchInputRef"
+              v-model="searchQuery"
+              type="search"
+              class="tl-panel-search-input tl-min-w-0 tl-flex-1 tl-bg-transparent tl-text-gray-700 dark:tl-text-gray-200 tl-outline-none tl-border-none"
+              placeholder="Search stuff"
+              aria-label="Search controls or folders"
+              @keydown.esc="closeSearch"
+            />
+          </div>
+          <button
+            type="button"
+            class="tl-panel-action tl-panel-action-copy tl-w-6 tl-h-6 tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer"
+            :aria-label="copyStatus === 'copied' ? 'Copied panel values as JSON' : copyStatus === 'error' ? 'Could not copy panel values' : 'Copy panel values as JSON'"
+            :title="copyStatus === 'copied' ? 'Copied!' : copyStatus === 'error' ? 'Copy failed' : 'Copy values for AI'"
+            @click="copyPanelAsJson"
+          >
+            <i
+              class="tl-w-3.5 tl-h-3.5"
+              :class="copyStatus === 'copied' ? 'i-ic-baseline-check' : copyStatus === 'error' ? 'i-ic-baseline-error-outline' : 'i-ic-baseline-content-copy'"
+            ></i>
+          </button>
+          <span class="tl-sr-only" aria-live="polite">
+            {{ copyStatus === 'copied' ? 'Panel values copied as JSON' : copyStatus === 'error' ? 'Could not copy panel values' : '' }}
+          </span>
+        </div>
+        <div v-if="!isCollapsed && float" ref="handleRef" class="tl-absolute tl-inset-x-1/3 tl-text-center tl-cursor-grabbing">
           <i class="i-ic-baseline-drag-indicator"></i><i class="i-ic-baseline-drag-indicator"></i><i
             class="i-ic-baseline-drag-indicator"
           ></i>
         </div>
-        <div class="tl-flex tl-p-0.5" :class="[!isCollapsed && float ? 'tl-justify-end' : 'tl-justify-center']">
+        <div class="tl-flex tl-p-0.5 tl-z-10" :class="[!isCollapsed ? 'tl-ml-auto tl-justify-end' : 'tl-justify-center']">
           <button
+            type="button"
+            aria-label="Toggle panel"
             class="tl-rounded-full
               tl-inline-flex tl-justify-center tl-items-center
               tl-p-1.5
@@ -365,6 +509,7 @@ onUnmounted(() => {
               tl-outline-none
               tl-border-none
               tl-cursor-pointer"
+            @click="toggleCollapsed"
           >
             <img
               :src="iconUrl"
@@ -373,7 +518,6 @@ onUnmounted(() => {
               tl-w-4 tl-h-4 tl-block"
               :width="16"
               :height="16"
-              @click="toggleCollapsed"
             />
           </button>
         </div>
@@ -393,8 +537,15 @@ onUnmounted(() => {
           class="tl-scroll-container tl-h-full tl-overflow-y-auto tl-overflow-x-hidden tl-scrollbar tl-scrollbar-rounded tl-scrollbar-w-4px tl-scrollbar-radius-2 tl-scrollbar-track-radius-4 tl-scrollbar-thumb-radius-4 tl-scrollbar-track-color-gray-100 dark:tl-scrollbar-track-color-dark-300 tl-scrollbar-thumb-color-gray-300 dark:tl-scrollbar-thumb-color-gray-400"
           @scroll="handleScroll"
         >
-          <template v-for="(group, folderName) of groupedControls" :key="folderName">
-            <Folder v-if="folderName !== 'default'" :label="folderName" :controls="group" @open="onFolderOpen" />
+          <template v-for="(group, folderName) of filteredGroupedControls" :key="folderName">
+            <Folder
+              v-if="folderName !== 'default'"
+              v-show="!normalizedSearchQuery || group.length > 0"
+              :label="folderName"
+              :controls="group"
+              :force-open="Boolean(normalizedSearchQuery)"
+              @open="onFolderOpen"
+            />
             <template v-if="folderName === 'default'">
               <ControlInput
                 v-for="control in group"
@@ -404,6 +555,13 @@ onUnmounted(() => {
               />
             </template>
           </template>
+
+          <div
+            v-if="normalizedSearchQuery && !hasSearchResults"
+            class="tl-px-3 tl-py-2 tl-text-center tl-text-gray-400 dark:tl-text-gray-500"
+          >
+            No controls found
+          </div>
 
           <div v-if="hasSlots" ref="slotsRef" style="padding: 0 var(--tl-h-padding);">
             <slot></slot>
@@ -465,5 +623,64 @@ onUnmounted(() => {
   padding: var(--tl-input-padding);
   border-radius: var(--tl-blade-radius);
   font-size: var(--tl-font-size);
+}
+
+.tl-leches .tl-panel-search-input {
+  height: 24px;
+  line-height: 24px;
+  padding: 0 8px 0 0;
+}
+
+.tl-leches .tl-panel-search-input::-webkit-search-cancel-button {
+  display: none;
+}
+
+@keyframes tl-panel-action-enter {
+  0% {
+    opacity: 0;
+    transform: translateX(12px) scale(1);
+  }
+
+  45% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  62% {
+    opacity: 1;
+    transform: translateX(-3px) scale(1.04);
+  }
+
+  78% {
+    transform: translateX(1px) scale(0.98);
+  }
+
+  90% {
+    transform: translateX(-0.5px) scale(1.01);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.tl-leches .tl-panel-action {
+  animation: tl-panel-action-enter 520ms ease-out both;
+  will-change: opacity, transform;
+}
+
+.tl-leches .tl-panel-action-copy {
+  animation-delay: 160ms;
+}
+
+.tl-leches .tl-panel-action-search {
+  animation-delay: 240ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-leches .tl-panel-action {
+    animation: none;
+  }
 }
 </style>

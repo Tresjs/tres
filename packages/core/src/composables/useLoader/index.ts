@@ -64,7 +64,8 @@ export type UseLoaderReturn<T, Shallow extends boolean> = UseAsyncStateReturn<T,
  * @param options - Optional configuration for the loader
  * @returns UseAsyncState composable with the loaded model
  */
-export function useLoader<T, Shallow extends boolean = false>(
+// Defaults to true to match useAsyncState's runtime default. A deep Ref type would unwrap three objects (e.g. Texture) into a shape that no longer matches the original class.
+export function useLoader<T, Shallow extends boolean = true>(
   Loader: LoaderProto<T>,
   path: MaybeRef<string>,
   options?: TresLoaderOptions<T, Shallow>,
