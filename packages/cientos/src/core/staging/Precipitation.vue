@@ -2,6 +2,7 @@
 import { useLoop } from '@tresjs/core'
 import { useTexture } from '../loaders/useTexture'
 import { shallowRef, toRefs, watch, watchEffect } from 'vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 import type { TresColor } from '@tresjs/core'
 import type { Texture } from 'three'
 
@@ -128,6 +129,8 @@ const props = withDefaults(defineProps<PrecipitationProps>(), {
   transparent: true,
   sizeAttenuation: true,
 })
+
+useWebGPUSupportWarning('Precipitation', 'renders Points, which WebGPU draws at 1 pixel, so the size prop has no effect')
 
 const {
   size,
