@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/post-processing",
   "type": "module",
-  "version": "3.9.1",
+  "version": "3.10.0",
   "description": "Post-processing library for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -45,6 +45,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
+    "test": "vitest",
+    "test:ci": "vitest run",
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
@@ -54,6 +56,7 @@
   },
   "dependencies": {
     "@vueuse/core": "catalog:utils",
+    "n8ao": "catalog:",
     "postprocessing": "catalog:"
   },
   "devDependencies": {
@@ -61,7 +64,9 @@
     "@tresjs/eslint-config": "workspace:*",
     "@types/three": "catalog:three",
     "@vitejs/plugin-vue": "catalog:vite",
+    "@vue/test-utils": "catalog:testing",
     "eslint": "catalog:eslint",
+    "jsdom": "catalog:testing",
     "kolorist": "catalog:utils",
     "pathe": "catalog:utils",
     "rollup-plugin-analyzer": "catalog:build",
@@ -72,6 +77,7 @@
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
+    "vitest": "catalog:testing",
     "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
   },

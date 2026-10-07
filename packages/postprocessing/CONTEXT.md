@@ -21,7 +21,7 @@ _Avoid_: pipeline, stack, chain root
 ### Pipeline
 
 **Effect**:
-A shader-level visual operation that the pmndrs composer merges with sibling effects into one pass. Every pmndrs component owns exactly one.
+A shader-level visual operation that the pmndrs composer merges with sibling effects into one pass. Every pmndrs component owns exactly one, except the pass-based components (`DepthPickingPassPmndrs`, `N8AOPmndrs`) that add a **Pass** directly because their library ships a pass, not an effect.
 _Avoid_: filter, shader, post effect
 
 **Pass**:
