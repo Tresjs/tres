@@ -35,6 +35,7 @@ function glyphDevServing(): Plugin {
 // The shell loads experiments through an iframe, and the prerender crawler only follows <a href>,
 // so the /embed routes would be skipped by `nuxt generate` without this list.
 const embedRoutes = readdirSync(new URL('./content/experiments', import.meta.url))
+  // Same exclude as the experiments collection in content.config.ts.
   .filter(file => file.endsWith('.md') && file !== 'CLAUDE.md')
   .map(file => `/embed/${file.replace(/\.md$/, '')}`)
 

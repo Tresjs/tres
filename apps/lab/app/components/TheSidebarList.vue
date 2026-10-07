@@ -2,6 +2,7 @@
 defineEmits<{ select: [slug: string] }>()
 
 const experiments = useFilteredExperiments()
+const isNew = useIsNewExperiment()
 const selectedSlug = useSelectedSlug()
 </script>
 
@@ -30,7 +31,7 @@ const selectedSlug = useSelectedSlug()
           <UIcon name="i-lucide-star" class="size-3.5" />
         </span>
         <UBadge
-          v-if="experiment.isNew"
+          v-if="isNew(experiment)"
           label="NEW"
           color="primary"
           variant="solid"

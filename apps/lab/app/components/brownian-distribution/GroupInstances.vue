@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { TresObject } from '@tresjs/core'
-import { useDark } from '@vueuse/core'
 import { shallowRef, watch } from 'vue'
 import { BoxGeometry, Color, MathUtils, MeshToonMaterial, Object3D } from 'three'
 
@@ -12,7 +11,7 @@ const COUNT = 2000
 // Create geometry
 const cubeGeometry = new BoxGeometry()
 
-const isDark = useDark()
+const isDark = useIsDark()
 
 // Materials
 const mainMaterial = new MeshToonMaterial({

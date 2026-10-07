@@ -12,7 +12,7 @@ const { renderer, scene, camera } = useTres()
 
 function takeScreenshot() {
   const route = useRoute()
-  const experimentName = route.path.split('/').pop() || 'unknown'
+  const experimentName = slugFromPath(route.path) || 'unknown'
 
   if (!camera.value) { return }
 

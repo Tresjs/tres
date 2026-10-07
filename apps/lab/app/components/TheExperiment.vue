@@ -20,7 +20,6 @@ const corners = ['-top-2 -right-2', '-bottom-2 -left-2']
 <template>
   <div>
     <section class="relative lg:px-10 lg:py-8">
-      <!-- Dashed frame with corner crosses around the viewer, desktop only. On phones the viewer goes full-bleed. -->
       <div class="relative lg:border lg:border-dashed lg:border-default lg:p-4">
         <UIcon
           v-for="corner in corners"
@@ -30,17 +29,19 @@ const corners = ['-top-2 -right-2', '-bottom-2 -left-2']
           :class="corner"
         />
 
-        <div class="h-dvh lg:h-[calc(100dvh-3rem-4rem-2rem-2px)]">
+        <!-- Desktop height: the viewport minus the header, the section's py-8, the frame's p-4 and its 1px borders. -->
+        <div class="h-dvh lg:h-[calc(100dvh-var(--ui-header-height)-4rem-2rem-2px)]">
           <TheViewer :experiment="experiment" class="max-lg:rounded-none max-lg:ring-0" />
         </div>
 
+        <!-- Also on phones: the full-screen canvas swallows touch, so a swipe cannot reach the article. -->
         <UButton
           icon="i-lucide-arrow-down"
           color="neutral"
           variant="outline"
           size="sm"
           aria-label="Read about this experiment"
-          class="absolute -bottom-4 left-1/2 hidden -translate-x-1/2 rounded-full bg-default lg:inline-flex"
+          class="absolute bottom-3 left-3 rounded-full bg-default lg:-bottom-4 lg:left-1/2 lg:-translate-x-1/2"
           @click="scrollToArticle"
         />
       </div>

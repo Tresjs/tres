@@ -703,6 +703,9 @@ importers:
       nuxt-svgo:
         specifier: 'catalog:'
         version: 5.3.0(magicast@0.5.5)(vue@3.5.43(typescript@6.0.3))
+      playwright:
+        specifier: ^1.62.1
+        version: 1.63.0
       postprocessing:
         specifier: 'catalog:'
         version: 6.39.5(three@0.186.0)

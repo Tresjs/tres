@@ -41,7 +41,7 @@ function toPascalCase(str: string) {
   return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase()).replace(/^[a-z]/, letter => letter.toUpperCase())
 }
 
-const component = computed(() => toPascalCase(page.value?.stem.split('/').pop() ?? ''))
+const component = computed(() => toPascalCase(slugFromPath(page.value?.stem ?? '')))
 </script>
 
 <template>

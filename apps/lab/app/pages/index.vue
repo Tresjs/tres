@@ -25,9 +25,9 @@ useHead({
 
 // `/` shows the top of the list (featured first, then newest) without changing the URL.
 const { data: experiments } = await useExperiments()
-const top = computed(() => experiments.value[0])
+const topExperiment = computed(() => experiments.value[0])
 </script>
 
 <template>
-  <TheExperiment v-if="top" :experiment="top" />
+  <TheExperiment v-if="topExperiment" :experiment="topExperiment" />
 </template>

@@ -1,7 +1,3 @@
-// Experiments dated within this window get the NEW badge in the sidebar.
-const NEW_WINDOW_DAYS = 60
-const DAY_MS = 24 * 60 * 60 * 1000
-
 export interface ExperimentAuthor {
   slug: string
   name: string
@@ -18,13 +14,8 @@ export interface ExperimentListItem {
   date: string
   lastUpdated: string
   featured: boolean
-  isNew: boolean
   authors: ExperimentAuthor[]
   repoUrl: string
-}
-
-export function experimentRepoUrl(slug: string) {
-  return `https://github.com/Tresjs/tres/tree/main/apps/lab/app/components/${slug}`
 }
 
 /**
@@ -40,9 +31,8 @@ export function useExperiments() {
       queryCollection('authors').select('slug', 'name', 'avatar').all(),
     ])
 
-    const now = Date.now()
     const list: ExperimentListItem[] = experiments.map((experiment) => {
-      const slug = experiment.path.split('/').pop() ?? ''
+      const slug = slugFromPath(experiment.path)
       const authorSlugs = Array.isArray(experiment.author) ? experiment.author : [experiment.author]
       return {
         slug,
@@ -54,9 +44,8 @@ export function useExperiments() {
         date: experiment.date,
         lastUpdated: experiment.lastUpdated,
         featured: !!experiment.featured,
-        isNew: now - new Date(experiment.date).getTime() < NEW_WINDOW_DAYS * DAY_MS,
         authors: authors.filter(author => authorSlugs.includes(author.slug)),
-        repoUrl: experimentRepoUrl(slug),
+        repoUrl: `https://github.com/Tresjs/tres/tree/main/apps/lab/app/components/${slug}`,
       }
     })
 
@@ -75,23 +64,5 @@ export function useSelectedSlug() {
     const param = route.params.slug
     if (typeof param === 'string' && param) { return param }
     return experiments.value[0]?.slug
-  })
-}
-
-/** The sidebar filter text, shared by the desktop sidebar and the phone drawer. */
-export function useExperimentQuery() {
-  return useState('lab-experiment-query', () => '')
-}
-
-/** The experiment list narrowed by the sidebar filter: title, description, tags and author names. */
-export function useFilteredExperiments() {
-  const { data: experiments } = useExperiments()
-  const query = useExperimentQuery()
-  return computed(() => {
-    const needle = query.value.trim().toLowerCase()
-    if (!needle) { return experiments.value }
-    return experiments.value.filter(experiment =>
-      [experiment.title, experiment.description, ...experiment.tags, ...experiment.authors.map(author => author.name)]
-        .some(field => field?.toLowerCase().includes(needle)))
   })
 }
