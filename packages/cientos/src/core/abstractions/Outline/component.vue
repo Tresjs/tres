@@ -6,6 +6,22 @@ import { BackSide, InstancedMesh, Mesh, SkinnedMesh, Vector2 } from 'three'
 import { onMounted, onUnmounted, shallowRef, watch } from 'vue'
 import { OutlineMaterialImpl } from './OutlineMaterialImpl'
 import { toCreasedNormals } from 'three-stdlib'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<OutlineProps>(), {
+  color: 'black',
+  opacity: 1,
+  transparent: false,
+  screenspace: false,
+  toneMapped: true,
+  polygonOffset: false,
+  polygonOffsetFactor: 0,
+  renderOrder: 0,
+  thickness: 0.05,
+  angle: Math.PI,
+})
+
+useWebGPUSupportWarning('Outline', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
 
 // NOTE: Source
 // https://github.com/pmndrs/drei/blob/master/src/core/Outlines.tsx
@@ -35,19 +51,6 @@ interface OutlineMaterial extends ShaderMaterial {
   size?: Vector2
   color?: TresColor
 }
-
-const props = withDefaults(defineProps<OutlineProps>(), {
-  color: 'black',
-  opacity: 1,
-  transparent: false,
-  screenspace: false,
-  toneMapped: true,
-  polygonOffset: false,
-  polygonOffsetFactor: 0,
-  renderOrder: 0,
-  thickness: 0.05,
-  angle: Math.PI,
-})
 
 const groupRef = shallowRef()
 

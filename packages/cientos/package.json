@@ -27,12 +27,23 @@
   ],
   "exports": {
     ".": "./dist/trescientos.js",
+    "./webgpu": {
+      "types": "./dist/webgpu.d.ts",
+      "default": "./dist/webgpu.js"
+    },
     "./styles.css": "./dist/trescientos.css",
     "./package.json": "./package.json"
   },
   "main": "./dist/trescientos.js",
   "module": "./dist/trescientos.js",
   "types": "./dist/trescientos.d.ts",
+  "typesVersions": {
+    "*": {
+      "webgpu": [
+        "dist/webgpu.d.ts"
+      ]
+    }
+  },
   "files": [
     "*.d.ts",
     "dist"
@@ -43,7 +54,7 @@
   "scripts": {
     "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "dev": "cd playground/vue && pnpm dev",
-    "build": "tsdown",
+    "build": "tsdown && node ./scripts/check-entries.mjs",
     "build:analyze": "ANALYZE=true tsdown",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",

@@ -19,6 +19,49 @@ import ShaderDataBuilder from './ShaderDataBuilder'
 import useEmptyDataTexture from './useEmptyDataTexture'
 import { useTexture } from '../../loaders/useTexture'
 import type { Gradient } from '../../../utils/Gradient'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<SparkleProps>(), {
+  map: 'https://raw.githubusercontent.com/Tresjs/assets/'
+    + 'e41a93c56ec7cb5ac2d241f309e23582a5fe1fc6/textures/sparkles/particle.png',
+  geometry: undefined,
+  directionalLight: undefined,
+
+  lifetimeSec: 0.4,
+  cooldownSec: 2.0,
+
+  size: 1.0,
+  alpha: 1.0,
+  offset: 1.0,
+  noiseScale: 3.0,
+  surfaceDistance: 1.0,
+
+  scaleNoise: 1.0,
+  offsetNoise: 0.1,
+  lifetimeNoise: 0.0,
+
+  normalThreshold: 0.7,
+
+  sequenceColor: () => [[0.7, '#82dbc5'], [0.8, '#fbb03b']],
+  sequenceAlpha: () => [[0.0, 0.0], [0.10, 1.0], [0.5, 1.0], [0.9, 0.0]],
+  sequenceOffset: () => [0.0, 0.0, 0.0],
+  sequenceSurfaceDistance: () => [0.05, 0.08, 0.1],
+  sequenceSize: () => [0.0, 1.0],
+  sequenceNoise: () => [0.1, 0.1, 0.1],
+
+  mixColor: 0.5,
+  mixAlpha: 1.0,
+  mixOffset: 1.0,
+  mixSize: 0.0,
+  mixSurfaceDistance: 1.0,
+  mixNoise: 1.0,
+
+  blending: AdditiveBlending,
+  transparent: true,
+  depthWrite: false,
+})
+
+useWebGPUSupportWarning('Sparkles', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
 
 interface SparkleProps {
   /**
@@ -151,46 +194,6 @@ interface SparkleProps {
    */
   depthWrite?: boolean
 }
-
-const props = withDefaults(defineProps<SparkleProps>(), {
-  map: 'https://raw.githubusercontent.com/Tresjs/assets/'
-    + 'e41a93c56ec7cb5ac2d241f309e23582a5fe1fc6/textures/sparkles/particle.png',
-  geometry: undefined,
-  directionalLight: undefined,
-
-  lifetimeSec: 0.4,
-  cooldownSec: 2.0,
-
-  size: 1.0,
-  alpha: 1.0,
-  offset: 1.0,
-  noiseScale: 3.0,
-  surfaceDistance: 1.0,
-
-  scaleNoise: 1.0,
-  offsetNoise: 0.1,
-  lifetimeNoise: 0.0,
-
-  normalThreshold: 0.7,
-
-  sequenceColor: () => [[0.7, '#82dbc5'], [0.8, '#fbb03b']],
-  sequenceAlpha: () => [[0.0, 0.0], [0.10, 1.0], [0.5, 1.0], [0.9, 0.0]],
-  sequenceOffset: () => [0.0, 0.0, 0.0],
-  sequenceSurfaceDistance: () => [0.05, 0.08, 0.1],
-  sequenceSize: () => [0.0, 1.0],
-  sequenceNoise: () => [0.1, 0.1, 0.1],
-
-  mixColor: 0.5,
-  mixAlpha: 1.0,
-  mixOffset: 1.0,
-  mixSize: 0.0,
-  mixSurfaceDistance: 1.0,
-  mixNoise: 1.0,
-
-  blending: AdditiveBlending,
-  transparent: true,
-  depthWrite: false,
-})
 
 const version = Number.parseInt(REVISION.replace(/\D+/g, ''))
 

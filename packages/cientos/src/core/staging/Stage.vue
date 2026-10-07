@@ -13,6 +13,17 @@ import type { AlignCallbackOptions, AlignProps } from '../abstractions/Align.vue
 import type { EnvironmentOptions, EnvironmentPresetsType } from './useEnvironment/const'
 import { useDebounceFn } from '@vueuse/core'
 import { pick } from '../../utils'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<StageProps>(), {
+  adjustCamera: true,
+  intensity: 0.5,
+  shadows: 'contact',
+  environment: () => ({ preset: 'city' }),
+  lighting: 'rembrandt',
+})
+
+useWebGPUSupportWarning('Stage', 'uses ContactShadows or AccumulativeShadows for its shadows')
 
 interface StageProps {
   /** Lighting setup, default: "rembrandt" */
@@ -48,14 +59,6 @@ type StageShadows = Partial<AccumulativeShadowsProps>
     /** Shadow map size, default: 1024 */
     size?: number
   }
-
-const props = withDefaults(defineProps<StageProps>(), {
-  adjustCamera: true,
-  intensity: 0.5,
-  shadows: 'contact',
-  environment: () => ({ preset: 'city' }),
-  lighting: 'rembrandt',
-})
 
 interface LightingPreset {
   main: [number, number, number]

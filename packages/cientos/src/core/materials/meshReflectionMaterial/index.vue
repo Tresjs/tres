@@ -24,6 +24,60 @@ import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 import type { TresColor, TresObject } from '@tresjs/core'
 import { BlurPass } from './BlurPass'
 import { MeshReflectionMaterial } from './material'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(
+  defineProps<MeshReflectionMaterialProps>(),
+  {
+    resolution: 256,
+    mix: 1,
+
+    sharpMix: 1,
+    sharpDepthEdgeMin: 0.0,
+    sharpDepthEdgeMax: 0.2,
+    sharpDepthScale: 1,
+    sharpDepthBias: 0,
+
+    blurMixSmooth: 1,
+    blurMixRough: 1,
+    blurDepthEdgeMin: 0.0,
+    blurDepthEdgeMax: 0.2,
+    blurDepthScale: 1,
+    blurDepthBias: 0,
+    blurSize: () => [0, 0],
+
+    distortion: 0,
+    reflectorOffset: 0,
+
+    // NOTE: MeshStandardMaterial props
+    // If you try to simplify this file by removing the props below
+    // make sure that the fall-through props like 'roughnessMap' and
+    // 'normalMap' are actually falling through and visible in the material.
+    color: () => new Color(0x333333),
+    roughness: 1.0,
+    roughnessMap: null,
+    metalness: 0.0,
+    lightMapIntensity: 1.0,
+    aoMapIntensity: 1.0,
+    emissive: () => new Color(0x000000),
+    emissiveIntensity: 1.0,
+    bumpScale: 1,
+    normalMapType: TangentSpaceNormalMap,
+    normalScale: () => new Vector2(1, 1),
+    displacementScale: 1,
+    displacementBias: 0,
+    envMapRotation: () => new Euler(),
+    envMapIntensity: 1.0,
+    wireframe: false,
+    wireframeLinewidth: 1,
+    wireframeLinecap: 'round',
+    wireframeLinejoin: 'round',
+    flatShading: false,
+    fog: true,
+  },
+)
+
+useWebGPUSupportWarning('MeshReflectionMaterial', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
 
 export interface MeshReflectionMaterialProps {
 
@@ -97,57 +151,6 @@ export interface MeshReflectionMaterialProps {
   flatShading?: boolean
   fog?: boolean
 }
-const props = withDefaults(
-  defineProps<MeshReflectionMaterialProps>(),
-  {
-    resolution: 256,
-    mix: 1,
-
-    sharpMix: 1,
-    sharpDepthEdgeMin: 0.0,
-    sharpDepthEdgeMax: 0.2,
-    sharpDepthScale: 1,
-    sharpDepthBias: 0,
-
-    blurMixSmooth: 1,
-    blurMixRough: 1,
-    blurDepthEdgeMin: 0.0,
-    blurDepthEdgeMax: 0.2,
-    blurDepthScale: 1,
-    blurDepthBias: 0,
-    blurSize: () => [0, 0],
-
-    distortion: 0,
-    reflectorOffset: 0,
-
-    // NOTE: MeshStandardMaterial props
-    // If you try to simplify this file by removing the props below
-    // make sure that the fall-through props like 'roughnessMap' and
-    // 'normalMap' are actually falling through and visible in the material.
-    color: () => new Color(0x333333),
-    roughness: 1.0,
-    roughnessMap: null,
-    metalness: 0.0,
-    lightMapIntensity: 1.0,
-    aoMapIntensity: 1.0,
-    emissive: () => new Color(0x000000),
-    emissiveIntensity: 1.0,
-    bumpScale: 1,
-    normalMapType: TangentSpaceNormalMap,
-    normalScale: () => new Vector2(1, 1),
-    displacementScale: 1,
-    displacementBias: 0,
-    envMapRotation: () => new Euler(),
-    envMapIntensity: 1.0,
-    wireframe: false,
-    wireframeLinewidth: 1,
-    wireframeLinecap: 'round',
-    wireframeLinejoin: 'round',
-    flatShading: false,
-    fog: true,
-  },
-)
-
 const { extend, invalidate } = useTres()
 extend({ MeshReflectionMaterial })
 
@@ -297,8 +300,8 @@ onBeforeRender(({ renderer, scene, camera }) => {
   if (!parent) { return }
   // WebGPU compatibility: avoid importing three/webgpu (not exported in older versions).
   // Detect WebGPU renderer by its flag property defined in its class (`isWebGPURenderer: true`).
+  // useWebGPUSupportWarning already warned. Skip the WebGL-only passes.
   if ('isWebGPURenderer' in renderer && renderer.isWebGPURenderer === true) {
-    console.warn('MeshReflectionMaterial: WebGPURenderer is not supported yet')
     return
   }
   if (renderer instanceof WebGLRenderer) {

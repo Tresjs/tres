@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { INJECTION_KEY, logWarning, TresPortal, useLoop, useTres, useTresContext } from '@tresjs/core'
+import { INJECTION_KEY, TresPortal, useLoop, useTres, useTresContext } from '@tresjs/core'
 import {
   HalfFloatType,
   LinearFilter,
@@ -14,6 +14,16 @@ import {
 } from 'three'
 import { onBeforeUnmount, provide, shallowRef, watch } from 'vue'
 import { PortalMaterialImpl } from './PortalMaterialImpl'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<MeshPortalMaterialProps>(), {
+  blend: 0,
+  resolution: 512,
+  worldUnits: false,
+  renderPriority: 0,
+})
+
+useWebGPUSupportWarning('MeshPortalMaterial', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
 
 export interface MeshPortalMaterialProps {
   /** 0 = world only, 1 = portal only. Cross-fades between. Default 0. */
@@ -25,13 +35,6 @@ export interface MeshPortalMaterialProps {
   /** Render-loop priority for the blend takeover. Default 0. */
   renderPriority?: number
 }
-
-const props = withDefaults(defineProps<MeshPortalMaterialProps>(), {
-  blend: 0,
-  resolution: 512,
-  worldUnits: false,
-  renderPriority: 0,
-})
 
 const { extend, invalidate } = useTres()
 extend({ PortalMaterialImpl })
@@ -85,16 +88,8 @@ quadScene.add(new Mesh(quadGeometry, quadMaterial))
 const { onBeforeRender, onRender } = useLoop()
 const drawSize = new Vector2()
 
-let hasWarnedWebGPU = false
-
+// useWebGPUSupportWarning already warned when the renderer is a WebGPURenderer.
 function isWebGL(r: unknown): r is WebGLRenderer {
-  if ((r as { isWebGPURenderer?: boolean })?.isWebGPURenderer) {
-    if (!hasWarnedWebGPU) {
-      logWarning('MeshPortalMaterial: WebGPURenderer is not supported yet')
-      hasWarnedWebGPU = true
-    }
-    return false
-  }
   return r instanceof WebGLRenderer
 }
 

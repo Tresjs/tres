@@ -3,6 +3,16 @@ import { CatmullRomCurve3, Vector3 } from 'three'
 import { computed, shallowRef } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import Line2 from './Line2.vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<CatmullRomCurve3Props>(), {
+  segments: 20,
+  closed: false,
+  curveType: 'centripetal',
+  tension: 0.5,
+})
+
+useWebGPUSupportWarning('CatmullRomCurve3', 'uses three-stdlib\'s LineMaterial, a GLSL ShaderMaterial')
 
 type CurveType = 'centripetal' | 'chordal' | 'catmullrom'
 type Points = Array<Vector3 | [number, number, number]>
@@ -26,13 +36,6 @@ interface CatmullRomCurve3Props {
   gapSize?: number
   worldUnits?: boolean
 }
-
-const props = withDefaults(defineProps<CatmullRomCurve3Props>(), {
-  segments: 20,
-  closed: false,
-  curveType: 'centripetal',
-  tension: 0.5,
-})
 
 function getCatmullRomCurve(points: Points, closed: boolean, curveType: CurveType, tension: number) {
   const mappedPoints = points.map(pt =>

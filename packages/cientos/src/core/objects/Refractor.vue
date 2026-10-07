@@ -5,6 +5,20 @@ import { computed, onBeforeUnmount, shallowRef, toRefs, watch } from 'vue'
 import { Color } from 'three'
 import type { ColorRepresentation } from 'three'
 import type { TresColor } from '@tresjs/core'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<RefractorProps>(), {
+  color: '#7f7f7f',
+  textureWidth: 512,
+  textureHeight: 512,
+  clipBias: 0,
+  multisample: 4,
+  // @ts-expect-error: `RefractorShader` is not present in imported type but is present here:
+  // https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Refractor.js
+  shader: Refractor.RefractorShader,
+})
+
+useWebGPUSupportWarning('Refractor', 'uses three-stdlib\'s Refractor, a GLSL ShaderMaterial')
 
 export interface RefractorProps {
   /**
@@ -62,17 +76,6 @@ export interface RefractorProps {
    */
   shader?: object
 }
-
-const props = withDefaults(defineProps<RefractorProps>(), {
-  color: '#7f7f7f',
-  textureWidth: 512,
-  textureHeight: 512,
-  clipBias: 0,
-  multisample: 4,
-  // @ts-expect-error: `RefractorShader` is not present in imported type but is present here:
-  // https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Refractor.js
-  shader: Refractor.RefractorShader,
-})
 
 const { extend, invalidate } = useTres()
 

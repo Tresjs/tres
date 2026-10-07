@@ -5,6 +5,24 @@ import { FrontSide, RepeatWrapping, TextureLoader, Vector3 } from 'three'
 import type { Sky } from 'three-stdlib'
 import { Water } from 'three-stdlib'
 import { nextTick, onMounted, shallowRef, toRefs, watch } from 'vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<OceanProps>(), {
+  textureWidth: 512,
+  textureHeight: 512,
+  waterNormals: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg',
+  sunDirection: () => new Vector3(),
+  sunColor: 0xFFFFFF,
+  waterColor: 0x001E0F,
+  distortionScale: 3.7,
+  size: 1,
+  clipBias: 0.0,
+  alpha: 1.0,
+  side: FrontSide,
+  speed: 1,
+})
+
+useWebGPUSupportWarning('Ocean', 'uses three-stdlib\'s Water, a GLSL ShaderMaterial')
 
 export interface OceanProps {
   /**
@@ -114,21 +132,6 @@ export interface OceanProps {
    */
   speed?: number
 }
-
-const props = withDefaults(defineProps<OceanProps>(), {
-  textureWidth: 512,
-  textureHeight: 512,
-  waterNormals: 'https://raw.githubusercontent.com/Tresjs/assets/main/textures/water-normals/Water_1_M_Normal.jpg',
-  sunDirection: () => new Vector3(),
-  sunColor: 0xFFFFFF,
-  waterColor: 0x001E0F,
-  distortionScale: 3.7,
-  size: 1,
-  clipBias: 0.0,
-  alpha: 1.0,
-  side: FrontSide,
-  speed: 1,
-})
 
 const { waterNormals, sunColor, waterColor, distortionScale, size, alpha, speed } = toRefs(props)
 

@@ -43,6 +43,27 @@ import {
   objectScale,
   objectZIndex,
 } from './utils'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<HTMLProps>(), {
+  zIndexRange: () => [16777271, 0],
+  as: 'div',
+  transform: false,
+  eps: 0.0001,
+  pointerEvents: 'auto',
+  sprite: false,
+  prepend: false,
+  castShadow: false,
+  receiveShadow: false,
+  transparentMaterial: false,
+  calculatePosition: () => defaultCalculatePosition,
+})
+
+const emits = defineEmits(['onOcclude'])
+
+const slots = defineSlots()
+
+useWebGPUSupportWarning('Html', 'uses a GLSL ShaderMaterial for occlusion. The DOM content still works')
 
 type PointerEventsProperties
   = | 'auto'
@@ -82,24 +103,6 @@ export interface HTMLProps {
   castShadow?: boolean // Enable shadow casting for the occlusion plane
   receiveShadow?: boolean // Enable shadow receiving for the occlusion plane
 }
-
-const props = withDefaults(defineProps<HTMLProps>(), {
-  zIndexRange: () => [16777271, 0],
-  as: 'div',
-  transform: false,
-  eps: 0.0001,
-  pointerEvents: 'auto',
-  sprite: false,
-  prepend: false,
-  castShadow: false,
-  receiveShadow: false,
-  transparentMaterial: false,
-  calculatePosition: () => defaultCalculatePosition,
-})
-
-const emits = defineEmits(['onOcclude'])
-
-const slots = defineSlots()
 
 const {
   geometry,

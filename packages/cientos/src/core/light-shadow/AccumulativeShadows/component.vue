@@ -6,6 +6,24 @@ import { extend, useLoop, useTres } from '@tresjs/core'
 import RandomizedLights from '../RandomizedLights/component.vue'
 import { ProgressiveLightMap } from './ProgressiveLightMap'
 import { SoftShadowMaterial } from './SoftShadowMaterial'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<AccumulativeShadowsProps>(), {
+  once: true,
+  accumulate: true,
+  frames: 40,
+  limit: Infinity,
+  blend: 20,
+  scale: 10,
+  opacity: 1,
+  alphaTest: 0.65,
+  color: 'black',
+  colorBlend: 2,
+  resolution: 1024,
+  toneMapped: true,
+})
+
+useWebGPUSupportWarning('AccumulativeShadows', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
 
 export interface AccumulativeShadowsProps {
   /** Whether shadow creation only happens once (resets after props change), false */
@@ -45,21 +63,6 @@ interface SoftShadowMaterialProps {
   alphaTest?: number
   blend?: number
 }
-
-const props = withDefaults(defineProps<AccumulativeShadowsProps>(), {
-  once: true,
-  accumulate: true,
-  frames: 40,
-  limit: Infinity,
-  blend: 20,
-  scale: 10,
-  opacity: 1,
-  alphaTest: 0.65,
-  color: 'black',
-  colorBlend: 2,
-  resolution: 1024,
-  toneMapped: true,
-})
 
 extend({ SoftShadowMaterial })
 

@@ -5,6 +5,20 @@ import { computed, onBeforeUnmount, shallowRef, toRefs, watch } from 'vue'
 import { Color } from 'three'
 import type { ColorRepresentation } from 'three'
 import type { TresColor } from '@tresjs/core'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<ReflectorProps>(), {
+  color: '#333',
+  textureWidth: 512,
+  textureHeight: 512,
+  clipBias: 0,
+  multisample: 4,
+  // @ts-expect-error: `ReflectorShader` is not present in imported type but is present here:
+  // https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Reflector.js#L32
+  shader: Reflector.ReflectorShader,
+})
+
+useWebGPUSupportWarning('Reflector', 'uses three-stdlib\'s Reflector, a GLSL ShaderMaterial')
 
 export interface ReflectorProps {
   /**
@@ -62,17 +76,6 @@ export interface ReflectorProps {
    */
   shader?: object
 }
-
-const props = withDefaults(defineProps<ReflectorProps>(), {
-  color: '#333',
-  textureWidth: 512,
-  textureHeight: 512,
-  clipBias: 0,
-  multisample: 4,
-  // @ts-expect-error: `ReflectorShader` is not present in imported type but is present here:
-  // https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Reflector.js#L32
-  shader: Reflector.ReflectorShader,
-})
 
 const { extend, invalidate } = useTres()
 

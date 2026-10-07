@@ -3,6 +3,11 @@ import { useTres } from '@tresjs/core'
 import CustomShaderMaterial from 'three-custom-shader-material/vanilla'
 import { shallowRef, watch } from 'vue'
 import type { Fn } from '@vueuse/core'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
+
+const props = defineProps<CustomShaderMaterialProps>()
+
+useWebGPUSupportWarning('CustomShaderMaterial', 'uses the GLSL mode of three-custom-shader-material')
 
 interface CustomShaderMaterialProps {
   baseMaterial: Fn
@@ -11,8 +16,6 @@ interface CustomShaderMaterialProps {
   silent?: boolean
   uniforms?: { [uniform: string]: any }
 }
-
-const props = defineProps<CustomShaderMaterialProps>()
 
 const customShaderMaterialClass = shallowRef(null)
 

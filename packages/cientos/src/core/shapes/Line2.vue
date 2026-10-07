@@ -5,6 +5,22 @@ import { Line2, LineGeometry, LineMaterial } from 'three-stdlib'
 import { computed, onUnmounted, shallowRef, watch } from 'vue'
 import type { TresColor } from '@tresjs/core'
 import type { Color } from 'three'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
+
+const props = withDefaults(defineProps<LineProps>(), {
+  vertexColors: null,
+  color: 'white',
+  lineWidth: 1,
+  worldUnits: false,
+  alphaToCoverage: false,
+  dashed: false,
+  dashSize: 1,
+  gapSize: 1,
+  dashScale: 1,
+  dashOffset: 0,
+})
+
+useWebGPUSupportWarning('Line2', 'uses three-stdlib\'s LineMaterial, a GLSL ShaderMaterial')
 
 type Points = (Vector3 | Vector2 | [number, number, number] | [number, number] | number)[]
 type VertexColors = Array<TresColor>
@@ -21,19 +37,6 @@ export interface LineProps {
   dashScale?: number
   dashOffset?: number
 }
-
-const props = withDefaults(defineProps<LineProps>(), {
-  vertexColors: null,
-  color: 'white',
-  lineWidth: 1,
-  worldUnits: false,
-  alphaToCoverage: false,
-  dashed: false,
-  dashSize: 1,
-  gapSize: 1,
-  dashScale: 1,
-  dashOffset: 0,
-})
 
 type PropsType = typeof props
 

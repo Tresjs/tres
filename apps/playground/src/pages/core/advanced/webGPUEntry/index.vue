@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core/webgpu'
-import { OrbitControls } from '@tresjs/cientos'
+import { OrbitControls } from '@tresjs/cientos/webgpu'
 import { color, mix, positionLocal, sin, time } from 'three/tsl'
 import BackendInfo from './BackendInfo.vue'
 
