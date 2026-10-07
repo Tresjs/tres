@@ -1,3 +1,13 @@
+## 1.3.2 (2026-10-07)
+
+### 🩹 Fixes
+
+- **leches:** improve dark mode contrast for folders and inputs ([#1517](https://github.com/Tresjs/tres/pull/1517))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 1.3.1 (2026-09-29)
 
 ### 🩹 Fixes
