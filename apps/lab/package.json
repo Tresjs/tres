@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:embeds": "node scripts/check-embeds.mjs"
   },
   "dependencies": {
     "@nuxt/eslint": "catalog:",
@@ -45,6 +46,7 @@
     "gsap": "catalog:utils",
     "nuxt": "catalog:nuxt",
     "nuxt-svgo": "catalog:",
+    "playwright": "^1.62.1",
     "postprocessing": "catalog:",
     "vite-svg-loader": "catalog:"
   }
