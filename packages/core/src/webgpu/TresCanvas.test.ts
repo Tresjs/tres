@@ -45,4 +45,14 @@ describe('webgpu TresCanvas', () => {
     const wrapper = mountCanvas({ renderer })
     expect(wrapper.findComponent(RootTresCanvas).props('renderer')).toBe(renderer)
   })
+
+  it('re-emits the events of the root TresCanvas', () => {
+    const wrapper = mountCanvas()
+    const root = wrapper.findComponent(RootTresCanvas)
+    const payload = {}
+    root.vm.$emit('beforeLoop', payload)
+    root.vm.$emit('wheel', payload)
+    expect(wrapper.emitted('beforeLoop')).toEqual([[payload]])
+    expect(wrapper.emitted('wheel')).toEqual([[payload]])
+  })
 })

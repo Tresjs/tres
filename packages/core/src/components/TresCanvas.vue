@@ -4,6 +4,7 @@ import { version } from '../../package.json' with { type: 'json' }
 import type { TresContext } from '../composables'
 import type { ContextEmits, ContextProps } from './Context.vue'
 import Context from './Context.vue'
+import { forwardContextEmits } from './forwardContextEmits'
 import { tresCanvasDefaults } from './tresCanvasDefaults'
 
 export type TresCanvasEmits = ContextEmits
@@ -21,6 +22,8 @@ const emit = defineEmits<TresCanvasEmits>()
 defineSlots<{
   default: () => any
 }>()
+
+const contextListeners = forwardContextEmits(emit)
 
 const canvasRef = ref<HTMLCanvasElement>()
 const contextRef = shallowRef<{ context: TresContext, dispose: () => void }>()
@@ -56,25 +59,7 @@ defineExpose<TresCanvasInstance>({
       ref="contextRef"
       :canvas="canvasRef"
       v-bind="props"
-      @ready="emit('ready', $event)"
-      @error="emit('error', $event)"
-      @pointermissed="emit('pointermissed', $event)"
-      @render="emit('render', $event)"
-      @before-loop="emit('beforeLoop', $event)"
-      @loop="emit('loop', $event)"
-      @click="emit('click', $event)"
-      @contextmenu="emit('contextmenu', $event)"
-      @pointermove="emit('pointermove', $event)"
-      @pointerenter="emit('pointerenter', $event)"
-      @pointerleave="emit('pointerleave', $event)"
-      @pointerover="emit('pointerover', $event)"
-      @pointerout="emit('pointerout', $event)"
-      @dblclick="emit('dblclick', $event)"
-      @pointerdown="emit('pointerdown', $event)"
-      @pointerup="emit('pointerup', $event)"
-      @pointercancel="emit('pointercancel', $event)"
-      @lostpointercapture="emit('lostpointercapture', $event)"
-      @wheel="emit('wheel', $event)"
+      v-on="contextListeners"
     >
       <slot></slot>
     </Context>

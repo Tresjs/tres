@@ -5,6 +5,7 @@ import type { TresRendererSetupContext } from '../composables'
 import type { TresCanvasEmits, TresCanvasInstance, TresCanvasProps } from '../components/TresCanvas.vue'
 // Not named `TresCanvas`: the template compiler treats every `Tres*` tag as a Tres component.
 import RootCanvas from '../components/TresCanvas.vue'
+import { forwardContextEmits } from '../components/forwardContextEmits'
 import { tresCanvasDefaults } from '../components/tresCanvasDefaults'
 import { extend } from '../core/catalogue'
 import { toWebGPURendererParameters } from './renderer'
@@ -16,6 +17,8 @@ const emit = defineEmits<TresCanvasEmits>()
 defineSlots<{
   default: () => any
 }>()
+
+const contextListeners = forwardContextEmits(emit)
 
 // The root Context extends the catalogue with `three` afterwards. Both namespaces share
 // their classes through `three.core.js`, so only `PMREMGenerator` (not used as a tag) ends
@@ -42,25 +45,7 @@ defineExpose<TresCanvasInstance>({
     ref="canvasRef"
     v-bind="props"
     :renderer="props.renderer ?? createWebGPURenderer"
-    @ready="emit('ready', $event)"
-    @error="emit('error', $event)"
-    @pointermissed="emit('pointermissed', $event)"
-    @render="emit('render', $event)"
-    @before-loop="emit('beforeLoop', $event)"
-    @loop="emit('loop', $event)"
-    @click="emit('click', $event)"
-    @contextmenu="emit('contextmenu', $event)"
-    @pointermove="emit('pointermove', $event)"
-    @pointerenter="emit('pointerenter', $event)"
-    @pointerleave="emit('pointerleave', $event)"
-    @pointerover="emit('pointerover', $event)"
-    @pointerout="emit('pointerout', $event)"
-    @dblclick="emit('dblclick', $event)"
-    @pointerdown="emit('pointerdown', $event)"
-    @pointerup="emit('pointerup', $event)"
-    @pointercancel="emit('pointercancel', $event)"
-    @lostpointercapture="emit('lostpointercapture', $event)"
-    @wheel="emit('wheel', $event)"
+    v-on="contextListeners"
   >
     <slot></slot>
   </RootCanvas>

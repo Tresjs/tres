@@ -19,7 +19,7 @@ const staticImports = (code) => {
 
 // Walks the relative imports of an entry. Returns the dist files it reaches and the bare
 // specifiers (packages) they import.
-const graph = (entry) => {
+const importGraph = (entry) => {
   const files = new Set()
   const packages = new Set()
   const visit = (file) => {
@@ -35,8 +35,8 @@ const graph = (entry) => {
 }
 
 const errors = []
-const root = graph('tres.js')
-const webgpu = graph('webgpu.js')
+const root = importGraph('tres.js')
+const webgpu = importGraph('webgpu.js')
 
 for (const specifier of WEBGPU_ONLY) {
   if (root.packages.has(specifier)) {
