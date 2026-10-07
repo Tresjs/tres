@@ -1,6 +1,6 @@
 ---
 title: WebGPU
-description: Explore experimental WebGPU rendering capabilities in TresJS.
+description: Render TresJS scenes with WebGPU, node materials and TSL.
 ---
 
 ::warning
@@ -30,37 +30,161 @@ Check current WebGPU browser support at [Can I Use WebGPU](https://caniuse.com/w
 
 ## Usage with TresJS
 
-TresJS supports WebGPU through Three.js's WebGPU renderer. You can enable WebGPU by providing a custom renderer factory to the `<TresCanvas>` component.
+Import `TresCanvas` from `@tresjs/core/webgpu`. It creates a Three.js `WebGPURenderer` for you, and node materials work as template tags.
 
-### Basic Setup
+::note
+`@tresjs/core/webgpu` is available since `@tresjs/core` v5.10. On older versions, see [Without the WebGPU entry](#without-the-webgpu-entry).
+::
 
 ```vue [basic-webgpu.vue]
 <script setup lang="ts">
-import { TresCanvas } from '@tresjs/core'
-import { WebGPURenderer } from 'three/webgpu'
-import type { TresRendererSetupContext } from '@tresjs/core'
+import { TresCanvas } from '@tresjs/core/webgpu'
+</script>
 
-// Create WebGPU renderer factory
-const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
-  const renderer = new WebGPURenderer({
-    canvas: toValue(ctx.canvas),
-    // WebGPU specific configuration
-    alpha: true,
-    antialias: true,
-  })
-  return renderer
-}
+<template>
+  <TresCanvas>
+    <TresPerspectiveCamera :position="[3, 3, 3]" :look-at="[0, 0, 0]" />
+    <TresMesh>
+      <TresBoxGeometry :args="[1, 1, 1]" />
+      <TresMeshStandardNodeMaterial color="hotpink" />
+    </TresMesh>
+    <TresDirectionalLight :position="[3, 5, 2]" />
+  </TresCanvas>
+</template>
+```
+
+The root import `@tresjs/core` does not change: its `TresCanvas` still uses `WebGLRenderer`.
+
+### What the WebGPU entry gives you
+
+| | `@tresjs/core` | `@tresjs/core/webgpu` |
+| -- | -- | -- |
+| Default renderer | `WebGLRenderer` | `WebGPURenderer` |
+| Node materials as tags (`<TresMeshStandardNodeMaterial>`) | No, needs `extend()` | Yes |
+| `useTres().renderer` type | `WebGLRenderer \| Renderer` | `WebGPURenderer` |
+
+All other exports (`useLoop`, `useTresContext`, `extend`, type guards, ...) are the same in both entries.
+
+### Node materials as tags
+
+Importing `@tresjs/core/webgpu` adds every class of `three/webgpu` to the [catalogue](/api/components/tres-objects), so node materials are Tres components. Their node props take TSL nodes:
+
+```vue
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core/webgpu'
+import { color, mix, positionLocal, sin, time } from 'three/tsl'
+
+const colorNode = mix(
+  color('#82dbc5'),
+  color('#fbb03b'),
+  sin(time.add(positionLocal.y.mul(4))).mul(0.5).add(0.5),
+)
+</script>
+
+<template>
+  <TresCanvas>
+    <TresMesh>
+      <TresTorusKnotGeometry :args="[0.6, 0.2, 128, 32]" />
+      <TresMeshStandardNodeMaterial :color-node="colorNode" :roughness="0.3" />
+    </TresMesh>
+  </TresCanvas>
+</template>
+```
+
+The tags are typed. Import anything from `@tresjs/core/webgpu` once in your app, and the editor knows `<TresMeshStandardNodeMaterial>` and its props.
+
+### Typed `useTres`
+
+Import `useTres` from `@tresjs/core/webgpu` in components inside the canvas. The `renderer` is typed as `WebGPURenderer`, so you do not need a cast:
+
+```ts
+import { useTres } from '@tresjs/core/webgpu'
+
+const { renderer } = useTres()
+console.log(renderer.backend) // WebGPURenderer-only API, no cast
+```
+
+### Standard materials and GLSL
+
+- Standard materials still work. `WebGPURenderer` converts `<TresMeshStandardMaterial>`, `<TresMeshBasicMaterial>`, `<TresMeshPhysicalMaterial>` and the other built-in materials to their node versions.
+- `ShaderMaterial`, `RawShaderMaterial` and `onBeforeCompile` (GLSL) do not work with `WebGPURenderer`. Write the shader with [TSL](https://github.com/mrdoob/three.js/wiki/Three.js-Shading-Language) and a node material instead.
+
+### Mixed imports are safe
+
+`three` and `three/webgpu` share their core classes. `Mesh` from `three` and `Mesh` from `three/webgpu` are the same class, so you can mix both import paths in one app.
+
+### WebGL2 fallback
+
+When the browser does not support WebGPU, `WebGPURenderer` uses its WebGL2 backend. Node materials and TSL still work on that backend. To check which backend runs:
+
+```ts
+const { renderer } = useTres()
+const isWebGPU = 'isWebGPUBackend' in renderer.backend
+```
+
+If the renderer cannot start at all, `TresCanvas` emits `error` with a `TresRendererError`:
+
+```vue
+<TresCanvas @error="(error) => console.error(error.message)">
+```
+
+### Custom renderer options
+
+You do not need the `renderer` prop for the normal case. The WebGPU `TresCanvas` passes `antialias`, `alpha`, `depth`, `stencil`, `powerPreference` and `logarithmicDepthBuffer` to `WebGPURenderer`.
+
+For other `WebGPURenderer` options (for example `samples`, `trackTimestamp` or `forceWebGL`), give your own factory:
+
+```vue
+<script setup lang="ts">
+import { TresCanvas } from '@tresjs/core/webgpu'
+import type { TresRendererSetupContext } from '@tresjs/core/webgpu'
+import { WebGPURenderer } from 'three/webgpu'
+
+const createRenderer = (ctx: TresRendererSetupContext) => new WebGPURenderer({
+  canvas: toValue(ctx.canvas),
+  antialias: true,
+  trackTimestamp: true,
+})
+</script>
+
+<template>
+  <TresCanvas :renderer="createRenderer">
+    <!-- Your scene -->
+  </TresCanvas>
+</template>
+```
+
+### Cientos
+
+`@tresjs/cientos` is built for `WebGLRenderer`. Components that do not write their own shaders (controls, loaders, most shapes and staging helpers) are expected to work under `WebGPURenderer`, but not all of them are tested yet. Components built on GLSL shaders do not work: `MeshWobbleMaterial`, `MeshDiscardMaterial`, `PointMaterial`, `HolographicMaterial`, `MeshReflectionMaterial`, `MeshTransmissionMaterial`, `MeshPortalMaterial`, `CustomShaderMaterial`, `AccumulativeShadows`, `ContactShadows`, `Lensflare`, `Reflector`, `Refractor`, `Ocean`, `Sparkles`, `Grid` and `Outline`. A `@tresjs/cientos/webgpu` entry with TSL versions is planned.
+
+### Without the WebGPU entry
+
+On versions before v5.10, or to keep the root `TresCanvas`, pass a renderer factory and add the node classes to the catalogue yourself:
+
+```vue
+<script setup lang="ts">
+import { extend, TresCanvas } from '@tresjs/core'
+import type { TresRendererSetupContext } from '@tresjs/core'
+import * as THREE_WEBGPU from 'three/webgpu'
+
+// Makes <TresMeshStandardNodeMaterial> and the other node classes available as tags
+extend(THREE_WEBGPU)
+
+const createWebGPURenderer = (ctx: TresRendererSetupContext) => new THREE_WEBGPU.WebGPURenderer({
+  canvas: toValue(ctx.canvas),
+  antialias: true,
+})
 </script>
 
 <template>
   <TresCanvas :renderer="createWebGPURenderer">
-    <TresPerspectiveCamera :position="[3, 3, 3]" />
-    <TresBoxGeometry :args="[1, 1, 1]" />
-    <TresMeshBasicMaterial color="hotpink" />
-    <!-- Your 3D scene here -->
+    <!-- Your scene -->
   </TresCanvas>
 </template>
 ```
+
+Here `useTres().renderer` is typed as `WebGLRenderer | Renderer`, so check it with the `isWebGPURenderer` [type guard](/api/utils/type-guards) before you use WebGPU-only APIs.
 
 ### Advanced WebGPU Example
 
@@ -72,9 +196,10 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
 
   ```vue [components/HologramCube.vue]
   <script setup lang="ts">
-  import { isMesh } from '@tesjs/core'
+  import { isMesh } from '@tresjs/core/webgpu'
+  import type { TresObject } from '@tresjs/core/webgpu'
   import { useGLTF } from '@tresjs/cientos'
-  import { add, cameraProjectionMatrix, cameraViewMatrix, color, Fn, hash, mix, normalView, positionWorld, sin, timerGlobal, uniform, varying, vec3, vec4 } from 'three/tsl'
+  import { add, cameraProjectionMatrix, cameraViewMatrix, color, Fn, hash, mix, normalView, positionWorld, sin, time, uniform, varying, vec3, vec4 } from 'three/tsl'
   import { AdditiveBlending, DoubleSide, MeshBasicNodeMaterial } from 'three/webgpu'
 
   const { nodes } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', { draco: true })
@@ -90,9 +215,9 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
     blending: AdditiveBlending,
   })
   // Position
-  const glitchStrength = varying(0)
+  const glitchStrength = varying(uniform(0))
   material.vertexNode = Fn(() => {
-    const glitchTime = timerGlobal().sub(positionWorld.y.mul(0.5))
+    const glitchTime = time.sub(positionWorld.y.mul(0.5))
     glitchStrength.assign(add(
       sin(glitchTime),
       sin(glitchTime.mul(3.45)),
@@ -110,7 +235,7 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
   const colorInside = uniform(color('#ff6088'))
   const colorOutside = uniform(color('#4d55ff'))
   material.colorNode = Fn(() => {
-    const stripes = positionWorld.y.sub(timerGlobal(0.02)).mul(20).mod(1).pow(3)
+    const stripes = positionWorld.y.sub(time.mul(0.02)).mul(20).mod(1).pow(3)
     const fresnel = normalView.dot(vec3(0, 0, 1)).abs().oneMinus()
     const falloff = fresnel.smoothstep(0.8, 0.2)
     const alpha = stripes.mul(fresnel).add(fresnel.mul(1.25)).mul(falloff)
@@ -119,7 +244,7 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
   })()
 
   watch(model, (newModel) => {
-    newModel.traverse((child) => {
+    newModel?.traverse((child: TresObject) => {
       if (isMesh(child)) {
         child.material = material
       }
@@ -133,26 +258,14 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
 ```
   ```vue [app.vue]
   <script setup lang="ts">
-  import { TresCanvas } from '@tresjs/core'
-  import { WebGPURenderer } from 'three/webgpu'
-  import type { ShadowMapType, ToneMapping } from 'three'
-  import type { TresRendererSetupContext } from '@tresjs/core'
+  import { TresCanvas } from '@tresjs/core/webgpu'
+  import { OrbitControls } from '@tresjs/cientos'
 
   import HologramCube from './HologramCube.vue'
-
-  const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
-    const renderer = new WebGPURenderer({
-      canvas: toValue(ctx.canvas),
-      // WebGPU specific configuration
-      alpha: true,
-      antialias: true,
-    })
-    return renderer
-  }
   </script>
 
   <template>
-    <TresCanvas :renderer="createWebGPURenderer">
+    <TresCanvas>
       <TresPerspectiveCamera
         :position="[3, 3, 3]"
         :look-at="[0, 0, 0]"
@@ -160,6 +273,8 @@ const createWebGPURenderer = (ctx: TresRendererSetupContext) => {
       <Suspense>
         <HologramCube />
       </Suspense>
+      <OrbitControls />
+      <TresAmbientLight :intensity="1" />
     </TresCanvas>
   </template>
   ```

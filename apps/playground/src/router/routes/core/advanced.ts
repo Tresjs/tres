@@ -64,4 +64,9 @@ export const advancedRoutes = [
     name: 'WebGPU',
     component: () => import('@/pages/core/advanced/webGPU/index.vue'),
   },
+  {
+    path: '/core/advanced/webgpu-entry',
+    name: 'WebGPU entry (@tresjs/core/webgpu)',
+    component: () => import('@/pages/core/advanced/webGPUEntry/index.vue'),
+  },
 ]

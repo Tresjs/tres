@@ -176,20 +176,29 @@ export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
   Overwrite<ElementProps<T>, Omit<InstanceProps<InstanceType<T>, T>, 'object'>>
 >
 
-type ThreeExports = typeof THREE
-type ThreeInstancesImpl = {
-  [K in keyof ThreeExports as Uncapitalize<K>]: ThreeExports[K] extends ConstructorRepresentation
-    ? ThreeElement<ThreeExports[K]>
+/**
+ * Element types for every export of a Three.js namespace (`three`, `three/webgpu`, ...).
+ */
+export type ThreeInstancesOf<Exports> = {
+  [K in keyof Exports as Uncapitalize<string & K>]: Exports[K] extends ConstructorRepresentation
+    ? ThreeElement<Exports[K]>
     : never
 }
+
+/**
+ * Tres component types for every export of a Three.js namespace.
+ */
+export type TresComponentsOf<Instances> = {
+  [K in keyof Instances as `Tres${Capitalize<string & K>}`]: DefineComponent<Instances[K]>
+}
+
+type ThreeInstancesImpl = ThreeInstancesOf<typeof THREE>
 
 export interface ThreeInstances extends ThreeInstancesImpl {
   primitive: Omit<ThreeElement<any>, 'args'> & { object: object }
 }
 
-export type TresComponents = {
-  [K in keyof ThreeInstances as `Tres${Capitalize<string & K>}`]: DefineComponent<ThreeInstances[K]>
-}
+export type TresComponents = TresComponentsOf<ThreeInstances>
 
 declare module 'vue' {
   interface GlobalComponents extends TresComponents {
