@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   tres: {
     devtools: true,  // Enable devtools extension
     glsl: true,      // Enable GLSL shader imports
+    renderer: 'webgl', // 'webgpu' auto-imports from the `/webgpu` entries (see src/entries.ts)
   },
 })
 ```
