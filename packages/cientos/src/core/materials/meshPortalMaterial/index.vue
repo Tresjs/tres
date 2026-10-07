@@ -16,15 +16,6 @@ import { onBeforeUnmount, provide, shallowRef, watch } from 'vue'
 import { PortalMaterialImpl } from './PortalMaterialImpl'
 import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
-const props = withDefaults(defineProps<MeshPortalMaterialProps>(), {
-  blend: 0,
-  resolution: 512,
-  worldUnits: false,
-  renderPriority: 0,
-})
-
-useWebGPUSupportWarning('MeshPortalMaterial', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
-
 export interface MeshPortalMaterialProps {
   /** 0 = world only, 1 = portal only. Cross-fades between. Default 0. */
   blend?: number
@@ -35,6 +26,15 @@ export interface MeshPortalMaterialProps {
   /** Render-loop priority for the blend takeover. Default 0. */
   renderPriority?: number
 }
+
+const props = withDefaults(defineProps<MeshPortalMaterialProps>(), {
+  blend: 0,
+  resolution: 512,
+  worldUnits: false,
+  renderPriority: 0,
+})
+
+useWebGPUSupportWarning('MeshPortalMaterial', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
 
 const { extend, invalidate } = useTres()
 extend({ PortalMaterialImpl })

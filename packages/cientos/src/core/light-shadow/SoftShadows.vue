@@ -6,14 +6,6 @@ import { ShaderChunk, WebGLRenderer } from 'three'
 import { onUnmounted, watch } from 'vue'
 import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
-const props = withDefaults(defineProps<SoftShadowsProps>(), {
-  size: 25,
-  samples: 10,
-  focus: 0,
-})
-
-useWebGPUSupportWarning('SoftShadows', 'patches three\'s GLSL shader chunks')
-
 // NOTE: Sources
 // https://github.com/mrdoob/three.js/blob/master/examples/webgl_shadowmap_pcss.html
 // https://github.com/pmndrs/drei/blob/master/src/core/softShadows.tsx
@@ -26,6 +18,14 @@ interface SoftShadowsProps {
   /** Depth focus, use it to shift the focal point (where the shadow is the sharpest), default: 0 (the beginning) */
   focus?: number
 }
+
+const props = withDefaults(defineProps<SoftShadowsProps>(), {
+  size: 25,
+  samples: 10,
+  focus: 0,
+})
+
+useWebGPUSupportWarning('SoftShadows', 'patches three\'s GLSL shader chunks')
 
 const PCSSGetShadow = `
 return PCSS( shadowMap, shadowCoord );

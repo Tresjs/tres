@@ -12,7 +12,7 @@ export const WEBGPU_ONLY = ['three/webgpu', 'three/tsl']
 
 // Dynamic `import('x')` counts too: bundlers resolve a literal specifier at build time, so
 // `import('three/webgpu')` in the root graph breaks apps on old three just like a static import.
-export const importSpecifiers = (code) => {
+const importSpecifiers = (code) => {
   const specifiers = []
   for (const match of code.matchAll(/(?:^|\n)\s*(?:import|export)\s[^;]*?from\s*["']([^"']+)["']|(?:^|\n)\s*import\s*["']([^"']+)["']|\bimport\s*\(\s*["']([^"']+)["']\s*\)/g)) {
     specifiers.push(match[1] ?? match[2] ?? match[3])

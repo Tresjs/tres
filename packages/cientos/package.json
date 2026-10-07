@@ -57,6 +57,7 @@
     "build": "tsdown && node ./scripts/check-entries.mjs",
     "build:analyze": "ANALYZE=true tsdown",
     "lint": "eslint .",
+    "test:ci": "node --test ../../tools/guards/entry-graph.test.mjs",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },

@@ -6,23 +6,6 @@ import { extend, useLoop } from '@tresjs/core'
 import { shallowRef } from 'vue'
 import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
-const props = withDefaults(defineProps<GridProps>(), {
-  cellColor: '#000000',
-  sectionColor: '#0000ff',
-  cellSize: 0.5,
-  sectionSize: 1,
-  followCamera: false,
-  infiniteGrid: false,
-  fadeDistance: 100,
-  fadeStrength: 1,
-  fadeFrom: 1,
-  cellThickness: 0.5,
-  sectionThickness: 1,
-  side: BackSide,
-})
-
-useWebGPUSupportWarning('Grid', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
-
 /**
        Based on
       https://github.com/Fyrestar/THREE.InfiniteGridHelper by https://github.com/Fyrestar
@@ -61,6 +44,23 @@ export type GridProps = GridMaterialType & {
   /** Default plane-geometry arguments */
   args?: ConstructorParameters<typeof PlaneGeometry>
 }
+
+const props = withDefaults(defineProps<GridProps>(), {
+  cellColor: '#000000',
+  sectionColor: '#0000ff',
+  cellSize: 0.5,
+  sectionSize: 1,
+  followCamera: false,
+  infiniteGrid: false,
+  fadeDistance: 100,
+  fadeStrength: 1,
+  fadeFrom: 1,
+  cellThickness: 0.5,
+  sectionThickness: 1,
+  side: BackSide,
+})
+
+useWebGPUSupportWarning('Grid', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
 
 const GridMaterial = shaderMaterial(
   {

@@ -93,7 +93,7 @@ for (const name of WEBGL_ONLY) {
   }
 }
 
-// A source scan, because the bundle may rename the helper. A ported component keeps its call in the
+// A source scan, because the bundle may rename the composable. A ported component keeps its call in the
 // root entry (that version is still GLSL), so names outside WEBGL_ONLY are allowed.
 const warnedNames = new Set(
   readdirSync(src, { recursive: true })

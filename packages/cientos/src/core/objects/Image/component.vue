@@ -8,21 +8,6 @@ import ImageMaterial from './ImageMaterial.vue'
 import { useTexture } from '../../loaders/useTexture'
 import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
-const props = withDefaults(defineProps<ImageProps>(), {
-  segments: 1,
-  scale: 1,
-  color: () => new Color('white'),
-  zoom: 1,
-  radius: 0,
-  grayscale: 0,
-  toneMapped: true,
-  transparent: false,
-  opacity: 1,
-  side: FrontSide,
-})
-
-useWebGPUSupportWarning('Image', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
-
 export type ImageProps = {
   /**
    * Number of divisions in the the default geometry.
@@ -80,6 +65,21 @@ export type ImageProps = {
     url: string
   }
 )
+
+const props = withDefaults(defineProps<ImageProps>(), {
+  segments: 1,
+  scale: 1,
+  color: () => new Color('white'),
+  zoom: 1,
+  radius: 0,
+  grayscale: 0,
+  toneMapped: true,
+  transparent: false,
+  opacity: 1,
+  side: FrontSide,
+})
+
+useWebGPUSupportWarning('Image', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
 
 const imageRef = shallowRef()
 const texture = shallowRef<Texture | null>(props.texture ?? null)

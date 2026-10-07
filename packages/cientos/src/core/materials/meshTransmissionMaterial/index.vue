@@ -16,25 +16,6 @@ import { MeshDiscardMaterial } from '../meshDiscardMaterial/material'
 import { MeshTransmissionMaterial } from './material'
 import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
-const props = withDefaults(defineProps<MeshTransmissionMaterialProps>(), {
-  samples: 6,
-  transmissionSampler: false,
-  transmission: 1,
-  thickness: 0,
-  backsideThickness: 0,
-  roughness: 0,
-  chromaticAberration: 0.03,
-  anisotropicBlur: 0.1,
-  distortion: 0,
-  distortionScale: 0.5,
-  temporalDistortion: 0,
-  ior: 1.5,
-  resolution: 256,
-  backside: false,
-})
-
-useWebGPUSupportWarning('MeshTransmissionMaterial', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
-
 export interface MeshTransmissionMaterialProps {
   /** Number of refraction samples. Baked into the shader at compile time. Default: 6 */
   samples?: number
@@ -81,6 +62,25 @@ export interface MeshTransmissionMaterialProps {
   /** Supply your own render-target texture, skipping the internal FBO pass. */
   buffer?: Texture | null
 }
+
+const props = withDefaults(defineProps<MeshTransmissionMaterialProps>(), {
+  samples: 6,
+  transmissionSampler: false,
+  transmission: 1,
+  thickness: 0,
+  backsideThickness: 0,
+  roughness: 0,
+  chromaticAberration: 0.03,
+  anisotropicBlur: 0.1,
+  distortion: 0,
+  distortionScale: 0.5,
+  temporalDistortion: 0,
+  ior: 1.5,
+  resolution: 256,
+  backside: false,
+})
+
+useWebGPUSupportWarning('MeshTransmissionMaterial', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
 
 const { extend, invalidate } = useTres()
 extend({ MeshTransmissionMaterial })
@@ -171,10 +171,8 @@ onBeforeRender(({ renderer, scene, camera, elapsed }) => {
   const mat = materialRef.value
   if (!mat) { return }
 
-  // useWebGPUSupportWarning already warned. Skip the WebGL-only passes.
-  if ('isWebGPURenderer' in renderer && (renderer as { isWebGPURenderer?: boolean }).isWebGPURenderer === true) {
-    return
-  }
+  // WebGPURenderer is not a WebGLRenderer, so it skips the GLSL passes.
+  // useWebGPUSupportWarning already told the user.
   if (!(renderer instanceof WebGLRenderer)) { return }
 
   const parent = mat?.__tres?.parent

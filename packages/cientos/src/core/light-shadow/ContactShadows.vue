@@ -26,23 +26,6 @@ import type {
 } from 'three'
 import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
-const props = withDefaults(defineProps<ContactShadowsProps>(), {
-  opacity: 1,
-  blur: 1,
-  color: '#000000',
-  tint: undefined,
-  scale: 10,
-  width: 1,
-  height: 1,
-  far: 10,
-  smooth: true,
-  resolution: 512,
-  frames: Number.POSITIVE_INFINITY,
-  depthWrite: false,
-})
-
-useWebGPUSupportWarning('ContactShadows', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
-
 export interface ContactShadowsProps {
   /**
    * The opacity of the shadows.
@@ -156,6 +139,23 @@ export interface ContactShadowsProps {
    *
    */
 }
+
+const props = withDefaults(defineProps<ContactShadowsProps>(), {
+  opacity: 1,
+  blur: 1,
+  color: '#000000',
+  tint: undefined,
+  scale: 10,
+  width: 1,
+  height: 1,
+  far: 10,
+  smooth: true,
+  resolution: 512,
+  frames: Number.POSITIVE_INFINITY,
+  depthWrite: false,
+})
+
+useWebGPUSupportWarning('ContactShadows', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
 
 function blurShadow(
   blur: number,
