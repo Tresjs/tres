@@ -4,6 +4,7 @@ import type { ColorRepresentation, PlaneGeometry, ShaderMaterial, Side, Uniform 
 import { BackSide, Color, Mesh, Plane, Vector3 } from 'three'
 import { extend, useLoop } from '@tresjs/core'
 import { shallowRef } from 'vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 /**
        Based on
@@ -58,6 +59,8 @@ const props = withDefaults(defineProps<GridProps>(), {
   sectionThickness: 1,
   side: BackSide,
 })
+
+useWebGPUSupportWarning('Grid', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
 
 const GridMaterial = shaderMaterial(
   {

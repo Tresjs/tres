@@ -156,7 +156,7 @@ const createRenderer = (ctx: TresRendererSetupContext) => new WebGPURenderer({
 
 ### Cientos
 
-`@tresjs/cientos` is built for `WebGLRenderer`. Components that do not write their own shaders (controls, loaders, most shapes and staging helpers) are expected to work under `WebGPURenderer`, but not all of them are tested yet. Components built on GLSL shaders do not work: `MeshWobbleMaterial`, `MeshDiscardMaterial`, `PointMaterial`, `HolographicMaterial`, `MeshReflectionMaterial`, `MeshTransmissionMaterial`, `MeshPortalMaterial`, `CustomShaderMaterial`, `AccumulativeShadows`, `ContactShadows`, `Lensflare`, `Reflector`, `Refractor`, `Ocean`, `Sparkles`, `Grid` and `Outline`. A `@tresjs/cientos/webgpu` entry with TSL versions is planned.
+Import cientos from `@tresjs/cientos/webgpu` (since cientos v5.10, needs `three` r171 or newer). It has the same names and props as `@tresjs/cientos`, but it exports only the components that work under `WebGPURenderer`. Components built on GLSL shaders, such as `ContactShadows`, `Grid` and `MeshTransmissionMaterial`, are not exported yet, so importing one fails at build time and names it. See the [cientos WebGPU guide](https://cientos.tresjs.org/getting-started/webgpu) for the full list.
 
 ### Without the WebGPU entry
 
@@ -198,7 +198,7 @@ Here `useTres().renderer` is typed as `WebGLRenderer | Renderer`, so check it wi
   <script setup lang="ts">
   import { isMesh } from '@tresjs/core/webgpu'
   import type { TresObject } from '@tresjs/core/webgpu'
-  import { useGLTF } from '@tresjs/cientos'
+  import { useGLTF } from '@tresjs/cientos/webgpu'
   import { add, cameraProjectionMatrix, cameraViewMatrix, color, Fn, hash, mix, normalView, positionWorld, sin, time, uniform, varying, vec3, vec4 } from 'three/tsl'
   import { AdditiveBlending, DoubleSide, MeshBasicNodeMaterial } from 'three/webgpu'
 
@@ -259,7 +259,7 @@ Here `useTres().renderer` is typed as `WebGLRenderer | Renderer`, so check it wi
   ```vue [app.vue]
   <script setup lang="ts">
   import { TresCanvas } from '@tresjs/core/webgpu'
-  import { OrbitControls } from '@tresjs/cientos'
+  import { OrbitControls } from '@tresjs/cientos/webgpu'
 
   import HologramCube from './HologramCube.vue'
   </script>

@@ -6,6 +6,7 @@ import { useTres } from '@tresjs/core'
 import { computed, shallowRef, watchEffect } from 'vue'
 import ImageMaterial from './ImageMaterial.vue'
 import { useTexture } from '../../loaders/useTexture'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
 export type ImageProps = {
   /**
@@ -77,6 +78,8 @@ const props = withDefaults(defineProps<ImageProps>(), {
   opacity: 1,
   side: FrontSide,
 })
+
+useWebGPUSupportWarning('Image', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
 
 const imageRef = shallowRef()
 const texture = shallowRef<Texture | null>(props.texture ?? null)

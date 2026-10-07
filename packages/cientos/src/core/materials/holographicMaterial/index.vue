@@ -6,6 +6,7 @@ import type { TresColor } from '@tresjs/core'
 import type { Side } from 'three'
 
 import HolographicMaterial from './HolographicMaterialParameters'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
 const props = withDefaults(
   defineProps<{
@@ -35,6 +36,8 @@ const props = withDefaults(
     side: FrontSide,
   },
 )
+
+useWebGPUSupportWarning('HolographicMaterial', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
 
 const MeshHolographicMaterialClass = shallowRef()
 

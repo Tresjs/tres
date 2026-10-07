@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { isMesh } from '@tresjs/core/webgpu'
 import type { TresObject } from '@tresjs/core/webgpu'
-import { useGLTF } from '@tresjs/cientos'
+import { useGLTF } from '@tresjs/cientos/webgpu'
 import { add, cameraProjectionMatrix, cameraViewMatrix, color, Fn, hash, mix, normalView, positionWorld, sin, time, uniform, varying, vec3, vec4 } from 'three/tsl'
 import { AdditiveBlending, DoubleSide, MeshBasicNodeMaterial } from 'three/webgpu'
 

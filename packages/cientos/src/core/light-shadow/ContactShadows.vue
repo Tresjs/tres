@@ -24,6 +24,7 @@ import type {
   ColorRepresentation,
   Scene,
 } from 'three'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 export interface ContactShadowsProps {
   /**
@@ -153,6 +154,8 @@ const props = withDefaults(defineProps<ContactShadowsProps>(), {
   frames: Number.POSITIVE_INFINITY,
   depthWrite: false,
 })
+
+useWebGPUSupportWarning('ContactShadows', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
 
 function blurShadow(
   blur: number,

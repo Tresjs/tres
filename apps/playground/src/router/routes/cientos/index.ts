@@ -8,6 +8,7 @@ import { miscellaneousRoutes } from './miscellaneous'
 import { objectsRoutes } from './objects'
 import { shapesRoutes } from './shapes'
 import { stagingRoutes } from './staging'
+import { webgpuRoutes } from './webgpu'
 
 const cientosRoutes = [
   ...abstractionsRoutes,
@@ -20,6 +21,7 @@ const cientosRoutes = [
   ...objectsRoutes,
   ...shapesRoutes,
   ...stagingRoutes,
+  ...webgpuRoutes,
 ]
 
 export {
@@ -34,4 +36,5 @@ export {
   objectsRoutes,
   shapesRoutes,
   stagingRoutes,
+  webgpuRoutes,
 }

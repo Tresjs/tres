@@ -19,6 +19,7 @@ import ShaderDataBuilder from './ShaderDataBuilder'
 import useEmptyDataTexture from './useEmptyDataTexture'
 import { useTexture } from '../../loaders/useTexture'
 import type { Gradient } from '../../../utils/Gradient'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
 interface SparkleProps {
   /**
@@ -191,6 +192,8 @@ const props = withDefaults(defineProps<SparkleProps>(), {
   transparent: true,
   depthWrite: false,
 })
+
+useWebGPUSupportWarning('Sparkles', 'uses a GLSL ShaderMaterial, which WebGPURenderer cannot compile')
 
 const version = Number.parseInt(REVISION.replace(/\D+/g, ''))
 

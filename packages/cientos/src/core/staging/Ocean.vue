@@ -5,6 +5,7 @@ import { FrontSide, RepeatWrapping, TextureLoader, Vector3 } from 'three'
 import type { Sky } from 'three-stdlib'
 import { Water } from 'three-stdlib'
 import { nextTick, onMounted, shallowRef, toRefs, watch } from 'vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 export interface OceanProps {
   /**
@@ -129,6 +130,8 @@ const props = withDefaults(defineProps<OceanProps>(), {
   side: FrontSide,
   speed: 1,
 })
+
+useWebGPUSupportWarning('Ocean', 'uses three-stdlib\'s Water, a GLSL ShaderMaterial')
 
 const { waterNormals, sunColor, waterColor, distortionScale, size, alpha, speed } = toRefs(props)
 

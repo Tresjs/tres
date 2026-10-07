@@ -3,6 +3,7 @@ import { useLoop, useTres } from '@tresjs/core'
 import { shallowRef, watch } from 'vue'
 
 import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
 const props = withDefaults(
   defineProps<{
@@ -14,6 +15,8 @@ const props = withDefaults(
     factor: 1,
   },
 )
+
+useWebGPUSupportWarning('MeshWobbleMaterial', 'patches the shader with onBeforeCompile, which WebGPURenderer ignores')
 
 const materialRef = shallowRef()
 

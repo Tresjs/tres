@@ -43,6 +43,7 @@ import {
   objectScale,
   objectZIndex,
 } from './utils'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
 type PointerEventsProperties
   = | 'auto'
@@ -100,6 +101,8 @@ const props = withDefaults(defineProps<HTMLProps>(), {
 const emits = defineEmits(['onOcclude'])
 
 const slots = defineSlots()
+
+useWebGPUSupportWarning('Html', 'uses a GLSL ShaderMaterial for occlusion. The DOM content still works')
 
 const {
   geometry,

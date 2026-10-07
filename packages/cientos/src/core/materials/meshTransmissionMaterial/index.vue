@@ -14,6 +14,7 @@ import type { Color, Texture } from 'three'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 import { MeshDiscardMaterial } from '../meshDiscardMaterial/material'
 import { MeshTransmissionMaterial } from './material'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
 export interface MeshTransmissionMaterialProps {
   /** Number of refraction samples. Baked into the shader at compile time. Default: 6 */
@@ -78,6 +79,8 @@ const props = withDefaults(defineProps<MeshTransmissionMaterialProps>(), {
   resolution: 256,
   backside: false,
 })
+
+useWebGPUSupportWarning('MeshTransmissionMaterial', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
 
 const { extend, invalidate } = useTres()
 extend({ MeshTransmissionMaterial })
@@ -168,10 +171,8 @@ onBeforeRender(({ renderer, scene, camera, elapsed }) => {
   const mat = materialRef.value
   if (!mat) { return }
 
-  if ('isWebGPURenderer' in renderer && (renderer as { isWebGPURenderer?: boolean }).isWebGPURenderer === true) {
-    logWarning('MeshTransmissionMaterial: WebGPURenderer is not supported yet')
-    return
-  }
+  // WebGPURenderer is not a WebGLRenderer, so it skips the GLSL passes.
+  // useWebGPUSupportWarning already told the user.
   if (!(renderer instanceof WebGLRenderer)) { return }
 
   const parent = mat?.__tres?.parent

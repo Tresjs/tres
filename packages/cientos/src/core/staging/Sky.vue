@@ -4,6 +4,7 @@ import { useTres } from '@tresjs/core'
 import { MathUtils, Vector3 } from 'three'
 import { Sky as SkyImpl } from 'three-stdlib'
 import { computed, watch } from 'vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 export interface SkyProps {
   /**
@@ -46,6 +47,8 @@ const props = withDefaults(defineProps<SkyProps>(), {
   azimuth: 180,
   distance: 450000,
 })
+
+useWebGPUSupportWarning('Sky', 'uses three-stdlib\'s Sky, a GLSL ShaderMaterial')
 
 const { invalidate } = useTres()
 
