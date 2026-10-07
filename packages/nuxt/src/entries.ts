@@ -1,3 +1,6 @@
+import { readFile } from 'node:fs/promises'
+import { findExportNames } from 'mlly'
+
 export type TresRenderer = 'webgl' | 'webgpu'
 
 interface PackageWithExports {
@@ -34,9 +37,17 @@ export function selectEntry(mod: string, renderer: TresRenderer, pkg: PackageWit
   return WEBGL_ONLY_PACKAGES.includes(mod) ? null : mod
 }
 
+export async function readExportNames(entryPath: string) {
+  return findExportNames(await readFile(entryPath, 'utf8'))
+}
+
+export function isComponentExport(name: string) {
+  return /^[A-Z]/.test(name)
+}
+
 export function findUnportedComponents(rootNames: string[], webgpuNames: string[]) {
   const ported = new Set(webgpuNames)
-  return rootNames.filter(name => /^[A-Z]/.test(name) && !ported.has(name))
+  return rootNames.filter(name => isComponentExport(name) && !ported.has(name))
 }
 
 export function renderWebGPUStubs(runtimePath: string, stubs: WebGPUStub[]) {

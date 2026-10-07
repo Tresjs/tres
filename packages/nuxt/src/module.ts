@@ -1,14 +1,12 @@
-import { readFile } from 'node:fs/promises'
 import { addComponent, addImports, addTemplate, addVitePlugin, createResolver, defineNuxtModule, resolvePath, useLogger } from '@nuxt/kit'
 import { templateCompilerOptions } from '@tresjs/core'
 import { defu } from 'defu'
-import { findExportNames } from 'mlly'
 import { readPackageJSON } from 'pkg-types'
 import glsl from 'vite-plugin-glsl'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
 import type { TresRenderer, WebGPUStub } from './entries'
-import { coreEntry, findUnportedComponents, renderWebGPUStubs, selectEntry } from './entries'
+import { coreEntry, findUnportedComponents, isComponentExport, readExportNames, renderWebGPUStubs, selectEntry } from './entries'
 import { join, dirname } from 'node:path'
 import { existsSync } from 'node:fs'
 
@@ -31,10 +29,6 @@ async function getAllPackageDeps(nuxtRootDir: string) {
     ...localPkg.dependencies,
     ...localPkg.devDependencies,
   }
-}
-
-async function readExportNames(entryPath: string) {
-  return findExportNames(await readFile(entryPath, 'utf8'))
 }
 
 export interface ModuleOptions {
@@ -68,35 +62,35 @@ export default defineNuxtModule<ModuleOptions>({
     const resolver = createResolver(import.meta.url)
     const logger = useLogger('@tresjs/nuxt')
     const isWebGPU = options.renderer === 'webgpu'
-    const core = coreEntry(options.renderer)
+    const coreEntryId = coreEntry(options.renderer)
 
     nuxt.options.build.transpile.push(/@tresjs/)
 
     // `@tresjs/core` is a dependency of this module, so resolve it from here, not from the app.
-    const coreNames = await readExportNames(await resolver.resolvePath(core))
+    const coreNames = await readExportNames(await resolver.resolvePath(coreEntryId))
     for (const name of coreNames) {
       if (name.match(/^use/)) {
         addImports({
-          from: core,
+          from: coreEntryId,
           name,
         })
       }
     }
     addImports([
       {
-        from: core,
+        from: coreEntryId,
         name: 'extend',
         as: 'extendTres',
       },
       {
-        from: core,
+        from: coreEntryId,
         type: true,
         name: 'TresObject',
       },
     ])
 
     nuxt.hook('prepare:types', ({ references }) => {
-      references.push({ types: core })
+      references.push({ types: coreEntryId })
     })
 
     nuxt.options.vue.compilerOptions.isCustomElement = templateCompilerOptions.template.compilerOptions.isCustomElement
@@ -121,21 +115,21 @@ export default defineNuxtModule<ModuleOptions>({
         continue
       }
 
-      const entry = entryId === mod ? rootEntry : await resolvePath(entryId)
-      const imports = await readExportNames(entry)
+      const entryPath = entryId === mod ? rootEntry : await resolvePath(entryId)
+      const imports = await readExportNames(entryPath)
 
       for (const name of imports) {
-        if (name.match(/^[a-z]/)) {
-          addImports({
-            from: entryId,
-            name,
-          })
-        }
-        else {
+        if (isComponentExport(name)) {
           addComponent({
             name,
             filePath: entryId,
             export: name,
+          })
+        }
+        else {
+          addImports({
+            from: entryId,
+            name,
           })
         }
       }

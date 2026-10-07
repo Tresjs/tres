@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// Run the playground with `TRES_RENDERER=webgpu` to try this page.
 // `Sparkles` has no WebGPU version yet, so mounting it must throw a clear error.
 const showSparkles = ref(false)
 </script>
