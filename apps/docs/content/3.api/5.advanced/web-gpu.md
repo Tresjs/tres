@@ -67,7 +67,7 @@ All other exports (`useLoop`, `useTresContext`, `extend`, type guards, ...) are 
 
 ### Node materials as tags
 
-The WebGPU `TresCanvas` adds every class of `three/webgpu` to the [catalogue](/api/components/tres-objects), so node materials are Tres components. Their node props take TSL nodes:
+Importing `@tresjs/core/webgpu` adds every class of `three/webgpu` to the [catalogue](/api/components/tres-objects), so node materials are Tres components. Their node props take TSL nodes:
 
 ```vue
 <script setup lang="ts">

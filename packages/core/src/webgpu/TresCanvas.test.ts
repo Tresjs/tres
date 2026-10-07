@@ -5,7 +5,7 @@ import RootTresCanvas from '../components/TresCanvas.vue'
 import { catalogue } from '../core/catalogue'
 import type { TresRenderer } from '../index'
 import { toWebGPURendererParameters } from './renderer'
-import TresCanvas from './TresCanvas.vue'
+import { TresCanvas } from '.'
 
 const mountCanvas = (props: Record<string, unknown> = {}) =>
   mount(TresCanvas, { props, global: { stubs: { TresCanvas: true } } })
@@ -30,8 +30,9 @@ describe('toWebGPURendererParameters', () => {
 })
 
 describe('webgpu TresCanvas', () => {
-  it('adds the three/webgpu classes to the catalogue', () => {
-    mountCanvas()
+  // At import, not at mount: the `GlobalComponents` types apply as soon as the entry is
+  // imported, so root canvases must resolve node tags even if no WebGPU canvas has mounted.
+  it('adds the three/webgpu classes to the catalogue before any canvas mounts', () => {
     expect(catalogue.value.MeshStandardNodeMaterial).toBe(MeshStandardNodeMaterial)
   })
 

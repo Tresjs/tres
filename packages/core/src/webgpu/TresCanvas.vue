@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as THREE_WEBGPU from 'three/webgpu'
+import { WebGPURenderer } from 'three/webgpu'
 import { shallowRef, toValue } from 'vue'
 import type { TresRendererSetupContext } from '../composables'
 import type { TresCanvasEmits, TresCanvasInstance, TresCanvasProps } from '../components/TresCanvas.vue'
@@ -7,7 +7,6 @@ import type { TresCanvasEmits, TresCanvasInstance, TresCanvasProps } from '../co
 import RootCanvas from '../components/TresCanvas.vue'
 import { forwardContextEmits } from '../components/forwardContextEmits'
 import { tresCanvasDefaults } from '../components/tresCanvasDefaults'
-import { extend } from '../core/catalogue'
 import { toWebGPURendererParameters } from './renderer'
 
 const props = withDefaults(defineProps<TresCanvasProps>(), tresCanvasDefaults)
@@ -20,12 +19,7 @@ defineSlots<{
 
 const contextListeners = forwardContextEmits(emit)
 
-// The root Context extends the catalogue with `three` afterwards. Both namespaces share
-// their classes through `three.core.js`, so only `PMREMGenerator` (not used as a tag) ends
-// up as the WebGL class.
-extend(THREE_WEBGPU)
-
-const createWebGPURenderer = (ctx: TresRendererSetupContext) => new THREE_WEBGPU.WebGPURenderer({
+const createWebGPURenderer = (ctx: TresRendererSetupContext) => new WebGPURenderer({
   ...toWebGPURendererParameters(props),
   canvas: toValue(ctx.canvas),
 })
