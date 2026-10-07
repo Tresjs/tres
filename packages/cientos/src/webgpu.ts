@@ -83,7 +83,7 @@ export {
   Tube,
 } from './core/shapes'
 
-export { Backdrop, Environment, Lightformer, Precipitation, Smoke, Stars } from './core/staging'
+export { Backdrop, Environment, Lightformer, Smoke } from './core/staging'
 
 export * from './core/staging/useEnvironment'
 

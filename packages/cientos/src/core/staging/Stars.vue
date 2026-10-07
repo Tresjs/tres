@@ -2,6 +2,7 @@
 import { useTres } from '@tresjs/core'
 import { Spherical, Vector3 } from 'three'
 import { computed, ref, shallowRef, toRefs, watch, watchEffect } from 'vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 export interface StarsProps {
   /**
@@ -80,6 +81,8 @@ const props = withDefaults(defineProps<StarsProps>(), {
   depth: 50,
   radius: 100,
 })
+
+useWebGPUSupportWarning('Stars', 'renders Points, which WebGPU draws at 1 pixel, so the size prop has no effect')
 
 const position = ref()
 const scale = ref()
