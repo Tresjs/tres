@@ -58,7 +58,11 @@ const props = withDefaults(defineProps<StageProps>(), {
   lighting: 'rembrandt',
 })
 
-useWebGPUSupportWarning('Stage', 'uses ContactShadows or AccumulativeShadows for its shadows')
+// Only the shadows are GLSL, so `shadows: false` stays silent. The setup-time read is enough:
+// if shadows are turned on later, the child component logs its own warning.
+if (props.shadows) {
+  useWebGPUSupportWarning('Stage', 'uses ContactShadows or AccumulativeShadows for its shadows. Set shadows to false to use Stage without them')
+}
 
 interface LightingPreset {
   main: [number, number, number]

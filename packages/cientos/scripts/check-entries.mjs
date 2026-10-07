@@ -51,10 +51,15 @@ const WEBGL_ONLY = new Set([
 const dist = join(dirname(fileURLToPath(import.meta.url)), '../dist')
 const src = join(dirname(fileURLToPath(import.meta.url)), '../src')
 const FORBIDDEN_IN_ROOT = [...WEBGPU_ONLY, '@tresjs/core/webgpu']
+const errors = []
 
-// Rolldown ends an entry with one `export { local as Name, ... }` statement.
+// Rolldown ends an entry with one `export { local as Name, ... }` statement. An `export *` from an
+// external package would hide its names from this parse, so it fails the check instead.
 const exportedNames = (file) => {
   const code = readFileSync(join(dist, file), 'utf8')
+  if (/\bexport\s*\*/.test(code)) {
+    errors.push(`dist/${file} has an "export *". The parity check cannot read those names. Export them by name.`)
+  }
   const names = [...code.matchAll(/\bexport\s*\{([^}]*)\}/g)]
     .flatMap(([, list]) => list.split(','))
     .map(item => item.trim().split(/\s+as\s+/).pop())
@@ -62,7 +67,6 @@ const exportedNames = (file) => {
   return new Set(names)
 }
 
-const errors = []
 const root = importGraph(dist, 'trescientos.js')
 
 for (const specifier of FORBIDDEN_IN_ROOT) {
