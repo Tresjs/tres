@@ -16,16 +16,6 @@ onMounted(() => {
   const doc = iframe.value?.contentDocument
   if (doc?.readyState === 'complete' && doc.location.href !== 'about:blank') { loaded.value = true }
 })
-
-async function openFullscreen() {
-  try {
-    await iframe.value!.requestFullscreen()
-  }
-  catch {
-    // iPhone Safari has no element fullscreen; the embed route is the next best thing.
-    window.open(embedPath.value, '_blank')
-  }
-}
 </script>
 
 <template>
@@ -60,13 +50,13 @@ async function openFullscreen() {
           :aria-label="`${experiment.title} code on GitHub`"
         />
       </UTooltip>
-      <UTooltip text="Fullscreen">
+      <UTooltip text="Open full page">
         <UButton
+          :to="embedPath"
           icon="i-lucide-maximize"
           color="neutral"
           variant="subtle"
-          aria-label="Fullscreen"
-          @click="openFullscreen"
+          aria-label="Open the experiment as a full page"
         />
       </UTooltip>
     </UFieldGroup>
