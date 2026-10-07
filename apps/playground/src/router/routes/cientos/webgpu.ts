@@ -38,6 +38,11 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/AnimatedSpriteDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/grid',
+    name: 'Grid (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/GridDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/mesh-glass-material',
     name: 'MeshGlassMaterial (WebGPU, not exported yet)',
     component: () => import('@/pages/cientos/webgpu/MeshGlassMaterialDemo.vue'),

@@ -15,7 +15,6 @@ import { importGraph, report, WEBGPU_ONLY } from '../../../tools/guards/entry-gr
 const WEBGL_ONLY = new Set([
   // GLSL `ShaderMaterial` / `onBeforeCompile` (Tier 1)
   'CustomShaderMaterial',
-  'Grid',
   'HolographicMaterial',
   'Html',
   'Image',

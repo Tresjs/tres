@@ -82,6 +82,7 @@ export {
   TorusKnot,
   Tube,
 } from './core/shapes'
+export { default as Grid } from './core/shapes/Grid/webgpu.vue'
 
 export { Backdrop, Environment, Lightformer, Smoke } from './core/staging'
 
