@@ -8,7 +8,7 @@ import { toWebGPURendererParameters } from './renderer'
 import { TresCanvas } from '.'
 
 const mountCanvas = (props: Record<string, unknown> = {}) =>
-  mount(TresCanvas, { props, global: { stubs: { TresCanvas: true } } })
+  mount(TresCanvas, { props, global: { stubs: { RootCanvas: true } } })
 
 describe('toWebGPURendererParameters', () => {
   it('passes the WebGPURenderer options that are set', () => {
