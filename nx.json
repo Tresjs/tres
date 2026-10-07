@@ -79,5 +79,6 @@
     "releaseTag": {
       "pattern": "{projectName}@{version}"
     }
-  }
+  },
+  "analytics": false
 }
