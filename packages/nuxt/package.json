@@ -101,5 +101,15 @@
       "nanoid/non-secure",
       "@nuxt/devtools-kit"
     ]
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/.nuxt"
+        ]
+      }
+    }
   }
 }
