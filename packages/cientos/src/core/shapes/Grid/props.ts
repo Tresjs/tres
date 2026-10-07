@@ -1,4 +1,4 @@
-import type { ColorRepresentation, PlaneGeometry, Side, Vector3 } from 'three'
+import type { Color, ColorRepresentation, PlaneGeometry, Side, Vector3 } from 'three'
 import { BackSide } from 'three'
 
 // Imports `three` only: the root entry reaches this file.
@@ -51,7 +51,9 @@ export const gridDefaults = {
 } satisfies GridMaterialType
 
 /** The accessors both grid materials expose, so `useGrid` works with either one. */
-export interface GridMaterialUniforms extends Required<Omit<GridMaterialType, 'side'>> {
+export interface GridMaterialUniforms extends Required<Omit<GridMaterialType, 'side' | 'cellColor' | 'sectionColor'>> {
+  readonly cellColor: Color
+  readonly sectionColor: Color
   /** Camera position projected onto the grid plane */
   readonly worldCamProjPosition: Vector3
   /** World position of the grid origin */
