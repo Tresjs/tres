@@ -13,7 +13,7 @@ describe('@tresjs/core/webgpu', () => {
     expectTypeOf<ReturnType<typeof useRootTres>['renderer']>().toEqualTypeOf<TresRenderer>()
   })
 
-  it('registers node materials as Tres components', () => {
+  it('extends the Tres components with node materials', () => {
     expectTypeOf<GlobalComponents>().toHaveProperty('TresMeshStandardNodeMaterial')
   })
 

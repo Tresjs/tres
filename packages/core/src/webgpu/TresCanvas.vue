@@ -3,7 +3,7 @@ import * as THREE_WEBGPU from 'three/webgpu'
 import { shallowRef, toValue } from 'vue'
 import type { TresRendererSetupContext } from '../composables'
 import type { TresCanvasEmits, TresCanvasInstance, TresCanvasProps } from '../components/TresCanvas.vue'
-// Not named `TresCanvas`: the template compiler treats every `Tres*` tag as a Three.js element.
+// Not named `TresCanvas`: the template compiler treats every `Tres*` tag as a Tres component.
 import RootCanvas from '../components/TresCanvas.vue'
 import { tresCanvasDefaults } from '../components/tresCanvasDefaults'
 import { extend } from '../core/catalogue'

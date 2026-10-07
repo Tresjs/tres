@@ -3,6 +3,7 @@ import { MeshStandardNodeMaterial } from 'three/webgpu'
 import { describe, expect, it } from 'vitest'
 import RootTresCanvas from '../components/TresCanvas.vue'
 import { catalogue } from '../core/catalogue'
+import type { TresRenderer } from '../index'
 import { toWebGPURendererParameters } from './renderer'
 import TresCanvas from './TresCanvas.vue'
 
@@ -40,7 +41,7 @@ describe('webgpu TresCanvas', () => {
   })
 
   it('passes a user renderer factory unchanged', () => {
-    const renderer = () => ({}) as any
+    const renderer = () => ({}) as unknown as TresRenderer
     const wrapper = mountCanvas({ renderer })
     expect(wrapper.findComponent(RootTresCanvas).props('renderer')).toBe(renderer)
   })
