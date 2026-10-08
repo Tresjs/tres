@@ -18,7 +18,6 @@ const WEBGL_ONLY = new Set([
   'Html',
   'Image',
   'MeshDiscardMaterial',
-  'MeshWobbleMaterial',
   'Outline',
   'PointMaterial',
   'Sparkles',
