@@ -45,7 +45,7 @@ The version from the root entry renders as a plain standard material under `WebG
 
 ## Props
 
-No props are required. The component accepts the same props as `THREE.MeshPhysicalMaterial`. It starts with these glass values: `roughness` 0, `clearcoat` 0.5, `transmission` 1 and `thickness` 0.5.
+No props are required. Both versions accept `THREE.MeshStandardMaterial` props together with the glass-related clearcoat, IOR, transmission, attenuation and specular props. They start with these glass values: `roughness` 0, `clearcoat` 0.5, `transmission` 1 and `thickness` 0.5.
 
 ### You can also replace the material of an existing mesh like this:
 
