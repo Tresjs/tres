@@ -20,6 +20,14 @@ export class MeshWobbleMaterial extends MeshStandardMaterial implements MeshWobb
     this.setValues(parameters)
   }
 
+  // `MeshStandardMaterial.copy` does not know these uniforms, so a clone would reset `factor`.
+  override copy(source: MeshWobbleMaterial) {
+    super.copy(source)
+    this.time = source.time
+    this.factor = source.factor
+    return this
+  }
+
   // MeshWobbleNodeMaterial.ts ports this shader to TSL. A fix here must go there too.
   onBeforeCompile(shader: { uniforms: { time?: Uniform<number>, factor?: Uniform<number> }, vertexShader: string }) {
     if (!shader.uniforms) { shader.uniforms = {} }
