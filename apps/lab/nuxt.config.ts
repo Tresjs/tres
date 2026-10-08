@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import type { Plugin } from 'vite'
 import svgLoader from 'vite-svg-loader'
 
@@ -31,6 +31,13 @@ function glyphDevServing(): Plugin {
     },
   }
 }
+
+// The shell loads experiments through an iframe, and the prerender crawler only follows <a href>,
+// so the /embed routes would be skipped by `nuxt generate` without this list.
+const embedRoutes = readdirSync(new URL('./content/experiments', import.meta.url))
+  // Same exclude as the experiments collection in content.config.ts.
+  .filter(file => file.endsWith('.md') && file !== 'CLAUDE.md')
+  .map(file => `/embed/${file.replace(/\.md$/, '')}`)
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -88,6 +95,12 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': { prerender: true },
+  },
+
+  nitro: {
+    prerender: {
+      routes: embedRoutes,
+    },
   },
 
   image: {

@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { MathUtils } from 'three'
-import { useDark } from '@vueuse/core'
 
 import { colors, PI } from './constants'
 
 const { clamp } = MathUtils
 
-const isDark = useDark()
+const isDark = useIsDark()
 
 const pyramidRef = ref()
 const boxRef = ref()

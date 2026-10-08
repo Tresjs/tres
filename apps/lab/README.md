@@ -86,7 +86,7 @@ Every demo or experiment consist on two parts
 - A vue component containing the scene under `components/content`
 
 1. Create a `your-awesome-demo.md` file under `content/experiments` directory.
-2. Add [Frontmatter](https://content.nuxtjs.org/guide/writing/markdown#front-matter) to provide the meta-data of your experiment, this is crucial to get the cards on the home page nice and pretty. Remember to add the `slug` of your `author` to the correspondant field.
+2. Add [Frontmatter](https://content.nuxtjs.org/guide/writing/markdown#front-matter) to provide the meta-data of your experiment, this is crucial to get the sidebar thumbnail and the article below the viewer right. Set `featured: true` to pin the experiment to the top of the sidebar; experiments dated within the last 60 days get a NEW badge. Remember to add the `slug` of your `author` to the correspondant field.
 
 ```md
 ---
