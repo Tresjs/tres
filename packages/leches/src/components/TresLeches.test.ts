@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { TresLeches, useControls } from '../index'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { defineComponent } from 'vue'
@@ -117,6 +117,39 @@ describe('tresLeches', () => {
     expect(restoredFolder.element).toBe(folderElement)
     expect(restoredFolder.attributes('aria-expanded')).toBe('true')
     expect(wrapper.find('#tres-leches-pane-default').attributes('style')).toBe(openPanelStyle)
+  })
+
+  it('keeps the slot height when the panel height is recalculated', async () => {
+    const SLOT_HEIGHT = 96
+    // jsdom has no layout, so the stub reports the slot height the browser would measure.
+    vi.stubGlobal('ResizeObserver', class {
+      constructor(private callback: ResizeObserverCallback) {}
+      observe(target: Element) {
+        Object.defineProperty(target, 'clientHeight', { configurable: true, value: SLOT_HEIGHT })
+        this.callback([{ target } as ResizeObserverEntry], this as unknown as ResizeObserver)
+      }
+
+      unobserve() {}
+      disconnect() {}
+    })
+
+    const component = defineComponent({
+      components: { TresLeches },
+      setup() {
+        useControls({ first: 1 })
+      },
+      template: '<TresLeches><p>Slot content</p></TresLeches>',
+    })
+    const wrapper = mount(component)
+    await flushPromises()
+
+    // A control added after mount makes the panel recalculate its height.
+    useControls({ second: 2 })
+    await flushPromises()
+
+    // Header (32) + padding (32) + two controls (2 * 24) + slot.
+    expect(wrapper.find('#tres-leches-pane-default').attributes('style')).toContain(`height: ${32 + 32 + 2 * 24 + SLOT_HEIGHT}px`)
+    vi.unstubAllGlobals()
   })
 
   it('copies current panel values as formatted JSON', async () => {
