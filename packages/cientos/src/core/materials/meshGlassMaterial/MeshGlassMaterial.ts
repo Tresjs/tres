@@ -1,5 +1,6 @@
 import type { MeshStandardMaterialParameters } from 'three'
 import { Color, MathUtils, MeshStandardMaterial, Vector2 } from 'three'
+import { glassDefaults } from './defaults'
 
 // Extend Three.js types to include properties that exist at runtime but aren't in the type definitions
 declare module 'three' {
@@ -60,11 +61,11 @@ class MeshGlassMaterial extends MeshStandardMaterial implements IMeshGlassMateri
         this.ior = (1 + 0.4 * reflectivity) / (1 - 0.4 * reflectivity)
       },
     })
-    this.roughness = 0
+    this.roughness = glassDefaults.roughness
 
     this.transmissionMap = null
 
-    this.thickness = 0.5
+    this.thickness = glassDefaults.thickness
     this.thicknessMap = null
     this.attenuationDistance = Number.POSITIVE_INFINITY
     this.attenuationColor = new Color(1, 1, 1)
@@ -74,8 +75,8 @@ class MeshGlassMaterial extends MeshStandardMaterial implements IMeshGlassMateri
     this.specularColor = new Color(1, 1, 1)
     this.specularColorMap = null
 
-    this._clearcoat = 0.5
-    this._transmission = 1
+    this._clearcoat = glassDefaults.clearcoat
+    this._transmission = glassDefaults.transmission
 
     this.setValues(parameters)
   }

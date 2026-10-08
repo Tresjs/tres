@@ -49,7 +49,7 @@ export const webgpuRoutes = [
   },
   {
     path: '/cientos/webgpu/mesh-glass-material',
-    name: 'MeshGlassMaterial (WebGPU, not exported yet)',
+    name: 'MeshGlassMaterial (WebGPU, TSL port)',
     component: () => import('@/pages/cientos/webgpu/MeshGlassMaterialDemo.vue'),
   },
   {
