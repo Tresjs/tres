@@ -43,6 +43,11 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/GridDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/mesh-wobble-material',
+    name: 'MeshWobbleMaterial (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/MeshWobbleMaterialDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/mesh-glass-material',
     name: 'MeshGlassMaterial (WebGPU, not exported yet)',
     component: () => import('@/pages/cientos/webgpu/MeshGlassMaterialDemo.vue'),

@@ -1,22 +1,26 @@
 import { MeshStandardMaterial } from 'three'
 import type { MeshStandardMaterialParameters } from 'three'
+import type { MeshWobbleMaterialUniforms } from './props'
+import { meshWobbleMaterialDefaults } from './props'
 
 // Borrowed from @pmdrs drei implementation https://github.com/pmndrs/drei/blob/master/src/core/MeshWobbleMaterial.tsx
 interface Uniform<T> {
   value: T
 }
 
-export class WobbleMaterialImpl extends MeshStandardMaterial {
+export class MeshWobbleMaterial extends MeshStandardMaterial implements MeshWobbleMaterialUniforms {
   _time: Uniform<number>
   _factor: Uniform<number>
 
-  constructor(parameters: MeshStandardMaterialParameters = {}) {
-    super(parameters)
-    this.setValues(parameters)
+  constructor(parameters?: MeshStandardMaterialParameters & Partial<MeshWobbleMaterialUniforms>) {
+    // `setValues` runs after the uniforms exist, so `factor` can be a parameter.
+    super()
     this._time = { value: 0 }
-    this._factor = { value: 1 }
+    this._factor = { value: meshWobbleMaterialDefaults.factor }
+    this.setValues(parameters)
   }
 
+  // MeshWobbleNodeMaterial.ts ports this shader to TSL. A fix here must go there too.
   onBeforeCompile(shader: { uniforms: { time?: Uniform<number>, factor?: Uniform<number> }, vertexShader: string }) {
     if (!shader.uniforms) { shader.uniforms = {} }
     shader.uniforms.time = this._time
