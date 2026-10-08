@@ -113,6 +113,22 @@ export class HolographicNodeMaterial extends MeshBasicNodeMaterial implements Ho
     })()
   }
 
+  // `NodeMaterial.copy()` assigns every own field by reference, nodes too. Without this override, a
+  // clone shares the uniforms and the `colorNode` of its source, so a prop change on one changes both.
+  override copy(source: HolographicNodeMaterial) {
+    const { holographicUniforms, colorNode } = this
+    super.copy(source)
+    Object.assign(this, { holographicUniforms, colorNode })
+
+    for (const key of Object.keys(holographicUniforms) as Array<keyof typeof holographicUniforms>) {
+      const value = source.holographicUniforms[key].value
+      const uniform = holographicUniforms[key] as { value: unknown }
+      if (value instanceof Color) { (uniform.value as Color).copy(value) }
+      else { uniform.value = value }
+    }
+    return this
+  }
+
   get fresnelAmount() { return this.holographicUniforms.fresnelAmount.value }
   set fresnelAmount(value: number) { this.holographicUniforms.fresnelAmount.value = value }
 
