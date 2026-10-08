@@ -1,13 +1,14 @@
 import {
   AdditiveBlending,
   Color,
-  FrontSide,
   ShaderMaterial,
   Uniform,
 } from 'three'
 import type { Blending, Side } from 'three'
 import { createTimer } from '@tresjs/core'
 import type { TresTimer } from '@tresjs/core'
+import type { HolographicMaterialUniforms } from './props'
+import { holographicDefaults } from './props'
 
 interface HolographicMaterialParameters {
   time?: number
@@ -24,7 +25,9 @@ interface HolographicMaterialParameters {
   side?: Side
   depthTest?: boolean
 }
-class HolographicMaterial extends ShaderMaterial {
+
+// `HolographicNodeMaterial.ts` ports this shader to TSL. A fix here must go there too.
+class HolographicMaterial extends ShaderMaterial implements HolographicMaterialUniforms {
   clock: TresTimer
   /**
    * Create a HolographicMaterial.
@@ -189,69 +192,65 @@ class HolographicMaterial extends ShaderMaterial {
       /**
        * The opacity for the fresnel effect.
        * @type {Uniform<number>}
-       * @default 1.0
+       * @default 1
        */
-      fresnelOpacity: new Uniform(parameters.fresnelOpacity !== undefined ? parameters.fresnelOpacity : 1),
+      fresnelOpacity: new Uniform(parameters.fresnelOpacity ?? holographicDefaults.fresnelOpacity),
 
       /**
        * The strength of the fresnel effect.
        * @type {Uniform<number>}
-       * @default 1.0
+       * @default 0.45
        */
-      fresnelAmount: new Uniform(parameters.fresnelAmount !== undefined ? parameters.fresnelAmount : 0.45),
+      fresnelAmount: new Uniform(parameters.fresnelAmount ?? holographicDefaults.fresnelAmount),
 
       /**
        * The size of the scanline effect.
        * @type {Uniform<number>}
-       * @default 1.0
+       * @default 8
        */
-      scanlineSize: new Uniform(parameters.scanlineSize !== undefined ? parameters.scanlineSize : 8),
+      scanlineSize: new Uniform(parameters.scanlineSize ?? holographicDefaults.scanlineSize),
 
       /**
        * The brightness of the hologram.
        * @type {Uniform<number>}
-       * @default 1.0
+       * @default 0.7
        */
-      hologramBrightness: new Uniform(parameters.hologramBrightness !== undefined
-        ? parameters.hologramBrightness
-        : 1),
+      hologramBrightness: new Uniform(parameters.hologramBrightness ?? holographicDefaults.hologramBrightness),
 
       /**
        * The speed of the signal effect.
        * @type {Uniform<number>}
-       * @default 1.0
+       * @default 0.45
        */
-      signalSpeed: new Uniform(parameters.signalSpeed !== undefined ? parameters.signalSpeed : 1),
+      signalSpeed: new Uniform(parameters.signalSpeed ?? holographicDefaults.signalSpeed),
 
       /**
        * The color of the hologram.
        * @type {Uniform<Color>}
-       * @default new Color(0xFFFFFF)
+       * @default new Color('#00d5ff')
        */
-      hologramColor: new Uniform(parameters.hologramColor !== undefined
-        ? new Color(parameters.hologramColor)
-        : new Color('#00d5ff')),
+      hologramColor: new Uniform(new Color(parameters.hologramColor ?? holographicDefaults.hologramColor)),
 
       /**
        * Enable/disable blinking effect.
        * @type {Uniform<boolean>}
        * @default true
        */
-      enableBlinking: new Uniform(parameters.enableBlinking !== undefined ? parameters.enableBlinking : true),
+      enableBlinking: new Uniform(parameters.enableBlinking ?? holographicDefaults.enableBlinking),
 
       /**
        * Enable blinking only on the fresnel effect.
        * @type {Uniform<boolean>}
-       * @default false
+       * @default true
        */
-      blinkFresnelOnly: new Uniform(parameters.blinkFresnelOnly !== undefined ? parameters.blinkFresnelOnly : true),
+      blinkFresnelOnly: new Uniform(parameters.blinkFresnelOnly ?? holographicDefaults.blinkFresnelOnly),
 
       /**
        * The opacity of the hologram.
        * @type {Uniform<number>}
-       * @default 1.0
+       * @default 1
        */
-      hologramOpacity: new Uniform(parameters.hologramOpacity !== undefined ? parameters.hologramOpacity : 1),
+      hologramOpacity: new Uniform(parameters.hologramOpacity ?? holographicDefaults.hologramOpacity),
     }
 
     this.clock = createTimer()
@@ -260,12 +259,40 @@ class HolographicMaterial extends ShaderMaterial {
     this.depthTest = parameters.depthTest !== undefined ? parameters.depthTest : false
     this.blending = parameters.blendMode !== undefined ? parameters.blendMode : AdditiveBlending
     this.transparent = true
-    this.side = parameters.side !== undefined ? parameters.side : FrontSide
+    this.side = parameters.side ?? holographicDefaults.side
   }
 
   update() {
     this.clock.update()
     this.uniforms.time.value = this.clock.getElapsed()
   }
+
+  // The same accessors as `HolographicNodeMaterial`, so both components bind the props the same way.
+  get fresnelAmount(): number { return this.uniforms.fresnelAmount.value }
+  set fresnelAmount(value: number) { this.uniforms.fresnelAmount.value = value }
+
+  get fresnelOpacity(): number { return this.uniforms.fresnelOpacity.value }
+  set fresnelOpacity(value: number) { this.uniforms.fresnelOpacity.value = value }
+
+  get scanlineSize(): number { return this.uniforms.scanlineSize.value }
+  set scanlineSize(value: number) { this.uniforms.scanlineSize.value = value }
+
+  get hologramBrightness(): number { return this.uniforms.hologramBrightness.value }
+  set hologramBrightness(value: number) { this.uniforms.hologramBrightness.value = value }
+
+  get signalSpeed(): number { return this.uniforms.signalSpeed.value }
+  set signalSpeed(value: number) { this.uniforms.signalSpeed.value = value }
+
+  get hologramOpacity(): number { return this.uniforms.hologramOpacity.value }
+  set hologramOpacity(value: number) { this.uniforms.hologramOpacity.value = value }
+
+  // The color has only a getter: Tres calls `.set()` on the returned uniform `Color`.
+  get hologramColor(): Color { return this.uniforms.hologramColor.value }
+
+  get enableBlinking(): boolean { return this.uniforms.enableBlinking.value }
+  set enableBlinking(value: boolean) { this.uniforms.enableBlinking.value = value }
+
+  get blinkFresnelOnly(): boolean { return this.uniforms.blinkFresnelOnly.value }
+  set blinkFresnelOnly(value: boolean) { this.uniforms.blinkFresnelOnly.value = value }
 }
 export default HolographicMaterial
