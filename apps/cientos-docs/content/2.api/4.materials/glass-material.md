@@ -33,9 +33,19 @@ import { MeshGlassMaterial } from '@tresjs/cientos'
 </template>
 ```
 
+## WebGPU
+
+Import `MeshGlassMaterial` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version is a `MeshPhysicalNodeMaterial` with the same glass values, and it takes the same props. See [WebGPU](/getting-started/webgpu).
+
+```ts
+import { MeshGlassMaterial } from '@tresjs/cientos/webgpu'
+```
+
+The version from the root entry renders as a plain standard material under `WebGPURenderer`, without transmission.
+
 ## Props
 
-No props are required. The component extends `THREE.MeshPhysicalMaterial` and accepts all the same props plus additional reflection-specific properties.
+No props are required. Both versions accept `THREE.MeshStandardMaterial` props together with the glass-related clearcoat, IOR, transmission, attenuation and specular props. They start with these glass values: `roughness` 0, `clearcoat` 0.5, `transmission` 1 and `thickness` 0.5.
 
 ### You can also replace the material of an existing mesh like this:
 

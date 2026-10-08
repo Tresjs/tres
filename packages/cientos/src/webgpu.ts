@@ -50,6 +50,7 @@ export { CircleShadow, RandomizedLights } from './core/light-shadow'
 
 export * from './core/loaders'
 export { default as HolographicMaterial } from './core/materials/holographicMaterial/webgpu.vue'
+export { default as MeshGlassMaterial } from './core/materials/meshGlassMaterial/webgpu.vue'
 export * from './core/miscellaneous'
 export {
   AnimatedSprite,
