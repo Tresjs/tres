@@ -49,6 +49,7 @@ export * from './core/debug-performance'
 export { CircleShadow, RandomizedLights } from './core/light-shadow'
 
 export * from './core/loaders'
+export { default as MeshGlassMaterial } from './core/materials/meshGlassMaterial/webgpu.vue'
 export * from './core/miscellaneous'
 export {
   AnimatedSprite,
