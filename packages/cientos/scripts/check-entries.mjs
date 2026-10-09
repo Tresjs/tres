@@ -16,7 +16,6 @@ const WEBGL_ONLY = new Set([
   // GLSL `ShaderMaterial` / `onBeforeCompile` (Tier 1)
   'CustomShaderMaterial',
   'Html',
-  'Image',
   'MeshDiscardMaterial',
   'Outline',
   'PointMaterial',
