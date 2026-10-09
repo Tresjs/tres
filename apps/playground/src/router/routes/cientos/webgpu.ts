@@ -58,6 +58,16 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/MeshGlassMaterialDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/stars',
+    name: 'Stars (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/StarsDemo.vue'),
+  },
+  {
+    path: '/cientos/webgpu/precipitation',
+    name: 'Precipitation (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/PrecipitationDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/accumulative-shadows',
     name: 'AccumulativeShadows (WebGPU, not exported yet)',
     component: () => import('@/pages/cientos/webgpu/AccumulativeShadowsDemo.vue'),
