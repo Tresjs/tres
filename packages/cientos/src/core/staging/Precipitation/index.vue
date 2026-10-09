@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PointsMaterial } from 'three'
+import type { BufferGeometry, PointsMaterial } from 'three'
 import { shallowRef } from 'vue'
 import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 import type { PrecipitationProps } from './props'
@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<PrecipitationProps>(), precipitationDefau
 
 useWebGPUSupportWarning('Precipitation', 'renders Points, which WebGPU draws at 1 pixel, so the size prop has no effect. Import Precipitation from @tresjs/cientos/webgpu instead')
 
-const geometryRef = shallowRef()
+const geometryRef = shallowRef<BufferGeometry>()
 const materialRef = shallowRef<PointsMaterial>()
 const { positions, materialProps, onPositionsMoved } = usePrecipitation(props, materialRef)
 

@@ -2,34 +2,40 @@ import { useLoop } from '@tresjs/core'
 import type { Material, Texture } from 'three'
 import { TextureLoader } from 'three'
 import type { ShallowRef } from 'vue'
-import { computed, shallowRef, toRefs, watch } from 'vue'
+import { computed, onScopeDispose, shallowRef, toRefs, watch } from 'vue'
 import { useMaterialNeedsUpdate } from '../../../utils/useMaterialNeedsUpdate'
 import type { PrecipitationProps } from './props'
 
 function useTextureProp(source: () => string | Texture | null | undefined) {
   const texture = shallowRef<Texture | null>(null)
   const loader = new TextureLoader()
+  let loaded: Texture | null = null
+
+  // Dispose a loaded texture only once the ref points elsewhere, or the next render uploads it again.
+  const replace = (next: Texture | null, nextLoaded: Texture | null) => {
+    const previous = loaded
+    loaded = nextLoaded
+    texture.value = next
+    previous?.dispose()
+  }
 
   watch(source, (value, _, onCleanup) => {
     if (typeof value !== 'string') {
-      texture.value = value ?? null
+      replace(value ?? null, null)
       return
     }
-    let loaded: Texture | null = null
     let stale = false
-    onCleanup(() => {
-      stale = true
-      loaded?.dispose()
-    })
+    onCleanup(() => { stale = true })
     loader.load(value, (result) => {
       if (stale) {
         result.dispose()
         return
       }
-      loaded = result
-      texture.value = result
+      replace(result, result)
     })
   }, { immediate: true })
+
+  onScopeDispose(() => loaded?.dispose())
 
   return texture
 }
