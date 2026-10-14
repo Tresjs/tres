@@ -1,3 +1,31 @@
+## 1.1.3 (2026-10-06)
+
+### 🩹 Fixes
+
+- **rapier:** place custom colliders relative to their rigid body ([#1515](https://github.com/Tresjs/tres/pull/1515))
+- **rapier:** make `<Physics debug>` lines visible ([#1514](https://github.com/Tresjs/tres/pull/1514), [#1513](https://github.com/Tresjs/tres/issues/1513))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.3
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 1.1.2 (2026-09-29)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.2
+- Updated @tresjs/eslint-config to 1.7.0
+
+## 1.1.1 (2026-09-25)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.1
+
 ## 1.1.0 (2026-09-14)
 
 ### 🚀 Features

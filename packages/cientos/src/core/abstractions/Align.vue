@@ -68,6 +68,9 @@ function update() {
   if (!outer.value || !inner.value || !ref.value) { return }
   outer.value.matrixWorld.identity()
   box3.setFromObject(inner.value, props.precise)
+  // NOTE: Nothing to align yet (e.g. async children). An empty Box3 would
+  // otherwise emit `change` with a -1 radius and infinite dimensions.
+  if (box3.isEmpty()) { return }
   const width = box3.max.x - box3.min.x
   const height = box3.max.y - box3.min.y
   const depth = box3.max.z - box3.min.z

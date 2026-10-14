@@ -13,6 +13,7 @@ import ScreenSizer from './ScreenSizer.vue'
 import ScreenSpace from './ScreenSpace.vue'
 import { useMask } from './Mask/useMask'
 
+export type { AlignCallbackOptions, AlignProps } from './Align.vue'
 export type { DecalLayout } from './Decal/DebugUI/context'
 export type { DecalImperativeApi, DecalJsonEntry } from './Decal/Decal.vue'
 export {

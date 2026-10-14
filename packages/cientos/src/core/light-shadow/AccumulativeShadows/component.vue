@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, shallowRef, watch, watchEffect } from 'vue'
+import { computed, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
 import type { ColorRepresentation, Mesh, PlaneGeometry, ShaderMaterial, Texture, WebGLRenderer } from 'three'
 import { Group } from 'three'
 import { extend, useLoop, useTres } from '@tresjs/core'
@@ -69,6 +69,9 @@ const gPlane = shallowRef<Mesh<PlaneGeometry, SoftShadowMaterialProps & ShaderMa
 const gLights = shallowRef<Group>(new Group())
 const progressiveLightMap = computed(() => new ProgressiveLightMap(renderer as WebGLRenderer, scene.value, props.resolution))
 const shadowMapTexture = shallowRef<Texture>()
+
+watch(progressiveLightMap, (_, previous) => previous.dispose())
+onUnmounted(() => progressiveLightMap.value.dispose())
 
 let frameCount = 0
 let frameLimitRemaining = props.limit

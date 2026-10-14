@@ -7,12 +7,13 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test:embeds": "node scripts/check-embeds.mjs"
   },
   "dependencies": {
     "@nuxt/eslint": "catalog:",
     "@nuxt/ui": "catalog:nuxt",
-    "@pmndrs/glyph": "^0.1.0",
+    "@pmndrs/glyph": "catalog:",
     "@tresjs/core": "workspace:*",
     "@tresjs/nuxt": "workspace:*",
     "@tresjs/post-processing": "workspace:*",
@@ -20,7 +21,6 @@
     "@vueuse/nuxt": "catalog:",
     "better-sqlite3": "catalog:",
     "mdast-util-to-string": "catalog:",
-    "n8ao": "catalog:",
     "three": "catalog:three",
     "three-custom-shader-material": "catalog:three",
     "vue": "catalog:vue"
@@ -33,9 +33,9 @@
     "@iconify-json/lucide": "catalog:",
     "@nuxt/content": "catalog:nuxt",
     "@nuxt/fonts": "catalog:",
-    "@nuxt/icon": "catalog:conflicts_@nuxt/icon_2_0_0",
+    "@nuxt/icon": "catalog:",
     "@nuxt/image": "catalog:nuxt",
-    "@nuxt/scripts": "catalog:conflicts_@nuxt/scripts_0_11_13",
+    "@nuxt/scripts": "catalog:",
     "@nuxtjs/color-mode": "catalog:",
     "@tresjs/cientos": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
@@ -46,7 +46,8 @@
     "gsap": "catalog:utils",
     "nuxt": "catalog:nuxt",
     "nuxt-svgo": "catalog:",
-    "postprocessing": "catalog:conflicts_postprocessing_6_37_8",
+    "playwright": "^1.62.1",
+    "postprocessing": "catalog:",
     "vite-svg-loader": "catalog:"
   }
 }

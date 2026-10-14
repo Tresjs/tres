@@ -12,6 +12,7 @@ import type {
   LechesStringControl,
   LechesVectorControl,
 } from '../types'
+import { toKeyPrefix } from '../utils'
 
 export const CONTROLS_CONTEXT_KEY = Symbol('CONTROLS_CONTEXT_KEY')
 const DEFAULT_UUID = 'default'
@@ -93,7 +94,7 @@ const createControl = (key: string, value: any, type: LechesControlUnion['type']
 
   if (folderName) {
     baseControl.folder = folderName
-    baseControl.label = baseControl.label.replace(folderName.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim(), '').toLowerCase()
+    baseControl.label = baseControl.label.replace(toKeyPrefix(folderName), '').toLowerCase()
   }
 
   // Return the appropriate typed control based on type with all necessary properties
@@ -208,7 +209,7 @@ export const useControls = (
 
     // If the control is part of a folder, prefix the key with the folder name
     if (folderName) {
-      key = `${folderName.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim()}${capitalize(key)}`
+      key = `${toKeyPrefix(folderName)}${capitalize(key)}`
     }
     uniqueKey = `${uuid}-${key}`
 

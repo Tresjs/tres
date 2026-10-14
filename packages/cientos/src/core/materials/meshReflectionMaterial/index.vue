@@ -158,6 +158,20 @@ const hasDepth = computed(() => props.sharpDepthScale > 0 || props.blurDepthScal
 const hasDistortion = computed(() => !!props.distortionMap)
 const hasRoughness = computed(() => !!props.roughnessMap)
 
+const tresProps = computed(() => {
+  const {
+    resolution: _r,
+    blurSize: _bs,
+    blurDepthEdgeMin: _bdemin,
+    blurDepthEdgeMax: _bdemax,
+    blurDepthScale: _bds,
+    blurDepthBias: _bdb,
+    reflectorOffset: _ro,
+    ...rest
+  } = props
+  return rest
+})
+
 const materialRef = shallowRef<TresObject>()
 let blurpass: BlurPass
 
@@ -383,7 +397,7 @@ defineExpose({ instance: materialRef })
     }${hasRoughness ? '0' : '1'
     }`"
     ref="materialRef"
-    v-bind="props"
+    v-bind="tresProps"
     :texture-matrix="state.textureMatrix"
     :t-sharp="fboSharp?.texture"
     :t-depth="fboSharp?.depthTexture"

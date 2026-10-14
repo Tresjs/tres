@@ -22,6 +22,12 @@ import type { TresScene } from '../../types'
 import { isFunction, isWebGPURenderer } from '../../utils/is'
 import { useCreateRafLoop } from '../useCreateRafLoop'
 import { TresRendererError } from '../../utils/error'
+import { revision } from '../../core/revision'
+
+/**
+ * Three.js revision where `WebGPURenderer` removed `PCFSoftShadowMap`.
+ */
+const WEBGPU_PCF_SOFT_REMOVED_REVISION = 186
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -145,10 +151,10 @@ export interface RendererOptions {
    * Type of shadow map to use for shadow calculations
    * - `BasicShadowMap`: Basic shadow map.
    * - `PCFShadowMap`: Percentage-Closer Filtering shadow map.
-   * - `PCFSoftShadowMap`: Deprecated on WebGL, three falls back to `PCFShadowMap`. Still supported on WebGPU.
+   * - `PCFSoftShadowMap`: Deprecated. three falls back to `PCFShadowMap` on WebGL, and on WebGPU since r186.
    * - `VSMShadowMap`: Variance shadow map.
    * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
-   * @default PCFShadowMap on WebGL, PCFSoftShadowMap on WebGPU (Opinionated default by TresJS)
+   * @default PCFShadowMap. On WebGPU before r186, PCFSoftShadowMap (Opinionated default by TresJS)
    */
   shadowMapType?: ShadowMapType
   /**
@@ -458,9 +464,9 @@ export function useRendererManager(
 
   watchEffect(() => {
     if (!isInitialized.value) { return }
-    // `PCFSoftShadowMap` is deprecated on WebGL (three warns and falls back to `PCFShadowMap`),
-    // but it is still a real, softer filter on WebGPU. Keep the soft default only where it works.
-    const fallback = isWebGPURenderer(renderer) ? PCFSoftShadowMap : PCFShadowMap
+    // `PCFSoftShadowMap` is deprecated on WebGL, and WebGPU removed it in r186 (three warns and
+    // falls back to `PCFShadowMap`, which is soft there now). Keep the soft default only where it works.
+    const fallback = isWebGPURenderer(renderer) && revision < WEBGPU_PCF_SOFT_REMOVED_REVISION ? PCFSoftShadowMap : PCFShadowMap
     renderer.shadowMap.type = options.shadowMapType ?? fallback
     forceMaterialUpdate()
   })
