@@ -49,6 +49,9 @@ export * from './core/debug-performance'
 export { CircleShadow, RandomizedLights } from './core/light-shadow'
 
 export * from './core/loaders'
+export { default as HolographicMaterial } from './core/materials/holographicMaterial/webgpu.vue'
+export { default as MeshGlassMaterial } from './core/materials/meshGlassMaterial/webgpu.vue'
+export { default as MeshWobbleMaterial } from './core/materials/meshWobbleMaterial/webgpu.vue'
 export * from './core/miscellaneous'
 export {
   AnimatedSprite,
@@ -60,6 +63,7 @@ export {
   MarchingPlane,
   Text3D,
 } from './core/objects'
+export { default as Image } from './core/objects/Image/webgpu.vue'
 export * from './core/objects/useFBO'
 
 export {
@@ -85,6 +89,8 @@ export {
 export { default as Grid } from './core/shapes/Grid/webgpu.vue'
 
 export { Backdrop, Environment, Lightformer, Smoke } from './core/staging'
+export { default as Precipitation } from './core/staging/Precipitation/webgpu.vue'
+export { default as Stars } from './core/staging/Stars/webgpu.vue'
 
 export * from './core/staging/useEnvironment'
 

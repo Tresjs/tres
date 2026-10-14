@@ -15,19 +15,11 @@ import { importGraph, report, WEBGPU_ONLY } from '../../../tools/guards/entry-gr
 const WEBGL_ONLY = new Set([
   // GLSL `ShaderMaterial` / `onBeforeCompile` (Tier 1)
   'CustomShaderMaterial',
-  'HolographicMaterial',
   'Html',
-  'Image',
   'MeshDiscardMaterial',
-  'MeshGlassMaterial',
-  'MeshWobbleMaterial',
   'Outline',
   'PointMaterial',
   'Sparkles',
-  // `Points` with `PointsMaterial`: WebGPU draws point primitives at 1 pixel, so `size` has no effect.
-  // A port needs instanced `Sprite`s with `PointsNodeMaterial`.
-  'Precipitation',
-  'Stars',
   // `LineMaterial` from three-stdlib is a GLSL `ShaderMaterial`
   'CatmullRomCurve3',
   'CubicBezierLine',

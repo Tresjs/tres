@@ -43,9 +43,34 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/GridDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/holographic-material',
+    name: 'HolographicMaterial (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/HolographicMaterialDemo.vue'),
+  },
+  {
+    path: '/cientos/webgpu/mesh-wobble-material',
+    name: 'MeshWobbleMaterial (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/MeshWobbleMaterialDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/mesh-glass-material',
-    name: 'MeshGlassMaterial (WebGPU, not exported yet)',
+    name: 'MeshGlassMaterial (WebGPU, TSL port)',
     component: () => import('@/pages/cientos/webgpu/MeshGlassMaterialDemo.vue'),
+  },
+  {
+    path: '/cientos/webgpu/stars',
+    name: 'Stars (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/StarsDemo.vue'),
+  },
+  {
+    path: '/cientos/webgpu/precipitation',
+    name: 'Precipitation (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/PrecipitationDemo.vue'),
+  },
+  {
+    path: '/cientos/webgpu/image',
+    name: 'Image (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/ImageDemo.vue'),
   },
   {
     path: '/cientos/webgpu/accumulative-shadows',
