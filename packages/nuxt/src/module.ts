@@ -116,6 +116,10 @@ export default defineNuxtModule<ModuleOptions>({
       }
 
       const entryPath = entryId === mod ? rootEntry : await resolvePath(entryId)
+      if (!existsSync(entryPath)) {
+        logger.warn(`Cannot find the \`${entryId}\` build (${entryPath}), so \`${mod}\` is not auto-imported. Rebuild \`${mod}\`.`)
+        continue
+      }
       const imports = await readExportNames(entryPath)
 
       for (const name of imports) {

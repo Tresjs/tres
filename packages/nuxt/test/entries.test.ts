@@ -83,27 +83,32 @@ describe('isComponentExport', () => {
   })
 })
 
-// The module reads export names from the built file instead of importing it. If a cientos build
-// change hides an export from `findExportNames`, that export silently stops being auto-imported.
-// nuxt does not depend on cientos, so this reads the workspace build. Run `nb` in packages/cientos first.
-describe('readExportNames on the cientos build', () => {
-  const cientosDir = new URL('../../cientos/', import.meta.url)
-  const { exports } = JSON.parse(readFileSync(new URL('package.json', cientosDir), 'utf8'))
-  const entries = {
-    '.': exports['.'],
-    './webgpu': exports['./webgpu'].default,
-  }
+// The module reads export names from the built file instead of importing it. If a build change
+// hides an export from `findExportNames`, that export silently stops being auto-imported.
+// This reads the workspace builds, so run `nb` in packages/core and packages/cientos first.
+function entryFile(exportValue: string | { default: string }) {
+  return typeof exportValue === 'string' ? exportValue : exportValue.default
+}
 
-  it.each(Object.entries(entries))('finds every export of %s', async (_, file) => {
-    const entryUrl = new URL(file, cientosDir)
-    const found = await readExportNames(fileURLToPath(entryUrl))
-    const actual = Object.keys(await import(entryUrl.href))
+const builds = ['core', 'cientos'].flatMap((pkg) => {
+  const dir = new URL(`../../${pkg}/`, import.meta.url)
+  const { name, exports } = JSON.parse(readFileSync(new URL('package.json', dir), 'utf8'))
+  return ['.', './webgpu'].map(subpath => ({
+    id: `${name}${subpath.slice(1)}`,
+    url: new URL(entryFile(exports[subpath]), dir),
+  }))
+})
+
+describe('readExportNames on the workspace builds', () => {
+  it.each(builds)('finds every export of $id', async ({ url }) => {
+    const found = await readExportNames(fileURLToPath(url))
+    const actual = Object.keys(await import(url.href))
     expect(actual.length).toBeGreaterThan(0)
     expect(found.toSorted()).toEqual(actual.toSorted())
   })
 
-  it('resolves Grid from /webgpu (the TSL port)', async () => {
-    const found = await readExportNames(fileURLToPath(new URL(entries['./webgpu'], cientosDir)))
-    expect(found).toContain('Grid')
+  it('resolves Grid from @tresjs/cientos/webgpu (the TSL port)', async () => {
+    const { url } = builds.find(({ id }) => id === '@tresjs/cientos/webgpu')!
+    expect(await readExportNames(fileURLToPath(url))).toContain('Grid')
   })
 })
