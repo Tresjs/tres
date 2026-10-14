@@ -1,4 +1,4 @@
-import { useLoop } from '@tresjs/core'
+import { logWarning, useLoop } from '@tresjs/core'
 import type { BufferGeometry, Material, Texture } from 'three'
 import { IcosahedronGeometry, Object3D, Quaternion, TextureLoader, Vector3 } from 'three'
 import { onMounted, onUnmounted, toRefs, watch, watchEffect } from 'vue'
@@ -76,9 +76,16 @@ export function useSparkles(props: SparklesResolvedProps, create: (yFor: Sparkle
   // Only a texture that this component loads is disposed here. A `map` texture belongs to the user.
   const loader = new TextureLoader()
   let loadedMap: Texture | null = null
+  const setMap = (next: Texture, loaded: Texture | null) => {
+    const previous = loadedMap
+    loadedMap = loaded
+    material.uMap = next
+    previous?.dispose()
+  }
+
   watch(() => props.map, (map, _, onCleanup) => {
     if (typeof map !== 'string') {
-      material.uMap = map
+      setMap(map, null)
       return
     }
     let stale = false
@@ -88,9 +95,11 @@ export function useSparkles(props: SparklesResolvedProps, create: (yFor: Sparkle
         texture.dispose()
         return
       }
-      loadedMap?.dispose()
-      loadedMap = texture
-      material.uMap = texture
+      setMap(texture, texture)
+    }, undefined, (error) => {
+      if (!stale) {
+        logWarning(`Sparkles could not load the map "${map}".`, error)
+      }
     })
   }, { immediate: true })
 

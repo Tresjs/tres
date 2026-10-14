@@ -66,6 +66,9 @@ export class SparklesNodeMaterial extends PointsNodeMaterial implements Sparkles
   // Returns the instance count. Like `Points`, an indexed geometry gets one point per index, so shared vertices repeat.
   setGeometry(geometry: BufferGeometry): number {
     const position = geometry.getAttribute('position')
+    if (!position) {
+      return 0
+    }
     // WebGL reads a missing attribute as zero.
     const normal = geometry.getAttribute('normal')
     const index = geometry.getIndex()
