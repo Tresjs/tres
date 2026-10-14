@@ -58,6 +58,11 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/MeshGlassMaterialDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/sparkles',
+    name: 'Sparkles (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/SparklesDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/accumulative-shadows',
     name: 'AccumulativeShadows (WebGPU, not exported yet)',
     component: () => import('@/pages/cientos/webgpu/AccumulativeShadowsDemo.vue'),

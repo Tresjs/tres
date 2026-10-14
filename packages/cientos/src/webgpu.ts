@@ -88,6 +88,7 @@ export {
 export { default as Grid } from './core/shapes/Grid/webgpu.vue'
 
 export { Backdrop, Environment, Lightformer, Smoke } from './core/staging'
+export { default as Sparkles } from './core/staging/Sparkles/webgpu.vue'
 
 export * from './core/staging/useEnvironment'
 

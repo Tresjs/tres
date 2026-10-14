@@ -20,7 +20,6 @@ const WEBGL_ONLY = new Set([
   'MeshDiscardMaterial',
   'Outline',
   'PointMaterial',
-  'Sparkles',
   // `Points` with `PointsMaterial`: WebGPU draws point primitives at 1 pixel, so `size` has no effect.
   // A port needs instanced `Sprite`s with `PointsNodeMaterial`.
   'Precipitation',
