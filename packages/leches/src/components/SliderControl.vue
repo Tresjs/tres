@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, unref, watch } from 'vue'
-import { LECHES_DARK_KEY } from '../composables/useIsDark'
+import { computed, ref, unref, watch } from 'vue'
 import type { LechesNumberControl } from '../types'
 import { useNumberDrag } from '../composables/useNumberDrag'
 import { clampValue, defaultFormat, getInputMode } from '../utils/format'
@@ -18,16 +17,13 @@ const step = computed(() => props.control.step ?? 0.1)
 const formatter = computed(() => props.control.format ?? defaultFormat(step.value))
 const displayValue = ref(formatter.value(controlValue.value))
 const isFocused = ref(false)
-const isDark = inject(LECHES_DARK_KEY, ref(false))
 
 const sliderFilledStyle = computed(() => {
-  const colorStart = isDark.value ? '#9ca3af' : '#2d2d2d'
-  const colorEnd = isDark.value ? '#2d2d2d' : '#9ca3af'
   return {
-    backgroundImage: `linear-gradient(to right, ${colorStart} 0% ${
+    backgroundImage: `linear-gradient(to right, var(--tl-track-filled) 0% ${
       (100 * ((controlValue.value as number) - (props.control.min || 0)))
       / ((props.control.max || 100) - (props.control.min || 0))
-    }%, ${colorEnd} 0%)`,
+    }%, var(--tl-track-empty) 0%)`,
   }
 })
 
@@ -135,13 +131,19 @@ function onKeyDown(e: KeyboardEvent) {
 
 <style>
 :root {
-  --tl-border-color: #2d2d2d;
-  --tl-thumb-bg: #2d2d2d;
+  --tl-border-color: theme('colors.dark.300');
+  --tl-thumb-bg: theme('colors.dark.300');
+  --tl-track-filled: theme('colors.dark.300');
+  --tl-track-empty: theme('colors.gray.400');
 }
 
-.dark {
-  --tl-border-color: #9ca3af;
-  --tl-thumb-bg: #9ca3af;
+/* `tl-dark` is set by TresLeches from the nearest `.dark`/`.light` scope or the OS, so a page-level `.dark` is not enough */
+.tl-dark {
+  --tl-border-color: theme('colors.gray.400');
+  --tl-thumb-bg: theme('colors.gray.400');
+  --tl-track-filled: theme('colors.gray.400');
+  /* Same token as the input backgrounds, so the empty track matches them */
+  --tl-track-empty: theme('colors.dark.400');
 }
 
 .leches-range {

@@ -1,3 +1,19 @@
+## 3.10.0 (2026-10-07)
+
+### 🚀 Features
+
+- **postprocessing:** add N8AO ambient occlusion effect ([#1518](https://github.com/Tresjs/tres/pull/1518))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 3.9.2 (2026-10-06)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.3
+
 ## 3.9.1 (2026-09-29)
 
 ### 🧱 Updated Dependencies

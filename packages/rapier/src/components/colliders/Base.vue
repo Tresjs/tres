@@ -119,9 +119,10 @@ watch(bodyContext, async (state) => {
 
   const object = props.object ?? state.group
   const infos = {
+    // Only the collider's own object shapes and places it. The body group's transform is the
+    // body's, so reading it as the collider offset would put the collider one body offset away.
     ...createCollider({
       ...props,
-      object,
       rigidBody: state.rigidBody,
       world,
     }),
@@ -148,9 +149,11 @@ watch([() => props.args, colliderInfos], ([value]) => {
   if (!colliderInfos.value?.collider) { return }
   updateShapeArgs(props.shape, value)
 })
+// Position and rotation are offsets from the body. The plain `setTranslation` and `setRotation`
+// take world values, so they would pin an attached collider to that spot in the world.
 watch([() => props.position, colliderInfos], ([value]) => {
   if (!colliderInfos.value?.collider || value === undefined) { return }
-  colliderInfos.value.collider.setTranslation({
+  colliderInfos.value.collider.setTranslationWrtParent({
     x: typeof value?.[0] === 'number' ? value?.[0] : 0,
     y: typeof value?.[1] === 'number' ? value?.[1] : 0,
     z: typeof value?.[2] === 'number' ? value?.[2] : 0,
@@ -158,7 +161,7 @@ watch([() => props.position, colliderInfos], ([value]) => {
 })
 watch([() => props.rotation, colliderInfos], ([value]) => {
   if (!colliderInfos.value?.collider || value === undefined) { return }
-  colliderInfos.value.collider.setRotation({
+  colliderInfos.value.collider.setRotationWrtParent({
     x: typeof value?.[0] === 'number' ? value?.[0] : 0,
     y: typeof value?.[1] === 'number' ? value?.[1] : 0,
     z: typeof value?.[2] === 'number' ? value?.[2] : 0,

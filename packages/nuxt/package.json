@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/nuxt",
   "type": "module",
-  "version": "5.7.2",
+  "version": "5.7.3",
   "description": "TresJS integration for Nuxt.",
   "author": "Daniel Roe (https://github.com/danielroe/)",
   "license": "MIT",
@@ -101,5 +101,15 @@
       "nanoid/non-secure",
       "@nuxt/devtools-kit"
     ]
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/.nuxt"
+        ]
+      }
+    }
   }
 }

@@ -138,7 +138,7 @@ onUnmounted(() => {
         tl-text-right
         tl-text-gray-400
         tl-bg-gray-100
-        dark:tl-bg-dark-300
+        dark:tl-bg-dark-400
         dark:tl-text-gray-400
         tl-outline-none
         tl-border-none
@@ -146,14 +146,14 @@ onUnmounted(() => {
       "
       style="border-radius: var(--tl-blade-radius);"
     >
-      <div class="tl-absolute tl-bg-gray-100 tl-p-0.5 rounded dark:tl-bg-dark-300 tl-bottom-0.5 tl-right-1 tl-font-sans">
+      <div class="tl-absolute tl-bg-gray-100 tl-p-0.5 rounded dark:tl-bg-dark-400 tl-bottom-0.5 tl-right-1 tl-font-sans">
         {{ Math.round(control.value) }}
       </div>
       <svg
         :width="width"
         :height="height"
         xmlns="http://www.w3.org/2000/svg"
-        class="tl-bg-gray-100 dark:tl-bg-dark-300"
+        class="tl-bg-gray-100 dark:tl-bg-dark-400"
       >
         <!-- Center line for zero -->
         <line
