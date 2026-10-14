@@ -18,7 +18,6 @@ const WEBGL_ONLY = new Set([
   'Html',
   'Image',
   'MeshDiscardMaterial',
-  'Outline',
   'PointMaterial',
   'Sparkles',
   // `Points` with `PointsMaterial`: WebGPU draws point primitives at 1 pixel, so `size` has no effect.

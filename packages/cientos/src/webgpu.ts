@@ -43,6 +43,7 @@ export type {
   EditMode,
 } from './core/abstractions'
 export * from './core/abstractions/Instances'
+export { default as Outline } from './core/abstractions/Outline/webgpu.vue'
 export * from './core/abstractions/useSurfaceSampler'
 export * from './core/controls'
 export * from './core/debug-performance'
