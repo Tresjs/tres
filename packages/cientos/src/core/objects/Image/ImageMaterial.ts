@@ -1,21 +1,21 @@
-import { shaderMaterial } from './../../../utils/shaderMaterial'
+import type { ShaderMaterial } from 'three'
 import { Color, Vector2 } from 'three'
+import { shaderMaterial } from './../../../utils/shaderMaterial'
+import type { ImageMaterialUniforms } from './props'
+import { imageDefaults } from './props'
 
-/**
- * NOTE: Source:
- * https://threejs.org/docs/?q=material#api/en/materials/Material.transparent
- */
-export const ImageMaterialImpl = /* @__PURE__ */ shaderMaterial(
+// `ImageNodeMaterial.ts` ports this shader to TSL. A fix here must go there too.
+export const ImageMaterial = /* @__PURE__ */ shaderMaterial(
   {
-    color: /* @__PURE__ */ new Color('white'),
+    color: /* @__PURE__ */ new Color(imageDefaults.color),
     scale: /* @__PURE__ */ new Vector2(1, 1),
     imageBounds: /* @__PURE__ */ new Vector2(1, 1),
     resolution: 1024,
     map: null,
-    zoom: 1,
-    radius: 0,
-    grayscale: 0,
-    opacity: 1,
+    zoom: imageDefaults.zoom,
+    radius: imageDefaults.radius,
+    grayscale: imageDefaults.grayscale,
+    opacity: imageDefaults.opacity,
   },
   /* glsl */ `
     varying vec2 vUv;
@@ -74,4 +74,4 @@ export const ImageMaterialImpl = /* @__PURE__ */ shaderMaterial(
       #include <colorspace_fragment>
     }
   `,
-)
+) as unknown as new () => ShaderMaterial & ImageMaterialUniforms

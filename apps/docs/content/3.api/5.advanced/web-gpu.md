@@ -156,7 +156,27 @@ const createRenderer = (ctx: TresRendererSetupContext) => new WebGPURenderer({
 
 ### Cientos
 
-Import cientos from `@tresjs/cientos/webgpu` (since cientos v5.10, needs `three` r171 or newer). It has the same names and props as `@tresjs/cientos`, but it exports only the components that work under `WebGPURenderer`. Components built on GLSL shaders, such as `ContactShadows`, `Grid` and `MeshTransmissionMaterial`, are not exported yet, so importing one fails at build time and names it. See the [cientos WebGPU guide](https://cientos.tresjs.org/getting-started/webgpu) for the full list.
+Import cientos from `@tresjs/cientos/webgpu` (since cientos v5.10, needs `three` r171 or newer). It has the same names and props as `@tresjs/cientos`, but it exports only the components that work under `WebGPURenderer`. Components built on GLSL shaders, such as `ContactShadows`, `Sparkles` and `MeshTransmissionMaterial`, are not exported yet, so importing one fails at build time and names it. See the [cientos WebGPU guide](https://cientos.tresjs.org/getting-started/webgpu) for the full list.
+
+### Nuxt
+
+Set `renderer: 'webgpu'` in the `tres` options. The module then auto-imports from the `/webgpu` entries:
+
+```ts [nuxt.config.ts]
+export default defineNuxtConfig({
+  modules: ['@tresjs/nuxt'],
+  tres: {
+    renderer: 'webgpu',
+  },
+})
+```
+
+- `<TresCanvas>` uses `WebGPURenderer`, and the auto-imported `useTres()` has the `WebGPURenderer` type.
+- Cientos components come from `@tresjs/cientos/webgpu`. A component that has no WebGPU version yet (for example `<Sparkles>`) still resolves, but it throws an error that names it when it mounts.
+- `@tresjs/post-processing` is not auto-imported, because its effects work only with `WebGLRenderer`. The module shows a warning.
+- Packages that do not use the renderer, such as `@tresjs/leches`, are auto-imported as usual.
+
+The option applies to the whole app. To use WebGL on one page and WebGPU on another, keep the default `renderer: 'webgl'` and import `TresCanvas` from `@tresjs/core/webgpu` explicitly on the WebGPU pages. An explicit import is not client-only, so put it inside `<ClientOnly>`.
 
 ### Without the WebGPU entry
 
