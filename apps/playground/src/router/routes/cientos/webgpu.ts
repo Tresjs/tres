@@ -58,6 +58,21 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/MeshGlassMaterialDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/stars',
+    name: 'Stars (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/StarsDemo.vue'),
+  },
+  {
+    path: '/cientos/webgpu/precipitation',
+    name: 'Precipitation (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/PrecipitationDemo.vue'),
+  },
+  {
+    path: '/cientos/webgpu/image',
+    name: 'Image (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/ImageDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/sparkles',
     name: 'Sparkles (WebGPU, TSL port)',
     component: () => import('@/pages/cientos/webgpu/SparklesDemo.vue'),

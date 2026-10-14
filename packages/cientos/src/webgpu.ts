@@ -63,6 +63,7 @@ export {
   MarchingPlane,
   Text3D,
 } from './core/objects'
+export { default as Image } from './core/objects/Image/webgpu.vue'
 export * from './core/objects/useFBO'
 
 export {
@@ -88,7 +89,9 @@ export {
 export { default as Grid } from './core/shapes/Grid/webgpu.vue'
 
 export { Backdrop, Environment, Lightformer, Smoke } from './core/staging'
+export { default as Precipitation } from './core/staging/Precipitation/webgpu.vue'
 export { default as Sparkles } from './core/staging/Sparkles/webgpu.vue'
+export { default as Stars } from './core/staging/Stars/webgpu.vue'
 
 export * from './core/staging/useEnvironment'
 

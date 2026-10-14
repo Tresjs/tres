@@ -48,6 +48,8 @@ Grid/
 9. **Playground.** Add a page in `apps/playground/src/pages/cientos/webgpu/` with `useRendererSwitch`. For `renderer: webgl`, show the GLSL component from the root entry, because `WebGLRenderer` cannot run node materials. Set `NoToneMapping`: `WebGPURenderer` tone-maps the whole frame, and `WebGLRenderer` tone-maps each material.
 10. **Docs.** Remove the name from the "not exported yet" table in the cientos docs WebGPU guide. Add the name to the list of ported components.
 
-Only `webgpu.vue` and `<Name>NodeMaterial.ts` import `three/webgpu` or `three/tsl`. Only `src/webgpu.ts` imports `webgpu.vue`. If the root entry reaches one of these files, `check-entries.mjs` fails the build.
+Only `webgpu.vue`, `<Name>NodeMaterial.ts` and the shared WebGPU helpers in `src/utils/` (such as [useInstancedPoints.ts](src/utils/useInstancedPoints.ts)) import `three/webgpu` or `three/tsl`. Only `webgpu.vue` files import those helpers, and `src/utils/index.ts` does not re-export them. Only `src/webgpu.ts` imports `webgpu.vue`. If the root entry reaches one of these files, `check-entries.mjs` fails the build.
+
+A component that renders `Points` needs no `<Name>NodeMaterial.ts`. WebGPU draws `Points` at 1 pixel, so `webgpu.vue` renders one instanced `Sprite` with the built-in `PointsNodeMaterial` and gets its positions from `useInstancedPoints`. `Stars` ([src/core/staging/Stars/](src/core/staging/Stars/)) is the reference. The exposed `instance` is then a `Sprite`, not `Points`.
 
 Expect small differences on transparent pixels. `WebGPURenderer` blends in a linear half-float target. A GLSL material blends in sRGB on the canvas. Thus thin anti-aliased lines look a little brighter under WebGPU.

@@ -16,14 +16,9 @@ const WEBGL_ONLY = new Set([
   // GLSL `ShaderMaterial` / `onBeforeCompile` (Tier 1)
   'CustomShaderMaterial',
   'Html',
-  'Image',
   'MeshDiscardMaterial',
   'Outline',
   'PointMaterial',
-  // `Points` with `PointsMaterial`: WebGPU draws point primitives at 1 pixel, so `size` has no effect.
-  // A port needs instanced `Sprite`s with `PointsNodeMaterial`.
-  'Precipitation',
-  'Stars',
   // `LineMaterial` from three-stdlib is a GLSL `ShaderMaterial`
   'CatmullRomCurve3',
   'CubicBezierLine',
