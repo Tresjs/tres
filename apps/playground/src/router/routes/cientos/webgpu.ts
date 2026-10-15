@@ -73,6 +73,11 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/ImageDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/outline',
+    name: 'Outline (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/OutlineDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/sparkles',
     name: 'Sparkles (WebGPU, TSL port)',
     component: () => import('@/pages/cientos/webgpu/SparklesDemo.vue'),

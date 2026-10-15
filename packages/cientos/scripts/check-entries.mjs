@@ -17,7 +17,6 @@ const WEBGL_ONLY = new Set([
   'CustomShaderMaterial',
   'Html',
   'MeshDiscardMaterial',
-  'Outline',
   'PointMaterial',
   // `LineMaterial` from three-stdlib is a GLSL `ShaderMaterial`
   'CatmullRomCurve3',

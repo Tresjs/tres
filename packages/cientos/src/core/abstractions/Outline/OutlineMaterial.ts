@@ -1,15 +1,18 @@
 import { Color, Vector2 } from 'three'
 import { shaderMaterial } from '../../../utils/shaderMaterial'
+import type { OutlineMaterialLike } from './props'
+import { outlineDefaults } from './props'
 
 // NOTE: Source
 // https://github.com/pmndrs/drei/blob/master/src/core/Outlines.tsx
 
-export const OutlineMaterialImpl = /* @__PURE__ */ shaderMaterial(
+// `OutlineNodeMaterial.ts` ports this shader to TSL. A fix here must go there too.
+export const OutlineMaterial = /* @__PURE__ */ shaderMaterial(
   {
-    screenspace: false,
-    color: new Color('black'),
-    opacity: 1,
-    thickness: 0.05,
+    screenspace: outlineDefaults.screenspace,
+    color: new Color(outlineDefaults.color),
+    opacity: outlineDefaults.opacity,
+    thickness: outlineDefaults.thickness,
     size: new Vector2(1, 1),
   },
   `#include <common>
@@ -54,4 +57,4 @@ export const OutlineMaterialImpl = /* @__PURE__ */ shaderMaterial(
      #include <tonemapping_fragment>
      #include <colorspace_fragment>
    }`,
-)
+) as unknown as new () => OutlineMaterialLike
