@@ -1,5 +1,6 @@
 import { Color, Vector2 } from 'three'
 import { shaderMaterial } from '../../../utils/shaderMaterial'
+import type { OutlineMaterialLike } from './props'
 import { outlineDefaults } from './props'
 
 // NOTE: Source
@@ -56,4 +57,4 @@ export const OutlineMaterial = /* @__PURE__ */ shaderMaterial(
      #include <tonemapping_fragment>
      #include <colorspace_fragment>
    }`,
-)
+) as unknown as new () => OutlineMaterialLike

@@ -13,6 +13,8 @@ import type { OutlineMaterialLike, OutlineProps } from './props'
 export function useOutline(props: Required<OutlineProps>, groupRef: ShallowRef<Group | undefined>, material: OutlineMaterialLike) {
   let oldAngle = 0
   let oldGeometry: BufferGeometry | null = null
+  // With `angle` 0 the outline reuses the parent's geometry, which it must not dispose.
+  let ownsGeometry = false
 
   function updateMesh(group: Group) {
     const parent = group.parent as Mesh & SkinnedMesh & InstancedMesh
@@ -24,7 +26,7 @@ export function useOutline(props: Required<OutlineProps>, groupRef: ShallowRef<G
 
       let mesh = group.children?.[0] as any
       if (mesh) {
-        if (props.angle) { mesh.geometry.dispose() }
+        if (ownsGeometry) { mesh.geometry.dispose() }
         group.remove(mesh)
       }
 
@@ -44,9 +46,16 @@ export function useOutline(props: Required<OutlineProps>, groupRef: ShallowRef<G
         mesh.material = material
         group.add(mesh)
       }
-      mesh.geometry = props.angle ? toCreasedNormals(parent.geometry, props.angle) : parent.geometry
-      // The same arrays, so the outline follows the parent's morph targets. Without them, a
-      // morphed geometry fails to render.
+      ownsGeometry = Boolean(props.angle)
+      if (ownsGeometry) {
+        // toCreasedNormals rewrites a non-indexed geometry in place, so it gets a copy.
+        const source = parent.geometry.index ? parent.geometry : parent.geometry.clone()
+        mesh.geometry = toCreasedNormals(source, props.angle)
+      }
+      else {
+        mesh.geometry = parent.geometry
+      }
+      // Shared arrays: without them, a morphed geometry fails to render.
       mesh.morphTargetInfluences = parent.morphTargetInfluences
       mesh.morphTargetDictionary = parent.morphTargetDictionary
       mesh.renderOrder = props.renderOrder
@@ -66,7 +75,7 @@ export function useOutline(props: Required<OutlineProps>, groupRef: ShallowRef<G
   }
 
   const sizes = useTres().sizes
-  // Immediate, so an Outline that mounts after the canvas has its size. A 0 size would divide by 0.
+  // A 0 size would divide by 0 in the shader.
   watch(() => [sizes.width.value, sizes.height.value], ([w, h]) => {
     if (w && h) { material.size.set(w, h) }
   }, { immediate: true })
@@ -78,8 +87,7 @@ export function useOutline(props: Required<OutlineProps>, groupRef: ShallowRef<G
     if (mesh) { mesh.renderOrder = renderOrder }
   })
 
-  // WebGPURenderer bakes blending and depth bias into a cached pipeline, and WebGLRenderer bakes
-  // tone mapping into the program. Without a rebuild, a change to these props has no effect.
+  // WebGPU caches blending and depth bias in the pipeline, WebGL caches tone mapping in the program.
   const rebuildProps = () => [props.transparent, props.toneMapped, props.polygonOffset, props.polygonOffsetFactor]
   watch(() => [...rebuildProps(), props.thickness, props.color, props.opacity, props.screenspace], () => updateMaterial(), { immediate: true })
   watch(rebuildProps, () => {
@@ -93,7 +101,7 @@ export function useOutline(props: Required<OutlineProps>, groupRef: ShallowRef<G
   onUnmounted(() => {
     const mesh = groupRef.value?.children[0] as Mesh
     if (mesh) {
-      mesh.geometry.dispose()
+      if (ownsGeometry) { mesh.geometry.dispose() }
       material.dispose()
       mesh.removeFromParent()
     }

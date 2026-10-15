@@ -3,7 +3,7 @@ import type { Group } from 'three'
 import { shallowRef } from 'vue'
 import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 import { OutlineMaterial } from './OutlineMaterial'
-import type { OutlineMaterialLike, OutlineProps } from './props'
+import type { OutlineProps } from './props'
 import { outlineDefaults } from './props'
 import { useOutline } from './useOutline'
 
@@ -15,7 +15,7 @@ const groupRef = shallowRef<Group>()
 
 defineExpose({ instance: groupRef })
 
-useOutline(props, groupRef, new OutlineMaterial() as unknown as OutlineMaterialLike)
+useOutline(props, groupRef, new OutlineMaterial())
 </script>
 
 <template>
