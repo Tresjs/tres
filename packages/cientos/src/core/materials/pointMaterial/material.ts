@@ -24,8 +24,6 @@ export class PointMaterial extends PointsMaterialImpl {
       float delta = fwidth(r);     
       float mask = 1.0 - smoothstep(1.0 - delta, 1.0 + delta, r);
       gl_FragColor = vec4(gl_FragColor.rgb, mask * gl_FragColor.a );
-      #include <tonemapping_fragment>
-      #include <colorspace_fragment>
       `,
       )
     }
