@@ -48,6 +48,11 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/HolographicMaterialDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/mesh-discard-material',
+    name: 'MeshDiscardMaterial (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/MeshDiscardMaterialDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/mesh-wobble-material',
     name: 'MeshWobbleMaterial (WebGPU, TSL port)',
     component: () => import('@/pages/cientos/webgpu/MeshWobbleMaterialDemo.vue'),
