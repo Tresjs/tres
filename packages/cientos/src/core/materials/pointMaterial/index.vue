@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { onUnmounted, shallowRef, watch } from 'vue'
 import { extend } from '@tresjs/core'
-import { PointMaterial as PointMaterialImpl } from './material'
+import { PointMaterial as PointMaterialImpl } from './PointMaterial'
+import type { PointMaterialProps } from './props'
 import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
-const props = defineProps<{
-  sizeAttenuation?: boolean
-}>()
+const props = defineProps<PointMaterialProps>()
 
-useWebGPUSupportWarning('PointMaterial', 'patches the shader with onBeforeCompile, which WebGPURenderer ignores')
+useWebGPUSupportWarning('PointMaterial', 'patches the shader with onBeforeCompile, which WebGPURenderer ignores. Import PointMaterial from @tresjs/cientos/webgpu instead')
 
 extend({ PointMaterial: PointMaterialImpl })
 

@@ -16,7 +16,6 @@ const WEBGL_ONLY = new Set([
   // GLSL `ShaderMaterial` / `onBeforeCompile` (Tier 1)
   'CustomShaderMaterial',
   'Html',
-  'PointMaterial',
   // `LineMaterial` from three-stdlib is a GLSL `ShaderMaterial`
   'CatmullRomCurve3',
   'CubicBezierLine',
