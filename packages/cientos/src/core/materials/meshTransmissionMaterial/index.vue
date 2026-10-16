@@ -12,7 +12,7 @@ import {
 } from 'three'
 import type { Color, Texture } from 'three'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
-import { MeshDiscardMaterial } from '../meshDiscardMaterial/material'
+import { MeshDiscardMaterial } from '../meshDiscardMaterial/MeshDiscardMaterial'
 import { MeshTransmissionMaterial } from './material'
 import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
