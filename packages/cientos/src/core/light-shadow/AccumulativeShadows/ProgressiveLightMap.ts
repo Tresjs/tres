@@ -1,6 +1,6 @@
 import type { Camera, Group, Light, Material, Mesh, Scene, ShaderMaterial, Texture, WebGLRenderer } from 'three'
 import { Color, HalfFloatType, MeshLambertMaterial, NearestFilter, WebGLRenderTarget } from 'three'
-import { MeshDiscardMaterial as DiscardMaterial } from '../../materials/meshDiscardMaterial/material'
+import { MeshDiscardMaterial as DiscardMaterial } from '../../materials/meshDiscardMaterial/MeshDiscardMaterial'
 
 function isLight(object: any): object is Light {
   return object.isLight
