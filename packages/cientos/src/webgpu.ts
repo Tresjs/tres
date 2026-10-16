@@ -53,6 +53,7 @@ export * from './core/loaders'
 export { default as HolographicMaterial } from './core/materials/holographicMaterial/webgpu.vue'
 export { default as MeshGlassMaterial } from './core/materials/meshGlassMaterial/webgpu.vue'
 export { default as MeshWobbleMaterial } from './core/materials/meshWobbleMaterial/webgpu.vue'
+export { default as PointMaterial } from './core/materials/pointMaterial/webgpu.vue'
 export * from './core/miscellaneous'
 export {
   AnimatedSprite,

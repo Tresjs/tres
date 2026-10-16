@@ -53,6 +53,11 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/MeshWobbleMaterialDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/point-material',
+    name: 'PointMaterial (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/PointMaterialDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/mesh-glass-material',
     name: 'MeshGlassMaterial (WebGPU, TSL port)',
     component: () => import('@/pages/cientos/webgpu/MeshGlassMaterialDemo.vue'),
