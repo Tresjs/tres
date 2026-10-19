@@ -20,7 +20,7 @@ export class PointNodeMaterial extends PointsNodeMaterial {
     super.setupDiffuseColor(builder)
 
     // WebGPU draws `Points` 1 pixel wide and gives them no `uv`, so only sprite instances get the mask.
-    if ((builder.object as Points).isPoints) {
+    if ((builder.object as Partial<Points>).isPoints) {
       if (!warnedPoints) {
         warnedPoints = true
         logWarning('<PointMaterial> on <TresPoints> draws 1 pixel points under WebGPU. Put it on a <TresSprite> with `count` and a `positionNode` instead.')
