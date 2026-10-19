@@ -84,4 +84,9 @@ export const rapierRoutes = [
     name: 'Generated Level (tres gltf --physics)',
     component: () => import('@/pages/rapier/GeneratedLevel.vue'),
   },
+  {
+    path: '/rapier/issues/1513',
+    name: '#1513: Debug lines visibility',
+    component: () => import('@/pages/rapier/issues/1513/index.vue'),
+  },
 ]

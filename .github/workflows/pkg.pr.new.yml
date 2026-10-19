@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - next
+      - 'feature/**'
 
 env:
   HUSKY: 0 # Bypass husky commit hook for CI

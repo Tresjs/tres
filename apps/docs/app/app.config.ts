@@ -110,7 +110,7 @@ const newLocal = {
     }, {
       icon: 'i-lucide-cake',
       label: 'tresleches',
-      to: 'https://tresleches.tresjs.org/',
+      to: 'https://leches.tresjs.org/',
       target: '_blank',
     }],
   },

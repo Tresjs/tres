@@ -6,7 +6,7 @@ import { EffectComposerPmndrs, SMAAPmndrs } from '@tresjs/post-processing'
 import { BlendFunction, EdgeDetectionMode, PredicationMode, SMAAPreset } from 'postprocessing'
 import { NoToneMapping } from 'three'
 import type { Camera, PerspectiveCamera } from 'three'
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 
 const uuid = inject<string>('uuid')
 
@@ -69,7 +69,7 @@ const { blendFunction, debug, autoRotateSpeed, opacity, preset, wireframe, boxCo
   },
 }, { uuid })
 
-const wrapperRef = ref<HTMLElement | undefined>(undefined)
+const wrapperRef = shallowRef<HTMLElement | undefined>(undefined)
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
 const onChange = (controls: { object: Camera }) => {

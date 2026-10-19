@@ -1,9 +1,4 @@
 <script setup lang="ts">
-const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('experiments'))
-const { data: files } = useLazyAsyncData('search', () => queryCollectionSearchSections('experiments'), {
-  server: false,
-})
-
 const colorMode = useColorMode()
 const isDark = computed(() => colorMode.value === 'dark')
 
@@ -25,8 +20,6 @@ useSeoMeta({
   ogSiteName: 'TresJS Lab',
   twitterCard: 'summary_large_image',
 })
-
-provide('navigation', navigation)
 </script>
 
 <template>
@@ -36,8 +29,5 @@ provide('navigation', navigation)
         <NuxtPage />
       </NuxtLayout>
     </UMain>
-    <ClientOnly>
-      <LazyUContentSearch :files="files" :navigation="navigation" />
-    </ClientOnly>
   </UApp>
 </template>

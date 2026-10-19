@@ -8,7 +8,8 @@ const DEVTOOLS_UI_LOCAL_PORT = 3300
 
 export function setupDevToolsUI(nuxt: Nuxt, resolver: Resolver) {
   const clientPath = resolver.resolve('./client')
-  const isProductionBuild = existsSync(clientPath)
+  // client:dev leaves an empty dist/client behind (Nitro prepares its publicDir), so check for real output
+  const isProductionBuild = existsSync(resolver.resolve('./client/index.html'))
 
   // Serve production-built client (used when package is published)
   if (isProductionBuild) {
@@ -45,7 +46,7 @@ export function setupDevToolsUI(nuxt: Nuxt, resolver: Resolver) {
   addCustomTab(() => ({
     name: 'tres-nuxt-devtools',
     title: 'TresJS',
-    icon: 'https://raw.githubusercontent.com/Tresjs/tres/main/public/favicon.svg',
+    icon: `${DEVTOOLS_UI_ROUTE}/favicon.svg`,
     view: {
       type: 'iframe',
       src: DEVTOOLS_UI_ROUTE,

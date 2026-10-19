@@ -6,6 +6,8 @@ import Glitch from './Glitch.vue'
 import type { GlitchProps } from './Glitch.vue'
 import Halftone from './Halftone.vue'
 import type { HalftoneProps } from './Halftone.vue'
+import N8AO from './N8AO.vue'
+import type { N8AOProps } from './N8AO.vue'
 import Pixelation from './Pixelation.vue'
 import type { PixelationProps } from './Pixelation.vue'
 import Output from './Output.vue'
@@ -19,6 +21,7 @@ export {
 
   Glitch,
   Halftone,
+  N8AO,
   Output,
   Pixelation,
   SMAA,
@@ -29,6 +32,7 @@ export {
   EffectComposerProps,
   GlitchProps,
   HalftoneProps,
+  N8AOProps,
   PixelationProps,
   SMAAProps,
   UnrealBloomProps,

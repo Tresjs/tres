@@ -12,6 +12,7 @@ on:
     branches:
       - main
       - next
+      - 'feature/**'
     paths-ignore:
       - '**/*.md'
       - 'docs/**'

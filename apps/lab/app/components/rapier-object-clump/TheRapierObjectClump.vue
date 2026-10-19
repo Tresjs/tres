@@ -1,19 +1,9 @@
 <script setup lang="ts">
-import type { EffectComposer } from 'postprocessing'
 import { useTres } from '@tresjs/core'
-import { EffectComposerPmndrs, SMAAPmndrs } from '@tresjs/post-processing'
+import { EffectComposerPmndrs, N8AOPmndrs, SMAAPmndrs } from '@tresjs/post-processing'
 import { Color } from 'three'
-import N8AO from './N8AO.vue'
 import TheClump from './TheClump.vue'
 import ThePointer from './ThePointer.vue'
-
-const composerRef = useTemplateRef<{ composer: { value: EffectComposer | null } }>('composerRef')
-const composer = computed<EffectComposer | null>(() => {
-  const exposed = composerRef.value
-  if (!exposed) { return null }
-  const c = exposed.composer
-  return (c && 'value' in c) ? c.value : (c ?? null)
-})
 
 const { scene } = useTres()
 watchEffect(() => {
@@ -39,8 +29,8 @@ watchEffect(() => {
     </Physics>
   </Suspense>
 
-  <EffectComposerPmndrs ref="composerRef" :multisampling="0" disable-normal-pass>
-    <N8AO :composer="composer" :ao-radius="2" :intensity="1.15" :distance-falloff="1" />
+  <EffectComposerPmndrs :multisampling="0" disable-normal-pass>
+    <N8AOPmndrs :ao-radius="2" :intensity="1.15" :distance-falloff="1" />
     <SMAAPmndrs />
   </EffectComposerPmndrs>
 </template>

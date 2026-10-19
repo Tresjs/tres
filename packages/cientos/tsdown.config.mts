@@ -25,6 +25,10 @@ export default defineConfig([
     plugins: [
       process.env.ANALYZE && visualizer({ open: true, gzipSize: true, filename: 'dist/stats.html' }),
     ].filter(Boolean),
+    // @tsdown/css defaults to style.css; the ./styles.css export points at trescientos.css
+    css: {
+      fileName: 'trescientos.css',
+    },
     dts: {
       vue: true,
     },

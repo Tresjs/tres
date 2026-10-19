@@ -1,3 +1,41 @@
+## 1.3.2 (2026-10-07)
+
+### 🩹 Fixes
+
+- **leches:** improve dark mode contrast for folders and inputs ([#1517](https://github.com/Tresjs/tres/pull/1517))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 1.3.1 (2026-09-29)
+
+### 🩹 Fixes
+
+- **leches:** strip emoji and non-ASCII symbols from folder key prefixes ([#1509](https://github.com/Tresjs/tres/pull/1509))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.7.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 1.3.0 (2026-09-29)
+
+### 🚀 Features
+
+- **leches:** add panel search and AI-ready JSON copy ([#1506](https://github.com/Tresjs/tres/pull/1506))
+
+### 🩹 Fixes
+
+- **leches:** fixes dark mode and add Tres Leches documentation ([#1198](https://github.com/Tresjs/tres/pull/1198))
+
+### ❤️ Thank You
+
+- Alvaro Saburido
+
 ## 1.2.1 (2026-05-11)
 
 ### 🩹 Fixes
