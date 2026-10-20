@@ -1,3 +1,13 @@
+## 5.9.3 (2026-10-06)
+
+### 🩹 Fixes
+
+- **core:** default to PCFShadowMap on WebGPU since three r186 ([#1508](https://github.com/Tresjs/tres/pull/1508))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 5.9.2 (2026-09-29)
 
 ### 🧱 Updated Dependencies
