@@ -2,12 +2,14 @@
 // 1. The root entry must not reach `three/webgpu` or `three/tsl` (peer range is `three >=0.133`).
 // 2. Both entries must share the one file that defines the catalogue, else an app that
 //    imports from both gets two catalogues.
+// 3. `dist/webgpu.js` must be listed in `sideEffects`, else bundlers drop its `extend()` call.
 import { readFileSync } from 'node:fs'
 import { dirname, join } from 'pathe'
 import { fileURLToPath } from 'node:url'
 import { importGraph, report, WEBGPU_ONLY } from '../../../tools/guards/entry-graph.mjs'
 
 const dist = join(dirname(fileURLToPath(import.meta.url)), '../dist')
+const pkg = JSON.parse(readFileSync(join(dist, '../package.json'), 'utf8'))
 
 const errors = []
 const root = importGraph(dist, 'tres.js')
@@ -31,6 +33,10 @@ if (catalogueFiles.length !== 1) {
 }
 else if (!root.files.has(catalogueFiles[0]) || !webgpu.files.has(catalogueFiles[0])) {
   errors.push(`dist/${catalogueFiles[0]} defines the catalogue but not both entries import it.`)
+}
+
+if (!Array.isArray(pkg.sideEffects) || !pkg.sideEffects.includes('./dist/webgpu.js')) {
+  errors.push('package.json "sideEffects" does not list "./dist/webgpu.js". Bundlers would drop its extend() call.')
 }
 
 report('check-entries', errors, `root entry has no WebGPU imports, both entries share dist/${catalogueFiles[0]}`)

@@ -9,7 +9,14 @@ import { forwardContextEmits } from '../components/forwardContextEmits'
 import { tresCanvasDefaults } from '../components/tresCanvasDefaults'
 import { toWebGPURendererParameters } from './renderer'
 
-const props = withDefaults(defineProps<TresCanvasProps>(), tresCanvasDefaults)
+export interface TresWebGPUCanvasProps extends Omit<TresCanvasProps, 'renderer'> {
+  /**
+   * Custom renderer factory. It must return a `WebGPURenderer`, because `useTres()` from this entry types the renderer as one.
+   */
+  renderer?: (ctx: TresRendererSetupContext) => WebGPURenderer
+}
+
+const props = withDefaults(defineProps<TresWebGPUCanvasProps>(), tresCanvasDefaults)
 
 const emit = defineEmits<TresCanvasEmits>()
 

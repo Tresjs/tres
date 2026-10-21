@@ -17,7 +17,9 @@
     "three",
     "threejs-vue"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/webgpu.js"
+  ],
   "exports": {
     ".": "./dist/tres.js",
     "./webgpu": {

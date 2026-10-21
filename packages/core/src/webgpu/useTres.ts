@@ -4,7 +4,7 @@ import { useTres as useRootTres } from '../composables'
 
 export interface TresWebGPUPartialContext extends Omit<TresPartialContext, 'renderer'> {
   /**
-   * The renderer instance. The WebGPU `TresCanvas` creates a `WebGPURenderer` by default.
+   * The renderer instance. The WebGPU `TresCanvas` only accepts renderer factories that return a `WebGPURenderer`.
    */
   renderer: WebGPURenderer
 }
@@ -13,6 +13,5 @@ export interface TresWebGPUPartialContext extends Omit<TresPartialContext, 'rend
  * `useTres` for canvases from `@tresjs/core/webgpu`, with the renderer typed as `WebGPURenderer`.
  */
 export function useTres(): TresWebGPUPartialContext {
-  // A custom `renderer` factory can return another renderer, but this entry is for WebGPU canvases.
   return useRootTres() as TresWebGPUPartialContext
 }
