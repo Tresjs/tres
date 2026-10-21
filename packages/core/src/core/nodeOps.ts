@@ -319,8 +319,7 @@ export const nodeOps = ({
     }
   }
 
-  // Node props are plain fields: without a version bump, WebGPU keeps the old pipeline.
-  // Only node swaps bump it, because each bump makes three re-hash the whole node graph.
+  // Node props have no setter, so three keeps the old pipeline unless we bump the version.
   function markNodeMaterialForRecompile(target: unknown, prevValue: unknown, nextValue: unknown) {
     if (isNodeMaterial(target) && (isNode(prevValue) || isNode(nextValue))) {
       target.needsUpdate = true
