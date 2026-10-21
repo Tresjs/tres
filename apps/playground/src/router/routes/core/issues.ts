@@ -54,4 +54,9 @@ export const issuesRoutes = [
     name: '#1513: rapier collider offset',
     component: () => import('@/pages/core/issues/1513/index.vue'),
   },
+  {
+    path: '/issues/tres-409',
+    name: 'TRES-409: node material recompile',
+    component: () => import('@/pages/core/issues/tres-409/index.vue'),
+  },
 ]
