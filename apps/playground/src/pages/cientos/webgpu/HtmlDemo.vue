@@ -15,7 +15,7 @@ const onReady = useBackendControl(uuid)
 const rendererFactory = useRendererSwitch(uuid, { alpha: true })
 const HtmlComponent = rendererFactory ? GlslHtml : Html
 
-const { transparentMaterial } = useControls({ transparentMaterial: false }, { uuid })
+const { transparentMaterial, sprite } = useControls({ transparentMaterial: false, sprite: true }, { uuid })
 
 const circleGeometry = shallowRef(new CircleGeometry(0.9, 32))
 const isOccluded = ref(false)
@@ -24,6 +24,7 @@ const checks = [
   'Each card marked "blending" hides behind the floating shapes, with a clean edge that follows the shape',
   'The "blending" cards show where nothing covers them: no black or colored rectangle in their place',
   'The "sprite" card turns to face the camera when you orbit, and its hole turns with it',
+  'Turn `sprite` off and on: the hole of the middle card still fits the card each time',
   'The "no transform" card keeps its size on screen when you zoom, and its hole keeps the same size',
   'The "circle" card shows only inside a circle',
   'The "raycast" card hides when the sphere passes in front, and the label below it says so',
@@ -83,13 +84,13 @@ const checks = [
       <component
         :is="HtmlComponent"
         transform
-        sprite
+        :sprite="sprite"
         center
         occlude="blending"
         :transparent-material="transparentMaterial"
         :position="[0, 1, -1]"
       >
-        <div class="card">blending + sprite</div>
+        <div class="card">{{ sprite ? 'blending + sprite' : 'blending' }}</div>
       </component>
 
       <component

@@ -148,8 +148,15 @@ export function useHtml(
     defaultMaterial.value.uHeight = height
   }
 
+  watch(defaultMaterial, (_, previous) => {
+    previous?.dispose()
+    isMeshSizeSet.value = false
+  })
+
   watchEffect(() => {
-    effectiveMaterial.value.transparent = transparentMaterial.value
+    if (defaultMaterial.value) {
+      defaultMaterial.value.transparent = transparentMaterial.value
+    }
   })
 
   watch(
@@ -440,7 +447,7 @@ export function useHtml(
 
   onUnmounted(() => {
     defaultPlaneGeometry?.dispose()
-    effectiveMaterial.value?.dispose()
+    defaultMaterial.value?.dispose()
 
     if (el.value?.parentNode) {
       el.value.parentNode.removeChild(el.value)
