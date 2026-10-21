@@ -105,6 +105,12 @@
   },
   "nx": {
     "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/.nuxt"
+        ]
+      },
       "test:ci": {
         "dependsOn": [
           "^build",
