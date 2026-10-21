@@ -1,14 +1,19 @@
 import { mount } from '@vue/test-utils'
 import type { WebGPURenderer } from 'three/webgpu'
 import { MeshStandardNodeMaterial } from 'three/webgpu'
-import { describe, expect, it } from 'vitest'
-import RootTresCanvas from '../components/TresCanvas.vue'
+import { describe, expect, it, vi } from 'vitest'
+import { defineComponent, reactive } from 'vue'
+import BaseCanvas from '../components/BaseCanvas.vue'
+import Context from '../components/Context.vue'
 import { catalogue } from '../core/catalogue'
+import type { TresContext } from '../index'
+import { setupMocks } from '../utils/test/mocking'
+import { isWebGPURenderer } from '../utils/is'
 import { toWebGPURendererParameters } from './renderer'
-import { TresCanvas } from '.'
+import { TresCanvas, TresCanvasContext } from '.'
 
 const mountCanvas = (props: Record<string, unknown> = {}) =>
-  mount(TresCanvas, { props, global: { stubs: { RootCanvas: true } } })
+  mount(TresCanvas, { props, global: { stubs: { BaseCanvas: true } } })
 
 describe('toWebGPURendererParameters', () => {
   it('passes the WebGPURenderer options that are set', () => {
@@ -36,24 +41,66 @@ describe('webgpu TresCanvas', () => {
     expect(catalogue.value.MeshStandardNodeMaterial).toBe(MeshStandardNodeMaterial)
   })
 
-  it('passes a default renderer factory to the root TresCanvas', () => {
+  it('passes a default renderer factory to the base canvas', () => {
     const wrapper = mountCanvas()
-    expect(wrapper.findComponent(RootTresCanvas).props('renderer')).toBeTypeOf('function')
+    expect(wrapper.findComponent(BaseCanvas).props('renderer')).toBeTypeOf('function')
   })
 
   it('passes a user renderer factory unchanged', () => {
     const renderer = () => ({}) as unknown as WebGPURenderer
     const wrapper = mountCanvas({ renderer })
-    expect(wrapper.findComponent(RootTresCanvas).props('renderer')).toBe(renderer)
+    expect(wrapper.findComponent(BaseCanvas).props('renderer')).toBe(renderer)
   })
 
-  it('re-emits the events of the root TresCanvas', () => {
+  it('does not add the WebGL-only three classes to the catalogue', () => {
+    mountCanvas()
+    expect(catalogue.value.WebGLRenderer).toBeUndefined()
+  })
+
+  it('re-emits the events of the base canvas', () => {
     const wrapper = mountCanvas()
-    const root = wrapper.findComponent(RootTresCanvas)
+    const base = wrapper.findComponent(BaseCanvas)
     const payload = {}
-    root.vm.$emit('beforeLoop', payload)
-    root.vm.$emit('wheel', payload)
+    base.vm.$emit('beforeLoop', payload)
+    base.vm.$emit('wheel', payload)
     expect(wrapper.emitted('beforeLoop')).toEqual([[payload]])
     expect(wrapper.emitted('wheel')).toEqual([[payload]])
+  })
+})
+
+describe('webgpu TresCanvasContext', () => {
+  const mountContext = (props: Record<string, unknown> = {}) =>
+    mount(TresCanvasContext, { props: { canvas: document.createElement('canvas'), ...props }, global: { stubs: { Context: true } } })
+
+  it('passes a default renderer factory to the context', () => {
+    const wrapper = mountContext()
+    expect(wrapper.findComponent(Context).props('renderer')).toBeTypeOf('function')
+  })
+
+  it('passes a user renderer factory unchanged', () => {
+    const renderer = () => ({}) as unknown as WebGPURenderer
+    const wrapper = mountContext({ renderer })
+    expect(wrapper.findComponent(Context).props('renderer')).toBe(renderer)
+  })
+})
+
+describe('webgpu useTresContextProvider', () => {
+  it('creates a WebGPURenderer when the renderer option is not set', async () => {
+    vi.resetModules()
+    await setupMocks()
+    // jsdom has no GPU, so the async `init()` of the renderer fails and logs.
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    const { Scene } = await import('three')
+    const { useTresContextProvider } = await import('./renderer')
+
+    let context!: TresContext
+    mount(defineComponent({
+      setup() {
+        context = useTresContextProvider({ scene: new Scene(), canvas: document.createElement('canvas'), windowSize: false, rendererOptions: reactive({}) })
+        return () => null
+      },
+    }))
+
+    expect(isWebGPURenderer(context.renderer.instance)).toBe(true)
   })
 })
