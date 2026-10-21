@@ -691,6 +691,8 @@ describe('nodeOps', () => {
         ['node → null', color('#ff0000'), null],
       ])('recompiles when a node prop is patched (%s)', (_, prevValue, nextValue) => {
         const material = nodeOps.createElement('TresMeshBasicNodeMaterial', undefined, undefined, {})!
+        nodeOps.patchProp(material, 'color-node', null, prevValue)
+        expect(material.colorNode).toBe(prevValue)
         const version = material.version
 
         nodeOps.patchProp(material, 'color-node', prevValue, nextValue)
