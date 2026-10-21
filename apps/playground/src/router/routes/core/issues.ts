@@ -54,4 +54,9 @@ export const issuesRoutes = [
     name: '#1513: rapier collider offset',
     component: () => import('@/pages/core/issues/1513/index.vue'),
   },
+  {
+    path: '/issues/material-cache-key',
+    name: 'TRES-407: material cache-key props',
+    component: () => import('@/pages/core/issues/material-cache-key/index.vue'),
+  },
 ]
