@@ -66,6 +66,7 @@ export {
   MarchingPlane,
   Text3D,
 } from './core/objects'
+export { default as Html } from './core/objects/Html/webgpu.vue'
 export { default as Image } from './core/objects/Image/webgpu.vue'
 export * from './core/objects/useFBO'
 
