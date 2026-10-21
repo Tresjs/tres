@@ -6,7 +6,7 @@ import type { ElementNamespace, RendererOptions } from 'vue'
 import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { filterInPlace } from '../utils/array'
 import { logError } from '../utils/logger'
-import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
+import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isNode, isNodeMaterial, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { camel } from '../utils/string'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
@@ -319,6 +319,14 @@ export const nodeOps = ({
     }
   }
 
+  // Node props are plain fields: without a version bump, WebGPU keeps the old pipeline.
+  // Only node swaps bump it, because each bump makes three re-hash the whole node graph.
+  function markNodeMaterialForRecompile(target: unknown, prevValue: unknown, nextValue: unknown) {
+    if (isNodeMaterial(target) && (isNode(prevValue) || isNode(nextValue))) {
+      target.needsUpdate = true
+    }
+  }
+
   function patchProp(node: TresObject, prop: string, prevValue: any, nextValue: any) {
     if (!node) { return }
 
@@ -412,6 +420,7 @@ export const nodeOps = ({
 
       if (target && finalKey) {
         target[finalKey] = nextValue
+        markNodeMaterialForRecompile(target, prevValue, nextValue)
         if (isTresCamera(node)) {
           node.updateProjectionMatrix()
         }
@@ -475,6 +484,8 @@ export const nodeOps = ({
     else {
       root[finalKey] = value
     }
+
+    markNodeMaterialForRecompile(root, prevValue, value)
 
     if (isTresCamera(node)) {
       node.updateProjectionMatrix()
