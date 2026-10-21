@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { WebGPURenderer } from 'three/webgpu'
-import { shallowRef, toValue } from 'vue'
+import type { WebGPURenderer } from 'three/webgpu'
+import { shallowRef } from 'vue'
 import type { TresRendererSetupContext } from '../composables'
-import type { TresCanvasEmits, TresCanvasInstance, TresCanvasProps } from '../components/TresCanvas.vue'
-// Not named `TresCanvas`: the template compiler treats every `Tres*` tag as a Tres component.
-import RootCanvas from '../components/TresCanvas.vue'
-import { forwardContextEmits } from '../components/forwardContextEmits'
+import type { TresCanvasEmits, TresCanvasInstance, TresCanvasProps } from '../components/BaseCanvas.vue'
+import BaseCanvas from '../components/BaseCanvas.vue'
+import { forwardContext } from '../components/forwardContextEmits'
 import { tresCanvasDefaults } from '../components/tresCanvasDefaults'
-import { toWebGPURendererParameters } from './renderer'
+import { createWebGPURenderer } from './renderer'
 
 export interface TresWebGPUCanvasProps extends Omit<TresCanvasProps, 'renderer'> {
   /**
@@ -24,30 +23,21 @@ defineSlots<{
   default: () => any
 }>()
 
-const contextListeners = forwardContextEmits(emit)
+const child = shallowRef<TresCanvasInstance>()
+const { listeners, exposed } = forwardContext(emit, child)
 
-const createWebGPURenderer = (ctx: TresRendererSetupContext) => new WebGPURenderer({
-  ...toWebGPURendererParameters(props),
-  canvas: toValue(ctx.canvas),
-})
+defineExpose<TresCanvasInstance>(exposed)
 
-const canvasRef = shallowRef<TresCanvasInstance>()
-
-defineExpose<TresCanvasInstance>({
-  get context() {
-    return canvasRef.value?.context
-  },
-  dispose: () => canvasRef.value?.dispose(),
-})
+const createDefaultRenderer = (ctx: TresRendererSetupContext) => createWebGPURenderer(ctx, props)
 </script>
 
 <template>
-  <RootCanvas
-    ref="canvasRef"
+  <BaseCanvas
+    ref="child"
     v-bind="props"
-    :renderer="props.renderer ?? createWebGPURenderer"
-    v-on="contextListeners"
+    :renderer="props.renderer ?? createDefaultRenderer"
+    v-on="listeners"
   >
     <slot></slot>
-  </RootCanvas>
+  </BaseCanvas>
 </template>

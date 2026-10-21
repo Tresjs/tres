@@ -1,3 +1,5 @@
+import type { ShallowRef } from 'vue'
+import type { TresCanvasInstance } from './BaseCanvas.vue'
 import type { ContextEmits } from './Context.vue'
 
 // A `Record` and not an array: a new event in `ContextEmits` is a type error here until it
@@ -33,3 +35,14 @@ export const forwardContextEmits = (emit: (event: any, ...args: any[]) => void) 
   Object.fromEntries(
     Object.keys(contextEvents).map(event => [event, (...args: unknown[]) => emit(event, ...args)]),
   )
+
+// For components that wrap a canvas or context only to set its default renderer.
+export const forwardContext = (emit: (event: any, ...args: any[]) => void, child: ShallowRef<TresCanvasInstance | undefined>) => {
+  const exposed: TresCanvasInstance = {
+    get context() {
+      return child.value?.context
+    },
+    dispose: () => child.value?.dispose(),
+  }
+  return { listeners: forwardContextEmits(emit), exposed }
+}

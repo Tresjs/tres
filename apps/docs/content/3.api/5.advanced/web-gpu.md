@@ -59,11 +59,14 @@ The root import `@tresjs/core` does not change: its `TresCanvas` still uses `Web
 
 | | `@tresjs/core` | `@tresjs/core/webgpu` |
 | -- | -- | -- |
-| Default renderer | `WebGLRenderer` | `WebGPURenderer` |
+| Default renderer of `TresCanvas`, `TresCanvasContext`, `useTresContextProvider` and `useRendererManager` | `WebGLRenderer` | `WebGPURenderer` |
 | Node materials as tags (`<TresMeshStandardNodeMaterial>`) | No, needs `extend()` | Yes |
+| WebGL-only classes as tags (`<TresWebGLCubeRenderTarget>`) | Yes | No |
 | `useTres().renderer` type | `WebGLRenderer \| Renderer` | `WebGPURenderer` |
 
 All other exports (`useLoop`, `useTresContext`, `extend`, type guards, ...) are the same in both entries.
+
+An app that imports only from `@tresjs/core/webgpu` does not bundle `WebGLRenderer`.
 
 ### Node materials as tags
 

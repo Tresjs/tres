@@ -51,7 +51,7 @@
   },
   "scripts": {
     "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
-    "build": "tsdown && node ./scripts/check-entries.mjs",
+    "build": "tsdown && node ./scripts/check-entries.mjs && node ./scripts/check-bundle.mjs",
     "build:analyze": "ANALYZE=true tsdown",
     "test": "vitest",
     "test:ci": "vitest run --typecheck",
