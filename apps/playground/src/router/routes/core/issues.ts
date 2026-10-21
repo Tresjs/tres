@@ -59,4 +59,9 @@ export const issuesRoutes = [
     name: 'TRES-409: node material recompile',
     component: () => import('@/pages/core/issues/tres-409/index.vue'),
   },
+  {
+    path: '/issues/material-cache-key',
+    name: 'TRES-407: material cache-key props',
+    component: () => import('@/pages/core/issues/material-cache-key/index.vue'),
+  },
 ]
