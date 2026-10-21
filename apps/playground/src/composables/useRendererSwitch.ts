@@ -1,5 +1,6 @@
 import type { TresRendererSetupContext } from '@tresjs/core'
 import { useControls } from '@tresjs/leches'
+import type { WebGLRendererParameters } from 'three'
 import { WebGLRenderer } from 'three'
 import { toValue, watch } from 'vue'
 
@@ -10,24 +11,26 @@ export function reloadWithQuery(key: string, value: string) {
   location.href = url.toString()
 }
 
-const createWebGLRenderer = (ctx: TresRendererSetupContext) => new WebGLRenderer({
+const createWebGLRenderer = (parameters: WebGLRendererParameters) => (ctx: TresRendererSetupContext) => new WebGLRenderer({
   canvas: toValue(ctx.canvas),
   antialias: true,
+  ...parameters,
 })
 
 /**
  * Adds a `renderer` control (webgpu / webgl) to the Leches panel, so a WebGPU page can render the
  * same scene with WebGLRenderer for comparison. Returns the value for the `renderer` prop of the
- * `/webgpu` TresCanvas: undefined keeps its WebGPURenderer default.
+ * `/webgpu` TresCanvas: undefined keeps its WebGPURenderer default. `parameters` go to the
+ * WebGLRenderer, for a page that needs `alpha`, for example.
  *
  * A change reloads the page instead of remounting the canvas, so no component has to survive a
  * dispose. `<Environment>` with Lightformer children, for example, throws when it unmounts.
  */
-export function useRendererSwitch(uuid: string) {
+export function useRendererSwitch(uuid: string, parameters: WebGLRendererParameters = {}) {
   const initial = new URLSearchParams(location.search).get('renderer') === 'webgl' ? 'webgl' : 'webgpu'
   const { renderer } = useControls({ renderer: { value: initial, options: ['webgpu', 'webgl'] } }, { uuid })
 
   watch(renderer, value => reloadWithQuery('renderer', value))
 
-  return initial === 'webgl' ? createWebGLRenderer : undefined
+  return initial === 'webgl' ? createWebGLRenderer(parameters) : undefined
 }
