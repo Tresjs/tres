@@ -17,9 +17,15 @@
     "three",
     "threejs-vue"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "./dist/webgpu.js"
+  ],
   "exports": {
     ".": "./dist/tres.js",
+    "./webgpu": {
+      "types": "./dist/webgpu.d.ts",
+      "default": "./dist/webgpu.js"
+    },
     "./template-compiler-options": "./dist/template-compiler-options.mjs",
     "./package.json": "./package.json"
   },
@@ -30,6 +36,9 @@
     "*": {
       "template-compiler-options": [
         "dist/template-compiler-options.d.mts"
+      ],
+      "webgpu": [
+        "dist/webgpu.d.ts"
       ]
     }
   },
@@ -42,7 +51,7 @@
   },
   "scripts": {
     "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
-    "build": "tsdown",
+    "build": "tsdown && node ./scripts/check-entries.mjs && node ./scripts/check-bundle.mjs",
     "build:analyze": "ANALYZE=true tsdown",
     "test": "vitest",
     "test:ci": "vitest run --typecheck",

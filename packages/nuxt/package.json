@@ -47,6 +47,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
+    "test:ci": "vitest run",
     "test:watch": "vitest watch"
   },
   "peerDependencies": {
@@ -101,5 +102,26 @@
       "nanoid/non-secure",
       "@nuxt/devtools-kit"
     ]
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/dist",
+          "{projectRoot}/.nuxt"
+        ]
+      },
+      "test:ci": {
+        "dependsOn": [
+          "^build",
+          {
+            "projects": [
+              "@tresjs/cientos"
+            ],
+            "target": "build"
+          }
+        ]
+      }
+    }
   }
 }
