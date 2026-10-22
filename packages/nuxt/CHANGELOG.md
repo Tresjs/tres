@@ -1,3 +1,21 @@
+## 5.8.0 (2026-10-22)
+
+### 🚀 Features
+
+- add /webgpu entries to core, cientos and nuxt ([#1543](https://github.com/Tresjs/tres/pull/1543))
+
+### 🩹 Fixes
+
+- **nuxt:** add favicon.svg and update devtools icon path ([#1533](https://github.com/Tresjs/tres/pull/1533))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.10.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 5.7.3 (2026-10-06)
 
 ### 🧱 Updated Dependencies
