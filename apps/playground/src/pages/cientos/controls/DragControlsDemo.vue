@@ -2,9 +2,9 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 import { DragControls, OrbitControls } from '@tresjs/cientos'
+import type { DragControlsInstance } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
-import type { DragControls as ThreeDragControls } from 'three/examples/jsm/Addons.js'
 import { TresLeches, useControls } from '@tresjs/leches'
 
 const gl = {
@@ -16,7 +16,6 @@ const gl = {
 
 const boxRef = shallowRef()
 const sphereRef = shallowRef()
-const controlsRef = shallowRef<InstanceType<typeof DragControls> | null>(null)
 
 const { lock, enabled, dragLimitsMin, dragLimitsMax } = useControls({
   lock: {
@@ -38,11 +37,11 @@ const { lock, enabled, dragLimitsMin, dragLimitsMax } = useControls({
   },
 })
 
-function onDragStart(e: ThreeDragControls) {
+function onDragStart(e: DragControlsInstance) {
   console.log('dragstart', e)
 }
 
-function onDrag(_e: ThreeDragControls) {
+function onDrag(_e: DragControlsInstance) {
   if (!boxRef.value) { return }
   const snap = 0.5
   const pos = boxRef.value.position
@@ -50,15 +49,15 @@ function onDrag(_e: ThreeDragControls) {
   pos.z = Math.round(pos.z / snap) * snap
 }
 
-function onDragEnd(e: ThreeDragControls) {
+function onDragEnd(e: DragControlsInstance) {
   console.log('dragend', e)
 }
 
-function onHoverOn(e: ThreeDragControls) {
+function onHoverOn(e: DragControlsInstance) {
   console.log('hoveron', e)
 }
 
-function onHoverOff(e: ThreeDragControls) {
+function onHoverOff(e: DragControlsInstance) {
   console.log('hoveroff', e)
 }
 </script>
@@ -79,11 +78,10 @@ function onHoverOff(e: ThreeDragControls) {
     <TresDirectionalLight :position="[0, 10, 0]" :intensity="1.5" />
     <TresAmbientLight :intensity="0.25" />
     <DragControls
-      ref="controlsRef"
       :objects="[sphereRef]"
       :lock="lock"
       :enabled="enabled"
-      :dragLimits="[[dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax]]"
+      :drag-limits="[[dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax]]"
       @dragstart="onDragStart"
       @dragend="onDragEnd"
       @hoveron="onHoverOn"

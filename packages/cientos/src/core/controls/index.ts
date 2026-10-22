@@ -7,6 +7,8 @@ import ScrollControls from './ScrollControls.vue'
 import TransformControls from './TransformControls.vue'
 import { DragControls } from './DragControls.ts'
 
+export type { DragControlsEmits, DragControlsInstance, DragControlsProps } from './DragControls.ts'
+
 export {
   BaseCameraControls,
   CameraControls,

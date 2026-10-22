@@ -1,10 +1,8 @@
-<!-- eslint-disable no-console -->
 <script setup lang="ts">
-import { shallowRef, watch } from 'vue'
+import { shallowRef } from 'vue'
 import { DragControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
-import type { DragControls as ThreeDragControls } from 'three/examples/jsm/Addons.js'
 import { useControls } from '@tresjs/leches'
 
 const gl = {
@@ -38,7 +36,7 @@ const { lock, enabled, dragLimitsMin, dragLimitsMax } = useControls({
   },
 }, { uuid })
 
-function onDrag(_e: ThreeDragControls) {
+function onDrag() {
   if (!boxRef.value) { return }
   const snap = 0.5
   const pos = boxRef.value.position
@@ -64,7 +62,7 @@ function onDrag(_e: ThreeDragControls) {
       :objects="[sphereRef]"
       :lock="lock"
       :enabled="enabled"
-      :dragLimits="[[dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax]]"
+      :drag-limits="[[dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax], [dragLimitsMin, dragLimitsMax]]"
     />
     <DragControls
       :objects="[boxRef]"

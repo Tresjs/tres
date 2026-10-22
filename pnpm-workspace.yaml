@@ -71,7 +71,7 @@ catalogs:
 
 allowBuilds:
   '@parcel/watcher': false
-  better-sqlite3: true
+  better-sqlite3: false
   edgedriver: false
   esbuild: false
   geckodriver: false
