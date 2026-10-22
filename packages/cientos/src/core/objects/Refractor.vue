@@ -5,6 +5,7 @@ import { computed, onBeforeUnmount, shallowRef, toRefs, watch } from 'vue'
 import { Color } from 'three'
 import type { ColorRepresentation } from 'three'
 import type { TresColor } from '@tresjs/core'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 export interface RefractorProps {
   /**
@@ -73,6 +74,8 @@ const props = withDefaults(defineProps<RefractorProps>(), {
   // https://github.com/mrdoob/three.js/blob/dev/examples/jsm/objects/Refractor.js
   shader: Refractor.RefractorShader,
 })
+
+useWebGPUSupportWarning('Refractor', 'uses three-stdlib\'s Refractor, a GLSL ShaderMaterial')
 
 const { extend, invalidate } = useTres()
 
