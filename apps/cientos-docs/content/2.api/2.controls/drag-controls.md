@@ -3,7 +3,7 @@ title: Drag Controls
 description: Drag and drop 3D objects in your scene with pointer events
 ---
 
-The [Drag Controls](https://threejs.org/docs/#examples/en/controls/DragControls) allow you to drag and move 3D objects in your scene using pointer events. You can optionally lock movement to a single axis, set drag limits per axis, and listen to drag lifecycle events.
+The Drag Controls wrap the [three-stdlib DragControls](https://github.com/pmndrs/three-stdlib/blob/main/src/controls/DragControls.ts) and allow you to drag and move 3D objects in your scene using pointer events. You can optionally freeze one axis while dragging, set drag limits per axis, and listen to drag lifecycle events.
 
 ::SceneControlsWrapper
   ::ControlsDragControls
@@ -48,23 +48,37 @@ On touch devices, the underlying three-stdlib controls call `preventDefault()` o
 | :----------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
 | **objects**        | Array of [Object3D](https://threejs.org/docs/index.html#api/en/core/Object3D) instances to make draggable.                                                        | Required                |
 | **camera**         | The camera used for raycasting.                                                                                                                                   | The active camera       |
-| **enabled**        | If `false`, objects cannot be dragged.                                                                                                                            | `true`                  |
+| **enabled**        | If `false`, objects cannot be dragged and the controls stop listening to the DOM element.                                                                         | `true`                  |
 | **transformGroup** | If `true`, a hit on any descendant drags the first entry of `objects` as a whole, instead of the hit mesh. Use it with a single `Group` or a loaded model.         | `false`                 |
-| **lock**           | Locks movement along one axis. Can be `'x'`, `'y'`, `'z'`, or `'none'`.                                                                                           | `'none'`                |
+| **lock**           | Freezes the position on one axis while dragging, so the object only moves along the other two. Can be `'x'`, `'y'`, `'z'`, or `'none'`.                           | `'none'`                |
 | **dragLimits**     | Per-axis limits on the local position, as `[[xMin, xMax] \| undefined, [yMin, yMax] \| undefined, [zMin, zMax] \| undefined]`. Pass `undefined` for an axis with no limit. | `undefined`             |
 | **domElement**     | The DOM element that listens for pointer events.                                                                                                                  | The renderer's canvas   |
 
 ## Events
 
-Each event sends the three-stdlib `DragControls` instance. Import the `DragControlsInstance` and `DragControlsEmits` types from `@tresjs/cientos` to type your handlers.
+Each event sends a `DragControlsEvent`: `{ object, controls }`. `object` is the dragged or hovered object, and `controls` is the three-stdlib `DragControls` instance. With `transform-group`, the dragged `object` is the first entry of `objects`. Import the `DragControlsEvent` and `DragControlsEmits` types from `@tresjs/cientos` to type your handlers.
 
-| Event         | Description                                                | Payload                |
-| :------------ | :--------------------------------------------------------- | :--------------------- |
-| **dragstart** | Fired when the user starts dragging an object.             | `DragControlsInstance` |
-| **drag**      | Fired on each pointer move while an object is dragged.     | `DragControlsInstance` |
-| **dragend**   | Fired when the user releases a dragged object.             | `DragControlsInstance` |
-| **hoveron**   | Fired when the pointer moves over a draggable object.      | `DragControlsInstance` |
-| **hoveroff**  | Fired when the pointer leaves a draggable object.          | `DragControlsInstance` |
+| Event         | Description                                                                                                                     | Payload             |
+| :------------ | :------------------------------------------------------------------------------------------------------------------------------ | :------------------ |
+| **dragstart** | Fired when the user starts dragging an object.                                                                                  | `DragControlsEvent` |
+| **drag**      | Fired on each pointer move while an object is dragged.                                                                          | `DragControlsEvent` |
+| **dragend**   | Fired when the user releases a dragged object, or when the controls are disabled, rebuilt or unmounted in the middle of a drag. | `DragControlsEvent` |
+| **hoveron**   | Fired when the pointer moves over a draggable object.                                                                           | `DragControlsEvent` |
+| **hoveroff**  | Fired when the pointer leaves a draggable object.                                                                               | `DragControlsEvent` |
+
+```vue
+<script setup lang="ts">
+import type { DragControlsEvent } from '@tresjs/cientos'
+
+const onDragStart = ({ object }: DragControlsEvent) => {
+  console.log('Dragging', object.name)
+}
+</script>
+
+<template>
+  <DragControls :objects="[boxRef, sphereRef]" @dragstart="onDragStart" />
+</template>
+```
 
 ## Dragging a group or model
 
@@ -90,7 +104,7 @@ const { state } = useGLTF('/models/AkuAku.gltf', { draco: true })
 
 ## Grid snapping
 
-There is no built-in snap prop, but you can implement snapping in the `@drag` event handler by rounding the object's position to the desired interval:
+There is no built-in snap prop, but you can implement snapping in the `@drag` event handler by rounding the dragged object's position to the desired interval:
 
 ```vue
 <script setup>
@@ -99,11 +113,10 @@ import { DragControls } from '@tresjs/cientos'
 
 const boxRef = shallowRef()
 
-function onDrag() {
-  if (!boxRef.value) { return }
+function onDrag({ object }) {
   const snap = 0.5
-  boxRef.value.position.x = Math.round(boxRef.value.position.x / snap) * snap
-  boxRef.value.position.z = Math.round(boxRef.value.position.z / snap) * snap
+  object.position.x = Math.round(object.position.x / snap) * snap
+  object.position.z = Math.round(object.position.z / snap) * snap
 }
 </script>
 
@@ -118,3 +131,7 @@ function onDrag() {
   </TresCanvas>
 </template>
 ```
+
+::prose-note
+The `@drag` handler runs after `drag-limits` are applied, so snapping can move the object past a limit. Keep the limits on multiples of the snap step.
+::

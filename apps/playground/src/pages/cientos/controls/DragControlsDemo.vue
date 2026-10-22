@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 import { DragControls, OrbitControls } from '@tresjs/cientos'
-import type { DragControlsInstance } from '@tresjs/cientos'
+import type { DragControlsEvent } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import { TresLeches, useControls } from '@tresjs/leches'
@@ -37,28 +37,26 @@ const { lock, enabled, dragLimitsMin, dragLimitsMax } = useControls({
   },
 })
 
-function onDragStart(e: DragControlsInstance) {
-  console.log('dragstart', e)
+function onDragStart({ object }: DragControlsEvent) {
+  console.log('dragstart', object)
 }
 
-function onDrag(_e: DragControlsInstance) {
-  if (!boxRef.value) { return }
+function onDrag({ object }: DragControlsEvent) {
   const snap = 0.5
-  const pos = boxRef.value.position
-  pos.x = Math.round(pos.x / snap) * snap
-  pos.z = Math.round(pos.z / snap) * snap
+  object.position.x = Math.round(object.position.x / snap) * snap
+  object.position.z = Math.round(object.position.z / snap) * snap
 }
 
-function onDragEnd(e: DragControlsInstance) {
-  console.log('dragend', e)
+function onDragEnd({ object }: DragControlsEvent) {
+  console.log('dragend', object)
 }
 
-function onHoverOn(e: DragControlsInstance) {
-  console.log('hoveron', e)
+function onHoverOn({ object }: DragControlsEvent) {
+  console.log('hoveron', object)
 }
 
-function onHoverOff(e: DragControlsInstance) {
-  console.log('hoveroff', e)
+function onHoverOff({ object }: DragControlsEvent) {
+  console.log('hoveroff', object)
 }
 </script>
 

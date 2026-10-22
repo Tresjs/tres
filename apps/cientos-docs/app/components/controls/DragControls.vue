@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
 import { DragControls } from '@tresjs/cientos'
+import type { DragControlsEvent } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 import { NoToneMapping, SRGBColorSpace } from 'three'
 import { useControls } from '@tresjs/leches'
@@ -36,12 +37,10 @@ const { lock, enabled, dragLimitsMin, dragLimitsMax } = useControls({
   },
 }, { uuid })
 
-function onDrag() {
-  if (!boxRef.value) { return }
+function onDrag({ object }: DragControlsEvent) {
   const snap = 0.5
-  const pos = boxRef.value.position
-  pos.x = Math.round(pos.x / snap) * snap
-  pos.z = Math.round(pos.z / snap) * snap
+  object.position.x = Math.round(object.position.x / snap) * snap
+  object.position.z = Math.round(object.position.z / snap) * snap
 }
 </script>
 
