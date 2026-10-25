@@ -2,9 +2,8 @@
 /* eslint-disable no-console */
 import { useGLTF } from '@tresjs/cientos'
 
-const { nodes } = await useGLTF('/models/cyber_samurai/scene.gltf', { draco: true })
-console.log(nodes)
-const model = nodes.Sketchfab_model
+const { nodes } = useGLTF('/models/cyber_samurai/cyber_samurai.glb', { draco: true })
+const model = computed(() => nodes.value.Sketchfab_model)
 
 const handleClick = (e: PointerEvent) => {
   console.log('clicked', e)
@@ -21,5 +20,5 @@ const handlePointerLeave = (e: PointerEvent) => {
 </script>
 
 <template>
-  <primitive :object="model" @click="handleClick" @pointer-enter="handlePointerEnter" @pointer-leave="handlePointerLeave" />
+  <primitive v-if="model" :object="model" @click="handleClick" @pointer-enter="handlePointerEnter" @pointer-leave="handlePointerLeave" />
 </template>
