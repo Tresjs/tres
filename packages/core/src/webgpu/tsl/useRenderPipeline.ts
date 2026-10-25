@@ -6,7 +6,7 @@ import type { ComputedRef, ShallowRef } from 'vue'
 import { computed, markRaw, onScopeDispose, shallowRef, watch } from 'vue'
 import type { TresContext } from '../../composables'
 import { isWebGPURenderer } from '../../utils/is'
-import { logWarning } from '../../utils/logger'
+import { isProd, logWarning } from '../../utils/logger'
 import type { TslCreatorState } from './context'
 import { createCreatorState, useTslStore } from './context'
 import type { TslSession, TslStore } from './store'
@@ -40,7 +40,7 @@ export interface UseRenderPipelineReturn {
   rebuild: () => void
   /** Frees the pipeline now. The canvas renders without it until the next rebuild. */
   reset: () => void
-  /** Removes every registered pass. */
+  /** Removes the passes the callbacks registered. `scenePass` stays, so the pipeline keeps drawing. */
   clearPasses: () => void
 }
 
@@ -56,8 +56,6 @@ interface PipelineState {
   sceneKey?: [Scene, Camera]
   restoreRender?: () => void
 }
-
-const isDev = process.env.NODE_ENV !== 'production'
 
 const states = new WeakMap<TslStore, PipelineState>()
 
@@ -102,7 +100,7 @@ function runCallbacks(ctx: TresContext, store: TslStore, state: PipelineState, o
   const renderPipeline = state.renderPipeline.value
   if (!renderPipeline || !store.passes.get(SCENE_PASS)) { return }
 
-  const session = store.createSession({ label: 'useRenderPipeline callback' })
+  const session = store.createSession({ label: 'useRenderPipeline callback', trackScopes: true })
   try {
     const callbackState = Object.defineProperty(
       createCreatorState(ctx, session.stores),
@@ -130,8 +128,13 @@ function configure(ctx: TresContext, store: TslStore, state: PipelineState, fres
     state.renderPipeline.value = markRaw(new RenderPipeline(ctx.renderer.instance as any))
     state.restoreRender = ctx.renderer.replaceRenderFunction((notifyFrameRendered) => {
       const renderPipeline = state.renderPipeline.value
-      if (!renderPipeline || !store.passes.get(SCENE_PASS)) { return }
-      renderPipeline.render()
+      if (renderPipeline && store.passes.get(SCENE_PASS)) {
+        renderPipeline.render()
+      }
+      else if (ctx.camera.activeCamera.value) {
+        // Without a scene pass the pipeline has nothing to draw; a plain render keeps frames counted.
+        ctx.renderer.instance.render(ctx.scene.value, ctx.camera.activeCamera.value)
+      }
       notifyFrameRendered()
     })
   }
@@ -182,13 +185,13 @@ export function useRenderPipeline(main?: RenderPipelineCallback, setup?: RenderP
     isReady: computed(() => state.renderPipeline.value !== null),
     rebuild: () => configure(ctx, store, state, true),
     reset: () => free(state, store),
-    clearPasses: () => store.passes.clear(),
+    clearPasses: () => store.passes.remove(store.passes.keys().filter(name => name !== SCENE_PASS)),
   }
 
   if (!main) { return result }
 
   const owner: PipelineOwner = { main, setup, session: shallowRef() }
-  if (isDev && state.owners.length > 0) {
+  if (!isProd && state.owners.length > 0) {
     logWarning('useRenderPipeline: another component already configures the render pipeline of this canvas. The latest one renders; mount one configuring component at a time.')
   }
   state.owners.push(owner)

@@ -140,6 +140,24 @@ describe('useLocalNodes', () => {
     expect(creator).toHaveBeenCalledTimes(2)
   })
 
+  it('rebuilds only the consumers that read a rebuilt scope', async () => {
+    const shared = float(1)
+    const readsScope = vi.fn(({ nodes }) => ({ n: nodes.fx.a }))
+    const readsRoot = vi.fn(({ nodes }) => ({ n: nodes.b }))
+    const { ctx } = run(() => {
+      useNodes(() => ({ a: shared }), 'fx')
+      useNodes(() => ({ b: float(2) }))
+      useLocalNodes(readsScope)
+      useLocalNodes(readsRoot)
+    })
+
+    getTslStore(ctx).nodes.rebuild('fx')
+    await nextTick()
+
+    expect(readsScope).toHaveBeenCalledTimes(2)
+    expect(readsRoot).toHaveBeenCalledOnce()
+  })
+
   it('installs after the build, and on rebuild cleans up before the new install', async () => {
     const calls: string[] = []
     const octaves = ref(1)

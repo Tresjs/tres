@@ -51,9 +51,7 @@ export interface TresContextProviderOptions {
 
 const unmountHooks = new WeakMap<TresContext, EventHook<void>>()
 
-/**
- * Runs the `onUnmount` callbacks of a context. Only the canvas that owns the context calls it.
- */
+// Only the canvas that owns the context calls this.
 const triggerContextUnmount = (ctx: TresContext) => {
   unmountHooks.get(ctx)?.trigger()
   unmountHooks.delete(ctx)

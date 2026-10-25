@@ -43,16 +43,30 @@ describe('useUniforms', () => {
     expect(result.uDir.value).toEqual(new Vector3(0, 1, 0))
   })
 
-  it('reuses an existing uniform and writes the new value into it', () => {
+  it('reuses an existing uniform and keeps the value of the first registration', () => {
     let first!: LooseUniformNode
     let second!: LooseUniformNode
     run(() => {
       first = useUniforms({ uSpeed: 1 }).uSpeed
+      first.value = 5
       second = useUniforms({ uSpeed: 2 }).uSpeed
     })
 
     expect(second).toBe(first)
-    expect(first.value).toBe(2)
+    expect(first.value).toBe(5)
+  })
+
+  it('writes later changes of a source bound to a reused uniform', async () => {
+    const speed = ref(2)
+    const { result } = run(() => {
+      useUniforms({ uSpeed: 1 })
+      return useUniforms({ uSpeed: speed })
+    })
+
+    speed.value = 3
+    await nextTick()
+
+    expect(result.uSpeed.value).toBe(3)
   })
 
   it('keeps scopes apart and names scoped uniforms after their scope', () => {

@@ -111,15 +111,6 @@ const createUniformNode = (name: string, input: UniformInput, scope: string | un
 
 const isWatchable = (source: UniformSource) => isRef(source) || typeof source === 'function'
 
-function useUniformsUtils(): UniformsUtils {
-  const { store } = useTslStore()
-  return {
-    removeUniforms: (names, scope) => store.uniforms.remove(names, scope),
-    clearUniforms: scope => store.uniforms.clear(scope),
-    rebuildUniforms: scope => store.uniforms.rebuild(scope),
-  }
-}
-
 /**
  * Creates (or reuses) uniforms and keeps their values in sync with plain values, refs or getters.
  * A value change writes `uniform.value`: no graph rebuild, no shader recompile.
@@ -135,7 +126,11 @@ export function useUniforms<T extends Record<string, UniformSource>>(sources: T,
 export function useUniforms<T extends Record<string, LooseUniformNode> = Record<string, LooseUniformNode>>(scope?: string): UniformsWithUtils<T>
 export function useUniforms(sourcesOrScope?: Record<string, UniformSource> | string, maybeScope?: string) {
   const { ctx, store } = useTslStore()
-  const utils = useUniformsUtils()
+  const utils: UniformsUtils = {
+    removeUniforms: store.uniforms.remove,
+    clearUniforms: store.uniforms.clear,
+    rebuildUniforms: store.uniforms.rebuild,
+  }
 
   if (sourcesOrScope === undefined || typeof sourcesOrScope === 'string') {
     return createLiveView(store.uniforms, sourcesOrScope, utils)
@@ -144,7 +139,8 @@ export function useUniforms(sourcesOrScope?: Record<string, UniformSource> | str
   const sources = sourcesOrScope
   const scope = maybeScope
 
-  const { created } = store.uniforms.register(() => Object.fromEntries(
+  // The first registration also wins for the value: a reuse does not reset what another component set.
+  store.uniforms.register(() => Object.fromEntries(
     Object.entries(sources).map(([name, source]) => [name, createUniformNode(name, toValue(source), scope)]),
   ), { scope })
 
@@ -157,15 +153,6 @@ export function useUniforms(sourcesOrScope?: Record<string, UniformSource> | str
         for (const key in value as object) { void Reflect.get(value as object, key) }
       }
       return toUniformValue(value)
-    }
-
-    if (!created.has(name)) {
-      const existing = store.uniforms.get(name, scope)
-      const value = read()
-      if (existing && !isSameValue(existing.value, value)) {
-        writeUniformValue(existing, value)
-        ctx.renderer.invalidate()
-      }
     }
 
     if (!isWatchable(source)) { continue }

@@ -36,9 +36,9 @@ export function useNodes<T extends Record<string, unknown> = Record<string, Loos
 export function useNodes(creatorOrScope?: NodeCreator<Record<string, unknown>> | string, maybeScope?: string) {
   const { ctx, store } = useTslStore()
   const utils: NodesUtils = {
-    removeNodes: (names, scope) => store.nodes.remove(names, scope),
-    clearNodes: scope => store.nodes.clear(scope),
-    rebuildNodes: scope => store.nodes.rebuild(scope),
+    removeNodes: store.nodes.remove,
+    clearNodes: store.nodes.clear,
+    rebuildNodes: store.nodes.rebuild,
   }
 
   if (typeof creatorOrScope !== 'function') {

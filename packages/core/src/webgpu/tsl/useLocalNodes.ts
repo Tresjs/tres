@@ -1,6 +1,6 @@
 import type { ShallowRef, WatchSource } from 'vue'
 import { markRaw, onScopeDispose, shallowRef, watch } from 'vue'
-import { logWarning } from '../../utils/logger'
+import { isProd, logWarning } from '../../utils/logger'
 import type { TslCreatorState } from './context'
 import { createCreatorState, useTslStore } from './context'
 import type { TslSession } from './store'
@@ -12,8 +12,6 @@ export type LocalNodesInstall = () => (() => void) | void
 export type LocalNodesRefs<T extends Record<string, unknown>> = { [K in keyof T]: ShallowRef<T[K]> }
 
 export type LocalNodesSources = WatchSource | readonly WatchSource[]
-
-const isDev = process.env.NODE_ENV !== 'production'
 
 const REBUILD_WARNING_COUNT = 10
 const REBUILD_WARNING_WINDOW_MS = 1000
@@ -54,7 +52,7 @@ export function useLocalNodes(creator: (state: TslCreatorState) => Record<string
   const rebuilds: number[] = []
   let warnedRebuilds = false
   const warnOnFrequentRebuilds = () => {
-    if (!isDev || warnedRebuilds) { return }
+    if (isProd || warnedRebuilds) { return }
     const now = performance.now()
     rebuilds.push(now)
     while (rebuilds.length && now - rebuilds[0] > REBUILD_WARNING_WINDOW_MS) { rebuilds.shift() }
@@ -65,7 +63,7 @@ export function useLocalNodes(creator: (state: TslCreatorState) => Record<string
   }
 
   const build = () => {
-    const next = store.createSession({ label: 'useLocalNodes creator' })
+    const next = store.createSession({ label: 'useLocalNodes creator', trackScopes: true })
     try {
       const result = creator(createCreatorState(ctx, next.stores))
 
@@ -81,7 +79,7 @@ export function useLocalNodes(creator: (state: TslCreatorState) => Record<string
           else { refs[name] = shallowRef(raw) }
         }
       }
-      else if (isDev) {
+      else if (!isProd) {
         logWarning('useLocalNodes: the creator returned nothing. Return a record of nodes, or an install function that puts them onto an object.')
       }
     }

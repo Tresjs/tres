@@ -1,12 +1,10 @@
 import type { ShallowRef } from 'vue'
 import { effectScope, markRaw, onScopeDispose, shallowReactive, shallowRef, toRaw, watch } from 'vue'
-import { logWarning } from '../../utils/logger'
+import { isProd, logWarning } from '../../utils/logger'
 
 export type TslKind = 'uniforms' | 'nodes' | 'passes'
 
-/**
- * The scope name that addresses the root entries in `remove`, `clear` and `rebuild`.
- */
+// Addresses the root entries in `remove`, `clear` and `rebuild`, so no scope can be named `root`.
 export const ROOT_SCOPE = 'root'
 
 export type TslBuild<L> = (stores: TslStores) => Record<string, L>
@@ -27,11 +25,16 @@ export type TslReadLog = Map<string, { seen: unknown, current: () => unknown }>
 export interface TslSessionOptions {
   label?: string
   warnMissing?: boolean
+  // Only consumers that watch the session need the scopes it read.
+  trackScopes?: boolean
 }
 
 export interface TslSession {
   stores: TslStores
   reads: TslReadLog
+  // Keys (`kind/scope`) of the scopes the session read, and the sum of their generations at close.
+  scopes: Set<string>
+  generation: number
   close: () => void
 }
 
@@ -40,8 +43,6 @@ export interface TslStores {
   nodes: Record<string, any>
   passes: Record<string, any>
 }
-
-const isDev = process.env.NODE_ENV !== 'production'
 
 const isRootScope = (scope: string | undefined) => scope === undefined || scope === ROOT_SCOPE
 
@@ -55,17 +56,22 @@ export const isTslReadLogStale = (reads: TslReadLog) => {
   return false
 }
 
-/**
- * Calls `onChange` when an entry the session read is replaced, removed or added, or on a new generation.
- * Vue tracks only the entries the session read, so other registrations cost nothing.
- */
+const scopeKeyOf = (kind: TslKind, scope: string | undefined) => `${kind}/${scope ?? ''}`
+
+type Toucher = (kind: TslKind, scope: string | undefined) => void
+
+const noTouch: Toucher = () => {}
+
+// Vue tracks only the entries and scopes the session read, so other registrations and rebuilds cost nothing.
 export function watchTslSession(store: TslStore, session: Readonly<ShallowRef<TslSession | undefined>>, onChange: () => void) {
-  return watch(
-    [() => session.value !== undefined && isTslReadLogStale(session.value.reads), store.generation],
-    ([stale, generation], [, previousGeneration]) => {
-      if (stale || generation !== previousGeneration) { onChange() }
-    },
-  )
+  const outdated = () => {
+    const current = session.value
+    return current !== undefined
+      && (store.scopeGeneration(current.scopes) !== current.generation || isTslReadLogStale(current.reads))
+  }
+  return watch([outdated, store.generation], ([isOutdated, generation], [, previousGeneration]) => {
+    if (isOutdated || generation !== previousGeneration) { onChange() }
+  })
 }
 
 const ownerKey = (name: string, scope: string | undefined) => `${scope ?? ''}\0${name}`
@@ -87,35 +93,30 @@ export interface TslCollection<L extends object = any> {
   readonly scopes: Map<string, Map<string, L>>
   readonly registrations: Set<TslRegistration<L>>
   get: (name: string, scope?: string) => L | undefined
-  /** Replaces (or adds) one entry. */
   set: (name: string, leaf: L, scope?: string) => void
-  /** Adds the names the build returns that do not exist yet. The first registration of a name wins. */
+  // The first registration of a name wins.
   register: (build: TslBuild<L>, options?: TslRegisterOptions) => TslRegisterResult
   remove: (names: string | string[], scope?: string) => void
-  /** Clears a scope, the root entries (`'root'`) or everything (no argument). */
+  // No argument clears everything; `'root'` clears only the root entries.
   clear: (scope?: string) => void
-  /** Re-runs the registrations of a scope, the root (`'root'`) or everything, and starts a new generation. */
   rebuild: (scope?: string) => void
   rerunStale: () => boolean
   dispose: () => void
-  /** The root entries and scope names, or the entries of one scope. */
+  // With no scope: the root entries and the scope names.
   keys: (scope?: string) => string[]
 }
 
-/**
- * The per-canvas store behind the TSL composables: `uniforms`, `nodes` and `passes`.
- * Entries are stored raw (never Vue proxies) and live until they are removed or the canvas unmounts.
- */
 export interface TslStore {
   readonly uniforms: TslCollection
   readonly nodes: TslCollection
   readonly passes: TslCollection
   readonly collections: readonly TslCollection[]
-  /** Bumped by `rebuild*`. Consumers rebuild on every new generation. */
+  // Bumped by a rebuild without a scope: every consumer rebuilds.
   readonly generation: ShallowRef<number>
+  // Sum of the generations of the given scope keys. A scoped rebuild bumps only its own key.
+  scopeGeneration: (scopeKeys: Iterable<string>) => number
   notify: () => void
-  rebuild: (fn: () => void) => void
-  /** Opens a read session. Reads through `session.stores` are recorded until `close()`. */
+  rebuild: (fn: () => void, scopeKey?: string) => void
   createSession: (options?: TslSessionOptions) => TslSession
   onDispose: (fn: () => void) => void
   dispose: () => void
@@ -144,7 +145,7 @@ function createTslCollection<L extends object = any>(kind: TslKind, host: TslCol
     if (isRootScope(scope)) { return root }
     let found = rawScopes.get(scope!)
     if (!found && create) {
-      if (isDev && rawRoot.has(scope!)) {
+      if (!isProd && rawRoot.has(scope!)) {
         logWarning(`TSL ${kind}: the scope "${scope}" has the same name as a root entry. Reads return the root entry.`)
       }
       found = shallowReactive(new Map<string, L>())
@@ -156,7 +157,7 @@ function createTslCollection<L extends object = any>(kind: TslKind, host: TslCol
   const get = (name: string, scope?: string) => peek(scope)?.get(name)
 
   const write = (name: string, leaf: L, scope: string | undefined) => {
-    if (isDev && isRootScope(scope) && rawScopes.has(name)) {
+    if (!isProd && isRootScope(scope) && rawScopes.has(name)) {
       logWarning(`TSL ${kind}: the root entry "${name}" has the same name as a scope. Reads return the root entry.`)
     }
     bucket(scope, true)!.set(name, (typeof leaf === 'object' || typeof leaf === 'function') ? markRaw(leaf) : leaf)
@@ -310,6 +311,7 @@ function createTslCollection<L extends object = any>(kind: TslKind, host: TslCol
     },
 
     rebuild(scope) {
+      const scopeKey = scope === undefined ? undefined : scopeKeyOf(kind, isRootScope(scope) ? undefined : scope)
       host.rebuild(() => {
         const matching = [...registrations].filter(reg =>
           scope === undefined
@@ -323,7 +325,7 @@ function createTslCollection<L extends object = any>(kind: TslKind, host: TslCol
         for (const reg of matching) {
           rerun(reg)
         }
-      })
+      }, scopeKey)
     },
 
     rerunStale() {
@@ -361,6 +363,7 @@ function createTslCollection<L extends object = any>(kind: TslKind, host: TslCol
 
 export function createTslStore(onChange: () => void = () => {}): TslStore {
   const generation = shallowRef(0)
+  const scopeGenerations = shallowReactive(new Map<string, number>())
   const collections: TslCollection[] = []
   const scope = effectScope(true)
   let rebuilding = false
@@ -370,7 +373,13 @@ export function createTslStore(onChange: () => void = () => {}): TslStore {
     onChange()
   }
 
-  const rebuild = (fn: () => void) => {
+  const scopeGeneration = (scopeKeys: Iterable<string>) => {
+    let sum = 0
+    for (const key of scopeKeys) { sum += scopeGenerations.get(key) ?? 0 }
+    return sum
+  }
+
+  const rebuild = (fn: () => void, scopeKey?: string) => {
     rebuilding = true
     try {
       fn()
@@ -383,18 +392,27 @@ export function createTslStore(onChange: () => void = () => {}): TslStore {
     finally {
       rebuilding = false
     }
-    generation.value++
+    if (scopeKey === undefined) {
+      generation.value++
+    }
+    else {
+      scopeGenerations.set(scopeKey, (scopeGenerations.get(scopeKey) ?? 0) + 1)
+    }
     notify()
   }
 
-  const createSession = ({ label, warnMissing = false }: TslSessionOptions = {}): TslSession => {
+  const createSession = ({ label, warnMissing = false, trackScopes = false }: TslSessionOptions = {}): TslSession => {
     const reads: TslReadLog = new Map()
+    const scopes = new Set<string>()
     let open = true
+    const touch: Toucher = trackScopes
+      ? (kind, scope) => { if (open) { scopes.add(scopeKeyOf(kind, scope)) } }
+      : noTouch
     let warnedLate = false
 
     const record: Recorder = (key, current, describe) => {
       if (!open) {
-        if (isDev && label && !warnedLate) {
+        if (!isProd && label && !warnedLate) {
           warnedLate = true
           logWarning(`${label}: \`${describe()}\` was read after the creator returned, so a change to it does not rebuild. Read it in the creator and close over it (for example outside \`Fn(() => ...)\`).`)
         }
@@ -404,7 +422,7 @@ export function createTslStore(onChange: () => void = () => {}): TslStore {
       if (!reads.has(key)) {
         reads.set(key, { seen: value, current })
       }
-      if (isDev && warnMissing && value === undefined) {
+      if (!isProd && warnMissing && value === undefined) {
         logWarning(`${label ?? 'TSL'}: \`${describe()}\` does not exist yet, so it stays \`undefined\` until the next rebuild. Register it earlier (higher in the tree or earlier in the same component).`)
       }
       return value
@@ -416,15 +434,21 @@ export function createTslStore(onChange: () => void = () => {}): TslStore {
       let view: Record<string, any> | undefined
       Object.defineProperty(stores, collection.kind, {
         enumerable: true,
-        get: () => (view ??= createView(collection, undefined, record)),
+        get: () => (view ??= createView(collection, undefined, record, touch)),
       })
     }
 
-    return {
+    const session: TslSession = {
       stores,
       reads,
-      close: () => { open = false },
+      scopes,
+      generation: 0,
+      close: () => {
+        open = false
+        if (trackScopes) { session.generation = scopeGeneration(scopes) }
+      },
     }
+    return session
   }
 
   const host: TslCollectionHost = { notify, rebuild, createSession }
@@ -439,6 +463,7 @@ export function createTslStore(onChange: () => void = () => {}): TslStore {
     passes,
     collections,
     generation,
+    scopeGeneration,
     notify,
     rebuild,
     createSession,
@@ -456,7 +481,7 @@ type Recorder = (key: string, current: () => unknown, describe: () => string) =>
 
 const descriptor = (value: unknown): PropertyDescriptor => ({ value, enumerable: true, configurable: true, writable: false })
 
-function createView(collection: TslCollection, scope: string | undefined, record: Recorder): Record<string, any> {
+function createView(collection: TslCollection, scope: string | undefined, record: Recorder, touch: Toucher): Record<string, any> {
   const { kind } = collection
   const path = scope === undefined ? kind : `${kind}.${scope}`
   const scopeViews = new Map<string, Record<string, any>>()
@@ -469,16 +494,21 @@ function createView(collection: TslCollection, scope: string | undefined, record
         : () => collection.scopes.get(scope)?.get(name),
       () => `${path}.${name}`,
     )
-    if (!(value instanceof Map)) { return value }
+    if (!(value instanceof Map)) {
+      touch(kind, scope)
+      return value
+    }
+    touch(kind, name)
     let view = scopeViews.get(name)
     if (!view) {
-      view = createView(collection, name, record)
+      view = createView(collection, name, record, touch)
       scopeViews.set(name, view)
     }
     return view
   }
 
   const keys = () => {
+    touch(kind, scope)
     record(`${path}/#keys`, () => collection.keys(scope).join('\0'), () => `Object.keys(${path})`)
     return collection.keys(scope)
   }
@@ -501,10 +531,7 @@ function createView(collection: TslCollection, scope: string | undefined, record
   })
 }
 
-/**
- * A live view of a collection (or one of its scopes), with `extras` on top. Reads are tracked per entry,
- * so templates and `computed` update when an entry they read is added, replaced or removed.
- */
+// Reads are tracked per entry, so templates and `computed` update only when an entry they read changes.
 export function createLiveView<E extends object>(collection: TslCollection, scope: string | undefined, extras: E): Record<string, any> & E {
   const scopeKey = isRootScope(scope) ? undefined : scope
   const scopeViews = new Map<string, Record<string, any>>()

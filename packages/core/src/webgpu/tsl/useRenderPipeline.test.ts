@@ -1,8 +1,9 @@
 import { PerspectiveCamera } from 'three'
 import { float } from 'three/tsl'
-import { describe, expect, it, vi } from 'vitest'
+import { RenderPipeline } from 'three/webgpu'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { h, nextTick, ref } from 'vue'
-import type { RenderFunction } from '../../composables'
+import type { RenderFunction, RenderMode } from '../../composables'
 import { createStubRenderer, mountInTresContext, withSetup } from '../../utils/test/tresContext'
 import { getTslStore } from './context'
 import type { RenderPipelineCallback, UseRenderPipelineReturn } from './useRenderPipeline'
@@ -196,13 +197,92 @@ describe('useRenderPipeline', () => {
     expect(result.isReady.value).toBe(true)
   })
 
-  it('clears the passes', async () => {
+  it('clears the registered passes but keeps the scene pass, so the pipeline still draws', async () => {
     let result!: UseRenderPipelineReturn
-    const { show, store } = setup({ Effects: () => { result = useRenderPipeline(() => ({ extra: float(1) })) } })
+    const { show, store, renderFunctions } = setup({ Effects: () => { result = useRenderPipeline(() => ({ extra: float(1) })) } })
     await show('Effects')
+    const render = vi.spyOn(result.renderPipeline.value!, 'render').mockImplementation(() => {})
+    const notify = vi.fn()
 
     result.clearPasses()
+    renderFunctions.at(-1)!(notify)
 
-    expect(store.passes.keys()).toEqual([])
+    expect(store.passes.keys()).toEqual(['scenePass'])
+    expect(render).toHaveBeenCalledOnce()
+    expect(notify).toHaveBeenCalledOnce()
+  })
+
+  it('still counts the frame when the scene pass is missing', async () => {
+    const { show, store, renderFunctions, renderer } = setup({ Effects: () => { useRenderPipeline(() => {}) } })
+    await show('Effects')
+    const notify = vi.fn()
+
+    store.passes.remove('scenePass')
+    renderFunctions.at(-1)!(notify)
+
+    expect(renderer.render).toHaveBeenCalled()
+    expect(notify).toHaveBeenCalledOnce()
+  })
+})
+
+describe('useRenderPipeline with the render loop', () => {
+  const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+  // The loop runs for real here, so the GPU work of `RenderPipeline.render` is replaced by a counter.
+  const mountWithLoop = (renderMode: RenderMode, setup: () => void) => {
+    const draws = vi.spyOn(RenderPipeline.prototype, 'render').mockImplementation(() => {})
+    const mounted = mountInTresContext(() => h(withSetup(setup)), { renderMode })
+    mounted.ctx.camera.registerCamera(new PerspectiveCamera(), true)
+    return { ...mounted, draws }
+  }
+
+  const settle = async (draws: { mock: { calls: unknown[] } }) => {
+    await vi.waitFor(() => expect(draws.mock.calls.length).toBeGreaterThan(0), { timeout: 1000 })
+    await wait(150)
+    return draws.mock.calls.length
+  }
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('draws through the pipeline once per uniform change in on-demand mode', async () => {
+    const strength = ref(1)
+    const { draws, wrapper } = mountWithLoop('on-demand', () => {
+      useUniforms({ uStrength: strength })
+      useRenderPipeline(({ renderPipeline, passes, uniforms }) => {
+        renderPipeline.outputNode = passes.scenePass.mul(uniforms.uStrength)
+      })
+    })
+    const settled = await settle(draws)
+
+    await wait(150)
+    expect(draws.mock.calls.length).toBe(settled)
+
+    strength.value = 2
+    await vi.waitFor(() => expect(draws.mock.calls.length).toBe(settled + 1), { timeout: 1000 })
+    await wait(150)
+    expect(draws.mock.calls.length).toBe(settled + 1)
+
+    wrapper.unmount()
+  })
+
+  it('draws through the pipeline only on advance in manual mode', async () => {
+    const { draws, ctx, wrapper } = mountWithLoop('manual', () => {
+      useRenderPipeline(() => {})
+    })
+    await wait(300)
+    ctx.renderer.advance()
+    const settled = await settle(draws)
+
+    await wait(150)
+    expect(draws.mock.calls.length).toBe(settled)
+
+    ctx.renderer.advance()
+    await vi.waitFor(() => expect(draws.mock.calls.length).toBe(settled + 1), { timeout: 1000 })
+    await wait(150)
+    expect(draws.mock.calls.length).toBe(settled + 1)
+
+    wrapper.unmount()
   })
 })
