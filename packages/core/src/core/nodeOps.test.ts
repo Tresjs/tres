@@ -3,6 +3,8 @@ import type { Vector3 } from 'three'
 import type { TresObject } from '../types'
 import * as THREE from 'three'
 import { Mesh, Scene } from 'three'
+import { color, vec3 } from 'three/tsl'
+import { MeshBasicNodeMaterial } from 'three/webgpu'
 import { shallowRef } from 'vue'
 import { extend } from './catalogue'
 import { nodeOps as getNodeOps } from './nodeOps'
@@ -676,6 +678,59 @@ describe('nodeOps', () => {
       nodeOps.patchProp(camera, 'position', undefined, 2)
       nodeOps.patchProp(camera, 'position', undefined, 3)
       expect(spy).toHaveBeenCalledTimes(3)
+    })
+
+    describe('node materials', () => {
+      beforeAll(() => {
+        extend({ MeshBasicNodeMaterial })
+      })
+
+      it.each([
+        ['null → node', null, color('#ff0000')],
+        ['node → node', color('#ff0000'), vec3(0, 1, 0)],
+        ['node → null', color('#ff0000'), null],
+      ])('recompiles when a node prop is patched (%s)', (_, prevValue, nextValue) => {
+        const material = nodeOps.createElement('TresMeshBasicNodeMaterial', undefined, undefined, {})!
+        nodeOps.patchProp(material, 'color-node', null, prevValue)
+        expect(material.colorNode).toBe(prevValue)
+        const version = material.version
+
+        nodeOps.patchProp(material, 'color-node', prevValue, nextValue)
+
+        expect(material.colorNode).toBe(nextValue)
+        expect(material.version).toBe(version + 1)
+      })
+
+      it('recompiles when a node prop is patched through a pierced prop', () => {
+        const mesh = nodeOps.createElement('TresMesh', undefined, undefined, {})!
+        mesh.material = new MeshBasicNodeMaterial()
+        const version = mesh.material.version
+        const nextValue = color('#ff0000')
+
+        nodeOps.patchProp(mesh, 'material-colorNode', undefined, nextValue)
+
+        expect(mesh.material.colorNode).toBe(nextValue)
+        expect(mesh.material.version).toBe(version + 1)
+      })
+
+      it('does not recompile when a non-node prop is patched', () => {
+        const material = nodeOps.createElement('TresMeshBasicNodeMaterial', undefined, undefined, {})!
+        const version = material.version
+
+        nodeOps.patchProp(material, 'color', undefined, '#00ff00')
+        nodeOps.patchProp(material, 'opacity', undefined, 0.5)
+
+        expect(material.version).toBe(version)
+      })
+
+      it('does not recompile a non-node material when a node value is patched', () => {
+        const material = nodeOps.createElement('TresMeshBasicMaterial', undefined, undefined, {})!
+        const version = material.version
+
+        nodeOps.patchProp(material, 'colorNode', undefined, color('#ff0000'))
+
+        expect(material.version).toBe(version)
+      })
     })
 
     describe('primitive', () => {

@@ -2,6 +2,7 @@
 import { CubicBezierCurve3, Vector3 } from 'three'
 import Line2 from './Line2.vue'
 import { computed, shallowRef } from 'vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 interface CubicBezierLineProps {
   start: Vector3 | [number, number, number]
@@ -14,6 +15,8 @@ interface CubicBezierLineProps {
 const props = withDefaults(defineProps<CubicBezierLineProps>(), {
   segments: 20,
 })
+
+useWebGPUSupportWarning('CubicBezierLine', 'uses three-stdlib\'s LineMaterial, a GLSL ShaderMaterial')
 
 const points = computed(() => {
   const startV = props.start instanceof Vector3 ? props.start : new Vector3(...props.start)

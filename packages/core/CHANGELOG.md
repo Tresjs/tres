@@ -1,3 +1,17 @@
+## 5.10.0 (2026-10-22)
+
+### 🚀 Features
+
+- add /webgpu entries to core, cientos and nuxt ([#1543](https://github.com/Tresjs/tres/pull/1543))
+
+### 🩹 Fixes
+
+- **core:** recompile node materials when a node prop is patched ([#1540](https://github.com/Tresjs/tres/pull/1540))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 5.9.3 (2026-10-06)
 
 ### 🩹 Fixes

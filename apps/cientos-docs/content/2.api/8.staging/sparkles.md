@@ -137,6 +137,18 @@ const directionalLightRef = shallowRef()
 </template>
 ```
 
+## WebGPU
+
+Import `Sparkles` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version has the same props. See [WebGPU](/getting-started/webgpu).
+
+```ts
+import { Sparkles } from '@tresjs/cientos/webgpu'
+```
+
+WebGPU draws point primitives at 1 pixel. Thus the WebGPU version draws each sparkle as one instance of a `Sprite` quad with a `PointsNodeMaterial`, and the `instance` it exposes is a `Sprite`, not `Points`. Raycasts and pointer events do not hit the sparkles in this version.
+
+The glow of each sparkle is wider and softer than under `WebGLRenderer`. The WebGL version blends in sRGB, and `WebGPURenderer` blends in linear and converts the sum. Thus the faint edge of the texture shows more. The positions, sizes and colors are the same.
+
 ## Props
 
 | Name | Description |
