@@ -13,7 +13,8 @@ import { useBaseRendererManager } from '../useRenderer/useRendererManager'
 import useSizes from '../useSizes'
 import type { SizesType } from '../useSizes'
 import { useEventManager } from '../useEventManager'
-import { createInjectionState } from '@vueuse/core'
+import type { EventHook, EventHookOn } from '@vueuse/core'
+import { createEventHook, createInjectionState } from '@vueuse/core'
 
 export interface TresContext {
   scene: ShallowRef<TresScene>
@@ -32,6 +33,10 @@ export interface TresContext {
    */
   isWebGPU: ComputedRef<boolean>
   events: ReturnType<typeof useEventManager>
+  /**
+   * Registers a callback that runs once when the canvas unmounts, after all of its children have unmounted.
+   */
+  onUnmount: EventHookOn<void>
 }
 
 export const INJECTION_KEY = 'useTres' // this is intentionally not a symbol as it can not properly be bridged to the custom renderer
@@ -42,6 +47,16 @@ export interface TresContextProviderOptions {
   fpsLimit?: MaybeRefOrGetter<number>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: RendererOptions
+}
+
+const unmountHooks = new WeakMap<TresContext, EventHook<void>>()
+
+/**
+ * Runs the `onUnmount` callbacks of a context. Only the canvas that owns the context calls it.
+ */
+const triggerContextUnmount = (ctx: TresContext) => {
+  unmountHooks.get(ctx)?.trigger()
+  unmountHooks.delete(ctx)
 }
 
 // Shared by both entries. The public `useTresContextProvider` of each entry passes its default renderer.
@@ -73,6 +88,8 @@ const [useBaseTresContextProvider, _useTresContext] = createInjectionState(({
     contextParts: { scene: localScene, camera, renderer },
   })
 
+  const unmountHook = createEventHook<void>()
+
   const ctx: TresContext = {
     sizes,
     scene: localScene,
@@ -82,7 +99,9 @@ const [useBaseTresContextProvider, _useTresContext] = createInjectionState(({
     controls: ref(null),
     extend,
     events,
+    onUnmount: unmountHook.on,
   }
+  unmountHooks.set(ctx, unmountHook)
 
   // Add context to scene local state
   ctx.scene.value.__tres = {
@@ -106,4 +125,4 @@ const useTresContext = () => {
   return ctx!
 }
 
-export { useBaseTresContextProvider, useTresContext }
+export { triggerContextUnmount, useBaseTresContextProvider, useTresContext }
