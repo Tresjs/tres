@@ -40,7 +40,7 @@ export interface UseRenderPipelineReturn {
   rebuild: () => void
   /** Frees the pipeline now. The canvas renders without it until the next rebuild. */
   reset: () => void
-  /** Removes the passes the callbacks registered. `scenePass` stays, so the pipeline keeps drawing. */
+  /** Removes and disposes the passes the callbacks registered. `scenePass` stays, so the pipeline keeps drawing. */
   clearPasses: () => void
 }
 
@@ -70,14 +70,19 @@ function getPipelineState(store: TslStore): PipelineState {
   return state
 }
 
+// Only a `PassNode` owns a render target. Other registered nodes may still be used elsewhere.
+function disposePass(node: unknown) {
+  const pass = node as Partial<PassNode> | undefined
+  if (pass?.isPassNode) { pass.dispose?.() }
+}
+
 function free(state: PipelineState, store: TslStore) {
   state.restoreRender?.()
   state.restoreRender = undefined
   state.renderPipeline.value?.dispose()
   state.renderPipeline.value = null
   for (const name of store.passes.keys()) {
-    const node = store.passes.get(name) as Partial<PassNode> | undefined
-    if (node?.isPassNode) { node.dispose?.() }
+    disposePass(store.passes.get(name))
   }
   state.sceneKey = undefined
   store.passes.clear()
@@ -92,6 +97,8 @@ function registerPasses(store: TslStore, passes: Record<string, Node> | void) {
       logWarning(`useRenderPipeline: "${SCENE_PASS}" is reserved for the pass the composable creates. Return your pass under another name.`)
       continue
     }
+    const previous = store.passes.get(name)
+    if (previous !== node) { disposePass(previous) }
     store.passes.set(name, node)
   }
 }
@@ -185,7 +192,11 @@ export function useRenderPipeline(main?: RenderPipelineCallback, setup?: RenderP
     isReady: computed(() => state.renderPipeline.value !== null),
     rebuild: () => configure(ctx, store, state, true),
     reset: () => free(state, store),
-    clearPasses: () => store.passes.remove(store.passes.keys().filter(name => name !== SCENE_PASS)),
+    clearPasses: () => {
+      const names = store.passes.keys().filter(name => name !== SCENE_PASS)
+      names.forEach(name => disposePass(store.passes.get(name)))
+      store.passes.remove(names)
+    },
   }
 
   if (!main) { return result }

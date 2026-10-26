@@ -270,7 +270,7 @@ Without callbacks, it only reads. It never creates the pipeline and does not kee
 - `renderPipeline` is a ref: the pipeline, or `null` when no component configures one.
 - `rebuild()` runs the callbacks again with a new scene pass.
 - `reset()` frees the pipeline now. The canvas renders without it until the next rebuild.
-- `clearPasses()` removes the passes that callbacks registered. `scenePass` stays, so the pipeline keeps drawing.
+- `clearPasses()` removes and disposes the passes that callbacks registered. `scenePass` stays, so the pipeline keeps drawing.
 
 One pipeline renders per canvas. If two components configure it, a warning shows and the one mounted last renders. When it unmounts, the other one configures the pipeline again.
 

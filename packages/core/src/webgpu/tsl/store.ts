@@ -356,7 +356,8 @@ function createTslCollection<L extends object = any>(kind: TslKind, host: TslCol
       if (scope !== undefined) {
         return [...(scopes.get(scope)?.keys() ?? [])]
       }
-      return [...root.keys(), ...scopes.keys()]
+      // A root entry and a scope can share a name; a proxy `ownKeys` trap throws on duplicates.
+      return [...new Set([...root.keys(), ...scopes.keys()])]
     },
   }
 }

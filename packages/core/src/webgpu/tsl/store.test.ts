@@ -99,6 +99,18 @@ describe('tslStore', () => {
       expect(store.uniforms.keys('fog')).toEqual([])
     })
 
+    it('lists a name once when a root entry and a scope share it', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const store = createTslStore()
+      store.nodes.register(() => ({ fx: leaf('root fx') }))
+      store.nodes.register(() => ({ a: leaf('a') }), { scope: 'fx' })
+
+      expect(store.nodes.keys()).toEqual(['fx'])
+      expect(Object.keys(createLiveView(store.nodes, undefined, {}))).toEqual(['fx'])
+      expect(Object.keys(store.createSession().stores.nodes)).toEqual(['fx'])
+      warn.mockRestore()
+    })
+
     it('clears one scope, the root only, or everything', () => {
       const store = createTslStore()
       store.nodes.register(() => ({ a: leaf('a') }))
@@ -299,6 +311,24 @@ describe('getTslStore', () => {
     expect(pass.dispose).toHaveBeenCalledOnce()
     expect(store.nodes.keys()).toEqual([])
     expect(getTslStore(ctx)).not.toBe(store)
+  })
+
+  it('disposes the store when the canvas unmounts, also when a child created it', async () => {
+    const show = ref(true)
+    let created: TslStore | undefined
+    const pass = { dispose: vi.fn() }
+    const Creates = withSetup(() => {
+      created = useTslStore().store
+      created.passes.set('p', pass)
+    })
+    const { wrapper } = mountInTresContext(() => (show.value ? h(Creates) : null))
+
+    show.value = false
+    await nextTick()
+    wrapper.unmount()
+
+    expect(pass.dispose).toHaveBeenCalledOnce()
+    expect(created!.passes.keys()).toEqual([])
   })
 
   it('keeps entries when the component that registered them unmounts', async () => {

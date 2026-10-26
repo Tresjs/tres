@@ -197,6 +197,49 @@ describe('useRenderPipeline', () => {
     expect(result.isReady.value).toBe(true)
   })
 
+  it('disposes a pass from an earlier run when the callbacks run again', async () => {
+    let result!: UseRenderPipelineReturn
+    const passes: { isPassNode: true, dispose: ReturnType<typeof vi.fn> }[] = []
+    const { show } = setup({
+      Effects: () => {
+        result = useRenderPipeline(() => {
+          const extra = { isPassNode: true as const, dispose: vi.fn() }
+          passes.push(extra)
+          return { extra: extra as any }
+        })
+      },
+    })
+    await show('Effects')
+
+    result.rebuild()
+
+    expect(passes).toHaveLength(2)
+    expect(passes[0].dispose).toHaveBeenCalledOnce()
+    expect(passes[1].dispose).not.toHaveBeenCalled()
+  })
+
+  it('keeps a pass that the callbacks return again', async () => {
+    let result!: UseRenderPipelineReturn
+    const extra = { isPassNode: true as const, dispose: vi.fn() }
+    const { show } = setup({ Effects: () => { result = useRenderPipeline(() => ({ extra: extra as any })) } })
+    await show('Effects')
+
+    result.rebuild()
+
+    expect(extra.dispose).not.toHaveBeenCalled()
+  })
+
+  it('disposes the passes it clears', async () => {
+    let result!: UseRenderPipelineReturn
+    const extra = { isPassNode: true as const, dispose: vi.fn() }
+    const { show } = setup({ Effects: () => { result = useRenderPipeline(() => ({ extra: extra as any })) } })
+    await show('Effects')
+
+    result.clearPasses()
+
+    expect(extra.dispose).toHaveBeenCalledOnce()
+  })
+
   it('clears the registered passes but keeps the scene pass, so the pipeline still draws', async () => {
     let result!: UseRenderPipelineReturn
     const { show, store, renderFunctions } = setup({ Effects: () => { result = useRenderPipeline(() => ({ extra: float(1) })) } })
