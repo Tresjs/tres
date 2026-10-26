@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { TresLeches, useControls } from '../index'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { dispose } from '../composables/useControls'
 
 vi.mock('@vueuse/motion', () => ({
@@ -25,6 +25,22 @@ describe('tresLeches', () => {
     // Remove dynamic style attributes before snapshot
     const html = wrapper.html().replace(/style="[^"]*"/, '')
     expect(html).toMatchSnapshot()
+  })
+
+  it('keeps a collapsed floating panel collapsed when the window resizes', async () => {
+    const wrapper = mount(TresLeches, {
+      props: { collapsed: true },
+      attachTo: document.body,
+    })
+    const pane = wrapper.find<HTMLElement>('.tl-leches').element
+
+    window.innerWidth += 200
+    window.dispatchEvent(new Event('resize'))
+    await nextTick()
+
+    expect(pane.style.width).toBe('36px')
+    expect(pane.style.height).toBe('36px')
+    wrapper.unmount()
   })
 
   it('shows and recreates panel actions only while expanded', async () => {
