@@ -6,7 +6,7 @@ import MeshPortalMaterial from './meshPortalMaterial/index.vue'
 import MeshReflectionMaterial from './meshReflectionMaterial/index.vue'
 import MeshTransmissionMaterial from './meshTransmissionMaterial/index.vue'
 import MeshWobbleMaterial from './meshWobbleMaterial/index.vue'
-import PointMaterial from './pointMaterial/component.vue'
+import PointMaterial from './pointMaterial/index.vue'
 
 export {
   CustomShaderMaterial,

@@ -39,13 +39,31 @@ import { OrbitControls, Outline } from '@tresjs/cientos'
 
 ```
 
+## WebGPU
+
+Import `Outline` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version uses a `MeshBasicNodeMaterial` and has the same props. See [WebGPU](/getting-started/webgpu).
+
+```ts
+import { Outline } from '@tresjs/cientos/webgpu'
+```
+
+The outline can differ a little from `WebGLRenderer`:
+
+- The WebGL version pushes the vertices along the normals of the geometry. The WebGPU version uses the normals after morph targets and skinning. You see the difference on skinned or morphed parents.
+- When `screenspace` is off, the WebGPU version takes the direction of the offset from the instance normal. With a non-uniform instance scale, the direction can differ a little.
+- `WebGPURenderer` tone-maps the whole frame, so it ignores `toneMapped`.
+
 ## Props
 
 | Props        | Description                                                        | Default |
 |--------------|--------------------------------------------------------------------| ------- |
 | color        | Outline color                                                      | `'black'` |
-| screenspace  | Whether line thickness is independent of zoom                      | `false` |
+| screenspace  | `true`: `thickness` is in world units, so the outline gets thinner with distance. `false`: `thickness` is in pixels at any distance | `false` |
 | opacity      | Outline opacity                                                    | `1` |
 | transparent  | Outline transparency                                               | `false` |
 | thickness    | Outline thickness                                                  | `0.05` |
 | angle        | Geometry crease angle (`0` is no crease).  See [BufferGeometryUtils.toCreasedNormals](https://threejs.org/docs/#examples/en/utils/BufferGeometryUtils.toCreasedNormals) | `Math.PI` |
+| toneMapped   | Apply the renderer tone mapping to the outline. `WebGPURenderer` ignores it | `true` |
+| polygonOffset | Use a depth offset, to stop the outline fighting with the parent surface | `false` |
+| polygonOffsetFactor | Size of the depth offset                                     | `0` |
+| renderOrder  | Render order of the outline mesh                                   | `0` |
