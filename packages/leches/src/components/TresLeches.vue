@@ -2,7 +2,7 @@
 import { computed, isRef, nextTick, onMounted, onUnmounted, provide, ref, toRaw, toRefs, unref, watch } from 'vue'
 import { useDraggable } from '../composables/useDraggable'
 import { LECHES_DARK_KEY, useIsDark } from '../composables/useIsDark'
-import { useWindowSize } from '@vueuse/core'
+import { useResizeObserver, useWindowSize } from '@vueuse/core'
 import { dispose, useControlsProvider, useControlsStore } from '../composables/useControls'
 import type { LechesControlUnion } from '../types'
 import Folder from './Folder.vue'
@@ -58,6 +58,9 @@ const resizeEdge = ref<'right' | 'left' | 'bottom' | 'corner' | 'corner-left' | 
 // Controls
 useControlsProvider(uuid?.value)
 const hasSlots = ref(false)
+// Measured, not counted: slot content is free-form and can change height after mount.
+// The slot wrapper is `display: flow-root`, so its height includes the margins of its children.
+const slotHeight = ref(0)
 const { store: controlsStore, triggers: controlsTriggers } = useControlsStore()
 
 // Reactive getter — controlsStore[uuid] may not exist yet when TresLeches
@@ -212,7 +215,7 @@ function calculateHeight() {
     }
   }
 
-  const calculatedHeight = HEADER_HEIGHT + CONTENT_PADDING + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0)
+  const calculatedHeight = HEADER_HEIGHT + CONTENT_PADDING + (totalControls * CONTROL_HEIGHT) + (hasFPSGraph ? FPS_GRAPH_EXTRA_HEIGHT : 0) + slotHeight.value
   const maxAllowedHeight = float.value ? windowHeight.value : MAX_HEIGHT
   return Math.min(maxAllowedHeight, Math.max(MIN_HEIGHT, calculatedHeight))
 }
@@ -282,8 +285,8 @@ const { apply } = useMotion(paneRef, {
   ...(motionConfig.leave ? { leave: motionConfig.leave } : {}),
 })
 
-// Recalculate height when controls are added/removed (e.g. child components mounting)
-watch(groupedControls, async () => {
+// Recalculate height when controls are added/removed (e.g. child components mounting) or the slot resizes
+watch([groupedControls, slotHeight], async () => {
   const newHeight = calculateHeight()
   if (newHeight === panelHeight.value) { return }
   panelHeight.value = newHeight
@@ -412,8 +415,8 @@ function onFolderOpen(value: boolean) {
 
 const slotsRef = ref()
 
-watch(slotsRef, (value) => {
-  panelHeight.value = panelHeight.value + value.clientHeight
+useResizeObserver(slotsRef, ([entry]) => {
+  slotHeight.value = (entry.target as HTMLElement).clientHeight
 })
 
 // Initialize panel after slot content is rendered
@@ -563,7 +566,7 @@ onUnmounted(() => {
             No controls found
           </div>
 
-          <div v-if="hasSlots" ref="slotsRef" style="padding: 0 var(--tl-h-padding);">
+          <div v-if="hasSlots" ref="slotsRef" style="display: flow-root; padding: 0 var(--tl-h-padding);">
             <slot></slot>
           </div>
         </div>
