@@ -1,3 +1,17 @@
+## 5.10.0 (2026-10-22)
+
+### 🚀 Features
+
+- add /webgpu entries to core, cientos and nuxt ([#1543](https://github.com/Tresjs/tres/pull/1543))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.10.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 5.9.3 (2026-10-06)
 
 ### 🧱 Updated Dependencies

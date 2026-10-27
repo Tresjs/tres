@@ -1,6 +1,6 @@
 import TresCanvas from './TresCanvas.vue'
-import Context from './Context.vue'
+import WebGLContext from './WebGLContext.vue'
 import TresPortal from './TresPortal.vue'
 
-export { TresCanvas, Context as TresCanvasContext, TresPortal }
-export type { TresCanvasEmits, TresCanvasInstance, TresCanvasProps } from './TresCanvas.vue'
+export { TresCanvas, WebGLContext as TresCanvasContext, TresPortal }
+export type { TresCanvasEmits, TresCanvasInstance, TresCanvasProps } from './BaseCanvas.vue'

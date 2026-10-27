@@ -18,6 +18,8 @@ export default defineConfig([
   {
     entry: {
       trescientos: './src/index.ts',
+      // Same config as the root entry, so the components both entries export go to shared chunks.
+      webgpu: './src/webgpu.ts',
     },
     platform: 'neutral',
     fromVite: true,

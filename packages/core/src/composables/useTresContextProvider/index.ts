@@ -1,7 +1,7 @@
 import type { ComputedRef, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 
 import type { TresControl, TresScene } from '../../types'
-import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
+import type { DefaultRendererFactory, RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
 import { computed, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { isWebGPURenderer } from '../../utils/is'
@@ -9,7 +9,7 @@ import { isWebGPURenderer } from '../../utils/is'
 import type { UseCameraReturn } from '../useCamera'
 
 import { useCameraManager } from '../useCamera'
-import { useRendererManager } from '../useRenderer/useRendererManager'
+import { useBaseRendererManager } from '../useRenderer/useRendererManager'
 import useSizes from '../useSizes'
 import type { SizesType } from '../useSizes'
 import { useEventManager } from '../useEventManager'
@@ -36,25 +36,28 @@ export interface TresContext {
 
 export const INJECTION_KEY = 'useTres' // this is intentionally not a symbol as it can not properly be bridged to the custom renderer
 
-const [useTresContextProvider, _useTresContext] = createInjectionState(({
-  scene,
-  canvas,
-  fpsLimit,
-  windowSize,
-  rendererOptions,
-}: {
+export interface TresContextProviderOptions {
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   fpsLimit?: MaybeRefOrGetter<number>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: RendererOptions
-}): TresContext => {
+}
+
+// Shared by both entries. The public `useTresContextProvider` of each entry passes its default renderer.
+const [useBaseTresContextProvider, _useTresContext] = createInjectionState(({
+  scene,
+  canvas,
+  fpsLimit,
+  windowSize,
+  rendererOptions,
+}: TresContextProviderOptions, createDefaultRenderer?: DefaultRendererFactory): TresContext => {
   const localScene = shallowRef(scene)
   const sizes = useSizes(windowSize, canvas)
 
   const camera = useCameraManager({ sizes })
 
-  const renderer = useRendererManager(
+  const renderer = useBaseRendererManager(
     {
       scene: localScene,
       canvas,
@@ -62,6 +65,7 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
       fpsLimit,
       contextParts: { sizes, camera },
     },
+    createDefaultRenderer,
   )
 
   const events = useEventManager({
@@ -102,4 +106,4 @@ const useTresContext = () => {
   return ctx!
 }
 
-export { useTresContext, useTresContextProvider }
+export { useBaseTresContextProvider, useTresContext }
