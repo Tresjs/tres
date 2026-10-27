@@ -28,19 +28,35 @@ describe('tresLeches', () => {
   })
 
   it('keeps a collapsed floating panel collapsed when the window resizes', async () => {
-    const wrapper = mount(TresLeches, {
-      props: { collapsed: true },
-      attachTo: document.body,
-    })
-    const pane = wrapper.find<HTMLElement>('.tl-leches').element
+    const originalInnerWidth = window.innerWidth
+    const wrapper = mount(TresLeches, { attachTo: document.body })
+    const panel = wrapper.find<HTMLElement>('#tres-leches-pane-default').element
+    const toggle = wrapper.find('button[aria-label="Toggle panel"]')
+    const expandedHeight = panel.style.height
 
-    window.innerWidth += 200
-    window.dispatchEvent(new Event('resize'))
-    await nextTick()
+    try {
+      expect(panel.style.width).toBe('280px')
 
-    expect(pane.style.width).toBe('36px')
-    expect(pane.style.height).toBe('36px')
-    wrapper.unmount()
+      await toggle.trigger('click')
+      // useMotion is mocked, so write the collapsed size it would animate to
+      panel.style.width = '36px'
+      panel.style.height = '36px'
+      window.innerWidth = originalInnerWidth + 200
+      window.dispatchEvent(new Event('resize'))
+      await nextTick()
+
+      expect(panel.style.width).toBe('36px')
+      expect(panel.style.height).toBe('36px')
+
+      await toggle.trigger('click')
+
+      expect(panel.style.width).toBe('280px')
+      expect(panel.style.height).toBe(expandedHeight)
+    }
+    finally {
+      window.innerWidth = originalInnerWidth
+      wrapper.unmount()
+    }
   })
 
   it('shows and recreates panel actions only while expanded', async () => {
