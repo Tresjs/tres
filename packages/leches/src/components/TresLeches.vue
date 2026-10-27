@@ -235,9 +235,12 @@ const { style, position: dragPosition } = useDraggable(paneRef, {
 
 const panelStyle = computed(() => {
   if (float.value) {
+    const size = isCollapsed.value
+      ? { width: COLLAPSED_SIZE, height: COLLAPSED_SIZE }
+      : { width: panelWidth.value, height: panelHeight.value }
     return [
       style.value,
-      { width: `${panelWidth.value}px`, height: `${panelHeight.value}px`, right: '16px', left: 'auto' },
+      { width: `${size.width}px`, height: `${size.height}px`, right: '16px', left: 'auto' },
     ]
   }
   else {
