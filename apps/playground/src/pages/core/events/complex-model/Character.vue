@@ -3,8 +3,8 @@
 import { useGLTF } from '@tresjs/cientos'
 
 const { nodes } = await useGLTF('/models/Artificer.glb', { draco: true })
-console.log(nodes)
-const model = nodes.Engineer_Rig
+console.log(nodes.value)
+const model = nodes.value.Engineer_Rig
 
 model.position.set(-4, 0, 0)
 

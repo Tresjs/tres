@@ -11,7 +11,7 @@ const { nodes } = await useGLTF(
   '/models/low-poly-planet/rocket.glb',
 )
 
-const rocket = nodes['Model-Toy-Rocket'] as TresObject3D
+const rocket = nodes.value['Model-Toy-Rocket'] as TresObject3D
 
 const rocketRef = shallowRef()
 

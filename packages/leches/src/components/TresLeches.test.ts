@@ -1,7 +1,7 @@
-import { mount } from '@vue/test-utils'
+import { flushPromises, mount } from '@vue/test-utils'
 import { TresLeches, useControls } from '../index'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { defineComponent } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { dispose } from '../composables/useControls'
 
 vi.mock('@vueuse/motion', () => ({
@@ -25,6 +25,38 @@ describe('tresLeches', () => {
     // Remove dynamic style attributes before snapshot
     const html = wrapper.html().replace(/style="[^"]*"/, '')
     expect(html).toMatchSnapshot()
+  })
+
+  it('keeps a collapsed floating panel collapsed when the window resizes', async () => {
+    const originalInnerWidth = window.innerWidth
+    const wrapper = mount(TresLeches, { attachTo: document.body })
+    const panel = wrapper.find<HTMLElement>('#tres-leches-pane-default').element
+    const toggle = wrapper.find('button[aria-label="Toggle panel"]')
+    const expandedHeight = panel.style.height
+
+    try {
+      expect(panel.style.width).toBe('280px')
+
+      await toggle.trigger('click')
+      // useMotion is mocked, so write the collapsed size it would animate to
+      panel.style.width = '36px'
+      panel.style.height = '36px'
+      window.innerWidth = originalInnerWidth + 200
+      window.dispatchEvent(new Event('resize'))
+      await nextTick()
+
+      expect(panel.style.width).toBe('36px')
+      expect(panel.style.height).toBe('36px')
+
+      await toggle.trigger('click')
+
+      expect(panel.style.width).toBe('280px')
+      expect(panel.style.height).toBe(expandedHeight)
+    }
+    finally {
+      window.innerWidth = originalInnerWidth
+      wrapper.unmount()
+    }
   })
 
   it('shows and recreates panel actions only while expanded', async () => {
@@ -117,6 +149,39 @@ describe('tresLeches', () => {
     expect(restoredFolder.element).toBe(folderElement)
     expect(restoredFolder.attributes('aria-expanded')).toBe('true')
     expect(wrapper.find('#tres-leches-pane-default').attributes('style')).toBe(openPanelStyle)
+  })
+
+  it('keeps the slot height when the panel height is recalculated', async () => {
+    const SLOT_HEIGHT = 96
+    // jsdom has no layout, so the stub reports the slot height the browser would measure.
+    vi.stubGlobal('ResizeObserver', class {
+      constructor(private callback: ResizeObserverCallback) {}
+      observe(target: Element) {
+        Object.defineProperty(target, 'clientHeight', { configurable: true, value: SLOT_HEIGHT })
+        this.callback([{ target } as ResizeObserverEntry], this as unknown as ResizeObserver)
+      }
+
+      unobserve() {}
+      disconnect() {}
+    })
+
+    const component = defineComponent({
+      components: { TresLeches },
+      setup() {
+        useControls({ first: 1 })
+      },
+      template: '<TresLeches><p>Slot content</p></TresLeches>',
+    })
+    const wrapper = mount(component)
+    await flushPromises()
+
+    // A control added after mount makes the panel recalculate its height.
+    useControls({ second: 2 })
+    await flushPromises()
+
+    // Header (32) + padding (32) + two controls (2 * 24) + slot.
+    expect(wrapper.find('#tres-leches-pane-default').attributes('style')).toContain(`height: ${32 + 32 + 2 * 24 + SLOT_HEIGHT}px`)
+    vi.unstubAllGlobals()
   })
 
   it('copies current panel values as formatted JSON', async () => {
