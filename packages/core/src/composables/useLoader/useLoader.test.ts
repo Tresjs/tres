@@ -255,6 +255,29 @@ describe('useLoader', () => {
     expect(newScene).toBeDefined()
   }, 10000) // Increase timeout to 10 seconds
 
+  describe('when awaited', () => {
+    it('resolves with the full return object once loaded', async () => {
+      const TresMockLoader = MockLoader as unknown as LoaderProto<GLTF>
+      const awaited = await useLoader(TresMockLoader, 'mock-url.glb')
+
+      expect(awaited.isLoading.value).toBe(false)
+      expect((awaited.state.value?.scene as unknown as MockObject3D).children[0].name).toBe('test')
+      expect(awaited.load).toBeTypeOf('function')
+      expect(awaited.progress.percentage).toBe(100)
+      expect('then' in awaited).toBe(false)
+    })
+
+    it('keeps the fields that a Loader spreads on top', async () => {
+      const TresMockLoader = MockLoader as unknown as LoaderProto<GLTF>
+      const wrapped = { ...useLoader(TresMockLoader, 'mock-url.glb'), nodes: { test: 1 } }
+      const awaited = await wrapped
+
+      expect(awaited.nodes).toEqual({ test: 1 })
+      expect(awaited.load).toBeTypeOf('function')
+      expect('then' in awaited).toBe(false)
+    })
+  })
+
   it('reacts to path changes', () => {
     const TresMockLoader = MockLoader as unknown as LoaderProto<GLTF>
     const path = ref('initial-url.glb')
