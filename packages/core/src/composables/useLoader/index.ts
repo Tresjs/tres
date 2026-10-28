@@ -58,7 +58,8 @@ export type UseLoaderReturnBase<T, Shallow extends boolean> = UseAsyncStateRetur
 }
 
 /**
- * Return type for the useLoader composable. Awaiting it resolves with the same object once loading ends
+ * Return type for the useLoader composable. Awaiting it resolves with a `then`-less copy once loading ends.
+ * A Loader that spreads it and adds fields must declare its own return type: the awaited type covers only the base fields.
  * @template T - The type of the loaded asset (e.g., GLTF, Texture, etc.)
  * @template Shallow - Whether to use shallow reactivity for better performance
  */

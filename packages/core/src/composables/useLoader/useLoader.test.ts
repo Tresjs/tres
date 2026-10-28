@@ -1,4 +1,5 @@
 import { useLoader } from '.'
+import type { UseLoaderReturnBase } from '.'
 import type { LoaderProto, TresLoaderOptions } from '@tresjs/core'
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader'
 import type { UseAsyncStateReturn } from '@vueuse/core'
@@ -269,7 +270,7 @@ describe('useLoader', () => {
 
     it('keeps the fields that a Loader spreads on top', async () => {
       const TresMockLoader = MockLoader as unknown as LoaderProto<GLTF>
-      const wrapped = { ...useLoader(TresMockLoader, 'mock-url.glb'), nodes: { test: 1 } }
+      const wrapped: UseLoaderReturnBase<GLTF, true> & { nodes: { test: number } } = { ...useLoader(TresMockLoader, 'mock-url.glb'), nodes: { test: 1 } }
       const awaited = await wrapped
 
       expect(awaited.nodes).toEqual({ test: 1 })
