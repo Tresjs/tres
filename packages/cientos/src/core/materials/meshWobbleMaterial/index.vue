@@ -2,20 +2,16 @@
 import { useLoop, useTres } from '@tresjs/core'
 import { shallowRef, watch } from 'vue'
 
-import { WobbleMaterialImpl as MeshWobbleMaterial } from './material'
+import { MeshWobbleMaterial } from './MeshWobbleMaterial'
+import type { MeshWobbleMaterialProps } from './props'
+import { meshWobbleMaterialDefaults } from './props'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
-const props = withDefaults(
-  defineProps<{
-    speed?: number
-    factor?: number
-  }>(),
-  {
-    speed: 1,
-    factor: 1,
-  },
-)
+const props = withDefaults(defineProps<MeshWobbleMaterialProps>(), meshWobbleMaterialDefaults)
 
-const materialRef = shallowRef()
+useWebGPUSupportWarning('MeshWobbleMaterial', 'patches the shader with onBeforeCompile, which WebGPURenderer ignores. Import MeshWobbleMaterial from @tresjs/cientos/webgpu instead')
+
+const materialRef = shallowRef<MeshWobbleMaterial>()
 
 const { extend, invalidate } = useTres()
 
@@ -29,7 +25,7 @@ const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ elapsed }) => {
   if (materialRef.value) {
-    materialRef.value.time = elapsed * props?.speed
+    materialRef.value.time = elapsed * props.speed
     invalidate()
   }
 })

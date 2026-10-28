@@ -13,6 +13,7 @@ import type { AlignCallbackOptions, AlignProps } from '../abstractions/Align.vue
 import type { EnvironmentOptions, EnvironmentPresetsType } from './useEnvironment/const'
 import { useDebounceFn } from '@vueuse/core'
 import { pick } from '../../utils'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 interface StageProps {
   /** Lighting setup, default: "rembrandt" */
@@ -56,6 +57,12 @@ const props = withDefaults(defineProps<StageProps>(), {
   environment: () => ({ preset: 'city' }),
   lighting: 'rembrandt',
 })
+
+// Only the shadows are GLSL, so `shadows: false` stays silent. The setup-time read is enough:
+// if shadows are turned on later, the child component logs its own warning.
+if (props.shadows) {
+  useWebGPUSupportWarning('Stage', 'uses ContactShadows or AccumulativeShadows for its shadows. Set shadows to false to use Stage without them')
+}
 
 interface LightingPreset {
   main: [number, number, number]

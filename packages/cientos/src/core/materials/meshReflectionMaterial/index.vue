@@ -24,6 +24,7 @@ import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 import type { TresColor, TresObject } from '@tresjs/core'
 import { BlurPass } from './BlurPass'
 import { MeshReflectionMaterial } from './material'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
 export interface MeshReflectionMaterialProps {
 
@@ -147,6 +148,8 @@ const props = withDefaults(
     fog: true,
   },
 )
+
+useWebGPUSupportWarning('MeshReflectionMaterial', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
 
 const { extend, invalidate } = useTres()
 extend({ MeshReflectionMaterial })
@@ -295,12 +298,8 @@ const { onBeforeRender } = useLoop()
 onBeforeRender(({ renderer, scene, camera }) => {
   const parent = materialRef.value?.__tres?.parent
   if (!parent) { return }
-  // WebGPU compatibility: avoid importing three/webgpu (not exported in older versions).
-  // Detect WebGPU renderer by its flag property defined in its class (`isWebGPURenderer: true`).
-  if ('isWebGPURenderer' in renderer && renderer.isWebGPURenderer === true) {
-    console.warn('MeshReflectionMaterial: WebGPURenderer is not supported yet')
-    return
-  }
+  // WebGPURenderer is not a WebGLRenderer, so it skips the GLSL passes.
+  // useWebGPUSupportWarning already told the user.
   if (renderer instanceof WebGLRenderer) {
     invalidate()
 

@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
+import { PerspectiveCamera, Scene } from 'three'
 import type { App, Ref } from 'vue'
 import type { TresCamera, TresContextWithClock, TresObject, TresPointerEvent, TresScene } from '../types'
-import * as THREE from 'three'
 import {
   createRenderer,
   defineComponent,
@@ -20,13 +19,12 @@ import {
   watchEffect,
 } from 'vue'
 import type { RendererOptions, TresContext } from '../composables'
-import { useTresContextProvider } from '../composables'
-import { INJECTION_KEY as CONTEXT_INJECTION_KEY } from '../composables/useTresContextProvider'
+import { INJECTION_KEY as CONTEXT_INJECTION_KEY, useBaseTresContextProvider } from '../composables/useTresContextProvider'
 import { extend } from '../core/catalogue'
 import type { TresCustomRendererOptions } from '../core/nodeOps'
 import { nodeOps } from '../core/nodeOps'
 import { deleteRoot, getRoot, setRoot } from '../core/roots'
-import { isScene } from '../utils/is'
+import { isScene, isWebGLRenderer } from '../utils/is'
 import { disposeObject3D } from '../utils/'
 import { registerTresDevtools } from '../devtools'
 import { promiseTimeout } from '@vueuse/core'
@@ -91,7 +89,6 @@ const slots = defineSlots<{
 const scene = shallowRef<TresScene | Scene>(new Scene())
 
 const instance = getCurrentInstance()
-extend(THREE)
 
 const createInternalComponent = (context: TresContext, hmrTick: Ref<number>) =>
   defineComponent({
@@ -127,7 +124,7 @@ const createInternalComponent = (context: TresContext, hmrTick: Ref<number>) =>
       provide(CONTEXT_INJECTION_KEY, context)
       provide('extend', extend)
 
-      if (typeof window !== 'undefined' && ctx?.app) {
+      if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production' && typeof window !== 'undefined' && ctx?.app) {
         registerTresDevtools(ctx?.app, context)
       }
 
@@ -153,16 +150,16 @@ const mountCustomRenderer = (context: TresContext) => {
   setRoot(canvas, { renderer, internalComponent, hmrTick, context })
 }
 
-// `force=false` (internal unmount path) only walks the scene graph — WebGL teardown
+// `force=false` (internal unmount path) only walks the scene graph — renderer disposal
 // is owned by useRendererManager's own onUnmounted, which fires alongside ours.
-// `force=true` (manual TresCanvasInstance.dispose() call) additionally tears down the
-// WebGLRenderer explicitly, because the manual call path is NOT backed by Vue's
+// `force=true` (manual TresCanvasInstance.dispose() call) additionally disposes the
+// renderer explicitly, because the manual call path is NOT backed by Vue's
 // unmount lifecycle and useRendererManager won't fire on its own.
 const dispose = (context: TresContext, force = false) => {
   disposeObject3D(context.scene.value as unknown as TresObject)
   if (force) {
     context.renderer.instance.dispose()
-    if (context.renderer.instance instanceof WebGLRenderer) {
+    if (isWebGLRenderer(context.renderer.instance)) {
       context.renderer.instance.renderLists.dispose()
       context.renderer.instance.forceContextLoss()
     }
@@ -173,7 +170,7 @@ const dispose = (context: TresContext, force = false) => {
     isUnmounting: true,
   }
 }
-const context = shallowRef<TresContext>(useTresContextProvider({
+const context = shallowRef<TresContext>(useBaseTresContextProvider({
   scene: scene.value as TresScene,
   canvas: props.canvas,
   fpsLimit: () => props.fpsLimit ?? Infinity,

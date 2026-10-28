@@ -1,13 +1,12 @@
-import type { ColorRepresentation, ColorSpace, Object3D, ShadowMapType, ToneMapping } from 'three'
+import type { ColorRepresentation, ColorSpace, Object3D, ShadowMapType, ToneMapping, WebGLRenderer } from 'three'
 
 import type { TresContext } from '../useTresContextProvider'
 
 import {
   createEventHook,
-  unrefElement,
   useTimeout,
 } from '@vueuse/core'
-import { Material, Mesh, PCFShadowMap, PCFSoftShadowMap, WebGLRenderer } from 'three'
+import { Material, Mesh, PCFShadowMap, PCFSoftShadowMap } from 'three'
 import { computed, nextTick, onUnmounted, ref, toValue, watch, watchEffect } from 'vue'
 import type { MaybeRef, MaybeRefOrGetter, Reactive, ShallowRef } from 'vue'
 import type { Renderer } from 'three/webgpu'
@@ -199,6 +198,11 @@ export interface TresRendererSetupContext {
   canvas: MaybeRef<HTMLCanvasElement>
 }
 
+/**
+ * Builds the renderer when the `renderer` option is not set. Each entry has its own.
+ */
+export type DefaultRendererFactory = (ctx: TresRendererSetupContext, options: RendererOptions) => TresRenderer
+
 export interface UseRendererOptions {
   scene: ShallowRef<TresScene>
   canvas: MaybeRef<HTMLCanvasElement>
@@ -207,7 +211,8 @@ export interface UseRendererOptions {
   contextParts: Pick<TresContext, 'sizes' | 'camera'>
 }
 
-export function useRendererManager(
+// Shared by both entries, so it takes the default renderer as an argument instead of importing one.
+export function useBaseRendererManager(
   {
     scene,
     canvas,
@@ -215,21 +220,18 @@ export function useRendererManager(
     fpsLimit,
     contextParts: { sizes, camera },
   }: UseRendererOptions,
+  createDefaultRenderer?: DefaultRendererFactory,
 ) {
+  const setupContext: TresRendererSetupContext = { sizes, scene, camera, canvas }
+
   const getRenderer = () => {
     if (isFunction(options.renderer)) {
-      return options.renderer({
-        sizes,
-        scene,
-        camera,
-        canvas,
-      })
+      return options.renderer(setupContext)
     }
-
-    return new WebGLRenderer({
-      ...options,
-      canvas: unrefElement(canvas),
-    })
+    if (createDefaultRenderer) {
+      return createDefaultRenderer(setupContext, options)
+    }
+    throw new Error('No renderer: set the `renderer` option or pass a default renderer factory.')
   }
 
   const renderer = getRenderer()
@@ -512,4 +514,4 @@ export function useRendererManager(
   }
 }
 
-export type UseRendererManagerReturn = ReturnType<typeof useRendererManager>
+export type UseRendererManagerReturn = ReturnType<typeof useBaseRendererManager>
