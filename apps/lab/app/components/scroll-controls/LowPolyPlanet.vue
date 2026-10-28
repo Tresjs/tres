@@ -12,9 +12,9 @@ const { nodes } = await useGLTF(
   '/models/low-poly-planet/low-poly-planet-v3.glb',
 )
 
-const planet = nodes.Planet as TresObject3D
+const planet = nodes.value.Planet as TresObject3D
 const planetRef = shallowRef()
-const clouds = Object.values(nodes).filter(node => node.name.includes('Cloud'))
+const clouds = Object.values(nodes.value).filter(node => node.name.includes('Cloud'))
 const cloudsRef = shallowRef()
 
 const { onLoop } = useRenderLoop()
