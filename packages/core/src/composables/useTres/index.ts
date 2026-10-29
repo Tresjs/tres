@@ -4,7 +4,7 @@ import { useTresContext } from '../useTresContextProvider'
 import type { Camera } from 'three'
 import type { TresRenderer } from '..'
 
-export interface TresPartialContext extends Omit<TresContext, 'renderer' | 'camera'> {
+export interface TresPartialContext extends Omit<TresContext, 'renderer' | 'camera' | 'onUnmount'> {
   /**
    * The renderer instance
    *
