@@ -1,9 +1,12 @@
-import type { GlobalComponents } from 'vue'
-import type { WebGLRenderer } from 'three'
-import type { MeshStandardNodeMaterial, WebGPURenderer } from 'three/webgpu'
+import type { GlobalComponents, ShallowRef } from 'vue'
+import type { Color, Vector2, WebGLRenderer } from 'three'
+import { Vector3 } from 'three'
+import type { MeshStandardNodeMaterial, PassNode, RenderPipeline, UniformNode, WebGPURenderer } from 'three/webgpu'
+import { ref } from 'vue'
 import { describe, expectTypeOf, it } from 'vitest'
 import type { TresRenderer, useTres as useRootTres } from '../index'
-import type { ThreeElement, TresWebGPUCanvasProps, useTres } from './index'
+import type { LooseUniformNode, ThreeElement, TresWebGPUCanvasProps, useTres } from './index'
+import { useLocalNodes, useNodes, useRenderPipeline, useUniform, useUniforms } from './index'
 
 describe('@tresjs/core/webgpu', () => {
   it('types the useTres renderer as WebGPURenderer', () => {
@@ -28,5 +31,54 @@ describe('@tresjs/core/webgpu', () => {
     type Roughness = ThreeElement<typeof MeshStandardNodeMaterial>['roughness']
     expectTypeOf<number>().toExtend<Roughness>()
     expectTypeOf<string>().not.toExtend<Roughness>()
+  })
+
+  // Type-level only: vitest does not run these calls.
+  describe('TSL composables', () => {
+    it('types created uniforms from their sources', () => {
+      const uniforms = useUniforms({
+        uTime: 0,
+        uColor: '#ff0000',
+        uUv: { x: 1, y: 2 },
+        uPos: ref(new Vector3()),
+        uOn: () => true,
+      })
+      expectTypeOf(uniforms.uTime).toEqualTypeOf<UniformNode<'float', number>>()
+      expectTypeOf(uniforms.uColor).toEqualTypeOf<UniformNode<'color', Color>>()
+      expectTypeOf(uniforms.uUv).toEqualTypeOf<UniformNode<'vec2', Vector2>>()
+      expectTypeOf(uniforms.uPos).toEqualTypeOf<UniformNode<'vec3', Vector3>>()
+      expectTypeOf(uniforms.uOn).toEqualTypeOf<UniformNode<'bool', boolean>>()
+      expectTypeOf(uniforms.rebuildUniforms).toEqualTypeOf<(scope?: string) => void>()
+    })
+
+    it('types an any source (such as a Leches control) as one loose uniform, not a union', () => {
+      const control = ref<any>(1)
+      const uniforms = useUniforms({ uControl: control, uGetter: () => control.value as any })
+      expectTypeOf(uniforms.uControl).toEqualTypeOf<LooseUniformNode>()
+      expectTypeOf(uniforms.uGetter).toEqualTypeOf<LooseUniformNode>()
+    })
+
+    it('types a single uniform from its value', () => {
+      expectTypeOf(useUniform('uTime', 0)).toEqualTypeOf<UniformNode<'float', number>>()
+    })
+
+    it('keeps the types a node creator returns', () => {
+      const nodes = useNodes(() => ({ wobble: {} as PassNode }))
+      expectTypeOf(nodes.wobble).toEqualTypeOf<PassNode>()
+      expectTypeOf(nodes.clearNodes).toEqualTypeOf<(scope?: string) => void>()
+    })
+
+    it('returns local nodes as shallow refs, and nothing in the install form', () => {
+      const local = useLocalNodes(() => ({ colorNode: {} as PassNode }))
+      expectTypeOf(local.colorNode).toEqualTypeOf<ShallowRef<PassNode>>()
+      expectTypeOf(useLocalNodes(() => () => {})).toEqualTypeOf<void>()
+    })
+
+    it('types the render pipeline and its scene pass', () => {
+      expectTypeOf(useRenderPipeline().renderPipeline.value).toEqualTypeOf<RenderPipeline | null>()
+      useRenderPipeline(({ passes }) => {
+        expectTypeOf(passes.scenePass).toEqualTypeOf<PassNode>()
+      })
+    })
   })
 })

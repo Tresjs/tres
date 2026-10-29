@@ -19,7 +19,7 @@ import {
   watchEffect,
 } from 'vue'
 import type { RendererOptions, TresContext } from '../composables'
-import { INJECTION_KEY as CONTEXT_INJECTION_KEY, useBaseTresContextProvider } from '../composables/useTresContextProvider'
+import { INJECTION_KEY as CONTEXT_INJECTION_KEY, triggerContextUnmount, useBaseTresContextProvider } from '../composables/useTresContextProvider'
 import { extend } from '../core/catalogue'
 import type { TresCustomRendererOptions } from '../core/nodeOps'
 import { nodeOps } from '../core/nodeOps'
@@ -203,6 +203,7 @@ const unmountCanvas = () => {
   // handlers and releases CPU-side three.js state.
   root.renderer.render(null, scene.value as unknown as TresObject)
   dispose(context.value)
+  triggerContextUnmount(context.value)
   deleteRoot(props.canvas)
 }
 
