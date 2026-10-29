@@ -1,3 +1,14 @@
+## 1.3.3 (2026-10-28)
+
+### 🩹 Fixes
+
+- **TresLeches:** keep collapsed panel size on window resize ([#1546](https://github.com/Tresjs/tres/pull/1546))
+- **leches:** keep slot content visible when the panel height is recalculated ([#1523](https://github.com/Tresjs/tres/pull/1523))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 1.3.2 (2026-10-07)
 
 ### 🩹 Fixes

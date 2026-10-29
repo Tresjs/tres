@@ -1,3 +1,16 @@
+## 5.10.1 (2026-10-28)
+
+### 🩹 Fixes
+
+- **core:** avoid tracking frame state during prop patches ([#1499](https://github.com/Tresjs/tres/pull/1499))
+- **core:** resolve awaited useLoader with the full return object ([#1548](https://github.com/Tresjs/tres/pull/1548))
+- **core:** skip automatic devtools registration in production ([#1498](https://github.com/Tresjs/tres/pull/1498))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- Felix Schwämmle @felixschwamm
+
 ## 5.10.0 (2026-10-22)
 
 ### 🚀 Features
