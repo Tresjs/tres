@@ -1,8 +1,8 @@
 import { Color, Vector2, Vector3 } from 'three'
 import { color, vec3 } from 'three/tsl'
 import { describe, expect, it, vi } from 'vitest'
-import { nextTick, reactive, ref } from 'vue'
-import { mountInTresContext, renderSetup } from '../../utils/test/tresContext'
+import { defineComponent, h, nextTick, reactive, ref } from 'vue'
+import { mountInTresContext, renderSetup, withSetup } from '../../utils/test/tresContext'
 import { getTslStore } from './context'
 import type { LooseUniformNode } from './useUniforms'
 import { useUniform, useUniforms } from './useUniforms'
@@ -54,6 +54,71 @@ describe('useUniforms', () => {
 
     expect(second).toBe(first)
     expect(first.value).toBe(5)
+  })
+
+  it('applies the new value when the component that created the uniform mounts again', async () => {
+    const show = ref(true)
+    let speed = 1
+    let node!: LooseUniformNode
+    const Creates = withSetup(() => { node = useUniforms({ uSpeed: speed }).uSpeed })
+    mountInTresContext(() => (show.value ? h(Creates) : null))
+    const first = node
+
+    show.value = false
+    await nextTick()
+    speed = 2
+    show.value = true
+    await nextTick()
+
+    expect(node).toBe(first)
+    expect(node.value).toBe(2)
+  })
+
+  it('applies the new value after a hot update of the component that created the uniform', async () => {
+    const version = ref(1)
+    let node!: LooseUniformNode
+    const Old = defineComponent({ __hmrId: 'ocean', setup: () => { node = useUniforms({ uWave: 1 }).uWave; return () => null } } as any)
+    const New = defineComponent({ __hmrId: 'ocean', setup: () => { node = useUniforms({ uWave: 3 }).uWave; return () => null } } as any)
+    mountInTresContext(() => h(version.value === 1 ? Old : New))
+
+    version.value = 2
+    await nextTick()
+
+    expect(node.value).toBe(3)
+  })
+
+  it('replaces the node when the value of its creator changes type', async () => {
+    const show = ref(true)
+    let tint: number | string = 1
+    let node!: LooseUniformNode
+    const Creates = withSetup(() => { node = useUniforms({ uTint: tint }).uTint })
+    mountInTresContext(() => (show.value ? h(Creates) : null))
+    const first = node
+
+    show.value = false
+    await nextTick()
+    tint = '#ff0000'
+    show.value = true
+    await nextTick()
+
+    expect(node).not.toBe(first)
+    expect(node.value).toEqual(new Color('#ff0000'))
+  })
+
+  it('does not reset the value when another component reuses the name', async () => {
+    const show = ref(false)
+    let node!: LooseUniformNode
+    const Creates = withSetup(() => {
+      node = useUniforms({ uSpeed: 1 }).uSpeed
+      node.value = 5
+    })
+    const Reuses = withSetup(() => { useUniforms({ uSpeed: 2 }) })
+    mountInTresContext(() => [h(Creates), show.value ? h(Reuses) : null])
+
+    show.value = true
+    await nextTick()
+
+    expect(node.value).toBe(5)
   })
 
   it('writes later changes of a source bound to a reused uniform', async () => {

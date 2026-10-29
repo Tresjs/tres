@@ -93,6 +93,8 @@ export interface TslCollection<L extends object = any> {
   readonly scopes: Map<string, Map<string, L>>
   readonly registrations: Set<TslRegistration<L>>
   get: (name: string, scope?: string) => L | undefined
+  // The `owner` of the registration that wrote the entry.
+  ownerOf: (name: string, scope?: string) => string | undefined
   set: (name: string, leaf: L, scope?: string) => void
   // The first registration of a name wins.
   register: (build: TslBuild<L>, options?: TslRegisterOptions) => TslRegisterResult
@@ -228,6 +230,7 @@ function createTslCollection<L extends object = any>(kind: TslKind, host: TslCol
     scopes,
     registrations,
     get,
+    ownerOf: (name, scope) => owners.get(ownerKey(name, isRootScope(scope) ? undefined : scope))?.owner,
 
     set(name, leaf, scope) {
       write(name, leaf, scope)

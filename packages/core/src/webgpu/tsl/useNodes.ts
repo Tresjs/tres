@@ -1,5 +1,5 @@
 import type { TslCreatorState } from './context'
-import { createCreatorState, getHmrCallSite, useTslStore } from './context'
+import { createCreatorState, getCallSite, useTslStore } from './context'
 import { createLiveView } from './store'
 
 /** A node read by name. Its type is unknown, so it is typed loosely (TSL accepts it, and an `Fn` can be called). */
@@ -47,11 +47,11 @@ export function useNodes(creatorOrScope?: NodeCreator<Record<string, unknown>> |
 
   const creator = creatorOrScope
   const scope = maybeScope
-  const owner = getHmrCallSite('nodes')
+  const callSite = getCallSite('nodes')
 
   store.nodes.register(
     views => creator(createCreatorState(ctx, views)) as Record<string, object>,
-    { scope, owner, source: owner ? String(creator) : undefined },
+    { scope, owner: callSite?.owner, source: callSite?.hmr ? String(creator) : undefined },
   )
 
   return createLiveView(store.nodes, scope, utils)

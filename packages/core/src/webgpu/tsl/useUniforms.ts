@@ -4,8 +4,10 @@ import { uniform } from 'three/tsl'
 import type { InputNode, Node, UniformNode } from 'three/webgpu'
 import type { MaybeRefOrGetter, Ref } from 'vue'
 import { isReactive, isRef, toRaw, toValue, watch } from 'vue'
+import type { TresContext } from '../../composables'
 import { normalizeColor } from '../../utils/normalize'
-import { useTslStore } from './context'
+import { getCallSite, useTslStore } from './context'
+import type { TslStore } from './store'
 import { createLiveView } from './store'
 
 interface VectorLike2 { x: number, y: number }
@@ -34,17 +36,19 @@ export type LooseUniformNode = UniformNode<any, any>
 
 type UnwrapSource<S> = S extends Ref<infer V> ? V : S extends () => infer V ? V : S
 
+// `0 extends 1 & V` is true only for `any` (a Leches control is `Ref<any>`). Without it, `any` spreads over every branch.
 export type UniformNodeOf<V>
-  = V extends number ? UniformNode<'float', number>
-    : V extends boolean ? UniformNode<'bool', boolean>
-      : V extends string | Color ? UniformNode<'color', Color>
-        : V extends Matrix4 ? UniformNode<'mat4', Matrix4>
-          : V extends Matrix3 ? UniformNode<'mat3', Matrix3>
-            : V extends VectorLike4 ? UniformNode<'vec4', Vector4>
-              : V extends VectorLike3 ? UniformNode<'vec3', Vector3>
-                : V extends VectorLike2 ? UniformNode<'vec2', Vector2>
-                  : V extends InputNode<infer T, infer Value> ? UniformNode<T, Value>
-                    : LooseUniformNode
+  = 0 extends (1 & V) ? LooseUniformNode
+    : V extends number ? UniformNode<'float', number>
+      : V extends boolean ? UniformNode<'bool', boolean>
+        : V extends string | Color ? UniformNode<'color', Color>
+          : V extends Matrix4 ? UniformNode<'mat4', Matrix4>
+            : V extends Matrix3 ? UniformNode<'mat3', Matrix3>
+              : V extends VectorLike4 ? UniformNode<'vec4', Vector4>
+                : V extends VectorLike3 ? UniformNode<'vec3', Vector3>
+                  : V extends VectorLike2 ? UniformNode<'vec2', Vector2>
+                    : V extends InputNode<infer T, infer Value> ? UniformNode<T, Value>
+                      : LooseUniformNode
 
 export type UniformNodesOf<T extends Record<string, UniformSource>> = {
   [K in keyof T]: UniformNodeOf<UnwrapSource<T[K]>>
@@ -109,6 +113,23 @@ const createUniformNode = (name: string, input: UniformInput, scope: string | un
   return (node as LooseUniformNode).setName(scope ? `${scope}_${name}`.replace(/\W/g, '_') : name)
 }
 
+const isSameKind = (a: unknown, b: unknown) =>
+  typeof a === typeof b && (typeof a !== 'object' || (a as object | null)?.constructor === (b as object | null)?.constructor)
+
+function applyOwnerValue(store: TslStore, ctx: TresContext, name: string, input: UniformInput, scope: string | undefined) {
+  const existing = store.uniforms.get(name, scope)
+  const value = toUniformValue(input)
+  if (!existing || isSameValue(existing.value, value)) { return }
+  if (isSameKind(existing.value, value)) {
+    writeUniformValue(existing, value)
+  }
+  else {
+    // The value changed type (a number became a color): only a new node has the right shader type.
+    store.uniforms.set(name, createUniformNode(name, input, scope), scope)
+  }
+  ctx.renderer.invalidate()
+}
+
 const isWatchable = (source: UniformSource) => isRef(source) || typeof source === 'function'
 
 /**
@@ -139,13 +160,19 @@ export function useUniforms(sourcesOrScope?: Record<string, UniformSource> | str
   const sources = sourcesOrScope
   const scope = maybeScope
 
-  // The first registration also wins for the value: a reuse does not reset what another component set.
-  store.uniforms.register(() => Object.fromEntries(
+  // The call that created a uniform owns its value: when it runs again (remount, hot update), its value applies.
+  // Another component that reuses the name never resets it.
+  const owner = getCallSite('uniforms')?.owner
+  const { created } = store.uniforms.register(() => Object.fromEntries(
     Object.entries(sources).map(([name, source]) => [name, createUniformNode(name, toValue(source), scope)]),
-  ), { scope })
+  ), { scope, owner })
 
   for (const [name, source] of Object.entries(sources)) {
     const read = () => toUniformValue(toValue(source))
+
+    if (owner && !created.has(name) && store.uniforms.ownerOf(name, scope) === owner) {
+      applyOwnerValue(store, ctx, name, toValue(source), scope)
+    }
     const readTracked = () => {
       const value = toValue(source)
       // One level, and only for reactive values: sees `pos.value.x = 1` but never walks a TSL node graph.

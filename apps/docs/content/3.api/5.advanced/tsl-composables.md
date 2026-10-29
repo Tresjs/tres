@@ -32,7 +32,7 @@ If a prop changes the color, the strength or the speed, put it in a uniform. Reb
 Each canvas has one store with three collections: `uniforms`, `nodes` and `passes`. The store is created when a component first uses a TSL composable.
 
 - **First registration wins.** When two components register the same name, the second one gets the entry of the first.
-- **Entries live as long as the canvas.** They stay when the component that registered them unmounts. Remove them with `remove*` or `clear*`. Everything is freed when the canvas unmounts.
+- **Entries live as long as the canvas.** They stay when the component that registered them unmounts, so a uniform or node you register in a `v-if` component stays in the store after it hides. Remove entries with `remove*` or `clear*`. Everything is freed when the canvas unmounts.
 - **Scopes.** Pass a scope name to keep entries apart (`useUniforms({ uHealth: 100 }, 'player')`). Read a scoped entry with `uniforms.player.uHealth`.
 - **Raw nodes.** The store never wraps a node in a Vue proxy.
 
@@ -49,7 +49,10 @@ const { uColor, uDensity } = useUniforms({ uColor: color, uDensity: () => props.
 
 Each value can be a plain value, a ref or a getter. When a ref or getter changes, the uniform value changes. The uniform node stays the same object.
 
-If the uniform already exists, the call reuses it and does not change its value. A ref or getter you pass still writes its later changes.
+If the uniform already exists, the call reuses the same node. Who changes its value:
+
+- **The call that created the uniform owns its value.** When that component mounts again, or after a hot update, its new values apply. If a value changes type (a number becomes a color), the uniform gets a new node.
+- **Another component that reuses the name does not reset the value.** A ref or getter it passes still writes its later changes.
 
 The input is converted to a uniform value:
 
@@ -67,6 +70,8 @@ Leches controls are refs, so they work directly:
 const { color, amplitude } = useControls({ color: '#82dbc5', amplitude: { value: 0.2, min: 0, max: 1 } })
 useUniforms({ uColor: color, uAmplitude: amplitude })
 ```
+
+A Leches control is a `Ref<any>`, so the uniform bound to it is typed loosely (`LooseUniformNode`). TSL accepts it as any node. To get the exact type, cast it once: `uColor as UniformNode<'color', Color>`.
 
 ::tip
 For a value that changes every frame, write it in `onBeforeRender`, not through a ref. This needs no watcher:

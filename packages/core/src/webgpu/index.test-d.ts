@@ -5,7 +5,7 @@ import type { MeshStandardNodeMaterial, PassNode, RenderPipeline, UniformNode, W
 import { ref } from 'vue'
 import { describe, expectTypeOf, it } from 'vitest'
 import type { TresRenderer, useTres as useRootTres } from '../index'
-import type { ThreeElement, TresWebGPUCanvasProps, useTres } from './index'
+import type { LooseUniformNode, ThreeElement, TresWebGPUCanvasProps, useTres } from './index'
 import { useLocalNodes, useNodes, useRenderPipeline, useUniform, useUniforms } from './index'
 
 describe('@tresjs/core/webgpu', () => {
@@ -49,6 +49,13 @@ describe('@tresjs/core/webgpu', () => {
       expectTypeOf(uniforms.uPos).toEqualTypeOf<UniformNode<'vec3', Vector3>>()
       expectTypeOf(uniforms.uOn).toEqualTypeOf<UniformNode<'bool', boolean>>()
       expectTypeOf(uniforms.rebuildUniforms).toEqualTypeOf<(scope?: string) => void>()
+    })
+
+    it('types an any source (such as a Leches control) as one loose uniform, not a union', () => {
+      const control = ref<any>(1)
+      const uniforms = useUniforms({ uControl: control, uGetter: () => control.value as any })
+      expectTypeOf(uniforms.uControl).toEqualTypeOf<LooseUniformNode>()
+      expectTypeOf(uniforms.uGetter).toEqualTypeOf<LooseUniformNode>()
     })
 
     it('types a single uniform from its value', () => {
