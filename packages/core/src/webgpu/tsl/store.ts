@@ -25,15 +25,15 @@ export type TslReadLog = Map<string, { seen: unknown, current: () => unknown }>
 export interface TslSessionOptions {
   label?: string
   warnMissing?: boolean
-  // Only consumers that watch the session need the scopes it read.
+  // Off by default: only watched sessions need it, and it costs a string per read.
   trackScopes?: boolean
 }
 
 export interface TslSession {
   stores: TslStores
   reads: TslReadLog
-  // Keys (`kind/scope`) of the scopes the session read, and the sum of their generations at close.
   scopes: Set<string>
+  // Sum of the generations of `scopes` when the session closed.
   generation: number
   close: () => void
 }
@@ -62,7 +62,6 @@ type Toucher = (kind: TslKind, scope: string | undefined) => void
 
 const noTouch: Toucher = () => {}
 
-// Vue tracks only the entries and scopes the session read, so other registrations and rebuilds cost nothing.
 export function watchTslSession(store: TslStore, session: Readonly<ShallowRef<TslSession | undefined>>, onChange: () => void) {
   const outdated = () => {
     const current = session.value
@@ -93,8 +92,6 @@ export interface TslCollection<L extends object = any> {
   readonly scopes: Map<string, Map<string, L>>
   readonly registrations: Set<TslRegistration<L>>
   get: (name: string, scope?: string) => L | undefined
-  // The `owner` of the registration that wrote the entry.
-  ownerOf: (name: string, scope?: string) => string | undefined
   set: (name: string, leaf: L, scope?: string) => void
   // The first registration of a name wins.
   register: (build: TslBuild<L>, options?: TslRegisterOptions) => TslRegisterResult
@@ -104,7 +101,6 @@ export interface TslCollection<L extends object = any> {
   rebuild: (scope?: string) => void
   rerunStale: () => boolean
   dispose: () => void
-  // With no scope: the root entries and the scope names.
   keys: (scope?: string) => string[]
 }
 
@@ -115,7 +111,7 @@ export interface TslStore {
   readonly collections: readonly TslCollection[]
   // Bumped by a rebuild without a scope: every consumer rebuilds.
   readonly generation: ShallowRef<number>
-  // Sum of the generations of the given scope keys. A scoped rebuild bumps only its own key.
+  // A scoped rebuild bumps only its own key, so it rebuilds only the consumers that read that scope.
   scopeGeneration: (scopeKeys: Iterable<string>) => number
   notify: () => void
   rebuild: (fn: () => void, scopeKey?: string) => void
@@ -230,7 +226,6 @@ function createTslCollection<L extends object = any>(kind: TslKind, host: TslCol
     scopes,
     registrations,
     get,
-    ownerOf: (name, scope) => owners.get(ownerKey(name, isRootScope(scope) ? undefined : scope))?.owner,
 
     set(name, leaf, scope) {
       write(name, leaf, scope)
@@ -535,7 +530,6 @@ function createView(collection: TslCollection, scope: string | undefined, record
   })
 }
 
-// Reads are tracked per entry, so templates and `computed` update only when an entry they read changes.
 export function createLiveView<E extends object>(collection: TslCollection, scope: string | undefined, extras: E): Record<string, any> & E {
   const scopeKey = isRootScope(scope) ? undefined : scope
   const scopeViews = new Map<string, Record<string, any>>()

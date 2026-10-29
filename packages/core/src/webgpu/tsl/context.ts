@@ -58,30 +58,14 @@ export const createCreatorState = (ctx: TresContext, views: TslStores): TslCreat
 }
 
 const callCounts = new WeakMap<ComponentInternalInstance, number>()
-const componentIds = new WeakMap<object, string>()
-let nextComponentId = 0
 
-export interface TslCallSite {
-  // Component + call index: the same for every mount of the component, and across hot updates.
-  owner: string
-  // Only development builds give components an `__hmrId`.
-  hmr: boolean
-  // A hot update puts a new `setup` on the same component definition, so this changes when the code changes.
-  code: unknown
-}
-
-export function getCallSite(kind: string): TslCallSite | undefined {
+// Component `__hmrId` + call index: stable across hot updates. Undefined in production builds.
+export function getHmrCallSite(kind: string): string | undefined {
   const instance = getCurrentInstance()
-  if (!instance) { return undefined }
-
-  const type = instance.type as { __hmrId?: string, setup?: unknown, render?: unknown }
-  let id = type.__hmrId ?? componentIds.get(type)
-  if (id === undefined) {
-    id = `component${nextComponentId++}`
-    componentIds.set(type, id)
-  }
+  const hmrId = (instance?.type as { __hmrId?: string } | undefined)?.__hmrId
+  if (!instance || !hmrId) { return undefined }
 
   const index = callCounts.get(instance) ?? 0
   callCounts.set(instance, index + 1)
-  return { owner: `${id}:${kind}:${index}`, hmr: type.__hmrId !== undefined, code: type.setup ?? type.render }
+  return `${hmrId}:${kind}:${index}`
 }

@@ -6,8 +6,7 @@ import type { MaybeRefOrGetter, Ref } from 'vue'
 import { isReactive, isRef, onScopeDispose, toRaw, toValue, watch } from 'vue'
 import type { TresContext } from '../../composables'
 import { normalizeColor } from '../../utils/normalize'
-import type { TslCallSite } from './context'
-import { getCallSite, useTslStore } from './context'
+import { useTslStore } from './context'
 import type { TslStore } from './store'
 import { createLiveView } from './store'
 
@@ -131,25 +130,7 @@ function applyOwnerValue(store: TslStore, ctx: TresContext, name: string, input:
   ctx.renderer.invalidate()
 }
 
-const liveCallers = new WeakMap<TslStore, Map<string, { live: number, code: unknown }>>()
-
-// True when the call runs again as the only live instance (a remount) or with new code (a hot update).
-// False for a second live instance of the same component, which must not reset a shared value.
-function isCreatorRerun(store: TslStore, callSite: TslCallSite) {
-  let callers = liveCallers.get(store)
-  if (!callers) {
-    callers = new Map()
-    liveCallers.set(store, callers)
-  }
-  const previous = callers.get(callSite.owner)
-  const rerun = previous === undefined || previous.live === 0 || previous.code !== callSite.code
-  const caller = previous ?? { live: 0, code: callSite.code }
-  caller.live++
-  caller.code = callSite.code
-  callers.set(callSite.owner, caller)
-  onScopeDispose(() => { caller.live-- })
-  return rerun
-}
+const valueOwners = new WeakMap<TslStore, Map<string, object>>()
 
 const isWatchable = (source: UniformSource) => isRef(source) || typeof source === 'function'
 
@@ -181,20 +162,28 @@ export function useUniforms(sourcesOrScope?: Record<string, UniformSource> | str
   const sources = sourcesOrScope
   const scope = maybeScope
 
-  // The call that created a uniform owns its value: when it runs again (remount, hot update), its value applies.
-  // Another component, or another live instance of the same one, never resets it.
-  const callSite = getCallSite('uniforms')
-  const owner = callSite?.owner
-  const creatorRerun = callSite !== undefined && isCreatorRerun(store, callSite)
   const { created } = store.uniforms.register(() => Object.fromEntries(
     Object.entries(sources).map(([name, source]) => [name, createUniformNode(name, toValue(source), scope)]),
-  ), { scope, owner })
+  ), { scope })
+
+  // The mounted instance that holds a uniform owns its value. On unmount it lets go, so the next caller
+  // (a remount, a hot update) applies its value; while the owner is mounted, no other caller resets it.
+  let owners = valueOwners.get(store)
+  if (!owners) {
+    owners = new Map()
+    valueOwners.set(store, owners)
+  }
+  const token = {}
+  const owned: string[] = []
 
   for (const [name, source] of Object.entries(sources)) {
     const read = () => toUniformValue(toValue(source))
 
-    if (creatorRerun && !created.has(name) && store.uniforms.ownerOf(name, scope) === owner) {
-      applyOwnerValue(store, ctx, name, toValue(source), scope)
+    const key = `${scope ?? ''}\0${name}`
+    if (created.has(name) || !owners.has(key)) {
+      owners.set(key, token)
+      owned.push(key)
+      if (!created.has(name)) { applyOwnerValue(store, ctx, name, toValue(source), scope) }
     }
     const readTracked = () => {
       const value = toValue(source)
@@ -216,6 +205,10 @@ export function useUniforms(sourcesOrScope?: Record<string, UniformSource> | str
       writeUniformValue(node, value)
       ctx.renderer.invalidate()
     })
+  }
+
+  if (owned.length > 0) {
+    onScopeDispose(() => owned.forEach(key => owners.get(key) === token && owners.delete(key)))
   }
 
   return createLiveView(store.uniforms, scope, utils)
