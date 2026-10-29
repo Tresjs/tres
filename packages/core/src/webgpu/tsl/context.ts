@@ -66,13 +66,15 @@ export interface TslCallSite {
   owner: string
   // Only development builds give components an `__hmrId`.
   hmr: boolean
+  // A hot update puts a new `setup` on the same component definition, so this changes when the code changes.
+  code: unknown
 }
 
 export function getCallSite(kind: string): TslCallSite | undefined {
   const instance = getCurrentInstance()
   if (!instance) { return undefined }
 
-  const type = instance.type as { __hmrId?: string }
+  const type = instance.type as { __hmrId?: string, setup?: unknown, render?: unknown }
   let id = type.__hmrId ?? componentIds.get(type)
   if (id === undefined) {
     id = `component${nextComponentId++}`
@@ -81,5 +83,5 @@ export function getCallSite(kind: string): TslCallSite | undefined {
 
   const index = callCounts.get(instance) ?? 0
   callCounts.set(instance, index + 1)
-  return { owner: `${id}:${kind}:${index}`, hmr: type.__hmrId !== undefined }
+  return { owner: `${id}:${kind}:${index}`, hmr: type.__hmrId !== undefined, code: type.setup ?? type.render }
 }

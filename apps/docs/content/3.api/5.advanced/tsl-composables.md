@@ -51,8 +51,14 @@ Each value can be a plain value, a ref or a getter. When a ref or getter changes
 
 If the uniform already exists, the call reuses the same node. Who changes its value:
 
-- **The call that created the uniform owns its value.** When that component mounts again, or after a hot update, its new values apply. If a value changes type (a number becomes a color), the uniform gets a new node.
-- **Another component that reuses the name does not reset the value.** A ref or getter it passes still writes its later changes.
+- **The call that created the uniform owns its value.** When that component mounts again (and no other instance of it is mounted), or after a hot update, its new values apply. If a value changes type (a number becomes a color), the uniform gets a new node.
+- **Other callers do not reset the value.** This includes another component that reuses the name, and a second instance of the same component (for example in a `v-for`). A ref or getter they pass still writes its later changes.
+
+To give each instance its own value, use one scope per instance:
+
+```ts
+useUniforms({ uFlicker: () => props.flicker }, `torch-${props.id}`)
+```
 
 The input is converted to a uniform value:
 

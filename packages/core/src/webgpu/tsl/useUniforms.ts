@@ -3,9 +3,10 @@ import { Vector2, Vector3, Vector4 } from 'three'
 import { uniform } from 'three/tsl'
 import type { InputNode, Node, UniformNode } from 'three/webgpu'
 import type { MaybeRefOrGetter, Ref } from 'vue'
-import { isReactive, isRef, toRaw, toValue, watch } from 'vue'
+import { isReactive, isRef, onScopeDispose, toRaw, toValue, watch } from 'vue'
 import type { TresContext } from '../../composables'
 import { normalizeColor } from '../../utils/normalize'
+import type { TslCallSite } from './context'
 import { getCallSite, useTslStore } from './context'
 import type { TslStore } from './store'
 import { createLiveView } from './store'
@@ -130,6 +131,26 @@ function applyOwnerValue(store: TslStore, ctx: TresContext, name: string, input:
   ctx.renderer.invalidate()
 }
 
+const liveCallers = new WeakMap<TslStore, Map<string, { live: number, code: unknown }>>()
+
+// True when the call runs again as the only live instance (a remount) or with new code (a hot update).
+// False for a second live instance of the same component, which must not reset a shared value.
+function isCreatorRerun(store: TslStore, callSite: TslCallSite) {
+  let callers = liveCallers.get(store)
+  if (!callers) {
+    callers = new Map()
+    liveCallers.set(store, callers)
+  }
+  const previous = callers.get(callSite.owner)
+  const rerun = previous === undefined || previous.live === 0 || previous.code !== callSite.code
+  const caller = previous ?? { live: 0, code: callSite.code }
+  caller.live++
+  caller.code = callSite.code
+  callers.set(callSite.owner, caller)
+  onScopeDispose(() => { caller.live-- })
+  return rerun
+}
+
 const isWatchable = (source: UniformSource) => isRef(source) || typeof source === 'function'
 
 /**
@@ -161,8 +182,10 @@ export function useUniforms(sourcesOrScope?: Record<string, UniformSource> | str
   const scope = maybeScope
 
   // The call that created a uniform owns its value: when it runs again (remount, hot update), its value applies.
-  // Another component that reuses the name never resets it.
-  const owner = getCallSite('uniforms')?.owner
+  // Another component, or another live instance of the same one, never resets it.
+  const callSite = getCallSite('uniforms')
+  const owner = callSite?.owner
+  const creatorRerun = callSite !== undefined && isCreatorRerun(store, callSite)
   const { created } = store.uniforms.register(() => Object.fromEntries(
     Object.entries(sources).map(([name, source]) => [name, createUniformNode(name, toValue(source), scope)]),
   ), { scope, owner })
@@ -170,7 +193,7 @@ export function useUniforms(sourcesOrScope?: Record<string, UniformSource> | str
   for (const [name, source] of Object.entries(sources)) {
     const read = () => toUniformValue(toValue(source))
 
-    if (owner && !created.has(name) && store.uniforms.ownerOf(name, scope) === owner) {
+    if (creatorRerun && !created.has(name) && store.uniforms.ownerOf(name, scope) === owner) {
       applyOwnerValue(store, ctx, name, toValue(source), scope)
     }
     const readTracked = () => {

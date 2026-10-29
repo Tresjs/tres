@@ -121,6 +121,39 @@ describe('useUniforms', () => {
     expect(node.value).toBe(5)
   })
 
+  it('does not reset the value when a second instance of the creating component mounts', async () => {
+    const torches = ref([1])
+    const nodes: LooseUniformNode[] = []
+    const Torch = defineComponent({
+      props: { flicker: { type: Number, required: true } },
+      setup(props) {
+        nodes.push(useUniforms({ uFlicker: props.flicker }, 'torch').uFlicker)
+        return () => null
+      },
+    })
+    mountInTresContext(() => torches.value.map(flicker => h(Torch, { key: flicker, flicker })))
+    nodes[0].value = 0.3
+
+    torches.value = [1, 2]
+    await nextTick()
+
+    expect(nodes[1]).toBe(nodes[0])
+    expect(nodes[0].value).toBe(0.3)
+  })
+
+  it('applies the new value after a hot update while another instance is still mounted', async () => {
+    const instances = ref(['old', 'old'])
+    let node!: LooseUniformNode
+    const Old = defineComponent({ __hmrId: 'torch', setup: () => { node = useUniforms({ uWave: 1 }).uWave; return () => null } } as any)
+    const New = defineComponent({ __hmrId: 'torch', setup: () => { node = useUniforms({ uWave: 3 }).uWave; return () => null } } as any)
+    mountInTresContext(() => instances.value.map((version, index) => h(version === 'old' ? Old : New, { key: index })))
+
+    instances.value = ['new', 'old']
+    await nextTick()
+
+    expect(node.value).toBe(3)
+  })
+
   it('writes later changes of a source bound to a reused uniform', async () => {
     const speed = ref(2)
     const { result } = run(() => {
