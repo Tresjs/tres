@@ -107,6 +107,10 @@ const { renderer } = useTres()
 console.log(renderer.backend) // WebGPURenderer-only API, no cast
 ```
 
+### TSL composables
+
+To bind uniforms to refs, share TSL nodes between components or add post-processing, use `useUniforms`, `useNodes`, `useLocalNodes` and `useRenderPipeline` from `@tresjs/core/webgpu`. See [TSL composables](/api/advanced/tsl-composables).
+
 ### Standard materials and GLSL
 
 - Standard materials still work. `WebGPURenderer` converts `<TresMeshStandardMaterial>`, `<TresMeshBasicMaterial>`, `<TresMeshPhysicalMaterial>` and the other built-in materials to their node versions.

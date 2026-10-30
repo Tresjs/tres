@@ -338,8 +338,18 @@ export function useBaseRendererManager(
     }
   }
 
+  /**
+   * Replaces the render function. Returns a function that puts the previous one back,
+   * unless another call replaced it again in the meantime.
+   */
   const replaceRenderFunction = (fn: RenderFunction) => {
+    const previous = renderFunction
     renderFunction = fn
+    return () => {
+      if (renderFunction === fn) {
+        renderFunction = previous
+      }
+    }
   }
 
   const loop = useCreateRafLoop(() => {

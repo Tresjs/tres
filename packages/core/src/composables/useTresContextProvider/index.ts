@@ -32,6 +32,11 @@ export interface TresContext {
    */
   isWebGPU: ComputedRef<boolean>
   events: ReturnType<typeof useEventManager>
+  /**
+   * Registers a callback that runs once when the canvas unmounts, after all of its children have unmounted.
+   * It stays registered when the component that called it unmounts. Returns a function that removes it.
+   */
+  onUnmount: (fn: () => void) => () => void
 }
 
 export const INJECTION_KEY = 'useTres' // this is intentionally not a symbol as it can not properly be bridged to the custom renderer
@@ -42,6 +47,15 @@ export interface TresContextProviderOptions {
   fpsLimit?: MaybeRefOrGetter<number>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: RendererOptions
+}
+
+const unmountCallbacks = new WeakMap<TresContext, Set<() => void>>()
+
+// Only the canvas that owns the context calls this.
+const triggerContextUnmount = (ctx: TresContext) => {
+  const callbacks = unmountCallbacks.get(ctx)
+  unmountCallbacks.delete(ctx)
+  callbacks?.forEach(fn => fn())
 }
 
 // Shared by both entries. The public `useTresContextProvider` of each entry passes its default renderer.
@@ -73,6 +87,10 @@ const [useBaseTresContextProvider, _useTresContext] = createInjectionState(({
     contextParts: { scene: localScene, camera, renderer },
   })
 
+  // A plain set, not a VueUse event hook: `on` there unregisters when the calling component unmounts,
+  // and children unmount before the canvas runs these callbacks.
+  const onUnmountCallbacks = new Set<() => void>()
+
   const ctx: TresContext = {
     sizes,
     scene: localScene,
@@ -82,7 +100,12 @@ const [useBaseTresContextProvider, _useTresContext] = createInjectionState(({
     controls: ref(null),
     extend,
     events,
+    onUnmount: (fn) => {
+      onUnmountCallbacks.add(fn)
+      return () => onUnmountCallbacks.delete(fn)
+    },
   }
+  unmountCallbacks.set(ctx, onUnmountCallbacks)
 
   // Add context to scene local state
   ctx.scene.value.__tres = {
@@ -106,4 +129,4 @@ const useTresContext = () => {
   return ctx!
 }
 
-export { useBaseTresContextProvider, useTresContext }
+export { triggerContextUnmount, useBaseTresContextProvider, useTresContext }

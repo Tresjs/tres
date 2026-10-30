@@ -63,3 +63,29 @@ _Avoid_: request render, mark dirty, refresh
 **Advance**:
 Drawing exactly one frame while in `manual` render mode.
 _Avoid_: step, tick, next frame
+
+### TSL (`@tresjs/core/webgpu`)
+
+**TSL store**:
+The per-canvas collections of uniforms, nodes and passes that the TSL composables share. Created on first use, freed when the canvas unmounts.
+_Avoid_: TSL context, registry, cache
+
+**Scope**:
+A named group of entries inside one TSL store collection, such as the `fog` uniforms.
+_Avoid_: namespace, group
+
+**Uniform**:
+A TSL uniform node whose value changes without rebuilding a graph or recompiling a shader.
+_Avoid_: param, variable
+
+**Rebuild**:
+Building a TSL graph again because its structure changed. It recompiles every material that uses the graph.
+_Avoid_: refresh, recompute
+
+**Generation**:
+The counter that `rebuild*` bumps. Every creator and every `useLocalNodes` graph runs again in a new generation.
+_Avoid_: version, epoch
+
+**Render pipeline**:
+three's `RenderPipeline`, which draws the canvas through post-processing nodes instead of the default render function.
+_Avoid_: post-processing composer, effect composer
