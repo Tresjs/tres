@@ -25,7 +25,7 @@ export default defineComponent({
       owned = next
     }
 
-    // `rebuild` re-runs the callbacks in a new session, so a new effect's store reads are tracked.
+    // `rebuild` re-runs the callbacks in a new session (new store reads are tracked) and also recreates the scene pass.
     const { rebuild } = useRenderPipeline(build)
     watch(() => props.effects, () => rebuild())
 

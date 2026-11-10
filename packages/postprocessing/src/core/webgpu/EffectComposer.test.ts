@@ -1,6 +1,6 @@
 import type { RenderFunction } from '@tresjs/core'
 import type { Color } from 'three'
-import { PerspectiveCamera } from 'three'
+import { PerspectiveCamera, Vector2 } from 'three'
 import { float } from 'three/tsl'
 import type { Node } from 'three/webgpu'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -168,6 +168,33 @@ describe('effectComposer (WebGPU)', () => {
     expect(effects[0].uniforms.amount).not.toBe(effects[1].uniforms.amount)
     expect(effects[0].uniforms.amount.value).toBe(2)
     expect(effects[1].uniforms.amount.value).toBe(1)
+  })
+
+  it('resets a null prop to its default and keeps the value on a type mismatch', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const Shift = defineEffect({
+      name: 'Shift',
+      props: { offset: new Vector2(1, 2), amount: 1 },
+      create: (input, { uniforms }) => input.add(uniforms.offset.x.mul(uniforms.amount)),
+    })
+    const props = ref<Record<string, unknown>>({ offset: [3, 4], amount: 2 })
+    const effect = shallowRef<{ uniforms: { offset: { value: Vector2 }, amount: { value: number } } }>()
+    await mountComposer(() => [h(Shift, { ...props.value, ref: (el: any) => { effect.value = el } })])
+    const offset = effect.value!.uniforms.offset.value
+    expect(offset.toArray()).toEqual([3, 4])
+
+    props.value = { offset: null, amount: null }
+    await flush()
+    expect(effect.value!.uniforms.offset.value).toBe(offset)
+    expect(offset.toArray()).toEqual([1, 2])
+    expect(effect.value!.uniforms.amount.value).toBe(1)
+
+    props.value = { offset: 5, amount: 'a lot' }
+    await flush()
+    expect(offset.toArray()).toEqual([1, 2])
+    expect(effect.value!.uniforms.amount.value).toBe(1)
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('Shift: the prop "offset" does not match'))
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('Shift: the prop "amount" does not match'))
   })
 
   it('falls back to the default render function while disabled', async () => {

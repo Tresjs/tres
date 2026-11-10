@@ -49,9 +49,15 @@ const toUniformValue = (value: unknown) => {
   return typeof object?.clone === 'function' ? object.clone() : value
 }
 
-const writeUniform = (node: UniformNode<any, any>, value: unknown) => {
-  const current = node.value as { isColor?: boolean, fromArray?: (array: unknown[]) => unknown, copy?: (other: unknown) => unknown } | null
-  if (current?.isColor) {
+// Returns `false` when `value` does not fit the uniform: the compiled shader expects the type of the default.
+const writeUniform = (node: UniformNode<any, any>, value: unknown): boolean => {
+  const current = node.value as { isColor?: boolean, fromArray?: (array: unknown[]) => unknown, copy?: (other: unknown) => unknown } | number
+  if (typeof current === 'number') {
+    if (typeof value !== 'number' && typeof value !== 'boolean') { return false }
+    node.value = toUniformValue(value)
+  }
+  else if (current?.isColor) {
+    if (typeof value !== 'string' && typeof value !== 'number' && !Array.isArray(value) && !(value as { isColor?: boolean } | null)?.isColor) { return false }
     current.copy!(normalizeColor(value as Parameters<typeof normalizeColor>[0]))
   }
   else if (Array.isArray(value) && typeof current?.fromArray === 'function') {
@@ -61,8 +67,9 @@ const writeUniform = (node: UniformNode<any, any>, value: unknown) => {
     current.copy(value)
   }
   else {
-    node.value = toUniformValue(value)
+    return false
   }
+  return true
 }
 
 const runtimeType = (value: unknown) => {
@@ -79,7 +86,7 @@ const runtimeType = (value: unknown) => {
  * export const ChromaticAberration = defineEffect({
  *   name: 'ChromaticAberration',
  *   props: { strength: 1, scale: 1.1 },
- *   create: (input, { uniforms }) => chromaticAberration(input, uniforms.strength, null, uniforms.scale),
+ *   create: (input, { uniforms }) => chromaticAberration(input, uniforms.strength, vec2(0.5, 0.5), uniforms.scale),
  * })
  * ```
  */
@@ -101,9 +108,13 @@ export function defineEffect<P extends Record<string, EffectPropDefault> = Recor
       const uniforms: Record<string, UniformNode<any, any>> = {}
       for (const [key, value] of Object.entries(defaults)) {
         uniforms[key] = uniform(toUniformValue(value) as any)
-        if (props[key] !== undefined) { writeUniform(uniforms[key], props[key]) }
+        const write = (value: unknown) => {
+          if (writeUniform(uniforms[key], value ?? defaults[key])) { return }
+          logWarning(`${definition.name}: the prop "${key}" does not match the type of its default. The uniform keeps its value.`)
+        }
+        if (props[key] != null) { write(props[key]) }
         watch(() => props[key], (next) => {
-          writeUniform(uniforms[key], next === undefined ? defaults[key] : next)
+          write(next)
           invalidate()
         })
       }

@@ -16,11 +16,12 @@ description: EffectComposer and defineEffect for the WebGPU TresCanvas.
 import { TresCanvas } from '@tresjs/core/webgpu'
 import { defineEffect, EffectComposer } from '@tresjs/post-processing/webgpu'
 import { chromaticAberration } from 'three/addons/tsl/display/ChromaticAberrationNode.js'
+import { vec2 } from 'three/tsl'
 
 const ChromaticAberration = defineEffect({
   name: 'ChromaticAberration',
   props: { strength: 1, scale: 1.1 },
-  create: (input, { uniforms }) => chromaticAberration(input, uniforms.strength, null, uniforms.scale),
+  create: (input, { uniforms }) => chromaticAberration(input, uniforms.strength, vec2(0.5, 0.5), uniforms.scale),
 })
 </script>
 
@@ -44,6 +45,8 @@ The composer renders the scene into a scene pass, then runs its effects on it in
 | `enabled` | `false` renders the scene without the effects.              | `true`  |
 
 When an effect is added, removed (`v-if`) or reordered, the composer builds the graph again. A prop change does not.
+
+A new graph compiles a new shader and creates a new scene pass. To switch an effect on and off often, give it a prop that turns it off, such as an `amount` of `0`, instead of `v-if`.
 
 When the composer unmounts, the canvas renders normally again.
 
