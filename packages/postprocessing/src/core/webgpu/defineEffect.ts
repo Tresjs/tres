@@ -1,0 +1,129 @@
+import { logWarning, normalizeColor, useTres } from '@tresjs/core/webgpu'
+import type { UniformNodeOf } from '@tresjs/core/webgpu'
+import type { Color, Vector2, Vector3, Vector4 } from 'three'
+import { uniform } from 'three/tsl'
+import type { Node, UniformNode } from 'three/webgpu'
+import type { DefineComponent, PropType } from 'vue'
+import { defineComponent, getCurrentInstance, inject, markRaw, onUnmounted, watch } from 'vue'
+import type { ComposedEffect, EffectCreateState } from './context'
+import { effectComposerInjectionKey } from './context'
+
+export type EffectPropDefault = number | boolean | string | Color | Vector2 | Vector3 | Vector4
+
+/** A prop value: a color prop also takes a CSS color or hex number, a vector prop also takes a tuple. */
+export type EffectPropValue<V>
+  = V extends boolean ? boolean
+    : V extends number ? number
+      : V extends string | Color ? Color | string | number
+        : V extends Vector4 ? Vector4 | [number, number, number, number]
+          : V extends Vector3 ? Vector3 | [number, number, number]
+            : V extends Vector2 ? Vector2 | [number, number]
+              : V
+
+/** Booleans become `0`/`1` float uniforms, because WGSL does not allow `bool` in a uniform buffer. */
+export type EffectUniformOf<V> = V extends boolean ? UniformNode<'float', number> : UniformNodeOf<V>
+
+export type EffectUniforms<P extends Record<string, EffectPropDefault>> = { [K in keyof P]: EffectUniformOf<P[K]> }
+
+export type EffectProps<P extends Record<string, EffectPropDefault>> = { [K in keyof P]?: EffectPropValue<P[K]> }
+
+export interface EffectDefinition<P extends Record<string, EffectPropDefault>> {
+  /** The component name, also used in warnings. */
+  name: string
+  /** Prop defaults. Each prop is backed by a uniform. */
+  props?: P
+  /**
+   * Returns the output node for `input`. Runs again only when effects are added, removed or reordered,
+   * or the scene or camera changes. Prop changes write the uniforms and do not call it.
+   */
+  create: (input: Node, state: EffectCreateState<EffectUniforms<P>>) => Node
+}
+
+export type EffectComponent<P extends Record<string, EffectPropDefault>> = DefineComponent<EffectProps<P>>
+
+const toUniformValue = (value: unknown) => {
+  if (typeof value === 'boolean') { return value ? 1 : 0 }
+  if (typeof value === 'string') { return normalizeColor(value) }
+  const object = value as { clone?: () => unknown } | null
+  // A clone, so writing to one instance's uniform never changes the shared default.
+  return typeof object?.clone === 'function' ? object.clone() : value
+}
+
+const writeUniform = (node: UniformNode<any, any>, value: unknown) => {
+  const current = node.value as { isColor?: boolean, fromArray?: (array: unknown[]) => unknown, copy?: (other: unknown) => unknown } | null
+  if (current?.isColor) {
+    current.copy!(normalizeColor(value as Parameters<typeof normalizeColor>[0]))
+  }
+  else if (Array.isArray(value) && typeof current?.fromArray === 'function') {
+    current.fromArray(value)
+  }
+  else if (typeof current?.copy === 'function' && current.constructor === (value as object | null)?.constructor) {
+    current.copy(value)
+  }
+  else {
+    node.value = toUniformValue(value)
+  }
+}
+
+const runtimeType = (value: unknown) => {
+  if (typeof value === 'boolean') { return Boolean }
+  if (typeof value === 'number') { return Number }
+  return null
+}
+
+/**
+ * Defines a WebGPU effect component for the `EffectComposer` of `@tresjs/post-processing/webgpu`.
+ *
+ * @example
+ * ```ts
+ * export const Film = defineEffect({
+ *   name: 'Film',
+ *   props: { intensity: 0.5 },
+ *   create: (input, { uniforms }) => film(input, uniforms.intensity),
+ * })
+ * ```
+ */
+export function defineEffect<P extends Record<string, EffectPropDefault> = Record<never, never>>(definition: EffectDefinition<P>): EffectComponent<P> {
+  const defaults = (definition.props ?? {}) as Record<string, EffectPropDefault>
+  const props = Object.fromEntries(Object.keys(defaults).map(key => [
+    key,
+    // A primitive default is required: Vue casts an absent `Boolean` prop to `false`.
+    { type: runtimeType(defaults[key]) as PropType<unknown>, default: typeof defaults[key] === 'object' ? undefined : defaults[key] },
+  ]))
+
+  return defineComponent({
+    name: definition.name,
+    props,
+    setup(props, { expose }) {
+      const composer = inject(effectComposerInjectionKey, null)
+      const { invalidate } = useTres()
+
+      const uniforms: Record<string, UniformNode<any, any>> = {}
+      for (const [key, value] of Object.entries(defaults)) {
+        uniforms[key] = uniform(toUniformValue(value) as any)
+        if (props[key] !== undefined) { writeUniform(uniforms[key], props[key]) }
+        watch(() => props[key], (next) => {
+          writeUniform(uniforms[key], next === undefined ? defaults[key] : next)
+          invalidate()
+        })
+      }
+
+      expose({ uniforms })
+
+      if (!composer) {
+        logWarning(`${definition.name} must be a child of the EffectComposer from @tresjs/post-processing/webgpu.`)
+        return () => null
+      }
+
+      const effect: ComposedEffect = markRaw({
+        instance: getCurrentInstance()!,
+        create: definition.create,
+        uniforms,
+      })
+      composer.add(effect)
+      onUnmounted(() => composer.remove(effect))
+
+      return () => null
+    },
+  }) as unknown as EffectComponent<P>
+}
