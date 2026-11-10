@@ -1,6 +1,7 @@
 import { logWarning, normalizeColor, useTres } from '@tresjs/core/webgpu'
 import type { UniformNodeOf } from '@tresjs/core/webgpu'
-import type { Color, Vector2, Vector3, Vector4 } from 'three'
+import type { Vector2, Vector3, Vector4 } from 'three'
+import { Color } from 'three'
 import { uniform } from 'three/tsl'
 import type { Node, UniformNode } from 'three/webgpu'
 import type { DefineComponent, PropType } from 'vue'
@@ -49,6 +50,15 @@ const toUniformValue = (value: unknown) => {
   return typeof object?.clone === 'function' ? object.clone() : value
 }
 
+// three only warns on an unknown color string and keeps the color, so a NaN color shows the parse failed.
+const isColorString = (value: string) => !Number.isNaN(new Color(Number.NaN, Number.NaN, Number.NaN).setStyle(value).r)
+
+const isColorInput = (value: unknown) =>
+  (value as { isColor?: boolean } | null)?.isColor === true
+  || (typeof value === 'number' && Number.isFinite(value))
+  || (Array.isArray(value) && value.length === 3 && value.every(Number.isFinite))
+  || (typeof value === 'string' && isColorString(value))
+
 // Returns `false` when `value` does not fit the uniform: the compiled shader expects the type of the default.
 const writeUniform = (node: UniformNode<any, any>, value: unknown): boolean => {
   const current = node.value as { isColor?: boolean, fromArray?: (array: unknown[]) => unknown, copy?: (other: unknown) => unknown } | number
@@ -57,7 +67,7 @@ const writeUniform = (node: UniformNode<any, any>, value: unknown): boolean => {
     node.value = toUniformValue(value)
   }
   else if (current?.isColor) {
-    if (typeof value !== 'string' && typeof value !== 'number' && !Array.isArray(value) && !(value as { isColor?: boolean } | null)?.isColor) { return false }
+    if (!isColorInput(value)) { return false }
     current.copy!(normalizeColor(value as Parameters<typeof normalizeColor>[0]))
   }
   else if (Array.isArray(value) && typeof current?.fromArray === 'function') {

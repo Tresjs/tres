@@ -197,6 +197,31 @@ describe('effectComposer (WebGPU)', () => {
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('Shift: the prop "amount" does not match'))
   })
 
+  it('keeps the color on an invalid color value', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const Tint = defineEffect({
+      name: 'Tint',
+      props: { color: '#ff0000' },
+      create: (input, { uniforms }) => input.mul(uniforms.color),
+    })
+    const color = ref<unknown>('#00ff00')
+    const effect = shallowRef<{ uniforms: { color: { value: Color } } }>()
+    await mountComposer(() => [h(Tint, { color: color.value, ref: (el: any) => { effect.value = el } })])
+    const uniform = effect.value!.uniforms.color.value
+    expect(uniform.getHexString()).toBe('00ff00')
+
+    for (const invalid of ['not-a-color', '#12345', [1], [0, 'x', 1], Number.NaN]) {
+      color.value = invalid
+      await flush()
+      expect(uniform.getHexString()).toBe('00ff00')
+    }
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('Tint: the prop "color" does not match'))
+
+    color.value = [0, 0, 1]
+    await flush()
+    expect(uniform.getHexString()).toBe('0000ff')
+  })
+
   it('falls back to the default render function while disabled', async () => {
     const { enabled, restores, renderFunctions } = await mountComposer(() => [h(A)])
     expect(restores).toHaveLength(1)
