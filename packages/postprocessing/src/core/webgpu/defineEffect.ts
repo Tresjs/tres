@@ -76,10 +76,10 @@ const runtimeType = (value: unknown) => {
  *
  * @example
  * ```ts
- * export const Film = defineEffect({
- *   name: 'Film',
- *   props: { intensity: 0.5 },
- *   create: (input, { uniforms }) => film(input, uniforms.intensity),
+ * export const ChromaticAberration = defineEffect({
+ *   name: 'ChromaticAberration',
+ *   props: { strength: 1, scale: 1.1 },
+ *   create: (input, { uniforms }) => chromaticAberration(input, uniforms.strength, null, uniforms.scale),
  * })
  * ```
  */

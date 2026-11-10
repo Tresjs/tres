@@ -15,12 +15,12 @@ description: EffectComposer and defineEffect for the WebGPU TresCanvas.
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core/webgpu'
 import { defineEffect, EffectComposer } from '@tresjs/post-processing/webgpu'
-import { film } from 'three/addons/tsl/display/FilmNode.js'
+import { chromaticAberration } from 'three/addons/tsl/display/ChromaticAberrationNode.js'
 
-const Film = defineEffect({
-  name: 'Film',
-  props: { intensity: 0.5 },
-  create: (input, { uniforms }) => film(input, uniforms.intensity),
+const ChromaticAberration = defineEffect({
+  name: 'ChromaticAberration',
+  props: { strength: 1, scale: 1.1 },
+  create: (input, { uniforms }) => chromaticAberration(input, uniforms.strength, null, uniforms.scale),
 })
 </script>
 
@@ -29,7 +29,7 @@ const Film = defineEffect({
     <!-- Your scene -->
 
     <EffectComposer>
-      <Film :intensity="0.3" />
+      <ChromaticAberration :strength="1.5" />
     </EffectComposer>
   </TresCanvas>
 </template>
@@ -65,7 +65,7 @@ A prop default can be a number, a boolean, a color string, a `Color` or a `Vecto
 
 A prop change writes the `.value` of its uniform, so it does not call `create` again. Put each value that changes in a prop. `create` runs again only when the composer builds the graph again, or the scene or the camera changes.
 
-Each component instance has its own uniforms. Two `<Film>` components with different props do not share them.
+Each component instance has its own uniforms. Two `<ChromaticAberration>` components with different props do not share them.
 
 ::note
 All effects run on the linear scene colors, before tone mapping and the sRGB transform. An effect that expects display colors, such as FXAA or film grain, does not look correct yet.
