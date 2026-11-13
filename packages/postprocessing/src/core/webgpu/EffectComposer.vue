@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { isProd, logWarning } from '@tresjs/core/webgpu'
 import type { ComponentInternalInstance } from 'vue'
 import { getCurrentInstance, nextTick, onMounted, onUpdated, provide, shallowRef } from 'vue'
 import type { ComposedEffect } from './context'
 import { effectComposerInjectionKey } from './context'
-import { isSameOrder, orderEffectsBySlot } from './graph'
+import { hasLdrBeforeHdr, isSameOrder, orderEffectsBySlot } from './graph'
 import RenderPipelineHost from './RenderPipelineHost'
 
 export interface EffectComposerProps {
@@ -22,7 +23,11 @@ const watchedAncestors = new WeakSet<ComponentInternalInstance>()
 const sortEffects = () => {
   if (instance.isUnmounted) { return }
   const next = orderEffectsBySlot(instance.subTree, added)
-  if (!isSameOrder(next, effects.value)) { effects.value = next }
+  if (isSameOrder(next, effects.value)) { return }
+  effects.value = next
+  if (!isProd && hasLdrBeforeHdr(next)) {
+    logWarning('EffectComposer: an LDR effect comes before an HDR effect in the slot. The composer runs every HDR effect first, then tone mapping, then the LDR effects.')
+  }
 }
 
 // A wrapper that moves its own child effects re-renders only itself, so the composer also sorts on its updates.

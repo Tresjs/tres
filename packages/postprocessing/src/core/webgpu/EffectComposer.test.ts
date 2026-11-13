@@ -1,10 +1,11 @@
 import type { RenderFunction } from '@tresjs/core'
+import { useRenderPipeline } from '@tresjs/core/webgpu'
+import type { Node, RenderPipeline } from 'three/webgpu'
 import type { Color } from 'three'
 import { PerspectiveCamera, Vector2 } from 'three'
 import { float } from 'three/tsl'
-import type { Node } from 'three/webgpu'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import type { Component, Ref, VNodeChild } from 'vue'
+import type { Component, Ref, ShallowRef, VNodeChild } from 'vue'
 import { defineComponent, h, nextTick, ref, shallowRef } from 'vue'
 import { createStubRenderer, mountInTresContext } from '../../../../core/src/utils/test/tresContext'
 import { defineEffect } from './defineEffect'
@@ -29,6 +30,24 @@ const createEffect = (name: string) => defineEffect({
 const A = createEffect('A')
 const B = createEffect('B')
 const C = createEffect('C')
+
+const inputs: Record<string, Node> = {}
+
+const createStagedEffect = (name: string, stage: 'hdr' | 'ldr') => defineEffect({
+  name,
+  stage,
+  create: (input) => {
+    calls.push(name)
+    inputs[name] = input
+    return (input as Node).mul(float(1))
+  },
+})
+
+const Bloom = createStagedEffect('Bloom', 'hdr')
+const SMAA = createStagedEffect('SMAA', 'ldr')
+const Grain = createStagedEffect('Grain', 'ldr')
+
+const isRenderOutput = (node: Node | undefined) => (node as { isRenderOutputNode?: boolean } | undefined)?.isRenderOutputNode === true
 
 const flush = async () => {
   await nextTick()
@@ -69,6 +88,7 @@ const mountComposer = async (children: () => VNodeChild[], enabled: Ref<boolean>
 
 afterEach(() => {
   calls.length = 0
+  for (const name of Object.keys(inputs)) { delete inputs[name] }
   vi.restoreAllMocks()
 })
 
@@ -277,5 +297,83 @@ describe('effectComposer (WebGPU)', () => {
 
     expect(created).toHaveBeenCalledOnce()
     expect(shared).not.toHaveBeenCalled()
+  })
+
+  describe('hDR / LDR stages', () => {
+    const mountStaged = async (children: () => VNodeChild[]) => {
+      let pipeline: Readonly<ShallowRef<RenderPipeline | null>> | undefined
+      const Probe = defineComponent({
+        setup() {
+          pipeline = useRenderPipeline().renderPipeline
+          return () => null
+        },
+      })
+      const canvas = mountCanvas(() => [h(EffectComposer, null, () => children()), h(Probe)])
+      await canvas.show()
+      return { ...canvas, pipeline: () => pipeline?.value }
+    }
+
+    it.each([
+      ['HDR first', () => [h(Bloom), h(SMAA)]],
+      ['LDR first', () => [h(SMAA), h(Bloom)]],
+    ])('runs the HDR effect before tone mapping and the LDR effect after it (%s)', async (_, children) => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const { pipeline } = await mountStaged(children)
+
+      expect(calls).toEqual(['Bloom', 'SMAA'])
+      expect(isRenderOutput(inputs.Bloom)).toBe(false)
+      expect(isRenderOutput(inputs.SMAA)).toBe(true)
+      expect(pipeline()?.outputColorTransform).toBe(false)
+      warn.mockRestore()
+    })
+
+    it('reads tone mapping and color space from the renderer', async () => {
+      await mountStaged(() => [h(Bloom), h(SMAA)])
+      const output = inputs.SMAA as unknown as { getToneMapping: () => unknown, outputColorSpace: unknown }
+
+      expect(output.getToneMapping()).toBeNull()
+      expect(output.outputColorSpace).toBeNull()
+    })
+
+    it('keeps slot order inside each stage', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      await mountStaged(() => [h(Grain), h(A), h(SMAA), h(Bloom)])
+
+      expect(calls).toEqual(['A', 'Bloom', 'Grain', 'SMAA'])
+      expect(isRenderOutput(inputs.Grain)).toBe(true)
+      expect(inputs.SMAA).not.toBe(inputs.Grain)
+      warn.mockRestore()
+    })
+
+    it('warns when an LDR effect comes before an HDR effect in the slot', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      await mountStaged(() => [h(SMAA), h(Bloom)])
+
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('an LDR effect comes before an HDR effect'))
+    })
+
+    it('does not warn when the slot order matches the stages', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      await mountStaged(() => [h(Bloom), h(SMAA), h(Grain)])
+
+      expect(warn).not.toHaveBeenCalledWith(expect.stringContaining('an LDR effect comes before'))
+    })
+
+    it('keeps the default output transform without LDR effects, and switches when one is added or removed', async () => {
+      const showSMAA = ref(false)
+      const { pipeline } = await mountStaged(() => [h(Bloom), showSMAA.value ? h(SMAA) : null])
+
+      expect(isRenderOutput(inputs.Bloom)).toBe(false)
+      expect(pipeline()?.outputColorTransform).toBe(true)
+
+      showSMAA.value = true
+      await flush()
+      expect(isRenderOutput(inputs.SMAA)).toBe(true)
+      expect(pipeline()?.outputColorTransform).toBe(false)
+
+      showSMAA.value = false
+      await flush()
+      expect(pipeline()?.outputColorTransform).toBe(true)
+    })
   })
 })

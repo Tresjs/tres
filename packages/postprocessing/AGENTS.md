@@ -40,7 +40,7 @@ The `@tresjs/post-processing/webgpu` entry ([src/webgpu.ts](src/webgpu.ts)), bui
 - **EffectComposer.vue**: Collects the effects in slot order and provides them to `RenderPipelineHost`. It also sorts after updates of the components between itself and an effect, so a wrapper that moves its own effects is seen.
 - **RenderPipelineHost.ts**: Calls `useRenderPipeline` and builds `outputNode` from the scene pass. An effect change calls `rebuild()`, so the `setup` and `main` callbacks run again in a new session. `enabled: false` unmounts it, so core restores the default render function.
 - **defineEffect.ts**: Returns an effect component. Each prop is a uniform of that instance; a prop change writes `.value` and never rebuilds the graph.
-- **graph.ts**: Slot order (a walk of the composer's rendered tree), the chain build, and disposal. A build owns only the nodes it created (node `id` is higher than before the build), so shared nodes and the scene pass are never disposed.
+- **graph.ts**: Slot order (a walk of the composer's rendered tree), the chain build, and disposal. The build chains the `hdr` effects, then `renderOutput()` and the `ldr` effects, and returns the `outputColorTransform` value: `false` only when an `ldr` effect exists, because then the chain applies `renderOutput()` itself. A build owns only the nodes it created (node `id` is higher than before the build), so shared nodes and the scene pass are never disposed.
 
 The tests run against core's source (aliases in [vitest.config.ts](vitest.config.ts)) and core's test utils, so they use the real `useRenderPipeline`.
 
