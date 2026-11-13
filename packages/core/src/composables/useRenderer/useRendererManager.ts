@@ -445,17 +445,15 @@ export function useBaseRendererManager(
   watchEffect(() => {
     if (!isInitialized.value) { return }
     const value = options.toneMapping
-    if (value) {
-      renderer.toneMapping = value
-    }
+    if (value == null) { return }
+    renderer.toneMapping = value
   })
 
   watchEffect(() => {
     if (!isInitialized.value) { return }
     const value = options.toneMappingExposure
-    if (value) {
-      renderer.toneMappingExposure = value
-    }
+    if (value == null) { return }
+    renderer.toneMappingExposure = value
   })
 
   watchEffect(() => {
