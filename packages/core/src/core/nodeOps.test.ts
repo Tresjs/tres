@@ -400,6 +400,16 @@ describe('nodeOps', () => {
           nodeOps.insert(unset, parent)
           expect(parent.pieces).toStrictEqual([])
         })
+
+        it('does not give the default to a prefixed primitive when its `attach` prop is unset', () => {
+          const prefixedOps = getNodeOps({ context: mockTresContext(), options: { primitivePrefix: 'custom' } })
+          const parent = prefixedOps.createElement('TresHolder', undefined, undefined, {})
+          const primitive = prefixedOps.createElement('customprimitive', undefined, undefined, { object: { type: 'Piece' }, attach: 'other' })
+          prefixedOps.insert(primitive, parent)
+
+          prefixedOps.patchProp(primitive, 'attach', 'other', undefined)
+          expect(parent.pieces).toStrictEqual([])
+        })
       })
     })
 

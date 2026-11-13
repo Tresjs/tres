@@ -142,7 +142,7 @@ export const nodeOps = ({
       ...(isTresInstance(obj) ? obj.__tres : {}),
       type: name,
       memoizedProps: props,
-      primitive: tag === 'primitive',
+      primitive: isPrimitiveTag,
       attach: attachOrDefault(props.attach, isPrimitiveTag ? undefined : name),
     }, context)
 
