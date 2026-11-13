@@ -40,7 +40,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
     <Fbo
       ref="fboRef"
       :depth="false"
-      :settings="{ samples: 1 }"
+      :settings="{ samples: 4 }"
     />
     <TresMesh>
       <TresBoxGeometry :args="[1, 1, 1]" />
@@ -69,7 +69,7 @@ function onLoop({ elapsed }: { elapsed: number }) {
 | **`width`**    | `number` - The width of the FBO.                                                                                                                                       | Width of the canvas  |
 | **`height`**   | `number` - the height of the FBO                                                                                                                                       | Height of the canvas |
 | **`depth`**    | `boolean` - Whether or not the FBO should render the depth to a [`depthTexture`](https://threejs.org/docs/?q=webglre#api/en/renderers/WebGLRenderTarget.depthTexture). | `false`              |
-| **`settings`** | `WebGLRenderTargetOptions` - Every other configuration property for the [`WebGLRenderTarget` class](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget)      | `{}`                 |
+| **`settings`** | `RenderTargetOptions` - Every other configuration property for the [`WebGLRenderTarget` class](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget)      | `{}`                 |
 | **`autoRender`** | `boolean` - Whether to automatically render the FBO on the default scene. | `true`               |
 
 ## useFBO
@@ -93,7 +93,7 @@ const fboTarget = useFBO({
   width: 512,
   height: 512,
   settings: {
-    samples: 1,
+    samples: 4,
   },
 })
 </script>
@@ -118,4 +118,8 @@ const fboTarget = useFBO({
 | **`width`**    | `number` - The width of the FBO.                                                                                                                                       | Width of the canvas  |
 | **`height`**   | `number` - the height of the FBO                                                                                                                                       | Height of the canvas |
 | **`depth`**    | `boolean` - Whether or not the FBO should render the depth to a [`depthTexture`](https://threejs.org/docs/?q=webglre#api/en/renderers/WebGLRenderTarget.depthTexture). | `false`              |
-| **`settings`** | `WebGLRenderTargetOptions` - Every other configuration property for the [`WebGLRenderTarget` class](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget)      | `{}`                 |
+| **`settings`** | `RenderTargetOptions` - Every other configuration property for the [`WebGLRenderTarget` class](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget)      | `{}`                 |
+
+## WebGPU
+
+Import `Fbo` or `useFBO` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version creates a generic `RenderTarget` instead of a `WebGLRenderTarget`, and it takes the same props and options. Do not use `samples: 1` there, because it slows `WebGPURenderer` to about 1 frame per second. See [WebGPU](/getting-started/webgpu) for the other differences, such as pixel readback.

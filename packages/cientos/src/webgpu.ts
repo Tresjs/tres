@@ -59,7 +59,6 @@ export * from './core/miscellaneous'
 export {
   AnimatedSprite,
   CubeCamera,
-  Fbo,
   GradientTexture,
   MarchingCube,
   MarchingCubes,
@@ -68,7 +67,8 @@ export {
 } from './core/objects'
 export { default as Html } from './core/objects/Html/webgpu.vue'
 export { default as Image } from './core/objects/Image/webgpu.vue'
-export * from './core/objects/useFBO'
+export * from './core/objects/useFBO/useFBO.webgpu'
+export { default as Fbo } from './core/objects/useFBO/webgpu.vue'
 
 export {
   Box,
