@@ -6,7 +6,7 @@ import {
   createEventHook,
   useTimeout,
 } from '@vueuse/core'
-import { Material, Mesh, PCFShadowMap, PCFSoftShadowMap } from 'three'
+import { Material, Mesh, NoColorSpace, PCFShadowMap, PCFSoftShadowMap } from 'three'
 import { computed, nextTick, onUnmounted, ref, toValue, watch, watchEffect } from 'vue'
 import type { MaybeRef, MaybeRefOrGetter, Reactive, ShallowRef } from 'vue'
 import type { Renderer } from 'three/webgpu'
@@ -459,8 +459,9 @@ export function useBaseRendererManager(
   watchEffect(() => {
     if (!isInitialized.value) { return }
     const value = options.outputColorSpace
+    if (value == null) { return }
     // `NoColorSpace` is `''`, and the WebGLRenderer setter throws on it (no `ColorManagement.spaces['']` entry).
-    if (!value) { return }
+    if (value === NoColorSpace && !isWebGPURenderer(renderer)) { return }
     renderer.outputColorSpace = value
   })
 
