@@ -26,11 +26,22 @@
   ],
   "exports": {
     ".": "./dist/tres-post-processing.js",
+    "./webgpu": {
+      "types": "./dist/webgpu.d.ts",
+      "default": "./dist/webgpu.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/tres-post-processing.js",
   "module": "./dist/tres-post-processing.js",
   "types": "./dist/tres-post-processing.d.ts",
+  "typesVersions": {
+    "*": {
+      "webgpu": [
+        "dist/webgpu.d.ts"
+      ]
+    }
+  },
   "files": [
     "*.d.ts",
     "dist"
@@ -40,7 +51,7 @@
   },
   "scripts": {
     "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
-    "build": "tsdown",
+    "build": "tsdown && node ./scripts/check-entries.mjs",
     "build:analyze": "ANALYZE=true tsdown",
     "preview": "vite preview",
     "lint": "eslint .",

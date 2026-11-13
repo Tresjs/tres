@@ -34,6 +34,18 @@ Effects using Three.js native post-processing:
 - **SMAA.vue**: SMAA anti-aliasing
 - **UnrealBloom.vue**: Unreal-style bloom effect
 
+### WebGPU Effects (`src/core/webgpu/`)
+The `@tresjs/post-processing/webgpu` entry ([src/webgpu.ts](src/webgpu.ts)), built on `useRenderPipeline` from `@tresjs/core/webgpu`:
+
+- **EffectComposer.vue**: Collects the effects in slot order and provides them to `RenderPipelineHost`. It also sorts after updates of the components between itself and an effect, so a wrapper that moves its own effects is seen.
+- **RenderPipelineHost.ts**: Calls `useRenderPipeline` and builds `outputNode` from the scene pass. An effect change calls `rebuild()`, so the `setup` and `main` callbacks run again in a new session. `enabled: false` unmounts it, so core restores the default render function.
+- **defineEffect.ts**: Returns an effect component. Each prop is a uniform of that instance; a prop change writes `.value` and never rebuilds the graph.
+- **graph.ts**: Slot order (a walk of the composer's rendered tree), the chain build, and disposal. A build owns only the nodes it created (node `id` is higher than before the build), so shared nodes and the scene pass are never disposed.
+
+The tests run against core's source (aliases in [vitest.config.ts](vitest.config.ts)) and core's test utils, so they use the real `useRenderPipeline`.
+
+Code that the root entry reaches must not import `three/webgpu`, `three/tsl` or `@tresjs/core/webgpu`. [scripts/check-entries.mjs](scripts/check-entries.mjs) fails the build if it does. Only `src/webgpu.ts` imports `src/core/webgpu/`.
+
 ### Custom Effects (`src/core/pmndrs/custom/`)
 Custom shader-based effects for specialized use cases
 
