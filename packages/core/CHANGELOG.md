@@ -1,3 +1,13 @@
+## 5.11.0 (2026-11-13)
+
+### 🚀 Features
+
+- **core:** add TSL composables to @tresjs/core/webgpu ([#1545](https://github.com/Tresjs/tres/pull/1545))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 5.10.1 (2026-10-28)
 
 ### 🩹 Fixes

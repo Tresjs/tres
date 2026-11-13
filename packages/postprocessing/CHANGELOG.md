@@ -1,3 +1,17 @@
+## 3.12.0 (2026-11-13)
+
+### 🚀 Features
+
+- **post-processing:** add /webgpu EffectComposer and defineEffect ([#1554](https://github.com/Tresjs/tres/pull/1554))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.11.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 3.11.1 (2026-10-28)
 
 ### 🧱 Updated Dependencies
