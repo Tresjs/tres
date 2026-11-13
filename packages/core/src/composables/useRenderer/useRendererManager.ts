@@ -459,7 +459,8 @@ export function useBaseRendererManager(
   watchEffect(() => {
     if (!isInitialized.value) { return }
     const value = options.outputColorSpace
-    if (value == null) { return }
+    // `NoColorSpace` is `''`, and the WebGLRenderer setter throws on it (no `ColorManagement.spaces['']` entry).
+    if (!value) { return }
     renderer.outputColorSpace = value
   })
 

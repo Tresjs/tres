@@ -57,14 +57,13 @@ describe('renderer options', () => {
     expect(renderer.toneMappingExposure).toBe(0)
   })
 
-  it('applies NoColorSpace', async () => {
+  it('skips NoColorSpace, which the WebGLRenderer setter does not accept', async () => {
     const { renderer, options } = await mountWithOptions({ outputColorSpace: SRGBColorSpace })
-    expect(renderer.outputColorSpace).toBe(SRGBColorSpace)
 
     options.outputColorSpace = NoColorSpace
     await nextTick()
 
-    expect(renderer.outputColorSpace).toBe(NoColorSpace)
+    expect(renderer.outputColorSpace).toBe(SRGBColorSpace)
   })
 
   it('keeps the renderer values while the options are not set', async () => {
