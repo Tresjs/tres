@@ -79,6 +79,12 @@ export const webgpuRoutes: RouteRecordRaw[] = [
     meta: { icon: '👾', name: 'Pixelation (defineEffect)' },
     component: () => import('@/pages/postprocessing/webgpu/pixelation/index.vue'),
   },
+  {
+    path: '/postprocessing/webgpu/staging',
+    name: 'webgpu-staging',
+    meta: { icon: '🌗', name: 'HDR / LDR staging (Bloom + FXAA/SMAA)' },
+    component: () => import('@/pages/postprocessing/webgpu/staging/index.vue'),
+  },
 ]
 
 export const postProcessingRoutes = [

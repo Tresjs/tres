@@ -12,8 +12,12 @@ export interface EffectCreateState<U> {
   renderer: WebGPURenderer
 }
 
+/** `hdr` effects run on linear scene colors, before tone mapping. `ldr` effects run on display colors, after it. */
+export type EffectStage = 'hdr' | 'ldr'
+
 export interface ComposedEffect {
   instance: ComponentInternalInstance
+  stage: EffectStage
   create: (input: Node, state: EffectCreateState<any>) => Node
   uniforms: Record<string, unknown>
 }
