@@ -2,7 +2,7 @@ import { float, renderOutput } from 'three/tsl'
 import type { Node } from 'three/webgpu'
 import type { ComponentInternalInstance, VNode } from 'vue'
 import { isVNode } from 'vue'
-import type { ComposedEffect, EffectCreateState, EffectStage } from './context'
+import type { ComposedEffect, EffectCreateState } from './context'
 
 export function orderEffectsBySlot(root: VNode | null | undefined, effects: Iterable<ComposedEffect>): ComposedEffect[] {
   const byInstance = new Map<ComponentInternalInstance, ComposedEffect>()
@@ -41,22 +41,20 @@ export const hasLdrBeforeHdr = (effects: readonly ComposedEffect[]) => {
 
 export interface BuiltOutput {
   output: Node
-  /** The value for `renderPipeline.outputColorTransform`. */
   outputColorTransform: boolean
 }
 
-// HDR effects, then `renderOutput()`, then LDR effects. Each stage keeps slot order.
 export function buildOutput(input: Node, effects: readonly ComposedEffect[], state: Omit<EffectCreateState<unknown>, 'uniforms'>): BuiltOutput {
-  const chain = (node: Node, stage: EffectStage) => effects
-    .filter(effect => effect.stage === stage)
-    .reduce((current, effect) => effect.create(current, { ...state, uniforms: effect.uniforms }), node)
+  const chain = (node: Node, stageEffects: readonly ComposedEffect[]) =>
+    stageEffects.reduce((current, effect) => effect.create(current, { ...state, uniforms: effect.uniforms }), node)
 
-  const hdr = chain(input, 'hdr')
-  if (!effects.some(effect => effect.stage === 'ldr')) {
+  const hdr = chain(input, effects.filter(effect => effect.stage === 'hdr'))
+  const ldrEffects = effects.filter(effect => effect.stage === 'ldr')
+  if (ldrEffects.length === 0) {
     return { output: hdr, outputColorTransform: true }
   }
   // No arguments: with `outputColorTransform` off, three reads the renderer's tone mapping and color space from the pipeline context.
-  return { output: chain(renderOutput(hdr), 'ldr'), outputColorTransform: false }
+  return { output: chain(renderOutput(hdr), ldrEffects), outputColorTransform: false }
 }
 
 // three gives each node an increasing `id`, so nodes with a higher id than this one did not exist before the call.

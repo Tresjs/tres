@@ -18,6 +18,8 @@ const instance = getCurrentInstance()!
 const added = new Set<ComposedEffect>()
 const effects = shallowRef<readonly ComposedEffect[]>([])
 const watchedAncestors = new WeakSet<ComponentInternalInstance>()
+// Warns again only after the slot order was fixed and then broken again.
+let warnedLdrFirst = false
 
 // Reads the rendered tree, so it runs after the patch that added, removed or moved an effect.
 const sortEffects = () => {
@@ -25,9 +27,11 @@ const sortEffects = () => {
   const next = orderEffectsBySlot(instance.subTree, added)
   if (isSameOrder(next, effects.value)) { return }
   effects.value = next
-  if (!isProd && hasLdrBeforeHdr(next)) {
-    logWarning('EffectComposer: an LDR effect comes before an HDR effect in the slot. The composer runs every HDR effect first, then tone mapping, then the LDR effects.')
+  const ldrFirst = hasLdrBeforeHdr(next)
+  if (!isProd && ldrFirst && !warnedLdrFirst) {
+    logWarning('EffectComposer: an LDR effect comes before an HDR effect in the slot. The composer runs every HDR effect first, then tone mapping, then the LDR effects. An effect without `stage` is an HDR effect.')
   }
+  warnedLdrFirst = ldrFirst
 }
 
 // A wrapper that moves its own child effects re-renders only itself, so the composer also sorts on its updates.

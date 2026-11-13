@@ -25,7 +25,7 @@ _Avoid_: pipeline, stack, chain root
 ### Pipeline
 
 **Effect**:
-A shader-level visual operation on the input colors. In the pmndrs family, the composer merges it with sibling effects into one pass. Every pmndrs component owns exactly one, except the pass-based components (`DepthPickingPassPmndrs`, `N8AOPmndrs`) that add a **Pass** directly because their library ships a pass, not an effect. In the WebGPU family, an effect is a node transform from an input node to an output node, and the composer chains the effects in slot order.
+A shader-level visual operation on the input colors. In the pmndrs family, the composer merges it with sibling effects into one pass. Every pmndrs component owns exactly one, except the pass-based components (`DepthPickingPassPmndrs`, `N8AOPmndrs`) that add a **Pass** directly because their library ships a pass, not an effect. In the WebGPU family, an effect is a node transform from an input node to an output node, and the composer chains the effects by **Effect stage**, in slot order inside each stage.
 _Avoid_: filter, shader, post effect
 
 **Effect definition**:

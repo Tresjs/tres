@@ -8,6 +8,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { Component, Ref, ShallowRef, VNodeChild } from 'vue'
 import { defineComponent, h, nextTick, ref, shallowRef } from 'vue'
 import { createStubRenderer, mountInTresContext } from '../../../../core/src/utils/test/tresContext'
+import type { EffectStage } from './context'
 import { defineEffect } from './defineEffect'
 import EffectComposer from './EffectComposer.vue'
 
@@ -33,7 +34,7 @@ const C = createEffect('C')
 
 const inputs: Record<string, Node> = {}
 
-const createStagedEffect = (name: string, stage: 'hdr' | 'ldr') => defineEffect({
+const createStagedEffect = (name: string, stage: EffectStage) => defineEffect({
   name,
   stage,
   create: (input) => {
@@ -317,14 +318,13 @@ describe('effectComposer (WebGPU)', () => {
       ['HDR first', () => [h(Bloom), h(SMAA)]],
       ['LDR first', () => [h(SMAA), h(Bloom)]],
     ])('runs the HDR effect before tone mapping and the LDR effect after it (%s)', async (_, children) => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      vi.spyOn(console, 'warn').mockImplementation(() => {})
       const { pipeline } = await mountStaged(children)
 
       expect(calls).toEqual(['Bloom', 'SMAA'])
       expect(isRenderOutput(inputs.Bloom)).toBe(false)
       expect(isRenderOutput(inputs.SMAA)).toBe(true)
       expect(pipeline()?.outputColorTransform).toBe(false)
-      warn.mockRestore()
     })
 
     it('reads tone mapping and color space from the renderer', async () => {
@@ -336,13 +336,12 @@ describe('effectComposer (WebGPU)', () => {
     })
 
     it('keeps slot order inside each stage', async () => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      vi.spyOn(console, 'warn').mockImplementation(() => {})
       await mountStaged(() => [h(Grain), h(A), h(SMAA), h(Bloom)])
 
       expect(calls).toEqual(['A', 'Bloom', 'Grain', 'SMAA'])
       expect(isRenderOutput(inputs.Grain)).toBe(true)
       expect(inputs.SMAA).not.toBe(inputs.Grain)
-      warn.mockRestore()
     })
 
     it('warns when an LDR effect comes before an HDR effect in the slot', async () => {
@@ -350,6 +349,29 @@ describe('effectComposer (WebGPU)', () => {
       await mountStaged(() => [h(SMAA), h(Bloom)])
 
       expect(warn).toHaveBeenCalledWith(expect.stringContaining('an LDR effect comes before an HDR effect'))
+    })
+
+    it('warns once while the slot order stays wrong, and again after it was fixed and broken', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+      const stageWarnings = () => warn.mock.calls.filter(([message]) => String(message).includes('an LDR effect comes before')).length
+      const showA = ref(false)
+      const order = ref<'wrong' | 'right'>('wrong')
+      await mountStaged(() => [
+        ...(order.value === 'wrong' ? [h(SMAA, { key: 'SMAA' }), h(Bloom, { key: 'Bloom' })] : [h(Bloom, { key: 'Bloom' }), h(SMAA, { key: 'SMAA' })]),
+        showA.value ? h(A, { key: 'A' }) : null,
+      ])
+      expect(stageWarnings()).toBe(1)
+
+      showA.value = true
+      await flush()
+      expect(stageWarnings()).toBe(1)
+
+      order.value = 'right'
+      showA.value = false
+      await flush()
+      order.value = 'wrong'
+      await flush()
+      expect(stageWarnings()).toBe(2)
     })
 
     it('does not warn when the slot order matches the stages', async () => {

@@ -48,7 +48,7 @@ The chain runs in this order:
 
 The tone mapping and the color space come from the renderer, so set them with the `tone-mapping` and `output-color-space` props of `TresCanvas`. Without LDR effects, three applies them at the end of the chain as usual.
 
-The stage wins over the slot order: `<SMAA />` before `<Bloom />` still runs bloom first. In development, the composer warns when an LDR effect comes before an HDR effect in the slot.
+The stage wins over the slot order: `<SMAA />` before `<Bloom />` still runs bloom first. An effect without a `stage` is an HDR effect. In development, the composer warns once when an LDR effect comes before an HDR effect in the slot.
 
 | Prop      | Description                                                 | Default |
 | --------- | ----------------------------------------------------------- | ------- |
