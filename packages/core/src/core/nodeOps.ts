@@ -10,6 +10,7 @@ import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, i
 import { camel } from '../utils/string'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
+import { attachOrDefault } from './defaultAttach'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
 
 export interface TresCustomRendererOptions {
@@ -88,8 +89,9 @@ export const nodeOps = ({
     }
     let name = tag.replace('Tres', '')
     let obj: TresObject | null
+    const isPrimitiveTag = tag === `${options?.primitivePrefix ?? ''}primitive`
 
-    if (tag === `${options?.primitivePrefix ?? ''}primitive`) {
+    if (isPrimitiveTag) {
       if (!isObject(props.object) || isRef(props.object)) {
         logError(
           'Tres primitives need an \'object\' prop, whose value is an object or shallowRef<object>',
@@ -141,7 +143,7 @@ export const nodeOps = ({
       type: name,
       memoizedProps: props,
       primitive: tag === 'primitive',
-      attach: props.attach,
+      attach: attachOrDefault(props.attach, isPrimitiveTag ? undefined : name),
     }, context)
 
     return obj
@@ -341,8 +343,10 @@ export const nodeOps = ({
       // should attach `node` to its parent – if the
       // parent exists.
       const maybeParent = node.__tres?.parent || node.parent
+      const type = node.__tres?.type
+      const primitive = node.__tres?.primitive
       remove(node)
-      prepareTresInstance(node, { attach: nextValue }, context)
+      prepareTresInstance(node, { type, primitive, attach: attachOrDefault(nextValue, primitive ? undefined : type) }, context)
       if (maybeParent) { insert(node, maybeParent) }
       return
     }

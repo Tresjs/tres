@@ -55,6 +55,11 @@ export const issuesRoutes = [
     component: () => import('@/pages/core/issues/1513/index.vue'),
   },
   {
+    path: '/issues/attach',
+    name: 'TRES-427: default attach on extend',
+    component: () => import('@/pages/core/issues/attach/index.vue'),
+  },
+  {
     path: '/issues/tres-409',
     name: 'TRES-409: node material recompile',
     component: () => import('@/pages/core/issues/tres-409/index.vue'),
