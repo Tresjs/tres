@@ -459,9 +459,8 @@ export function useBaseRendererManager(
   watchEffect(() => {
     if (!isInitialized.value) { return }
     const value = options.outputColorSpace
-    if (value) {
-      renderer.outputColorSpace = value
-    }
+    if (value == null) { return }
+    renderer.outputColorSpace = value
   })
 
   watchEffect(() => {

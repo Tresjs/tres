@@ -1,26 +1,27 @@
 import { mount } from '@vue/test-utils'
-import { ACESFilmicToneMapping, NeutralToneMapping, NoToneMapping, Scene } from 'three'
+import { ACESFilmicToneMapping, NeutralToneMapping, NoColorSpace, NoToneMapping, Scene, SRGBColorSpace } from 'three'
 import { describe, expect, it, vi } from 'vitest'
 import { defineComponent, nextTick, reactive } from 'vue'
 import type { TresScene } from '../../types'
 import { createStubRenderer } from '../../utils/test/tresContext'
 import { useBaseTresContextProvider } from '../useTresContextProvider'
+import type { RendererOptions, TresRenderer } from './useRendererManager'
 
 vi.mock('@pmndrs/pointer-events', async () => {
   const { Object3D } = await import('three')
   return { forwardHtmlEvents: () => ({ update: () => {}, destroy: () => {} }), getVoidObject: () => new Object3D() }
 })
 
-const mountWithOptions = async (initial: Record<string, unknown>) => {
+const mountWithOptions = async (initial: Partial<RendererOptions>) => {
   const renderer = createStubRenderer({ toneMapping: ACESFilmicToneMapping, toneMappingExposure: 1 })
-  const options = reactive({ renderMode: 'manual', renderer: () => renderer as any, ...initial })
+  const options = reactive<RendererOptions>({ renderMode: 'manual', renderer: () => renderer as unknown as TresRenderer, ...initial })
   mount(defineComponent({
     setup() {
       useBaseTresContextProvider({
         scene: new Scene() as TresScene,
         canvas: document.createElement('canvas'),
         windowSize: false,
-        rendererOptions: options as any,
+        rendererOptions: options,
       })
       return () => null
     },
@@ -54,6 +55,16 @@ describe('renderer options', () => {
     await nextTick()
 
     expect(renderer.toneMappingExposure).toBe(0)
+  })
+
+  it('applies NoColorSpace', async () => {
+    const { renderer, options } = await mountWithOptions({ outputColorSpace: SRGBColorSpace })
+    expect(renderer.outputColorSpace).toBe(SRGBColorSpace)
+
+    options.outputColorSpace = NoColorSpace
+    await nextTick()
+
+    expect(renderer.outputColorSpace).toBe(NoColorSpace)
   })
 
   it('keeps the renderer values while the options are not set', async () => {
