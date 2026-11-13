@@ -24,6 +24,18 @@ export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
 
+/**
+ * A class to add with `extend`, plus options that apply to every Tres component of that class.
+ *
+ * @example
+ * extend({ FollowBody: { object: FollowBodyThree, attach: attachBody } })
+ */
+export interface CatalogueEntry<T extends ConstructorRepresentation = ConstructorRepresentation> {
+  object: T
+  /** Used when a Tres component has no `attach` prop. */
+  attach?: AttachType
+}
+
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
 /**

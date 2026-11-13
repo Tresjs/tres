@@ -6,7 +6,7 @@ import { Mesh, Scene } from 'three'
 import { color, vec3 } from 'three/tsl'
 import { MeshBasicNodeMaterial } from 'three/webgpu'
 import { shallowRef } from 'vue'
-import { extend } from './catalogue'
+import { catalogue, extend } from './catalogue'
 import { nodeOps as getNodeOps } from './nodeOps'
 import type { TextNode } from './nodeOps'
 
@@ -307,6 +307,109 @@ describe('nodeOps', () => {
 
         nodeOps.patchProp(material2, 'attach', undefined, 'foo')
         expect(parent.material).toBe(previousMaterial)
+      })
+
+      describe('default attach from extend', () => {
+        class Piece {}
+        class Holder {
+          pieces: Piece[] = []
+          add(piece: Piece) { this.pieces.push(piece) }
+          remove(piece: Piece) { this.pieces = this.pieces.filter(p => p !== piece) }
+        }
+        const attachPiece = (parent: Holder, child: Piece) => {
+          parent.add(child)
+          return () => parent.remove(child)
+        }
+
+        beforeAll(() => {
+          extend({
+            Holder,
+            Piece: { object: Piece, attach: attachPiece },
+            NamedPiece: { object: Piece, attach: 'named' },
+          })
+        })
+
+        it('keeps the constructor in the catalogue', () => {
+          expect(catalogue.value.Piece).toBe(Piece)
+          expect(nodeOps.createElement('TresPiece', undefined, undefined, {})).toBeInstanceOf(Piece)
+        })
+
+        it('attaches with the default function when no `attach` prop is set', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresPiece', undefined, undefined, {})
+          nodeOps.insert(child, parent)
+          expect(parent.pieces).toStrictEqual([child])
+
+          nodeOps.remove(child)
+          expect(parent.pieces).toStrictEqual([])
+        })
+
+        it('attaches with the default string when no `attach` prop is set', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresNamedPiece', undefined, undefined, {})
+          nodeOps.insert(child, parent)
+          expect(parent.named).toBe(child)
+        })
+
+        it('lets the `attach` prop override the default', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresPiece', undefined, undefined, { attach: 'other' })
+          nodeOps.insert(child, parent)
+          expect(parent.other).toBe(child)
+          expect(parent.pieces).toStrictEqual([])
+        })
+
+        it('falls back to the default when the `attach` prop is unset', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresPiece', undefined, undefined, { attach: 'other' })
+          nodeOps.insert(child, parent)
+
+          nodeOps.patchProp(child, 'attach', 'other', undefined)
+          expect(parent.other).toBeUndefined()
+          expect(parent.pieces).toStrictEqual([child])
+        })
+
+        it('falls back to the default when Vue removes the `attach` prop', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresPiece', undefined, undefined, { attach: 'other' })
+          nodeOps.insert(child, parent)
+
+          nodeOps.patchProp(child, 'attach', 'other', null)
+          expect(parent.pieces).toStrictEqual([child])
+        })
+
+        it('drops the default when the name is extended again without one', () => {
+          extend({ ReextendedPiece: { object: Piece, attach: 'reextended' } })
+          extend({ ReextendedPiece: Piece })
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresReextendedPiece', undefined, undefined, {})
+          nodeOps.insert(child, parent)
+          expect(parent.reextended).toBeUndefined()
+        })
+
+        it('does not give the default to a primitive whose `type` matches the name', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: { type: 'Piece' }, attach: 'other' })
+          nodeOps.insert(primitive, parent)
+          expect(parent.pieces).toStrictEqual([])
+
+          nodeOps.patchProp(primitive, 'attach', 'other', undefined)
+          expect(parent.pieces).toStrictEqual([])
+
+          const unset = nodeOps.createElement('primitive', undefined, undefined, { object: { type: 'Piece' } })
+          nodeOps.insert(unset, parent)
+          expect(parent.pieces).toStrictEqual([])
+        })
+
+        it('does not give the default to a prefixed primitive when its `attach` prop is unset', () => {
+          const prefixedOps = getNodeOps({ context: mockTresContext(), options: { primitivePrefix: 'custom' } })
+          const parent = prefixedOps.createElement('TresHolder', undefined, undefined, {})
+          const primitive = prefixedOps.createElement('customprimitive', undefined, undefined, { object: { type: 'Piece' }, attach: 'other' })
+          prefixedOps.insert(primitive, parent)
+
+          prefixedOps.patchProp(primitive, 'attach', 'other', undefined)
+          expect(parent.pieces).toStrictEqual([])
+        })
       })
     })
 
