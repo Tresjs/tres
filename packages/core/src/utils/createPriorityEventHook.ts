@@ -5,7 +5,7 @@ import { tryOnScopeDispose } from '@vueuse/core'
 // https://github.com/vueuse/vueuse/blob/1558cd2b5b019abc1feda6d702caa1053a182903/packages/shared/createEventHook/index.ts
 
 export type Callback<T> = Parameters<EventHookOff<T>>[0]
-export type PriorityEventHookOn<T> = (fn: Callback<T>, priority?: number) => { off: () => void }
+export type PriorityEventHookOn<T> = (fn: Callback<T>, priority?: number, tiebreak?: number) => { off: () => void }
 export type PriorityEventHookOff<T> = EventHookOff<T>
 export type PriorityEventHookTrigger<T> = EventHookTrigger<T>
 
@@ -18,7 +18,7 @@ export interface PriorityEventHook<T = any> {
 }
 
 export function createPriorityEventHook<T>(): PriorityEventHook<T> {
-  const eventToPriority = new Map<Callback<T>, { priority: number, addI: number }>()
+  const eventToPriority = new Map<Callback<T>, { priority: number, tiebreak: number, addI: number }>()
   const ascending = new Set<Callback<T>>()
   let ADD_COUNT = 0
   let dirty = false
@@ -26,8 +26,9 @@ export function createPriorityEventHook<T>(): PriorityEventHook<T> {
   const sort = () => {
     const sorted = Array.from(eventToPriority.entries())
       .sort((a, b) => {
-        const priorityDiff = a[1].priority - b[1].priority
-        return priorityDiff === 0 ? a[1].addI - b[1].addI : priorityDiff
+        return a[1].priority - b[1].priority
+          || a[1].tiebreak - b[1].tiebreak
+          || a[1].addI - b[1].addI
       })
     ascending.clear()
     sorted.forEach(entry => ascending.add(entry[0]))
@@ -38,8 +39,8 @@ export function createPriorityEventHook<T>(): PriorityEventHook<T> {
     ascending.delete(fn)
   }
 
-  const on = (fn: Callback<T>, priority = 0) => {
-    eventToPriority.set(fn, { priority, addI: ADD_COUNT++ })
+  const on = (fn: Callback<T>, priority = 0, tiebreak = 0) => {
+    eventToPriority.set(fn, { priority, tiebreak, addI: ADD_COUNT++ })
     const offFn = () => off(fn)
     tryOnScopeDispose(offFn)
     dirty = true
