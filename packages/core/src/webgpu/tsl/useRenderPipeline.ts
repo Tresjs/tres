@@ -107,6 +107,8 @@ function runCallbacks(ctx: TresContext, store: TslStore, state: PipelineState, o
   const renderPipeline = state.renderPipeline.value
   if (!renderPipeline || !store.passes.get(SCENE_PASS)) { return }
 
+  // The pipeline is shared across owners, so one owner's flag must not leak into the next.
+  renderPipeline.outputColorTransform = true
   const session = store.createSession({ label: 'useRenderPipeline callback', trackScopes: true })
   try {
     const callbackState = Object.defineProperty(

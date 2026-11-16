@@ -25,12 +25,16 @@ _Avoid_: pipeline, stack, chain root
 ### Pipeline
 
 **Effect**:
-A shader-level visual operation on the input colors. In the pmndrs family, the composer merges it with sibling effects into one pass. Every pmndrs component owns exactly one, except the pass-based components (`DepthPickingPassPmndrs`, `N8AOPmndrs`) that add a **Pass** directly because their library ships a pass, not an effect. In the WebGPU family, an effect is a node transform from an input node to an output node, and the composer chains the effects in slot order.
+A shader-level visual operation on the input colors. In the pmndrs family, the composer merges it with sibling effects into one pass. Every pmndrs component owns exactly one, except the pass-based components (`DepthPickingPassPmndrs`, `N8AOPmndrs`) that add a **Pass** directly because their library ships a pass, not an effect. In the WebGPU family, an effect is a node transform from an input node to an output node, and the composer chains the effects by **Effect stage**, in slot order inside each stage.
 _Avoid_: filter, shader, post effect
 
 **Effect definition**:
 The object given to `defineEffect`: name, prop defaults and the `create` function that turns an input node into an output node. In the WebGPU family it is the user-facing unit and every built-in effect is one.
 _Avoid_: effect config, effect factory
+
+**Effect stage**:
+Where a WebGPU effect runs relative to tone mapping and the output color space (three's `renderOutput()`). `hdr` effects run before it on linear scene colors; `ldr` effects run after it on display colors. The composer runs every `hdr` effect first, whatever the slot order.
+_Avoid_: phase, pass order, pre/post tone mapping
 
 **Pass**:
 One full render of the scene or of a screen quad in the composer chain. In the three family the pass is the user-facing unit; in the pmndrs family it is the wrapper created around an effect. In the WebGPU family it is a `PassNode`, such as the scene pass.

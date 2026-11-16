@@ -1,4 +1,4 @@
-export type { EffectCreateState } from './core/webgpu/context'
+export type { EffectCreateState, EffectStage } from './core/webgpu/context'
 export { defineEffect } from './core/webgpu/defineEffect'
 export type {
   EffectComponent,

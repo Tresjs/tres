@@ -6,7 +6,7 @@ import { uniform } from 'three/tsl'
 import type { Node, UniformNode } from 'three/webgpu'
 import type { DefineComponent, PropType } from 'vue'
 import { defineComponent, getCurrentInstance, inject, markRaw, onUnmounted, watch } from 'vue'
-import type { ComposedEffect, EffectCreateState } from './context'
+import type { ComposedEffect, EffectCreateState, EffectStage } from './context'
 import { effectComposerInjectionKey } from './context'
 
 export type EffectPropDefault = number | boolean | string | Color | Vector2 | Vector3 | Vector4
@@ -33,6 +33,11 @@ export interface EffectDefinition<P extends Record<string, EffectPropDefault>> {
   name: string
   /** Prop defaults. Each prop is backed by a uniform. */
   props?: P
+  /**
+   * `hdr` (default) runs on linear scene colors, for effects such as bloom or depth of field.
+   * `ldr` runs after tone mapping and the output color space, for effects such as FXAA, SMAA or film grain.
+   */
+  stage?: EffectStage
   /**
    * Returns the output node for `input`. Runs again only when effects are added, removed or reordered,
    * or the scene or camera changes. Prop changes write the uniforms and do not call it.
@@ -138,6 +143,7 @@ export function defineEffect<P extends Record<string, EffectPropDefault> = Recor
 
       const effect: ComposedEffect = markRaw({
         instance: getCurrentInstance()!,
+        stage: definition.stage ?? 'hdr',
         create: definition.create,
         uniforms,
       })

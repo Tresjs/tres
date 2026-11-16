@@ -38,7 +38,17 @@ const ChromaticAberration = defineEffect({
 
 ## EffectComposer
 
-The composer renders the scene into a scene pass, then runs its effects on it in slot order. Each effect gets the output of the effect before it.
+The composer renders the scene into a scene pass, then runs its effects on it. Each effect gets the output of the effect before it.
+
+The chain runs in this order:
+
+1. The **HDR** effects, in slot order, on the linear scene colors. Bloom and depth of field go here.
+2. Tone mapping and the output color space (three's `renderOutput()`).
+3. The **LDR** effects, in slot order, on display colors. FXAA, SMAA and film grain go here.
+
+The tone mapping and the color space come from the renderer, so set them with the `tone-mapping` and `output-color-space` props of `TresCanvas`. Without LDR effects, three applies them at the end of the chain as usual.
+
+The stage wins over the slot order: `<SMAA />` before `<Bloom />` still runs bloom first. An effect without a `stage` is an HDR effect. In development, the composer warns once when an LDR effect comes before an HDR effect in the slot.
 
 | Prop      | Description                                                 | Default |
 | --------- | ----------------------------------------------------------- | ------- |
@@ -58,6 +68,7 @@ When the composer unmounts, the canvas renders normally again.
 | -------- | --------------------------------------------------------------------------------------------------------------- |
 | `name`   | The component name, also used in warnings.                                                                      |
 | `props`  | Prop defaults. Each prop becomes a uniform with the same name.                                                  |
+| `stage`  | `'hdr'` (default) runs before tone mapping. `'ldr'` runs after tone mapping and the output color space.          |
 | `create` | `(input, { uniforms, passes, scene, camera, renderer }) => Node`. Returns the output node for the `input` node. |
 
 A prop default can be a number, a boolean, a color string, a `Color` or a `Vector2`/`3`/`4`:
@@ -70,9 +81,17 @@ A prop change writes the `.value` of its uniform, so it does not call `create` a
 
 Each component instance has its own uniforms. Two `<ChromaticAberration>` components with different props do not share them.
 
-::note
-All effects run on the linear scene colors, before tone mapping and the sRGB transform. An effect that expects display colors, such as FXAA or film grain, does not look correct yet.
-::
+An effect that expects display colors, such as FXAA, SMAA or film grain, needs `stage: 'ldr'`:
+
+```ts
+import { fxaa } from 'three/addons/tsl/display/FXAANode.js'
+
+const FXAA = defineEffect({
+  name: 'FXAA',
+  stage: 'ldr',
+  create: input => fxaa(input),
+})
+```
 
 ## Example: pixelation
 

@@ -18,8 +18,9 @@ export default defineComponent({
     const build = ({ renderPipeline, passes, scene, camera, renderer }: RenderPipelineCallbackState) => {
       const input = passes.scenePass.getTextureNode()
       const firstId = nextNodeId()
-      const output = buildOutput(input, props.effects, { passes, scene, camera, renderer })
+      const { output, outputColorTransform } = buildOutput(input, props.effects, { passes, scene, camera, renderer })
       renderPipeline.outputNode = output
+      renderPipeline.outputColorTransform = outputColorTransform
       const next = collectOwnedNodes(output, firstId, owned, [passes.scenePass, input])
       disposeUnused(owned, next)
       owned = next
