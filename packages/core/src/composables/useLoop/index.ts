@@ -52,9 +52,14 @@ export const useLoop = () => {
 
   // Callbacks registered outside a scope (a watch callback, a timer) must still stop when this component unmounts.
   const offs = new Set<() => void>()
-  tryOnScopeDispose(() => offs.forEach(off => off()))
+  let disposed = false
+  tryOnScopeDispose(() => {
+    disposed = true
+    offs.forEach(off => off())
+  })
 
   const registerOn = (hook: LoopHook) => (fn: Callback<LoopContext>, priority = 0) => {
+    if (disposed) { return { off: () => {} } }
     // A new wrapper per call, because the shared hook keeps one entry per function.
     const { off: removeFromHook } = hook.on((...args) => fn(...args), priority, callOrder)
     const off = () => {
@@ -62,6 +67,8 @@ export const useLoop = () => {
       offs.delete(off)
     }
     offs.add(off)
+    // A child scope that stops before the component unmounts must also release its entry in offs.
+    tryOnScopeDispose(off)
     return { off }
   }
 

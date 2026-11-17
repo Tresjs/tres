@@ -101,6 +101,19 @@ describe('useLoop order across components', () => {
     expect(calls).toEqual([])
   })
 
+  it('ignores callbacks registered after their component unmounts', async () => {
+    let registerLater: ReturnType<typeof useLoop>['onBeforeRender'] = () => ({ off: () => {} })
+    const { show, frame } = setup({
+      A: () => { registerLater = useLoop().onBeforeRender },
+    })
+    await show('A')
+    await show()
+    registerLater(log('a'))
+    frame()
+
+    expect(calls).toEqual([])
+  })
+
   it('runs a function once per component that registers it', async () => {
     const shared = log('shared')
     const { show, frame } = setup({
