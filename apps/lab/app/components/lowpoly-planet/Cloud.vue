@@ -7,10 +7,6 @@ const props = defineProps<{
 
 const { nodes } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/low-poly/cloud.gltf')
 
-watch(nodes, (nodes) => {
-  console.log(nodes)
-})
-
 const cloud = computed(() => nodes.value.Low_Poly_Cloud)
 const cloudRef = shallowRef<TresObject>()
 

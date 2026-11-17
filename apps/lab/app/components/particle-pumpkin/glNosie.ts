@@ -164,7 +164,7 @@ async function loadShaders(paths, chunks, headers) {
  * If chunks not specified, all chunks will be appended.
  *
  * @async
- * @param {string[]} paths      Array of Shaders as strings.
+ * @param {string[]} shader     Array of Shaders as strings.
  * @param {string[][]} chunks   Array of chunks to append to each shader
  * @param {string[]} headers    Array of headers to be appended to each shader. Can be used to provide precision;
  * @returns {string[]}          Array of shaders corresponding to each path with respective chunks applied.

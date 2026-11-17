@@ -30,7 +30,7 @@ function fract(a: number) {
 }
 
 function pingpong(a: number, b: number) {
-  if (b == 0.0) {
+  if (b === 0.0) {
     return 0.0
   }
   else {

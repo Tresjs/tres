@@ -2,7 +2,7 @@ import { tresLintConfig } from '@tresjs/eslint-config'
 
 export default tresLintConfig(
   {
-    ignores: ['.data/**', 'CLAUDE.md'],
+    ignores: ['.data/**', 'CLAUDE.md', 'AGENTS.md'],
   },
   {
     // MDC slot directives (`#title`) have no space after `#`; these rules would

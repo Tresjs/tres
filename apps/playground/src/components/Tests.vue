@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-  tests: { getPass: () => boolean, msg: string }[]
+  tests?: { getPass: () => boolean, msg: string }[]
 }>(), {
   tests: () => [],
 })

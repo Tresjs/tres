@@ -46,7 +46,7 @@
     "gsap": "catalog:utils",
     "nuxt": "catalog:nuxt",
     "nuxt-svgo": "catalog:",
-    "playwright": "^1.62.1",
+    "playwright": "catalog:",
     "postprocessing": "catalog:",
     "vite-svg-loader": "catalog:"
   }

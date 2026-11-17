@@ -156,7 +156,7 @@ onBeforeRender(({ elapsed }) => {
 </script>
 
 <template>
-  <TresPoints ref="modelParticlesPointsRef">
+  <TresPoints>
     <TresBufferGeometry v-if="particles.positions.length > 0"
                         :position="[particles.positions[0].array, 3]"
                         :a-position-target="[particles.positions[1].array, 3]"

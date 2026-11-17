@@ -7,7 +7,7 @@ import { shallowRef, watch } from 'vue'
 
 import { useTres } from '@tresjs/core'
 
-const props = withDefaults(defineProps<{ position?: [number, number, number] }>(), {
+withDefaults(defineProps<{ position?: [number, number, number] }>(), {
   position: () => [0, 3, 0],
 })
 
