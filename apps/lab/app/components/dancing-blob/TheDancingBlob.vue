@@ -32,6 +32,17 @@ function hexToRgbArray(hex: string): [number, number, number] {
 // composables
 const { onBeforeRender } = useLoop()
 
+// shader
+// set props to pass into the shader
+const uniforms = ref({
+  u_resolution: { type: 'V2', value: new Vector2(window.innerWidth, window.innerHeight) },
+  u_time: { type: 'f', value: 0.0 },
+  u_frequency: { type: 'f', value: 0.0 },
+  u_amplitude: { type: 'f', value: amplitude.value },
+  u_colorStart: { type: 'V3', value: hexToRgbArray(colorStart.value) },
+  u_colorEnd: { type: 'V3', value: hexToRgbArray(colorEnd.value) },
+})
+
 // refs
 const blobRef = shallowRef<Mesh | null>(null)
 
@@ -49,17 +60,6 @@ onBeforeRender(({ elapsed }) => {
     uniforms.value.u_time.value = elapsed
     blobRef.value.rotation.x += 0.01
   }
-})
-
-// shader
-// set props to pass into the shader
-const uniforms = ref({
-  u_resolution: { type: 'V2', value: new Vector2(window.innerWidth, window.innerHeight) },
-  u_time: { type: 'f', value: 0.0 },
-  u_frequency: { type: 'f', value: 0.0 },
-  u_amplitude: { type: 'f', value: amplitude.value },
-  u_colorStart: { type: 'V3', value: hexToRgbArray(colorStart.value) },
-  u_colorEnd: { type: 'V3', value: hexToRgbArray(colorEnd.value) },
 })
 
 // Watch for color changes and update uniforms

@@ -20,7 +20,7 @@ function nextLetter() {
     0,
     attribution.length,
   )
-  typing.value = attributionLengthTarget != attributionLength.value
+  typing.value = attributionLengthTarget !== attributionLength.value
   if (typing.value) {
     clearTimeout(timeout)
     timeout = setTimeout(nextLetter, 25)

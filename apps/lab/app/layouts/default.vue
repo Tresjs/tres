@@ -89,7 +89,12 @@ defineShortcuts({
       <slot></slot>
     </div>
 
-    <USlideover v-model:open="browseOpen" side="left" title="Experiments" :ui="{ content: 'max-w-sm', body: 'p-0 sm:p-0' }">
+    <USlideover v-model:open="browseOpen"
+                side="left"
+                title="Experiments"
+                :ui="{ content: 'max-w-sm',
+                       body: 'p-0 sm:p-0' }"
+    >
       <UButton
         label="Browse"
         icon="i-lucide-layout-grid"

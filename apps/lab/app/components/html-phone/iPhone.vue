@@ -2,14 +2,10 @@
 import { Html, useGLTF } from '@tresjs/cientos'
 import { Color, MeshStandardMaterial } from 'three'
 
-const emit = defineEmits(['view-clicked'])
+const emit = defineEmits(['viewClicked'])
 const { nodes } = useGLTF('/models/iphone/iphonex.glb', { draco: true })
 const model = computed(() => nodes.value.iphonex)
 const back = computed(() => nodes.value.iphonexback)
-
-watch(model, (value) => {
-  console.log(value)
-})
 
 const screen = computed(() => nodes.value.SCREEN)
 const bottomTab = computed(() => nodes.value.BottomTab)
@@ -34,13 +30,13 @@ watch(bottomTab, (value) => {
 const closeUp = ref(false)
 function onViewClose() {
   closeUp.value = true
-  emit('view-clicked')
+  emit('viewClicked')
 }
 </script>
 
 <template>
   <Levioso :speed="closeUp ? 0 : 1" :rotation-factor="closeUp ? 0 : 1">
-    <TresGroup v-if="model && back" ref="" :position="[0, 1, 0]">
+    <TresGroup v-if="model && back" :position="[0, 1, 0]">
       <primitive :object="model">
         <Html v-if="!closeUp" :distance-factor="1.39" transform :scale="2" :position="[1, 0, 0.2]" :occlude="[back]">
           <!-- <button

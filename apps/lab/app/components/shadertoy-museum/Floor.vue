@@ -10,17 +10,10 @@ const { textures } = useTextures([
   '/textures/shadertoy-museum/roughness.jpg',
   '/textures/shadertoy-museum/displacement.png',
 ])
-
-watch(shaderToyTarget, (target) => {
-  if (target) {
-    console.log('target', target)
-  }
-}, { immediate: true })
 </script>
 
 <template>
   <TresMesh v-if="shaderToyTarget"
-            ref="floorRef"
             :position="shaderToyTarget.floor.position"
             :scale="shaderToyTarget.floor.scale"
             :quaternion="shaderToyTarget.floor.quaternion"

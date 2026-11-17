@@ -2,6 +2,8 @@ import { tresLintConfig } from '@tresjs/eslint-config'
 
 export default tresLintConfig(
   {
+    // typescript is not a dependency here, so autodetection fails when the install does not hoist it
+    typescript: true,
     // public/fonts holds generated font atlases with intentional irregular whitespace
     ignores: ['**/*.md', '.nuxt/**', '.output/**', 'dist/**', 'public/fonts/**'],
   },

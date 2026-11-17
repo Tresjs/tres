@@ -18,8 +18,7 @@ const gl = {
       <CameraRig />
       <Porsche />
       <TresAmbientLight :intensity="1" />
-      <TresSpotLight ref="spotLightRef"
-                     :position="[0, 15, 0]"
+      <TresSpotLight :position="[0, 15, 0]"
                      :angle="0.3"
                      :penumbra="1"
                      :intensity="200"

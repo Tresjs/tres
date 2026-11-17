@@ -3,7 +3,7 @@
 import { provide } from 'vue'
 
 interface Props {
-  keysValues: Record<string, any>
+  keysValues?: Record<string, any>
 }
 const props = withDefaults(defineProps<Props>(), {
   keysValues: () => ({}),

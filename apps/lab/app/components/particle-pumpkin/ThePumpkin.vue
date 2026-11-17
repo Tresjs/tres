@@ -17,10 +17,6 @@ context.scene.value.add(new AmbientLight(0x404040))
 
 const { nodes } = useGLTF('/models/particle-pumpkin/pumpkin.glb')
 
-watch(nodes, (newNodes) => {
-  console.log(newNodes)
-})
-
 // convert object3d to geometry
 const pumpkin = computed(() => nodes.value.Pumpkin)
 

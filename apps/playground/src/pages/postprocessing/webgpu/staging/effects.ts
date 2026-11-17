@@ -20,4 +20,3 @@ export const SMAA = defineEffect({
   stage: 'ldr',
   create: input => smaa(input),
 })
-

@@ -46,6 +46,5 @@ const barriers = computed(() => pick('barrier'))
     <PortalsRpgDifficultySkeletonMinion :nodes="nodes" :state="state" />
     <PortalsRpgDifficultySkeletonWarrior :nodes="nodes" :state="state" />
     <PortalsRpgDifficultyDungeonMist />
-    
   </TresGroup>
 </template>

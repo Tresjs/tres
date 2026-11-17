@@ -1,11 +1,10 @@
 <script setup lang="ts">
-
 const props = defineProps<{
-    nodes: Record<string, any>
-    state: Record<string, any>
+  nodes: Record<string, any>
+  state: Record<string, any>
 }>()
 
-const witch = computed(() => props.nodes['Rig_Witch'])
+const witch = computed(() => props.nodes.Rig_Witch)
 
 const { actions } = useAnimations(props.state.animations, witch.value)
 
@@ -15,5 +14,5 @@ currentAction?.play()
 </script>
 
 <template>
-    <primitive name="Witch" :object="witch" />
+  <primitive name="Witch" :object="witch" />
 </template>

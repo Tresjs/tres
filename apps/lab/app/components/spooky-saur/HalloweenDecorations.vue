@@ -3,15 +3,7 @@ import { Color, MeshStandardMaterial } from 'three'
 
 const { state, nodes } = useGLTF('/models/halloween/halloween-decoration.glb', { draco: true })
 
-watch(nodes, (newState) => {
-  console.log(newState)
-})
-
 const flames = computed(() => Object.values(nodes.value ?? {}).filter(node => node.name.includes('Flame')) ?? [])
-
-watch(flames, (newFlames) => {
-  console.log(newFlames)
-})
 
 const flameMaterial = new MeshStandardMaterial({
   color: new Color('#FF3F00'),

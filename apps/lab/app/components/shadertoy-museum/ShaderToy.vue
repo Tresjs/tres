@@ -47,7 +47,6 @@ const uniforms = {
 
 watch(shaderToyTarget, (target) => {
   if (target) {
-    console.log('target', target)
     vertexShader.value = getVertexShader(target.shader)
 
     if (material.value) { material.value.dispose() }
