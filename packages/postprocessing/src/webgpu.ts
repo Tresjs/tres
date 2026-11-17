@@ -11,3 +11,4 @@ export type {
 } from './core/webgpu/defineEffect'
 export { default as EffectComposer } from './core/webgpu/EffectComposer.vue'
 export type { EffectComposerProps } from './core/webgpu/EffectComposer.vue'
+export { Bloom, ChromaticAberration, DepthOfField, Film, FXAA, SMAA } from './core/webgpu/effects'

@@ -42,6 +42,8 @@ The `@tresjs/post-processing/webgpu` entry ([src/webgpu.ts](src/webgpu.ts)), bui
 - **defineEffect.ts**: Returns an effect component. Each prop is a uniform of that instance; a prop change writes `.value` and never rebuilds the graph.
 - **graph.ts**: Slot order (a walk of the composer's rendered tree), the chain build, and disposal. The build chains the `hdr` effects, then `renderOutput()`, then the `ldr` effects. It sets `outputColorTransform` to `false` only when an `ldr` effect exists, because then the chain applies `renderOutput()` itself. Core resets the flag to `true` before each configuring callback. A build owns only the nodes it created (node `id` is higher than before the build), so shared nodes and the scene pass are never disposed.
 
+- **effects/**: The built-in effects, each a `defineEffect` around a three TSL display node (`three/examples/jsm/tsl/display`). `Bloom`, `DepthOfField` and `ChromaticAberration` are `hdr`; `FXAA`, `SMAA` and `Film` are `ldr`. Prop names and defaults follow the TSL node's parameters, not the WebGL components. `DepthOfField` reads `passes.scenePass.getViewZNode()`.
+
 The tests run against core's source (aliases in [vitest.config.ts](vitest.config.ts)) and core's test utils, so they use the real `useRenderPipeline`.
 
 Code that the root entry reaches must not import `three/webgpu`, `three/tsl` or `@tresjs/core/webgpu`. [scripts/check-entries.mjs](scripts/check-entries.mjs) fails the build if it does. Only `src/webgpu.ts` imports `src/core/webgpu/`.
