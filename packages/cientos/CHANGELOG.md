@@ -1,3 +1,17 @@
+## 5.12.0 (2026-11-17)
+
+### 🚀 Features
+
+- **cientos:** use RenderTarget in /webgpu useFBO and Fbo ([#1556](https://github.com/Tresjs/tres/pull/1556))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.12.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 5.11.0 (2026-11-13)
 
 ### 🧱 Updated Dependencies

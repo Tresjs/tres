@@ -1,3 +1,17 @@
+## 3.13.0 (2026-11-17)
+
+### 🚀 Features
+
+- **postprocessing:** add HDR / LDR effect stages to the WebGPU composer ([#1557](https://github.com/Tresjs/tres/pull/1557))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.12.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 3.12.0 (2026-11-13)
 
 ### 🚀 Features
