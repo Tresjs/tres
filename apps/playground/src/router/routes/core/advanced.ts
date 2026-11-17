@@ -60,6 +60,11 @@ export const advancedRoutes = [
     component: () => import('@/pages/core/advanced/MemoryTresObjects.vue'),
   },
   {
+    path: '/core/advanced/prop-updates',
+    name: 'Performance: Prop Updates',
+    component: () => import('@/pages/core/advanced/prop-updates/index.vue'),
+  },
+  {
     path: '/core/advanced/webgpu',
     name: 'WebGPU',
     component: () => import('@/pages/core/advanced/webGPU/index.vue'),

@@ -204,7 +204,8 @@ export function setPrimitiveObject(
   nodeOpsFns.remove(primitive)
 
   for (const [key, value] of Object.entries(propsToPatch)) {
-    nodeOpsFns.patchProp(newInstance, key, newInstance[key], value)
+    // No previous value: patchProp would take the new object's own fields for user objects and replace them.
+    nodeOpsFns.patchProp(newInstance, key, undefined, value)
   }
 
   setTarget(newObject)
