@@ -69,4 +69,9 @@ export const issuesRoutes = [
     name: 'TRES-407: material cache-key props',
     component: () => import('@/pages/core/issues/material-cache-key/index.vue'),
   },
+  {
+    path: '/issues/tres-428',
+    name: 'TRES-428: useLoop priority across components',
+    component: () => import('@/pages/core/issues/tres-428/index.vue'),
+  },
 ]
