@@ -131,7 +131,7 @@ function buildGeometry() {
   return { geometry, bladeCount }
 }
 
-const { geometry, bladeCount } = buildGeometry()
+const { geometry } = buildGeometry()
 
 const material = new ShaderMaterial({
   vertexShader,
@@ -172,10 +172,6 @@ watch(diffuse, (texture) => {
 
 const grassMesh = new Mesh(geometry, material)
 grassMesh.frustumCulled = false
-
-if (import.meta.dev) {
-  console.log(`[GrassField] ${bladeCount} blades`)
-}
 
 const { onBeforeRender } = useLoop()
 onBeforeRender(({ elapsed }) => {

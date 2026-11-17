@@ -10,4 +10,6 @@ const { renderer } = useTres()
 emit('backend', 'isWebGPUBackend' in renderer.backend ? 'WebGPU' : 'WebGL2 (fallback)')
 </script>
 
-<template></template>
+<template>
+  <slot></slot>
+</template>

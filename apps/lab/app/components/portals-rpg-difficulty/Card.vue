@@ -30,15 +30,19 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
     @animationend.self="settled = true"
   >
     <div class="card__window">
-      <div class="card__vignette" />
-      <div class="card__fade" />
-      <div class="card__rule" />
-      <div class="card__rule card__rule--inner" />
+      <div class="card__vignette"></div>
+      <div class="card__fade"></div>
+      <div class="card__rule"></div>
+      <div class="card__rule card__rule--inner"></div>
 
       <div v-for="c in CORNERS" :key="c" class="card__corner" :class="`card__corner--${c}`">
         <svg
-          viewBox="0 0 100 100" fill="none" stroke="currentColor"
-          stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"
+          viewBox="0 0 100 100"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         >
           <path d="M6 62 C6 31 31 6 62 6" />
           <path d="M14 62 C14 35 35 14 62 14" stroke-width="1" opacity=".7" />
@@ -52,8 +56,12 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
 
       <div v-for="p in PIPS" :key="p" class="card__pip" :class="`card__pip--${p}`">
         <svg
-          viewBox="0 0 68 24" fill="none" stroke="currentColor"
-          stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"
+          viewBox="0 0 68 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         >
           <path d="M34 4 L40 12 L34 20 L28 12 Z" />
           <path d="M28 12 C22 12 16 10 10 6" />
@@ -237,10 +245,25 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
   opacity: 0.8;
 }
 
-.card__corner--tl { top: -3px; left: -3px; }
-.card__corner--tr { top: -3px; right: -3px; transform: scaleX(-1); }
-.card__corner--bl { bottom: -3px; left: -3px; transform: scaleY(-1); }
-.card__corner--br { right: -3px; bottom: -3px; transform: scale(-1, -1); }
+.card__corner--tl {
+  top: -3px;
+  left: -3px;
+}
+.card__corner--tr {
+  top: -3px;
+  right: -3px;
+  transform: scaleX(-1);
+}
+.card__corner--bl {
+  bottom: -3px;
+  left: -3px;
+  transform: scaleY(-1);
+}
+.card__corner--br {
+  right: -3px;
+  bottom: -3px;
+  transform: scale(-1, -1);
+}
 
 .card__pip {
   position: absolute;
@@ -250,10 +273,29 @@ const PIPS = ['t', 'b', 'l', 'r'] as const
   opacity: 0.7;
 }
 
-.card__pip--t { top: 0; left: 50%; margin-left: -17px; }
-.card__pip--b { bottom: 0; left: 50%; margin-left: -17px; transform: scaleY(-1); }
-.card__pip--l { top: 50%; left: -11px; margin-top: -6px; transform: rotate(-90deg); }
-.card__pip--r { top: 50%; right: -11px; margin-top: -6px; transform: rotate(90deg); }
+.card__pip--t {
+  top: 0;
+  left: 50%;
+  margin-left: -17px;
+}
+.card__pip--b {
+  bottom: 0;
+  left: 50%;
+  margin-left: -17px;
+  transform: scaleY(-1);
+}
+.card__pip--l {
+  top: 50%;
+  left: -11px;
+  margin-top: -6px;
+  transform: rotate(-90deg);
+}
+.card__pip--r {
+  top: 50%;
+  right: -11px;
+  margin-top: -6px;
+  transform: rotate(90deg);
+}
 
 .card__caption {
   position: absolute;

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable vue/one-component-per-file -- the loop children must mount inside TresCanvas and share this page's refs */
 import { TresCanvas, useLoop } from '@tresjs/core'
 import type { Mesh } from 'three'
 

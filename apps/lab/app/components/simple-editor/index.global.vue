@@ -30,6 +30,8 @@ history.clear()
 
 const isDark = useDark()
 
+const renderCamRef = shallowRef()
+const navCamRef = shallowRef()
 const currentCameraName = ref('nav')
 const currentCamera = computed(() => ({ render: renderCamRef, nav: navCamRef }[currentCameraName.value]?.value))
 
@@ -49,8 +51,6 @@ const spaces: Space[] = ['world', 'local']
 
 // #region TresJS
 const tresCanvasRef = shallowRef()
-const renderCamRef = shallowRef()
-const navCamRef = shallowRef()
 const cameraHelperRef = shallowRef()
 const canvasContainerRef = shallowRef()
 const sceneNodeRefs = ref<{ [sceneNodeId: string]: Object3D }>({})

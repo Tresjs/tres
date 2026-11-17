@@ -7,15 +7,12 @@ const { nodes, state } = useGLTF('/models/portals-rpg/adventurers-camp.glb', { d
 const { scene: portalScene } = useTresContext()
 portalScene.value.background = new Color('#0d1330')
 
-
 const trees = computed(() => {
-  return Object.entries(nodes.value).map(([key, value]) => key.includes('Tree') ? value : null)
-    .filter(Boolean)
+  return Object.entries(nodes.value).map(([key, value]) => key.includes('Tree') ? value : null).filter(Boolean)
 })
 
 const logs = computed(() => {
-  return Object.entries(nodes.value).map(([key, value]) => key.includes('Log') ? value : null)
-    .filter(Boolean)
+  return Object.entries(nodes.value).map(([key, value]) => key.includes('Log') ? value : null).filter(Boolean)
 })
 
 const DIRT = new Color('#8a6244')
@@ -42,19 +39,16 @@ watch(() => nodes.value?.Ground, (ground) => {
 }, { immediate: true })
 
 const lutes = computed(() => {
-  return Object.entries(nodes.value).map(([key, value]) => key.includes('Lute') ? value : null)
-    .filter(Boolean)
+  return Object.entries(nodes.value).map(([key, value]) => key.includes('Lute') ? value : null).filter(Boolean)
 })
-
-
 </script>
 
 <template>
   <TresAmbientLight :intensity="0.2" />
   <Stars :size="0.6" :radius="120" :depth="40" :count="3000" />
-  <TresDirectionalLight name="Moonlight" :position="[-8, 22, -24]" :intensity="0.7" :color="'#9db6ff'" />
+  <TresDirectionalLight name="Moonlight" :position="[-8, 22, -24]" :intensity="0.7" color="#9db6ff" />
   <TresGroup v-if="nodes?.Ground" :position="[0, -2, -8]">
-    <primitive name="Ground" :object="nodes['Ground']" />
+    <primitive name="Ground" :object="nodes.Ground" />
     <TresGroup v-if="trees" name="Trees">
       <primitive v-for="tree in trees" :key="tree.name" :object="tree" />
     </TresGroup>
@@ -63,8 +57,8 @@ const lutes = computed(() => {
       <primitive v-for="log in logs" :key="log.name" :object="log" />
     </TresGroup>
     <PortalsRpgDifficultyEngineer :nodes="nodes" :state="state" />
-    <primitive name="Backpack" :object="nodes['Engineer_Backpack']" />
-    <primitive name="BeerMug" :object="nodes['Mug_Beer']" />
+    <primitive name="Backpack" :object="nodes.Engineer_Backpack" />
+    <primitive name="BeerMug" :object="nodes.Mug_Beer" />
     <PortalsRpgDifficultyBard :nodes="nodes" :state="state" />
     <primitive v-for="lute in lutes" :key="lute.name" :object="lute" />
     <PortalsRpgDifficultyRogue :nodes="nodes" :state="state" />
