@@ -28,12 +28,14 @@ export interface TresCatalogue {
  * A class to add with `extend`, plus options that apply to every Tres component of that class.
  *
  * @example
- * extend({ FollowBody: { object: FollowBodyThree, attach: attachBody } })
+ * extend({ FollowBody: { object: FollowBodyThree, attach: attachBody, assign: ['target'] } })
  */
 export interface CatalogueEntry<T extends ConstructorRepresentation = ConstructorRepresentation> {
   object: T
   /** Used when a Tres component has no `attach` prop. */
   attach?: AttachType
+  /** Props that Tres assigns instead of copying into the current value, which can be the user's object from `args`. */
+  assign?: (keyof InstanceType<T> & string)[]
 }
 
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera

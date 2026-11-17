@@ -6,11 +6,11 @@ import type { ElementNamespace, RendererOptions } from 'vue'
 import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { filterInPlace } from '../utils/array'
 import { logError } from '../utils/logger'
-import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isNode, isNodeMaterial, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
+import { isClassInstance, isCloneable, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isNode, isNodeMaterial, isNonArrayObject, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike, isWritableProp } from '../utils/is'
 import { camel } from '../utils/string'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
-import { attachOrDefault } from './defaultAttach'
+import { assignsProp, attachOrDefault } from './catalogueOptions'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
 
 export interface TresCustomRendererOptions {
@@ -143,7 +143,7 @@ export const nodeOps = ({
       type: name,
       memoizedProps: props,
       primitive: isPrimitiveTag,
-      attach: attachOrDefault(props.attach, isPrimitiveTag ? undefined : name),
+      attach: attachOrDefault(props.attach, { type: name, primitive: isPrimitiveTag }),
     }, context)
 
     return obj
@@ -346,7 +346,7 @@ export const nodeOps = ({
       const type = node.__tres?.type
       const primitive = node.__tres?.primitive
       remove(node)
-      prepareTresInstance(node, { type, primitive, attach: attachOrDefault(nextValue, primitive ? undefined : type) }, context)
+      prepareTresInstance(node, { type, primitive, attach: attachOrDefault(nextValue, { type, primitive }) }, context)
       if (maybeParent) { insert(node, maybeParent) }
       return
     }
@@ -449,8 +449,21 @@ export const nodeOps = ({
       return
     }
 
+    // The current value can be the user's object (from an earlier patch or from `args`); writing into it would change it.
+    // Cheapest checks first: this runs on every patch.
+    const holdsUserObject = isNonArrayObject(target)
+      && (target === prevValue || assignsProp(node.__tres, finalKey))
+      && isWritableProp(root, finalKey)
+    // No `else`: the branches below write the value into the clone.
+    if (holdsUserObject && !isNonArrayObject(value) && value != null && isCloneable(target)) {
+      target = target.clone()
+      root[finalKey] = target
+    }
+    if (holdsUserObject && isNonArrayObject(value)) {
+      root[finalKey] = value
+    }
     // Layers must be written to the mask property
-    if (isLayers(target) && isLayers(value)) {
+    else if (isLayers(target) && isLayers(value)) {
       target.mask = value.mask
     }
     // Set colors if valid color representation for automatic conversion (copy)

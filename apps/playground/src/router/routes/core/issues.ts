@@ -74,4 +74,9 @@ export const issuesRoutes = [
     name: 'TRES-428: useLoop priority across components',
     component: () => import('@/pages/core/issues/tres-428/index.vue'),
   },
+  {
+    path: '/issues/tres-429',
+    name: 'TRES-429: assign vector props',
+    component: () => import('@/pages/core/issues/tres-429/index.vue'),
+  },
 ]

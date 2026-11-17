@@ -12,6 +12,13 @@ interface Copyable { copy: (...args: any[]) => void, constructor?: (...args: any
 export const isCopyable = (value: unknown): value is Copyable =>
   isVectorLike(value) && 'copy' in value && typeof value.copy === 'function'
 
+export const isNonArrayObject = (value: unknown): value is object =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
+
+interface Cloneable { clone: () => Record<string, unknown> }
+export const isCloneable = (value: unknown): value is Cloneable =>
+  isNonArrayObject(value) && 'clone' in value && typeof value.clone === 'function'
+
 interface ClassInstance { constructor?: (...args: any[]) => any }
 export const isClassInstance = (object: unknown): object is ClassInstance =>
   !!(object)?.constructor
@@ -61,6 +68,14 @@ export const isTresObject = (value: unknown): value is TresObject =>
  * that can be used directly in the scene without needing to be wrapped in a Three.js object.
  */
 export const isTresPrimitive = createTypeGuard<TresPrimitive>('isPrimitive')
+
+// `Object3D` defines `position`, `rotation`, `quaternion` and `scale` as read-only own properties.
+export const isWritableProp = (object: object, key: string) => {
+  // A primitive is a Proxy over an empty object, so read the descriptor from its `:object`.
+  const owner = isTresPrimitive(object) ? object.object : object
+  const descriptor = Object.getOwnPropertyDescriptor(owner, key)
+  return !descriptor || !!descriptor.writable || !!descriptor.set
+}
 
 /**
  * Type guard to check if a value is a TresInstance (has __tres property)
