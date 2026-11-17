@@ -42,6 +42,7 @@ const color = (i: number) => mode.value === 'numbers' ? (frame.value + i) % 2 ? 
 const percentile = (sorted: number[], p: number) => sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))]
 
 const run = async () => {
+  if (running.value) { return }
   running.value = true
   result.value = null
   const samples: number[] = []

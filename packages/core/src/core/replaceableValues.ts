@@ -4,8 +4,22 @@ import { assignsProp } from './catalogueOptions'
 
 interface Cloneable { clone: () => object }
 
+interface CloneOwner { root: object, key: string }
+
 // Tres can write into its own clones; tracking them avoids a new clone on every patch.
-const tresClones = new WeakSet<object>()
+const tresClones = new WeakMap<object, CloneOwner>()
+
+const isTresClone = (value: object, root: object, key: string) => {
+  const owner = tresClones.get(value)
+  return owner?.root === root && owner.key === key
+}
+
+const findDescriptor = (object: object, key: string) => {
+  for (let proto: object | null = object; proto; proto = Object.getPrototypeOf(proto)) {
+    const descriptor = Object.getOwnPropertyDescriptor(proto, key)
+    if (descriptor) { return descriptor }
+  }
+}
 
 export const isNonArrayObject = (value: unknown): value is object =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -17,7 +31,7 @@ const isCloneable = (value: object): value is Cloneable =>
 const isWritableProp = (object: object, key: string) => {
   // A primitive is a Proxy over an empty object, so read the descriptor from its `:object`.
   const owner = isTresPrimitive(object) ? object.object : object
-  const descriptor = Object.getOwnPropertyDescriptor(owner, key)
+  const descriptor = findDescriptor(owner, key)
   return !descriptor || !!descriptor.writable || !!descriptor.set
 }
 
@@ -30,13 +44,13 @@ export const isReplaceable = (
   instance: LocalState | undefined,
 ): current is object =>
   isNonArrayObject(current)
-  && (current === previous || tresClones.has(current) || assignsProp(instance, key))
+  && (current === previous || isTresClone(current, root, key) || assignsProp(instance, key))
   && isWritableProp(root, key)
 
 export const tresOwnedValue = (root: Record<string, unknown>, key: string, current: object) => {
-  if (tresClones.has(current) || !isCloneable(current)) { return current }
+  if (isTresClone(current, root, key) || !isCloneable(current)) { return current }
   const clone = current.clone()
-  tresClones.add(clone)
+  tresClones.set(clone, { root, key })
   root[key] = clone
   return clone
 }

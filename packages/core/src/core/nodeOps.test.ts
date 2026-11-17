@@ -922,9 +922,41 @@ describe('nodeOps', () => {
       it('still copies the listed prop for a primitive', () => {
         const pointA = new THREE.Vector3(1, 0, 0)
         const pointB = new THREE.Vector3(0, 5, 0)
-        const follower = nodeOps.createElement('primitive', undefined, undefined, { object: new ArgsFollower(pointA) })
+        const object = Object.assign(new ArgsFollower(pointA), { type: 'AssignedFollower' })
+        const follower = nodeOps.createElement('primitive', undefined, undefined, { object })
         nodeOps.patchProp(follower, 'target', null, pointB)
         expect(follower.target).toBe(pointA)
+      })
+
+      it('copies into a clone that another instance made, when it comes through `args`', () => {
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const first = nodeOps.createElement('TresAssignedFollower', undefined, undefined, { args: [pointA] })
+        nodeOps.patchProp(first, 'target', null, [0, 5, 0])
+        const clone = first.target
+        const second = nodeOps.createElement('TresArgsFollower', undefined, undefined, { args: [clone] })
+        nodeOps.patchProp(second, 'target', null, new THREE.Vector3(0, 0, 7))
+        expect(second.target).toBe(clone)
+        expect(clone.toArray()).toStrictEqual([0, 0, 7])
+      })
+    })
+
+    describe('assign option for a prop with only a getter', () => {
+      class GetterFollower {
+        private readonly own = new THREE.Vector3()
+        get target() { return this.own }
+      }
+
+      beforeAll(() => {
+        extend({ GetterFollower: { object: GetterFollower, assign: ['target'] } })
+      })
+
+      it('copies into the value that the getter returns', () => {
+        const follower = nodeOps.createElement('TresGetterFollower', undefined, undefined, {})
+        const own = follower.target
+        const pointB = new THREE.Vector3(0, 5, 0)
+        nodeOps.patchProp(follower, 'target', null, pointB)
+        expect(follower.target).toBe(own)
+        expect(own.toArray()).toStrictEqual([0, 5, 0])
       })
     })
 
