@@ -1,6 +1,6 @@
 import type { AttachType, CatalogueEntry, LocalState } from '../types'
 
-type CatalogueName = Partial<Pick<LocalState, 'type' | 'primitive'>>
+type CatalogueLookup = Partial<Pick<LocalState, 'type' | 'primitive'>>
 
 const defaultAttach = new Map<string, AttachType>()
 // Separate from `defaultAttach` so `assignsProp`, which runs on every patch, can exit early when it is empty.
@@ -17,17 +17,17 @@ export const setCatalogueOptions = (name: string, entry: CatalogueEntry | undefi
 }
 
 // A primitive's `type` comes from its `:object` (such as 'Mesh'), not from the catalogue, so options never apply.
-const catalogueName = (instance: CatalogueName | undefined) =>
+const catalogueName = (instance: CatalogueLookup | undefined) =>
   instance?.type && !instance.primitive ? instance.type : undefined
 
 // Vue passes `null` when it removes a prop, so `null` must fall back too.
-export const attachOrDefault = (attach: AttachType | null | undefined, instance: CatalogueName | undefined) => {
+export const attachOrDefault = (attach: AttachType | null | undefined, instance: CatalogueLookup | undefined) => {
   if (attach != null) { return attach }
   const name = catalogueName(instance)
   return name ? defaultAttach.get(name) : undefined
 }
 
-export const assignsProp = (instance: CatalogueName | undefined, key: string) => {
+export const assignsProp = (instance: CatalogueLookup | undefined, key: string) => {
   if (assignedProps.size === 0) { return false }
   const name = catalogueName(instance)
   return !!name && !!assignedProps.get(name)?.includes(key)

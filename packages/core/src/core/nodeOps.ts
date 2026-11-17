@@ -6,11 +6,12 @@ import type { ElementNamespace, RendererOptions } from 'vue'
 import { attach, doRemoveDeregister, doRemoveDetach, invalidateInstance, prepareTresInstance, resolve, setPrimitiveObject, unboxTresPrimitive } from '../utils'
 import { filterInPlace } from '../utils/array'
 import { logError } from '../utils/logger'
-import { isClassInstance, isCloneable, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isNode, isNodeMaterial, isNonArrayObject, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike, isWritableProp } from '../utils/is'
+import { isClassInstance, isColor, isColorRepresentation, isCopyable, isEqual, isFunction, isHTMLTag, isLayers, isNode, isNodeMaterial, isObject, isObject3D, isScene, isTresCamera, isTresInstance, isUndefined, isVectorLike } from '../utils/is'
 import { camel } from '../utils/string'
 import { createRetargetingProxy } from '../utils/primitive/createRetargetingProxy'
 import { catalogue } from './catalogue'
-import { assignsProp, attachOrDefault } from './catalogueOptions'
+import { attachOrDefault } from './catalogueOptions'
+import { isNonArrayObject, isReplaceable, tresOwnedValue } from './replaceableValues'
 import { isSupportedPointerEvent, pointerEventsMapVueToThree } from '../utils/pointerEvents'
 
 export interface TresCustomRendererOptions {
@@ -43,6 +44,39 @@ interface CommentNode {
 }
 
 type NodeType = TresObject | TextNode | CommentNode | undefined
+
+// Writes into `target` where it implements a math interface (it can be read-only), else assigns to `root[key]`.
+const writeValue = (root: Record<string, unknown>, key: string, target: unknown, value: any) => {
+  // Layers must be written to the mask property
+  if (isLayers(target) && isLayers(value)) {
+    target.mask = value.mask
+  }
+  else if (isColor(target) && isColorRepresentation(value)) {
+    target.set(value)
+  }
+  else if (isCopyable(target) && isClassInstance(value) && target.constructor === value.constructor) {
+    target.copy(value)
+  }
+  else if (isVectorLike(target) && Array.isArray(value)) {
+    if ('fromArray' in target && typeof target.fromArray === 'function') {
+      target.fromArray(value)
+    }
+    else {
+      target.set(...value)
+    }
+  }
+  else if (isVectorLike(target) && typeof value === 'number') {
+    if ('setScalar' in target && typeof target.setScalar === 'function') {
+      target.setScalar(value)
+    }
+    else {
+      target.set(value)
+    }
+  }
+  else {
+    root[key] = value
+  }
+}
 
 export const nodeOps = ({
   context,
@@ -449,56 +483,12 @@ export const nodeOps = ({
       return
     }
 
-    // The current value can be the user's object (from an earlier patch or from `args`); writing into it would change it.
-    // Cheapest checks first: this runs on every patch.
-    const holdsUserObject = isNonArrayObject(target)
-      && (target === prevValue || assignsProp(node.__tres, finalKey))
-      && isWritableProp(root, finalKey)
-    // No `else`: the branches below write the value into the clone.
-    if (holdsUserObject && !isNonArrayObject(value) && value != null && isCloneable(target)) {
-      target = target.clone()
-      root[finalKey] = target
-    }
-    if (holdsUserObject && isNonArrayObject(value)) {
+    const replaceable = isReplaceable(root, finalKey, target, prevValue, node.__tres)
+    if (replaceable && (value == null || isNonArrayObject(value))) {
       root[finalKey] = value
     }
-    // Layers must be written to the mask property
-    else if (isLayers(target) && isLayers(value)) {
-      target.mask = value.mask
-    }
-    // Set colors if valid color representation for automatic conversion (copy)
-    else if (isColor(target) && isColorRepresentation(value)) {
-      target.set(value)
-    }
-    // Copy if properties match signatures and implement math interface (likely read-only)
-    else if (
-      isCopyable(target) && isClassInstance(value) && target.constructor === value.constructor
-    ) {
-      target.copy(value)
-    }
-    // Set array types
-    else if (isVectorLike(target) && Array.isArray(value)) {
-      if ('fromArray' in target && typeof target.fromArray === 'function') {
-        target.fromArray(value)
-      }
-      else {
-        target.set(...value)
-      }
-    }
-    // Set literal types
-    else if (isVectorLike(target) && typeof value === 'number') {
-      // Allow setting array scalars
-      if ('setScalar' in target && typeof target.setScalar === 'function') {
-        target.setScalar(value)
-      }
-      // Otherwise just set single value
-      else {
-        target.set(value)
-      }
-    }
-    // Else, just overwrite the value
     else {
-      root[finalKey] = value
+      writeValue(root, finalKey, replaceable ? tresOwnedValue(root, finalKey, target) : target, value)
     }
 
     markNodeMaterialForRecompile(root, prevValue, value)

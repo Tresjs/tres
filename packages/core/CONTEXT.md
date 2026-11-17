@@ -30,6 +30,10 @@ _Avoid_: constructor props, params
 Assigning a child object onto a named property of its parent (such as `material` or `geometry`) instead of adding it as a scene-graph child.
 _Avoid_: slot, bind, mount on
 
+**Assigned prop**:
+A prop whose new object Tres assigns to the instance, instead of copying its values into the current object. Listed in the `assign` option of `extend`.
+_Avoid_: reference prop, replaced prop
+
 **Pierced prop**:
 A prop written with dashes that sets a nested Three.js property, such as `position-x` or `rotation-y`.
 _Avoid_: nested prop, dot prop, deep prop

@@ -847,6 +847,18 @@ describe('nodeOps', () => {
         expect(clone.toArray()).toStrictEqual([0, 0, 7])
       })
 
+      it('assigns a vector that comes after an array', () => {
+        const follower = nodeOps.createElement('TresFollower', undefined, undefined, {})
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const pointB = new THREE.Vector3(0, 5, 0)
+        nodeOps.patchProp(follower, 'target', null, pointA)
+        nodeOps.patchProp(follower, 'target', pointA, [0, 0, 7])
+        nodeOps.patchProp(follower, 'target', [0, 0, 7], pointB)
+        expect(follower.target).toBe(pointB)
+        expect(pointA.toArray()).toStrictEqual([1, 0, 0])
+        expect(pointB.toArray()).toStrictEqual([0, 5, 0])
+      })
+
       it('still copies into a vector that the instance owns', () => {
         const camera = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, {})
         const own = camera.position
@@ -887,6 +899,16 @@ describe('nodeOps', () => {
         nodeOps.patchProp(follower, 'target', null, [0, 5, 0])
         expect(follower.target.toArray()).toStrictEqual([0, 5, 0])
         expect(pointA.toArray()).toStrictEqual([1, 0, 0])
+      })
+
+      it('writes the next array for the listed prop into the same clone', () => {
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const follower = nodeOps.createElement('TresAssignedFollower', undefined, undefined, { args: [pointA] })
+        nodeOps.patchProp(follower, 'target', null, [0, 5, 0])
+        const clone = follower.target
+        nodeOps.patchProp(follower, 'target', [0, 5, 0], [0, 0, 7])
+        expect(follower.target).toBe(clone)
+        expect(clone.toArray()).toStrictEqual([0, 0, 7])
       })
 
       it('still copies for a class extended without the option', () => {
