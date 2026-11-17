@@ -85,6 +85,36 @@ export const webgpuRoutes: RouteRecordRaw[] = [
     meta: { icon: '🌗', name: 'HDR / LDR staging (Bloom + FXAA/SMAA)' },
     component: () => import('@/pages/postprocessing/webgpu/staging/index.vue'),
   },
+  {
+    path: '/postprocessing/webgpu/bloom',
+    name: 'webgpu-bloom',
+    meta: { icon: '🌼', name: 'Bloom (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/bloom/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/antialiasing',
+    name: 'webgpu-antialiasing',
+    meta: { icon: '📐', name: 'FXAA / SMAA (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/antialiasing/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/depth-of-field',
+    name: 'webgpu-depth-of-field',
+    meta: { icon: '📷', name: 'DepthOfField (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/depth-of-field/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/chromatic-aberration',
+    name: 'webgpu-chromatic-aberration',
+    meta: { icon: '🌈', name: 'ChromaticAberration (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/chromatic-aberration/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/film',
+    name: 'webgpu-film',
+    meta: { icon: '🎞️', name: 'Film (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/film/index.vue'),
+  },
 ]
 
 export const postProcessingRoutes = [
