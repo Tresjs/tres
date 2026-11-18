@@ -8,7 +8,7 @@ const { strength, radius, threshold, smoothWidth } = useControls({
   strength: { value: 1, min: 0, max: 3, step: 0.01 },
   radius: { value: 0.4, min: 0, max: 1, step: 0.01 },
   threshold: { value: 0.8, min: 0, max: 2, step: 0.01 },
-  smoothWidth: { value: 0.01, min: 0, max: 1, step: 0.01 },
+  smoothWidth: { value: 0.01, min: 0.01, max: 1, step: 0.01 },
 }, { uuid })
 </script>
 

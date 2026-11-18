@@ -106,7 +106,7 @@ A prop change writes the `.value` of its uniform, so it does not call `create` a
 
 Each component instance has its own uniforms. Two `<ChromaticAberration>` components with different props do not share them.
 
-An effect that expects display colors, in the range [0, 1], needs `stage: 'ldr'`. This posterize effect rounds each channel to a number of levels, so it must run after tone mapping:
+An effect that expects display colors, in the range [0, 1], needs `stage: 'ldr'`. This posterize effect rounds each channel to `levels` values (2 or more), so it must run after tone mapping:
 
 ```ts
 import { defineEffect } from '@tresjs/post-processing/webgpu'
@@ -116,7 +116,7 @@ const Posterize = defineEffect({
   name: 'Posterize',
   stage: 'ldr',
   props: { levels: 4 },
-  create: (input, { uniforms }) => vec4(input.rgb.mul(uniforms.levels).floor().div(uniforms.levels), input.a),
+  create: (input, { uniforms }) => vec4(input.rgb.mul(uniforms.levels.sub(1)).round().div(uniforms.levels.sub(1)), input.a),
 })
 ```
 

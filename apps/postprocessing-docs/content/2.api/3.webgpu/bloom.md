@@ -12,6 +12,8 @@ description: Add a glow around the bright areas of the scene.
 
 It is an **HDR** effect. It runs on linear scene colors, before tone mapping, so colors above `1` (such as an `emissiveIntensity` above `1`) glow more.
 
+On a canvas with `alpha`, the glow adds to the color but not to the alpha. Over a transparent pixel, the glow does not show.
+
 ## Usage
 
 ```vue
@@ -38,7 +40,7 @@ import { Bloom, EffectComposer } from '@tresjs/post-processing/webgpu'
 | `strength`    | The strength of the glow.                                                                         | `1`     |
 | `radius`      | How far the glow spreads. Range is [0, 1].                                                        | `0`     |
 | `threshold`   | The luminance above which a pixel glows. `0` makes every pixel glow.                              | `0`     |
-| `smoothWidth` | The width of the soft transition above `threshold`. Higher values fade the glow in more gradually. | `0.01`  |
+| `smoothWidth` | The width of the soft transition above `threshold`. Higher values fade the glow in more gradually. Keep it above `0`. | `0.01`  |
 
 ## Differences from BloomPmndrs
 

@@ -33,7 +33,7 @@ import { DepthOfField, EffectComposer } from '@tresjs/post-processing/webgpu'
 
 ## Props
 
-All distances are in world units.
+`focusDistance` and `focalLength` are in world units. `bokehScale` has no unit.
 
 | Prop            | Description                                                                                  | Default |
 | --------------- | -------------------------------------------------------------------------------------------- | ------- |
@@ -43,7 +43,7 @@ All distances are in world units.
 
 ## Differences from DepthOfFieldPmndrs
 
-`DepthOfField` exposes the parameters of three's `dof()` function. They are in world units.
+`DepthOfField` exposes the parameters of three's `dof()` function. `focusDistance` and `focalLength` are in world units.
 
 | `DepthOfFieldPmndrs`                            | `DepthOfField`                                                                                       |
 | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |

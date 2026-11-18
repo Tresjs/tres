@@ -10,7 +10,7 @@ description: Add animated film grain.
 
 `Film` adds animated noise to the image, like film grain. It wraps three's `FilmNode`.
 
-It is an **LDR** effect. It runs after tone mapping, so the grain looks the same with every tone mapping.
+It is an **LDR** effect. It runs after tone mapping, on the colors the viewer sees. The grain scales with the pixel color, so dark pixels get less grain.
 
 ## Usage
 

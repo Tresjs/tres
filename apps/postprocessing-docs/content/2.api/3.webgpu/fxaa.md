@@ -46,5 +46,5 @@ import { EffectComposer, FXAA } from '@tresjs/post-processing/webgpu'
 | `minEdgeThreshold`         | `FXAANode` uses a fixed contrast threshold of `0.0312`.                                         |
 | `maxEdgeThreshold`         | `FXAANode` uses a fixed relative threshold of `0.063`.                                          |
 | `subpixelQuality`          | `FXAANode` uses a fixed subpixel blending of `1`.                                               |
-| `samples`                  | `FXAANode` always takes 6 edge search steps. The step count is fixed when the shader compiles. |
+| `samples`                  | `FXAANode` searches at most 6 steps in each direction along an edge. The limit is fixed in the shader. |
 | `opacity`, `blendFunction` | The WebGPU family has no blend functions. See [Blending](/api/webgpu#blending).                 |
