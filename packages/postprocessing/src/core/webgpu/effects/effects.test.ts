@@ -78,10 +78,13 @@ describe('webGPU effects', () => {
     const isSplit = (node: any, of: Node, components: string) => node?.type === 'SplitNode' && node.node === of && node.components === components
 
     expect(bloom.inputNode).toBe(passes.scenePass!.getTextureNode())
+    const unwrap = (node: any) => node?.type === 'VarNode' ? node.node : node
     const sum = nodes.find(node => node.op === '+' && isSplit(node.bNode, bloom, 'xyz'))
     expect(isSplit(sum?.aNode, bloom.inputNode, 'xyz')).toBe(true)
-    expect(nodes.some(node => isSplit(node, bloom.inputNode, 'w'))).toBe(true)
-    expect(nodes.some(node => node.op === '+' && node.bNode === bloom)).toBe(false)
+
+    const output = nodes.find(node => node.type === 'JoinNode' && unwrap(node.nodes[0]) === sum)
+    expect(output?.nodes).toHaveLength(2)
+    expect(isSplit(unwrap(output.nodes[1]), bloom.inputNode, 'w')).toBe(true)
   })
 
   it('depth of field reads the view Z of the scene pass', async () => {
