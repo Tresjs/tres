@@ -27,6 +27,7 @@ SOFTWARE.
 
 import { Color, MeshPhysicalMaterial, Uniform } from 'three'
 import type { Texture, WebGLProgramParametersWithUniforms } from 'three'
+import { meshTransmissionMaterialDefaults } from './props'
 
 export interface MeshTransmissionMaterialParameters {
   samples?: number
@@ -73,22 +74,22 @@ export class MeshTransmissionMaterial extends MeshPhysicalMaterial {
   declare buffer: Texture | null
 
   constructor({
-    samples = 6,
-    transmissionSampler = false,
-    chromaticAberration = 0.05,
+    samples = meshTransmissionMaterialDefaults.samples,
+    transmissionSampler = meshTransmissionMaterialDefaults.transmissionSampler,
+    chromaticAberration = meshTransmissionMaterialDefaults.chromaticAberration,
     transmission = 0,
-    _transmission = 1,
+    _transmission = meshTransmissionMaterialDefaults.transmission,
     transmissionMap = null,
-    roughness = 0,
-    thickness = 0,
+    roughness = meshTransmissionMaterialDefaults.roughness,
+    thickness = meshTransmissionMaterialDefaults.thickness,
     thicknessMap = null,
     attenuationDistance = Infinity,
     attenuationColor = new Color('white'),
-    anisotropicBlur = 0.1,
+    anisotropicBlur = meshTransmissionMaterialDefaults.anisotropicBlur,
     time = 0,
-    distortion = 0.0,
-    distortionScale = 0.5,
-    temporalDistortion = 0.0,
+    distortion = meshTransmissionMaterialDefaults.distortion,
+    distortionScale = meshTransmissionMaterialDefaults.distortionScale,
+    temporalDistortion = meshTransmissionMaterialDefaults.temporalDistortion,
     buffer = null,
   }: MeshTransmissionMaterialParameters = {}) {
     super()

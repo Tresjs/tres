@@ -21,6 +21,7 @@ import {
   Loop,
   materialAttenuationColor,
   materialAttenuationDistance,
+  materialRoughness,
   materialThickness,
   max,
   modelWorldMatrix,
@@ -112,8 +113,9 @@ const volumeTransmissionRay = (n: Vec3Node, v: Vec3Node, thickness: FloatNode, i
 const volumeAttenuation = (radiance: Vec3Node, distance: FloatNode) => {
   const coefficient = log(vec3(materialAttenuationColor)).negate().div(materialAttenuationDistance)
   const transmittance = exp(coefficient.negate().mul(vec3(distance)))
-  // 0 means no attenuation, as in three's own TSL transmission. Infinity gives a transmittance of 1 anyway.
-  return select(materialAttenuationDistance.notEqual(0.0), transmittance.mul(radiance), radiance)
+  // 0 means no attenuation, as in three's TSL. Infinity is skipped like GLSL `isinf`: a 0 color channel gives inf / inf = NaN.
+  const attenuates = materialAttenuationDistance.greaterThan(0.0).and(materialAttenuationDistance.lessThan(1e30))
+  return select(attenuates, transmittance.mul(radiance), radiance)
 }
 
 /** Node material version of `MeshTransmissionMaterial`. The built-in `transmission` stays 0; `backdropNode` mixes in the refracted samples by `_transmission`. */
@@ -171,7 +173,9 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
       const v = cameraPosition.sub(positionWorld).normalize()
       const n = normalWorld
       const randomCoords = rand(uint(0)).toVar()
-      const thicknessSmear = materialThickness.mul(max(pow(roughness, 0.33), u.anisotropicBlur)).toVar()
+      // The GLSL `roughnessFactor` is the raw material roughness. The `roughness` node is clamped to at least 0.0525.
+      const rawRoughness = materialRoughness.toVar()
+      const thicknessSmear = materialThickness.mul(max(pow(rawRoughness, 0.33), u.anisotropicBlur)).toVar()
       const temporalOffset = vec3(u.time, u.time.negate(), u.time.negate()).mul(u.temporalDistortion).toVar()
       const scaledPosition = positionWorld.mul(u.distortionScale)
 
@@ -190,7 +194,7 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
         const seed = uint(i).mul(uint(4)).add(uint(1))
         const jitter = normalize(vec3(rand(seed).sub(0.5), rand(seed.add(uint(1))).sub(0.5), rand(seed.add(uint(2))).sub(0.5)))
           .mul(pow(rand(seed.add(uint(3))), 0.33))
-        const sampleNorm = normalize(n.add(roughness.mul(roughness).mul(2.0).mul(jitter)).add(distortionNormal)).toVar()
+        const sampleNorm = normalize(n.add(rawRoughness.mul(rawRoughness).mul(2.0).mul(jitter)).add(distortionNormal)).toVar()
         const offset = i.toFloat().add(randomCoords).div(samples).toVar()
         const thickness = materialThickness.add(thicknessSmear.mul(offset)).toVar()
 

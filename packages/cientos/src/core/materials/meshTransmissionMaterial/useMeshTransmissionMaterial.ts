@@ -35,7 +35,6 @@ export function useMeshTransmissionMaterial<T extends RenderTarget>(
     transmissionSampler: props.transmissionSampler,
   }])
 
-  // Remounts the material when a compiled-in option changes.
   const constructorKey = computed(() => `${props.samples}-${props.transmissionSampler}`)
 
   // Tres camel-cases prop keys, so a `_transmission` prop would land on `transmission`. Set it directly instead.
@@ -84,7 +83,7 @@ export function useMeshTransmissionMaterial<T extends RenderTarget>(
 
   onBeforeRender(({ renderer, scene, camera, elapsed }) => {
     const mat = materialRef.value
-    // The other entry's material cannot compile here. useWebGPUSupportWarning already told the user.
+    // Each material compiles only on its own renderer. Only the GLSL entry warns, through useWebGPUSupportWarning.
     if (!mat || isWebGPU.value !== forWebGPURenderer) { return }
 
     const parent = mat.__tres?.parent
