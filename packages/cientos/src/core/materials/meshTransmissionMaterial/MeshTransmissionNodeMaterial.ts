@@ -1,14 +1,14 @@
-import type { MeshPhysicalNodeMaterialParameters, Node, NodeBuilder } from 'three/webgpu'
+import type { MeshPhysicalNodeMaterialParameters, Node, NodeBuilder, TextureNode } from 'three/webgpu'
 import { MeshPhysicalNodeMaterial, Texture } from 'three/webgpu'
 import {
   cameraPosition,
   cameraProjectionMatrix,
   cameraViewMatrix,
   clamp,
-  diffuseContribution,
+  diffuseColor,
   dot,
-  EnvironmentBRDF,
   exp,
+  exp2,
   floor,
   Fn,
   fract,
@@ -20,10 +20,11 @@ import {
   log2,
   Loop,
   materialAttenuationColor,
-  materialAttenuationDistance,
+  materialReference,
   materialRoughness,
   materialThickness,
   max,
+  min,
   modelWorldMatrix,
   normalize,
   normalWorld,
@@ -35,7 +36,7 @@ import {
   screenSize,
   select,
   sin,
-  specularColorBlended,
+  specularColor,
   specularF90,
   step,
   texture,
@@ -44,7 +45,7 @@ import {
   vec2,
   vec3,
   vec4,
-  viewportOpaqueMipTexture,
+  viewportMipTexture,
 } from 'three/tsl'
 import { meshTransmissionMaterialDefaults } from './props'
 import type { MeshTransmissionMaterialUniforms } from './props'
@@ -110,13 +111,36 @@ const volumeTransmissionRay = (n: Vec3Node, v: Vec3Node, thickness: FloatNode, i
   return normalize(refractionVector).mul(thickness).mul(modelScale)
 }
 
+// Infinity becomes 0 before upload: WGSL does not promise Infinity in a uniform, and a 0 color channel gives inf / inf = NaN.
+const attenuationDistance = uniform(0).onObjectUpdate(({ material }) => {
+  const distance = (material as { attenuationDistance?: number } | null)?.attenuationDistance ?? 0
+  return Number.isFinite(distance) ? distance : 0
+})
+
+// 0 means no attenuation, as in three's TSL, and covers the GLSL `isinf` case.
 const volumeAttenuation = (radiance: Vec3Node, distance: FloatNode) => {
-  const coefficient = log(vec3(materialAttenuationColor)).negate().div(materialAttenuationDistance)
+  const coefficient = log(vec3(materialAttenuationColor)).negate().div(attenuationDistance)
   const transmittance = exp(coefficient.negate().mul(vec3(distance)))
-  // 0 means no attenuation, as in three's TSL. Infinity is skipped like GLSL `isinf`: a 0 color channel gives inf / inf = NaN.
-  const attenuates = materialAttenuationDistance.greaterThan(0.0).and(materialAttenuationDistance.lessThan(1e30))
-  return select(attenuates, transmittance.mul(radiance), radiance)
+  return select(attenuationDistance.greaterThan(0.0), transmittance.mul(radiance), radiance)
 }
+
+// The GLSL smear reads the `thickness` uniform before `thicknessMap` scales it. `materialThickness` includes the map.
+const unmappedThickness = materialReference('thickness', 'float') as unknown as FloatNode
+
+// three r186 renamed `TextureNode.uv` to `sample`. Both keep the copy linked to the base node's texture.
+const sampleAt = (node: TextureNode, coords: Node<'vec2'>): TextureNode =>
+  'sample' in node ? node.sample(coords) : (node as unknown as { uv: (uv: Node<'vec2'>) => TextureNode }).uv(coords)
+
+// Karis' analytic DFG term. three r171 does not export `EnvironmentBRDF`, and r186 does not export `DFGApprox`.
+const environmentBRDF = (dotNV: FloatNode, specular: Vec3Node, f90: FloatNode, roughnessNode: FloatNode) => {
+  const r = vec4(roughnessNode).mul(vec4(-1.0, -0.0275, -0.572, 0.022)).add(vec4(1.0, 0.0425, 1.04, -0.04))
+  const a004 = min(r.x.mul(r.x), exp2(dotNV.mul(-9.28))).mul(r.x).add(r.y)
+  const fab = vec2(-1.04, 1.04).mul(a004).add(r.zw)
+  return specular.mul(fab.x).add(f90.mul(fab.y))
+}
+
+// One shared copy of the framebuffer per frame, like three's `viewportOpaqueMipTexture` (r180+).
+const viewportBackground = viewportMipTexture()
 
 /** Node material version of `MeshTransmissionMaterial`. The built-in `transmission` stays 0; `backdropNode` mixes in the refracted samples by `_transmission`. */
 export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial implements MeshTransmissionMaterialUniforms {
@@ -135,6 +159,8 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
   private readonly _bufferNode = texture(this._emptyBuffer)
   private _buffer: Texture | null = null
   private _builtinTransmission = 0
+  private _samples: number
+  private _transmissionSampler: boolean
 
   constructor({
     samples = meshTransmissionMaterialDefaults.samples,
@@ -143,15 +169,24 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
   }: MeshTransmissionNodeMaterialParameters = {}) {
     super()
 
-    // `viewportOpaqueMipTexture` holds the opaque objects only when this mesh renders after them.
+    this._samples = samples
+    this._transmissionSampler = transmissionSampler
+    this._setupBackdrop()
+    this.setValues(parameters)
+  }
+
+  private _setupBackdrop() {
+    const samples = this._samples
+    const transmissionSampler = this._transmissionSampler
+    // The viewport copy holds the opaque objects only when this mesh renders after them.
     this.transparent = transmissionSampler
 
     const u = this._transmissionUniforms
 
     const sampleBackground = (coords: Node<'vec2'>, roughnessNode: FloatNode, iorNode: FloatNode): Node<'vec4'> => {
-      if (!transmissionSampler) { return this._bufferNode.sample(coords) as Node<'vec4'> }
+      if (!transmissionSampler) { return sampleAt(this._bufferNode, coords) as unknown as Node<'vec4'> }
       const lod = log2(screenSize.x).mul(applyIorToRoughness(roughnessNode, iorNode))
-      return viewportOpaqueMipTexture(coords, lod) as Node<'vec4'>
+      return sampleAt(viewportBackground as unknown as TextureNode, coords).level(lod) as unknown as Node<'vec4'>
     }
 
     const volumeRefraction = (n: Vec3Node, v: Vec3Node, iorNode: FloatNode, thickness: FloatNode) => {
@@ -162,8 +197,8 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
       const coords = vec2(ndc.x, ndc.y.oneMinus())
       const transmitted = sampleBackground(coords, roughness, iorNode).rgb
       const attenuated = volumeAttenuation(transmitted, length(transmissionRay))
-      const F = EnvironmentBRDF({ dotNV: n.dot(v).clamp(), specularColor: specularColorBlended, specularF90, roughness })
-      return (F as unknown as Vec3Node).oneMinus().mul(attenuated).mul(diffuseContribution)
+      const F = environmentBRDF(n.dot(v).clamp(), specularColor as unknown as Vec3Node, specularF90, roughness)
+      return F.oneMinus().mul(attenuated).mul(diffuseColor.rgb)
     }
 
     const pixelSeed = uint(screenCoordinate.x).add(uint(screenCoordinate.y).mul(uint(65536)))
@@ -175,7 +210,7 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
       const randomCoords = rand(uint(0)).toVar()
       // The GLSL `roughnessFactor` is the raw material roughness. The `roughness` node is clamped to at least 0.0525.
       const rawRoughness = materialRoughness.toVar()
-      const thicknessSmear = materialThickness.mul(max(pow(rawRoughness, 0.33), u.anisotropicBlur)).toVar()
+      const thicknessSmear = unmappedThickness.mul(max(pow(rawRoughness, 0.33), u.anisotropicBlur)).toVar()
       const temporalOffset = vec3(u.time, u.time.negate(), u.time.negate()).mul(u.temporalDistortion).toVar()
       const scaledPosition = positionWorld.mul(u.distortionScale)
 
@@ -207,8 +242,6 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
 
       return transmission.div(samples)
     })()
-
-    this.setValues(parameters)
   }
 
   override setupLighting(builder: NodeBuilder) {
@@ -220,10 +253,13 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
   }
 
   // `super.copy` would give this material the source's `backdropNode`, which reads the source's uniforms.
+  // It also calls `Texture.copy` on a non-null `buffer`, so clear it first and let the setter take the reference.
   override copy(source: MeshTransmissionNodeMaterial) {
-    const backdropNode = this.backdropNode
+    this.buffer = null
     super.copy(source)
-    this.backdropNode = backdropNode
+    this._samples = source._samples
+    this._transmissionSampler = source._transmissionSampler
+    this._setupBackdrop()
     return this
   }
 

@@ -44,7 +44,7 @@ const {
   temporalDistortion: { value: 0, min: 0, max: 1, step: 0.01 },
   ior: { value: 1.5, min: 1, max: 3, step: 0.01 },
   clearcoat: { value: 1, min: 0, max: 1, step: 0.01 },
-  // 0 stands for no attenuation, because a slider cannot reach Infinity.
+  // 0 means no attenuation on WebGPU. The GLSL material needs Infinity for that, which a slider cannot reach.
   attenuationDistance: { value: 0, min: 0, max: 10, step: 0.1 },
   attenuationColor: { type: 'color', value: '#ffffff' },
   color: { type: 'color', value: '#ffffff' },
@@ -65,7 +65,7 @@ const materialProps = computed(() => ({
   temporalDistortion: temporalDistortion.value,
   ior: ior.value,
   clearcoat: clearcoat.value,
-  attenuationDistance: attenuationDistance.value || Number.POSITIVE_INFINITY,
+  attenuationDistance: rendererFactory ? attenuationDistance.value || Number.POSITIVE_INFINITY : attenuationDistance.value,
   attenuationColor: attenuationColor.value,
   color: color.value,
   backside: backside.value,
@@ -81,7 +81,7 @@ const checks = [
   '`roughness` and `anisotropicBlur` blur what shows through',
   '`distortion` above 0 wobbles the refraction. `temporalDistortion` above 0 animates it',
   '`transmission` 0 makes the knot an opaque physical material',
-  '`attenuationColor` with an `attenuationDistance` above 0 tints the glass',
+  '`attenuationColor` with an `attenuationDistance` above 0 tints the glass. Back at 0, the tint goes away',
   '`backside` on shows the far side of the knot through the near side',
   '`samples` remounts the material (warning in the console), and the knot is glass again',
   '`transmissionSampler` on (WebGPU) still shows the scene through the knot, from the renderer opaque pass',

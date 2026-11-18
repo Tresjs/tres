@@ -105,36 +105,47 @@ export function useMeshTransmissionMaterial<T extends RenderTarget>(
     const oldBackground = sceneValue.background
     const oldToneMapping = renderer.toneMapping
     const oldSide = mat.side
-
-    if (props.background) { sceneValue.background = props.background }
-    renderer.toneMapping = NoToneMapping
+    const oldMaterial = parent.material
+    const oldTarget = renderer.getRenderTarget()
+    const oldCubeFace = renderer.getActiveCubeFace()
+    const oldMipmapLevel = renderer.getActiveMipmapLevel()
 
     // The renderer type is a union, so its parameter types intersect. Both renderers accept either target class.
-    const setTarget = (target: T | null) => renderer.setRenderTarget(target as WebGLRenderTarget | null)
+    const setTarget = (target: RenderTarget | null, cubeFace?: number, mipmapLevel?: number) =>
+      renderer.setRenderTarget(target as WebGLRenderTarget | null, cubeFace, mipmapLevel)
 
-    parent.material = discardMaterial
+    try {
+      if (props.background) { sceneValue.background = props.background }
+      renderer.toneMapping = NoToneMapping
+      parent.material = discardMaterial
 
-    if (props.backside) {
-      setTarget(fboBack)
+      if (props.backside) {
+        setTarget(fboBack)
+        renderer.render(sceneValue, camera.value)
+        // The back faces refract the scene behind the mesh into fboMain, so the front faces see the glass thickness.
+        parent.material = mat
+        mat.buffer = fboBack.texture
+        mat.thickness = props.backsideThickness ?? 0
+        mat.side = BackSide
+        // Neither renderer checks `side` while the material version stays the same.
+        mat.needsUpdate = true
+      }
+
+      setTarget(fboMain)
       renderer.render(sceneValue, camera.value)
-      // The back faces refract the scene behind the mesh into fboMain, so the front faces see the glass thickness.
-      parent.material = mat
-      mat.buffer = fboBack.texture
-      mat.thickness = props.backsideThickness ?? 0
-      mat.side = BackSide
+      mat.buffer = fboMain.texture
     }
-
-    setTarget(fboMain)
-    renderer.render(sceneValue, camera.value)
-
-    parent.material = mat
-    mat.thickness = props.thickness ?? 0
-    mat.side = oldSide
-    mat.buffer = fboMain.texture
-
-    renderer.toneMapping = oldToneMapping
-    sceneValue.background = oldBackground
-    setTarget(null)
+    finally {
+      parent.material = oldMaterial
+      mat.thickness = props.thickness ?? 0
+      if (mat.side !== oldSide) {
+        mat.side = oldSide
+        mat.needsUpdate = true
+      }
+      renderer.toneMapping = oldToneMapping
+      sceneValue.background = oldBackground
+      setTarget(oldTarget, oldCubeFace, oldMipmapLevel)
+    }
   })
 
   onBeforeUnmount(() => {
