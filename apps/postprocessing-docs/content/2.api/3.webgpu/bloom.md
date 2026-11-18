@@ -12,7 +12,7 @@ description: Add a glow around the bright areas of the scene.
 
 It is an **HDR** effect. It runs on linear scene colors, before tone mapping, so colors above `1` (such as an `emissiveIntensity` above `1`) glow more.
 
-On a canvas with `alpha`, the glow adds to the color but not to the alpha. Over a transparent pixel, the glow does not show.
+On a canvas with `alpha`, the glow adds to the color but not to the alpha. Do not rely on the glow over a transparent pixel: three r186 and newer hide it, and with older versions the result depends on the browser.
 
 ## Usage
 
