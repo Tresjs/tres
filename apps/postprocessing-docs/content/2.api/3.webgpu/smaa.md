@@ -10,7 +10,7 @@ description: Subpixel morphological anti-aliasing for the WebGPU composer.
 
 `SMAA` (subpixel morphological anti-aliasing) finds the edges in the image and blends along them. It keeps edges sharper than [FXAA](/api/webgpu/fxaa), for a higher cost. It wraps three's `SMAANode`.
 
-It is an **LDR** effect. It runs after tone mapping, on display colors, so it finds the edges the viewer sees.
+It is an **HDR** effect, because `SMAANode` expects colors before the sRGB conversion. HDR effects run in slot order, so put `SMAA` after the other HDR effects to smooth their output too.
 
 ## Usage
 
