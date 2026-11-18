@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { OrbitControls } from '@tresjs/cientos/webgpu'
-import { TresCanvas } from '@tresjs/core/webgpu'
 import { useControls } from '@tresjs/leches'
 import { DepthOfField, EffectComposer } from '@tresjs/post-processing/webgpu'
 
@@ -14,13 +12,9 @@ const { focusDistance, focalLength, bokehScale } = useControls({
 </script>
 
 <template>
-  <TresCanvas clear-color="#0b0b12">
-    <TresPerspectiveCamera :position="[0, 1.5, 6]" :look-at="[0, 0, 0]" />
-    <OrbitControls />
-    <WebgpuEffectsScene />
-
+  <WebgpuDemoCanvas>
     <EffectComposer>
       <DepthOfField :focus-distance="focusDistance" :focal-length="focalLength" :bokeh-scale="bokehScale" />
     </EffectComposer>
-  </TresCanvas>
+  </WebgpuDemoCanvas>
 </template>
