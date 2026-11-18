@@ -70,13 +70,17 @@ describe('webGPU effects', () => {
     expect(findNode(renderPipeline.outputNode, 'FilmNode').intensityNode).toBe(uniforms().intensity)
   })
 
-  it('bloom adds the glow to its input', async () => {
+  it('bloom adds the glow to the scene color and keeps the scene alpha', async () => {
     const { renderPipeline, passes } = await mountEffect(Bloom as Component)
     const bloom = findNode(renderPipeline.outputNode, 'BloomNode')
+    const nodes = [...collect(renderPipeline.outputNode)] as any[]
+    const isSplit = (node: any, of: Node, components: string) => node?.type === 'SplitNode' && node.node === of && node.components === components
 
     expect(bloom.inputNode).toBe(passes.scenePass!.getTextureNode())
-    const sum = [...collect(renderPipeline.outputNode)].find((node: any) => node.op === '+' && node.bNode === bloom) as any
-    expect(sum?.aNode).toBe(bloom.inputNode)
+    const sum = nodes.find(node => node.op === '+' && isSplit(node.bNode, bloom, 'xyz'))
+    expect(isSplit(sum?.aNode, bloom.inputNode, 'xyz')).toBe(true)
+    expect(nodes.some(node => isSplit(node, bloom.inputNode, 'w'))).toBe(true)
+    expect(nodes.some(node => node.op === '+' && node.bNode === bloom)).toBe(false)
   })
 
   it('depth of field reads the view Z of the scene pass', async () => {
@@ -95,6 +99,7 @@ describe('webGPU effects', () => {
     props.value = { strength: 0.25, radius: 0.8 }
     await flush()
 
+    expect(findNode(renderPipeline.outputNode, 'BloomNode')).toBe(bloom)
     expect(bloom.strength.value).toBe(0.25)
     expect(bloom.radius.value).toBe(0.8)
     expect(bloom.threshold.value).toBe(0)
