@@ -35,7 +35,7 @@ export interface EffectDefinition<P extends Record<string, EffectPropDefault>> {
   props?: P
   /**
    * `hdr` (default) runs on linear scene colors, for effects such as bloom or depth of field.
-   * `ldr` runs after tone mapping and the output color space, for effects such as FXAA, SMAA or film grain.
+   * `ldr` runs after tone mapping and the output color space, for effects such as FXAA or film grain.
    */
   stage?: EffectStage
   /**
@@ -128,10 +128,11 @@ export function defineEffect<P extends Record<string, EffectPropDefault> = Recor
           logWarning(`${definition.name}: the prop "${key}" does not match the type of its default. The uniform keeps its value.`)
         }
         if (props[key] != null) { write(props[key]) }
+        // `deep: 1` sees a tuple element or a `Vector2.x` that changes in place.
         watch(() => props[key], (next) => {
           write(next)
           invalidate()
-        })
+        }, { deep: 1 })
       }
 
       expose({ uniforms })

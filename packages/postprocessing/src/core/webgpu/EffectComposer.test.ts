@@ -9,7 +9,7 @@ import { defineComponent, h, ref, shallowRef } from 'vue'
 import type { EffectStage } from './context'
 import { defineEffect } from './defineEffect'
 import EffectComposer from './EffectComposer.vue'
-import { createPipelineProbe, flush, mountStubCanvas } from './test-utils'
+import { createPipelineProbe, flush, mountStubCanvas, unmountStubCanvases } from './test-utils'
 
 const calls: string[] = []
 
@@ -69,6 +69,7 @@ const mountComposer = async (children: () => VNodeChild[], enabled: Ref<boolean>
 }
 
 afterEach(() => {
+  unmountStubCanvases()
   calls.length = 0
   for (const name of Object.keys(inputs)) { delete inputs[name] }
   vi.restoreAllMocks()
@@ -197,6 +198,28 @@ describe('effectComposer (WebGPU)', () => {
     expect(effect.value!.uniforms.amount.value).toBe(1)
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('Shift: the prop "offset" does not match'))
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('Shift: the prop "amount" does not match'))
+  })
+
+  it('writes a vector prop that changes in place', async () => {
+    const Shift = defineEffect({
+      name: 'Shift',
+      props: { offset: new Vector2(0, 0) },
+      create: (input, { uniforms }) => input.add(uniforms.offset.x),
+    })
+    const tuple = ref<[number, number]>([1, 2])
+    const vector = ref(new Vector2(3, 4))
+    const effects: any[] = []
+    await mountComposer(() => [
+      h(Shift, { offset: tuple.value, ref: (el: any) => { effects[0] = el } }),
+      h(Shift, { offset: vector.value, ref: (el: any) => { effects[1] = el } }),
+    ])
+
+    tuple.value[0] = 5
+    vector.value.y = 6
+    await flush()
+
+    expect(effects[0].uniforms.offset.value.toArray()).toEqual([5, 2])
+    expect(effects[1].uniforms.offset.value.toArray()).toEqual([3, 6])
   })
 
   it('keeps the color on an invalid color value', async () => {

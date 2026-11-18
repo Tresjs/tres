@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { Component } from 'vue'
 import { h, ref, shallowRef } from 'vue'
 import EffectComposer from '../EffectComposer.vue'
-import { createPipelineProbe, flush, mountStubCanvas } from '../test-utils'
+import { createPipelineProbe, flush, mountStubCanvas, unmountStubCanvases } from '../test-utils'
 import { Bloom, ChromaticAberration, DepthOfField, Film, FXAA, SMAA } from '.'
 
 type Uniforms = Record<string, { value: unknown }>
@@ -31,6 +31,7 @@ const findNode = (root: Node, type: string) => [...collect(root)].find(node => n
 const hasRenderOutput = (root: Node) => [...collect(root)].some(node => (node as { isRenderOutputNode?: boolean }).isRenderOutputNode)
 
 afterEach(() => {
+  unmountStubCanvases()
   vi.restoreAllMocks()
 })
 
@@ -39,6 +40,7 @@ describe('webGPU effects', () => {
     ['Bloom', Bloom, 'BloomNode', { strength: 'strength', radius: 'radius', threshold: 'threshold', smoothWidth: 'smoothWidth' }],
     ['DepthOfField', DepthOfField, 'DepthOfFieldNode', { focusDistance: 'focusDistanceNode', focalLength: 'focalLengthNode', bokehScale: 'bokehScaleNode' }],
     ['ChromaticAberration', ChromaticAberration, 'ChromaticAberrationNode', { strength: 'strengthNode', center: 'centerNode', scale: 'scaleNode' }],
+    ['SMAA', SMAA, 'SMAANode', {}],
   ] as const)('%s runs before tone mapping and passes its uniforms to the node', async (_, effect, type, fields) => {
     const { renderPipeline, uniforms } = await mountEffect(effect as Component)
     const node = findNode(renderPipeline.outputNode, type)
@@ -53,7 +55,6 @@ describe('webGPU effects', () => {
 
   it.each([
     ['FXAA', FXAA, 'FXAANode'],
-    ['SMAA', SMAA, 'SMAANode'],
     ['Film', Film, 'FilmNode'],
   ] as const)('%s runs after tone mapping', async (_, effect, type) => {
     const { renderPipeline } = await mountEffect(effect as Component)
@@ -88,7 +89,6 @@ describe('webGPU effects', () => {
 
     expect(findNode(renderPipeline.outputNode, 'DepthOfFieldNode').viewZNode).toBe(passes.scenePass!.getViewZNode())
   })
-
   it('writes prop changes to the uniforms the node reads', async () => {
     const props = ref<Record<string, unknown>>({ strength: 2, threshold: 0.5 })
     const { renderPipeline } = await mountEffect(Bloom as Component, props)
