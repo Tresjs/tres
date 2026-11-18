@@ -99,11 +99,11 @@ describe('webGPU effects', () => {
     expect(bloom.strength.value).toBe(2)
     expect(bloom.threshold.value).toBe(0.5)
 
-    props.value = { strength: 0.25, radius: 0.8 }
+    props.value = { strength: 0, radius: 0.8 }
     await flush()
 
     expect(findNode(renderPipeline.outputNode, 'BloomNode')).toBe(bloom)
-    expect(bloom.strength.value).toBe(0.25)
+    expect(bloom.strength.value).toBe(0)
     expect(bloom.radius.value).toBe(0.8)
     expect(bloom.threshold.value).toBe(0)
   })
