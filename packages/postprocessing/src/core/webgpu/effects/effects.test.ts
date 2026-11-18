@@ -82,8 +82,10 @@ describe('webGPU effects', () => {
     const sum = nodes.find(node => node.op === '+' && isSplit(node.bNode, bloom, 'xyz'))
     expect(isSplit(sum?.aNode, bloom.inputNode, 'xyz')).toBe(true)
 
-    const output = nodes.find(node => node.type === 'JoinNode' && unwrap(node.nodes[0]) === sum)
-    expect(output?.nodes).toHaveLength(2)
+    const output = unwrap(renderPipeline.outputNode)
+    expect(output.type).toBe('JoinNode')
+    expect(output.nodes).toHaveLength(2)
+    expect(unwrap(output.nodes[0])).toBe(sum)
     expect(isSplit(unwrap(output.nodes[1]), bloom.inputNode, 'w')).toBe(true)
   })
 

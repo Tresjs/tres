@@ -87,6 +87,13 @@ const writeUniform = (node: UniformNode<any, any>, value: unknown): boolean => {
   return true
 }
 
+const readFields = (value: unknown) => {
+  if (value === null || typeof value !== 'object') { return value }
+  if (Array.isArray(value)) { return [...value] }
+  const { x, y, z, w, r, g, b } = value as Record<string, unknown>
+  return [x, y, z, w, r, g, b]
+}
+
 const runtimeType = (value: unknown) => {
   if (typeof value === 'boolean') { return Boolean }
   if (typeof value === 'number') { return Number }
@@ -128,11 +135,11 @@ export function defineEffect<P extends Record<string, EffectPropDefault> = Recor
           logWarning(`${definition.name}: the prop "${key}" does not match the type of its default. The uniform keeps its value.`)
         }
         if (props[key] != null) { write(props[key]) }
-        // `deep: 1` sees a tuple element or a `Vector2.x` that changes in place.
-        watch(() => props[key], (next) => {
-          write(next)
+        // Reads the elements, so a tuple or a `Vector2` changed in place is seen. Vue 3.4 has no numeric `deep`.
+        watch(() => readFields(props[key]), () => {
+          write(props[key])
           invalidate()
-        }, { deep: 1 })
+        })
       }
 
       expose({ uniforms })
