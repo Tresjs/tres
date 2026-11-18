@@ -179,6 +179,22 @@ describe('useRenderPipeline', () => {
     warn.mockRestore()
   })
 
+  it('gives each configuring component the default outputColorTransform', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const seen: boolean[] = []
+    let result!: UseRenderPipelineReturn
+    const { show } = setup({
+      First: () => { result = useRenderPipeline(({ renderPipeline }) => { seen.push(renderPipeline.outputColorTransform) }) },
+      Second: () => { useRenderPipeline(({ renderPipeline }) => { renderPipeline.outputColorTransform = false }) },
+    })
+    await show('First', 'Second')
+    expect(result.renderPipeline.value!.outputColorTransform).toBe(false)
+
+    await show('First')
+    expect(seen).toEqual([true, true])
+    expect(result.renderPipeline.value!.outputColorTransform).toBe(true)
+  })
+
   it('rebuilds against a new scene pass, and reset frees the pipeline', async () => {
     let result!: UseRenderPipelineReturn
     const main = vi.fn<RenderPipelineCallback>()

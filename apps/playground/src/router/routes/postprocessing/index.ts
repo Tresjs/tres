@@ -66,8 +66,30 @@ export const pmndrsRoutes = [
   makeRoute('On-demand', '🔄', false),
 ]
 
+export const webgpuRoutes: RouteRecordRaw[] = [
+  {
+    path: '/postprocessing/webgpu/composer',
+    name: 'webgpu-composer',
+    meta: { icon: '⚡', name: 'EffectComposer + defineEffect' },
+    component: () => import('@/pages/postprocessing/webgpu/composer/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/pixelation',
+    name: 'webgpu-pixelation',
+    meta: { icon: '👾', name: 'Pixelation (defineEffect)' },
+    component: () => import('@/pages/postprocessing/webgpu/pixelation/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/staging',
+    name: 'webgpu-staging',
+    meta: { icon: '🌗', name: 'HDR / LDR staging (Bloom + FXAA/SMAA)' },
+    component: () => import('@/pages/postprocessing/webgpu/staging/index.vue'),
+  },
+]
+
 export const postProcessingRoutes = [
   home,
   ...threeRoutes,
   ...pmndrsRoutes,
+  ...webgpuRoutes,
 ]

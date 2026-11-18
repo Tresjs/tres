@@ -65,6 +65,8 @@ const RESYNC_YAW_SPEED = 2.5
 const STOPPED_SPEED = 1.5
 
 const cameraRef = shallowRef<PerspectiveCamera | null>(null)
+const carRef = shallowRef<InstanceType<typeof CarComponent>>()
+const sceneWorldRef = shallowRef<InstanceType<typeof SceneWorld>>()
 const desiredPosition = new Vector3()
 const lookAtTarget = new Vector3()
 const smoothedLookAt = new Vector3()
@@ -254,9 +256,6 @@ function followCarCamera({ delta }: { delta: number }) {
     camera.updateProjectionMatrix()
   }
 }
-
-const carRef = shallowRef<InstanceType<typeof CarComponent>>()
-const sceneWorldRef = shallowRef<InstanceType<typeof SceneWorld>>()
 
 // KeyX/ArrowX are physical key codes, so Shift+WASD keeps working while boosting
 const keys = useMagicKeys({

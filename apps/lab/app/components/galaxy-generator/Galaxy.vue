@@ -68,6 +68,8 @@ const shader = {
   },
 }
 
+const bufferRef = ref(null)
+
 function updateGalaxy() {
   if (bufferRef.value) {
     const colorInside = new Color(parameters.insideColor)
@@ -110,8 +112,6 @@ function updateGalaxy() {
     bufferRef.value.geometry.setAttribute('aScale', new BufferAttribute(scales, 1))
   }
 }
-
-const bufferRef = ref(null)
 
 const { onBeforeRender } = useLoop()
 

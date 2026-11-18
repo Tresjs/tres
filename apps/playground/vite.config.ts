@@ -57,6 +57,7 @@ export default defineConfig({
             '@tresjs/core/webgpu': resolve(__dirname, '../../packages/core/src/webgpu/index.ts'),
             '@tresjs/core': resolve(__dirname, '../../packages/core/src/index.ts'),
             '@tresjs/cientos': resolve(__dirname, '../../packages/cientos/src/index.ts'),
+            '@tresjs/post-processing/webgpu': resolve(__dirname, '../../packages/postprocessing/src/webgpu.ts'),
             '@tresjs/post-processing': resolve(__dirname, '../../packages/postprocessing/src/index.ts'),
             '@tresjs/rapier': resolve(__dirname, '../../packages/rapier/src/index.ts'),
           }

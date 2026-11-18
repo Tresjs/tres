@@ -126,7 +126,7 @@ const handleSphereClick = () => {
   animateColorTransition()
 }
 
-const animateColorTransition = (immediate = false) => {
+function animateColorTransition(immediate = false) {
   if (immediate) {
     ctx.add(() => {
       gsap.set(backgroundRef.value, {

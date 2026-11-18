@@ -1,3 +1,29 @@
+## 5.12.0 (2026-11-17)
+
+### 🚀 Features
+
+- **core:** add extend assign option, keep user vectors unchanged ([#1560](https://github.com/Tresjs/tres/pull/1560))
+- **postprocessing:** add HDR / LDR effect stages to the WebGPU composer ([#1557](https://github.com/Tresjs/tres/pull/1557))
+- **core:** add a default attach option to extend ([#1558](https://github.com/Tresjs/tres/pull/1558))
+
+### 🩹 Fixes
+
+- **core:** sort useLoop priorities across components ([#1559](https://github.com/Tresjs/tres/pull/1559))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 5.11.0 (2026-11-13)
+
+### 🚀 Features
+
+- **core:** add TSL composables to @tresjs/core/webgpu ([#1545](https://github.com/Tresjs/tres/pull/1545))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 5.10.1 (2026-10-28)
 
 ### 🩹 Fixes

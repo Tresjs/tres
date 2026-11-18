@@ -75,7 +75,7 @@ export default defineNuxtConfig({
     description: 'Effect composer and post-processing effects library for TresJS.',
     full: {
       title: 'TresJS Post-processing — Full Documentation',
-      description: 'Complete post-processing documentation including getting started guides, pmndrs effects, three native effects, and advanced usage.',
+      description: 'Complete post-processing documentation including getting started guides, pmndrs effects, three native effects, the WebGPU EffectComposer and defineEffect, and advanced usage.',
     },
     sections: [
       {

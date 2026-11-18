@@ -4,7 +4,7 @@ This is the documentation site for `@tresjs/post-processing` built with Nuxt v4 
 
 ## Overview
 
-This app provides docs for TresJS post-processing effects (pmndrs family + three family) with:
+This app provides docs for TresJS post-processing effects (pmndrs family, three family and WebGPU family) with:
 
 - Nuxt v4 with compatibility mode enabled
 - Nuxt UI v4 for beautiful, accessible components
@@ -45,7 +45,8 @@ content/
 ├── 1.getting-started/      # Introduction + installation
 ├── 2.api/
 │   ├── 1.pmndrs/           # 30 pmndrs effect pages
-│   └── 2.three/            # 7 three family effect pages
+│   ├── 2.three/            # 7 three family effect pages
+│   └── 3.webgpu/           # WebGPU family: EffectComposer and defineEffect
 └── 3.advanced/             # Advanced guide
 ```
 

@@ -128,6 +128,24 @@ function easeOutSine(x: number): number {
   return Math.sin((x * Math.PI) / 2)
 }
 
+const conveyor = new Group()
+const group = new Group()
+conveyor.add(group)
+for (let chunkI = 0; chunkI < NUM_CHUNKS; chunkI++) {
+  const chunk = new Group()
+  const mesh = getChunk(chunkI)
+  chunk.add(mesh)
+  const lines = getLines(mesh)
+  lines.position.y += 0.001
+  chunk.add(lines)
+  const dust = getDust()
+  chunk.add(dust)
+
+  group.add(chunk)
+}
+group.children.forEach((c, i) => (c.position.z = i / NUM_CHUNKS))
+group.position.z = 1
+
 const v = new Vector3(0, 0, 0)
 
 const { onBeforeRender } = useLoop()
@@ -155,26 +173,6 @@ onBeforeRender(({ delta }) => {
   progress = p * NUM_CHUNKS * -1 - 1
   group.children[0].position.y = lerp(-3, 0, easeOutSine(progress))
 })
-
-const conveyor = new Group()
-const group = new Group()
-conveyor.add(group)
-{
-  for (let chunkI = 0; chunkI < NUM_CHUNKS; chunkI++) {
-    const chunk = new Group()
-    const mesh = getChunk(chunkI)
-    chunk.add(mesh)
-    const lines = getLines(mesh)
-    lines.position.y += 0.001
-    chunk.add(lines)
-    const dust = getDust()
-    chunk.add(dust)
-
-    group.add(chunk)
-  }
-  group.children.forEach((c, i) => (c.position.z = i / NUM_CHUNKS))
-  group.position.z = 1
-}
 </script>
 
 <template>

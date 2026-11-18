@@ -20,7 +20,7 @@ function nextLetter() {
     0,
     attribution.length,
   )
-  typing.value = attributionLengthTarget != attributionLength.value
+  typing.value = attributionLengthTarget !== attributionLength.value
   if (typing.value) {
     clearTimeout(timeout)
     timeout = setTimeout(nextLetter, 25)
@@ -39,7 +39,7 @@ watch(playing, (p) => {
 </script>
 
 <template>
-  <div :class="`music-player ${typing ? 'typing' : ''}`">
+  <div class="music-player" :class="{ typing }">
     <div class="music-player-button" tabindex="0" role="button" @keypress="onClick" @click="onClick">
       <svg v-if="playing"
            xmlns="http://www.w3.org/2000/svg"

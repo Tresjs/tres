@@ -174,7 +174,7 @@ gameStore.actions.update = () => {
 export type GameStore = typeof gameStore
 
 function randomData(count: number, track: TubeGeometry, radius: number, size: number, scale: number | (() => number)) {
-  return new Array(count).fill({}).map(() => {
+  return Array.from({ length: count }).fill({}).map(() => {
     const t = Math.random()
     const pos = track.parameters.path.getPointAt(t)
     pos.multiplyScalar(15)

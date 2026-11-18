@@ -55,6 +55,11 @@ export const issuesRoutes = [
     component: () => import('@/pages/core/issues/1513/index.vue'),
   },
   {
+    path: '/issues/attach',
+    name: 'TRES-427: default attach on extend',
+    component: () => import('@/pages/core/issues/attach/index.vue'),
+  },
+  {
     path: '/issues/tres-409',
     name: 'TRES-409: node material recompile',
     component: () => import('@/pages/core/issues/tres-409/index.vue'),
@@ -63,5 +68,15 @@ export const issuesRoutes = [
     path: '/issues/material-cache-key',
     name: 'TRES-407: material cache-key props',
     component: () => import('@/pages/core/issues/material-cache-key/index.vue'),
+  },
+  {
+    path: '/issues/tres-428',
+    name: 'TRES-428: useLoop priority across components',
+    component: () => import('@/pages/core/issues/tres-428/index.vue'),
+  },
+  {
+    path: '/issues/tres-429',
+    name: 'TRES-429: assign vector props',
+    component: () => import('@/pages/core/issues/tres-429/index.vue'),
   },
 ]

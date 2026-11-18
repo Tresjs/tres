@@ -54,5 +54,5 @@ onBeforeRender(({ delta }) => {
 </script>
 
 <template>
-  <primitive v-if="airplane" ref="airplaneRef" :object="airplane" />
+  <primitive v-if="airplane" :object="airplane" />
 </template>

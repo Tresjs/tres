@@ -28,7 +28,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['sphere-click'])
+const emit = defineEmits(['sphereClick'])
 
 const ctx = gsap.context(() => { })
 
@@ -45,6 +45,22 @@ const { renderer } = useTres()
 const currentColor = computed(() => colors.value[indexColor.value])
 
 const colorFinalB = computed(() => new Color(`hsl(${currentColor.value[0]}, ${currentColor.value[1]}%, ${currentColor.value[2]}%)`))
+
+const { state: heightMapTexture } = useTexture('/magical-marbles/heightMap.jpeg')
+const { state: displacementMapTexture } = useTexture('/magical-marbles/displacementMap.jpeg')
+
+const uniforms = reactive({
+  uTime: { value: 1 },
+  uDisplacementSpeed: { value: 1 },
+  colorA: { value: new Color(0, 0, 0) },
+  colorB: { value: new Color(`hsl(${colors.value[indexColor.value][0]}, ${colors.value[indexColor.value][1]}%, ${colors.value[indexColor.value][2]}%)`) },
+  heightMap: { value: heightMapTexture.value },
+  displacementMap: { value: displacementMapTexture.value },
+  iterations: { value: params.value.iterations },
+  depth: { value: params.value.depth },
+  smoothing: { value: params.value.smoothing },
+  displacement: { value: params.value.displacement },
+})
 
 const animateSphereColor = async () => {
   await nextTick()
@@ -69,22 +85,6 @@ const animateSphereColor = async () => {
       }, 'sphereAnimation')
   })
 }
-
-const { state: heightMapTexture } = useTexture('/magical-marbles/heightMap.jpeg')
-const { state: displacementMapTexture } = useTexture('/magical-marbles/displacementMap.jpeg')
-
-const uniforms = reactive({
-  uTime: { value: 1 },
-  uDisplacementSpeed: { value: 1 },
-  colorA: { value: new Color(0, 0, 0) },
-  colorB: { value: new Color(`hsl(${colors.value[indexColor.value][0]}, ${colors.value[indexColor.value][1]}%, ${colors.value[indexColor.value][2]}%)`) },
-  heightMap: { value: heightMapTexture.value },
-  displacementMap: { value: displacementMapTexture.value },
-  iterations: { value: params.value.iterations },
-  depth: { value: params.value.depth },
-  smoothing: { value: params.value.smoothing },
-  displacement: { value: params.value.displacement },
-})
 
 const uniformKeys = ['iterations', 'depth', 'smoothing', 'displacement'] as const
 
@@ -127,7 +127,7 @@ const onSpherePointerDown = () => {
 
 const onSpherePointerUp = () => {
   animateScale(1)
-  emit('sphere-click')
+  emit('sphereClick')
 }
 
 const onSpherePointerEnter = () => {
