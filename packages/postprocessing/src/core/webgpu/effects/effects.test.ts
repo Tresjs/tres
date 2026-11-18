@@ -16,7 +16,7 @@ const mountEffect = async (effect: Component, props = ref<Record<string, unknown
     h(Probe),
   ]).show()
 
-  return { renderPipeline: pipeline()!, passes: passes(), uniforms: () => instance.value!.uniforms }
+  return { renderPipeline: pipeline()!, livePipeline: () => pipeline()!, passes: passes(), uniforms: () => instance.value!.uniforms }
 }
 
 const collect = (root: Node, into = new Set<Node>()) => {
@@ -96,7 +96,7 @@ describe('webGPU effects', () => {
   })
   it('writes prop changes to the uniforms the node reads', async () => {
     const props = ref<Record<string, unknown>>({ strength: 2, threshold: 0.5 })
-    const { renderPipeline } = await mountEffect(Bloom as Component, props)
+    const { renderPipeline, livePipeline } = await mountEffect(Bloom as Component, props)
     const bloom = findNode(renderPipeline.outputNode, 'BloomNode')
     expect(bloom.strength.value).toBe(2)
     expect(bloom.threshold.value).toBe(0.5)
@@ -104,7 +104,7 @@ describe('webGPU effects', () => {
     props.value = { strength: 0, radius: 0.8 }
     await flush()
 
-    expect(findNode(renderPipeline.outputNode, 'BloomNode')).toBe(bloom)
+    expect(findNode(livePipeline().outputNode, 'BloomNode')).toBe(bloom)
     expect(bloom.strength.value).toBe(0)
     expect(bloom.radius.value).toBe(0.8)
     expect(bloom.threshold.value).toBe(0)
@@ -112,14 +112,14 @@ describe('webGPU effects', () => {
 
   it('takes a tuple for the chromatic aberration center and sees an edit in place', async () => {
     const props = ref({ center: [0.25, 0.75] })
-    const { renderPipeline } = await mountEffect(ChromaticAberration as Component, props)
+    const { renderPipeline, livePipeline } = await mountEffect(ChromaticAberration as Component, props)
     const node = findNode(renderPipeline.outputNode, 'ChromaticAberrationNode')
     expect(node.centerNode.value.toArray()).toEqual([0.25, 0.75])
 
     props.value.center[0] = 0.5
     await flush()
 
-    expect(findNode(renderPipeline.outputNode, 'ChromaticAberrationNode')).toBe(node)
+    expect(findNode(livePipeline().outputNode, 'ChromaticAberrationNode')).toBe(node)
     expect(node.centerNode.value.toArray()).toEqual([0.5, 0.75])
   })
 })
