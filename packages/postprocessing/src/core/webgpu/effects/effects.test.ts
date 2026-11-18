@@ -110,9 +110,16 @@ describe('webGPU effects', () => {
     expect(bloom.threshold.value).toBe(0)
   })
 
-  it('takes a tuple for the chromatic aberration center', async () => {
-    const { renderPipeline } = await mountEffect(ChromaticAberration as Component, ref({ center: [0.25, 0.75] }))
+  it('takes a tuple for the chromatic aberration center and sees an edit in place', async () => {
+    const props = ref({ center: [0.25, 0.75] })
+    const { renderPipeline } = await mountEffect(ChromaticAberration as Component, props)
+    const node = findNode(renderPipeline.outputNode, 'ChromaticAberrationNode')
+    expect(node.centerNode.value.toArray()).toEqual([0.25, 0.75])
 
-    expect(findNode(renderPipeline.outputNode, 'ChromaticAberrationNode').centerNode.value.toArray()).toEqual([0.25, 0.75])
+    props.value.center[0] = 0.5
+    await flush()
+
+    expect(findNode(renderPipeline.outputNode, 'ChromaticAberrationNode')).toBe(node)
+    expect(node.centerNode.value.toArray()).toEqual([0.5, 0.75])
   })
 })
