@@ -105,6 +105,7 @@ export function useMeshTransmissionMaterial<T extends RenderTarget>(
     const oldBackground = sceneValue.background
     const oldToneMapping = renderer.toneMapping
     const oldSide = mat.side
+    const oldThickness = mat.thickness
     const oldMaterial = parent.material
     const oldTarget = renderer.getRenderTarget()
     const oldCubeFace = renderer.getActiveCubeFace()
@@ -137,7 +138,7 @@ export function useMeshTransmissionMaterial<T extends RenderTarget>(
     }
     finally {
       parent.material = oldMaterial
-      mat.thickness = props.thickness ?? 0
+      mat.thickness = oldThickness
       if (mat.side !== oldSide) {
         mat.side = oldSide
         mat.needsUpdate = true

@@ -119,7 +119,8 @@ const attenuationDistance = uniform(0).onObjectUpdate(({ material }) => {
 
 // 0 means no attenuation, as in three's TSL, and covers the GLSL `isinf` case.
 const volumeAttenuation = (radiance: Vec3Node, distance: FloatNode) => {
-  const coefficient = log(vec3(materialAttenuationColor)).negate().div(attenuationDistance)
+  // A 0 color channel would give log(0) = -inf, and -inf * 0 = NaN for a ray of zero length.
+  const coefficient = log(max(vec3(materialAttenuationColor), vec3(1e-6))).negate().div(attenuationDistance)
   const transmittance = exp(coefficient.negate().mul(vec3(distance)))
   return select(attenuationDistance.greaterThan(0.0), transmittance.mul(radiance), radiance)
 }
@@ -260,6 +261,17 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
     this._samples = source._samples
     this._transmissionSampler = source._transmissionSampler
     this._setupBackdrop()
+    // three r171 `copy` skips subclass accessors.
+    Object.assign(this, {
+      buffer: source.buffer,
+      _transmission: source._transmission,
+      chromaticAberration: source.chromaticAberration,
+      anisotropicBlur: source.anisotropicBlur,
+      time: source.time,
+      distortion: source.distortion,
+      distortionScale: source.distortionScale,
+      temporalDistortion: source.temporalDistortion,
+    })
     return this
   }
 
