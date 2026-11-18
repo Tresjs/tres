@@ -1,21 +1,15 @@
 import type { RenderFunction } from '@tresjs/core'
-import { useRenderPipeline } from '@tresjs/core/webgpu'
-import type { Node, RenderPipeline } from 'three/webgpu'
+import type { Node } from 'three/webgpu'
 import type { Color } from 'three'
-import { PerspectiveCamera, Vector2 } from 'three'
+import { Vector2 } from 'three'
 import { float } from 'three/tsl'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import type { Component, Ref, ShallowRef, VNodeChild } from 'vue'
-import { defineComponent, h, nextTick, ref, shallowRef } from 'vue'
-import { createStubRenderer, mountInTresContext } from '../../../../core/src/utils/test/tresContext'
+import type { Component, Ref, VNodeChild } from 'vue'
+import { defineComponent, h, ref, shallowRef } from 'vue'
 import type { EffectStage } from './context'
 import { defineEffect } from './defineEffect'
 import EffectComposer from './EffectComposer.vue'
-
-vi.mock('@pmndrs/pointer-events', async () => {
-  const { Object3D } = await import('three')
-  return { forwardHtmlEvents: () => ({ update: () => {}, destroy: () => {} }), getVoidObject: () => new Object3D() }
-})
+import { createPipelineProbe, flush, mountStubCanvas } from './test-utils'
 
 const calls: string[] = []
 
@@ -50,18 +44,9 @@ const Grain = createStagedEffect('Grain', 'ldr')
 
 const isRenderOutput = (node: Node | undefined) => (node as { isRenderOutputNode?: boolean } | undefined)?.isRenderOutputNode === true
 
-const flush = async () => {
-  await nextTick()
-  await nextTick()
-}
-
 const mountCanvas = (render: () => VNodeChild) => {
-  // A zero-size canvas never reports ready, so the real loop does not draw with the stub renderer.
-  const domElement = Object.assign(document.createElement('canvas'), { width: 0, height: 0 })
-  const content = ref(false)
-  const mounted = mountInTresContext(() => content.value ? render() : null, { renderer: createStubRenderer({ domElement }) })
+  const mounted = mountStubCanvas(render)
   const { ctx } = mounted
-  ctx.camera.registerCamera(new PerspectiveCamera(), true)
 
   const renderFunctions: RenderFunction[] = []
   const restores: ReturnType<typeof vi.fn>[] = []
@@ -74,11 +59,7 @@ const mountCanvas = (render: () => VNodeChild) => {
   }
   const invalidate = vi.spyOn(ctx.renderer, 'invalidate')
 
-  const show = async () => {
-    content.value = true
-    await flush()
-  }
-  return { ...mounted, show, renderFunctions, restores, invalidate }
+  return { ...mounted, renderFunctions, restores, invalidate }
 }
 
 const mountComposer = async (children: () => VNodeChild[], enabled: Ref<boolean> = ref(true)) => {
@@ -302,16 +283,10 @@ describe('effectComposer (WebGPU)', () => {
 
   describe('hDR / LDR stages', () => {
     const mountStaged = async (children: () => VNodeChild[]) => {
-      let pipeline: Readonly<ShallowRef<RenderPipeline | null>> | undefined
-      const Probe = defineComponent({
-        setup() {
-          pipeline = useRenderPipeline().renderPipeline
-          return () => null
-        },
-      })
+      const { Probe, pipeline } = createPipelineProbe()
       const canvas = mountCanvas(() => [h(EffectComposer, null, () => children()), h(Probe)])
       await canvas.show()
-      return { ...canvas, pipeline: () => pipeline?.value }
+      return { ...canvas, pipeline }
     }
 
     it.each([

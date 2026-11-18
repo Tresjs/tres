@@ -1,51 +1,22 @@
-import { useRenderPipeline } from '@tresjs/core/webgpu'
-import type { RenderPipelinePasses } from '@tresjs/core/webgpu'
-import { PerspectiveCamera } from 'three'
-import type { Node, RenderPipeline } from 'three/webgpu'
+import type { Node } from 'three/webgpu'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import type { Component, ShallowRef } from 'vue'
-import { defineComponent, h, nextTick, ref, shallowRef } from 'vue'
-import { createStubRenderer, mountInTresContext } from '../../../../../core/src/utils/test/tresContext'
+import type { Component } from 'vue'
+import { h, ref, shallowRef } from 'vue'
 import EffectComposer from '../EffectComposer.vue'
+import { createPipelineProbe, flush, mountStubCanvas } from '../test-utils'
 import { Bloom, ChromaticAberration, DepthOfField, Film, FXAA, SMAA } from '.'
-
-vi.mock('@pmndrs/pointer-events', async () => {
-  const { Object3D } = await import('three')
-  return { forwardHtmlEvents: () => ({ update: () => {}, destroy: () => {} }), getVoidObject: () => new Object3D() }
-})
 
 type Uniforms = Record<string, { value: unknown }>
 
-const flush = async () => {
-  await nextTick()
-  await nextTick()
-}
-
 const mountEffect = async (effect: Component, props = ref<Record<string, unknown>>({})) => {
-  let pipeline: Readonly<ShallowRef<RenderPipeline | null>> | undefined
-  let passes: Partial<RenderPipelinePasses> | undefined
-  const Probe = defineComponent({
-    setup() {
-      ({ renderPipeline: pipeline, passes } = useRenderPipeline())
-      return () => null
-    },
-  })
+  const { Probe, pipeline, passes } = createPipelineProbe()
   const instance = shallowRef<{ uniforms: Uniforms }>()
-  // A zero-size canvas never reports ready, so the real loop does not draw with the stub renderer.
-  const domElement = Object.assign(document.createElement('canvas'), { width: 0, height: 0 })
-  const content = ref(false)
-  const { ctx } = mountInTresContext(
-    () => content.value
-      ? [h(EffectComposer, null, () => [h(effect, { ...props.value, ref: (el: any) => { instance.value = el } })]), h(Probe)]
-      : null,
-    { renderer: createStubRenderer({ domElement }) },
-  )
-  ctx.camera.registerCamera(new PerspectiveCamera(), true)
-  content.value = true
-  await flush()
+  await mountStubCanvas(() => [
+    h(EffectComposer, null, () => [h(effect, { ...props.value, ref: (el: any) => { instance.value = el } })]),
+    h(Probe),
+  ]).show()
 
-  const renderPipeline = pipeline!.value!
-  return { renderPipeline, passes: passes!, uniforms: () => instance.value!.uniforms }
+  return { renderPipeline: pipeline()!, passes: passes(), uniforms: () => instance.value!.uniforms }
 }
 
 const collect = (root: Node, into = new Set<Node>()) => {
