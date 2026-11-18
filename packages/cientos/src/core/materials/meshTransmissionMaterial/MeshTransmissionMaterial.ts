@@ -67,6 +67,11 @@ export class MeshTransmissionMaterial extends MeshPhysicalMaterial {
     buffer: Uniform<Texture | null>
   }
 
+  // Getters and setters for these are defined on the instance from `uniforms` below.
+  declare _transmission: number
+  declare time: number
+  declare buffer: Texture | null
+
   constructor({
     samples = 6,
     transmissionSampler = false,
