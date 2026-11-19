@@ -40,7 +40,6 @@ describe('webGPU effects', () => {
     ['Bloom', Bloom, 'BloomNode', { strength: 'strength', radius: 'radius', threshold: 'threshold', smoothWidth: 'smoothWidth' }],
     ['DepthOfField', DepthOfField, 'DepthOfFieldNode', { focusDistance: 'focusDistanceNode', focalLength: 'focalLengthNode', bokehScale: 'bokehScaleNode' }],
     ['ChromaticAberration', ChromaticAberration, 'ChromaticAberrationNode', { strength: 'strengthNode', center: 'centerNode', scale: 'scaleNode' }],
-    ['SMAA', SMAA, 'SMAANode', {}],
   ] as const)('%s runs before tone mapping and passes its uniforms to the node', async (_, effect, type, fields) => {
     const { renderPipeline, uniforms } = await mountEffect(effect as Component)
     const node = findNode(renderPipeline.outputNode, type)
@@ -56,6 +55,7 @@ describe('webGPU effects', () => {
   it.each([
     ['FXAA', FXAA, 'FXAANode'],
     ['Film', Film, 'FilmNode'],
+    ['SMAA', SMAA, 'SMAANode'],
   ] as const)('%s runs after tone mapping', async (_, effect, type) => {
     const { renderPipeline } = await mountEffect(effect as Component)
     const node = findNode(renderPipeline.outputNode, type)

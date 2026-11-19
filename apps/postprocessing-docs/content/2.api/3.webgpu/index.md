@@ -38,7 +38,7 @@ import { Bloom, EffectComposer, SMAA } from '@tresjs/post-processing/webgpu'
 | [DepthOfField](/api/webgpu/depth-of-field)               | HDR   | `DepthOfFieldNode`        |
 | [Film](/api/webgpu/film)                                 | LDR   | `FilmNode`                |
 | [FXAA](/api/webgpu/fxaa)                                 | LDR   | `FXAANode`                |
-| [SMAA](/api/webgpu/smaa)                                 | HDR   | `SMAANode`                |
+| [SMAA](/api/webgpu/smaa)                                 | LDR   | `SMAANode`                |
 
 The prop names and defaults follow the three TSL node, not the WebGL components. A WebGL prop is missing when the TSL node has no parameter for it. Each effect page lists the differences and the reason for each.
 
@@ -50,9 +50,9 @@ The composer renders the scene into a scene pass, then runs its effects on it. E
 
 The chain runs in this order:
 
-1. The **HDR** effects, in slot order, on the linear scene colors. Bloom, depth of field and SMAA go here.
+1. The **HDR** effects, in slot order, on the linear scene colors. Bloom and depth of field go here.
 2. Tone mapping and the output color space (three's `renderOutput()`).
-3. The **LDR** effects, in slot order, on display colors. FXAA and film grain go here.
+3. The **LDR** effects, in slot order, on display colors. FXAA, SMAA and film grain go here.
 
 The tone mapping and the color space come from the renderer, so set them with the `tone-mapping` and `output-color-space` props of `TresCanvas`. Without LDR effects, three applies them at the end of the chain as usual.
 
