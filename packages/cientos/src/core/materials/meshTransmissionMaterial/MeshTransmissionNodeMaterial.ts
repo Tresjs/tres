@@ -119,9 +119,10 @@ const attenuationDistance = uniform(0).onObjectUpdate(({ material }) => {
 
 // 0 means no attenuation, as in three's TSL, and covers the GLSL `isinf` case.
 const volumeAttenuation = (radiance: Vec3Node, distance: FloatNode) => {
-  const coefficient = log(vec3(materialAttenuationColor)).negate().div(attenuationDistance)
-  const transmittance = exp(coefficient.negate().mul(vec3(distance)))
-  // A 0 color channel gives log(0) = -inf, and -inf * 0 = NaN for a ray of zero length.
+  const color = vec3(materialAttenuationColor)
+  // WGSL leaves log(0) undefined, so floor the input and zero the absorbed channels after exp.
+  const coefficient = log(max(color, vec3(1e-6))).negate().div(max(attenuationDistance, 1e-6))
+  const transmittance = exp(coefficient.negate().mul(vec3(distance))).mul(step(vec3(1e-6), color))
   return select(attenuationDistance.greaterThan(0.0).and(distance.greaterThan(0.0)), transmittance.mul(radiance), radiance)
 }
 
