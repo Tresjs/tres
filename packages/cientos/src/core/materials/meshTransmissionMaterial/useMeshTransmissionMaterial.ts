@@ -138,7 +138,7 @@ export function useMeshTransmissionMaterial<T extends RenderTarget>(
     }
     finally {
       parent.material = oldMaterial
-      mat.thickness = oldThickness
+      if (props.backside) { mat.thickness = oldThickness }
       if (mat.side !== oldSide) {
         mat.side = oldSide
         mat.needsUpdate = true

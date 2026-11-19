@@ -119,10 +119,10 @@ const attenuationDistance = uniform(0).onObjectUpdate(({ material }) => {
 
 // 0 means no attenuation, as in three's TSL, and covers the GLSL `isinf` case.
 const volumeAttenuation = (radiance: Vec3Node, distance: FloatNode) => {
-  // A 0 color channel would give log(0) = -inf, and -inf * 0 = NaN for a ray of zero length.
-  const coefficient = log(max(vec3(materialAttenuationColor), vec3(1e-6))).negate().div(attenuationDistance)
+  const coefficient = log(vec3(materialAttenuationColor)).negate().div(attenuationDistance)
   const transmittance = exp(coefficient.negate().mul(vec3(distance)))
-  return select(attenuationDistance.greaterThan(0.0), transmittance.mul(radiance), radiance)
+  // A 0 color channel gives log(0) = -inf, and -inf * 0 = NaN for a ray of zero length.
+  return select(attenuationDistance.greaterThan(0.0).and(distance.greaterThan(0.0)), transmittance.mul(radiance), radiance)
 }
 
 // The GLSL smear reads the `thickness` uniform before `thicknessMap` scales it. `materialThickness` includes the map.
@@ -256,6 +256,7 @@ export class MeshTransmissionNodeMaterial extends MeshPhysicalNodeMaterial imple
   // `super.copy` would give this material the source's `backdropNode`, which reads the source's uniforms.
   // It also calls `Texture.copy` on a non-null `buffer`, so clear it first and let the setter take the reference.
   override copy(source: MeshTransmissionNodeMaterial) {
+    if (source === this) { return this }
     this.buffer = null
     super.copy(source)
     this._samples = source._samples
