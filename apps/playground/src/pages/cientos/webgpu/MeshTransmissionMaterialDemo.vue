@@ -84,7 +84,7 @@ const checks = [
   '`attenuationColor` with an `attenuationDistance` above 0 tints the glass. Back at 0, the tint goes away',
   '`backside` on shows the far side of the knot through the near side',
   '`samples` remounts the material (warning in the console), and the knot is glass again',
-  '`transmissionSampler` on (WebGPU) still shows the scene through the knot, from the renderer opaque pass',
+  '`transmissionSampler` on still shows the scene through the knot, from the renderer opaque pass, also at `transmission` 0 then back to 1',
   'Every control gives about the same result as `renderer: webgl` (the GLSL MeshTransmissionMaterial)',
   'No errors and no <MeshTransmissionMaterial> WebGPU warning in the console',
 ]

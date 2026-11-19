@@ -42,7 +42,8 @@ export function useMeshTransmissionMaterial<T extends RenderTarget>(
     if (mat) { mat._transmission = transmission ?? 1 }
   }, { immediate: true })
 
-  // The built-in `transmission` stays 0, so three runs no transmission pass of its own.
+  // GLSL sampler mode compiles only with a built-in `transmission` above 0 (USE_TRANSMISSION, `transmissionSamplerMap`).
+  // On WebGPU it stays 0, else three's own transmission overwrites `backdropNode`.
   const tresProps = computed(() => {
     const {
       transmission: _t,
@@ -64,7 +65,7 @@ export function useMeshTransmissionMaterial<T extends RenderTarget>(
 
     return {
       ...defined,
-      transmission: 0,
+      transmission: !forWebGPURenderer && props.transmissionSampler ? 1 : 0,
     }
   })
 
