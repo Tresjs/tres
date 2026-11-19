@@ -35,6 +35,7 @@ import {
   screenCoordinate,
   screenSize,
   select,
+  sign,
   sin,
   specularColor,
   specularF90,
@@ -120,9 +121,10 @@ const attenuationDistance = uniform(0).onObjectUpdate(({ material }) => {
 // 0 means no attenuation, as in three's TSL, and covers the GLSL `isinf` case.
 const volumeAttenuation = (radiance: Vec3Node, distance: FloatNode) => {
   const color = vec3(materialAttenuationColor)
-  // WGSL leaves log(0) undefined, so floor the input and zero the absorbed channels after exp.
-  const coefficient = log(max(color, vec3(1e-6))).negate().div(max(attenuationDistance, 1e-6))
-  const transmittance = exp(coefficient.negate().mul(vec3(distance))).mul(step(vec3(1e-6), color))
+  // WGSL leaves log(0) undefined. sign() swaps only exact zeros for 1 and keeps positive values as GLSL has them.
+  const hasColor = sign(color)
+  const coefficient = log(color.add(hasColor.oneMinus())).negate().div(attenuationDistance.add(sign(attenuationDistance).oneMinus()))
+  const transmittance = exp(coefficient.negate().mul(vec3(distance))).mul(hasColor)
   return select(attenuationDistance.greaterThan(0.0).and(distance.greaterThan(0.0)), transmittance.mul(radiance), radiance)
 }
 
