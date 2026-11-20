@@ -1,5 +1,6 @@
-import { ShaderMaterial, Vector2 } from 'three'
-import type { Texture } from 'three'
+import { Mesh, OrthographicCamera, PlaneGeometry, Scene, ShaderMaterial, Vector2 } from 'three'
+import type { Texture, WebGLRenderer } from 'three'
+import type { PortalBlendPass } from './props'
 
 /**
  * Window-pass material for MeshPortalMaterial.
@@ -37,4 +38,45 @@ export class PortalMaterialImpl extends ShaderMaterial {
 
   get map(): Texture | null { return this.uniforms.map.value }
   set map(v: Texture | null) { this.uniforms.map.value = v }
+
+  get resolution(): Vector2 { return this.uniforms.resolution.value }
+}
+
+export function createPortalBlendPass(portal: Texture, root: Texture): PortalBlendPass {
+  const scene = new Scene()
+  const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1)
+  const material = new ShaderMaterial({
+    uniforms: {
+      a: { value: portal },
+      b: { value: root },
+      blend: { value: 0 },
+    },
+    vertexShader: /* glsl */`
+      varying vec2 vUv;
+      void main() { vUv = uv; gl_Position = vec4(position, 1.0); }
+    `,
+    fragmentShader: /* glsl */`
+      uniform sampler2D a;
+      uniform sampler2D b;
+      uniform float blend;
+      varying vec2 vUv;
+      void main() {
+        gl_FragColor = mix(texture2D(b, vUv), texture2D(a, vUv), blend);
+        // The buffers hold linear colors, and this quad draws on the canvas.
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+      }
+    `,
+  })
+  const geometry = new PlaneGeometry(2, 2)
+  scene.add(new Mesh(geometry, material))
+
+  return {
+    blend: material.uniforms.blend,
+    render: renderer => (renderer as WebGLRenderer).render(scene, camera),
+    dispose: () => {
+      geometry.dispose()
+      material.dispose()
+    },
+  }
 }
