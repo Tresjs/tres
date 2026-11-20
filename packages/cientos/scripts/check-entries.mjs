@@ -24,7 +24,6 @@ const WEBGL_ONLY = new Set([
   // The render target alone is fine: WebGPURenderer renders into `WebGLRenderTarget`.
   'AccumulativeShadows',
   'ContactShadows',
-  'MeshPortalMaterial',
   'MeshReflectionMaterial',
   // three-stdlib GLSL objects and WebGL-only renderer APIs (Tier 3)
   'BakeShadows',
