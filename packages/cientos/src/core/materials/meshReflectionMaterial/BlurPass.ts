@@ -28,17 +28,37 @@ SOFTWARE.
 import {
   BufferAttribute,
   BufferGeometry,
-  Camera,
   HalfFloatType,
   LinearFilter,
   Mesh,
+  OrthographicCamera,
   Scene,
-  Vector2,
-  WebGLRenderTarget,
 } from 'three'
-import type { Material, WebGLRenderer } from 'three'
+// `RenderTarget` must stay a type-only import: three exports the class only from r155, and the root entry supports r133.
+import type { Camera, Material, RenderTarget, RenderTargetOptions, Texture } from 'three'
 
-import { ConvolutionMaterial } from './ConvolutionMaterial'
+export interface ConvolutionDepthOptions {
+  edge0: number
+  edge1: number
+  scale: number
+  bias: number
+}
+
+export type CreateRenderTarget = (width: number, height: number, options: RenderTargetOptions) => RenderTarget
+
+export interface ConvolutionPassMaterial extends Material {
+  readonly kernel: Float32Array
+  setTexelSize: (x: number, y: number) => void
+  setDepthOptions: (options: ConvolutionDepthOptions) => void
+  setBuffers: (inputBuffer: Texture | null, depthBuffer: Texture | null) => void
+  setKernel: (kernel: number) => void
+}
+
+// Loose enough that WebGLRenderer and WebGPURenderer both fit.
+interface BlurPassRenderer {
+  setRenderTarget: (target: any) => void
+  render: (scene: Scene, camera: Camera) => unknown
+}
 
 export interface BlurPassProps {
   resolution: number
@@ -48,12 +68,14 @@ export interface BlurPassProps {
   depthEdge1?: number
   depthScale?: number
   depthBias?: number
+  createTarget: CreateRenderTarget
+  material: ConvolutionPassMaterial
 }
 
 export class BlurPass {
-  readonly renderTargetA: WebGLRenderTarget
-  readonly renderTargetB: WebGLRenderTarget
-  readonly convolutionMaterial: ConvolutionMaterial
+  readonly renderTargetA: RenderTarget
+  readonly renderTargetB: RenderTarget
+  readonly convolutionMaterial: ConvolutionPassMaterial
   readonly scene: Scene
   readonly camera: Camera
   readonly screen: Mesh
@@ -67,25 +89,24 @@ export class BlurPass {
     depthEdge1 = 1,
     depthScale = 0,
     depthBias = 0.25,
+    createTarget,
+    material,
   }: BlurPassProps) {
-    this.renderTargetA = new WebGLRenderTarget(resolution, resolution, {
+    const targetOptions: RenderTargetOptions = {
       minFilter: LinearFilter,
       magFilter: LinearFilter,
       stencilBuffer: false,
       depthBuffer: false,
       type: HalfFloatType,
-    })
-    this.renderTargetB = this.renderTargetA.clone()
-    this.convolutionMaterial = new ConvolutionMaterial()
+    }
+    this.renderTargetA = createTarget(resolution, resolution, targetOptions)
+    this.renderTargetB = createTarget(resolution, resolution, targetOptions)
+    this.convolutionMaterial = material
     this.convolutionMaterial.setTexelSize(1.0 / width, 1.0 / height)
-    this.convolutionMaterial.setResolution(new Vector2(width, height))
+    this.convolutionMaterial.setDepthOptions({ edge0: depthEdge0, edge1: depthEdge1, scale: depthScale, bias: depthBias })
     this.scene = new Scene()
-    this.camera = new Camera()
-    this.convolutionMaterial.uniforms.depthEdge0.value = depthEdge0
-    this.convolutionMaterial.uniforms.depthEdge1.value = depthEdge1
-    this.convolutionMaterial.uniforms.depthScale.value = depthScale
-    this.convolutionMaterial.uniforms.depthBias.value = depthBias
-    this.convolutionMaterial.defines.USE_DEPTH = depthScale > 0
+    // WebGPURenderer calls `updateProjectionMatrix` on the camera, which a bare `Camera` lacks.
+    this.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1)
     const vertices = new Float32Array([-1, -1, 0, 3, -1, 0, -1, 3, 0])
     const uvs = new Float32Array([0, 0, 2, 0, 0, 2])
     const geometry = new BufferGeometry()
@@ -96,36 +117,34 @@ export class BlurPass {
     this.scene.add(this.screen)
   }
 
-  render(renderer: WebGLRenderer, inputBuffer: WebGLRenderTarget, outputBuffer: WebGLRenderTarget) {
+  render(renderer: BlurPassRenderer, inputBuffer: RenderTarget, outputBuffer: RenderTarget) {
     const scene = this.scene
     const camera = this.camera
     const renderTargetA = this.renderTargetA
     const renderTargetB = this.renderTargetB
     const material = this.convolutionMaterial
-    const uniforms = material.uniforms
-    uniforms.depthBuffer.value = inputBuffer.depthTexture
+    const depthBuffer = inputBuffer.depthTexture
     const kernel = material.kernel
-    let lastRT = inputBuffer
+    let lastRT: RenderTarget = inputBuffer
     let destRT
     let i, l
     // Apply the multi-pass blur.
     for (i = 0, l = kernel.length - 1; i < l; ++i) {
       // Alternate between targets.
       destRT = (i & 1) === 0 ? renderTargetA : renderTargetB
-      uniforms.kernel.value = kernel[i]
-      uniforms.inputBuffer.value = lastRT.texture
+      material.setKernel(kernel[i])
+      material.setBuffers(lastRT.texture, depthBuffer)
       renderer.setRenderTarget(destRT)
       renderer.render(scene, camera)
       lastRT = destRT
     }
-    uniforms.kernel.value = kernel[i]
-    uniforms.inputBuffer.value = lastRT.texture
+    material.setKernel(kernel[i])
+    material.setBuffers(lastRT.texture, depthBuffer)
     renderer.setRenderTarget(this.renderToScreen ? null : outputBuffer)
     renderer.render(scene, camera)
   }
 
   dispose() {
-    (this.screen.material as Material).dispose()
     this.screen.geometry.dispose()
     this.renderTargetA.dispose()
     this.renderTargetB.dispose()

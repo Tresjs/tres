@@ -71,3 +71,9 @@ import { MeshReflectionMaterial } from '@tresjs/cientos'
 | `reflectorOffset` | Offsets the reflection | `0` |
 
 Additionally, the component extends `THREE.MeshStandardMaterial` and accepts all the same props including `color`, `roughness`, `metalness`, `map`, `normalMap`, `roughnessMap`, `metalnessMap`, and more.
+
+## WebGPU
+
+Import `MeshReflectionMaterial` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version extends `MeshStandardNodeMaterial`, renders into a generic `RenderTarget` and has the same props. See [WebGPU](/getting-started/webgpu).
+
+On WebGPU, `blurSize`, the depth scales and `distortionMap` are uniforms, so switching them on or off does not recompile the shader. A change to a texture map, such as `normalMap` or `roughnessMap`, still recompiles it. The material does not remount in either case.
