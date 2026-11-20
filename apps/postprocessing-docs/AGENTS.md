@@ -46,7 +46,7 @@ content/
 ├── 2.api/
 │   ├── 1.pmndrs/           # 30 pmndrs effect pages
 │   ├── 2.three/            # 7 three family effect pages
-│   └── 3.webgpu/           # WebGPU family: EffectComposer and defineEffect
+│   └── 3.webgpu/           # WebGPU family: EffectComposer, defineEffect and the built-in effect pages
 └── 3.advanced/             # Advanced guide
 ```
 

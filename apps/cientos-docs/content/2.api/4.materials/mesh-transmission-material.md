@@ -70,6 +70,15 @@ import { MeshTransmissionMaterial, Environment } from '@tresjs/cientos'
 
 The component extends `THREE.MeshPhysicalMaterial` and accepts all the same props.
 
+## WebGPU
+
+Import `MeshTransmissionMaterial` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version extends `MeshPhysicalNodeMaterial`, renders into a generic `RenderTarget` and has the same props. See [WebGPU](/getting-started/webgpu).
+
+Two props behave differently:
+
+- `attenuationDistance` set to `0` means no attenuation, as in the transmission of `three` itself.
+- `transmissionSampler` samples the opaque objects that `WebGPURenderer` has already drawn this frame. The material renders after the opaque objects, as a transparent material.
+
 ## Tips
 
 - An `<Environment>` or `envMap` on the scene is strongly recommended. Without one, the material will render dark.
