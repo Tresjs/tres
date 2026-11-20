@@ -26,7 +26,6 @@ const WEBGL_ONLY = new Set([
   'ContactShadows',
   'MeshPortalMaterial',
   'MeshReflectionMaterial',
-  'MeshTransmissionMaterial',
   // three-stdlib GLSL objects and WebGL-only renderer APIs (Tier 3)
   'BakeShadows',
   'Lensflare',

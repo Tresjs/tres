@@ -2,10 +2,9 @@
 import { TresCanvas } from '@tresjs/core/webgpu'
 import { OrbitControls } from '@tresjs/cientos/webgpu'
 import { TresLeches, useControls } from '@tresjs/leches'
-import { EffectComposer } from '@tresjs/post-processing/webgpu'
+import { Bloom, EffectComposer, FXAA, SMAA } from '@tresjs/post-processing/webgpu'
 import { ACESFilmicToneMapping, AgXToneMapping, NeutralToneMapping, NoToneMapping } from 'three'
 import { useBackendControl } from '@/composables/useBackendControl'
-import { Bloom, FXAA, SMAA } from './effects'
 
 const uuid = 'postprocessing-webgpu-staging'
 const onReady = useBackendControl(uuid)
@@ -51,7 +50,7 @@ const names = computed(() => order.value === 'bloom → aa' ? ['bloom', 'aa'] : 
 
     <EffectComposer>
       <template v-for="name in names" :key="name">
-        <Bloom v-if="name === 'bloom' && bloomOn" :strength="strength" :threshold="threshold" />
+        <Bloom v-if="name === 'bloom' && bloomOn" :strength="strength" :radius="0.4" :threshold="threshold" />
         <template v-if="name === 'aa'">
           <FXAA v-if="antialias === 'fxaa'" />
           <SMAA v-else-if="antialias === 'smaa'" />
