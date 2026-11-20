@@ -58,6 +58,11 @@ export const webgpuRoutes = [
     component: () => import('@/pages/cientos/webgpu/MeshPortalMaterialDemo.vue'),
   },
   {
+    path: '/cientos/webgpu/contact-shadows',
+    name: 'ContactShadows (WebGPU, TSL port)',
+    component: () => import('@/pages/cientos/webgpu/ContactShadowsDemo.vue'),
+  },
+  {
     path: '/cientos/webgpu/mesh-transmission-material',
     name: 'MeshTransmissionMaterial (WebGPU, TSL port)',
     component: () => import('@/pages/cientos/webgpu/MeshTransmissionMaterialDemo.vue'),

@@ -48,6 +48,7 @@ export * from './core/abstractions/useSurfaceSampler'
 export * from './core/controls'
 export * from './core/debug-performance'
 export { CircleShadow, RandomizedLights } from './core/light-shadow'
+export { default as ContactShadows } from './core/light-shadow/ContactShadows/webgpu.vue'
 
 export * from './core/loaders'
 export { default as HolographicMaterial } from './core/materials/holographicMaterial/webgpu.vue'
