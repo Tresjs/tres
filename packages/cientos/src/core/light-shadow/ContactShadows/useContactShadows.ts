@@ -66,13 +66,16 @@ export function useContactShadows(
     renderer.render(blurScene, blurCamera)
   }
 
-  function update(scene: Scene, renderer: TresRenderer) {
+  function update(scene: Scene & { backgroundNode?: unknown }, renderer: TresRenderer) {
     const initialBackground = scene.background
+    // WebGPURenderer draws `backgroundNode` before `background`, and the override material does not replace it.
+    const initialBackgroundNode = scene.backgroundNode
     const initialClearAlpha = renderer.getClearAlpha()
     const initialTarget = renderer.getRenderTarget()
 
     try {
       scene.background = null
+      if (initialBackgroundNode) { scene.backgroundNode = null }
       scene.overrideMaterial = depthMaterial
       renderer.setClearAlpha(0)
 
@@ -90,6 +93,7 @@ export function useContactShadows(
       setTarget(renderer, initialTarget)
       renderer.setClearAlpha(initialClearAlpha)
       scene.background = initialBackground
+      if (initialBackgroundNode) { scene.backgroundNode = initialBackgroundNode }
     }
   }
 
