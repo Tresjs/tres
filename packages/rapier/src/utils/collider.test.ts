@@ -37,4 +37,16 @@ describe('getColliderSizingsFromObject', () => {
     expect([halfWidth, halfHeight, halfDepth]).toEqual([0.5, 0.5, 0.5])
     expect(center.toArray()).toEqual([0, 2, 0])
   })
+
+  it('does not grow the box of a rotated group', () => {
+    const group = new Group()
+    group.rotation.set(0, 0, Math.PI / 4)
+    group.add(new Mesh(new BoxGeometry(2, 2, 2)))
+
+    const { halfWidth, halfHeight, halfDepth } = sizingsOf(group)
+
+    expect(halfWidth).toBeCloseTo(1, 5)
+    expect(halfHeight).toBeCloseTo(1, 5)
+    expect(halfDepth).toBeCloseTo(1, 5)
+  })
 })

@@ -1,4 +1,4 @@
-import { Box3, Object3D, Vector3 } from 'three'
+import { Box3, Matrix4, Object3D, Vector3 } from 'three'
 import type { Mesh } from 'three'
 import type { TresObject3D } from '@tresjs/core'
 
@@ -35,14 +35,15 @@ const getLocalBoundingBox = (object: Object3D) => {
   const worldToLocal = object.matrixWorld.clone().invert()
   const box = new Box3()
   const childBox = new Box3()
+  const childToLocal = new Matrix4()
 
   object.traverse((child) => {
     const geometry = (child as Mesh).geometry
     if (child === object || !geometry?.attributes?.position) { return }
     if (!geometry.boundingBox) { geometry.computeBoundingBox() }
-    childBox.copy(geometry.boundingBox!)
-      .applyMatrix4(child.matrixWorld)
-      .applyMatrix4(worldToLocal)
+    // One combined matrix: each Box3.applyMatrix4 re-fits an axis-aligned box, so two calls grow it.
+    childToLocal.multiplyMatrices(worldToLocal, child.matrixWorld)
+    childBox.copy(geometry.boundingBox!).applyMatrix4(childToLocal)
     box.union(childBox)
   })
 
