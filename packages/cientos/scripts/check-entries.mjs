@@ -23,7 +23,6 @@ const WEBGL_ONLY = new Set([
   // GLSL `ShaderMaterial` / `onBeforeCompile` that reads or writes a render target (Tier 2).
   // The render target alone is fine: WebGPURenderer renders into `WebGLRenderTarget`.
   'AccumulativeShadows',
-  'MeshPortalMaterial',
   // three-stdlib GLSL objects and WebGL-only renderer APIs (Tier 3)
   'BakeShadows',
   'Lensflare',
