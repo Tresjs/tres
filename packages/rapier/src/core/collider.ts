@@ -70,8 +70,6 @@ const _scaleColliderArgs = (
  */
 export const createColliderDesc = (props: CreateColliderDescProps) => {
   const { shape, object, args, position, rotation, scale } = props
-  const { halfWidth, halfHeight, halfDepth }
-    = getColliderSizingsFromObject(object)
   const colliderDescMethod = ColliderDesc[shape || 'cuboid']
   const safeScale = new ThreeVector3(
     scale?.[0] ?? 1,
@@ -94,6 +92,7 @@ export const createColliderDesc = (props: CreateColliderDescProps) => {
   let colliderDesc: ColliderDesc | null
 
   const getSafeColliderDesc = () => {
+    const { halfWidth, halfHeight, halfDepth } = getColliderSizingsFromObject(object)
     return ColliderDesc.cuboid(halfWidth, halfHeight, halfDepth)
   }
 
