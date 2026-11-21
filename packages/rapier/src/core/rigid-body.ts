@@ -11,25 +11,25 @@ import type {
   RigidBodyUserData,
 } from '../types'
 import { BufferGeometry, IcosahedronGeometry, Mesh, SphereGeometry } from 'three'
+import type { Vector3Like } from 'three'
 import { mergeVertices } from 'three/examples/jsm/utils/BufferGeometryUtils.js'
 import type { TresObject3D } from '@tresjs/core'
 import { getColliderSizingsFromObject, toColliderIndices } from '../utils'
 
-/**
- * @description
- */
-export const createRigidBodyAutoColliderArgs: (props: {
-  rigidBody: RigidBody
-  shape: RigidBodyCollidersShape
-  object: TresObject3D
-}) => any[] = (props) => {
-  const { object, shape } = props
-  const geometry = object?.geometry?.clone()
-  const sizes = getColliderSizingsFromObject(object as TresObject3D)
-  const halfWidth = (sizes.halfWidth)
-  const halfHeight = (sizes.halfHeight)
-  const halfDepth = (sizes.halfDepth)
-  const radius = (sizes.radius)
+type ColliderSizings = ReturnType<typeof getColliderSizingsFromObject>
+
+/** @internal */
+const _autoColliderArgs = (
+  object: TresObject3D,
+  shape: RigidBodyCollidersShape,
+  sizes: ColliderSizings,
+  scale: Vector3Like = { x: 1, y: 1, z: 1 },
+): any[] => {
+  const geometry = object?.geometry?.clone().scale(scale.x, scale.y, scale.z)
+  const halfWidth = sizes.halfWidth * Math.abs(scale.x)
+  const halfHeight = sizes.halfHeight * Math.abs(scale.y)
+  const halfDepth = sizes.halfDepth * Math.abs(scale.z)
+  const radius = Math.max(halfWidth, halfHeight, halfDepth)
 
   let args: any[] = [
     halfWidth,
@@ -44,7 +44,7 @@ export const createRigidBodyAutoColliderArgs: (props: {
       && (geometry instanceof SphereGeometry
         || geometry instanceof IcosahedronGeometry))
   ) {
-    args = [radius ?? 1]
+    args = [radius]
   }
   else if (shape === 'capsule') {
     // rapier measures a capsule's half-height across its cylindrical section alone, and adds a
@@ -74,6 +74,13 @@ export const createRigidBodyAutoColliderArgs: (props: {
 
   return args
 }
+
+/** @description Create the args of an automatic collider, measured in the object's own space. */
+export const createRigidBodyAutoColliderArgs: (props: {
+  rigidBody: RigidBody
+  shape: RigidBodyCollidersShape
+  object: TresObject3D
+}) => any[] = ({ object, shape }) => _autoColliderArgs(object, shape, getColliderSizingsFromObject(object))
 
 /**
  * @description Create a {@link RigidBodyDesc} based on the given
@@ -116,26 +123,28 @@ export const createRigidBodyDesc = (props: CreateRigidBodyDescProps) => {
  *
  * @param object {@link TresObject3D}
  * @param shape {@link RigidBodyCollidersShape}
- * @param rigidBody {@link RigidBody}
+ * @param _rigidBody {@link RigidBody} unused, kept for compatibility
  */
 export const createRigidBodyAutoColliderPropsFromObject = (
   object: TresObject3D,
   shape: RigidBodyCollidersShape,
-  rigidBody: RigidBody,
+  _rigidBody: RigidBody,
 ): ColliderProps => {
   const { position, quaternion, scale } = object
+  const sizes = getColliderSizingsFromObject(object)
+  const colliderPosition = position.clone()
 
+  if (shape !== 'trimesh' && shape !== 'convexHull') {
+    colliderPosition.add(sizes.center.clone().multiply(scale).applyQuaternion(quaternion))
+  }
+
+  // `args` already carry the object's scale, so a `scale` prop here would apply it twice.
   return {
     shape: shape as ColliderShape,
     object,
-    args: createRigidBodyAutoColliderArgs({
-      rigidBody,
-      shape,
-      object,
-    }),
-    position: [position.x, position.y, position.z],
+    args: _autoColliderArgs(object, shape, sizes, scale),
+    position: [colliderPosition.x, colliderPosition.y, colliderPosition.z],
     rotation: [quaternion.x, quaternion.y, quaternion.z, quaternion.w],
-    scale: [scale.x ?? 1, scale.y ?? 1, scale.z ?? 1],
   }
 }
 
