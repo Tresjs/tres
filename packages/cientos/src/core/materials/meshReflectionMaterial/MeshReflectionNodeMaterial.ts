@@ -74,9 +74,10 @@ export class MeshReflectionNodeMaterial extends MeshStandardNodeMaterial impleme
     this.setValues(parameters)
   }
 
-  // A new `normalMap` must rebuild the shader, as the GLSL `USE_NORMALMAP` define does. The cache key alone only sees null or not null.
+  // The private uniform nodes belong to this instance, so two reflectors must not share a node builder state.
+  // A new `normalMap` must rebuild the shader, as the GLSL `USE_NORMALMAP` define does.
   override customProgramCacheKey() {
-    return `${super.customProgramCacheKey()}-${this.normalMap?.uuid ?? ''}`
+    return `${super.customProgramCacheKey()}-${this.uuid}-${this.normalMap?.uuid ?? ''}`
   }
 
   override setupLighting(builder: NodeBuilder) {

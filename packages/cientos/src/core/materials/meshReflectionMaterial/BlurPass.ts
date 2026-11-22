@@ -102,7 +102,8 @@ export class BlurPass {
     this.renderTargetA = createTarget(resolution, resolution, targetOptions)
     this.renderTargetB = createTarget(resolution, resolution, targetOptions)
     this.convolutionMaterial = material
-    this.convolutionMaterial.setTexelSize(1.0 / width, 1.0 / height)
+    // A zero size turns the blur off on that axis, as `hasBlur` expects.
+    this.convolutionMaterial.setTexelSize(width > 0 ? 1.0 / width : 0, height > 0 ? 1.0 / height : 0)
     this.convolutionMaterial.setDepthOptions({ edge0: depthEdge0, edge1: depthEdge1, scale: depthScale, bias: depthBias })
     this.scene = new Scene()
     // WebGPURenderer calls `updateProjectionMatrix` on the camera, which a bare `Camera` lacks.

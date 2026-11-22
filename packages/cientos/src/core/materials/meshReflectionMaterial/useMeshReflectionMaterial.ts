@@ -1,5 +1,5 @@
 // Imports nothing from `three/webgpu`: the root entry reaches this file.
-import { useLoop, useTres, useTresContext } from '@tresjs/core'
+import { logWarning, useLoop, useTres, useTresContext } from '@tresjs/core'
 import {
   DepthTexture,
   HalfFloatType,
@@ -32,6 +32,11 @@ interface UseMeshReflectionMaterialOptions {
 const WEBGPU_COORDINATE_SYSTEM = 2001
 
 type ReflectionState = ReturnType<typeof createReflectionState>
+
+function usesReversedDepth(renderer: unknown) {
+  const r = renderer as { reversedDepthBuffer?: boolean, state?: { buffers?: { depth?: { getReversed?: () => boolean } } } }
+  return r.reversedDepthBuffer === true || r.state?.buffers?.depth?.getReversed?.() === true
+}
 
 function createReflectionState() {
   return {
@@ -128,7 +133,8 @@ export function useMeshReflectionMaterial(
   const blurWidth = computed(() => 500 - blurSize(0))
   const blurHeight = computed(() => 500 - blurSize(1))
   const hasBlur = computed(() => blurWidth.value > 0 || blurHeight.value > 0)
-  const hasDepth = computed(() => (props.sharpDepthScale ?? 0) > 0 || (props.blurDepthScale ?? 0) > 0)
+  // The blur pass reads `blurDepthScale` itself. Only the sharp fade needs the material depth mode.
+  const hasDepth = computed(() => (props.sharpDepthScale ?? 0) > 0)
 
   const tresProps = computed(() => {
     const {
@@ -205,6 +211,16 @@ export function useMeshReflectionMaterial(
     })
   }, { immediate: true })
 
+  // Set on mount, not in the frame loop: another reflector can render this material before this loop runs.
+  // The GLSL template remounts the material when a define changes, so this runs again.
+  watch(materialRef, (mat) => {
+    if (!mat) { return }
+    mat.tSharp = fboSharp.texture
+    mat.tDepth = fboSharp.depthTexture ?? null
+    mat.tBlur = fboBlur.texture
+    mat.textureMatrix = state.textureMatrix
+  }, { immediate: true, flush: 'sync' })
+
   onBeforeUnmount(() => {
     fboSharp.dispose()
     fboSharp.depthTexture?.dispose()
@@ -215,6 +231,7 @@ export function useMeshReflectionMaterial(
   const { invalidate } = useTres()
   const { isWebGPU } = useTresContext()
   const { onBeforeRender } = useLoop()
+  let warnedReversedDepth = false
 
   onBeforeRender(({ renderer, scene, camera }) => {
     const mat = materialRef.value
@@ -223,13 +240,16 @@ export function useMeshReflectionMaterial(
 
     const parent = mat.__tres?.parent
     const mainCamera = camera.value as PerspectiveCamera | undefined
-    if (!parent || !mainCamera) { return }
+    if (!parent || !mainCamera || !parent.visible) { return }
 
-    // Set every frame: the GLSL template remounts the material when a define changes.
-    mat.tSharp = fboSharp.texture
-    mat.tDepth = fboSharp.depthTexture ?? null
-    mat.tBlur = fboBlur.texture
-    mat.textureMatrix = state.textureMatrix
+    // The oblique clip and the depth fade assume that near is at depth 0.
+    if (usesReversedDepth(renderer)) {
+      if (!warnedReversedDepth) {
+        logWarning('MeshReflectionMaterial does not support `reversedDepthBuffer`. The reflection is not rendered.')
+        warnedReversedDepth = true
+      }
+      return
+    }
 
     invalidate()
 
@@ -248,8 +268,11 @@ export function useMeshReflectionMaterial(
     const shadowMap = renderer.shadowMap as { autoUpdate?: boolean }
     const oldShadowAutoUpdate = shadowMap.autoUpdate
     const oldTarget = renderer.getRenderTarget()
+    const oldCubeFace = renderer.getActiveCubeFace()
+    const oldMipmapLevel = renderer.getActiveMipmapLevel()
     // The renderer type is a union, so its parameter types intersect. Both renderers accept either target class.
-    const setTarget = (target: RenderTarget | null) => renderer.setRenderTarget(target as WebGLRenderTarget | null)
+    const setTarget = (target: RenderTarget | null, cubeFace = 0, mipmapLevel = 0) =>
+      renderer.setRenderTarget(target as WebGLRenderTarget | null, cubeFace, mipmapLevel)
 
     parent.visible = false
     try {
@@ -262,7 +285,7 @@ export function useMeshReflectionMaterial(
     finally {
       shadowMap.autoUpdate = oldShadowAutoUpdate
       parent.visible = true
-      setTarget(oldTarget)
+      setTarget(oldTarget, oldCubeFace, oldMipmapLevel)
     }
     invalidate()
   })

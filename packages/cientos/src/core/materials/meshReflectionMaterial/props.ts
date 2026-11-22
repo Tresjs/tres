@@ -12,7 +12,7 @@ export interface MeshReflectionMaterialProps {
 
   /** Strength of the sharp reflection on smooth surfaces. */
   sharpMix?: number
-  /** Sharp reflection can be faded out by depth – distance from the reflective surface. Performance note: if the value is greater than `0`, a depth texture will be created. */
+  /** Sharp reflection can be faded out by depth – distance from the reflective surface. `0` turns the fade off. */
   sharpDepthScale?: number
   /** Sharp reflection depth falloff bias. */
   sharpDepthBias?: number
@@ -25,7 +25,7 @@ export interface MeshReflectionMaterialProps {
   blurMixSmooth?: number
   /** Strength of the blurred reflection on rough surfaces. */
   blurMixRough?: number
-  /** Blurred reflection can spread out by depth – distance from the reflective surface. Performance note: if the value is greater than `0`, depth texture will be rendered. */
+  /** Blurred reflection can spread out by depth – distance from the reflective surface. `0` turns the spread off. */
   blurDepthScale?: number
   /** Blurred reflection depth spread bias. */
   blurDepthBias?: number
@@ -33,7 +33,7 @@ export interface MeshReflectionMaterialProps {
   blurDepthEdgeMin?: number
   /** Blurred reflection depth spread end. */
   blurDepthEdgeMax?: number
-  /** Size of the blur. If `[number, number]`, first number is width, second is height. Performance note: if other than `[0, 0]` or `0`, a blur texture will be rendered. */
+  /** Size of the blur. If `[number, number]`, first number is width, second is height. */
   blurSize?: [number, number] | number
 
   /** Texture for offsetting the reflection. */
