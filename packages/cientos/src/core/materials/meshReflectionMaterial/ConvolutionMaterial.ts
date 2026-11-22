@@ -26,9 +26,11 @@ SOFTWARE.
 */
 
 import { NoBlending, ShaderMaterial, Uniform, Vector2 } from 'three'
+import type { Texture } from 'three'
 import { version } from '../../../utils/constants'
+import type { ConvolutionDepthOptions, ConvolutionPassMaterial } from './BlurPass'
 
-export class ConvolutionMaterial extends ShaderMaterial {
+export class ConvolutionMaterial extends ShaderMaterial implements ConvolutionPassMaterial {
   readonly kernel: Float32Array
   constructor(texelSize = new Vector2()) {
     super({
@@ -123,7 +125,20 @@ export class ConvolutionMaterial extends ShaderMaterial {
     this.uniforms.halfTexelSize.value.set(x, y).multiplyScalar(0.5)
   }
 
-  setResolution(resolution: Vector2) {
-    this.uniforms.resolution.value.copy(resolution)
+  setDepthOptions({ edge0, edge1, scale, bias }: ConvolutionDepthOptions) {
+    this.uniforms.depthEdge0.value = edge0
+    this.uniforms.depthEdge1.value = edge1
+    this.uniforms.depthScale.value = scale
+    this.uniforms.depthBias.value = bias
+    this.defines.USE_DEPTH = scale > 0
+  }
+
+  setBuffers(inputBuffer: Texture | null, depthBuffer: Texture | null) {
+    this.uniforms.inputBuffer.value = inputBuffer
+    this.uniforms.depthBuffer.value = depthBuffer
+  }
+
+  setKernel(kernel: number) {
+    this.uniforms.kernel.value = kernel
   }
 }
