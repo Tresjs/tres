@@ -89,4 +89,9 @@ export const rapierRoutes = [
     name: '#1513: Debug lines visibility',
     component: () => import('@/pages/rapier/issues/1513/index.vue'),
   },
+  {
+    path: '/rapier/issues/tres-433',
+    name: 'TRES-433: Off-centre automatic colliders',
+    component: () => import('@/pages/rapier/issues/tres-433/index.vue'),
+  },
 ]
