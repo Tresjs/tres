@@ -25,9 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { Color, MeshPhysicalMaterial, Uniform } from 'three'
+import { Color, MeshPhysicalMaterial, REVISION, Uniform } from 'three'
 import type { Texture, WebGLProgramParametersWithUniforms } from 'three'
 import { meshTransmissionMaterialDefaults } from './props'
+
+// From r151, three declares one UV varying per map in the fragment shader, and no vUv unless USE_UV is on.
+const hasMapUvVaryings = Number.parseInt(REVISION) >= 151
 
 export interface MeshTransmissionMaterialParameters {
   samples?: number
@@ -113,6 +116,9 @@ export class MeshTransmissionMaterial extends MeshPhysicalMaterial {
       temporalDistortion: new Uniform(temporalDistortion),
       buffer: new Uniform(buffer),
     }
+
+    // The default key is onBeforeCompile's source, which is the same for every instance; the baked options must split it.
+    this.customProgramCacheKey = () => `MeshTransmissionMaterial-${samples}-${transmissionSampler}`
 
     this.onBeforeCompile = (shader: WebGLProgramParametersWithUniforms) => {
       shader.uniforms = {
@@ -245,7 +251,8 @@ export class MeshTransmissionMaterial extends MeshPhysicalMaterial {
             return roughness * clamp( ior * 2.0 - 2.0, 0.0, 1.0 );
           }
           vec4 getTransmissionSample( const in vec2 fragCoord, const in float roughness, const in float ior ) {
-            float framebufferLod = log2( transmissionSamplerSize.x ) * applyIorToRoughness( roughness, ior );
+            // Three sets transmissionSamplerSize only while transmission is above 0; it stays (0, 0) before that.
+            float framebufferLod = transmissionSamplerSize.x > 0.0 ? log2( transmissionSamplerSize.x ) * applyIorToRoughness( roughness, ior ) : 0.0;
             #ifdef USE_SAMPLER
               #ifdef texture2DLodEXT
                 return texture2DLodEXT(transmissionSamplerMap, fragCoord.xy, framebufferLod);
@@ -294,10 +301,10 @@ export class MeshTransmissionMaterial extends MeshPhysicalMaterial {
         material.attenuationDistance = attenuationDistance;
         material.attenuationColor = attenuationColor;
         #ifdef USE_TRANSMISSIONMAP
-          material.transmission *= texture2D( transmissionMap, vUv ).r;
+          material.transmission *= texture2D( transmissionMap, ${hasMapUvVaryings ? 'vTransmissionMapUv' : 'vUv'} ).r;
         #endif
         #ifdef USE_THICKNESSMAP
-          material.thickness *= texture2D( thicknessMap, vUv ).g;
+          material.thickness *= texture2D( thicknessMap, ${hasMapUvVaryings ? 'vThicknessMapUv' : 'vUv'} ).g;
         #endif
 
         vec3 pos = vWorldPosition;
