@@ -1,3 +1,13 @@
+## 3.14.0 (2026-11-23)
+
+### 🚀 Features
+
+- **postprocessing:** add the first WebGPU effects ([#1564](https://github.com/Tresjs/tres/pull/1564))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 3.13.0 (2026-11-17)
 
 ### 🚀 Features
