@@ -1,3 +1,20 @@
+## 5.13.0 (2026-11-23)
+
+### 🚀 Features
+
+- **cientos:** add MeshReflectionMaterial to /webgpu entry ([#1569](https://github.com/Tresjs/tres/pull/1569))
+- **cientos:** add MeshPortalMaterial to /webgpu entry ([#1567](https://github.com/Tresjs/tres/pull/1567))
+- **cientos:** add ContactShadows to /webgpu entry ([#1568](https://github.com/Tresjs/tres/pull/1568))
+- **cientos:** add MeshTransmissionMaterial to /webgpu entry ([#1565](https://github.com/Tresjs/tres/pull/1565))
+
+### 🩹 Fixes
+
+- **cientos:** fill transmission sampler map for GLSL MeshTransmissionMaterial ([#1566](https://github.com/Tresjs/tres/pull/1566))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 5.12.0 (2026-11-17)
 
 ### 🚀 Features

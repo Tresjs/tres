@@ -1,3 +1,13 @@
+## 1.5.0 (2026-11-23)
+
+### 🚀 Features
+
+- **rapier:** centre automatic colliders on the mesh bounds ([#1570](https://github.com/Tresjs/tres/pull/1570))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
 ## 1.4.0 (2026-11-17)
 
 ### 🧱 Updated Dependencies
