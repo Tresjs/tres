@@ -167,7 +167,11 @@ watch(() => props.collider, (value) => {
     autoColliderProps.value = []
     return
   }
-  setAutoColliderProp('shape', value)
+  const rigidBody = instance.value
+  if (!rigidBody) { return }
+  autoColliderProps.value = autoColliderProps.value.map(p => p.object
+    ? { ...p, ...createRigidBodyAutoColliderPropsFromObject(p.object, value, rigidBody) }
+    : { ...p, shape: value })
 })
 makeAutoColliderPropsWatchers(props, [
   'friction',
@@ -215,6 +219,8 @@ onUnmounted(() => {
       :shape="_props.shape"
       :args="_props.args"
       :object="_props.object"
+      :position="_props.position"
+      :rotation="_props.rotation"
       :friction="_props.friction"
       :mass="_props.mass"
       :restitution="_props.restitution"
