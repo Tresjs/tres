@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import noise from './shaders/noise.glsl?raw'
-import fireVertex from './shaders/fire-vertex.glsl?raw'
-import fragmentShader from './shaders/fire-fragment.glsl?raw'
-import type { Mesh, PointLight } from 'three'
-import { Color, DoubleSide, IcosahedronGeometry, Uniform, Vector2, Vector3 } from 'three'
+import type { Material, Mesh, PointLight } from 'three/webgpu'
+import { Color, IcosahedronGeometry, Vector2, Vector3 } from 'three/webgpu'
+import { useAnimations } from '@tresjs/cientos/webgpu'
 import { marble } from './marble'
+import { createFireMaterial } from './tsl/fireMaterial'
 
 const props = defineProps<{
   nodes: Record<string, any>
   state: Record<string, any>
 }>()
-
-const vertexShader = noise + fireVertex
 
 const mage = computed(() => props.nodes.Rig_Mage)
 const orb = computed<Mesh | undefined>(() => props.nodes.Mage_Orb)
@@ -37,44 +34,35 @@ const LIGHT_SWELL_MID = 0.53
 const LIGHT_SWING = 2
 
 const animator = new Vector3()
-const swell = new Uniform(0)
 
-const uniforms = {
-  uCoreOffset: new Uniform(0.9),
-  uCoreScale: new Uniform(0.6),
-  uCoreMidPos: new Uniform(0.4),
-  uCoreStrength: new Uniform(1.4),
-  uCoreLow: new Uniform(new Color('#0a46e0')),
-  uCoreMid: new Uniform(new Color('#0ac8ff')),
-  uCoreHigh: new Uniform(new Color('#d8fbff')),
-
-  uRimStops: new Uniform(new Vector2(0.0, 0.523)),
-  uRimOffset: new Uniform(1.0),
-  uRimScale: new Uniform(1.0),
-  uRimStrength: new Uniform(1.0),
-  uRimLow: new Uniform(new Color('#1ea8ff')),
-  uRimHigh: new Uniform(new Color('#0b1e9e')),
-
-  uHeightMin: new Uniform(0),
-  uHeightRange: new Uniform(1),
-
-  uMaskFloor: new Uniform(1.0),
-  uPowerA: new Uniform(2.0),
-  uPowerB: new Uniform(4.0),
-  uRampA: new Uniform(new Vector2(0.0, 1.0)),
-  uRampB: new Uniform(new Vector2(0.082, 1.0)),
-
-  uAnimator: new Uniform(animator),
-  uMarbleSize: new Uniform(MARBLE_SIZE),
-  uMarbleTurbulence: new Uniform(5.0),
-  uMarbleVeins: new Uniform(MARBLE_VEINS),
-  uDisplaceStrength: new Uniform(DISPLACE_STRENGTH),
-  uDisplaceMid: new Uniform(0.5),
-  uBaseMask: new Uniform(0),
-
-  uTime: new Uniform(0),
-  uFlicker: new Uniform(0.06),
-}
+const { material: orbMaterial, uniforms } = createFireMaterial({
+  coreOffset: 0.9,
+  coreScale: 0.6,
+  coreMidPos: 0.4,
+  coreStrength: 1.4,
+  coreLow: new Color('#0a46e0'),
+  coreMid: new Color('#0ac8ff'),
+  coreHigh: new Color('#d8fbff'),
+  rimStops: new Vector2(0.0, 0.523),
+  rimOffset: 1.0,
+  rimScale: 1.0,
+  rimStrength: 1.0,
+  rimLow: new Color('#1ea8ff'),
+  rimHigh: new Color('#0b1e9e'),
+  maskFloor: 1.0,
+  powerA: 2.0,
+  powerB: 4.0,
+  rampA: new Vector2(0.0, 1.0),
+  rampB: new Vector2(0.082, 1.0),
+  animator,
+  marbleSize: MARBLE_SIZE,
+  marbleTurbulence: 5.0,
+  marbleVeins: MARBLE_VEINS,
+  displaceStrength: DISPLACE_STRENGTH,
+  displaceMid: 0.5,
+  baseMask: 0,
+  flicker: 0.06,
+})
 
 let radius = 1
 const orbCenter = new Vector3()
@@ -101,17 +89,28 @@ const prepareOrb = (mesh: Mesh) => {
   radius = r
   orbCenter.copy(center)
   const bounds = mesh.geometry.boundingBox!
-  uniforms.uHeightMin.value = bounds.min.y
-  uniforms.uHeightRange.value = bounds.max.y - bounds.min.y
-  uniforms.uMarbleSize.value = MARBLE_SIZE * r
-  uniforms.uMarbleVeins.value = MARBLE_VEINS / r
-  uniforms.uDisplaceStrength.value = DISPLACE_STRENGTH * r
+  uniforms.heightMin.value = bounds.min.y
+  uniforms.heightRange.value = bounds.max.y - bounds.min.y
+  uniforms.marbleSize.value = MARBLE_SIZE * r
+  uniforms.marbleVeins.value = MARBLE_VEINS / r
+  uniforms.displaceStrength.value = DISPLACE_STRENGTH * r
 }
+
+let originalMaterial: Material | Material[] | null = null
 
 // immediate: Balanced.vue gates the group on loaded nodes, so a plain watch never fires.
 watch(orb, (mesh) => {
-  if (mesh?.geometry) { prepareOrb(mesh) }
+  if (!mesh?.geometry) { return }
+  prepareOrb(mesh)
+  // useGLTF caches the scene between portal mounts, so the GLB material comes back on unmount.
+  originalMaterial ??= mesh.material
+  mesh.material = orbMaterial
 }, { immediate: true })
+
+onUnmounted(() => {
+  if (orb.value && originalMaterial) { orb.value.material = originalMaterial }
+  orbMaterial.dispose()
+})
 
 const { onBeforeRender } = useLoop()
 
@@ -119,34 +118,27 @@ onBeforeRender(({ elapsed }) => {
   animator.y = elapsed * RISE_SPEED * radius
   animator.x = Math.sin(elapsed * 2.6) * SWAY * radius
   animator.z = Math.cos(elapsed * 1.8) * SWAY * radius
-  uniforms.uTime.value = elapsed
 
   let sum = 0
   for (const t of LIGHT_SAMPLES) {
     sum += marble(
       orbCenter.x - animator.x,
-      uniforms.uHeightMin.value + t * uniforms.uHeightRange.value - animator.y,
+      uniforms.heightMin.value + t * uniforms.heightRange.value - animator.y,
       orbCenter.z - animator.z,
-      uniforms.uMarbleVeins.value,
-      uniforms.uMarbleSize.value,
-      uniforms.uMarbleTurbulence.value,
+      uniforms.marbleVeins.value,
+      uniforms.marbleSize.value,
+      uniforms.marbleTurbulence.value,
     )
   }
-  swell.value = sum / LIGHT_SAMPLES.length
+  const swell = sum / LIGHT_SAMPLES.length
 
   if (!orbLight.value) { return }
-  orbLight.value.intensity = lightRest.intensity + (swell.value - LIGHT_SWELL_MID) * LIGHT_SWING
+  orbLight.value.intensity = lightRest.intensity + (swell - LIGHT_SWELL_MID) * LIGHT_SWING
 })
 </script>
 
 <template>
   <primitive name="Mage orb" :object="nodes.Mage_Orb">
-    <TresShaderMaterial
-      :vertex-shader="vertexShader"
-      :fragment-shader="fragmentShader"
-      :uniforms="uniforms"
-      :side="DoubleSide"
-    />
     <!-- Parented to the orb so it rides the GLTF transform. -->
     <TresPointLight ref="orbLight" :position="lightPosition" :intensity="3" :distance="6" color="#0ac8ff" />
   </primitive>

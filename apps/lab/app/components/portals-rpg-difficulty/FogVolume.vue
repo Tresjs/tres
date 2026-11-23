@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import vertexShader from './shaders/fog-volume-vertex.glsl?raw'
-import fragmentShader from './shaders/fog-volume-fragment.glsl?raw'
-import { BackSide, Color, Uniform, Vector3 } from 'three'
+import { BackSide, Color, MeshBasicNodeMaterial, Vector3 } from 'three/webgpu'
+import { Break, cameraPosition, Discard, exp, float, Fn, fract, If, Loop, max, min, modelWorldMatrixInverse, normalize, positionLocal, screenCoordinate, smoothstep, texture3D, time, uniform, varying, vec3, vec4 } from 'three/tsl'
 import { FOG_NOISE_PERIOD, getFogNoiseTexture } from './fogNoiseTexture'
+
+// Raymarch through the unit cube, standing in for Blender's Noise Texture -> Color Ramp -> Principled
+// Volume. The noise is baked into a tiling 3D texture: two fetches per step, not eight noises.
 
 // Defaults are the Blender Noise Texture values. detail, roughness and lacunarity are
 // baked into the shared 3D texture at mount (fogNoiseTexture.ts); later changes do nothing.
@@ -43,43 +45,100 @@ const props = withDefaults(defineProps<{
   renderOrder: 0,
 })
 
-const uniforms = {
-  uNoise: new Uniform(getFogNoiseTexture({
-    octaves: Math.max(1, Math.round(props.detail)),
-    roughness: props.roughness,
-    lacunarity: props.lacunarity,
-  })),
-  uNoisePeriod: new Uniform(FOG_NOISE_PERIOD),
-  uColor: new Uniform(new Color().setRGB(...props.color)),
-  uScale: new Uniform(new Vector3(...props.scale)),
-  uSeed: new Uniform(props.seed),
-  uNoiseScale: new Uniform(props.noiseScale),
-  uDistortion: new Uniform(props.distortion),
-  uRampLow: new Uniform(props.rampLow),
-  uRampHigh: new Uniform(props.rampHigh),
-  uDensity: new Uniform(props.density),
-  uDriftSpeed: new Uniform(props.driftSpeed),
-  uTime: new Uniform(0),
-}
+const noise = getFogNoiseTexture({
+  octaves: Math.max(1, Math.round(props.detail)),
+  roughness: props.roughness,
+  lacunarity: props.lacunarity,
+})
+const tint = uniform(new Color().setRGB(...props.color))
+const boxScale = uniform(new Vector3(...props.scale))
+const density = uniform(props.density)
+const seed = props.seed
+const noiseScale = props.noiseScale
+const distortion = props.distortion
+const rampLow = props.rampLow
+const rampHigh = props.rampHigh
+const driftSpeed = props.driftSpeed
 
-// A GLSL for-loop needs a compile-time bound, so the step count is a define.
-const defines = { STEPS: Math.max(1, Math.round(props.steps)) }
+// A JS number gives the march loop a constant bound.
+const STEPS = Math.max(1, Math.round(props.steps))
 
 watch(() => props.density, (value) => {
-  uniforms.uDensity.value = value
+  density.value = value
 })
 watch(() => props.color, (value) => {
-  uniforms.uColor.value.setRGB(...value)
+  tint.value.setRGB(...value)
 })
 watch(() => props.scale, (value) => {
-  uniforms.uScale.value.set(...value)
+  boxScale.value.set(...value)
 })
 
-const { onBeforeRender } = useLoop()
+const sampleNoise = (p: any) => texture3D(noise, p.div(FOG_NOISE_PERIOD))
 
-onBeforeRender(({ elapsed }) => {
-  uniforms.uTime.value = elapsed
+const sampleDensity = (local: any) => {
+  const p = local.div(noiseScale).add(vec3(seed * 17, time.mul(driftSpeed), seed * 3.7)).toVar()
+  const warp = sampleNoise(p).gba.mul(2).sub(1).mul(distortion)
+  const n = sampleNoise(p.add(warp)).r
+  const ramped = smoothstep(rampLow, rampHigh, n)
+
+  // Fade toward the faces so the bounds do not read as a hard cube.
+  const edgeDist = vec3(0.5).sub(local.abs())
+  const edgeFade = smoothstep(0, 0.18, min(min(edgeDist.x, edgeDist.y), edgeDist.z))
+
+  return ramped.mul(edgeFade)
+}
+
+// The camera is brought into box space once per vertex, not per fragment.
+const cameraLocal = varying(modelWorldMatrixInverse.mul(vec4(cameraPosition, 1)).xyz)
+
+const transmittanceNode = Fn(() => {
+  const rayDir = normalize(positionLocal.sub(cameraLocal)).toVar()
+
+  // The mesh draws back faces, so the fragment is the exit point; entry is the front face
+  // or the camera itself when it sits inside the box.
+  const invDir = vec3(1).div(rayDir)
+  const t0 = vec3(-0.5).sub(cameraLocal).mul(invDir)
+  const t1 = vec3(0.5).sub(cameraLocal).mul(invDir)
+  const tMin = min(t0, t1).toVar()
+  const tMax = max(t0, t1).toVar()
+  const tNear = max(max(max(tMin.x, tMin.y), tMin.z), 0).toVar()
+  const tFar = min(min(tMax.x, tMax.y), tMax.z).toVar()
+  If(tFar.lessThanEqual(tNear), () => {
+    Discard()
+  })
+
+  const dt = tFar.sub(tNear).div(STEPS).toVar()
+  // World-space step so a stretched box is not denser along its long axis.
+  const stepWorld = rayDir.mul(boxScale).length().mul(dt).toVar()
+  // Interleaved gradient noise offsets the first step so few steps do not band.
+  const offset = fract(fract(screenCoordinate.x.mul(0.06711056).add(screenCoordinate.y.mul(0.00583715))).mul(52.9829189)).toVar()
+
+  // Beer-Lambert: density is the extinction per world unit at full noise.
+  const transmittance = float(1).toVar()
+  Loop(STEPS, ({ i }: { i: any }) => {
+    const t = tNear.add(float(i).add(offset).mul(dt))
+    const d = sampleDensity(cameraLocal.add(rayDir.mul(t)))
+    transmittance.mulAssign(exp(d.mul(density).mul(stepWorld).negate()))
+    If(transmittance.lessThan(0.02), () => {
+      Break()
+    })
+  })
+
+  return float(1).sub(transmittance)
+})()
+
+// BackSide so the march also works with the camera inside the box. depthWrite off
+// so overlapping boxes blend; renderOrder sorts them back to front by hand.
+const material = new MeshBasicNodeMaterial({
+  side: BackSide,
+  transparent: true,
+  depthWrite: false,
+  fog: false,
 })
+material.colorNode = tint
+material.opacityNode = transmittanceNode
+
+onUnmounted(() => material.dispose())
 </script>
 
 <template>
@@ -88,18 +147,8 @@ onBeforeRender(({ elapsed }) => {
     :position="position"
     :scale="scale"
     :render-order="renderOrder"
+    :material="material"
   >
     <TresBoxGeometry :args="[1, 1, 1]" />
-    <!-- BackSide so the march also works with the camera inside the box. depthWrite off
-         so overlapping boxes blend; renderOrder sorts them back to front by hand. -->
-    <TresShaderMaterial
-      :vertex-shader="vertexShader"
-      :fragment-shader="fragmentShader"
-      :uniforms="uniforms"
-      :defines="defines"
-      :side="BackSide"
-      transparent
-      :depth-write="false"
-    />
   </TresMesh>
 </template>

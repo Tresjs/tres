@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import type { RectAreaLight } from 'three'
-import { Matrix4, Vector3 } from 'three'
-import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js'
+import type { RectAreaLight } from 'three/webgpu'
+import { Matrix4, Vector3 } from 'three/webgpu'
+import { initRectAreaLights } from './tsl/rectAreaLights'
 
 // The blue mist the glTF export left out. Transforms are in the dungeon's local
 // space, converted from Blender Z-up with (x, z, -y).
 
-// RectAreaLight is a no-op on WebGLRenderer until its LTC textures exist. Idempotent.
-RectAreaLightUniformsLib.init()
+initRectAreaLights()
 
 const MIST_CENTER = new Vector3(4, 2, -2)
 

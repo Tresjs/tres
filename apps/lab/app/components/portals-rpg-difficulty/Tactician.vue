@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import type { Mesh } from 'three'
-import { Color, FogExp2, MathUtils, Vector3 } from 'three'
+import { useGLTF } from '@tresjs/cientos/webgpu'
+import type { Mesh } from 'three/webgpu'
+import { Color, FogExp2, MathUtils, Vector3 } from 'three/webgpu'
+
+const props = defineProps<{
+  /** The card plane that shows this portal, so the lava can skip its noise off the card. */
+  frame?: Mesh
+}>()
 
 const { nodes, state } = useGLTF('/models/portals-rpg/avernus.glb', { draco: true })
 
@@ -47,7 +53,7 @@ const groupRotation = computed(() => avernusRotation.value.toArray().map(MathUti
     <primitive v-for="node in terrain" :key="node.name" :name="node.name" :object="node" />
     <PortalsRpgDifficultyDemonHeart :heart="nodes.DemonHeart" />
 
-    <PortalsRpgDifficultyAvernusLava :nodes="nodes" />
+    <PortalsRpgDifficultyAvernusLava :nodes="nodes" :frame="props.frame" />
     <PortalsRpgDifficultyAvernusEnergy :nodes="nodes" />
     <PortalsRpgDifficultyAvernusLights />
 

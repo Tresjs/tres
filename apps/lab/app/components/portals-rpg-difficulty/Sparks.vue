@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import vertexShader from './shaders/sparks-vertex.glsl?raw'
-import fragmentShader from './shaders/sparks-fragment.glsl?raw'
-import type { Box3 } from 'three'
-import { AdditiveBlending, Color, Uniform, Vector3 } from 'three'
+import type { Box3, UniformNode } from 'three/webgpu'
+import { AdditiveBlending, Color, InstancedBufferAttribute, Sprite, SpriteNodeMaterial, Vector3 } from 'three/webgpu'
+import { usePointScale } from './tsl/usePointScale'
+import { cos, dot, float, floor, Fn, fract, instancedBufferAttribute, length, mix, sin, smoothstep, time, uniform, uv, varying, vec2, vec3, vec4 } from 'three/tsl'
 
 const props = defineProps<{
   // Flame-mesh local space; sparks are its child, so no transform of their own.
   bounds: Box3
   animator: Vector3
-  swell: Uniform<number>
+  swell: UniformNode<number>
   // Peak of animator.xz, to turn the sway into a flame-relative amplitude.
   swayAmplitude: number
 }>()
@@ -59,50 +59,70 @@ for (let i = 0; i < COUNT; i++) {
   pointSizes[i] = 0.5 + Math.random() * 0.5
 }
 
-const uniforms = {
-  uTime: new Uniform(0),
-  uPixelHeight: new Uniform(1),
-  uSparkSize: new Uniform(size.y * SPARK_SIZE),
-  uRise: new Uniform(size.y * RISE * BOUNDS_SCALE),
-  uSpread: new Uniform(flameRadius * SPREAD * BOUNDS_SCALE),
-  uSwayGain: new Uniform(flameRadius * SWAY * BOUNDS_SCALE / props.swayAmplitude),
-  uAnimator: new Uniform(props.animator),
-  uSwell: props.swell,
-  uColorHot: new Uniform(new Color('#ffe6a8')),
-  uColorMid: new Uniform(new Color('#ff9d2e')),
-  uColorCool: new Uniform(new Color('#ff4d00')),
-}
+const sparkSize = uniform(size.y * SPARK_SIZE)
+const rise = uniform(size.y * RISE * BOUNDS_SCALE)
+const spread = uniform(flameRadius * SPREAD * BOUNDS_SCALE)
+const swayGain = uniform(flameRadius * SWAY * BOUNDS_SCALE / props.swayAmplitude)
+const animator = uniform(props.animator)
+const colorHot = uniform(new Color('#ffe6a8'))
+const colorMid = uniform(new Color('#ff9d2e'))
+const colorCool = uniform(new Color('#ff4d00'))
 
-// Points are sized from a world size, which needs the canvas height in device pixels.
-const { sizes: canvas } = useTres()
+const aPosition = instancedBufferAttribute(new InstancedBufferAttribute(positions, 3))
+// x: wobble frequency, y and z: hash seeds for the per-cycle drift
+const aSeed = instancedBufferAttribute(new InstancedBufferAttribute(seeds, 3))
+// x: birth offset, y: lifetime in seconds
+const aLife = instancedBufferAttribute(new InstancedBufferAttribute(lives, 2))
+const aSize = instancedBufferAttribute(new InstancedBufferAttribute(pointSizes, 1))
 
-watchEffect(() => {
-  uniforms.uPixelHeight.value = canvas.height.value * canvas.pixelRatio.value
+const hash21 = Fn(([p]: any[]) => {
+  const q = fract(vec3(p.x, p.y, p.x).mul(0.1031)).toVar()
+  q.addAssign(dot(q, q.yzx.add(33.33)))
+  return fract(q.x.add(q.y).mul(q.z))
+}).setLayout({ name: 'sparkHash21', type: 'float', inputs: [{ name: 'p', type: 'vec2' }] })
+
+const life = time.add(aLife.x).div(aLife.y)
+const t = fract(life).toVar()
+const cycle = floor(life)
+
+// Keyed on the cycle, not time: a spark holds one path per rise, and the paths do not repeat.
+const r1 = hash21(vec2(aSeed.y, cycle)).toVar()
+const r2 = hash21(vec2(aSeed.z, cycle.add(7.3)))
+
+// t*t is buoyancy; the linear term keeps sparks moving as they leave the coals.
+const lift = rise.mul(t.mul(0.35).add(t.mul(t).mul(0.65))).mul(r1.mul(0.6).add(0.7))
+const wobble = aSeed.x.mul(t).add(aSeed.y.mul(6.2831))
+const driftX = spread.mul(t).mul(sin(wobble).mul(0.6).add(r1.sub(0.5).mul(1.4)))
+const driftZ = spread.mul(t).mul(cos(wobble.mul(1.13)).mul(0.6).add(r2.sub(0.5).mul(1.4)))
+// Same sway vector the fire light rides, so sparks never lean against the flame.
+const sway = animator.xz.mul(swayGain).mul(t)
+
+const material = new SpriteNodeMaterial({
+  transparent: true,
+  depthWrite: false,
+  blending: AdditiveBlending,
+  fog: false,
 })
+material.positionNode = aPosition.add(vec3(driftX.add(sway.x), lift, driftZ.add(sway.y)))
+material.scaleNode = aSize.mul(sparkSize).mul(usePointScale()).mul(float(1).sub(t.mul(0.55))).mul(props.swell.mul(0.3).add(0.85))
 
-const { onBeforeRender } = useLoop()
+const age = varying(t)
+// The falloff must end inside 0.5 (the sprite corner) or the ember shows a square.
+const shape = smoothstep(0.5, 0.12, length(uv().sub(0.5)))
+const tint = mix(mix(colorHot, colorMid, smoothstep(0, 0.35, age)), colorCool, smoothstep(0.35, 0.85, age))
+// The birth ramp hides the pop-in at the seed point, where every cycle restarts.
+const fade = float(1).sub(smoothstep(0.55, 1, age)).mul(smoothstep(0, 0.06, age))
+material.colorNode = vec4(tint, shape.mul(fade).mul(props.swell.mul(0.4).add(0.8)))
 
-onBeforeRender(({ elapsed }) => {
-  uniforms.uTime.value = elapsed
-})
+const sparks = new Sprite(material)
+sparks.name = 'Sparks'
+sparks.count = COUNT
+// The sprite bounds are one quad at the origin; the shader spreads sparks well beyond it.
+sparks.frustumCulled = false
+
+onUnmounted(() => material.dispose())
 </script>
 
 <template>
-  <!-- The bounding sphere covers only the seed disk; the shader lifts sparks well above it. -->
-  <TresPoints name="Sparks" :frustum-culled="false">
-    <TresBufferGeometry
-      :position="[positions, 3]"
-      :a-seed="[seeds, 3]"
-      :a-life="[lives, 2]"
-      :a-size="[pointSizes, 1]"
-    />
-    <TresShaderMaterial
-      :vertex-shader="vertexShader"
-      :fragment-shader="fragmentShader"
-      :uniforms="uniforms"
-      :transparent="true"
-      :depth-write="false"
-      :blending="AdditiveBlending"
-    />
-  </TresPoints>
+  <primitive :object="sparks" />
 </template>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { BloomPmndrs, EffectComposerPmndrs } from '@tresjs/post-processing'
-import { MathUtils } from 'three'
+import { TresCanvas } from '@tresjs/core/webgpu'
+import { OrbitControls } from '@tresjs/cientos/webgpu'
+import { Bloom, EffectComposer } from '@tresjs/post-processing/webgpu'
+import { MathUtils } from 'three/webgpu'
 
 const uuid = 'portals-rpg-difficulty'
 
@@ -33,17 +35,15 @@ const revealed = ref(false)
 const BANNER_DELAY = 2.4
 
 const {
-  bloomIntensity,
+  bloomStrength,
   bloomThreshold,
-  bloomSmoothing,
+  bloomSmoothWidth,
   bloomRadius,
-  bloomMipmapBlur,
 } = useControls('bloom', {
-  intensity: { value: 0.5, min: 0, max: 5, step: 0.05 },
+  strength: { value: 0.5, min: 0, max: 5, step: 0.05 },
   threshold: { value: 0.33, min: 0, max: 1, step: 0.01 },
-  smoothing: { value: 0.2, min: 0, max: 1, step: 0.01 },
+  smoothWidth: { value: 0.2, min: 0.01, max: 1, step: 0.01, label: 'smooth width' },
   radius: { value: 0.6, min: 0, max: 1, step: 0.01 },
-  mipmapBlur: { value: false, type: 'boolean', label: 'mipmap blur' },
 }, { uuid })
 </script>
 
@@ -62,16 +62,13 @@ const {
     <TresPerspectiveCamera :position="[0, 0, 6]" :fov="50" :look-at="[0, 0, 0]" />
     <PortalsRpgDifficultyExperience :revealed="revealed" />
     <OrbitControls v-bind="CONTROLS" enable-damping />
-    <Suspense v-if="!isPhone">
-      <EffectComposerPmndrs>
-        <BloomPmndrs
-          :intensity="bloomIntensity"
-          :luminance-threshold="bloomThreshold"
-          :luminance-smoothing="bloomSmoothing"
-          :radius="bloomRadius"
-          :mipmap-blur="bloomMipmapBlur"
-        />
-      </EffectComposerPmndrs>
-    </Suspense>
+    <EffectComposer v-if="!isPhone">
+      <Bloom
+        :strength="bloomStrength"
+        :threshold="bloomThreshold"
+        :smooth-width="bloomSmoothWidth"
+        :radius="bloomRadius"
+      />
+    </EffectComposer>
   </TresCanvas>
 </template>
