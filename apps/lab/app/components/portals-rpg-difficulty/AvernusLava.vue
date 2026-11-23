@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import type { Material, Mesh } from 'three/webgpu'
+import type { Mesh } from 'three/webgpu'
 import { MeshPhysicalNodeMaterial, Vector3, Vector4 } from 'three/webgpu'
 import { abs, cross, dFdx, dFdy, dot, float, Fn, frontFacing, If, max, mix, normalize, normalView, output, positionGeometry, positionView, screenUV, select, sign, time, uniform, varying, vec2, vec3, vec4 } from 'three/tsl'
 import { blenderNoise3Fac } from './tsl/blenderNoise'
 import { evaluateLavaNoise, lavaSurface } from './tsl/avernusFields'
-
-// The GLB material is restored on unmount because useGLTF caches the scene between portal mounts.
+import { useMaterialSwap } from './useMaterialSwap'
 
 const props = defineProps<{
   nodes: Record<string, any>
-  /** The card plane that shows this portal. Without it the noise runs on the whole target. */
+  // Without the card plane the noise runs on the whole target.
   frame?: Mesh
 }>()
 
@@ -41,7 +40,7 @@ const uniforms = {
 const blenderPosition = varying(vec3(positionGeometry.x, positionGeometry.z.negate(), positionGeometry.y))
 
 // The If keeps the most expensive octaves off the GPU when fine detail is off; a select would still run them.
-const micro = (q: any) => Fn(() => {
+const microDetail = (q: any) => Fn(() => {
   const value = float(0.5).toVar()
   If(uniforms.fineDetail.greaterThan(0.5), () => {
     value.assign(blenderNoise3Fac(q.mul(22), 2, 0.5, 0))
@@ -54,7 +53,7 @@ const noise = evaluateLavaNoise(
   blenderPosition,
   uniforms.warpAmount,
   uniforms.plateScale,
-  micro,
+  microDetail,
   vec3(0, time.mul(uniforms.flowSpeed), 0),
   time.mul(uniforms.churnSpeed),
 )
@@ -150,23 +149,7 @@ function updateVisibleRect() {
 const { onBeforeRender } = useLoop()
 onBeforeRender(updateVisibleRect)
 
-const lake = computed<Mesh | undefined>(() => props.nodes.GEO_Lava_Lake)
-
-let patched: Mesh | null = null
-let original: Material | Material[] | null = null
-
-// immediate: the nodes are already loaded when a cached portal remounts.
-watch(lake, (mesh) => {
-  if (!mesh || patched) { return }
-  patched = mesh
-  original = mesh.material
-  mesh.material = material
-}, { immediate: true })
-
-onUnmounted(() => {
-  if (patched && original) { patched.material = original }
-  material.dispose()
-})
+useMaterialSwap(() => props.nodes.GEO_Lava_Lake as Mesh | undefined, material)
 
 const {
   lavaWarp,

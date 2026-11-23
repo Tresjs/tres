@@ -1,5 +1,5 @@
-import type { Color, Vector2, Vector3 } from 'three/webgpu'
-import { DoubleSide, MeshBasicNodeMaterial } from 'three/webgpu'
+import type { Color, Vector3 } from 'three/webgpu'
+import { DoubleSide, MeshBasicNodeMaterial, Vector2 } from 'three/webgpu'
 import {
   abs,
   cross,
@@ -76,11 +76,11 @@ export interface FireOptions {
   rimLow: Color
   rimHigh: Color
   maskFloor: number
-  powerA: number
-  powerB: number
-  rampA: Vector2
-  rampB: Vector2
-  /** Moving it scrolls the marble veins through the mesh. Mutate it in place. */
+  dodgeBasePower: number
+  dodgeBlendPower: number
+  dodgeBaseRamp: Vector2
+  dodgeBlendRamp: Vector2
+  // A CPU vector, not the `time` node: marble.ts samples the same offset to drive the fire light.
   animator: Vector3
   marbleSize: number
   marbleTurbulence: number
@@ -91,8 +91,28 @@ export interface FireOptions {
   flicker: number
 }
 
-export function createFireMaterial(options: FireOptions) {
-  const u = {
+type SharedFireOption = 'coreStrength' | 'rimStops' | 'rimOffset' | 'rimScale' | 'rimStrength' | 'maskFloor'
+  | 'dodgeBasePower' | 'dodgeBlendPower' | 'dodgeBaseRamp' | 'dodgeBlendRamp' | 'marbleTurbulence' | 'displaceMid' | 'flicker'
+
+const FIRE_DEFAULTS = {
+  coreStrength: 1.4,
+  rimStops: new Vector2(0, 0.523),
+  rimOffset: 1,
+  rimScale: 1,
+  rimStrength: 1,
+  maskFloor: 1,
+  dodgeBasePower: 2,
+  dodgeBlendPower: 4,
+  dodgeBaseRamp: new Vector2(0, 1),
+  dodgeBlendRamp: new Vector2(0.082, 1),
+  marbleTurbulence: 5,
+  displaceMid: 0.5,
+  flicker: 0.06,
+} satisfies Pick<FireOptions, SharedFireOption>
+
+export function createFireMaterial(overrides: Omit<FireOptions, SharedFireOption> & Partial<Pick<FireOptions, SharedFireOption>>) {
+  const options: FireOptions = { ...FIRE_DEFAULTS, ...overrides }
+  const uniforms = {
     coreOffset: uniform(options.coreOffset),
     coreScale: uniform(options.coreScale),
     coreMidPos: uniform(options.coreMidPos),
@@ -100,7 +120,7 @@ export function createFireMaterial(options: FireOptions) {
     coreLow: uniform(options.coreLow),
     coreMid: uniform(options.coreMid),
     coreHigh: uniform(options.coreHigh),
-    rimStops: uniform(options.rimStops),
+    rimStops: uniform(options.rimStops.clone()),
     rimOffset: uniform(options.rimOffset),
     rimScale: uniform(options.rimScale),
     rimStrength: uniform(options.rimStrength),
@@ -109,10 +129,10 @@ export function createFireMaterial(options: FireOptions) {
     heightMin: uniform(0),
     heightRange: uniform(1),
     maskFloor: uniform(options.maskFloor),
-    powerA: uniform(options.powerA),
-    powerB: uniform(options.powerB),
-    rampA: uniform(options.rampA),
-    rampB: uniform(options.rampB),
+    dodgeBasePower: uniform(options.dodgeBasePower),
+    dodgeBlendPower: uniform(options.dodgeBlendPower),
+    dodgeBaseRamp: uniform(options.dodgeBaseRamp.clone()),
+    dodgeBlendRamp: uniform(options.dodgeBlendRamp.clone()),
     animator: uniform(options.animator),
     marbleSize: uniform(options.marbleSize),
     marbleTurbulence: uniform(options.marbleTurbulence),
@@ -124,7 +144,7 @@ export function createFireMaterial(options: FireOptions) {
   }
 
   const marble = (p: any) =>
-    sin(u.marbleVeins.mul(p.x.add(p.y).add(p.z)).add(u.marbleTurbulence.mul(turbulence(p.div(u.marbleSize))))).mul(0.5).add(0.5)
+    sin(uniforms.marbleVeins.mul(p.x.add(p.y).add(p.z)).add(uniforms.marbleTurbulence.mul(turbulence(p.div(uniforms.marbleSize))))).mul(0.5).add(0.5)
 
   const vHeight = varyingProperty('float', 'vFireHeight')
   const vNormalView = varyingProperty('vec3', 'vFireNormalView')
@@ -135,21 +155,21 @@ export function createFireMaterial(options: FireOptions) {
   material.positionNode = Fn(() => {
     const position = positionGeometry
     const nor = normalize(normalGeometry).toVar()
-    const mask = smoothstep(0, max(u.baseMask, 1e-4), position.y.sub(u.heightMin).div(u.heightRange)).toVar()
+    const mask = smoothstep(0, max(uniforms.baseMask, 1e-4), position.y.sub(uniforms.heightMin).div(uniforms.heightRange)).toVar()
 
     const axis = select(abs(nor.y).lessThan(0.99), vec3(0, 1, 0), vec3(1, 0, 0))
     const tangent = normalize(cross(axis, nor)).toVar()
     const bitangent = cross(nor, tangent).toVar()
 
-    const displace = (p: any) => p.add(nor.mul(marble(p.sub(u.animator)).sub(u.displaceMid).mul(u.displaceStrength).mul(mask)))
+    const displace = (p: any) => p.add(nor.mul(marble(p.sub(uniforms.animator)).sub(uniforms.displaceMid).mul(uniforms.displaceStrength).mul(mask)))
 
     const displaced = displace(position).toVar()
-    const eps = u.heightRange.mul(0.02)
+    const eps = uniforms.heightRange.mul(0.02)
     const dTangent = displace(position.add(tangent.mul(eps))).sub(displaced)
     const dBitangent = displace(position.add(bitangent.mul(eps))).sub(displaced)
     const displacedNormal = normalize(cross(dTangent, dBitangent))
 
-    vHeight.assign(displaced.y.sub(u.heightMin).div(u.heightRange))
+    vHeight.assign(displaced.y.sub(uniforms.heightMin).div(uniforms.heightRange))
     vNormalView.assign(normalize(transformNormalToView(displacedNormal)))
     vViewDir.assign(normalize(modelViewMatrix.mul(vec4(displaced, 1)).xyz.negate()))
 
@@ -164,20 +184,20 @@ export function createFireMaterial(options: FireOptions) {
 
   material.colorNode = Fn(() => {
     const facing = float(1).sub(abs(dot(normalize(vNormalView), normalize(vViewDir))))
-    const lifted = mix(facing, u.maskFloor, 0.5).toVar()
-    const a = smoothstep(u.rampA.x, u.rampA.y, pow(lifted, u.powerA))
-    const b = smoothstep(u.rampB.x, u.rampB.y, pow(lifted, u.powerB))
+    const lifted = mix(facing, uniforms.maskFloor, 0.5).toVar()
+    const a = smoothstep(uniforms.dodgeBaseRamp.x, uniforms.dodgeBaseRamp.y, pow(lifted, uniforms.dodgeBasePower))
+    const b = smoothstep(uniforms.dodgeBlendRamp.x, uniforms.dodgeBlendRamp.y, pow(lifted, uniforms.dodgeBlendPower))
     const mask = colorDodge(a, b)
 
     const flicker = sin(vHeight.mul(9).sub(time.mul(6))).mul(0.5).add(sin(vHeight.mul(17).sub(time.mul(9.3))).mul(0.5))
-    const coreT = smoothstep(0, 1, u.coreOffset.add(flicker.mul(u.flicker)).sub(u.coreScale.mul(vHeight)))
-    const rimT = smoothstep(0, 1, u.rimOffset.sub(u.rimScale.mul(vHeight)))
+    const coreT = smoothstep(0, 1, uniforms.coreOffset.add(flicker.mul(uniforms.flicker)).sub(uniforms.coreScale.mul(vHeight)))
+    const rimT = smoothstep(0, 1, uniforms.rimOffset.sub(uniforms.rimScale.mul(vHeight)))
 
-    const core = ramp3(u.coreLow, u.coreMid, u.coreHigh, u.coreMidPos, coreT).mul(u.coreStrength)
-    const rim = mix(u.rimLow, u.rimHigh, smoothstep(u.rimStops.x, u.rimStops.y, rimT)).mul(u.rimStrength)
+    const core = ramp3(uniforms.coreLow, uniforms.coreMid, uniforms.coreHigh, uniforms.coreMidPos, coreT).mul(uniforms.coreStrength)
+    const rim = mix(uniforms.rimLow, uniforms.rimHigh, smoothstep(uniforms.rimStops.x, uniforms.rimStops.y, rimT)).mul(uniforms.rimStrength)
 
     return vec4(mix(core, rim, mask), 1)
   })()
 
-  return { material, uniforms: u }
+  return { material, uniforms }
 }

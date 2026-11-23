@@ -4,7 +4,6 @@ import type { Mesh } from 'three/webgpu'
 import { Color, FogExp2, MathUtils, Vector3 } from 'three/webgpu'
 
 const props = defineProps<{
-  /** The card plane that shows this portal, so the lava can skip its noise off the card. */
   frame?: Mesh
 }>()
 

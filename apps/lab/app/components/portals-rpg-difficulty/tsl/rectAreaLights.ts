@@ -3,7 +3,7 @@ import { RectAreaLightTexturesLib } from 'three/addons/lights/RectAreaLightTextu
 
 let ready = false
 
-/** RectAreaLight renders black under WebGPURenderer until its LTC textures exist. `init()` builds new textures on every call, hence the guard. */
+// RectAreaLight renders black until the LTC textures exist, and `init()` builds new ones on every call.
 export function initRectAreaLights() {
   if (ready) { return }
   ready = true

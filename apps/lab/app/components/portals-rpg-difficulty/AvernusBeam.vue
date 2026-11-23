@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Group, Mesh, Object3D } from 'three/webgpu'
-import { Color, CylinderGeometry, DoubleSide, LinearSRGBColorSpace, MeshStandardNodeMaterial, Quaternion, Vector3 } from 'three/webgpu'
+import { CylinderGeometry, DoubleSide, MeshStandardNodeMaterial, Quaternion, Vector3 } from 'three/webgpu'
 import { atan, clamp, cos, float, mix, normalize, positionGeometry, sin, smoothstep, time, uniform, uv, varying, vec2, vec3, vec4 } from 'three/tsl'
 import { blenderNoise3Fac } from './tsl/blenderNoise'
 import { energyPalette, energyRim } from './tsl/avernusFields'
@@ -15,9 +15,6 @@ const props = defineProps<{
 const UUID = 'portals-rpg-difficulty'
 
 const TAU = 6.28318530718
-
-// Captured values are linear already, see AvernusEnergy.vue.
-const linear = (r: number, g: number, b: number) => new Color().setRGB(r, g, b, LinearSRGBColorSpace)
 
 // Shared uniform nodes: one slider drives both layers.
 const shared = {
@@ -34,10 +31,6 @@ const shared = {
   darkOpacity: uniform(0.6),
   rimGain: uniform(1),
   coreDark: uniform(1.5),
-  palette0: uniform(linear(0.800007463, 0.00279104151, 0.026096642)),
-  palette1: uniform(linear(0.300010771, 0.000417422998, 0.00549431844)),
-  palette2: uniform(linear(0.0250004753, 0.0000500666174, 0.00118516071)),
-  palette3: uniform(linear(0.0271967836, 0.000134123649, 0)),
 }
 
 const darkOffset = uniform(0.04)
@@ -82,7 +75,7 @@ function makeMaterial(dark: boolean) {
 
   // density 0 is the bright rim, 1 the dark core, so the ribbon edge glows and its middle goes dark.
   const density = clamp(effect.mul(shared.coreDark), 0, 1).toVar()
-  const color = energyPalette(density, shared.palette0, shared.palette1, shared.palette2, shared.palette3).toVar()
+  const color = energyPalette(density).toVar()
 
   const material = new MeshStandardNodeMaterial({
     transparent: true,

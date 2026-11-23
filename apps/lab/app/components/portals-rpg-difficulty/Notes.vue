@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { AdditiveBlending, CanvasTexture, Color, InstancedBufferAttribute, Sprite, SpriteNodeMaterial, Vector2 } from 'three/webgpu'
+import { AdditiveBlending, CanvasTexture, Color, Sprite, SpriteNodeMaterial, Vector2 } from 'three/webgpu'
+import { instanced } from './tsl/instanced'
 import { usePointScale } from './tsl/usePointScale'
-import { cos, float, fract, instancedBufferAttribute, length, min, mix, select, sin, smoothstep, step, texture, time, uniform, uv, varying, vec2, vec3, vec4 } from 'three/tsl'
+import { cos, float, fract, length, min, mix, select, sin, smoothstep, step, texture, time, uniform, uv, varying, vec2, vec3, vec4 } from 'three/tsl'
 
 const props = withDefaults(defineProps<{
   opacity?: number
@@ -95,8 +96,6 @@ const opacity = uniform(props.opacity)
 const colorYoung = uniform(new Color('#ffe2a8'))
 const colorMid = uniform(new Color('#ffb347'))
 const colorOld = uniform(new Color('#ff6e2b'))
-
-const instanced = (array: Float32Array, itemSize: number) => instancedBufferAttribute(new InstancedBufferAttribute(array, itemSize))
 
 const aPosition = instanced(positions, 3)
 // x: phase, y: orbit direction (±1), z: radius offset in -1..1

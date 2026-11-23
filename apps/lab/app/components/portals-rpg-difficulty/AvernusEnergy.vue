@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import type { Material, Mesh } from 'three/webgpu'
-import { Color, DoubleSide, LinearSRGBColorSpace, MeshStandardNodeMaterial } from 'three/webgpu'
+import type { Mesh } from 'three/webgpu'
+import { DoubleSide, MeshStandardNodeMaterial } from 'three/webgpu'
 import { clamp, float, sin, smoothstep, time, uniform, uv, vec2, vec3, vec4 } from 'three/tsl'
 import { blenderNoise3Fac } from './tsl/blenderNoise'
-import { energyEndFade, energyPalette, energyRim as energyRimRamp, energyTopFade } from './tsl/avernusFields'
-
-// The GLB materials are restored on unmount because useGLTF caches the scene
-// between portal mounts.
+import { useMaterialSwap } from './useMaterialSwap'
+import { energyEndFade, energyPalette, energyRim as energyRimRamp, energyTopFade, linearColor } from './tsl/avernusFields'
 
 const props = defineProps<{
   nodes: Record<string, any>
 }>()
 
 const UUID = 'portals-rpg-difficulty'
-
-// Captured values are linear: setRGB with LinearSRGBColorSpace skips the sRGB decode.
-const linear = (r: number, g: number, b: number) => new Color().setRGB(r, g, b, LinearSRGBColorSpace)
 
 const uniforms = {
   opacity: uniform(1),
@@ -29,10 +24,6 @@ const uniforms = {
   churnSpeed: uniform(0.15),
   pulseSpeed: uniform(0.4),
   pulseAmount: uniform(0.5),
-  palette0: uniform(linear(0.800007463, 0.00279104151, 0.026096642)),
-  palette1: uniform(linear(0.300010771, 0.000417422998, 0.00549431844)),
-  palette2: uniform(linear(0.0250004753, 0.0000500666174, 0.00118516071)),
-  palette3: uniform(linear(0.0271967836, 0.000134123649, 0)),
 }
 
 // glTF flips V, so the GLB has V = 1 at the groove; the field equations expect Blender's V = 0 there.
@@ -57,7 +48,7 @@ const alpha = smoothstep(0, uniforms.edge, density).mul(0.78).mul(energyTopFade(
 
 // density 0 is the crimson rim, 1 the dark core; coreDark < 1 keeps more of the wisp on the rim stops.
 const shade = clamp(density.mul(uniforms.coreDark), 0, 1).toVar()
-const color = energyPalette(shade, uniforms.palette0, uniforms.palette1, uniforms.palette2, uniforms.palette3).toVar()
+const color = energyPalette(shade).toVar()
 
 // Normal blending: additive cannot paint the dark cores over the background.
 // No depth write, so the five crossing sheets do not clip each other.
@@ -77,8 +68,8 @@ curtainMaterial.alphaTestNode = uniforms.alphaCutoff
 // The exported seam quads have normals pointing down (glTF kept Blender's winding),
 // so a single-sided material culls them from every camera above the floor.
 const seamMaterial = new MeshStandardNodeMaterial({
-  color: linear(0.280012816, 0, 0.001678135),
-  emissive: linear(0.750007927, 0.096426308, 0.058329098),
+  color: linearColor(0.280012816, 0, 0.001678135),
+  emissive: linearColor(0.750007927, 0.096426308, 0.058329098),
   emissiveIntensity: 3.2,
   roughness: 0.5,
   metalness: 0,
@@ -90,29 +81,15 @@ const pick = (prefix: string) => Object.values(props.nodes).filter((n): n is Mes
 const curtains = computed(() => pick('GEO_Pentagram_Energy_Plane_'))
 const seams = computed(() => pick('GEO_Pentagram_Energy_Seam_'))
 
-const originals = new Map<Mesh, Material | Material[]>()
-
-function swap(meshes: Mesh[], material: Material, castShadow: boolean) {
-  for (const mesh of meshes) {
-    if (originals.has(mesh)) { continue }
-    originals.set(mesh, mesh.material)
-    mesh.material = material
-    mesh.castShadow = castShadow
-  }
-}
+useMaterialSwap(curtains, curtainMaterial)
+useMaterialSwap(seams, seamMaterial)
 
 // immediate: the nodes are already loaded when a cached portal remounts.
 watch([curtains, seams], ([planes, ribbons]) => {
   // Source curtains have visible_shadow=false.
-  swap(planes, curtainMaterial, false)
-  swap(ribbons, seamMaterial, true)
+  for (const mesh of planes) { mesh.castShadow = false }
+  for (const mesh of ribbons) { mesh.castShadow = true }
 }, { immediate: true })
-
-onUnmounted(() => {
-  for (const [mesh, material] of originals) { mesh.material = material }
-  curtainMaterial.dispose()
-  seamMaterial.dispose()
-})
 
 const {
   energyOpacity,

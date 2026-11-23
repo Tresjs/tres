@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { Box3, Material, PointLight } from 'three/webgpu'
-import { Color, Vector2, Vector3 } from 'three/webgpu'
+import type { Box3, PointLight } from 'three/webgpu'
+import { Color, Vector3 } from 'three/webgpu'
 import { uniform } from 'three/tsl'
 import { marble } from './marble'
 import { createFireMaterial } from './tsl/fireMaterial'
+import { useMaterialSwap } from './useMaterialSwap'
 
 const props = defineProps<{
   nodes: Record<string, any>
@@ -31,29 +32,16 @@ const { material: fireMaterial, uniforms } = createFireMaterial({
   coreOffset: 0.8,
   coreScale: 0.54,
   coreMidPos: 0.327,
-  coreStrength: 1.4,
   coreLow: new Color('#ff4d00'),
   coreMid: new Color('#ff9d2e'),
   coreHigh: new Color('#ffe6a8'),
-  rimStops: new Vector2(0.0, 0.523),
-  rimOffset: 1.0,
-  rimScale: 1.0,
-  rimStrength: 1.0,
   rimLow: new Color('#ff6a1a'),
   rimHigh: new Color('#d81400'),
-  maskFloor: 1.0,
-  powerA: 2.0,
-  powerB: 4.0,
-  rampA: new Vector2(0.0, 1.0),
-  rampB: new Vector2(0.082, 1.0),
   animator,
   marbleSize: 0.4,
-  marbleTurbulence: 5.0,
   marbleVeins: 5.0,
   displaceStrength: 0.12,
-  displaceMid: 0.5,
   baseMask: 0.18,
-  flicker: 0.06,
 })
 
 // shallowRef: a plain ref() wraps the light in a proxy that every matrix write pays for.
@@ -72,14 +60,11 @@ watch(fireLight, (light) => {
   lightRest.position.copy(light.position)
 })
 
-// useGLTF caches the scene between portal mounts, so the GLB material comes back on unmount.
-let originalMaterial: Material | Material[] | null = null
+useMaterialSwap(fire, fireMaterial)
 
 // immediate: Easy.vue gates this on nodes.Ground, so nodes are loaded before mount.
 watch(fire, () => {
   if (fire.value?.geometry) {
-    originalMaterial ??= fire.value.material
-    fire.value.material = fireMaterial
     fire.value.geometry.computeBoundingBox()
     const bounds = fire.value.geometry.boundingBox!
     uniforms.heightMin.value = bounds.min.y
@@ -88,11 +73,6 @@ watch(fire, () => {
     flameBounds.value = bounds
   }
 }, { immediate: true })
-
-onUnmounted(() => {
-  if (fire.value && originalMaterial) { fire.value.material = originalMaterial }
-  fireMaterial.dispose()
-})
 
 const { onBeforeRender } = useLoop()
 

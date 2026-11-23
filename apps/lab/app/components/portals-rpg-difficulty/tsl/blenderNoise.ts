@@ -1,10 +1,10 @@
 // Port of Blender v5.2.1 material noise (gpu_shader_common_hash.glsl, gpu_shader_material_*noise/voronoi.glsl).
 // The uint hashes and wrapping integer math are load-bearing: a float hash moves every cell off the reference.
 
-import type { Node } from 'three/webgpu'
 import { abs, dot, float, floor, Fn, fract, If, int, ivec3, Loop, min, mix, normalize, select, sign, step, uint, uvec3, vec3 } from 'three/tsl'
 
-type N = Node | any
+// TSL node typings are too narrow for these generic helpers.
+type TslNode = any
 
 const BL_FLT_MAX = 3.402823466e+38
 const JENKINS_SEED_2 = 0xDEADBEEF + (2 << 2) + 13
@@ -44,9 +44,9 @@ function cpuRandomOffset(seed: number) {
 
 const OFFSETS = [0, 1, 2, 3, 4].map(cpuRandomOffset)
 
-const rot = (x: N, k: number) => x.shiftLeft(uint(k)).bitOr(x.shiftRight(uint(32 - k)))
+const rot = (x: TslNode, k: number) => x.shiftLeft(uint(k)).bitOr(x.shiftRight(uint(32 - k)))
 
-const blHashUint3 = /* @__PURE__ */ Fn(([kx, ky, kz]: N[]) => {
+const blHashUint3 = /* @__PURE__ */ Fn(([kx, ky, kz]: TslNode[]) => {
   const a = uint(JENKINS_SEED_3).add(kx).toVar()
   const b = uint(JENKINS_SEED_3).add(ky).toVar()
   const c = uint(JENKINS_SEED_3).add(kz).toVar()
@@ -65,10 +65,10 @@ const blHashUint3 = /* @__PURE__ */ Fn(([kx, ky, kz]: N[]) => {
 })
 
 // uint(int) keeps the bit pattern in both GLSL and WGSL, as Blender's hash_int3 expects.
-const blHashInt3 = (k: N) => blHashUint3(uint(k.x), uint(k.y), uint(k.z))
+const blHashInt3 = (k: TslNode) => blHashUint3(uint(k.x), uint(k.y), uint(k.z))
 
 // Blender's signed PCG 3D: overflow must wrap and >> must stay arithmetic, so keep ivec3.
-const blHashInt3ToVec3 = /* @__PURE__ */ Fn(([k]: N[]) => {
+const blHashInt3ToVec3 = /* @__PURE__ */ Fn(([k]: TslNode[]) => {
   const v = k.mul(int(1664525)).add(int(1013904223)).toVar()
   v.x.addAssign(v.y.mul(v.z))
   v.y.addAssign(v.z.mul(v.x))
@@ -80,11 +80,11 @@ const blHashInt3ToVec3 = /* @__PURE__ */ Fn(([k]: N[]) => {
   return vec3(v.bitAnd(ivec3(int(0x7FFFFFFF)))).mul(1 / 2147483647)
 }).setLayout({ name: 'blHashInt3ToVec3', type: 'vec3', inputs: [{ name: 'k', type: 'ivec3' }] })
 
-const blFade = (t: N) => t.mul(t).mul(t).mul(t.mul(t.mul(6).sub(15)).add(10))
+const blFade = (t: TslNode) => t.mul(t).mul(t).mul(t.mul(t.mul(6).sub(15)).add(10))
 
-const blNegateIf = (value: N, condition: N) => select(condition.notEqual(uint(0)), value.negate(), value)
+const blNegateIf = (value: TslNode, condition: TslNode) => select(condition.notEqual(uint(0)), value.negate(), value)
 
-const blGrad3 = /* @__PURE__ */ Fn(([hash, x, y, z]: N[]) => {
+const blGrad3 = /* @__PURE__ */ Fn(([hash, x, y, z]: TslNode[]) => {
   const h = hash.bitAnd(uint(15)).toVar()
   const u = select(h.lessThan(uint(8)), x, y)
   const vt = select(h.equal(uint(12)).or(h.equal(uint(14))), x, z)
@@ -96,7 +96,7 @@ const blGrad3 = /* @__PURE__ */ Fn(([hash, x, y, z]: N[]) => {
   inputs: [{ name: 'hash', type: 'uint' }, { name: 'x', type: 'float' }, { name: 'y', type: 'float' }, { name: 'z', type: 'float' }],
 })
 
-const blPerlin3 = /* @__PURE__ */ Fn(([p]: N[]) => {
+const blPerlin3 = /* @__PURE__ */ Fn(([p]: TslNode[]) => {
   const pf = floor(p).toVar()
   const P = ivec3(pf).toVar()
   const f = p.sub(pf).toVar()
@@ -117,16 +117,16 @@ const blPerlin3 = /* @__PURE__ */ Fn(([p]: N[]) => {
 }).setLayout({ name: 'blPerlin3', type: 'float', inputs: [{ name: 'p', type: 'vec3' }] })
 
 // C fmod (sign of the dividend), not GLSL mod; sign(p) is 0 only where the result is 0 anyway.
-const blSnoise3 = /* @__PURE__ */ Fn(([p]: N[]) => {
+const blSnoise3 = /* @__PURE__ */ Fn(([p]: TslNode[]) => {
   const precisionCorrection = step(1000000, abs(p)).mul(0.5)
   const wrapped = fract(abs(p.div(100000))).mul(100000).mul(sign(p))
   return blPerlin3(wrapped.add(precisionCorrection)).mul(0.982)
 }).setLayout({ name: 'blSnoise3', type: 'float', inputs: [{ name: 'p', type: 'vec3' }] })
 
 // Lacunarity 2 and Normalize on, as in every Avernus noise node.
-function blNoiseFbm3(p: N, detail: number, roughness: number) {
+function blNoiseFbm3(p: TslNode, detail: number, roughness: number) {
   const octaves = Math.floor(detail)
-  let sum: N = float(0)
+  let sum: TslNode = float(0)
   let amp = 1
   let maxamp = 0
   let fscale = 1
@@ -147,7 +147,7 @@ function blNoiseFbm3(p: N, detail: number, roughness: number) {
   return mix(sum.mul(0.5 / maxamp).add(0.5), sum2.mul(0.5 / (maxamp + amp)).add(0.5), rmd)
 }
 
-function distort(q: N, distortion: number) {
+function distort(q: TslNode, distortion: number) {
   if (distortion === 0) {
     return vec3(q).toVar()
   }
@@ -162,13 +162,13 @@ function distort(q: N, distortion: number) {
 const clampDetail = (detail: number) => Math.min(Math.max(detail, 0), 15)
 
 /** Fac only, for the nodes whose Color output is unused. Saves two fBM passes. */
-export function blenderNoise3Fac(q: N, detail: number, roughness: number, distortion: number) {
+export function blenderNoise3Fac(q: TslNode, detail: number, roughness: number, distortion: number) {
   const p = distort(q, distortion)
   return blNoiseFbm3(p, clampDetail(detail), Math.max(roughness, 0))
 }
 
 /** The Color output of Blender's Noise Texture. Its x channel is the Fac output. */
-export function blenderNoise3Color(q: N, detail: number, roughness: number, distortion: number) {
+export function blenderNoise3Color(q: TslNode, detail: number, roughness: number, distortion: number) {
   const p = distort(q, distortion)
   const d = clampDetail(detail)
   const r = Math.max(roughness, 0)
@@ -179,10 +179,10 @@ export function blenderNoise3Color(q: N, detail: number, roughness: number, dist
   )
 }
 
-const cellOffset = (i: N) => ivec3(i.mod(int(3)).sub(int(1)), i.div(int(3)).mod(int(3)).sub(int(1)), i.div(int(9)).sub(int(1)))
+const cellOffset = (i: TslNode) => ivec3(i.mod(int(3)).sub(int(1)), i.div(int(3)).mod(int(3)).sub(int(1)), i.div(int(9)).sub(int(1)))
 
 /** Euclidean, Randomness 1, Detail 0, Normalize off: the fractal wrapper is then an identity, so it is skipped. */
-export const blenderVoronoiEdge3 = /* @__PURE__ */ Fn(([coord]: N[]) => {
+export const blenderVoronoiEdge3 = /* @__PURE__ */ Fn(([coord]: TslNode[]) => {
   const cellPositionF = floor(coord).toVar()
   const localPosition = coord.sub(cellPositionF).toVar()
   const cellPosition = ivec3(cellPositionF).toVar()
@@ -191,7 +191,7 @@ export const blenderVoronoiEdge3 = /* @__PURE__ */ Fn(([coord]: N[]) => {
   const minDistance = float(BL_FLT_MAX).toVar()
 
   // One flat loop over the 3x3x3 cells, x fastest, in the same order as Blender's k, j, i loops.
-  Loop(27, ({ i }: { i: N }) => {
+  Loop(27, ({ i }: { i: TslNode }) => {
     const offset = cellOffset(i).toVar()
     const vectorToPoint = vec3(offset).add(blHashInt3ToVec3(cellPosition.add(offset))).sub(localPosition).toVar()
     const distanceToPoint = dot(vectorToPoint, vectorToPoint)
@@ -202,7 +202,7 @@ export const blenderVoronoiEdge3 = /* @__PURE__ */ Fn(([coord]: N[]) => {
   })
 
   minDistance.assign(BL_FLT_MAX)
-  Loop(27, ({ i }: { i: N }) => {
+  Loop(27, ({ i }: { i: TslNode }) => {
     const offset = cellOffset(i).toVar()
     const vectorToPoint = vec3(offset).add(blHashInt3ToVec3(cellPosition.add(offset))).sub(localPosition).toVar()
     const perpendicularToEdge = vectorToPoint.sub(vectorToClosest).toVar()

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { Material, Mesh, PointLight } from 'three/webgpu'
-import { Color, IcosahedronGeometry, Vector2, Vector3 } from 'three/webgpu'
+import type { Mesh, PointLight } from 'three/webgpu'
+import { Color, IcosahedronGeometry, Vector3 } from 'three/webgpu'
 import { useAnimations } from '@tresjs/cientos/webgpu'
 import { marble } from './marble'
 import { createFireMaterial } from './tsl/fireMaterial'
+import { useMaterialSwap } from './useMaterialSwap'
 
 const props = defineProps<{
   nodes: Record<string, any>
@@ -39,29 +40,16 @@ const { material: orbMaterial, uniforms } = createFireMaterial({
   coreOffset: 0.9,
   coreScale: 0.6,
   coreMidPos: 0.4,
-  coreStrength: 1.4,
   coreLow: new Color('#0a46e0'),
   coreMid: new Color('#0ac8ff'),
   coreHigh: new Color('#d8fbff'),
-  rimStops: new Vector2(0.0, 0.523),
-  rimOffset: 1.0,
-  rimScale: 1.0,
-  rimStrength: 1.0,
   rimLow: new Color('#1ea8ff'),
   rimHigh: new Color('#0b1e9e'),
-  maskFloor: 1.0,
-  powerA: 2.0,
-  powerB: 4.0,
-  rampA: new Vector2(0.0, 1.0),
-  rampB: new Vector2(0.082, 1.0),
   animator,
   marbleSize: MARBLE_SIZE,
-  marbleTurbulence: 5.0,
   marbleVeins: MARBLE_VEINS,
   displaceStrength: DISPLACE_STRENGTH,
-  displaceMid: 0.5,
   baseMask: 0,
-  flicker: 0.06,
 })
 
 let radius = 1
@@ -96,21 +84,12 @@ const prepareOrb = (mesh: Mesh) => {
   uniforms.displaceStrength.value = DISPLACE_STRENGTH * r
 }
 
-let originalMaterial: Material | Material[] | null = null
-
 // immediate: Balanced.vue gates the group on loaded nodes, so a plain watch never fires.
 watch(orb, (mesh) => {
-  if (!mesh?.geometry) { return }
-  prepareOrb(mesh)
-  // useGLTF caches the scene between portal mounts, so the GLB material comes back on unmount.
-  originalMaterial ??= mesh.material
-  mesh.material = orbMaterial
+  if (mesh?.geometry) { prepareOrb(mesh) }
 }, { immediate: true })
 
-onUnmounted(() => {
-  if (orb.value && originalMaterial) { orb.value.material = originalMaterial }
-  orbMaterial.dispose()
-})
+useMaterialSwap(orb, orbMaterial)
 
 const { onBeforeRender } = useLoop()
 

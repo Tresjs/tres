@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Box3, UniformNode } from 'three/webgpu'
-import { AdditiveBlending, Color, InstancedBufferAttribute, Sprite, SpriteNodeMaterial, Vector3 } from 'three/webgpu'
+import { AdditiveBlending, Color, Sprite, SpriteNodeMaterial, Vector3 } from 'three/webgpu'
+import { instanced } from './tsl/instanced'
 import { usePointScale } from './tsl/usePointScale'
-import { cos, dot, float, floor, Fn, fract, instancedBufferAttribute, length, mix, sin, smoothstep, time, uniform, uv, varying, vec2, vec3, vec4 } from 'three/tsl'
+import { cos, dot, float, floor, Fn, fract, length, mix, sin, smoothstep, time, uniform, uv, varying, vec2, vec3, vec4 } from 'three/tsl'
 
 const props = defineProps<{
   // Flame-mesh local space; sparks are its child, so no transform of their own.
@@ -63,17 +64,18 @@ const sparkSize = uniform(size.y * SPARK_SIZE)
 const rise = uniform(size.y * RISE * BOUNDS_SCALE)
 const spread = uniform(flameRadius * SPREAD * BOUNDS_SCALE)
 const swayGain = uniform(flameRadius * SWAY * BOUNDS_SCALE / props.swayAmplitude)
+// The fire's CPU sway vector, not `time`, so the sparks lean with the flame and its light.
 const animator = uniform(props.animator)
 const colorHot = uniform(new Color('#ffe6a8'))
 const colorMid = uniform(new Color('#ff9d2e'))
 const colorCool = uniform(new Color('#ff4d00'))
 
-const aPosition = instancedBufferAttribute(new InstancedBufferAttribute(positions, 3))
+const aPosition = instanced(positions, 3)
 // x: wobble frequency, y and z: hash seeds for the per-cycle drift
-const aSeed = instancedBufferAttribute(new InstancedBufferAttribute(seeds, 3))
+const aSeed = instanced(seeds, 3)
 // x: birth offset, y: lifetime in seconds
-const aLife = instancedBufferAttribute(new InstancedBufferAttribute(lives, 2))
-const aSize = instancedBufferAttribute(new InstancedBufferAttribute(pointSizes, 1))
+const aLife = instanced(lives, 2)
+const aSize = instanced(pointSizes, 1)
 
 const hash21 = Fn(([p]: any[]) => {
   const q = fract(vec3(p.x, p.y, p.x).mul(0.1031)).toVar()
