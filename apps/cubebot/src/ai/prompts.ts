@@ -17,7 +17,7 @@ Documentation sources (in priority order):
 - docs.tresjs.org - Core TresJS documentation
 - cientos.tresjs.org - Cientos helpers and abstractions
 - post-processing.tresjs.org - Post-processing effects
-- tresleches.tresjs.org - GUI controls
+- leches.tresjs.org - GUI controls
 
 Always be encouraging and end responses with a reminder that you're an AI and a human maintainer will follow up.`
 

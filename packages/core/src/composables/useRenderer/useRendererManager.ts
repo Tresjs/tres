@@ -1,13 +1,12 @@
-import type { ColorRepresentation, ColorSpace, Object3D, ShadowMapType, ToneMapping } from 'three'
+import type { ColorRepresentation, ColorSpace, Object3D, ShadowMapType, ToneMapping, WebGLRenderer } from 'three'
 
 import type { TresContext } from '../useTresContextProvider'
 
 import {
   createEventHook,
-  unrefElement,
   useTimeout,
 } from '@vueuse/core'
-import { Material, Mesh, WebGLRenderer } from 'three'
+import { Material, Mesh, NoColorSpace, PCFShadowMap, PCFSoftShadowMap } from 'three'
 import { computed, nextTick, onUnmounted, ref, toValue, watch, watchEffect } from 'vue'
 import type { MaybeRef, MaybeRefOrGetter, Reactive, ShallowRef } from 'vue'
 import type { Renderer } from 'three/webgpu'
@@ -22,6 +21,12 @@ import type { TresScene } from '../../types'
 import { isFunction, isWebGPURenderer } from '../../utils/is'
 import { useCreateRafLoop } from '../useCreateRafLoop'
 import { TresRendererError } from '../../utils/error'
+import { revision } from '../../core/revision'
+
+/**
+ * Three.js revision where `WebGPURenderer` removed `PCFSoftShadowMap`.
+ */
+const WEBGPU_PCF_SOFT_REMOVED_REVISION = 186
 
 /**
  * If set to 'on-demand', the scene will only be rendered when the current frame is invalidated
@@ -145,10 +150,10 @@ export interface RendererOptions {
    * Type of shadow map to use for shadow calculations
    * - `BasicShadowMap`: Basic shadow map.
    * - `PCFShadowMap`: Percentage-Closer Filtering shadow map.
-   * - `PCFSoftShadowMap`: Percentage-Closer Filtering soft shadow map.
+   * - `PCFSoftShadowMap`: Deprecated. three falls back to `PCFShadowMap` on WebGL, and on WebGPU since r186.
    * - `VSMShadowMap`: Variance shadow map.
    * @see {@link https://threejs.org/docs/#api/en/constants/Renderer}
-   * @default PCFSoftShadowMap (Opinionated default by TresJS)
+   * @default PCFShadowMap. On WebGPU before r186, PCFSoftShadowMap (Opinionated default by TresJS)
    */
   shadowMapType?: ShadowMapType
   /**
@@ -193,6 +198,11 @@ export interface TresRendererSetupContext {
   canvas: MaybeRef<HTMLCanvasElement>
 }
 
+/**
+ * Builds the renderer when the `renderer` option is not set. Each entry has its own.
+ */
+export type DefaultRendererFactory = (ctx: TresRendererSetupContext, options: RendererOptions) => TresRenderer
+
 export interface UseRendererOptions {
   scene: ShallowRef<TresScene>
   canvas: MaybeRef<HTMLCanvasElement>
@@ -201,7 +211,8 @@ export interface UseRendererOptions {
   contextParts: Pick<TresContext, 'sizes' | 'camera'>
 }
 
-export function useRendererManager(
+// Shared by both entries, so it takes the default renderer as an argument instead of importing one.
+export function useBaseRendererManager(
   {
     scene,
     canvas,
@@ -209,21 +220,18 @@ export function useRendererManager(
     fpsLimit,
     contextParts: { sizes, camera },
   }: UseRendererOptions,
+  createDefaultRenderer?: DefaultRendererFactory,
 ) {
+  const setupContext: TresRendererSetupContext = { sizes, scene, camera, canvas }
+
   const getRenderer = () => {
     if (isFunction(options.renderer)) {
-      return options.renderer({
-        sizes,
-        scene,
-        camera,
-        canvas,
-      })
+      return options.renderer(setupContext)
     }
-
-    return new WebGLRenderer({
-      ...options,
-      canvas: unrefElement(canvas),
-    })
+    if (createDefaultRenderer) {
+      return createDefaultRenderer(setupContext, options)
+    }
+    throw new Error('No renderer: set the `renderer` option or pass a default renderer factory.')
   }
 
   const renderer = getRenderer()
@@ -330,8 +338,18 @@ export function useRendererManager(
     }
   }
 
+  /**
+   * Replaces the render function. Returns a function that puts the previous one back,
+   * unless another call replaced it again in the meantime.
+   */
   const replaceRenderFunction = (fn: RenderFunction) => {
+    const previous = renderFunction
     renderFunction = fn
+    return () => {
+      if (renderFunction === fn) {
+        renderFunction = previous
+      }
+    }
   }
 
   const loop = useCreateRafLoop(() => {
@@ -427,25 +445,24 @@ export function useRendererManager(
   watchEffect(() => {
     if (!isInitialized.value) { return }
     const value = options.toneMapping
-    if (value) {
-      renderer.toneMapping = value
-    }
+    if (value == null) { return }
+    renderer.toneMapping = value
   })
 
   watchEffect(() => {
     if (!isInitialized.value) { return }
     const value = options.toneMappingExposure
-    if (value) {
-      renderer.toneMappingExposure = value
-    }
+    if (value == null) { return }
+    renderer.toneMappingExposure = value
   })
 
   watchEffect(() => {
     if (!isInitialized.value) { return }
     const value = options.outputColorSpace
-    if (value) {
-      renderer.outputColorSpace = value
-    }
+    if (value == null) { return }
+    // `NoColorSpace` is `''`, and the WebGLRenderer setter throws on it (no `ColorManagement.spaces['']` entry).
+    if (value === NoColorSpace && !isWebGPURenderer(renderer)) { return }
+    renderer.outputColorSpace = value
   })
 
   watchEffect(() => {
@@ -458,9 +475,10 @@ export function useRendererManager(
 
   watchEffect(() => {
     if (!isInitialized.value) { return }
-    const value = options.shadowMapType
-    if (value === undefined) { return }
-    renderer.shadowMap.type = value
+    // `PCFSoftShadowMap` is deprecated on WebGL, and WebGPU removed it in r186 (three warns and
+    // falls back to `PCFShadowMap`, which is soft there now). Keep the soft default only where it works.
+    const fallback = isWebGPURenderer(renderer) && revision < WEBGPU_PCF_SOFT_REMOVED_REVISION ? PCFSoftShadowMap : PCFShadowMap
+    renderer.shadowMap.type = options.shadowMapType ?? fallback
     forceMaterialUpdate()
   })
 
@@ -487,4 +505,4 @@ export function useRendererManager(
   }
 }
 
-export type UseRendererManagerReturn = ReturnType<typeof useRendererManager>
+export type UseRendererManagerReturn = ReturnType<typeof useBaseRendererManager>

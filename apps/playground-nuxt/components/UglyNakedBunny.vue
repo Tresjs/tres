@@ -1,15 +1,16 @@
 <script setup lang="ts">
-const { scene: model, animations } = await useGLTF(
+const { state } = await useGLTF(
   'https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/ugly-naked-bunny/ugly-naked-bunny-animated.gltf',
 )
 
+const model = computed(() => state.value?.scene)
+const animations = computed(() => state.value?.animations || [])
+
 const { actions } = useAnimations(animations, model)
 
-const currentAction = ref(actions.Greeting)
-
-currentAction.value.play()
+watch(() => actions.Greeting, action => action?.play(), { immediate: true })
 </script>
 
 <template>
-  <primitive :object="model" />
+  <primitive v-if="model" :object="model" />
 </template>

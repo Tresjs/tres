@@ -117,7 +117,14 @@ export default defineNuxtConfig({
         ],
       },
       {
-        title: 'Cookbook', // docs/content/4.cookbook
+        title: 'CLI', // docs/content/4.cli
+        contentCollection: 'docs',
+        contentFilters: [
+          { field: 'path', operator: 'LIKE', value: '/cli%' },
+        ],
+      },
+      {
+        title: 'Cookbook', // docs/content/5.cookbook
         contentCollection: 'docs',
         contentFilters: [
           { field: 'path', operator: 'LIKE', value: '/cookbook%' },

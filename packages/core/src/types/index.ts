@@ -24,6 +24,20 @@ export interface TresCatalogue {
   [name: string]: ConstructorRepresentation
 }
 
+/**
+ * A class to add with `extend`, plus options that apply to every Tres component of that class.
+ *
+ * @example
+ * extend({ FollowBody: { object: FollowBodyThree, attach: attachBody, assign: ['target'] } })
+ */
+export interface CatalogueEntry<T extends ConstructorRepresentation = ConstructorRepresentation> {
+  object: T
+  /** Used when a Tres component has no `attach` prop. */
+  attach?: AttachType
+  /** Props that Tres assigns instead of copying into the current value, which can be the user's object from `args`. */
+  assign?: (keyof InstanceType<T> & string)[]
+}
+
 export type TresCamera = THREE.OrthographicCamera | THREE.PerspectiveCamera
 
 /**
@@ -114,12 +128,17 @@ export interface TresScene extends THREE.Scene {
   }
 }
 
+// Keep the rest type a plain array. A union such as `number[] | [THREE.ColorRepresentation]`
+// makes TypeScript compare the whole tuple, which stops matching `Vector3` once
+// @types/three (0.186+) makes a `set` parameter optional (#696). `Color` and `Euler`
+// do not fit a numeric `set`, so they are listed explicitly in `MathTypes`, as in R3F.
 interface MathRepresentation {
-  set(...args: number[] | [THREE.ColorRepresentation]): any
+  set(...args: number[]): any
 }
 interface VectorRepresentation extends MathRepresentation {
   setScalar(s: number): any
 }
+type MathTypes = MathRepresentation | THREE.Euler | THREE.Color
 
 export interface VectorCoordinates {
   x: number
@@ -127,7 +146,7 @@ export interface VectorCoordinates {
   z: number
 }
 
-export type MathType<T extends MathRepresentation | THREE.Euler> = T extends THREE.Color
+export type MathType<T extends MathTypes> = T extends THREE.Color
   ? ConstructorParameters<typeof THREE.Color> | THREE.ColorRepresentation
 
   : T extends VectorRepresentation | THREE.Layers | THREE.Euler ? T | Parameters<T['set']> | number | VectorCoordinates : T | Parameters<T['set']>
@@ -149,7 +168,7 @@ export type TresEuler = THREE.Euler
 export type TresControl = THREE.EventDispatcher & { enabled: boolean }
 export type TresContextWithClock = TresContext & { delta: number, elapsed: number }
 
-export type WithMathProps<P> = { [K in keyof P]: P[K] extends MathRepresentation | THREE.Euler ? MathType<P[K]> : P[K] }
+export type WithMathProps<P> = { [K in keyof P]: P[K] extends MathTypes ? MathType<P[K]> : P[K] }
 
 interface RaycastableRepresentation {
   raycast: (raycaster: THREE.Raycaster, intersects: THREE.Intersection[]) => void
@@ -171,20 +190,29 @@ export type ThreeElement<T extends ConstructorRepresentation> = Mutable<
   Overwrite<ElementProps<T>, Omit<InstanceProps<InstanceType<T>, T>, 'object'>>
 >
 
-type ThreeExports = typeof THREE
-type ThreeInstancesImpl = {
-  [K in keyof ThreeExports as Uncapitalize<K>]: ThreeExports[K] extends ConstructorRepresentation
-    ? ThreeElement<ThreeExports[K]>
+/**
+ * Element types for every export of a Three.js namespace (`three`, `three/webgpu`, ...).
+ */
+export type ThreeInstancesOf<Exports> = {
+  [K in keyof Exports as Uncapitalize<string & K>]: Exports[K] extends ConstructorRepresentation
+    ? ThreeElement<Exports[K]>
     : never
 }
+
+/**
+ * Tres component types for every export of a Three.js namespace.
+ */
+export type TresComponentsOf<Instances> = {
+  [K in keyof Instances as `Tres${Capitalize<string & K>}`]: DefineComponent<Instances[K]>
+}
+
+type ThreeInstancesImpl = ThreeInstancesOf<typeof THREE>
 
 export interface ThreeInstances extends ThreeInstancesImpl {
   primitive: Omit<ThreeElement<any>, 'args'> & { object: object }
 }
 
-export type TresComponents = {
-  [K in keyof ThreeInstances as `Tres${Capitalize<string & K>}`]: DefineComponent<ThreeInstances[K]>
-}
+export type TresComponents = TresComponentsOf<ThreeInstances>
 
 declare module 'vue' {
   interface GlobalComponents extends TresComponents {

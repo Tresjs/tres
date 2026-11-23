@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Group } from 'three'
-import { InstancedMesh, MeshPhongMaterial, Vector3, Object3D } from 'three'
+import { InstancedMesh, MeshPhongMaterial, Object3D, Vector3 } from 'three'
 import { MeshSurfaceSampler } from 'three/addons/math/MeshSurfaceSampler.js'
 import { useMouse } from '@vueuse/core'
 
@@ -15,7 +15,7 @@ const david = computed(() => nodes.value.David)
 const { x, y } = useMouse()
 
 watch([x, y], () => {
-  if (!groupRef.value) return
+  if (!groupRef.value) { return }
   groupRef.value.rotation.y = -x.value * 0.0001
 })
 
@@ -30,7 +30,7 @@ const brickInstancedMesh = computed(() => new InstancedMesh(brick.value?.geometr
 useControls('fpsgraph')
 const isReady = ref(false)
 watch([david, brickInstancedMesh], ([davidModel, brickInstancedMesh]) => {
-  if (!davidModel || !brickInstancedMesh) return
+  if (!davidModel || !brickInstancedMesh) { return }
   const sampler = new MeshSurfaceSampler(davidModel)
     .setWeightAttribute('uv') // Use UVs to weight the sampling
     .build()
@@ -58,8 +58,6 @@ watch([david, brickInstancedMesh], ([davidModel, brickInstancedMesh]) => {
   isReady.value = true
   emit('ready')
 })
-
-
 </script>
 
 <template>

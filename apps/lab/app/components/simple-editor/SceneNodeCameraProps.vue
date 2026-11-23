@@ -27,6 +27,6 @@ function handleModelValueUpdate() {
       v-model="internalModelValue.properties.fov"
       class="dark:text-black"
       @update:model-value="handleModelValueUpdate"
-    >
+    />
   </div>
 </template>

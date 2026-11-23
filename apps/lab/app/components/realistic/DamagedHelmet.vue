@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const { scene } = await useGLTF('/models/damaged-helmet/DamagedHelmet.glb', { draco: true })
+const { state } = await useGLTF('/models/damaged-helmet/DamagedHelmet.glb', { draco: true })
 </script>
 
 <template>
-  <primitive :object="scene" />
+  <primitive v-if="state" :object="state.scene" />
 </template>

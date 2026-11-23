@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/post-processing",
   "type": "module",
-  "version": "3.7.4",
+  "version": "3.13.0",
   "description": "Post-processing library for TresJS",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -26,11 +26,22 @@
   ],
   "exports": {
     ".": "./dist/tres-post-processing.js",
+    "./webgpu": {
+      "types": "./dist/webgpu.d.ts",
+      "default": "./dist/webgpu.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/tres-post-processing.js",
   "module": "./dist/tres-post-processing.js",
   "types": "./dist/tres-post-processing.d.ts",
+  "typesVersions": {
+    "*": {
+      "webgpu": [
+        "dist/webgpu.d.ts"
+      ]
+    }
+  },
   "files": [
     "*.d.ts",
     "dist"
@@ -39,29 +50,34 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsdown",
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
+    "build": "tsdown && node ./scripts/check-entries.mjs",
     "build:analyze": "ANALYZE=true tsdown",
     "preview": "vite preview",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
+    "test": "vitest",
+    "test:ci": "vitest run",
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.8.3",
+    "@tresjs/core": "^5.9.1",
     "three": ">=0.169",
     "vue": ">=3.4"
   },
   "dependencies": {
     "@vueuse/core": "catalog:utils",
+    "n8ao": "catalog:",
     "postprocessing": "catalog:"
   },
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
-    "@tresjs/leches": "workspace:*",
     "@types/three": "catalog:three",
     "@vitejs/plugin-vue": "catalog:vite",
+    "@vue/test-utils": "catalog:testing",
     "eslint": "catalog:eslint",
+    "jsdom": "catalog:testing",
     "kolorist": "catalog:utils",
     "pathe": "catalog:utils",
     "rollup-plugin-analyzer": "catalog:build",
@@ -72,6 +88,7 @@
     "vite": "catalog:vite",
     "vite-plugin-banner": "catalog:vite",
     "vite-plugin-dts": "catalog:vite",
+    "vitest": "catalog:testing",
     "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
   },

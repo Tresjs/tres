@@ -2,6 +2,7 @@
 import {
   pmndrsRoutes,
   threeRoutes,
+  webgpuRoutes,
 } from '@/router/routes/postprocessing'
 
 const sections = [
@@ -12,6 +13,10 @@ const sections = [
   {
     title: 'pmndrs/postprocessing',
     routes: pmndrsRoutes,
+  },
+  {
+    title: 'webgpu',
+    routes: webgpuRoutes,
   },
 ]
 </script>

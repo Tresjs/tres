@@ -4,19 +4,19 @@
 //   index = setIndex * 3 + colorSlot  (slot 0=color1, 1=color2, 2=color3)
 
 import {
-  Fn,
   float,
-  int,
-  vec3,
-  select,
-  fract,
   floor,
+  Fn,
+  fract,
+  If,
+  int,
   mix,
   mod,
+  select,
   uniformArray,
-  If,
+  vec3,
 } from 'three/tsl'
-import { Color } from 'three'
+import type { Color } from 'three'
 import type { ColorSet } from '../color-sets'
 import { colorSets } from '../color-sets'
 import { generateSumiDetail } from './flow-field'
@@ -33,11 +33,14 @@ export const colorArray = uniformArray(
 function getColors(setIndexNode: any) {
   const pick = (slot: number) =>
     vec3(select(
-      setIndexNode.equal(int(0)), colorArray.element(int(0 * 3 + slot)),
+      setIndexNode.equal(int(0)),
+      colorArray.element(int(0 * 3 + slot)),
       select(
-        setIndexNode.equal(int(1)), colorArray.element(int(1 * 3 + slot)),
+        setIndexNode.equal(int(1)),
+        colorArray.element(int(1 * 3 + slot)),
         select(
-          setIndexNode.equal(int(2)), colorArray.element(int(2 * 3 + slot)),
+          setIndexNode.equal(int(2)),
+          colorArray.element(int(2 * 3 + slot)),
           colorArray.element(int(3 * 3 + slot)),
         ),
       ),
@@ -72,11 +75,13 @@ export const calculateColor = Fn(([noiseValueNode, setIndexNode, noiseUVNode, wa
     const localPos9 = fract(nv.mul(9.0)).toVar()
 
     const currentColor9 = vec3(select(
-      idx.equal(int(0)), colors.color1,
+      idx.equal(int(0)),
+      colors.color1,
       select(idx.equal(int(1)), colors.color2, colors.color3),
     ))
     const nextColor9 = vec3(select(
-      idx.equal(int(0)), colors.color2,
+      idx.equal(int(0)),
+      colors.color2,
       select(idx.equal(int(1)), colors.color3, colors.color1),
     ))
 
@@ -122,7 +127,7 @@ export const calculateColor = Fn(([noiseValueNode, setIndexNode, noiseUVNode, wa
 export function syncColorArray(sets: ColorSet[]) {
   const flat = sets.flatMap(s => [s.color1, s.color2, s.color3])
   const value = colorArray.value as Color[] | undefined
-  if (!value) return
+  if (!value) { return }
   flat.forEach((c, i) => {
     value[i]?.copy(c)
   })

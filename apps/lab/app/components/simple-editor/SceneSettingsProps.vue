@@ -26,11 +26,11 @@ function handleModelValueUpdate() {
       v-model="internalModelValue.width"
       class="dark:text-black"
       @update:model-value="handleModelValueUpdate"
-    >
+    />
     Height: <input
       v-model="internalModelValue.height"
       class="dark:text-black"
       @update:model-value="handleModelValueUpdate"
-    >
+    />
   </div>
 </template>

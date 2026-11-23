@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { type ExposedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
+import { Physics, RigidBody } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
 import { useControls } from '@tresjs/leches'
@@ -38,20 +39,25 @@ const windForceCube = () => {
 const uuid = inject(`uuid`)
 
 useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => resetRigidBody(rigidCubeRef.value?.instance),
+  },
   up: {
     label: 'Impulse up',
     type: 'button',
-    onClick: () => jumpCube()
+    onClick: () => jumpCube(),
   },
   left: {
     label: 'Torque right',
     type: 'button',
-    onClick: () => torqueCube()
+    onClick: () => torqueCube(),
   },
   wind: {
     label: 'Wind force',
     type: 'button',
-    onClick: () => windForceCube()
+    onClick: () => windForceCube(),
   },
 }, { uuid })
 </script>

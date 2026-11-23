@@ -21,7 +21,7 @@ function _useHeaderLinks() {
       active: route.path.startsWith('/getting-started'),
     }, {
       label: 'API',
-      description: 'Pmndrs and three native effects reference.',
+      description: 'Pmndrs, three and WebGPU effects reference.',
       icon: 'i-lucide-code-xml',
       to: '/api',
       active: route.path.startsWith('/api'),

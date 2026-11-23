@@ -1,5 +1,5 @@
 <script setup>
-import { shallowRef, watch, computed } from 'vue'
+import { computed, shallowRef, watch } from 'vue'
 import { Float32BufferAttribute } from 'three'
 import { useTextures } from '@tresjs/cientos'
 
@@ -28,13 +28,13 @@ const doorTexturePaths = [
 // Load brick textures
 const {
   textures: brickTextures,
-  error: brickError
+  error: brickError,
 } = useTextures(brickTexturePaths)
 
 // Load door textures
 const {
   textures: doorTextures,
-  error: doorError
+  error: doorError,
 } = useTextures(doorTexturePaths)
 
 // Create wall material options from loaded textures
@@ -90,7 +90,12 @@ watch(doorRef, (value) => {
       <TresBoxGeometry :args="[4, 2.5, 4]" />
       <TresMeshStandardMaterial v-bind="wallOptions" />
     </TresMesh>
-    <TresPointLight :position="[0, 2.2, 2.7]" :args="['#ff7d46', 1, 7]" :shadow-mapSize-width="256"
-      :shadow-mapSize-height="256" :shadow-camera-far="7" cast-shadow />
+    <TresPointLight :position="[0, 2.2, 2.7]"
+                    :args="['#ff7d46', 1, 7]"
+                    :shadow-mapSize-width="256"
+                    :shadow-mapSize-height="256"
+                    :shadow-camera-far="7"
+                    cast-shadow
+    />
   </TresGroup>
 </template>

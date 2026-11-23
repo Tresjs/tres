@@ -13,6 +13,7 @@ import type { Texture } from 'three'
 import type { LensflareElement } from 'three-stdlib'
 import { partialLensflarePropsArrayToLensflarePropsArray as fillInProps } from '.'
 import type { LensflareElementProps, SeedProps } from '.'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
 const props = withDefaults(defineProps<LensflareProps>(), {
   scale: 1.0,
@@ -23,6 +24,8 @@ const props = withDefaults(defineProps<LensflareProps>(), {
   color: undefined,
   texture: undefined,
 })
+
+useWebGPUSupportWarning('Lensflare', 'uses a GLSL RawShaderMaterial and WebGL occlusion queries')
 
 function pickDefined(obj: Record<string, unknown>): Partial<LensflareElementProps> {
   const result: Record<string, unknown> = {}

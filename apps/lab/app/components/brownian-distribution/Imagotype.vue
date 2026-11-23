@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { MathUtils } from 'three'
-import { useDark } from '@vueuse/core'
 
-import { PI, colors } from './constants'
+import { colors, PI } from './constants'
+
 const { clamp } = MathUtils
 
-const isDark = useDark()
+const isDark = useIsDark()
 
 const pyramidRef = ref()
 const boxRef = ref()
@@ -14,7 +14,7 @@ const sphereRef = ref()
 const { onBeforeRender } = useLoop()
 
 onBeforeRender(({ elapsed }) => {
-  if (!pyramidRef.value || !boxRef.value || !sphereRef.value) return
+  if (!pyramidRef.value || !boxRef.value || !sphereRef.value) { return }
   elapsed = elapsed * 3 + 7
   pyramidRef.value.position.y = Math.tan(clamp((1 + elapsed) % 9, 0, PI))
   boxRef.value.position.y = Math.tan(clamp((0.5 + elapsed) % 9, 0, PI))
@@ -35,7 +35,7 @@ watch(isDark, (newVal) => {
 
 <template>
   <TresGroup name="imago">
-    <TresMesh 
+    <TresMesh
       ref="pyramidRef"
       name="pyramid"
       :position="[-1.5, 0, 0]"
@@ -43,14 +43,14 @@ watch(isDark, (newVal) => {
       <TresCylinderGeometry :args="[0, 0.60, 1]" />
       <TresMeshToonMaterial :color="colors.TEAL" />
     </TresMesh>
-    <TresMesh 
+    <TresMesh
       ref="boxRef"
       name="box"
     >
       <TresBoxGeometry :args="[1, 1, 1]" />
       <TresMeshToonMaterial :color="isDark ? colors.LIGHT : colors.DARK" />
     </TresMesh>
-    <TresMesh 
+    <TresMesh
       ref="sphereRef"
       name="sphere"
       :position="[1.5, 0, 0]"
@@ -60,4 +60,3 @@ watch(isDark, (newVal) => {
     </TresMesh>
   </TresGroup>
 </template>
-

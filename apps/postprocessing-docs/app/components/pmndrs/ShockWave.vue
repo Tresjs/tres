@@ -21,7 +21,7 @@ const glComposer = {
 
 const shockWaveEffectRef = shallowRef<{ pass: EffectPass, effect: ShockWaveEffect } | null>(null)
 const elCanvasRef = ref<any>(null)
-const mainRef = ref<HTMLElement | null>(null)
+const mainRef = shallowRef<HTMLElement | null>(null)
 const depthPickingPassRef = shallowRef<{ pass: DepthPickingPass } | null>(null)
 const meshHeartRef = ref<any>(null)
 const mousePosition = ref(new Vector3())

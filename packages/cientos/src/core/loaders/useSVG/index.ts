@@ -4,7 +4,7 @@ import { computed } from 'vue'
 import type { ComputedRef, MaybeRef, Ref } from 'vue'
 import { DoubleSide, ShapeGeometry, Vector2 } from 'three'
 import { SVGLoader } from 'three-stdlib'
-import type { BufferGeometry, MeshBasicMaterialParameters } from 'three'
+import type { BufferGeometry, MeshBasicMaterialParameters, ShapePath } from 'three'
 import type { SVGResult } from 'three-stdlib'
 
 export interface UseSVGOptions {
@@ -123,7 +123,8 @@ export function useSVG(path: MaybeRef<string>, options: UseSVGOptions = {}): {
           ...fillMaterial,
         }
 
-        for (const shape of SVGLoader.createShapes(path)) {
+        // @types/three types SVGResultPaths.userData as optional but ShapePath.userData as required
+        for (const shape of SVGLoader.createShapes(path as ShapePath)) {
           const geometry = new ShapeGeometry(shape)
           geometry.scale(1, -1, 1) // Flip Y-axis for correct orientation
 

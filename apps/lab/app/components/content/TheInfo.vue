@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const isOpen = ref(false)
 const isMobile = computed(() => window.innerWidth < 768)
@@ -32,7 +32,7 @@ const isMobile = computed(() => window.innerWidth < 768)
               class="bg-white rounded-full p-2 text-xl text-gray-500 hover:text-gray-700 focus:outline-none"
               @click="isOpen = false"
             >
-              <i class="i-carbon-close" />
+              <i class="i-carbon-close"></i>
             </button>
           </div>
           <div class="prose">
@@ -49,7 +49,7 @@ const isMobile = computed(() => window.innerWidth < 768)
       class="bg-gray-600 hover:bg-gray-700 opacity-40 transition-color shadow-lg hover:shadow-xl infline-flex w-12 h-12 justify-center items-center rounded-full absolute bottom-2 right-2"
       @click="isOpen = !isOpen"
     >
-      <span class="i-carbon-code" />
+      <span class="i-carbon-code"></span>
     </button>
   </div>
 </template>

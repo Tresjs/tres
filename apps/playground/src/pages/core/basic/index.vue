@@ -30,7 +30,7 @@ const { clearColor, clearAlpha, toneMapping, shadows, shadowMapType } = useContr
   },
   shadows: true,
   shadowMapType: {
-    value: PCFSoftShadowMap,
+    value: PCFShadowMap,
     options: [
       { text: 'Basic', value: BasicShadowMap },
       { text: 'PCF', value: PCFShadowMap },
@@ -72,10 +72,7 @@ function onLoop() {
       <TresMeshStandardMaterial color="teal" :opacity="1" transparent />
     </TresMesh>
 
-    <TresMesh
-      :rotation-x="-Math.PI / 2"
-      receive-shadow
-    >
+    <TresMesh :rotation-x="-Math.PI / 2" receive-shadow>
       <TresPlaneGeometry :args="[10, 10, 10, 10]" />
       <TresMeshToonMaterial />
     </TresMesh>

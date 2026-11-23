@@ -1,4 +1,4 @@
-import type { Mesh, Light, Vector2, Vector3, PerspectiveCamera } from 'three'
+import type { Light, Mesh, PerspectiveCamera, Vector2, Vector3 } from 'three'
 
 export interface ShaderToyTarget {
   name: string

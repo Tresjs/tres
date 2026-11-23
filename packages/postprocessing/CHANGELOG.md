@@ -1,3 +1,86 @@
+## 3.13.0 (2026-11-17)
+
+### 🚀 Features
+
+- **postprocessing:** add HDR / LDR effect stages to the WebGPU composer ([#1557](https://github.com/Tresjs/tres/pull/1557))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.12.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 3.12.0 (2026-11-13)
+
+### 🚀 Features
+
+- **post-processing:** add /webgpu EffectComposer and defineEffect ([#1554](https://github.com/Tresjs/tres/pull/1554))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.11.0
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 3.11.1 (2026-10-28)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.10.1
+
+## 3.11.0 (2026-10-22)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.10.0
+
+## 3.10.0 (2026-10-07)
+
+### 🚀 Features
+
+- **postprocessing:** add N8AO ambient occlusion effect ([#1518](https://github.com/Tresjs/tres/pull/1518))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 3.9.2 (2026-10-06)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.3
+
+## 3.9.1 (2026-09-29)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.2
+- Updated @tresjs/eslint-config to 1.7.0
+
+## 3.9.0 (2026-09-25)
+
+### 🚀 Features
+
+- **postprocessing:** add radius prop to BloomPmndrs ([#1494](https://github.com/Tresjs/tres/pull/1494))
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.1
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 3.8.0 (2026-09-14)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/core to 5.9.0
+
 ## 3.7.4 (2026-06-18)
 
 ### 🧱 Updated Dependencies

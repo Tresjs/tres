@@ -1,12 +1,25 @@
 <script setup lang="ts">
 import type { TresObject3D } from '@tresjs/core'
-import { ActiveCollisionTypes, ActiveEvents } from '@dimforge/rapier3d-compat'
-import { inject, nextTick, onUnmounted, shallowRef, watch } from 'vue'
+import {
+  ActiveCollisionTypes,
+  ActiveEvents,
+  ColliderDesc,
+  HeightFieldFlags,
+} from '@dimforge/rapier3d-compat'
+import {
+  inject,
+  nextTick,
+  onUnmounted,
+
+  shallowRef,
+  watch,
+} from 'vue'
 import type { ShallowRef } from 'vue'
 
 import { useRapierContext } from '../../composables'
+import { bodyContextInjectionKey } from '../../core'
 import { createCollider } from '../../core/collider'
-import { makePropsWatcherCL } from '../../utils'
+import { isVector3Like, makePropsWatcherCL, toColliderIndices } from '../../utils'
 import type { ColliderProps, CreateColliderReturnType, ExposedCollider, RigidBodyContext } from '../../types'
 
 const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
@@ -28,10 +41,66 @@ const props = withDefaults(defineProps<Partial<ColliderProps>>(), {
 const { world } = useRapierContext()
 
 const colliderGroup = shallowRef<TresObject3D>()
-const bodyContext = inject<ShallowRef<RigidBodyContext>>('bodyContext') ?? shallowRef<RigidBodyContext>()
+const bodyContext = inject(bodyContextInjectionKey) ?? shallowRef<RigidBodyContext>()
 const colliderInfos = shallowRef<CreateColliderReturnType>()
 const instance = shallowRef<CreateColliderReturnType['collider']>()
 const colliderDesc = shallowRef<CreateColliderReturnType['colliderDesc']>()
+
+const updateShapeArgs = (shape: Exclude<ColliderProps['shape'], undefined>, args: any[]) => {
+  const colliderDesc = ColliderDesc[shape]
+  const safeArgs: any[] = []
+
+  if (!colliderDesc) { return console.warn(`Invalid collider shape: ${shape}.`) }
+  if (!colliderInfos.value?.collider) { return }
+
+  if (
+    shape === 'convexHull'
+    || shape === 'convexMesh'
+    || shape === 'polyline'
+    || shape === 'trimesh'
+  ) {
+    safeArgs.push(
+      args?.[0] instanceof Float32Array ? args?.[0] : new Float32Array(),
+      toColliderIndices(args?.[1]),
+    )
+  }
+  else if (shape === 'roundConvexHull') {
+    safeArgs.push(
+      args?.[0] instanceof Float32Array ? args?.[0] : new Float32Array(),
+      typeof args?.[1] === 'number' ? args?.[1] : 0.1,
+    )
+  }
+  else if (shape === 'roundConvexMesh') {
+    safeArgs.push(
+      args?.[0] instanceof Float32Array ? args?.[0] : new Float32Array(),
+      toColliderIndices(args?.[1]),
+      typeof args?.[2] === 'number' ? args?.[2] : 0.1,
+    )
+  }
+  else if (shape === 'heightfield') {
+    safeArgs.push(
+      typeof args?.[0] === 'number' ? args?.[0] : 1,
+      typeof args?.[1] === 'number' ? args?.[1] : 1,
+      args?.[2] instanceof Float32Array ? args?.[2] : new Float32Array(),
+      isVector3Like(args?.[3]) ? args?.[3] : { x: 0, y: 0, z: 0 },
+    )
+    if (args?.[4] in HeightFieldFlags) {
+      safeArgs.push(args?.[4])
+    }
+  }
+  else {
+    safeArgs.push(
+      typeof args?.[0] === 'number' ? args?.[0] : 0.5,
+      typeof args?.[1] === 'number' ? args?.[1] : 0.5,
+      typeof args?.[2] === 'number' ? args?.[2] : 0.5,
+      typeof args?.[3] === 'number' ? args?.[3] : 0.5,
+    )
+  }
+
+  colliderInfos.value.collider.setShape(
+    (colliderDesc(...safeArgs as [any, any, any, any, any]))?.shape ?? ColliderDesc.cuboid(1, 1, 1).shape,
+  )
+}
 
 defineExpose({
   instance,
@@ -50,9 +119,10 @@ watch(bodyContext, async (state) => {
 
   const object = props.object ?? state.group
   const infos = {
+    // Only the collider's own object shapes and places it. The body group's transform is the
+    // body's, so reading it as the collider offset would put the collider one body offset away.
     ...createCollider({
       ...props,
-      object,
       rigidBody: state.rigidBody,
       world,
     }),
@@ -70,7 +140,59 @@ watch(bodyContext, async (state) => {
   state.colliders.push(infos)
 }, { immediate: true })
 
-// TODO: collisionGroups
+// Props watchers
+watch([() => props.shape, colliderInfos], ([value]) => {
+  if (!value || !colliderInfos.value?.collider) { return }
+  updateShapeArgs(value, props.args)
+})
+watch([() => props.args, colliderInfos], ([value]) => {
+  if (!colliderInfos.value?.collider) { return }
+  updateShapeArgs(props.shape, value)
+})
+// Position and rotation are offsets from the body. The plain `setTranslation` and `setRotation`
+// take world values, so they would pin an attached collider to that spot in the world.
+watch([() => props.position, colliderInfos], ([value]) => {
+  if (!colliderInfos.value?.collider || value === undefined) { return }
+  colliderInfos.value.collider.setTranslationWrtParent({
+    x: typeof value?.[0] === 'number' ? value?.[0] : 0,
+    y: typeof value?.[1] === 'number' ? value?.[1] : 0,
+    z: typeof value?.[2] === 'number' ? value?.[2] : 0,
+  })
+})
+watch([() => props.rotation, colliderInfos], ([value]) => {
+  if (!colliderInfos.value?.collider || value === undefined) { return }
+  colliderInfos.value.collider.setRotationWrtParent({
+    x: typeof value?.[0] === 'number' ? value?.[0] : 0,
+    y: typeof value?.[1] === 'number' ? value?.[1] : 0,
+    z: typeof value?.[2] === 'number' ? value?.[2] : 0,
+    w: typeof value?.[3] === 'number' ? value?.[3] : 1,
+  })
+})
+watch([() => props.solverGroups, colliderInfos], ([value]) => {
+  if (!colliderInfos.value?.collider || value === undefined) { return }
+  colliderInfos.value.collider.setSolverGroups(value)
+})
+watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups]) => {
+  if (!colliderInfos.value?.collider || !_collisionGroups) { return }
+  colliderInfos.value.collider.setCollisionGroups(_collisionGroups)
+})
+watch([
+  () => props.activeCollision,
+  () => props.activeContactForce,
+  colliderInfos,
+], ([activeCollision, activeContactForce]) => {
+  if (!colliderInfos.value?.collider) { return }
+
+  let flags = ActiveEvents.NONE
+  if (activeCollision) { flags |= ActiveEvents.COLLISION_EVENTS }
+  if (activeContactForce) { flags |= ActiveEvents.CONTACT_FORCE_EVENTS }
+
+  colliderInfos.value.collider.setActiveEvents(flags)
+})
+watch([() => props.contactForceEventThreshold, colliderInfos], ([threshold]) => {
+  if (!colliderInfos.value?.collider || threshold === undefined) { return }
+  colliderInfos.value.collider.setContactForceEventThreshold(threshold)
+})
 makePropsWatcherCL(
   props,
   [
@@ -79,37 +201,25 @@ makePropsWatcherCL(
     'density',
     'mass',
     'activeCollisionTypes',
-    'activeCollision',
     'sensor',
   ],
   colliderInfos,
 )
 
-watch([() => props.collisionGroups, colliderInfos], ([_collisionGroups, _]) => {
-  if (!colliderInfos.value?.collider || !_collisionGroups) { return }
-  colliderInfos.value.collider.setCollisionGroups(_collisionGroups)
-})
-
-watch([() => props.activeCollision, () => props.activeContactForce, colliderInfos], () => {
-  if (!colliderInfos.value?.collider) { return }
-
-  let flags = ActiveEvents.NONE
-
-  if (props.activeCollision) { flags |= ActiveEvents.COLLISION_EVENTS }
-
-  if (props.activeContactForce) { flags |= ActiveEvents.CONTACT_FORCE_EVENTS }
-  colliderInfos.value.collider.setActiveEvents(flags)
-})
-
-watch([() => props.contactForceEventThreshold, colliderInfos], ([threshold]) => {
-  if (!colliderInfos.value?.collider || threshold === undefined) { return }
-  colliderInfos.value.collider.setContactForceEventThreshold(threshold)
-})
-
 onUnmounted(() => {
-  if (!bodyContext.value || !colliderInfos.value?.collider) { return }
+  const collider = colliderInfos.value?.collider
+  if (!collider) { return }
 
-  world.value.removeCollider(colliderInfos.value.collider, false)
+  if (bodyContext.value) {
+    const idx = bodyContext.value.colliders.findIndex(c => c.collider === collider)
+    if (idx !== -1) {
+      bodyContext.value.colliders.splice(idx, 1)
+    }
+  }
+
+  if (collider.isValid()) {
+    world.value.removeCollider(collider, false)
+  }
 
   colliderInfos.value = undefined
 })

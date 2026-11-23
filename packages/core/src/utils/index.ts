@@ -158,9 +158,13 @@ export function invalidateInstance(instance: TresObject) {
 
   if (!ctx?.renderer) { return }
 
-  if (ctx.renderer.canBeInvalidated.value) {
-    ctx.renderer.invalidate()
-  }
+  // Patching runs inside Vue's render effect. Reading frame state there would
+  // subscribe it to frame completion and continuously invalidate an idle scene.
+  queueMicrotask(() => {
+    if (ctx.renderer.canBeInvalidated.value) {
+      ctx.renderer.invalidate()
+    }
+  })
 }
 
 export function setPrimitiveObject(
@@ -200,7 +204,8 @@ export function setPrimitiveObject(
   nodeOpsFns.remove(primitive)
 
   for (const [key, value] of Object.entries(propsToPatch)) {
-    nodeOpsFns.patchProp(newInstance, key, newInstance[key], value)
+    // No previous value: patchProp would take the new object's own fields for user objects and replace them.
+    nodeOpsFns.patchProp(newInstance, key, undefined, value)
   }
 
   setTarget(newObject)

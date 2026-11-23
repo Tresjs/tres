@@ -11,13 +11,8 @@ const rig = computed(() => nodes.value.Rig)
 
 const animations = computed(() => model.value?.animations || [])
 
-watch(animations, (animations) => {
-  console.log('animations', animations)
-}, { immediate: true })
-
 const { actions } = useAnimations(animations, rig)
 const currentAction = ref<AnimationAction>()
-
 
 watch(actions, (actions) => {
   if (Object.keys(actions || {}).length === 0) { return }
@@ -25,7 +20,6 @@ watch(actions, (actions) => {
   currentAction.value = actions.Wave
   currentAction.value?.reset().play()
 }, { immediate: true })
-
 </script>
 
 <template>

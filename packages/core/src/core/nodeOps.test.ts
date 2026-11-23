@@ -3,8 +3,10 @@ import type { Vector3 } from 'three'
 import type { TresObject } from '../types'
 import * as THREE from 'three'
 import { Mesh, Scene } from 'three'
+import { color, vec3 } from 'three/tsl'
+import { MeshBasicNodeMaterial } from 'three/webgpu'
 import { shallowRef } from 'vue'
-import { extend } from './catalogue'
+import { catalogue, extend } from './catalogue'
 import { nodeOps as getNodeOps } from './nodeOps'
 import type { TextNode } from './nodeOps'
 
@@ -305,6 +307,109 @@ describe('nodeOps', () => {
 
         nodeOps.patchProp(material2, 'attach', undefined, 'foo')
         expect(parent.material).toBe(previousMaterial)
+      })
+
+      describe('default attach from extend', () => {
+        class Piece {}
+        class Holder {
+          pieces: Piece[] = []
+          add(piece: Piece) { this.pieces.push(piece) }
+          remove(piece: Piece) { this.pieces = this.pieces.filter(p => p !== piece) }
+        }
+        const attachPiece = (parent: Holder, child: Piece) => {
+          parent.add(child)
+          return () => parent.remove(child)
+        }
+
+        beforeAll(() => {
+          extend({
+            Holder,
+            Piece: { object: Piece, attach: attachPiece },
+            NamedPiece: { object: Piece, attach: 'named' },
+          })
+        })
+
+        it('keeps the constructor in the catalogue', () => {
+          expect(catalogue.value.Piece).toBe(Piece)
+          expect(nodeOps.createElement('TresPiece', undefined, undefined, {})).toBeInstanceOf(Piece)
+        })
+
+        it('attaches with the default function when no `attach` prop is set', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresPiece', undefined, undefined, {})
+          nodeOps.insert(child, parent)
+          expect(parent.pieces).toStrictEqual([child])
+
+          nodeOps.remove(child)
+          expect(parent.pieces).toStrictEqual([])
+        })
+
+        it('attaches with the default string when no `attach` prop is set', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresNamedPiece', undefined, undefined, {})
+          nodeOps.insert(child, parent)
+          expect(parent.named).toBe(child)
+        })
+
+        it('lets the `attach` prop override the default', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresPiece', undefined, undefined, { attach: 'other' })
+          nodeOps.insert(child, parent)
+          expect(parent.other).toBe(child)
+          expect(parent.pieces).toStrictEqual([])
+        })
+
+        it('falls back to the default when the `attach` prop is unset', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresPiece', undefined, undefined, { attach: 'other' })
+          nodeOps.insert(child, parent)
+
+          nodeOps.patchProp(child, 'attach', 'other', undefined)
+          expect(parent.other).toBeUndefined()
+          expect(parent.pieces).toStrictEqual([child])
+        })
+
+        it('falls back to the default when Vue removes the `attach` prop', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresPiece', undefined, undefined, { attach: 'other' })
+          nodeOps.insert(child, parent)
+
+          nodeOps.patchProp(child, 'attach', 'other', null)
+          expect(parent.pieces).toStrictEqual([child])
+        })
+
+        it('drops the default when the name is extended again without one', () => {
+          extend({ ReextendedPiece: { object: Piece, attach: 'reextended' } })
+          extend({ ReextendedPiece: Piece })
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const child = nodeOps.createElement('TresReextendedPiece', undefined, undefined, {})
+          nodeOps.insert(child, parent)
+          expect(parent.reextended).toBeUndefined()
+        })
+
+        it('does not give the default to a primitive whose `type` matches the name', () => {
+          const parent = nodeOps.createElement('TresHolder', undefined, undefined, {})
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: { type: 'Piece' }, attach: 'other' })
+          nodeOps.insert(primitive, parent)
+          expect(parent.pieces).toStrictEqual([])
+
+          nodeOps.patchProp(primitive, 'attach', 'other', undefined)
+          expect(parent.pieces).toStrictEqual([])
+
+          const unset = nodeOps.createElement('primitive', undefined, undefined, { object: { type: 'Piece' } })
+          nodeOps.insert(unset, parent)
+          expect(parent.pieces).toStrictEqual([])
+        })
+
+        it('does not give the default to a prefixed primitive when its `attach` prop is unset', () => {
+          const prefixedOps = getNodeOps({ context: mockTresContext(), options: { primitivePrefix: 'custom' } })
+          const parent = prefixedOps.createElement('TresHolder', undefined, undefined, {})
+          const primitive = prefixedOps.createElement('customprimitive', undefined, undefined, { object: { type: 'Piece' }, attach: 'other' })
+          prefixedOps.insert(primitive, parent)
+
+          prefixedOps.patchProp(primitive, 'attach', 'other', undefined)
+          expect(parent.pieces).toStrictEqual([])
+        })
       })
     })
 
@@ -669,6 +774,192 @@ describe('nodeOps', () => {
       expect(spy).toHaveBeenCalledTimes(3)
     })
 
+    describe('when the current value is the object from the previous prop value', () => {
+      class Follower {
+        target: THREE.Vector3 | null = null
+        tint: THREE.Color | null = null
+        layers: THREE.Layers | null = null
+      }
+
+      beforeAll(() => {
+        extend({ Follower })
+      })
+
+      it('assigns the next vector and leaves the previous one unchanged', () => {
+        const follower = nodeOps.createElement('TresFollower', undefined, undefined, {})
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const pointB = new THREE.Vector3(0, 5, 0)
+        nodeOps.patchProp(follower, 'target', null, pointA)
+        nodeOps.patchProp(follower, 'target', pointA, pointB)
+        expect(follower.target).toBe(pointB)
+        expect(pointA.toArray()).toStrictEqual([1, 0, 0])
+      })
+
+      it('assigns the next color and leaves the previous one unchanged', () => {
+        const follower = nodeOps.createElement('TresFollower', undefined, undefined, {})
+        const colorA = new THREE.Color('red')
+        const colorB = new THREE.Color('blue')
+        nodeOps.patchProp(follower, 'tint', null, colorA)
+        nodeOps.patchProp(follower, 'tint', colorA, colorB)
+        expect(follower.tint).toBe(colorB)
+        expect(colorA.getHexString()).toBe('ff0000')
+      })
+
+      it('assigns the next layers and leaves the previous one unchanged', () => {
+        const follower = nodeOps.createElement('TresFollower', undefined, undefined, {})
+        const layersA = new THREE.Layers()
+        const layersB = new THREE.Layers()
+        layersB.set(3)
+        nodeOps.patchProp(follower, 'layers', null, layersA)
+        nodeOps.patchProp(follower, 'layers', layersA, layersB)
+        expect(follower.layers).toBe(layersB)
+        expect(layersA.mask).toBe(1)
+      })
+
+      it('writes an array into a clone and leaves the previous vector unchanged', () => {
+        const follower = nodeOps.createElement('TresFollower', undefined, undefined, {})
+        const pointA = new THREE.Vector3(1, 0, 0)
+        nodeOps.patchProp(follower, 'target', null, pointA)
+        nodeOps.patchProp(follower, 'target', pointA, [0, 5, 0])
+        expect(follower.target).toBeInstanceOf(THREE.Vector3)
+        expect(follower.target.toArray()).toStrictEqual([0, 5, 0])
+        expect(pointA.toArray()).toStrictEqual([1, 0, 0])
+      })
+
+      it('writes a color string into a clone and leaves the previous color unchanged', () => {
+        const follower = nodeOps.createElement('TresFollower', undefined, undefined, {})
+        const colorA = new THREE.Color('red')
+        nodeOps.patchProp(follower, 'tint', null, colorA)
+        nodeOps.patchProp(follower, 'tint', colorA, '#0000ff')
+        expect(follower.tint).toBeInstanceOf(THREE.Color)
+        expect(follower.tint.getHexString()).toBe('0000ff')
+        expect(colorA.getHexString()).toBe('ff0000')
+      })
+
+      it('writes the next array into the clone without cloning again', () => {
+        const follower = nodeOps.createElement('TresFollower', undefined, undefined, {})
+        const pointA = new THREE.Vector3(1, 0, 0)
+        nodeOps.patchProp(follower, 'target', null, pointA)
+        nodeOps.patchProp(follower, 'target', pointA, [0, 5, 0])
+        const clone = follower.target
+        nodeOps.patchProp(follower, 'target', [0, 5, 0], [0, 0, 7])
+        expect(follower.target).toBe(clone)
+        expect(clone.toArray()).toStrictEqual([0, 0, 7])
+      })
+
+      it('assigns a vector that comes after an array', () => {
+        const follower = nodeOps.createElement('TresFollower', undefined, undefined, {})
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const pointB = new THREE.Vector3(0, 5, 0)
+        nodeOps.patchProp(follower, 'target', null, pointA)
+        nodeOps.patchProp(follower, 'target', pointA, [0, 0, 7])
+        nodeOps.patchProp(follower, 'target', [0, 0, 7], pointB)
+        expect(follower.target).toBe(pointB)
+        expect(pointA.toArray()).toStrictEqual([1, 0, 0])
+        expect(pointB.toArray()).toStrictEqual([0, 5, 0])
+      })
+
+      it('still copies into a vector that the instance owns', () => {
+        const camera = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, {})
+        const own = camera.position
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const pointB = new THREE.Vector3(0, 5, 0)
+        nodeOps.patchProp(camera, 'position', null, pointA)
+        nodeOps.patchProp(camera, 'position', pointA, pointB)
+        expect(camera.position).toBe(own)
+        expect(own.toArray()).toStrictEqual([0, 5, 0])
+        expect(pointA.toArray()).toStrictEqual([1, 0, 0])
+      })
+    })
+
+    describe('assign option from extend', () => {
+      class ArgsFollower {
+        constructor(public target: THREE.Vector3) {}
+      }
+
+      beforeAll(() => {
+        extend({
+          ArgsFollower,
+          AssignedFollower: { object: ArgsFollower, assign: ['target'] },
+        })
+      })
+
+      it('assigns the listed prop instead of copying into the value from `args`', () => {
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const pointB = new THREE.Vector3(0, 5, 0)
+        const follower = nodeOps.createElement('TresAssignedFollower', undefined, undefined, { args: [pointA] })
+        nodeOps.patchProp(follower, 'target', null, pointB)
+        expect(follower.target).toBe(pointB)
+        expect(pointA.toArray()).toStrictEqual([1, 0, 0])
+      })
+
+      it('writes an array for the listed prop into a clone of the value from `args`', () => {
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const follower = nodeOps.createElement('TresAssignedFollower', undefined, undefined, { args: [pointA] })
+        nodeOps.patchProp(follower, 'target', null, [0, 5, 0])
+        expect(follower.target.toArray()).toStrictEqual([0, 5, 0])
+        expect(pointA.toArray()).toStrictEqual([1, 0, 0])
+      })
+
+      it('writes the next array for the listed prop into the same clone', () => {
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const follower = nodeOps.createElement('TresAssignedFollower', undefined, undefined, { args: [pointA] })
+        nodeOps.patchProp(follower, 'target', null, [0, 5, 0])
+        const clone = follower.target
+        nodeOps.patchProp(follower, 'target', [0, 5, 0], [0, 0, 7])
+        expect(follower.target).toBe(clone)
+        expect(clone.toArray()).toStrictEqual([0, 0, 7])
+      })
+
+      it('still copies for a class extended without the option', () => {
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const pointB = new THREE.Vector3(0, 5, 0)
+        const follower = nodeOps.createElement('TresArgsFollower', undefined, undefined, { args: [pointA] })
+        nodeOps.patchProp(follower, 'target', null, pointB)
+        expect(follower.target).toBe(pointA)
+      })
+
+      it('still copies the listed prop for a primitive', () => {
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const pointB = new THREE.Vector3(0, 5, 0)
+        const object = Object.assign(new ArgsFollower(pointA), { type: 'AssignedFollower' })
+        const follower = nodeOps.createElement('primitive', undefined, undefined, { object })
+        nodeOps.patchProp(follower, 'target', null, pointB)
+        expect(follower.target).toBe(pointA)
+      })
+
+      it('copies into a clone that another instance made, when it comes through `args`', () => {
+        const pointA = new THREE.Vector3(1, 0, 0)
+        const first = nodeOps.createElement('TresAssignedFollower', undefined, undefined, { args: [pointA] })
+        nodeOps.patchProp(first, 'target', null, [0, 5, 0])
+        const clone = first.target
+        const second = nodeOps.createElement('TresArgsFollower', undefined, undefined, { args: [clone] })
+        nodeOps.patchProp(second, 'target', null, new THREE.Vector3(0, 0, 7))
+        expect(second.target).toBe(clone)
+        expect(clone.toArray()).toStrictEqual([0, 0, 7])
+      })
+    })
+
+    describe('assign option for a prop with only a getter', () => {
+      class GetterFollower {
+        private readonly own = new THREE.Vector3()
+        get target() { return this.own }
+      }
+
+      beforeAll(() => {
+        extend({ GetterFollower: { object: GetterFollower, assign: ['target'] } })
+      })
+
+      it('copies into the value that the getter returns', () => {
+        const follower = nodeOps.createElement('TresGetterFollower', undefined, undefined, {})
+        const own = follower.target
+        const pointB = new THREE.Vector3(0, 5, 0)
+        nodeOps.patchProp(follower, 'target', null, pointB)
+        expect(follower.target).toBe(own)
+        expect(own.toArray()).toStrictEqual([0, 5, 0])
+      })
+    })
+
     it('calls `setScalar` method', () => {
       const camera = nodeOps.createElement('TresPerspectiveCamera', undefined, undefined, {})
       const spy = vi.spyOn(camera.position, 'setScalar')
@@ -676,6 +967,59 @@ describe('nodeOps', () => {
       nodeOps.patchProp(camera, 'position', undefined, 2)
       nodeOps.patchProp(camera, 'position', undefined, 3)
       expect(spy).toHaveBeenCalledTimes(3)
+    })
+
+    describe('node materials', () => {
+      beforeAll(() => {
+        extend({ MeshBasicNodeMaterial })
+      })
+
+      it.each([
+        ['null → node', null, color('#ff0000')],
+        ['node → node', color('#ff0000'), vec3(0, 1, 0)],
+        ['node → null', color('#ff0000'), null],
+      ])('recompiles when a node prop is patched (%s)', (_, prevValue, nextValue) => {
+        const material = nodeOps.createElement('TresMeshBasicNodeMaterial', undefined, undefined, {})!
+        nodeOps.patchProp(material, 'color-node', null, prevValue)
+        expect(material.colorNode).toBe(prevValue)
+        const version = material.version
+
+        nodeOps.patchProp(material, 'color-node', prevValue, nextValue)
+
+        expect(material.colorNode).toBe(nextValue)
+        expect(material.version).toBe(version + 1)
+      })
+
+      it('recompiles when a node prop is patched through a pierced prop', () => {
+        const mesh = nodeOps.createElement('TresMesh', undefined, undefined, {})!
+        mesh.material = new MeshBasicNodeMaterial()
+        const version = mesh.material.version
+        const nextValue = color('#ff0000')
+
+        nodeOps.patchProp(mesh, 'material-colorNode', undefined, nextValue)
+
+        expect(mesh.material.colorNode).toBe(nextValue)
+        expect(mesh.material.version).toBe(version + 1)
+      })
+
+      it('does not recompile when a non-node prop is patched', () => {
+        const material = nodeOps.createElement('TresMeshBasicNodeMaterial', undefined, undefined, {})!
+        const version = material.version
+
+        nodeOps.patchProp(material, 'color', undefined, '#00ff00')
+        nodeOps.patchProp(material, 'opacity', undefined, 0.5)
+
+        expect(material.version).toBe(version)
+      })
+
+      it('does not recompile a non-node material when a node value is patched', () => {
+        const material = nodeOps.createElement('TresMeshBasicMaterial', undefined, undefined, {})!
+        const version = material.version
+
+        nodeOps.patchProp(material, 'colorNode', undefined, color('#ff0000'))
+
+        expect(material.version).toBe(version)
+      })
     })
 
     describe('primitive', () => {
@@ -785,6 +1129,29 @@ describe('nodeOps', () => {
           nodeOps.patchProp(primitive, 'object', undefined, child0)
           expect(child0.position.x).toBe(1000)
         })
+        it('copies an array prop into the new :object\'s own vector', () => {
+          const { mesh: child0 } = createElementMesh(nodeOps)
+          const { mesh: child1 } = createElementMesh(nodeOps)
+          const ownPosition = child1.position
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: child0 })
+          nodeOps.patchProp(primitive, 'position', null, [1, 2, 3])
+
+          nodeOps.patchProp(primitive, 'object', child0, child1)
+          expect(child1.position).toBe(ownPosition)
+          expect(ownPosition.toArray()).toStrictEqual([1, 2, 3])
+        })
+
+        it('copies into a read-only vector that was also the previous prop value', () => {
+          const { mesh } = createElementMesh(nodeOps)
+          const ownPosition = mesh.position
+          const primitive = nodeOps.createElement('primitive', undefined, undefined, { object: mesh })
+          nodeOps.patchProp(primitive, 'position', null, ownPosition)
+
+          nodeOps.patchProp(primitive, 'position', ownPosition, [1, 2, 3])
+          expect(mesh.position).toBe(ownPosition)
+          expect(ownPosition.toArray()).toStrictEqual([1, 2, 3])
+        })
+
         it('does not attach old :object THREE children to new :object', () => {
           const { mesh: parent } = createElementMesh(nodeOps)
           const { mesh: child0 } = createElementMesh(nodeOps)

@@ -18,7 +18,7 @@ manager.onProgress = (url, loaded, total) => {
 
 const { state: model, isLoading } = useLoader(
   FBXLoader,
-  'https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/low-poly-truck/Jeep_done.fbx',
+  'https://raw.githubusercontent.com/Tresjs/assets/main/models/fbx/kenney-suv/suv.fbx',
   {
     manager,
   },
@@ -41,5 +41,5 @@ watch(model, (newModel) => {
 </script>
 
 <template>
-  <primitive v-if="model" :object="model" :scale="0.01" />
+  <primitive v-if="model" :object="model" :scale="0.02" />
 </template>

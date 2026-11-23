@@ -356,7 +356,7 @@ If you are working with complex models, you may want to access and manipulate sp
 <script setup lang="ts">
 import { useGLTF } from '@tresjs/cientos'
 
-const { nodes } = await useGLTF('/models/complex-model.gltf')
+const { nodes } = useGLTF('/models/complex-model.gltf')
 
 // Access specific parts of the model
 const chassis = computed(() => nodes.value.Chassis)

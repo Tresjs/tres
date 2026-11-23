@@ -156,7 +156,7 @@ These physics are working, but the sphere is not behaving like a ball, it's not 
 
 You can inspect your physic scene using the `debug` prop in the `<Physics>` component you should see something like this:
 
-![](/cuboid.png)
+![Debug view showing the ball wrapped by a default cuboid collider](/cuboid.png)
 
 You'll quickly realize that our ball is wrapped by a cube, not a sphere, so let's introduce the [`Colliders`](/api/rigid-body/automatic-colliders)
 

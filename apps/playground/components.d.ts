@@ -14,6 +14,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     BasicScene: typeof import('./src/components/BasicScene.vue')['default']
     BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
+    CapsulePlayer: typeof import('./src/components/CapsulePlayer.vue')['default']
     Ducky: typeof import('./src/components/Ducky.vue')['default']
     DynamicModel: typeof import('./src/components/DynamicModel.vue')['default']
     EffectListItem: typeof import('./src/components/EffectListItem.vue')['default']
@@ -33,6 +34,7 @@ declare module 'vue' {
 declare global {
   const BasicScene: typeof import('./src/components/BasicScene.vue')['default']
   const BlenderCube: typeof import('./src/components/BlenderCube.vue')['default']
+  const CapsulePlayer: typeof import('./src/components/CapsulePlayer.vue')['default']
   const Ducky: typeof import('./src/components/Ducky.vue')['default']
   const DynamicModel: typeof import('./src/components/DynamicModel.vue')['default']
   const EffectListItem: typeof import('./src/components/EffectListItem.vue')['default']

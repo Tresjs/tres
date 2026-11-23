@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, shallowRef, watch, watchEffect } from 'vue'
+import { computed, onUnmounted, shallowRef, watch, watchEffect } from 'vue'
 import type { ColorRepresentation, Mesh, PlaneGeometry, ShaderMaterial, Texture, WebGLRenderer } from 'three'
 import { Group } from 'three'
 import { extend, useLoop, useTres } from '@tresjs/core'
 import RandomizedLights from '../RandomizedLights/component.vue'
 import { ProgressiveLightMap } from './ProgressiveLightMap'
 import { SoftShadowMaterial } from './SoftShadowMaterial'
+import { useWebGPUSupportWarning } from '../../../utils/useWebGPUSupportWarning'
 
 export interface AccumulativeShadowsProps {
   /** Whether shadow creation only happens once (resets after props change), false */
@@ -61,6 +62,8 @@ const props = withDefaults(defineProps<AccumulativeShadowsProps>(), {
   toneMapped: true,
 })
 
+useWebGPUSupportWarning('AccumulativeShadows', 'renders to a texture with GLSL materials, which WebGPURenderer cannot compile')
+
 extend({ SoftShadowMaterial })
 
 const { renderer, scene, camera, invalidate } = useTres()
@@ -69,6 +72,9 @@ const gPlane = shallowRef<Mesh<PlaneGeometry, SoftShadowMaterialProps & ShaderMa
 const gLights = shallowRef<Group>(new Group())
 const progressiveLightMap = computed(() => new ProgressiveLightMap(renderer as WebGLRenderer, scene.value, props.resolution))
 const shadowMapTexture = shallowRef<Texture>()
+
+watch(progressiveLightMap, (_, previous) => previous.dispose())
+onUnmounted(() => progressiveLightMap.value.dispose())
 
 let frameCount = 0
 let frameLimitRemaining = props.limit

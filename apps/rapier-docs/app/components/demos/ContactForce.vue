@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { OrbitControls } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { type ContactForcePayload, type ExposedRigidBody, Physics, RigidBody } from '@tresjs/rapier'
+import { Physics, RigidBody } from '@tresjs/rapier'
+import type { ContactForcePayload, ExposedRigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { shallowRef } from 'vue'
 import { useControls } from '@tresjs/leches'
@@ -23,29 +24,34 @@ const onContactForce = (e: ContactForcePayload) => {
   maxForceMagnitude.value = Math.round(e.totalForceMagnitude)
 }
 
-const drop = () => {
-  if (!sphereRef.value) { return }
-  sphereRef.value.instance.setTranslation({ x: 0, y: 5, z: 0 }, true)
-  sphereRef.value.instance.setLinvel({ x: 0, y: 0, z: 0 }, true)
-}
-
 const uuid = inject(`uuid`)
 
-const { debug, forceThreshold: FORCE_THRESHOLD } = useControls({
+const controlDefaults = {
   debug: false,
+  forceThreshold: 50,
+}
+
+const controls = useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      resetControls(controls, controlDefaults)
+      resetRigidBody(sphereRef.value?.instance)
+      maxForceMagnitude.value = 0
+    },
+  },
+  debug: controlDefaults.debug,
   forceThreshold: {
     label: 'Force threshold',
-    value: 50,
+    value: controlDefaults.forceThreshold,
     min: 0,
     max: 100,
     step: 1,
   },
-  dropBall: {
-    label: 'Drop ball',
-    type: 'button',
-    onClick: () => drop(),
-  },
 }, { uuid })
+
+const { debug, forceThreshold: FORCE_THRESHOLD } = controls
 </script>
 
 <template>

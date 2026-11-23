@@ -4,7 +4,7 @@ import { TresCanvas } from '@tresjs/core'
 import { shallowRef, watch } from 'vue'
 
 const exampleAudio
-  = 'https://raw.githubusercontent.com/Tresjs/assets/main/music/sunny-afternoon.mp3'
+  = 'https://raw.githubusercontent.com/Tresjs/assets/main/music/synthwave_line.mp3'
 
 const isPlaying = shallowRef(false)
 const soundRef = shallowRef()

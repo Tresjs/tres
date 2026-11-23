@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping, Vector3 } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace, Vector3 } from 'three'
 import { useMouse } from '@vueuse/core'
 import gsap from 'gsap'
-
-
 
 const { x, y } = useMouse()
 
@@ -36,8 +34,6 @@ const cameraPosition = ref(new Vector3(-0.63, 2, 0.63))
 
 useControls({ cameraPosition })
 
-const { hasFinishLoading, progress } = await useProgress()
-
 const onDavidReady = () => {
   gsap.to(cameraRef.value.position, {
     duration: 10,
@@ -53,16 +49,17 @@ const onDavidReady = () => {
 </script>
 
 <template>
-  <Transition name="fade-overlay" enter-active-class="opacity-1 transition-opacity duration-200"
-    leave-active-class="opacity-0 transition-opacity duration-200">
-    <div v-show="!hasFinishLoading"
-      class="absolute bg-black t-0 l-0 w-full h-full z-30 flex justify-center items-center text-white font-mono">
-      <div class="font-italic title w-200px">
+  <TheLoadingScreen background="#000000">
+    <template #default="{ progress }">
+      <div class="title italic">
         Loading Art... {{ progress }} %
       </div>
-    </div>
-  </Transition>
-  <div class="cursor fixed w-16 h-16 bg-white bg-opacity-40 rounded-full" :style="{ left: `${x}px`, top: `${y}px` }" />
+    </template>
+  </TheLoadingScreen>
+  <div class="cursor fixed w-16 h-16 bg-white bg-opacity-40 rounded-full"
+       :style="{ left: `${x}px`,
+                 top: `${y}px` }"
+  ></div>
   <TresLeches />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera ref="cameraRef" :position="cameraPosition" :look-at="[0, 5, 0]" />
@@ -72,7 +69,8 @@ const onDavidReady = () => {
     <TheScreenshot />
   </TresCanvas>
   <div
-    class="title absolute left-0 bottom-30 w-full text-white z-20 pointer-events-none flex flex-col items-center justify-around">
+    class="title absolute left-0 bottom-30 w-full text-white z-20 pointer-events-none flex flex-col items-center justify-around"
+  >
     <h2 class="text-3xl font-italic">
       Brickelangelo's
     </h2>
@@ -107,7 +105,7 @@ html {
   letter-spacing: 0.25em;
 }
 
-.title>h1:after {
+.title > h1:after {
   content: '';
   position: absolute;
   bottom: 10px;

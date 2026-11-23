@@ -4,6 +4,7 @@ import type { TresRenderer } from '@tresjs/core'
 import type { Camera, Scene } from 'three'
 import { ShaderChunk, WebGLRenderer } from 'three'
 import { onUnmounted, watch } from 'vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 // NOTE: Sources
 // https://github.com/mrdoob/three.js/blob/master/examples/webgl_shadowmap_pcss.html
@@ -23,6 +24,8 @@ const props = withDefaults(defineProps<SoftShadowsProps>(), {
   samples: 10,
   focus: 0,
 })
+
+useWebGPUSupportWarning('SoftShadows', 'patches three\'s GLSL shader chunks')
 
 const PCSSGetShadow = `
 return PCSS( shadowMap, shadowCoord );

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three'
+import { BasicShadowMap, NoToneMapping, SRGBColorSpace } from 'three'
 
 import { BlendFunction } from 'postprocessing'
 
@@ -24,11 +24,12 @@ const bloomParams = reactive({
 </script>
 
 <template>
+  <TheLoadingScreen background="#8D404A" />
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera :position="[0, 1, 5]" :look-at="[0, 0.4, 0]" />
     <CultOfTheLambModel />
 
-    <TresAmbientLight :args="[0xffffff, 0.5]" />
+    <TresAmbientLight :args="[0xFFFFFF, 0.5]" />
 
     <Suspense>
       <EffectComposerPmndrs>

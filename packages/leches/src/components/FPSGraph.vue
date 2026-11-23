@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue'
-import { useDark, useFps, useRafFn } from '@vueuse/core'
+import { inject, onMounted, onUnmounted, ref } from 'vue'
+import { useFps, useRafFn } from '@vueuse/core'
+import { LECHES_DARK_KEY } from '../composables/useIsDark'
 import type { LechesControl } from '../types'
 import ControlLabel from './ControlLabel.vue'
 
@@ -67,7 +68,7 @@ useRafFn(({ timestamp }) => {
   }
 })
 
-const isDark = useDark()
+const isDark = inject(LECHES_DARK_KEY, ref(false))
 </script>
 
 <template>
@@ -85,7 +86,7 @@ const isDark = useDark()
         tl-text-right
         tl-text-gray-400
         tl-bg-gray-100
-        dark:tl-bg-dark-300
+        dark:tl-bg-dark-400
         dark:tl-text-gray-400
         tl-outline-none
         tl-border-none
@@ -100,7 +101,7 @@ const isDark = useDark()
         :width="width"
         :height="height"
         xmlns="http://www.w3.org/2000/svg"
-        class="tl-bg-gray-100 dark:tl-bg-dark-300"
+        class="tl-bg-gray-100 dark:tl-bg-dark-400"
       >
         <polyline
           :points="points"

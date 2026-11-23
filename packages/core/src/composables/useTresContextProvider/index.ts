@@ -1,7 +1,7 @@
 import type { ComputedRef, MaybeRef, MaybeRefOrGetter, Ref, ShallowRef } from 'vue'
 
 import type { TresControl, TresScene } from '../../types'
-import type { RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
+import type { DefaultRendererFactory, RendererOptions, UseRendererManagerReturn } from '../useRenderer/useRendererManager'
 import { computed, ref, shallowRef } from 'vue'
 import { extend } from '../../core/catalogue'
 import { isWebGPURenderer } from '../../utils/is'
@@ -9,7 +9,7 @@ import { isWebGPURenderer } from '../../utils/is'
 import type { UseCameraReturn } from '../useCamera'
 
 import { useCameraManager } from '../useCamera'
-import { useRendererManager } from '../useRenderer/useRendererManager'
+import { useBaseRendererManager } from '../useRenderer/useRendererManager'
 import useSizes from '../useSizes'
 import type { SizesType } from '../useSizes'
 import { useEventManager } from '../useEventManager'
@@ -32,29 +32,46 @@ export interface TresContext {
    */
   isWebGPU: ComputedRef<boolean>
   events: ReturnType<typeof useEventManager>
+  /**
+   * Registers a callback that runs once when the canvas unmounts, after all of its children have unmounted.
+   * It stays registered when the component that called it unmounts. Returns a function that removes it.
+   */
+  onUnmount: (fn: () => void) => () => void
 }
 
 export const INJECTION_KEY = 'useTres' // this is intentionally not a symbol as it can not properly be bridged to the custom renderer
 
-const [useTresContextProvider, _useTresContext] = createInjectionState(({
-  scene,
-  canvas,
-  fpsLimit,
-  windowSize,
-  rendererOptions,
-}: {
+export interface TresContextProviderOptions {
   scene: TresScene
   canvas: MaybeRef<HTMLCanvasElement>
   fpsLimit?: MaybeRefOrGetter<number>
   windowSize: MaybeRefOrGetter<boolean>
   rendererOptions: RendererOptions
-}): TresContext => {
+}
+
+const unmountCallbacks = new WeakMap<TresContext, Set<() => void>>()
+
+// Only the canvas that owns the context calls this.
+const triggerContextUnmount = (ctx: TresContext) => {
+  const callbacks = unmountCallbacks.get(ctx)
+  unmountCallbacks.delete(ctx)
+  callbacks?.forEach(fn => fn())
+}
+
+// Shared by both entries. The public `useTresContextProvider` of each entry passes its default renderer.
+const [useBaseTresContextProvider, _useTresContext] = createInjectionState(({
+  scene,
+  canvas,
+  fpsLimit,
+  windowSize,
+  rendererOptions,
+}: TresContextProviderOptions, createDefaultRenderer?: DefaultRendererFactory): TresContext => {
   const localScene = shallowRef(scene)
   const sizes = useSizes(windowSize, canvas)
 
   const camera = useCameraManager({ sizes })
 
-  const renderer = useRendererManager(
+  const renderer = useBaseRendererManager(
     {
       scene: localScene,
       canvas,
@@ -62,12 +79,17 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
       fpsLimit,
       contextParts: { sizes, camera },
     },
+    createDefaultRenderer,
   )
 
   const events = useEventManager({
     canvas,
     contextParts: { scene: localScene, camera, renderer },
   })
+
+  // A plain set, not a VueUse event hook: `on` there unregisters when the calling component unmounts,
+  // and children unmount before the canvas runs these callbacks.
+  const onUnmountCallbacks = new Set<() => void>()
 
   const ctx: TresContext = {
     sizes,
@@ -78,7 +100,12 @@ const [useTresContextProvider, _useTresContext] = createInjectionState(({
     controls: ref(null),
     extend,
     events,
+    onUnmount: (fn) => {
+      onUnmountCallbacks.add(fn)
+      return () => onUnmountCallbacks.delete(fn)
+    },
   }
+  unmountCallbacks.set(ctx, onUnmountCallbacks)
 
   // Add context to scene local state
   ctx.scene.value.__tres = {
@@ -102,4 +129,4 @@ const useTresContext = () => {
   return ctx!
 }
 
-export { useTresContext, useTresContextProvider }
+export { triggerContextUnmount, useBaseTresContextProvider, useTresContext }

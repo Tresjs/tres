@@ -1,5 +1,6 @@
 import type { BufferGeometry, Camera, Color, ColorRepresentation, Fog, Group, Light, Material, Mesh, Object3D, OrthographicCamera, PerspectiveCamera, Scene } from 'three'
 import { Layers } from 'three'
+import type { Node, NodeMaterial } from 'three/webgpu'
 import { isNumber, isString } from './typed'
 import { createTypeGuard } from './util'
 
@@ -119,6 +120,20 @@ export const isBufferGeometry = createTypeGuard<BufferGeometry>('isBufferGeometr
  * ```
  */
 export const isMaterial = createTypeGuard<Material>('isMaterial')
+
+/**
+ * Type guard to check if a value is a Three.js NodeMaterial
+ * @param value - The value to check
+ * @returns True if the value is a Three.js NodeMaterial instance, false otherwise
+ */
+export const isNodeMaterial = createTypeGuard<NodeMaterial>('isNodeMaterial')
+
+/**
+ * Type guard to check if a value is a Three.js TSL Node
+ * @param value - The value to check
+ * @returns True if the value is a Three.js Node instance, false otherwise
+ */
+export const isNode = createTypeGuard<Node>('isNode')
 
 /**
  * Type guard to check if a value is a Three.js Light

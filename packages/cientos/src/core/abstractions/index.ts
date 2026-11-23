@@ -7,12 +7,13 @@ import Edges from './Edges.vue'
 import Fit from './Fit.vue'
 import Levioso from './Levioso.vue'
 import Mask from './Mask/component.vue'
-import Outline from './Outline/component.vue'
+import Outline from './Outline/index.vue'
 import Sampler from './useSurfaceSampler/component.vue'
 import ScreenSizer from './ScreenSizer.vue'
 import ScreenSpace from './ScreenSpace.vue'
 import { useMask } from './Mask/useMask'
 
+export type { AlignCallbackOptions, AlignProps } from './Align.vue'
 export type { DecalLayout } from './Decal/DebugUI/context'
 export type { DecalImperativeApi, DecalJsonEntry } from './Decal/Decal.vue'
 export {
@@ -23,6 +24,7 @@ export {
 } from './Decal/DecalGeometry'
 export type { DecalEditorSession, DecalEntry, DecalEntryActions, EditMode } from './Decal/useDecalEditor'
 export { useDecalEditor } from './Decal/useDecalEditor'
+export * from './Instances'
 export * from './useSurfaceSampler'
 export {
   Align,

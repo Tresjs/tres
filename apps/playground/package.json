@@ -22,6 +22,7 @@
     "@tresjs/eslint-config": "workspace:^",
     "@tweakpane/plugin-essentials": "catalog:",
     "@vitejs/plugin-vue": "catalog:vite",
+    "pathe": "catalog:utils",
     "unplugin-auto-import": "catalog:utils",
     "vite-plugin-glsl": "catalog:vite",
     "vite-plugin-qrcode": "catalog:vite",

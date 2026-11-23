@@ -2,6 +2,7 @@
 import { QuadraticBezierCurve3, Vector3 } from 'three'
 import Line2 from './Line2.vue'
 import { computed, shallowRef } from 'vue'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 interface QuadraticBezierLineProps {
   start: Vector3 | [number, number, number]
@@ -13,6 +14,8 @@ interface QuadraticBezierLineProps {
 const props = withDefaults(defineProps<QuadraticBezierLineProps>(), {
   segments: 20,
 })
+
+useWebGPUSupportWarning('QuadraticBezierLine', 'uses three-stdlib\'s LineMaterial, a GLSL ShaderMaterial')
 
 const points = computed(() => {
   const startV = props.start instanceof Vector3 ? props.start : new Vector3(...props.start)

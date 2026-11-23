@@ -55,19 +55,29 @@ import { MeshReflectionMaterial } from '@tresjs/cientos'
 | `resolution` | Length in pixels of one side of the square reflective textures | `256` |
 | `mix` | Overall strength of the reflection | `1` |
 | `sharpMix` | Strength of the sharp reflection on smooth surfaces | `1` |
-| `sharpDepthScale` | Sharp reflection can be faded out by depth – distance from the reflective surface. Performance note: if the value is greater than `0`, a depth texture will be created | `1` |
+| `sharpDepthScale` | Sharp reflection can be faded out by depth – distance from the reflective surface. `0` turns the fade off | `1` |
 | `sharpDepthBias` | Sharp reflection depth falloff bias | `0` |
 | `sharpDepthEdgeMin` | Sharp reflection depth falloff start | `0` |
 | `sharpDepthEdgeMax` | Sharp reflection depth falloff end | `0.2` |
 | `blurMixSmooth` | Strength of the blurred reflection on smooth surfaces | `1` |
 | `blurMixRough` | Strength of the blurred reflection on rough surfaces | `1` |
-| `blurDepthScale` | Blurred reflection can spread out by depth – distance from the reflective surface. Performance note: if the value is greater than `0`, depth texture will be rendered | `1` |
+| `blurDepthScale` | Blurred reflection can spread out by depth – distance from the reflective surface. `0` turns the spread off | `1` |
 | `blurDepthBias` | Blurred reflection depth spread bias | `0` |
 | `blurDepthEdgeMin` | Blurred reflection depth spread start | `0` |
 | `blurDepthEdgeMax` | Blurred reflection depth spread end | `0.2` |
-| `blurSize` | Size of the blur. If `[number, number]`, first number is width, second is height. Performance note: if other than `[0, 0]` or `0`, a blur texture will be rendered | `[0, 0]` |
+| `blurSize` | Size of the blur. If `[number, number]`, first number is width, second is height | `[0, 0]` |
 | `distortionMap` | Texture for offsetting the reflection | `undefined` |
 | `distortion` | Influence of `distortionMap` | `0` |
 | `reflectorOffset` | Offsets the reflection | `0` |
 
+The component renders a depth texture and runs the blur pass every frame. A depth scale of `0` turns off the effect in the shader, but not the render work.
+
+The component does not support `reversedDepthBuffer`. It logs a warning and renders no reflection.
+
 Additionally, the component extends `THREE.MeshStandardMaterial` and accepts all the same props including `color`, `roughness`, `metalness`, `map`, `normalMap`, `roughnessMap`, `metalnessMap`, and more.
+
+## WebGPU
+
+Import `MeshReflectionMaterial` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version extends `MeshStandardNodeMaterial`, renders into a generic `RenderTarget` and has the same props. See [WebGPU](/getting-started/webgpu).
+
+On WebGPU, `blurSize`, the depth scales and `distortionMap` are uniforms, so switching them on or off does not recompile the shader. A change to a texture map, such as `normalMap` or `roughnessMap`, still recompiles it. The material does not remount in either case.

@@ -11,7 +11,7 @@ const gl = {
 const cameraRef = ref<PerspectiveCamera | null>(null)
 
 const onViewClicked = () => {
-  if (!cameraRef.value) return
+  if (!cameraRef.value) { return }
   gsap.to(cameraRef.value.position, {
     duration: 1,
     x: 0,
@@ -19,13 +19,10 @@ const onViewClicked = () => {
     z: 3,
     ease: 'power2.inOut',
     onUpdate: () => {
-      if (cameraRef.value)
-        cameraRef.value.lookAt(0, 3, 0)
+      if (cameraRef.value) { cameraRef.value.lookAt(0, 3, 0) }
     },
   })
 }
-
-const { hasFinishLoading, progress } = await useProgress()
 </script>
 
 <template>
@@ -40,18 +37,16 @@ const { hasFinishLoading, progress } = await useProgress()
       Only $2999.99
     </p>
   </div>
-  <Transition name="fade-overlay" enter-active-class="opacity-1 transition-opacity duration-200"
-    leave-active-class="opacity-0 transition-opacity duration-200">
-    <div v-show="!hasFinishLoading"
-      class="absolute t-0 l-0 w-full h-full z-20 flex justify-center items-center text-black font-mono">
-      <div class="w-200px text-black text-center">
-        <p class="animate-tada">
+  <TheLoadingScreen background="#f5f5f5" text-color="#000000">
+    <template #default="{ progress }">
+      <div class="font-mono text-center">
+        <p class="animate-bounce">
           🤳
         </p>
         Loading... {{ progress }} %
       </div>
-    </div>
-  </Transition>
+    </template>
+  </TheLoadingScreen>
   <TresCanvas v-bind="gl">
     <TresPerspectiveCamera ref="cameraRef" :position="[4, 4, 4]" :look-at="[0, 2, 0]" />
     <HtmlPhoneIPhone @view-clicked="onViewClicked" />
@@ -60,8 +55,15 @@ const { hasFinishLoading, progress } = await useProgress()
       <Environment background :blur="0.9" preset="city" />
     </Suspense>
     <TresAmbientLight :intensity="1" />
-    <TresDirectionalLight :intensity="2" :position="[2, 3, 0]" :cast-shadow="true" :shadow-camera-far="50"
-      :shadow-camera-left="-10" :shadow-camera-right="10" :shadow-camera-top="10" :shadow-camera-bottom="-10" />
+    <TresDirectionalLight :intensity="2"
+                          :position="[2, 3, 0]"
+                          :cast-shadow="true"
+                          :shadow-camera-far="50"
+                          :shadow-camera-left="-10"
+                          :shadow-camera-right="10"
+                          :shadow-camera-top="10"
+                          :shadow-camera-bottom="-10"
+    />
     <TheScreenshot />
   </TresCanvas>
 </template>

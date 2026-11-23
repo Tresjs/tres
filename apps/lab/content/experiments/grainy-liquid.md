@@ -1,5 +1,6 @@
 ---
 title: Grainy Liquid Blobs
+thumbnail: /experiments/grainy-liquid.webp
 author: alvarosabu
 description: Animated liquid blobs with GLSL shaders, noise effects, and organic deformation inspired by oil drops in water
 tags: ['shaders', 'glsl', 'liquid', 'noise', 'animation']

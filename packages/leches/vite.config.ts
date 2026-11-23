@@ -37,12 +37,15 @@ export default defineConfig({
       mode: 'vue-scoped',
       /* options */
       shortcuts: {
-        'tl-leches-input': 'tl-text-left tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-300 dark:tl-text-gray-400 tl-outline-none tl-border-none focus:tl-ring-2 focus:tl-border-gray-200 focus:tl-ring focus:tl-ring-gray-200 tl-font-sans',
+        'tl-leches-input': 'tl-text-left tl-text-gray-400 tl-bg-gray-100 dark:tl-bg-dark-400 dark:tl-text-gray-400 tl-outline-none tl-border-none focus:tl-ring-2 focus:tl-border-gray-200 focus:tl-ring focus:tl-ring-gray-200 tl-font-sans',
       },
       presets: [
         presetUno({
           prefix: 'tl-',
           variablePrefix: 'tl-',
+          // TresLeches sets `tl-dark` on its root from the nearest `.dark`/`.light`
+          // ancestor, so each panel follows its own theme scope, not only <html>.
+          dark: { dark: '.tl-dark', light: '.tl-light' },
         }),
         presetIcons({
           scale: 1.2,

@@ -23,7 +23,7 @@ const options = reactive({
   areaZ: 25,
 })
 
-const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls({
+const { speed, randomness, count, size, areaX, areaY, areaZ, color } = useControls({
   speed: {
     value: options.speed,
     step: 0.1,
@@ -66,6 +66,7 @@ const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls({
     min: 1,
     max: 30,
   },
+  color: '#ffffff',
 }, { uuid })
 </script>
 
@@ -79,6 +80,7 @@ const { speed, randomness, count, size, areaX, areaY, areaZ } = useControls({
       :count="count"
       :randomness="randomness"
       :size="size"
+      :color="color"
     />
     <TresGridHelper :args="[10, 10]" />
     <OrbitControls />

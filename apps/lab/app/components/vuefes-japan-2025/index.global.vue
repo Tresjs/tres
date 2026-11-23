@@ -17,6 +17,7 @@ const stageBase = computed(() => colorSets[activeColorSetIndex.value]?.color1.ge
 </script>
 
 <template>
+  <TheLoadingScreen background="#ffffff" text-color="#000000" />
   <div
     class="vuefes-stage"
     :style="{
@@ -73,7 +74,7 @@ const stageBase = computed(() => colorSets[activeColorSetIndex.value]?.color1.ge
 /* Grain overlay — tiled noise PNG tinted by the active bg color, blended via
    mix-blend-mode: overlay at 0.4 opacity. Mirrors the original .main-visual:before. */
 .vuefes-stage::before {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -102,7 +103,7 @@ const stageBase = computed(() => colorSets[activeColorSetIndex.value]?.color1.ge
   font-family: 'JetBrainsMono', ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 1.25rem;
   line-height: 1.2;
-  color: var(--vuefes-base, #007F62);
+  color: var(--vuefes-base, #007f62);
   transition: color 600ms ease;
 }
 

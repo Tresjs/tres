@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Mesh, BackSide, SphereGeometry, ShaderMaterial, Color } from 'three'
+import { BackSide, Color, Mesh, ShaderMaterial, SphereGeometry } from 'three'
 
 interface SkyProps {
   colorSky: string

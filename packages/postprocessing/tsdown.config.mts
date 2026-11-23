@@ -18,6 +18,7 @@ export default defineConfig([
   {
     entry: {
       'tres-post-processing': './src/index.ts',
+      'webgpu': './src/webgpu.ts',
     },
 
     platform: 'neutral',

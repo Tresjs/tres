@@ -3,6 +3,7 @@ const whitelist = [
   'TresCanvasContext',
   'TresLeches',
   'TresScene',
+  'TresPortal',
 ]
 
 const templateCompilerOptions = {

@@ -2,23 +2,24 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useLoop } from './index'
 import { useCreateRafLoop } from '../useCreateRafLoop'
 
+vi.mock('../useTresContextProvider', () => ({
+  useTresContext: vi.fn(() => ({
+    camera: {},
+    scene: {},
+    renderer: {
+      loop: useCreateRafLoop(() => {}),
+    },
+    controls: {},
+    events: {},
+  })),
+}))
+
 let loop: ReturnType<typeof useLoop>
 
 describe(useLoop.name, () => {
   beforeEach(() => {
     vi.useFakeTimers()
     loop = useLoop()
-    vi.mock('../useTresContextProvider', () => ({
-      useTresContext: vi.fn(() => ({
-        camera: {},
-        scene: {},
-        renderer: {
-          loop: useCreateRafLoop(() => {}),
-        },
-        controls: {},
-        events: {},
-      })),
-    }))
   })
   afterEach(() => {
     loop.stop()

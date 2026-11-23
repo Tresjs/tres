@@ -14,14 +14,15 @@ const { clearColor } = useControls({
 </script>
 
 <template>
+  <TheLoadingScreen background="#0c0b0f" />
   <ClientOnly>
-    <TresLeches :uuid="uuid"/> 
+    <TresLeches :uuid="uuid" />
   </ClientOnly>
   <TresCanvas :clear-color="clearColor" :antialias="true" :tone-mapping="ACESFilmicToneMapping">
-    <TresPerspectiveCamera :position="[3.211615373355472,-0.8435919380305728,3.9967335832798145]" />
+    <TresPerspectiveCamera :position="[3.211615373355472, -0.8435919380305728, 3.9967335832798145]" />
     <!-- TODO: Add experiment scene objects -->
     <ParticlesMorphingExperiment />
     <TheScreenshot />
-    <OrbitControls  />
+    <OrbitControls />
   </TresCanvas>
 </template>

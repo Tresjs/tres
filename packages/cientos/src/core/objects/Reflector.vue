@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { useTres } from '@tresjs/core'
 import { Reflector } from 'three-stdlib'
-import { computed, shallowRef, toRefs, watch } from 'vue'
+import { computed, onBeforeUnmount, shallowRef, toRefs, watch } from 'vue'
 import { Color } from 'three'
+import type { ColorRepresentation } from 'three'
 import type { TresColor } from '@tresjs/core'
+import { useWebGPUSupportWarning } from '../../utils/useWebGPUSupportWarning'
 
 export interface ReflectorProps {
   /**
@@ -73,19 +75,26 @@ const props = withDefaults(defineProps<ReflectorProps>(), {
   shader: Reflector.ReflectorShader,
 })
 
+useWebGPUSupportWarning('Reflector', 'uses three-stdlib\'s Reflector, a GLSL ShaderMaterial')
+
 const { extend, invalidate } = useTres()
 
 const reflectorRef = shallowRef<Reflector>()
 
 extend({ Reflector })
 
-const { color, textureWidth, textureHeight, clipBias, multisample, shader }
-  = toRefs(props)
+const { color, textureWidth, textureHeight, clipBias, multisample, shader } = toRefs(
+  props,
+)
 
-const colorValue = computed(() => Array.isArray(color.value) ? new Color(...color.value) : new Color(color.value))
+const colorValue = computed(() => new Color(color.value as ColorRepresentation))
 
 watch(props, () => {
   invalidate()
+})
+
+onBeforeUnmount(() => {
+  reflectorRef.value?.dispose()
 })
 
 defineExpose({

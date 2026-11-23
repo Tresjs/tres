@@ -5,7 +5,7 @@ import Cone from './Cone.vue'
 import CubicBezierLine from './CubicBezierLine.vue'
 import Cylinder from './Cylinder.vue'
 import Dodecahedron from './Dodecahedron.vue'
-import Grid from './Grid.vue'
+import Grid from './Grid/index.vue'
 import Icosahedron from './Icosahedron.vue'
 import Line2 from './Line2.vue'
 import Octahedron from './Octahedron.vue'
@@ -13,6 +13,7 @@ import Plane from './Plane.vue'
 import QuadraticBezierLine from './QuadraticBezierLine.vue'
 import Ring from './Ring.vue'
 import RoundedBox from './RoundedBox.vue'
+import RoundedPlane from './RoundedPlane.vue'
 import ScreenQuad from './ScreenQuad.vue'
 import Sphere from './Sphere.vue'
 import Superformula from './Superformula.vue'
@@ -37,6 +38,7 @@ export {
   QuadraticBezierLine,
   Ring,
   RoundedBox,
+  RoundedPlane,
   ScreenQuad,
   Sphere,
   Superformula,

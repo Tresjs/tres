@@ -46,3 +46,9 @@ import { TresCanvas } from '@tresjs/core'
 | `resolution` | The resolution of the shadow textures.                                         | `512`       |
 | `frames`     | For performance, optionally stop updating shadows after `frames` frames.       | `Math.POSITIVE_INFINITY`  |
 | `depthWrite` | Whether the shadows should write to the depth buffer or not.                   | `false`     |
+
+## WebGPU
+
+Import `ContactShadows` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version renders into a generic `RenderTarget`, blurs with TSL node materials and has the same props. See [WebGPU](/getting-started/webgpu).
+
+`WebGPURenderer` blends the shadow plane in linear color space. Thus the soft edges of the shadow look a little lighter than under `WebGLRenderer`.

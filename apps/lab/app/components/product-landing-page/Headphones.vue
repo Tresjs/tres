@@ -13,14 +13,14 @@ const { nodes, materials } = await useGLTF('/models/headphones/headphones.gltf',
 watch(
   () => props.color,
   (color) => {
-    materials.Base.color.set(color)
+    materials.value.Base.color.set(color)
 
     if (color === '#000000') {
-      materials.Base.roughness = 1
-      materials.Cush.color.set('#050505')
+      materials.value.Base.roughness = 1
+      materials.value.Cush.color.set('#050505')
     }
     else {
-      materials.Cush.color.set('#A4BCB7')
+      materials.value.Cush.color.set('#A4BCB7')
     }
   },
   { immediate: true },

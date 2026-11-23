@@ -35,6 +35,16 @@ import { MeshWobbleMaterial } from '@tresjs/cientos'
 </template>
 ```
 
+## WebGPU
+
+Import `MeshWobbleMaterial` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version extends `MeshStandardNodeMaterial` and has the same props. See [WebGPU](/getting-started/webgpu).
+
+```ts
+import { MeshWobbleMaterial } from '@tresjs/cientos/webgpu'
+```
+
+The shading can differ a little from `WebGLRenderer`. The WebGL version rotates the normal in view space, which is only right when the camera does not tilt. The WebGPU version rotates the normal of the geometry.
+
 ## Props
 
 | Prop            | Description                                                                               | Default     |

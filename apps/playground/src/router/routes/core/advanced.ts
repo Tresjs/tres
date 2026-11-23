@@ -60,8 +60,33 @@ export const advancedRoutes = [
     component: () => import('@/pages/core/advanced/MemoryTresObjects.vue'),
   },
   {
+    path: '/core/advanced/prop-updates',
+    name: 'Performance: Prop Updates',
+    component: () => import('@/pages/core/advanced/prop-updates/index.vue'),
+  },
+  {
     path: '/core/advanced/webgpu',
     name: 'WebGPU',
     component: () => import('@/pages/core/advanced/webGPU/index.vue'),
+  },
+  {
+    path: '/core/advanced/webgpu-entry',
+    name: 'WebGPU entry (@tresjs/core/webgpu)',
+    component: () => import('@/pages/core/advanced/webGPUEntry/index.vue'),
+  },
+  {
+    path: '/core/advanced/tsl-uniforms',
+    name: 'TSL: useUniforms + useNodes',
+    component: () => import('@/pages/core/advanced/tsl/uniforms/index.vue'),
+  },
+  {
+    path: '/core/advanced/tsl-local-nodes',
+    name: 'TSL: useLocalNodes',
+    component: () => import('@/pages/core/advanced/tsl/localNodes/index.vue'),
+  },
+  {
+    path: '/core/advanced/tsl-render-pipeline',
+    name: 'TSL: useRenderPipeline',
+    component: () => import('@/pages/core/advanced/tsl/renderPipeline/index.vue'),
   },
 ]

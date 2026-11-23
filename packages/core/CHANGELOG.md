@@ -1,3 +1,103 @@
+## 5.12.0 (2026-11-17)
+
+### 🚀 Features
+
+- **core:** add extend assign option, keep user vectors unchanged ([#1560](https://github.com/Tresjs/tres/pull/1560))
+- **postprocessing:** add HDR / LDR effect stages to the WebGPU composer ([#1557](https://github.com/Tresjs/tres/pull/1557))
+- **core:** add a default attach option to extend ([#1558](https://github.com/Tresjs/tres/pull/1558))
+
+### 🩹 Fixes
+
+- **core:** sort useLoop priorities across components ([#1559](https://github.com/Tresjs/tres/pull/1559))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 5.11.0 (2026-11-13)
+
+### 🚀 Features
+
+- **core:** add TSL composables to @tresjs/core/webgpu ([#1545](https://github.com/Tresjs/tres/pull/1545))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 5.10.1 (2026-10-28)
+
+### 🩹 Fixes
+
+- **core:** avoid tracking frame state during prop patches ([#1499](https://github.com/Tresjs/tres/pull/1499))
+- **core:** resolve awaited useLoader with the full return object ([#1548](https://github.com/Tresjs/tres/pull/1548))
+- **core:** skip automatic devtools registration in production ([#1498](https://github.com/Tresjs/tres/pull/1498))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- Felix Schwämmle @felixschwamm
+
+## 5.10.0 (2026-10-22)
+
+### 🚀 Features
+
+- add /webgpu entries to core, cientos and nuxt ([#1543](https://github.com/Tresjs/tres/pull/1543))
+
+### 🩹 Fixes
+
+- **core:** recompile node materials when a node prop is patched ([#1540](https://github.com/Tresjs/tres/pull/1540))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 5.9.3 (2026-10-06)
+
+### 🩹 Fixes
+
+- **core:** default to PCFShadowMap on WebGPU since three r186 ([#1508](https://github.com/Tresjs/tres/pull/1508))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 5.9.2 (2026-09-29)
+
+### 🧱 Updated Dependencies
+
+- Updated @tresjs/eslint-config to 1.7.0
+
+## 5.9.1 (2026-09-25)
+
+### 🩹 Fixes
+
+- **core:** restore math prop types with @types/three 0.186 ([#1504](https://github.com/Tresjs/tres/pull/1504))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+
+## 5.9.0 (2026-09-14)
+
+### 🚀 Features
+
+- MeshPortalMaterial (MVP) + TresPortal ([#1445](https://github.com/Tresjs/tres/pull/1445))
+- **core:** expose isWebGPURenderer guard and reactive isWebGPU flag ([#1440](https://github.com/Tresjs/tres/pull/1440))
+
+### 🩹 Fixes
+
+- **core:** default shadowMapType to PCFShadowMap ([#1483](https://github.com/Tresjs/tres/pull/1483))
+- **core:** apply customRendererOptions default in TresCanvas ([#1479](https://github.com/Tresjs/tres/pull/1479))
+- **useCamera:** shallow ref ([#1453](https://github.com/Tresjs/tres/pull/1453))
+
+### ❤️ Thank You
+
+- Alvaro Saburido @alvarosabu
+- Claude Opus 4.8
+- Eduardo San Martin Morote @posva
+- Jaime A Torrealba C @JaimeTorrealba
+- Jungzl
+
 ## 5.8.3 (2026-06-18)
 
 ### 🩹 Fixes

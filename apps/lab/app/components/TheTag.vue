@@ -2,7 +2,7 @@
 
 <template>
   <span class="bg-primary inline-flex px-2 py-1 text-xs rounded text-dark">
-    <slot />
+    <slot></slot>
   </span>
 </template>
 

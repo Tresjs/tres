@@ -1,4 +1,4 @@
-import type { UseAsyncStateOptions, UseAsyncStateReturn } from '@vueuse/core'
+import type { UseAsyncStateOptions, UseAsyncStateReturnBase } from '@vueuse/core'
 import { useAsyncState } from '@vueuse/core'
 import type { Loader, LoadingManager } from 'three'
 import type { MaybeRef } from 'vue'
@@ -33,12 +33,12 @@ export interface TresLoaderOptions<T, Shallow extends boolean> {
 }
 
 /**
- * Return type for the useLoader composable
+ * Return type for the useLoader composable, without the `then` that makes it awaitable
  * @template T - The type of the loaded asset (e.g., GLTF, Texture, etc.)
  * @template Shallow - Whether to use shallow reactivity for better performance
- * @extends {UseAsyncStateReturn<T, [string], Shallow>} - Extends VueUse's useAsyncState return type
+ * @extends {UseAsyncStateReturnBase<T, [string], Shallow>} - Extends VueUse's useAsyncState return type
  */
-export type UseLoaderReturn<T, Shallow extends boolean> = UseAsyncStateReturn<T, [string], Shallow> & {
+export type UseLoaderReturnBase<T, Shallow extends boolean> = UseAsyncStateReturnBase<T, [string], Shallow> & {
   /**
    * Loads a new asset from the given path
    * @param path - The URL or path to the asset to load
@@ -58,13 +58,22 @@ export type UseLoaderReturn<T, Shallow extends boolean> = UseAsyncStateReturn<T,
 }
 
 /**
+ * Return type for the useLoader composable. Awaiting it resolves with a `then`-less copy once loading ends.
+ * A Loader that spreads it and adds fields must declare its own return type: the awaited type covers only the base fields.
+ * @template T - The type of the loaded asset (e.g., GLTF, Texture, etc.)
+ * @template Shallow - Whether to use shallow reactivity for better performance
+ */
+export type UseLoaderReturn<T, Shallow extends boolean> = UseLoaderReturnBase<T, Shallow> & PromiseLike<UseLoaderReturnBase<T, Shallow>>
+
+/**
  * Vue composable for loading 3D models using Three.js loaders
  * @param Loader - The Three.js loader constructor
  * @param path - The path to the model file
  * @param options - Optional configuration for the loader
  * @returns UseAsyncState composable with the loaded model
  */
-export function useLoader<T, Shallow extends boolean = false>(
+// Defaults to true to match useAsyncState's runtime default. A deep Ref type would unwrap three objects (e.g. Texture) into a shape that no longer matches the original class.
+export function useLoader<T, Shallow extends boolean = true>(
   Loader: LoaderProto<T>,
   path: MaybeRef<string>,
   options?: TresLoaderOptions<T, Shallow>,
@@ -128,5 +137,10 @@ export function useLoader<T, Shallow extends boolean = false>(
       result.execute(0, path)
     },
     progress,
+    // Resolves with a `then`-less copy of `this`, so Loaders that spread this object (e.g. cientos' useGLTF) keep their own fields.
+    then(onFulfilled, onRejected) {
+      const { then: _then, ...resolved } = this
+      return result.then(() => resolved).then(onFulfilled, onRejected)
+    },
   } as UseLoaderReturn<T, Shallow>
 }

@@ -3,10 +3,14 @@
 exports[`button Controls > should render a block size button 1`] = `
 "<div class="tresleches-container">
   <div id="tres-leches-pane-default" class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden tl-relative" >
-    <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+    <header class="tl-relative tl-flex tl-items-center tl-min-h-8 tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+      <div class="tl-flex tl-items-center tl-gap-0.5 tl-p-1 tl-z-10">
+        <div class="tl-panel-action tl-panel-action-search tl-flex tl-items-center tl-h-6 tl-rounded-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-overflow-hidden tl-transition-all tl-duration-200 tl-w-6"><button type="button" class="tl-w-6 tl-h-6 tl-flex-none tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-transparent tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Search controls and folders" aria-expanded="false"><i class="i-ic-baseline-search tl-w-3.5 tl-h-3.5"></i></button>
+          <!--v-if-->
+        </div><button type="button" class="tl-panel-action tl-panel-action-copy tl-w-6 tl-h-6 tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Copy panel values as JSON" title="Copy values for AI"><i class="tl-w-3.5 tl-h-3.5 i-ic-baseline-content-copy"></i></button><span class="tl-sr-only" aria-live="polite"></span>
+      </div>
       <!--v-if-->
-      <!--v-if-->
-      <div class="tl-flex tl-p-0.5 tl-justify-center"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+      <div class="tl-flex tl-p-0.5 tl-z-10 tl-ml-auto tl-justify-end"><button type="button" aria-label="Toggle panel" class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
     <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
@@ -17,6 +21,7 @@ exports[`button Controls > should render a block size button 1`] = `
         <div>
           <div class="tl-flex tl-justify-end" style="padding: var(--tl-v-padding) var(--tl-h-padding);"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-block"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <!--v-if-->
         <!--v-if-->
       </div>
     </div><!-- Resize handles -->
@@ -37,10 +42,14 @@ exports[`button Controls > should render a block size button 1`] = `
 exports[`button Controls > should render a button 1`] = `
 "<div class="tresleches-container">
   <div id="tres-leches-pane-default" class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden tl-relative" >
-    <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+    <header class="tl-relative tl-flex tl-items-center tl-min-h-8 tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+      <div class="tl-flex tl-items-center tl-gap-0.5 tl-p-1 tl-z-10">
+        <div class="tl-panel-action tl-panel-action-search tl-flex tl-items-center tl-h-6 tl-rounded-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-overflow-hidden tl-transition-all tl-duration-200 tl-w-6"><button type="button" class="tl-w-6 tl-h-6 tl-flex-none tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-transparent tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Search controls and folders" aria-expanded="false"><i class="i-ic-baseline-search tl-w-3.5 tl-h-3.5"></i></button>
+          <!--v-if-->
+        </div><button type="button" class="tl-panel-action tl-panel-action-copy tl-w-6 tl-h-6 tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Copy panel values as JSON" title="Copy values for AI"><i class="tl-w-3.5 tl-h-3.5 i-ic-baseline-content-copy"></i></button><span class="tl-sr-only" aria-live="polite"></span>
+      </div>
       <!--v-if-->
-      <!--v-if-->
-      <div class="tl-flex tl-p-0.5 tl-justify-center"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+      <div class="tl-flex tl-p-0.5 tl-z-10 tl-ml-auto tl-justify-end"><button type="button" aria-label="Toggle panel" class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
     <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
@@ -51,6 +60,7 @@ exports[`button Controls > should render a button 1`] = `
         <div>
           <div class="tl-flex tl-justify-end" style="padding: var(--tl-v-padding) var(--tl-h-padding);"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <!--v-if-->
         <!--v-if-->
       </div>
     </div><!-- Resize handles -->
@@ -71,10 +81,14 @@ exports[`button Controls > should render a button 1`] = `
 exports[`button Controls > should render a button with a label 1`] = `
 "<div class="tresleches-container">
   <div id="tres-leches-pane-default" class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden tl-relative" >
-    <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+    <header class="tl-relative tl-flex tl-items-center tl-min-h-8 tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+      <div class="tl-flex tl-items-center tl-gap-0.5 tl-p-1 tl-z-10">
+        <div class="tl-panel-action tl-panel-action-search tl-flex tl-items-center tl-h-6 tl-rounded-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-overflow-hidden tl-transition-all tl-duration-200 tl-w-6"><button type="button" class="tl-w-6 tl-h-6 tl-flex-none tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-transparent tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Search controls and folders" aria-expanded="false"><i class="i-ic-baseline-search tl-w-3.5 tl-h-3.5"></i></button>
+          <!--v-if-->
+        </div><button type="button" class="tl-panel-action tl-panel-action-copy tl-w-6 tl-h-6 tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Copy panel values as JSON" title="Copy values for AI"><i class="tl-w-3.5 tl-h-3.5 i-ic-baseline-content-copy"></i></button><span class="tl-sr-only" aria-live="polite"></span>
+      </div>
       <!--v-if-->
-      <!--v-if-->
-      <div class="tl-flex tl-p-0.5 tl-justify-center"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+      <div class="tl-flex tl-p-0.5 tl-z-10 tl-ml-auto tl-justify-end"><button type="button" aria-label="Toggle panel" class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
     <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
@@ -85,6 +99,7 @@ exports[`button Controls > should render a button with a label 1`] = `
         <div>
           <div class="tl-flex tl-justify-end" style="padding: var(--tl-v-padding) var(--tl-h-padding);"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <!--v-if-->
         <!--v-if-->
       </div>
     </div><!-- Resize handles -->
@@ -105,10 +120,14 @@ exports[`button Controls > should render a button with a label 1`] = `
 exports[`button Controls > should render a large button 1`] = `
 "<div class="tresleches-container">
   <div id="tres-leches-pane-default" class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden tl-relative" >
-    <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+    <header class="tl-relative tl-flex tl-items-center tl-min-h-8 tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+      <div class="tl-flex tl-items-center tl-gap-0.5 tl-p-1 tl-z-10">
+        <div class="tl-panel-action tl-panel-action-search tl-flex tl-items-center tl-h-6 tl-rounded-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-overflow-hidden tl-transition-all tl-duration-200 tl-w-6"><button type="button" class="tl-w-6 tl-h-6 tl-flex-none tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-transparent tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Search controls and folders" aria-expanded="false"><i class="i-ic-baseline-search tl-w-3.5 tl-h-3.5"></i></button>
+          <!--v-if-->
+        </div><button type="button" class="tl-panel-action tl-panel-action-copy tl-w-6 tl-h-6 tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Copy panel values as JSON" title="Copy values for AI"><i class="tl-w-3.5 tl-h-3.5 i-ic-baseline-content-copy"></i></button><span class="tl-sr-only" aria-live="polite"></span>
+      </div>
       <!--v-if-->
-      <!--v-if-->
-      <div class="tl-flex tl-p-0.5 tl-justify-center"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+      <div class="tl-flex tl-p-0.5 tl-z-10 tl-ml-auto tl-justify-end"><button type="button" aria-label="Toggle panel" class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
     <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
@@ -119,6 +138,7 @@ exports[`button Controls > should render a large button 1`] = `
         <div>
           <div class="tl-flex tl-justify-end" style="padding: var(--tl-v-padding) var(--tl-h-padding);"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-lg"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <!--v-if-->
         <!--v-if-->
       </div>
     </div><!-- Resize handles -->
@@ -139,10 +159,14 @@ exports[`button Controls > should render a large button 1`] = `
 exports[`button Controls > should render a primary button variant by default 1`] = `
 "<div class="tresleches-container">
   <div id="tres-leches-pane-default" class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden tl-relative" >
-    <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+    <header class="tl-relative tl-flex tl-items-center tl-min-h-8 tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+      <div class="tl-flex tl-items-center tl-gap-0.5 tl-p-1 tl-z-10">
+        <div class="tl-panel-action tl-panel-action-search tl-flex tl-items-center tl-h-6 tl-rounded-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-overflow-hidden tl-transition-all tl-duration-200 tl-w-6"><button type="button" class="tl-w-6 tl-h-6 tl-flex-none tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-transparent tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Search controls and folders" aria-expanded="false"><i class="i-ic-baseline-search tl-w-3.5 tl-h-3.5"></i></button>
+          <!--v-if-->
+        </div><button type="button" class="tl-panel-action tl-panel-action-copy tl-w-6 tl-h-6 tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Copy panel values as JSON" title="Copy values for AI"><i class="tl-w-3.5 tl-h-3.5 i-ic-baseline-content-copy"></i></button><span class="tl-sr-only" aria-live="polite"></span>
+      </div>
       <!--v-if-->
-      <!--v-if-->
-      <div class="tl-flex tl-p-0.5 tl-justify-center"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+      <div class="tl-flex tl-p-0.5 tl-z-10 tl-ml-auto tl-justify-end"><button type="button" aria-label="Toggle panel" class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
     <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
@@ -153,6 +177,7 @@ exports[`button Controls > should render a primary button variant by default 1`]
         <div>
           <div class="tl-flex tl-justify-end" style="padding: var(--tl-v-padding) var(--tl-h-padding);"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <!--v-if-->
         <!--v-if-->
       </div>
     </div><!-- Resize handles -->
@@ -173,10 +198,14 @@ exports[`button Controls > should render a primary button variant by default 1`]
 exports[`button Controls > should render a secondary button variant 1`] = `
 "<div class="tresleches-container">
   <div id="tres-leches-pane-default" class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden tl-relative" >
-    <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+    <header class="tl-relative tl-flex tl-items-center tl-min-h-8 tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+      <div class="tl-flex tl-items-center tl-gap-0.5 tl-p-1 tl-z-10">
+        <div class="tl-panel-action tl-panel-action-search tl-flex tl-items-center tl-h-6 tl-rounded-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-overflow-hidden tl-transition-all tl-duration-200 tl-w-6"><button type="button" class="tl-w-6 tl-h-6 tl-flex-none tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-transparent tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Search controls and folders" aria-expanded="false"><i class="i-ic-baseline-search tl-w-3.5 tl-h-3.5"></i></button>
+          <!--v-if-->
+        </div><button type="button" class="tl-panel-action tl-panel-action-copy tl-w-6 tl-h-6 tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Copy panel values as JSON" title="Copy values for AI"><i class="tl-w-3.5 tl-h-3.5 i-ic-baseline-content-copy"></i></button><span class="tl-sr-only" aria-live="polite"></span>
+      </div>
       <!--v-if-->
-      <!--v-if-->
-      <div class="tl-flex tl-p-0.5 tl-justify-center"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+      <div class="tl-flex tl-p-0.5 tl-z-10 tl-ml-auto tl-justify-end"><button type="button" aria-label="Toggle panel" class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
     <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
@@ -187,6 +216,7 @@ exports[`button Controls > should render a secondary button variant 1`] = `
         <div>
           <div class="tl-flex tl-justify-end" style="padding: var(--tl-v-padding) var(--tl-h-padding);"><button id="default-acceptBtn" class="leches-btn leches-btn-secondary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <!--v-if-->
         <!--v-if-->
       </div>
     </div><!-- Resize handles -->
@@ -207,10 +237,14 @@ exports[`button Controls > should render a secondary button variant 1`] = `
 exports[`button Controls > should render a small button 1`] = `
 "<div class="tresleches-container">
   <div id="tres-leches-pane-default" class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden tl-relative" >
-    <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+    <header class="tl-relative tl-flex tl-items-center tl-min-h-8 tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+      <div class="tl-flex tl-items-center tl-gap-0.5 tl-p-1 tl-z-10">
+        <div class="tl-panel-action tl-panel-action-search tl-flex tl-items-center tl-h-6 tl-rounded-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-overflow-hidden tl-transition-all tl-duration-200 tl-w-6"><button type="button" class="tl-w-6 tl-h-6 tl-flex-none tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-transparent tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Search controls and folders" aria-expanded="false"><i class="i-ic-baseline-search tl-w-3.5 tl-h-3.5"></i></button>
+          <!--v-if-->
+        </div><button type="button" class="tl-panel-action tl-panel-action-copy tl-w-6 tl-h-6 tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Copy panel values as JSON" title="Copy values for AI"><i class="tl-w-3.5 tl-h-3.5 i-ic-baseline-content-copy"></i></button><span class="tl-sr-only" aria-live="polite"></span>
+      </div>
       <!--v-if-->
-      <!--v-if-->
-      <div class="tl-flex tl-p-0.5 tl-justify-center"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+      <div class="tl-flex tl-p-0.5 tl-z-10 tl-ml-auto tl-justify-end"><button type="button" aria-label="Toggle panel" class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
     <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
@@ -221,6 +255,7 @@ exports[`button Controls > should render a small button 1`] = `
         <div>
           <div class="tl-flex tl-justify-end" style="padding: var(--tl-v-padding) var(--tl-h-padding);"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="mr-1"></i> Accept</button></div>
         </div>
+        <!--v-if-->
         <!--v-if-->
       </div>
     </div><!-- Resize handles -->
@@ -241,10 +276,14 @@ exports[`button Controls > should render a small button 1`] = `
 exports[`button Controls > should render an icon on the button 1`] = `
 "<div class="tresleches-container">
   <div id="tres-leches-pane-default" class="tl-leches tl-box-border tl-z-24 tl-bg-white dark:tl-bg-dark-200 tl-shadow-xl tl-font-sans tl-flex tl-flex-col tl-rounded-lg tl-overflow-hidden tl-relative" >
-    <header class="tl-flex tl-items-center tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+    <header class="tl-relative tl-flex tl-items-center tl-min-h-8 tl-text-gray-200 dark:tl-text-gray-600 tl-justify-center">
+      <div class="tl-flex tl-items-center tl-gap-0.5 tl-p-1 tl-z-10">
+        <div class="tl-panel-action tl-panel-action-search tl-flex tl-items-center tl-h-6 tl-rounded-full tl-bg-gray-100 dark:tl-bg-dark-300 tl-overflow-hidden tl-transition-all tl-duration-200 tl-w-6"><button type="button" class="tl-w-6 tl-h-6 tl-flex-none tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-transparent tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Search controls and folders" aria-expanded="false"><i class="i-ic-baseline-search tl-w-3.5 tl-h-3.5"></i></button>
+          <!--v-if-->
+        </div><button type="button" class="tl-panel-action tl-panel-action-copy tl-w-6 tl-h-6 tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-bg-gray-100 dark:tl-bg-dark-300 tl-text-gray-400 dark:tl-text-gray-400 tl-outline-none tl-border-none tl-cursor-pointer" aria-label="Copy panel values as JSON" title="Copy values for AI"><i class="tl-w-3.5 tl-h-3.5 i-ic-baseline-content-copy"></i></button><span class="tl-sr-only" aria-live="polite"></span>
+      </div>
       <!--v-if-->
-      <!--v-if-->
-      <div class="tl-flex tl-p-0.5 tl-justify-center"><button class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
+      <div class="tl-flex tl-p-0.5 tl-z-10 tl-ml-auto tl-justify-end"><button type="button" aria-label="Toggle panel" class="tl-rounded-full tl-inline-flex tl-justify-center tl-items-center tl-p-1.5 tl-bg-gray-100 dark:tl-bg-dark-300 tl-outline-none tl-border-none tl-cursor-pointer"><img src="/src/assets/tresleches-icon.svg" alt="TresLechesIcon" class="tl-w-4 tl-h-4 tl-block" width="16" height="16"></button></div>
     </header>
     <div class="tl-flex-1 tl-relative tl-overflow-hidden tl-py-4">
       <!-- Gradient overlays moved outside scrollable area -->
@@ -255,6 +294,7 @@ exports[`button Controls > should render an icon on the button 1`] = `
         <div>
           <div class="tl-flex tl-justify-end" style="padding: var(--tl-v-padding) var(--tl-h-padding);"><button id="default-acceptBtn" class="leches-btn leches-btn-primary leches-btn-sm"><i class="i-carbon-checkmark mr-1"></i> Accept</button></div>
         </div>
+        <!--v-if-->
         <!--v-if-->
       </div>
     </div><!-- Resize handles -->

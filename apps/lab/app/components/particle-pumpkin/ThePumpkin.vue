@@ -17,17 +17,12 @@ context.scene.value.add(new AmbientLight(0x404040))
 
 const { nodes } = useGLTF('/models/particle-pumpkin/pumpkin.glb')
 
-watch(nodes, (newNodes) => {
-  console.log(newNodes)
-})
-
 // convert object3d to geometry
 const pumpkin = computed(() => nodes.value.Pumpkin)
 
 watch(pumpkin, (newPumpkin) => {
   newPumpkin.geometry?.scale(0.025, 0.025, 0.025)
 })
-
 
 const pointsParentGeometry = computed(() => pumpkin.value?.geometry?.clone())
 
@@ -57,7 +52,6 @@ const points = computed(() => new Points(pointsParentGeometry.value, shaderMater
 watch(points, (newPoints) => {
   context.scene.value.add(newPoints)
 })
-
 
 const { onBeforeRender } = useLoop()
 

@@ -203,21 +203,23 @@ To avoid errors and unwanted side effects, resources created programmatically wi
 <script setup lang="ts">
 import { dispose } from '@tresjs/core'
 import { useGLTF } from '@tresjs/cientos'
-import { onUnmounted } from 'vue'
+import { computed, onUnmounted } from 'vue'
 
-const { nodes } = await useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', {
+const { nodes } = useGLTF('https://raw.githubusercontent.com/Tresjs/assets/main/models/gltf/blender-cube.glb', {
   draco: true,
 })
-const model = nodes.Cube
+const model = computed(() => nodes.value.Cube)
 
 onUnmounted(() => {
   // Dispose of the model when the component is destroyed
-  dispose(model)
+  if (model.value) {
+    dispose(model.value)
+  }
 })
 </script>
 
 <template>
-  <primitive :object="model" />
+  <primitive v-if="model" :object="model" />
 </template>
 ```
 

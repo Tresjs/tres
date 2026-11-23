@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { MeshBasicMaterial } from 'three'
 
-
 const { nodes } = useGLTF('/models/nuxt-stones/nuxt-stones.glb')
 const stone = computed(() => nodes.value.Stone)
 const stoneCarved = computed(() => nodes.value.StoneCarved)
@@ -21,14 +20,12 @@ watch(littleStonesTexture, (texture) => {
 })
 
 const stoneBakedMaterial = computed(() => new MeshBasicMaterial({
-  map: stonesTexture.value
+  map: stonesTexture.value,
 }))
 
 const littleStonesBakedMaterial = computed(() => new MeshBasicMaterial({
-  map: littleStonesTexture.value
+  map: littleStonesTexture.value,
 }))
-
-
 
 watch([stone, stoneCarved, stoneBakedMaterial], ([stone, stoneCarved, texture]) => {
   if (stone) {
@@ -40,7 +37,7 @@ watch([stone, stoneCarved, stoneBakedMaterial], ([stone, stoneCarved, texture]) 
 })
 
 watch([littleStones, littleStonesBakedMaterial], ([littleStones, texture]) => {
-  littleStones.forEach(stone => {
+  littleStones.forEach((stone) => {
     stone.material = texture
   })
 })
@@ -48,7 +45,6 @@ watch([littleStones, littleStonesBakedMaterial], ([littleStones, texture]) => {
 watch(logo, (logo) => {
   logo.material.emissiveIntensity = 10
 })
-
 
 const { onBeforeRender } = useLoop()
 

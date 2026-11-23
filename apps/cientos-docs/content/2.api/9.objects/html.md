@@ -514,6 +514,17 @@ The demos use `:z-index-range="[28, 0]"` simply to ensure the HTML elements stay
 **This value is for the docs only — you can ignore it or adjust it as needed.**
 :::
 
+## WebGPU
+
+Import `Html` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version draws the occlusion plane with a TSL node material and has the same props. See [WebGPU](/getting-started/webgpu).
+
+```ts
+import { Html } from '@tresjs/cientos/webgpu'
+```
+
+- `occlude="blending"` cuts holes in the canvas, so the canvas needs an alpha channel. `WebGPURenderer` has one by default. Do not set `alpha` to `false`.
+- A `material` you pass must be one that `WebGPURenderer` can render: a built-in material or a node material, not a `ShaderMaterial`.
+
 ## Props
 
 | Prop                | Description                                                                                                               | Default                                  |

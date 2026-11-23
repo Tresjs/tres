@@ -1,6 +1,6 @@
 // TSL port of blendSoftLight with opacity.
 
-import { Fn, float, sqrt, vec3, mix } from 'three/tsl'
+import { float, Fn, mix, sqrt, vec3 } from 'three/tsl'
 
 /**
  * Per-channel soft-light blend for a single float component.

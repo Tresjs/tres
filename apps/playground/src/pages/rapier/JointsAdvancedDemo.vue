@@ -19,7 +19,7 @@ const yRotation = shallowRef(0)
 const bodyRefs = shallowRef<ShallowRef[]>(
   Array.from({ length: 10 }).map(() => shallowRef<ExposedRigidBody>()),
 )
-const currentInterval = shallowRef<number | undefined>(undefined)
+const currentInterval = shallowRef<number | NodeJS.Timeout | undefined>(undefined)
 
 onMounted(() => {
   currentInterval.value = setInterval(() => {

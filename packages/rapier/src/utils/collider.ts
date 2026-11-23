@@ -17,6 +17,20 @@ export function hasValidColliderGeometry(object: Object3D): boolean {
 }
 
 /**
+ * @description Convert a geometry index into the `Uint32Array` rapier's wasm binding demands.
+ *
+ * @important It rejects any other typed array outright, and three indexes a mesh with fewer
+ * than 65536 vertices as a `Uint16Array` — which is most meshes — so a `trimesh` collider has
+ * to convert here rather than cast.
+ *
+ * @param index the `BufferGeometry.index.array` to convert
+ */
+export function toColliderIndices(index: ArrayLike<number> | undefined): Uint32Array {
+  if (index instanceof Uint32Array) { return index }
+  return index ? new Uint32Array(index) : new Uint32Array()
+}
+
+/**
  * @description Get the collider sizings from the given object.
  *
  * @important Will try to get the bounding-box if the object doesn't have a geometry.

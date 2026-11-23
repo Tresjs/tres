@@ -2,13 +2,14 @@ import { tresLintConfig } from '@tresjs/eslint-config'
 
 export default tresLintConfig(
   {
-    ignores: ['.data/**', 'CLAUDE.md'],
+    ignores: ['.data/**', 'CLAUDE.md', 'AGENTS.md'],
   },
   {
-    // Nuxt UI landing pages use MDC slots (`# title`, `# description`) inside
-    // page components, which legitimately produce multiple H1s.
+    // MDC slot directives (`#title`) have no space after `#`; these rules would
+    // "fix" them into `# title` headings and break the slots. See #1437.
     files: ['content/**/*.md'],
     rules: {
+      'markdown/no-missing-atx-heading-space': 'off',
       'markdown/no-multiple-h1': 'off',
     },
   },

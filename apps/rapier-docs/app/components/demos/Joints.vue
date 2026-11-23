@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { TresCanvas } from '@tresjs/core'
-import { type ExposedRigidBody, Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
+import { Physics, RigidBody, SphericalJoint } from '@tresjs/rapier'
+import type { ExposedRigidBody } from '@tresjs/rapier'
 import { ACESFilmicToneMapping, SRGBColorSpace } from 'three'
 import { useControls } from '@tresjs/leches'
 import type { ShallowRef } from 'vue'
-
 
 onErrorCaptured((err) => {
   console.error('Suspense error:', err)
@@ -22,9 +22,24 @@ const gl = {
 const bodyRefA: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 const bodyRefB: ShallowRef<ExposedRigidBody | null> = shallowRef(null)
 
-const { debug } = useControls({
+const controlDefaults = {
   debug: true,
+}
+
+const controls = useControls({
+  resetBtn: {
+    label: 'Reset',
+    type: 'button',
+    onClick: () => {
+      resetControls(controls, controlDefaults)
+      resetRigidBody(bodyRefA.value?.instance)
+      resetRigidBody(bodyRefB.value?.instance, { x: -2.2, y: 0, z: 0 })
+    },
+  },
+  debug: controlDefaults.debug,
 }, { uuid: inject(`uuid`) })
+
+const { debug } = controls
 </script>
 
 <template>
@@ -46,10 +61,13 @@ const { debug } = useControls({
           </TresMesh>
         </RigidBody>
 
-        <SphericalJoint :bodies="[bodyRefA?.instance, bodyRefB?.instance]" :params="[
-          [0, -1.1, 0],
-          [0, 2, 0],
-        ]" />
+        <SphericalJoint
+          :bodies="[bodyRefA?.instance, bodyRefB?.instance]"
+          :params="[
+            [0, -1.1, 0],
+            [0, 2, 0],
+          ]"
+        />
 
         <RigidBody type="fixed">
           <TresMesh :position="[0, -8, 0]">

@@ -63,6 +63,21 @@ export default defineNuxtConfig({
 })
 ```
 
+## WebGPU
+
+Set `renderer: 'webgpu'` to auto-import from the `/webgpu` entries (`@tresjs/core/webgpu`, `@tresjs/cientos/webgpu`). `<TresCanvas>` then uses `WebGPURenderer`.
+
+```js
+export default defineNuxtConfig({
+  modules: ['@tresjs/nuxt'],
+  tres: {
+    renderer: 'webgpu',
+  },
+})
+```
+
+The option applies to the whole app. A cientos component without a WebGPU version throws an error that names it when it mounts. `@tresjs/post-processing` is not auto-imported in this mode, because it works only with `WebGLRenderer`. See the [WebGPU guide](https://docs.tresjs.org/api/advanced/web-gpu).
+
 ## GLSL shaders support
 
 TresJS nuxt module comes with a vite plugin that allows you to import GLSL shaders as strings. It uses [`vite-plugin-glsl`](https://github.com/UstymUkhman/vite-plugin-glsl) under the hood.

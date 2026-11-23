@@ -10,6 +10,7 @@ import {
   objectsRoutes,
   shapesRoutes,
   stagingRoutes,
+  webgpuRoutes,
 } from '@/router/routes/cientos'
 
 const sections = [
@@ -23,6 +24,7 @@ const sections = [
   { icon: '💡', title: 'Lights & Shadows', routes: lightShadowRoutes },
   { icon: '🚀', title: 'Debug & Performance', routes: debugPerformanceRoutes },
   { icon: '🗂️', title: 'Miscellaneous', routes: miscellaneousRoutes },
+  { icon: '⚡', title: 'WebGPU', routes: webgpuRoutes },
 ]
 </script>
 

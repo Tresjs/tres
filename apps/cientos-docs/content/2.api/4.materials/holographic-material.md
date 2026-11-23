@@ -37,6 +37,16 @@ import { HolographicMaterial, Sphere } from '@tresjs/cientos'
 </template>
 ```
 
+## WebGPU
+
+Import `HolographicMaterial` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version uses a TSL node material and has the same props. See [WebGPU](/getting-started/webgpu).
+
+```ts
+import { HolographicMaterial } from '@tresjs/cientos/webgpu'
+```
+
+With additive blending, overlapping parts look a little darker than with `WebGLRenderer`, and so does the hologram on a light background. `WebGPURenderer` adds colors in linear color space, and `WebGLRenderer` adds them in sRGB. On a black background, one layer looks the same with both renderers.
+
 ## Props
 
 | Prop                   | Description                                                   | Type                                                | default   |
@@ -44,7 +54,7 @@ import { HolographicMaterial, Sphere } from '@tresjs/cientos'
 | **fresnelAmount**      | Value of the Fresnel effect. Ranges from 0.0 to 1.0.          | `Number`                                            | `0.45`    |
 | **fresnelOpacity**     | Opacity of the Fresnel effect. Ranges from 0.0 to 1.0.        | `Number`                                            | `1.0`    |
 | **scanlineSize**       | Size of the scanlines. Ranges from 1 to 15.                   | `Number`                                            | `8.0`       |
-| **hologramBrightness** | Brightness of the hologram. Ranges from 0.0 to 2.0.           | `Number`                                            | `1.2`       |
+| **hologramBrightness** | Brightness of the hologram. Ranges from 0.0 to 2.0.           | `Number`                                            | `0.7`       |
 | **signalSpeed**        | Speed of the signal effect. Ranges from 0.0 to 2.0.           | `Number`                                            | `0.45`      |
 | **hologramColor**      | Specifies the color of the hologram.                          | `String`                                            | `"#00d5ff"` |
 | **enableBlinking**     | Enables or disables the blinking effect.                      | `Boolean`                                           | `true`      |

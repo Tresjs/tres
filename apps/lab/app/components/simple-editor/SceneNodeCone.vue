@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { type Object3D, Color, MathUtils } from 'three'
+import { Color, MathUtils } from 'three'
+import type { Object3D } from 'three'
 import type { ConeSceneNode } from './types'
 
 const props = defineProps({
-  properties: { 
-    type: Object as PropType<ConeSceneNode['properties']>, 
-    default: () => ({ radius: 5, height: 10 }), 
+  properties: {
+    type: Object as PropType<ConeSceneNode['properties']>,
+    default: () => ({ radius: 5, height: 10 }),
   },
   first: { type: Boolean, default: false },
 })
@@ -15,7 +16,7 @@ const emit = defineEmits(['click'])
 
 const { properties } = toRefs(props)
 
-const randomColor = new Color(MathUtils.randInt(0, 0xffffff))
+const randomColor = new Color(MathUtils.randInt(0, 0xFFFFFF))
 const color = computed(() => props.first ? new Color('#82dbc5') : randomColor)
 
 const meshRef = ref<Object3D | null>()

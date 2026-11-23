@@ -1,7 +1,7 @@
 {
   "name": "@tresjs/cientos",
   "type": "module",
-  "version": "5.8.1",
+  "version": "5.12.0",
   "description": "Collection of useful helpers and fully functional, ready-made abstractions for Tres",
   "author": "Alvaro Saburido <hola@alvarosaburido.dev> (https://github.com/alvarosabu/)",
   "license": "MIT",
@@ -27,12 +27,23 @@
   ],
   "exports": {
     ".": "./dist/trescientos.js",
+    "./webgpu": {
+      "types": "./dist/webgpu.d.ts",
+      "default": "./dist/webgpu.js"
+    },
     "./styles.css": "./dist/trescientos.css",
     "./package.json": "./package.json"
   },
   "main": "./dist/trescientos.js",
   "module": "./dist/trescientos.js",
   "types": "./dist/trescientos.d.ts",
+  "typesVersions": {
+    "*": {
+      "webgpu": [
+        "dist/webgpu.d.ts"
+      ]
+    }
+  },
   "files": [
     "*.d.ts",
     "dist"
@@ -41,15 +52,17 @@
     "access": "public"
   },
   "scripts": {
+    "prepublishOnly": "node ../../tools/guards/no-npm-publish.mjs",
     "dev": "cd playground/vue && pnpm dev",
-    "build": "tsdown",
+    "build": "tsdown && node ./scripts/check-entries.mjs",
     "build:analyze": "ANALYZE=true tsdown",
     "lint": "eslint .",
+    "test:ci": "node --test ../../tools/guards/entry-graph.test.mjs",
     "typecheck": "vue-tsc --noEmit",
     "lint:fix": "eslint . --fix"
   },
   "peerDependencies": {
-    "@tresjs/core": "5.8.3",
+    "@tresjs/core": "^5.9.1",
     "three": ">=0.133",
     "vue": ">=3.5.17"
   },
@@ -65,6 +78,7 @@
   "devDependencies": {
     "@tresjs/core": "workspace:*",
     "@tresjs/eslint-config": "workspace:*",
+    "@tsdown/css": "catalog:build",
     "@types/node": "catalog:node",
     "@types/three": "catalog:three",
     "@typescript-eslint/eslint-plugin": "catalog:eslint",
@@ -84,6 +98,7 @@
     "vite-plugin-dts": "catalog:vite",
     "vite-plugin-glsl": "catalog:vite",
     "vite-svg-loader": "catalog:",
+    "vue": "catalog:vue",
     "vue-tsc": "catalog:typescript"
   },
   "nx": {

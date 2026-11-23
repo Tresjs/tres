@@ -3,6 +3,7 @@ import { AccumulativeShadows, Box, Environment, Icosahedron, OrbitControls, Sphe
 import { NoToneMapping } from 'three'
 import { TresCanvas } from '@tresjs/core'
 import { TresLeches, useControls } from '@tresjs/leches'
+import BlenderCube from '@/components/BlenderCube.vue'
 
 const uuid = 'staging-accumulative-shadows'
 
@@ -22,6 +23,8 @@ const { frames, once, accumulate, limit, _isLimitInfinite, blend, alphaTest, col
   isOrange: true,
   enabled: true,
 }, { uuid })
+
+const cubeReady = shallowRef(false)
 
 const x = shallowRef(0)
 
@@ -46,29 +49,18 @@ onUnmounted(() => {
 
     <OrbitControls />
     <TresDirectionalLight :position="[5, 10, -10]" :intensity="3.14" />
-    <Box
-      :args="[0.4, 0.4, 0.4]"
-      :cast-shadow="true"
-      :position="[-0.5, 0.2, -0.3]"
-    >
+    <Box :args="[0.4, 0.4, 0.4]" :cast-shadow="true" :position="[-0.5, 0.2, -0.3]">
       <TresMeshStandardMaterial color="orange" />
     </Box>
-    <Icosahedron
-      :args="[0.3]"
-      :cast-shadow="true"
-      :position="[x, 0.3, 0.4]"
-    >
+    <Icosahedron :args="[0.3]" :cast-shadow="true" :position="[x, 0.3, 0.4]">
       <TresMeshNormalMaterial />
     </Icosahedron>
 
-    <Sphere
-      :scale="0.2"
-      :position="[0.5, 0.4, -0.3]"
-      :cast-shadow="true"
-    >
+    <Sphere :scale="0.2" :position="[0.5, 0.4, -0.3]" :cast-shadow="true">
       <TresMeshStandardMaterial color="lightblue" />
     </Sphere>
 
+    <BlenderCube :position="[0, 2, 0]" @ready="cubeReady = true" />
     <AccumulativeShadows
       v-if="enabled"
       :accumulate="accumulate"

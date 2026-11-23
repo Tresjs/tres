@@ -44,7 +44,7 @@ onBeforeRender(({ camera }) => {
   <TresGroup ref="groupRef">
     <TresDirectionalLight :intensity="1" color="indianred" />
     <TresGroup ref="rig" :position="[0, 0, -50]">
-      <slot />
+      <slot></slot>
     </TresGroup>
   </TresGroup>
 </template>

@@ -1,5 +1,5 @@
 ---
-thumbnail: /rapier-wrecking-ball.webp
+thumbnail: /experiments/rapier-wrecking-ball.webp
 title: Rapier Wrecking Ball
 slug: rapier-wrecking-ball
 author: [jaime-bboyjt, alvarosabu]

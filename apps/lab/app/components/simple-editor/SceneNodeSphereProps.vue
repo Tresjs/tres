@@ -26,6 +26,6 @@ function handleModelValueUpdate() {
       v-model="internalModelValue.properties.radius"
       class="dark:text-black"
       @update:model-value="handleModelValueUpdate"
-    >
+    />
   </div>
 </template>

@@ -39,6 +39,16 @@ import { TresCanvas } from '@tresjs/core'
 </template>
 ```
 
+## WebGPU
+
+Import `Grid` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version uses a TSL node material and has the same props. See [WebGPU](/getting-started/webgpu).
+
+```ts
+import { Grid } from '@tresjs/cientos/webgpu'
+```
+
+Thin lines can look a little brighter than with `WebGLRenderer`. `WebGPURenderer` blends transparent pixels in linear color space, and `WebGLRenderer` blends them in sRGB.
+
 ## Props
 
 | Prop                   | Description            | Default |

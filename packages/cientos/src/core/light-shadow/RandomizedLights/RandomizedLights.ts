@@ -14,22 +14,15 @@ export default class RandomizedLights extends Group {
   /** Default shadow bias */
   bias = 0
 
+  private _mapSize = 512
+  private _size = 10
+  private _near = 0.5
+  private _far = 500
+
   constructor(config: Partial<RandomizedLights> = {}) {
     super()
     Object.assign(this, config)
     if (this.count === 0) { this.count = 8 }
-    if (!config.mapSize) {
-      this.mapSize = 512
-    }
-    if (!config.size) {
-      this.size = 10
-    }
-    if (!config.near) {
-      this.near = 0.5
-    }
-    if (!config.far) {
-      this.far = 500
-    }
   }
 
   get length() {
@@ -37,10 +30,14 @@ export default class RandomizedLights extends Group {
   }
 
   set count(n: number) {
+    for (const light of this.lights) {
+      light.dispose()
+    }
     this.clear()
     for (let i = 0; i < n; i++) {
       this.add(new DirectionalLight('white', this.intensity))
     }
+    this.configureShadows()
   }
 
   get count() {
@@ -48,53 +45,61 @@ export default class RandomizedLights extends Group {
   }
 
   get mapSize() {
-    return this.lights[0].shadow.mapSize.width
+    return this._mapSize
   }
 
   set mapSize(n: number) {
-    for (const light of this.lights) {
-      // NOTE: Changing the map size requires 2 modifications.
-      // https://discourse.threejs.org/t/change-resolution-of-shadows-dinamically/50744/6
-      light.shadow.mapSize.set(n, n)
-      light.shadow.map?.setSize(n, n)
-    }
+    this._mapSize = n
+    this.configureShadows()
   }
 
   get size() {
-    return this.lights[0].shadow.camera.right
+    return this._size
   }
 
   set size(n: number) {
-    for (const light of this.lights) {
-      light.shadow.camera.left = -n
-      light.shadow.camera.right = n
-      light.shadow.camera.top = n
-      light.shadow.camera.bottom = -n
-    }
+    this._size = n
+    this.configureShadows()
   }
 
   get near() {
-    return this.lights[0].shadow.camera.near
+    return this._near
   }
 
   set near(n: number) {
-    for (const light of this.lights) {
-      light.shadow.camera.near = n
-    }
+    this._near = n
+    this.configureShadows()
   }
 
   get far() {
-    return this.lights[0].shadow.camera.far
+    return this._far
   }
 
   set far(n: number) {
-    for (const light of this.lights) {
-      light.shadow.camera.far = n
-    }
+    this._far = n
+    this.configureShadows()
   }
 
   get lights(): DirectionalLight[] {
     return this.children.filter(c => 'isDirectionalLight' in c) as DirectionalLight[]
+  }
+
+  private configureShadows() {
+    for (const light of this.lights) {
+      // NOTE: Changing the map size requires 2 modifications.
+      // https://discourse.threejs.org/t/change-resolution-of-shadows-dinamically/50744/6
+      light.shadow.mapSize.set(this._mapSize, this._mapSize)
+      light.shadow.map?.setSize(this._mapSize, this._mapSize)
+      light.shadow.camera.left = -this._size
+      light.shadow.camera.right = this._size
+      light.shadow.camera.top = this._size
+      light.shadow.camera.bottom = -this._size
+      light.shadow.camera.near = this._near
+      light.shadow.camera.far = this._far
+      // NOTE: three only recomputes the shadow camera projection when it
+      // allocates the shadow map, later frustum changes need it explicitly.
+      light.shadow.camera.updateProjectionMatrix()
+    }
   }
 
   update() {

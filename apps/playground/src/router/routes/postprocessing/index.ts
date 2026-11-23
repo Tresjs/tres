@@ -1,8 +1,9 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { kebabCase } from '@/utils'
 
-const makeRoute = (name: string, icon: string, isThreeEffect: boolean = true): RouteRecordRaw => {
-  const nameInKebab = kebabCase(name)
+// `slug` overrides the kebab-cased name for names it splits badly, like N8AO → n-8-ao
+const makeRoute = (name: string, icon: string, isThreeEffect: boolean = true, slug?: string): RouteRecordRaw => {
+  const nameInKebab = slug ?? kebabCase(name)
   const folder = isThreeEffect ? 'three' : 'pmndrs'
 
   return {
@@ -28,6 +29,7 @@ export const threeRoutes = [
   makeRoute('SMAA', '📐'),
   makeRoute('Halftone', '🎨'),
   makeRoute('Unreal Bloom', '🌼'),
+  makeRoute('N8AO', '🌑', true, 'n8ao'),
 ]
 
 export const pmndrsRoutes = [
@@ -60,11 +62,64 @@ export const pmndrsRoutes = [
   makeRoute('Vignette', '🕶️', false),
   makeRoute('Barrel blur', '🌀', false),
   makeRoute('Fish Eye', '👁️', false),
+  makeRoute('N8AO', '🌑', false, 'n8ao'),
   makeRoute('On-demand', '🔄', false),
+]
+
+export const webgpuRoutes: RouteRecordRaw[] = [
+  {
+    path: '/postprocessing/webgpu/composer',
+    name: 'webgpu-composer',
+    meta: { icon: '⚡', name: 'EffectComposer + defineEffect' },
+    component: () => import('@/pages/postprocessing/webgpu/composer/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/pixelation',
+    name: 'webgpu-pixelation',
+    meta: { icon: '👾', name: 'Pixelation (defineEffect)' },
+    component: () => import('@/pages/postprocessing/webgpu/pixelation/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/staging',
+    name: 'webgpu-staging',
+    meta: { icon: '🌗', name: 'HDR / LDR staging (Bloom + FXAA/SMAA)' },
+    component: () => import('@/pages/postprocessing/webgpu/staging/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/bloom',
+    name: 'webgpu-bloom',
+    meta: { icon: '🌼', name: 'Bloom (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/bloom/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/antialiasing',
+    name: 'webgpu-antialiasing',
+    meta: { icon: '📐', name: 'FXAA / SMAA (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/antialiasing/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/depth-of-field',
+    name: 'webgpu-depth-of-field',
+    meta: { icon: '📷', name: 'DepthOfField (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/depth-of-field/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/chromatic-aberration',
+    name: 'webgpu-chromatic-aberration',
+    meta: { icon: '🌈', name: 'ChromaticAberration (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/chromatic-aberration/index.vue'),
+  },
+  {
+    path: '/postprocessing/webgpu/film',
+    name: 'webgpu-film',
+    meta: { icon: '🎞️', name: 'Film (WebGPU)' },
+    component: () => import('@/pages/postprocessing/webgpu/film/index.vue'),
+  },
 ]
 
 export const postProcessingRoutes = [
   home,
   ...threeRoutes,
   ...pmndrsRoutes,
+  ...webgpuRoutes,
 ]

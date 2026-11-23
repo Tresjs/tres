@@ -2,9 +2,9 @@
 /* eslint-disable no-console */
 import { useGLTF } from '@tresjs/cientos'
 
-const { nodes } = await useGLTF('/models/cyber_samurai/scene.gltf', { draco: true })
-console.log(nodes)
-const model = nodes.Sketchfab_model
+const { nodes } = await useGLTF('/models/cyber_samurai/cyber_samurai.glb', { draco: true })
+console.log(nodes.value)
+const model = nodes.value.Sketchfab_model
 
 const handleClick = (e: PointerEvent) => {
   console.log('clicked', e)
