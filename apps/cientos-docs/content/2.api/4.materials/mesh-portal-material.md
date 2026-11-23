@@ -58,6 +58,10 @@ import { MeshPortalMaterial, OrbitControls } from '@tresjs/cientos'
 | `worldUnits` | `boolean` | `false` | Keep portal contents in world units instead of host-relative. |
 | `renderPriority` | `number` | `0` | Render-loop priority for the blend takeover. Applied at mount — changing it later requires a remount. |
 
+## WebGPU
+
+Import `MeshPortalMaterial` from `@tresjs/cientos/webgpu` on a `TresCanvas` from `@tresjs/core/webgpu`. That version uses a node material, renders into a generic `RenderTarget` and has the same props. See [WebGPU](/getting-started/webgpu).
+
 ## Setting the portal's background or environment
 
 `<MeshPortalMaterial>` overrides the injected scene context for its children, so
@@ -96,5 +100,5 @@ running continuously — a mesh using `<MeshPortalMaterial>` effectively opts ou
 
 ::prose-note
 **Limitations (MVP):** `blur` (edge fade) and pointer-event forwarding into the
-portal scene are not yet implemented. WebGPU is not yet supported.
+portal scene are not yet implemented.
 ::

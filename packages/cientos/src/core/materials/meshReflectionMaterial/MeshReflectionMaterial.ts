@@ -27,6 +27,7 @@ SOFTWARE.
 
 import { MeshStandardMaterial } from 'three'
 import type { Matrix4, Texture } from 'three'
+import { meshReflectionMaterialDefaults as defaults } from './props'
 
 interface UninitializedUniform<Value> { value: Value | null }
 
@@ -36,15 +37,15 @@ export class MeshReflectionMaterial extends MeshStandardMaterial {
   private _tSharp: UninitializedUniform<Texture> = { value: null }
   private _tBlur: UninitializedUniform<Texture> = { value: null }
   private _textureMatrix: UninitializedUniform<Matrix4> = { value: null }
-  private _mix: { value: number } = { value: 0.5 }
-  private _sharpMix: { value: number } = { value: 0.0 }
-  private _blurMixSmooth: { value: number } = { value: 0.0 }
-  private _blurMixRough: { value: number } = { value: 0.0 }
-  private _sharpDepthEdgeMin: { value: number } = { value: 0.9 }
-  private _sharpDepthEdgeMax: { value: number } = { value: 1 }
-  private _sharpDepthScale: { value: number } = { value: 0 }
-  private _sharpDepthBias: { value: number } = { value: 0 }
-  private _distortion: { value: number } = { value: 1 }
+  private _mix: { value: number } = { value: defaults.mix }
+  private _sharpMix: { value: number } = { value: defaults.sharpMix }
+  private _blurMixSmooth: { value: number } = { value: defaults.blurMixSmooth }
+  private _blurMixRough: { value: number } = { value: defaults.blurMixRough }
+  private _sharpDepthEdgeMin: { value: number } = { value: defaults.sharpDepthEdgeMin }
+  private _sharpDepthEdgeMax: { value: number } = { value: defaults.sharpDepthEdgeMax }
+  private _sharpDepthScale: { value: number } = { value: defaults.sharpDepthScale }
+  private _sharpDepthBias: { value: number } = { value: defaults.sharpDepthBias }
+  private _distortion: { value: number } = { value: defaults.distortion }
 
   constructor(parameters = {}) {
     super(parameters)
