@@ -49,4 +49,19 @@ describe('getColliderSizingsFromObject', () => {
     expect(halfHeight).toBeCloseTo(1, 5)
     expect(halfDepth).toBeCloseTo(1, 5)
   })
+
+  it('measures a group whose ancestor is scaled to zero', () => {
+    const parent = new Group()
+    parent.scale.set(0, 1, 1)
+    const group = new Group()
+    parent.add(group)
+    const mesh = new Mesh(new BoxGeometry(1, 1, 1))
+    mesh.position.set(0, 2, 0)
+    group.add(mesh)
+
+    const { halfWidth, halfHeight, halfDepth, center } = sizingsOf(group)
+
+    expect([halfWidth, halfHeight, halfDepth]).toEqual([0.5, 0.5, 0.5])
+    expect(center.toArray()).toEqual([0, 2, 0])
+  })
 })
