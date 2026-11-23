@@ -121,8 +121,9 @@ export class MeshTransmissionMaterial extends MeshPhysicalMaterial {
       }
 
       shader.defines = shader.defines ?? {}
+      // Three adds USE_TRANSMISSION only while `transmission` is above 0, and the shader below needs it at any value.
+      shader.defines.USE_TRANSMISSION = ''
       if (transmissionSampler) { shader.defines.USE_SAMPLER = '' }
-      else { shader.defines.USE_TRANSMISSION = '' }
 
       // Inject helper functions into fragment shader head
       shader.fragmentShader = /* glsl */`
