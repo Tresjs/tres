@@ -1,4 +1,4 @@
-import { Box3, Object3D, Vector3 } from 'three'
+import { Box3, Matrix4, Object3D, Vector3 } from 'three'
 import type { Mesh } from 'three'
 import type { TresObject3D } from '@tresjs/core'
 
@@ -30,78 +30,71 @@ export function toColliderIndices(index: ArrayLike<number> | undefined): Uint32A
   return index ? new Uint32Array(index) : new Uint32Array()
 }
 
+// Composes local matrices down from the object, so a zero-scaled ancestor cannot make the result singular.
+const getLocalBoundingBox = (object: Object3D) => {
+  const box = new Box3()
+  const childBox = new Box3()
+
+  const measure = (parent: Object3D, parentToLocal: Matrix4) => {
+    for (const child of parent.children) {
+      if (child.matrixAutoUpdate) { child.updateMatrix() }
+      // One combined matrix: each Box3.applyMatrix4 re-fits an axis-aligned box, so two calls grow it.
+      const childToLocal = new Matrix4().multiplyMatrices(parentToLocal, child.matrix)
+      const geometry = (child as Mesh).geometry
+      if (geometry?.attributes?.position) {
+        if (!geometry.boundingBox) { geometry.computeBoundingBox() }
+        childBox.copy(geometry.boundingBox!).applyMatrix4(childToLocal)
+        box.union(childBox)
+      }
+      measure(child, childToLocal)
+    }
+  }
+
+  measure(object, new Matrix4())
+  return box
+}
+
 /**
- * @description Get the collider sizings from the given object.
+ * @description Get the collider sizings from the given object, measured in its own space.
  *
- * @important Will try to get the bounding-box if the object doesn't have a geometry.
+ * `center` is where the bounding box sits relative to the object origin.
+ *
+ * @important Will measure the descendants if the object doesn't have a geometry.
  *
  * @param object {@link TresObject3D}
  */
 export const getColliderSizingsFromObject = (object?: TresObject3D) => {
-  object?.geometry?.computeBoundingBox()
+  const geometry = object?.geometry
+  let boundingBox = new Box3()
 
-  const positions = object?.geometry?.attributes?.position?.array
-  let width = 0
-  let height = 0
-  let depth = 0
-  let halfWidth = 0
-  let halfHeight = 0
-  let halfDepth = 0
-
-  if (positions) {
-    let minX = 0
-    let minY = 0
-    let minZ = 0
-    let maxX = 0
-    let maxY = 0
-    let maxZ = 0
-
-    for (let i = 0; i < positions.length; i += 3) {
-      const _vector = new Vector3(
-        positions[i] ?? 0,
-        positions[i + 1] ?? 0,
-        positions[i + 2] ?? 0,
-      )
-
-      minX = Math.min(minX, _vector.x)
-      minY = Math.min(minY, _vector.y)
-      minZ = Math.min(minZ, _vector.z)
-      maxX = Math.max(maxX, _vector.x)
-      maxY = Math.max(maxY, _vector.y)
-      maxZ = Math.max(maxZ, _vector.z)
-    }
-
-    width = maxX - minX
-    height = maxY - minY
-    depth = maxZ - minZ
-
-    halfWidth = width / 2
-    halfHeight = height / 2
-    halfDepth = depth / 2
+  if (geometry?.attributes?.position) {
+    geometry.computeBoundingBox()
+    boundingBox = geometry.boundingBox ?? boundingBox
   }
   else if (object instanceof Object3D) {
-    const boundingBox = new Box3().setFromObject(object)
-
-    if (!boundingBox.isEmpty()) {
-      width = boundingBox.max.x - boundingBox.min.x
-      height = boundingBox.max.y - boundingBox.min.y
-      depth = boundingBox.max.z - boundingBox.min.z
-
-      halfWidth = width / 2
-      halfHeight = height / 2
-      halfDepth = depth / 2
-    }
+    boundingBox = getLocalBoundingBox(object)
   }
 
-  const radius = Math.max(halfWidth, halfHeight, halfDepth)
+  const size = new Vector3()
+  const center = new Vector3()
+
+  if (!boundingBox.isEmpty()) {
+    boundingBox.getSize(size)
+    boundingBox.getCenter(center)
+  }
+
+  const halfWidth = size.x / 2
+  const halfHeight = size.y / 2
+  const halfDepth = size.z / 2
 
   return {
-    width,
-    height,
-    depth,
+    width: size.x,
+    height: size.y,
+    depth: size.z,
     halfWidth,
     halfHeight,
     halfDepth,
-    radius,
+    radius: Math.max(halfWidth, halfHeight, halfDepth),
+    center,
   }
 }

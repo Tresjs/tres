@@ -93,3 +93,65 @@ describe('createCollider', () => {
     expect(collider.translation()).toEqual({ x: 2, y: 1.5, z: 0 })
   })
 })
+
+describe('automatic collider placement', () => {
+  function autoColliderOnBody(mesh: Mesh, shape: 'cuboid' | 'ball' | 'trimesh') {
+    const group = new Group()
+    group.add(mesh)
+    const rigidBody = bodyAt(group)
+    const props = createRigidBodyAutoColliderPropsFromObject(
+      mesh as unknown as TresObject3D,
+      shape,
+      rigidBody,
+    )
+    return createCollider({ ...props, rigidBody, world: shallowRef(world) }).collider
+  }
+
+  it('centres a cuboid on a mesh whose origin sits at its base', () => {
+    const mesh = new Mesh(new BoxGeometry(2, 4, 2).translate(0, 2, 0))
+
+    const collider = autoColliderOnBody(mesh, 'cuboid')
+
+    expect(collider.translation()).toEqual({ x: 0, y: 2, z: 0 })
+    expect(collider.halfExtents()).toEqual({ x: 1, y: 2, z: 1 })
+  })
+
+  it('centres a ball on a mesh whose origin sits outside it', () => {
+    const mesh = new Mesh(new BoxGeometry(1, 1, 1).translate(3, 0, 0))
+
+    const collider = autoColliderOnBody(mesh, 'ball')
+
+    expect(collider.translation()).toEqual({ x: 3, y: 0, z: 0 })
+  })
+
+  it('rotates and scales the centre offset with the mesh', () => {
+    const mesh = new Mesh(new BoxGeometry(1, 1, 1).translate(0, 1, 0))
+    mesh.position.set(10, 0, 0)
+    mesh.rotation.set(0, 0, Math.PI / 2)
+    mesh.scale.setScalar(2)
+
+    const collider = autoColliderOnBody(mesh, 'cuboid')
+    const { x, y, z } = collider.translation()
+
+    expect(x).toBeCloseTo(8, 5)
+    expect(y).toBeCloseTo(0, 5)
+    expect(z).toBeCloseTo(0, 5)
+    expect(collider.halfExtents()).toEqual({ x: 1, y: 1, z: 1 })
+  })
+
+  it('scales each auto shape along the axes it measures', () => {
+    const mesh = new Mesh(new BoxGeometry(2, 4, 2))
+    mesh.scale.set(1, 2, 3)
+
+    expect(autoColliderOnBody(mesh, 'cuboid').halfExtents()).toEqual({ x: 1, y: 4, z: 3 })
+    expect(autoColliderOnBody(mesh, 'ball').radius()).toBe(4)
+  })
+
+  it('leaves a trimesh at the mesh origin, because its vertices already carry the offset', () => {
+    const mesh = new Mesh(new BoxGeometry(2, 4, 2).translate(0, 2, 0))
+
+    const collider = autoColliderOnBody(mesh, 'trimesh')
+
+    expect(collider.translation()).toEqual({ x: 0, y: 0, z: 0 })
+  })
+})
