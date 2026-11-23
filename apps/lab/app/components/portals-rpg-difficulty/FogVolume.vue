@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { BackSide, Color, MeshBasicNodeMaterial, Vector3 } from 'three/webgpu'
-import { Break, cameraPosition, Discard, exp, float, Fn, fract, If, Loop, max, min, modelWorldMatrixInverse, normalize, positionLocal, screenCoordinate, smoothstep, texture3D, time, uniform, varying, vec3, vec4 } from 'three/tsl'
+import { Break, cameraPosition, Discard, exp, float, Fn, fract, If, Loop, max, min, modelWorldMatrixInverse, normalize, positionLocal, screenCoordinate, smoothstep, texture3DLevel, time, uniform, varying, vec3, vec4 } from 'three/tsl'
 import { FOG_NOISE_PERIOD, getFogNoiseTexture } from './fogNoiseTexture'
 
 // Raymarch through the unit cube, standing in for Blender's Noise Texture -> Color Ramp -> Principled
@@ -73,7 +73,8 @@ watch(() => props.scale, (value) => {
   boxScale.value.set(...value)
 })
 
-const sampleNoise = (p: any) => texture3D(noise, p.div(FOG_NOISE_PERIOD))
+// Explicit level: the sample runs in a loop with a per-pixel break, and Firefox rejects implicit-derivative samples there.
+const sampleNoise = (p: any) => texture3DLevel(noise, p.div(FOG_NOISE_PERIOD), 0)
 
 const sampleDensity = (local: any) => {
   const p = local.div(noiseScale).add(vec3(seed * 17, time.mul(driftSpeed), seed * 3.7)).toVar()
