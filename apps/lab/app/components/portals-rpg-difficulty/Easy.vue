@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { Color } from 'three'
-import type { MeshStandardMaterial } from 'three'
+import { Stars, useGLTF } from '@tresjs/cientos/webgpu'
+import type { MeshStandardMaterial } from 'three/webgpu'
+import { Color, MeshStandardNodeMaterial } from 'three/webgpu'
+import { float, length, materialOpacity, smoothstep, uv } from 'three/tsl'
 
 const { nodes, state } = useGLTF('/models/portals-rpg/adventurers-camp.glb', { draco: true })
 
@@ -17,25 +19,22 @@ const logs = computed(() => {
 
 const DIRT = new Color('#8a6244')
 
-const patchGroundFade = (material: MeshStandardMaterial) => {
-  material.transparent = true
-  material.onBeforeCompile = (shader) => {
-    shader.vertexShader = shader.vertexShader
-      .replace('#include <common>', '#include <common>\nvarying vec2 vGroundUv;')
-      .replace('#include <uv_vertex>', '#include <uv_vertex>\nvGroundUv = uv;')
-    shader.fragmentShader = shader.fragmentShader
-      .replace('#include <common>', '#include <common>\nvarying vec2 vGroundUv;')
-      // Reversed edges in smoothstep are undefined in GLSL, so invert the result instead
-      .replace('#include <alphamap_fragment>', `#include <alphamap_fragment>
-        diffuseColor.a *= 1.0 - smoothstep(0.2, 0.5, length(vGroundUv - 0.5));`)
+// Copies every field the way WebGPURenderer converts a classic material, so the GLB look is kept.
+function withGroundFade(source: MeshStandardMaterial) {
+  const material = new MeshStandardNodeMaterial()
+  for (const key in source) {
+    (material as any)[key] = (source as any)[key]
   }
-  material.needsUpdate = true
+  material.color = DIRT.clone()
+  material.transparent = true
+  material.opacityNode = materialOpacity.mul(float(1).sub(smoothstep(0.2, 0.5, length(uv().sub(0.5)))))
+  return material
 }
 
+// useGLTF caches the scene, so a remount finds the node material already in place.
 watch(() => nodes.value?.Ground, (ground) => {
-  if (!ground?.material) { return }
-  ground.material.color.copy(DIRT)
-  patchGroundFade(ground.material)
+  if (!ground?.material || ground.material.isNodeMaterial) { return }
+  ground.material = withGroundFade(ground.material)
 }, { immediate: true })
 
 const lutes = computed(() => {

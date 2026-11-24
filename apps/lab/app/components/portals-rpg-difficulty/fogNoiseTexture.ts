@@ -1,4 +1,4 @@
-import { Data3DTexture, LinearFilter, RepeatWrapping } from 'three'
+import { Data3DTexture, LinearFilter, RepeatWrapping } from 'three/webgpu'
 
 // Evaluating 8 procedural noises per raymarch step dropped a 2048px portal to ~19 fps.
 // Baked once into a tiling 3D texture, each step is two trilinear fetches.

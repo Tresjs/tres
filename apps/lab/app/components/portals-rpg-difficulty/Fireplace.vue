@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import noise from './shaders/noise.glsl?raw'
-import fireVertex from './shaders/fire-vertex.glsl?raw'
-import fragmentShader from './shaders/fire-fragment.glsl?raw'
-import type { Box3, PointLight } from 'three'
-import { Color, DoubleSide, Uniform, Vector2, Vector3 } from 'three'
+import type { Box3, PointLight } from 'three/webgpu'
+import { Color, Vector3 } from 'three/webgpu'
+import { uniform } from 'three/tsl'
 import { marble } from './marble'
+import { createFireMaterial } from './tsl/fireMaterial'
+import { useMaterialSwap } from './useMaterialSwap'
 
 const props = defineProps<{
   nodes: Record<string, any>
 }>()
-
-// The noise chunk is shared with the mage orb, so it is prepended here.
-const vertexShader = noise + fireVertex
 
 const fireplace = computed(() => props.nodes.Fireplace)
 const fire = computed(() => props.nodes.Fire)
@@ -27,46 +24,25 @@ const LIGHT_SAMPLES = [0.3, 0.55, 0.78, 0.95]
 const LIGHT_SWELL_MID = 0.53
 const LIGHT_SWING = 6
 
-// Shared with Sparks.vue so a flare reaches both on the same frame. A Uniform, not a
+// Shared with Sparks.vue so a flare reaches both on the same frame. A uniform node, not a
 // ref: a per-frame reactive write would re-render the tree for nothing.
-const swell = new Uniform(0)
+const swell = uniform(0)
 
-const uniforms = {
-  uCoreOffset: new Uniform(0.8),
-  uCoreScale: new Uniform(0.54),
-  uCoreMidPos: new Uniform(0.327),
-  uCoreStrength: new Uniform(1.4),
-  uCoreLow: new Uniform(new Color('#ff4d00')),
-  uCoreMid: new Uniform(new Color('#ff9d2e')),
-  uCoreHigh: new Uniform(new Color('#ffe6a8')),
-
-  uRimStops: new Uniform(new Vector2(0.0, 0.523)),
-  uRimOffset: new Uniform(1.0),
-  uRimScale: new Uniform(1.0),
-  uRimStrength: new Uniform(1.0),
-  uRimLow: new Uniform(new Color('#ff6a1a')),
-  uRimHigh: new Uniform(new Color('#d81400')),
-
-  uHeightMin: new Uniform(0),
-  uHeightRange: new Uniform(1),
-
-  uMaskFloor: new Uniform(1.0),
-  uPowerA: new Uniform(2.0),
-  uPowerB: new Uniform(4.0),
-  uRampA: new Uniform(new Vector2(0.0, 1.0)),
-  uRampB: new Uniform(new Vector2(0.082, 1.0)),
-
-  uAnimator: new Uniform(animator),
-  uMarbleSize: new Uniform(0.4),
-  uMarbleTurbulence: new Uniform(5.0),
-  uMarbleVeins: new Uniform(5.0),
-  uDisplaceStrength: new Uniform(0.12),
-  uDisplaceMid: new Uniform(0.5),
-  uBaseMask: new Uniform(0.18),
-
-  uTime: new Uniform(0),
-  uFlicker: new Uniform(0.06),
-}
+const { material: fireMaterial, uniforms } = createFireMaterial({
+  coreOffset: 0.8,
+  coreScale: 0.54,
+  coreMidPos: 0.327,
+  coreLow: new Color('#ff4d00'),
+  coreMid: new Color('#ff9d2e'),
+  coreHigh: new Color('#ffe6a8'),
+  rimLow: new Color('#ff6a1a'),
+  rimHigh: new Color('#d81400'),
+  animator,
+  marbleSize: 0.4,
+  marbleVeins: 5.0,
+  displaceStrength: 0.12,
+  baseMask: 0.18,
+})
 
 // shallowRef: a plain ref() wraps the light in a proxy that every matrix write pays for.
 const fireLight = shallowRef<PointLight | null>(null)
@@ -84,13 +60,15 @@ watch(fireLight, (light) => {
   lightRest.position.copy(light.position)
 })
 
+useMaterialSwap(fire, fireMaterial)
+
 // immediate: Easy.vue gates this on nodes.Ground, so nodes are loaded before mount.
 watch(fire, () => {
   if (fire.value?.geometry) {
     fire.value.geometry.computeBoundingBox()
     const bounds = fire.value.geometry.boundingBox!
-    uniforms.uHeightMin.value = bounds.min.y
-    uniforms.uHeightRange.value = bounds.max.y - bounds.min.y
+    uniforms.heightMin.value = bounds.min.y
+    uniforms.heightRange.value = bounds.max.y - bounds.min.y
     bounds.getCenter(flameCenter)
     flameBounds.value = bounds
   }
@@ -102,18 +80,17 @@ onBeforeRender(({ elapsed }) => {
   animator.y = elapsed * RISE_SPEED
   animator.x = Math.sin(elapsed * 2.6) * SWAY
   animator.z = Math.cos(elapsed * 1.8) * SWAY
-  uniforms.uTime.value = elapsed
 
   // Same field and offset as the vertex shader, so light and sparks peak with the flame.
   let sum = 0
   for (const t of LIGHT_SAMPLES) {
     sum += marble(
       flameCenter.x - animator.x,
-      uniforms.uHeightMin.value + t * uniforms.uHeightRange.value - animator.y,
+      uniforms.heightMin.value + t * uniforms.heightRange.value - animator.y,
       flameCenter.z - animator.z,
-      uniforms.uMarbleVeins.value,
-      uniforms.uMarbleSize.value,
-      uniforms.uMarbleTurbulence.value,
+      uniforms.marbleVeins.value,
+      uniforms.marbleSize.value,
+      uniforms.marbleTurbulence.value,
     )
   }
   swell.value = sum / LIGHT_SAMPLES.length
@@ -134,11 +111,6 @@ onBeforeRender(({ elapsed }) => {
     <TresPointLight ref="fireLight" :position="[0, 0, 0]" :intensity="10" color="#ff9d2e" />
     <primitive name="Fireplace" :object="fireplace" />
     <primitive name="Fire" :object="fire">
-      <TresShaderMaterial :vertex-shader="vertexShader"
-                          :fragment-shader="fragmentShader"
-                          :uniforms="uniforms"
-                          :side="DoubleSide"
-      />
       <!-- Child of the flame mesh, so the sparks inherit its GLTF transform. -->
       <PortalsRpgDifficultySparks v-if="flameBounds"
                                   :bounds="flameBounds"

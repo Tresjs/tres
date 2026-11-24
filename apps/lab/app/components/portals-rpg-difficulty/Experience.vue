@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { Html } from '@tresjs/cientos'
+import { Html, MeshPortalMaterial, useTexture } from '@tresjs/cientos/webgpu'
 import { gsap } from 'gsap'
 import { onUnmounted, ref, watch } from 'vue'
-import type { Mesh } from 'three'
+import type { Mesh } from 'three/webgpu'
+import { EquirectangularReflectionMapping, MathUtils, SRGBColorSpace } from 'three/webgpu'
 import Card from './Card.vue'
 import Easy from './Easy.vue'
 import Balanced from './Balanced.vue'
 import Tactician from './Tactician.vue'
-import { EquirectangularReflectionMapping, MathUtils, SRGBColorSpace } from 'three'
 
 const props = defineProps<{ revealed?: boolean }>()
 
@@ -22,8 +22,9 @@ const SKY_YAW = 90
 
 const { state: background } = useTexture('/skyboxes/medieval-bg.png')
 
+// The loader starts from an empty Texture. As a background, WebGPU rejects the placeholder cube three binds for it.
 watch(() => background.value, (value) => {
-  if (value) {
+  if (value?.image) {
     value.mapping = EquirectangularReflectionMapping
     value.colorSpace = SRGBColorSpace
     mainScene.value.background = value
@@ -38,7 +39,7 @@ watch(() => background.value, (value) => {
 const difficulties = [
   { label: 'Explorer', description: 'A narrative experience placing story before combat', x: -2.321, z: 0.389, rotationY: 0.4, component: Easy },
   { label: 'Balanced', description: 'A balanced adventure full of challenging rewards', x: 0, z: 0, rotationY: 0, component: Balanced },
-  { label: 'Tactician', description: 'A tough campaign with strategic depth', x: 2.321, z: 0.389, rotationY: -0.4, component: Tactician },
+  { label: 'Tactician', description: 'A tough campaign with strategic depth', x: 2.321, z: 0.389, rotationY: -0.4, component: Tactician, needsFrame: true },
 ]
 
 const POP_DELAY = 0.5
@@ -89,7 +90,8 @@ onUnmounted(() => popCtx?.revert())
       <TresPlaneGeometry :args="[2, 3]" />
 
       <MeshPortalMaterial :resolution="portalResolution">
-        <component :is="d.component" v-if="d.component" />
+        <!-- Only Tactician takes the card plane; the other scenes have several roots and would warn on the attr. -->
+        <component :is="d.component" v-if="d.component" v-bind="d.needsFrame ? { frame: frames[i] } : {}" />
       </MeshPortalMaterial>
     </TresMesh>
     <!-- distance-factor 4 makes one world unit 100 CSS px, so the 200 x 300 card covers the 2 x 3 plane. -->
