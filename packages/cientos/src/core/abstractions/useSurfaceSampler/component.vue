@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useTres } from '@tresjs/core'
-import { ref, watch, watchEffect } from 'vue'
+import { ref, shallowReactive, watch, watchEffect } from 'vue'
 import type { InstancedMesh, Mesh } from 'three'
 import { useSurfaceSampler } from '.'
 import type { SurfaceSamplerOptions } from '.'
@@ -8,8 +8,6 @@ import type { SurfaceSamplerOptions } from '.'
 const props = defineProps<SurfaceSamplerOptions>()
 
 const samplerRef = ref()
-const instancedRef = ref()
-const meshToSampleRef = ref()
 
 const { invalidate } = useTres()
 
@@ -17,14 +15,18 @@ watch(props, () => {
   invalidate()
 })
 
-// TODO: refactor to use watch instead.
-watchEffect(() => {
-  instancedRef.value = props.instanceMesh ?? samplerRef.value?.children.find((c: any) => Object.hasOwn(c, 'instanceMatrix')) as InstancedMesh
-
-  meshToSampleRef.value = props.mesh ?? (samplerRef.value?.children.find((c: any) => c.type === 'Mesh') as Mesh)
-
-  useSurfaceSampler(meshToSampleRef.value, props.count, instancedRef.value, props.weight, props.transform)
+const samplerOptions = shallowReactive<SurfaceSamplerOptions>({
+  transform: props.transform,
 })
+
+watchEffect(() => {
+  samplerOptions.instanceMesh = props.instanceMesh ?? samplerRef.value?.children.find((c: any) => Object.hasOwn(c, 'instanceMatrix')) as InstancedMesh | undefined
+  samplerOptions.mesh = props.mesh ?? samplerRef.value?.children.find((c: any) => c.type === 'Mesh') as Mesh | undefined
+  samplerOptions.count = props.count
+  samplerOptions.weight = props.weight
+})
+
+useSurfaceSampler(samplerOptions)
 
 defineExpose({
   samplerRef,

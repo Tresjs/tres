@@ -53,18 +53,26 @@ import { TresCanvas } from '@tresjs/core'
 
 A hook to obtain the result of the <Sampler /> as a buffer. Useful for driving anything other than InstancedMesh via the Sampler.
 
-```vue{2,10}
+It takes a single options object with the same fields as the `<Sampler />` props. `mesh`, `count`, `instanceMesh` and `weight` are reactive: the buffer is re-sampled when they change. `transform` is read once. Pass a plain object or a `shallowReactive` one; avoid `reactive`, which would deep-proxy the Three.js objects.
+
+```vue{2,9,16}
 <script setup lang="ts">
 import { OrbitControls, useSurfaceSampler } from '@tresjs/cientos'
+import type { SurfaceSamplerOptions } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
-import { ref, watch } from 'vue'
+import { ref, shallowReactive, watchEffect } from 'vue'
 
 const torusRef = ref()
 const instancesRef = ref()
 
-watch(torusRef, (value) => {
-  useSurfaceSampler(value, 50, instancesRef.value, 'color')
+const samplerOptions = shallowReactive<SurfaceSamplerOptions>({ count: 50, weight: 'color' })
+
+watchEffect(() => {
+  samplerOptions.mesh = torusRef.value
+  samplerOptions.instanceMesh = instancesRef.value
 })
+
+const { buffer } = useSurfaceSampler(samplerOptions)
 </script>
 
 <template>
