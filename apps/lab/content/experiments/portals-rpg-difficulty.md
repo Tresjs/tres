@@ -3,9 +3,9 @@ title: Portals RPG Difficulty
 author: alvarosabu
 description: An RPG difficulty selector where each choice is a portal into its own world
 thumbnail: /experiments/portals-rpg-difficulty.webp
-tags: ['portals', 'meshPortalMaterial', 'rpg']
+tags: ['portals', 'meshPortalMaterial', 'rpg', 'webgpu', 'tsl']
 date: 2026-09-07
-lastUpdated: 2026-09-22
+lastUpdated: 2026-11-20
 responsive: false
 ---
 
@@ -27,10 +27,14 @@ The theme comes from the [difficulty screen in Baldur's Gate 3](https://www.theg
 
 ### Technical Implementation
 
-- **MeshPortalMaterial**: each card is a plane whose material renders a separate scene into a portal
+- **WebGPU**: the whole experiment runs on `WebGPURenderer`, with the WebGL2 fallback where WebGPU is not available. Every custom shader is written in TSL
+- **MeshPortalMaterial**: each card is a plane whose material renders a separate scene into a portal, imported from `@tresjs/cientos/webgpu`
 - **Per-portal scenes**: every difficulty is a plain Vue component, so its meshes, lights, fog and animations live inside that portal only
 - **useGLTF + useAnimations**: shared models with posed rigs, one mixer per rig
 - **Html from cientos**: the card overlay uses `transform` mode with a distance factor that maps one world unit to 100 CSS px, so the card lands exactly on the 2 x 3 plane
 - **Equirectangular sky**: a rotated panorama used as both background and environment of the main scene
-- **Post-processing**: bloom from `@tresjs/post-processing` on top of the composed portals
+- **TSL materials**: the fire and the mage orb displace a marble noise in the vertex stage. The lava, the pentagram curtains and the beam use a TSL port of Blender's noise and Voronoi, with the same integer hashes, so they match the Blender reference
+- **Instanced sprites**: WebGPU draws points at 1 px only, so the sparks and the music notes are one `Sprite` each, with per-instance attributes
+- **Raymarched fog**: the dungeon mist marches a baked 3D noise texture inside four boxes
+- **Post-processing**: bloom from `@tresjs/post-processing/webgpu` on top of the composed portals
 - **GSAP timeline**: staggered elastic pop for the three frames

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAnimations } from '@tresjs/cientos/webgpu'
+
 const props = defineProps<{
   nodes: Record<string, any>
   state: Record<string, any>

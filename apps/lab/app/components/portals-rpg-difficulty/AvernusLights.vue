@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { AmbientLight, Color, HemisphereLight, LinearSRGBColorSpace, Matrix4, PointLight, RectAreaLight, Vector3 } from 'three'
-import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js'
+import { AmbientLight, Color, HemisphereLight, LinearSRGBColorSpace, Matrix4, PointLight, RectAreaLight, Vector3 } from 'three/webgpu'
+import { initRectAreaLights } from './tsl/rectAreaLights'
 
 // Positions are the Blender rig converted from Z-up with (x, z, -y). Watts are kept
 // as data and scaled once: Blender radiant watts and Three lumens only share ratios.
 
-// RectAreaLight is a no-op on WebGLRenderer until its LTC textures exist. Idempotent.
-RectAreaLightUniformsLib.init()
+initRectAreaLights()
 
 const UUID = 'portals-rpg-difficulty'
 

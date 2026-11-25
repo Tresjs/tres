@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Color, FogExp2, MathUtils, Vector3 } from 'three'
+import { useGLTF } from '@tresjs/cientos/webgpu'
+import { Color, FogExp2, MathUtils, Vector3 } from 'three/webgpu'
 
 const { nodes, state } = useGLTF('/models/portals-rpg/dungeon-battle.glb', { draco: true })
 

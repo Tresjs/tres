@@ -1,4 +1,4 @@
-// CPU twin of the marble chain in shaders/fire-vertex.glsl; edit both together.
+// CPU twin of the marble chain in tsl/fireMaterial.ts; edit both together.
 
 const OCTAVES = 3
 

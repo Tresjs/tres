@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Mesh } from 'three'
+import type { Mesh } from 'three/webgpu'
 import { gsap } from 'gsap'
 
 // The heart has no animation tracks (the mixers only drive the rigs), so its scale is free to animate.
