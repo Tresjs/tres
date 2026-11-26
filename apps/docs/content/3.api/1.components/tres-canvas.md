@@ -150,7 +150,7 @@ For detailed technical information about prop reactivity, see [GitHub Issue #982
   ::::
 
   ::::field{name="stencil" type="boolean"}
-  **🔒 WebGL Context Option** - Whether the drawing buffer has a stencil buffer of at least 8 bits. Used for advanced rendering techniques.
+  **🔒 WebGL Context Option** - Default: `false` - Whether the drawing buffer has a stencil buffer of at least 8 bits. Set it to `true` when materials use stencil properties (`stencilWrite`, `stencilFunc`, `stencilRef`), for example for masks or portals. Without a stencil buffer, stencil tests always pass.
   ::::
 
   ::::field{name="toneMapping" type="ToneMapping"}
