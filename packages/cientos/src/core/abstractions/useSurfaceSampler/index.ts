@@ -5,11 +5,11 @@ import {
   Vector3,
 } from 'three'
 import { MeshSurfaceSampler } from 'three-stdlib'
-import { ref } from 'vue'
+import { shallowRef, toRef, watch } from 'vue'
 import type { InstancedMesh, Mesh, Object3DEventMap } from 'three'
 import type { TresObject } from '@tresjs/core'
 
-export interface useSurfaceSamplerProps {
+export interface SurfaceSamplerOptions {
   /*
    * A function that can be .
    *
@@ -79,23 +79,31 @@ type TransformPayload = SamplePayload & {
 
 export type TransformFn = (payload: TransformPayload, i: number) => void
 
-export const useSurfaceSampler = (
-  mesh: Mesh,
-  count: number = 16,
-  instanceMesh?: InstancedMesh | null,
-  weight?: string,
-  transform?: TransformFn,
-) => {
-  const arr = new Float32Array(count * 16)
-  const buffer = ref(new InterleavedBuffer(arr, 16))
+export function useSurfaceSampler(options: SurfaceSamplerOptions) {
+  // Only these options are reactive. `toRef` reads the property live, so keys
+  // that are absent at setup (e.g. `mesh`) are still picked up when added later.
+  const mesh = toRef(options, 'mesh')
+  const count = toRef(options, 'count')
+  const instanceMesh = toRef(options, 'instanceMesh')
+  const weight = toRef(options, 'weight')
+  // `transform` is intentionally not reactive: it is read once at setup.
+  const transform = options.transform
+
+  const buffer = shallowRef(new InterleavedBuffer(new Float32Array((count.value || 16) * 16), 16))
 
   const updateBuffer = () => {
-    if (!mesh) { return }
+    const sampledMesh = mesh.value
+    if (!sampledMesh) { return }
 
-    const sampler = new MeshSurfaceSampler(mesh)
+    const size = count.value || 16
+    if (buffer.value.count !== size) {
+      buffer.value = new InterleavedBuffer(new Float32Array(size * 16), 16)
+    }
 
-    if (weight) {
-      sampler.setWeightAttribute(weight)
+    const sampler = new MeshSurfaceSampler(sampledMesh)
+
+    if (weight.value) {
+      sampler.setWeightAttribute(weight.value)
     }
     sampler.build()
 
@@ -103,17 +111,18 @@ export const useSurfaceSampler = (
     const normal = new Vector3()
     const color = new Color()
     const dummy = new Object3D<Object3DEventMap>() as TresObject
+    const instances = instanceMesh.value
 
-    mesh.updateMatrixWorld(true)
+    sampledMesh.updateMatrixWorld(true)
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < size; i++) {
       sampler.sample(position, normal, color)
 
       if (typeof transform === 'function') {
         transform(
           {
             dummy,
-            sampledMesh: mesh,
+            sampledMesh,
             position,
             normal,
             color,
@@ -126,19 +135,19 @@ export const useSurfaceSampler = (
       }
       dummy.updateMatrix()
 
-      if (instanceMesh) {
-        instanceMesh.setMatrixAt(i, dummy.matrix)
+      if (instances) {
+        instances.setMatrixAt(i, dummy.matrix)
       }
       dummy.matrix.toArray(buffer.value.array, i * 16)
     }
-    if (instanceMesh) {
-      instanceMesh.instanceMatrix.needsUpdate = true
+    if (instances) {
+      instances.instanceMatrix.needsUpdate = true
     }
 
     buffer.value.needsUpdate = true
   }
 
-  updateBuffer()
+  watch([mesh, count, instanceMesh, weight], updateBuffer, { immediate: true })
 
   return { buffer }
 }

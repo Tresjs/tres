@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { OrbitControls, useSurfaceSampler } from '@tresjs/cientos'
+import type { SurfaceSamplerOptions } from '@tresjs/cientos'
 import { TresCanvas } from '@tresjs/core'
 
 const torusRef = ref()
 const instancesRef = ref()
 
-watch(torusRef, (value) => {
-  useSurfaceSampler(value, 50, instancesRef.value, 'color')
+const samplerOptions = shallowReactive<SurfaceSamplerOptions>({ count: 50, weight: 'color' })
+
+watchEffect(() => {
+  samplerOptions.mesh = torusRef.value
+  samplerOptions.instanceMesh = instancesRef.value
 })
+
+useSurfaceSampler(samplerOptions)
 </script>
 
 <template>
