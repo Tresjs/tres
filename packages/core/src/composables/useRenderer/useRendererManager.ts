@@ -45,10 +45,11 @@ export interface RendererOptions {
    */
   antialias?: boolean
   /**
-   * Enables stencil buffer with 8 bits.
-   * Required for stencil-based operations like shadow volumes or post-processing effects.
+   * Enables a stencil buffer of at least 8 bits.
+   * Set it to `true` when materials use stencil properties (`stencilWrite`, `stencilFunc`, `stencilRef`), for example for masks or portals.
+   * Ignored when `renderer` is set: pass `stencil` to that renderer's constructor instead.
    * @readonly
-   * @default true
+   * @default false (three r163 and later, `true` before r163)
    */
   stencil?: boolean
 
